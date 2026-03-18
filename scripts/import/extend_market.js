@@ -8,6 +8,8 @@ const { DatabaseSync } = require("node:sqlite");
 const ROOT = path.resolve(__dirname, "..", "..");
 const OUTPUT_PATH = path.join(ROOT, "data", "market_candidates.json");
 const PRICES_PATH = path.join(ROOT, "RETRODEXseedV0", "prototype_v0", "data", "prices.json");
+const MARKET_SALES_PATH = path.join(ROOT, "RETRODEXseedV0", "prototype_v0", "data", "market_sales.js");
+const MARKET_HISTORY_PATH = path.join(ROOT, "RETRODEXseedV0", "prototype_v0", "data", "market_history.js");
 const DEFAULT_DB_PATH = path.resolve(
   ROOT,
   "..",
@@ -58,12 +60,32 @@ function getDatabasePath() {
   );
 }
 
-function loadVerifiedIds() {
+function loadWindowObject(filePath, variableName) {
+  const source = fs.readFileSync(filePath, "utf8").replace(/^\uFEFF/, "").trim();
+  const prefix = `window.${variableName} =`;
+  if (!source.startsWith(prefix)) {
+    throw new Error(`Unexpected window object format in ${filePath}`);
+  }
+  return JSON.parse(source.slice(prefix.length).replace(/;\s*$/, "").trim());
+}
+
+function loadMarketSourceIds() {
   const prices = JSON.parse(fs.readFileSync(PRICES_PATH, "utf8").replace(/^\uFEFF/, ""));
-  return new Set(
+  const pricedIds = new Set(
     prices
       .map((entry) => (entry && entry.game ? String(entry.game).trim() : ""))
       .filter(Boolean),
+  );
+
+  const salesData = loadWindowObject(MARKET_SALES_PATH, "MARKET_SALES_DATA");
+  const historyData = loadWindowObject(MARKET_HISTORY_PATH, "MARKET_HISTORY_DATA");
+  const verifiedGameIds = new Set([
+    ...Object.keys(salesData),
+    ...Object.keys(historyData),
+  ]);
+
+  return new Set(
+    [...verifiedGameIds].filter((gameId) => pricedIds.has(gameId)),
   );
 }
 
@@ -74,7 +96,7 @@ function ensureParentDir(filePath) {
 function main() {
   const dbPath = getDatabasePath();
   const db = new DatabaseSync(dbPath, { readonly: true });
-  const verifiedIds = loadVerifiedIds();
+  const verifiedIds = loadMarketSourceIds();
 
   const rows = db.prepare(
     `

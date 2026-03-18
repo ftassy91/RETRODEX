@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-18T12:14:11.516Z",
+  "generated": "2026-03-18T12:22:11.289Z",
   "total": 50,
   "candidates": [
     {
@@ -22,7 +22,7 @@
       "loosePrice": 770,
       "cibPrice": 1091,
       "mintPrice": 1827,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 3,
@@ -33,7 +33,7 @@
       "loosePrice": 218,
       "cibPrice": 991,
       "mintPrice": 1581,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 4,
@@ -44,7 +44,7 @@
       "loosePrice": 294,
       "cibPrice": 1107,
       "mintPrice": 1452,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 5,
@@ -55,7 +55,7 @@
       "loosePrice": 331,
       "cibPrice": 667,
       "mintPrice": 1107,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 6,
@@ -66,7 +66,7 @@
       "loosePrice": 180,
       "cibPrice": 450,
       "mintPrice": 1100,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 7,
@@ -77,7 +77,7 @@
       "loosePrice": 316,
       "cibPrice": 726,
       "mintPrice": 1043,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 8,
@@ -88,7 +88,7 @@
       "loosePrice": 312,
       "cibPrice": 444,
       "mintPrice": 845,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 9,
@@ -99,7 +99,7 @@
       "loosePrice": 132,
       "cibPrice": 480,
       "mintPrice": 800,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 10,
@@ -110,7 +110,7 @@
       "loosePrice": 187,
       "cibPrice": 474,
       "mintPrice": 797,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 11,
@@ -121,7 +121,7 @@
       "loosePrice": 265,
       "cibPrice": 453,
       "mintPrice": 757,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 12,
@@ -132,7 +132,7 @@
       "loosePrice": 297,
       "cibPrice": 474,
       "mintPrice": 749,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 13,
@@ -143,7 +143,7 @@
       "loosePrice": 121,
       "cibPrice": 460,
       "mintPrice": 723,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 14,
@@ -154,7 +154,7 @@
       "loosePrice": 297,
       "cibPrice": 486,
       "mintPrice": 712,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 15,
@@ -165,7 +165,7 @@
       "loosePrice": 297,
       "cibPrice": 392,
       "mintPrice": 656,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 16,
@@ -176,7 +176,7 @@
       "loosePrice": 353,
       "cibPrice": 569,
       "mintPrice": 613,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 17,
@@ -187,7 +187,7 @@
       "loosePrice": 296,
       "cibPrice": 381,
       "mintPrice": 596,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 18,
@@ -198,7 +198,7 @@
       "loosePrice": 144,
       "cibPrice": 392,
       "mintPrice": 570,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 19,
@@ -209,7 +209,7 @@
       "loosePrice": 124,
       "cibPrice": 331,
       "mintPrice": 516,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 20,
@@ -220,7 +220,7 @@
       "loosePrice": 148,
       "cibPrice": 290,
       "mintPrice": 513,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 21,
@@ -231,7 +231,7 @@
       "loosePrice": 114,
       "cibPrice": 296,
       "mintPrice": 503,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 22,
@@ -242,7 +242,7 @@
       "loosePrice": 196,
       "cibPrice": 263,
       "mintPrice": 483,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 23,
@@ -253,7 +253,7 @@
       "loosePrice": 85,
       "cibPrice": 190,
       "mintPrice": 450,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 24,
@@ -264,7 +264,7 @@
       "loosePrice": 88,
       "cibPrice": 277,
       "mintPrice": 423,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 25,
@@ -275,7 +275,7 @@
       "loosePrice": 211,
       "cibPrice": 371,
       "mintPrice": 422,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 26,
@@ -286,7 +286,7 @@
       "loosePrice": 101,
       "cibPrice": 247,
       "mintPrice": 409,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 27,
@@ -297,7 +297,7 @@
       "loosePrice": 155,
       "cibPrice": 303,
       "mintPrice": 408,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 28,
@@ -308,7 +308,7 @@
       "loosePrice": 56,
       "cibPrice": 244,
       "mintPrice": 407,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 29,
@@ -319,7 +319,7 @@
       "loosePrice": 207,
       "cibPrice": 331,
       "mintPrice": 398,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 30,
@@ -330,7 +330,7 @@
       "loosePrice": 207,
       "cibPrice": 276,
       "mintPrice": 390,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 31,
@@ -341,7 +341,7 @@
       "loosePrice": 266,
       "cibPrice": 307,
       "mintPrice": 390,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 32,
@@ -352,7 +352,7 @@
       "loosePrice": 75,
       "cibPrice": 248,
       "mintPrice": 358,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 33,
@@ -363,7 +363,7 @@
       "loosePrice": 93,
       "cibPrice": 224,
       "mintPrice": 355,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 34,
@@ -374,7 +374,7 @@
       "loosePrice": 94,
       "cibPrice": 233,
       "mintPrice": 353,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 35,
@@ -385,7 +385,7 @@
       "loosePrice": 166,
       "cibPrice": 257,
       "mintPrice": 333,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 36,
@@ -396,7 +396,7 @@
       "loosePrice": 43,
       "cibPrice": 220,
       "mintPrice": 330,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 37,
@@ -407,7 +407,7 @@
       "loosePrice": 86,
       "cibPrice": 100,
       "mintPrice": 326,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 38,
@@ -418,7 +418,7 @@
       "loosePrice": 195,
       "cibPrice": 254,
       "mintPrice": 322,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 39,
@@ -429,7 +429,7 @@
       "loosePrice": 156,
       "cibPrice": 237,
       "mintPrice": 320,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 40,
@@ -451,7 +451,7 @@
       "loosePrice": 75,
       "cibPrice": 184,
       "mintPrice": 305,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 42,
@@ -462,7 +462,7 @@
       "loosePrice": 42,
       "cibPrice": 165,
       "mintPrice": 305,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 43,
@@ -473,7 +473,7 @@
       "loosePrice": 78,
       "cibPrice": 191,
       "mintPrice": 305,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 44,
@@ -484,7 +484,7 @@
       "loosePrice": 75,
       "cibPrice": 198,
       "mintPrice": 302,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 45,
@@ -495,7 +495,7 @@
       "loosePrice": 118,
       "cibPrice": 169,
       "mintPrice": 302,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 46,
@@ -506,7 +506,7 @@
       "loosePrice": 100,
       "cibPrice": 119,
       "mintPrice": 297,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 47,
@@ -517,7 +517,7 @@
       "loosePrice": 189,
       "cibPrice": 226,
       "mintPrice": 297,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 48,
@@ -528,7 +528,7 @@
       "loosePrice": 44,
       "cibPrice": 176,
       "mintPrice": 286,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 49,
@@ -539,7 +539,7 @@
       "loosePrice": 106,
       "cibPrice": 119,
       "mintPrice": 281,
-      "alreadyVerified": true
+      "alreadyVerified": false
     },
     {
       "rank": 50,
@@ -550,7 +550,7 @@
       "loosePrice": 117,
       "cibPrice": 149,
       "mintPrice": 278,
-      "alreadyVerified": true
+      "alreadyVerified": false
     }
   ]
 }

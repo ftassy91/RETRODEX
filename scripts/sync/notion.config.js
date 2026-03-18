@@ -104,6 +104,7 @@ const CONFIG = {
   PATHS,
   NOTION_API_KEY: readEnv("NOTION_API_KEY"),
   NOTION_VERSION: "2022-06-28",
+  broadAutomationEnabled: false,
 };
 
 function buildTitle(eventType, payload) {

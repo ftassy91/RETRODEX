@@ -358,12 +358,25 @@ async function dispatchCli() {
   process.exitCode = 1;
 }
 
-(async () => {
-  await dispatchCli();
-})().catch((error) => {
-  console.error(`ERROR: ${error.message}`);
-  if (error.notionBody) {
-    console.error(JSON.stringify(error.notionBody, null, 2));
-  }
-  process.exitCode = 1;
-});
+module.exports = {
+  buildDryRun,
+  buildNotionProperties,
+  approve,
+  dryRun,
+  dispatchCli,
+  getDatabaseConfig,
+  listPending,
+  stageEvent,
+};
+
+if (require.main === module) {
+  (async () => {
+    await dispatchCli();
+  })().catch((error) => {
+    console.error(`ERROR: ${error.message}`);
+    if (error.notionBody) {
+      console.error(JSON.stringify(error.notionBody, null, 2));
+    }
+    process.exitCode = 1;
+  });
+}
