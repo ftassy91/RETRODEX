@@ -10,6 +10,18 @@ const Game = require("./models/Game");
 const CollectionItem = require("./models/CollectionItem");
 const { syncGamesFromPrototype } = require("./syncGames");
 
+CollectionItem.belongsTo(Game, {
+  foreignKey: "gameId",
+  targetKey: "id",
+  as: "game",
+});
+
+Game.hasMany(CollectionItem, {
+  foreignKey: "gameId",
+  sourceKey: "id",
+  as: "collectionItems",
+});
+
 const app = express();
 
 function handleAsync(handler) {
@@ -263,7 +275,7 @@ app.get("/games/:id", handleAsync(async (req, res) => {
 
 app.get("/collection", handleAsync(async (_req, res) => {
   const items = await CollectionItem.findAll({
-    order: [["id", "ASC"]],
+    order: [["gameId", "ASC"]],
   });
 
   return res.json(items);
@@ -414,11 +426,27 @@ app.get("/api/consoles", handleAsync(async (_req, res) => {
 
 app.get("/api/collection", handleAsync(async (_req, res) => {
   const items = await CollectionItem.findAll({
-    order: [["id", "ASC"]],
+    include: [
+      {
+        model: Game,
+        as: "game",
+        attributes: ["title", "console", "loosePrice", "mintPrice"],
+      },
+    ],
+    order: [["gameId", "ASC"]],
   });
 
   return res.json({
-    items,
+    items: items.map((item) => ({
+      id: item.gameId,
+      gameId: item.gameId,
+      game: item.game ? {
+        title: item.game.title,
+        console: item.game.console,
+        loosePrice: item.game.loosePrice,
+        mintPrice: item.game.mintPrice,
+      } : null,
+    })),
     total: items.length,
   });
 }));
@@ -430,7 +458,7 @@ app.get("/api/stats", handleAsync(async (_req, res) => {
       order: [["console", "ASC"], ["title", "ASC"]],
     }),
     CollectionItem.findAll({
-      order: [["id", "ASC"]],
+      order: [["gameId", "ASC"]],
     }),
   ]);
 

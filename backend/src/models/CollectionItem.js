@@ -4,26 +4,30 @@ const { sequelize } = require("../database");
 const CollectionItem = sequelize.define(
   "CollectionItem",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     gameId: {
       type: DataTypes.STRING,
       allowNull: false,
+      primaryKey: true,
+    },
+    addedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
     condition: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
+      defaultValue: "LOOSE",
     },
     notes: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: false,
+      defaultValue: "",
     },
   },
   {
     tableName: "collection_items",
+    timestamps: false,
   }
 );
 
