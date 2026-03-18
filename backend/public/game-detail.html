@@ -384,6 +384,62 @@
         font-weight: bold;
       }
 
+      .price-compare {
+        margin-top: 2rem;
+        padding: 1rem;
+        border: 1px solid #306230;
+        background: rgba(10, 10, 10, 0.24);
+      }
+
+      .price-compare h3 {
+        color: #9bbc0f;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        margin-bottom: 1rem;
+      }
+
+      .compare-table {
+        width: 100%;
+      }
+
+      .compare-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 0.7fr 0.7fr 0.8fr;
+        gap: 0.5rem;
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #1a3a1a;
+        font-size: 0.7rem;
+        align-items: center;
+      }
+
+      .compare-row span {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .compare-header {
+        color: #306230;
+        font-size: 0.6rem;
+        letter-spacing: 0.05em;
+      }
+
+      .compare-row.current {
+        background: #0a1a0a;
+        color: #9bbc0f;
+      }
+
+      .compare-row.clickable:hover {
+        background: #0a1a0a;
+      }
+
+      .rarity-legendary { color: #ffd700; }
+      .rarity-epic { color: #9b59b6; }
+      .rarity-rare { color: #e74c3c; }
+      .rarity-uncommon { color: rgba(155, 188, 15, 0.9); }
+      .rarity-common { color: rgba(155, 188, 15, 0.7); }
+
       .loading-card {
         padding: 32px 20px;
         text-align: center;
@@ -413,6 +469,11 @@
 
         .price-stats-row {
           display: grid;
+        }
+
+        .compare-row {
+          grid-template-columns: 1.5fr 1fr 0.8fr 0.8fr 0.9fr;
+          font-size: 0.65rem;
         }
       }
     </style>
@@ -462,6 +523,7 @@
       const collectionStatusEl = document.getElementById("collection-status");
       const similarGamesEl = document.getElementById("similar-games");
       const catalogBackLinkEl = document.getElementById("catalog-back-link");
+      const detailShellEl = document.querySelector(".detail-shell, main, .content");
 
       let currentGame = null;
       let currentCollectionItem = null;
@@ -659,6 +721,118 @@
         `).join("");
       }
 
+      function removeRelatedPricesSection() {
+        document.querySelector(".price-compare")?.remove();
+      }
+
+      function extractSeries(title) {
+        const normalized = String(title || "")
+          .replace(/[:\-]/g, " ")
+          .replace(/\b(19|20)\d{2}\b/g, " ")
+          .replace(/\b(?:I|II|III|IV|V|VI|VII|VIII|IX|X)\b/gi, " ")
+          .replace(/[^\w\s]/g, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+
+        if (!normalized) {
+          return "";
+        }
+
+        const words = normalized.split(" ").filter(Boolean);
+        while (words.length && ["super", "the", "new"].includes(words[0].toLowerCase())) {
+          words.shift();
+        }
+
+        if (words.length >= 2) {
+          const compound = `${words[0].toLowerCase()} ${words[1].toLowerCase()}`;
+          if (["final fantasy", "dragon quest", "mega man", "metal gear"].includes(compound)) {
+            return `${words[0]} ${words[1]}`;
+          }
+        }
+
+        return words[0] || "";
+      }
+
+      function renderRelatedPrices(current, related) {
+        removeRelatedPricesSection();
+        if (!detailShellEl) {
+          return;
+        }
+
+        const section = document.createElement("section");
+        section.className = "price-compare";
+        section.innerHTML = `
+          <h3>MEME FRANCHISE - AUTRES VERSIONS</h3>
+          <div class="compare-table">
+            <div class="compare-row compare-header">
+              <span>Titre</span>
+              <span>Console</span>
+              <span>Loose</span>
+              <span>Mint</span>
+              <span>Rarete</span>
+            </div>
+            <div class="compare-row current">
+              <span>${escapeHtml(current.title)}</span>
+              <span>${escapeHtml(current.console || "n/a")}</span>
+              <span>${escapeHtml(formatPrice(current.loosePrice))}</span>
+              <span>${escapeHtml(formatPrice(current.mintPrice))}</span>
+              <span class="rarity-${escapeHtml(rarityClass(current.rarity))}">${escapeHtml(current.rarity || "COMMON")}</span>
+            </div>
+            ${related.map((game) => `
+              <div class="compare-row clickable" onclick="window.location='/game-detail.html?id=${encodeURIComponent(game.id)}'" style="cursor:pointer">
+                <span>${escapeHtml(game.title)}</span>
+                <span>${escapeHtml(game.console || "n/a")}</span>
+                <span>${escapeHtml(formatPrice(game.loosePrice))}</span>
+                <span>${escapeHtml(formatPrice(game.mintPrice))}</span>
+                <span class="rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || "COMMON")}</span>
+              </div>
+            `).join("")}
+          </div>
+        `;
+
+        detailShellEl.appendChild(section);
+      }
+
+      async function loadRelatedGames(currentGame) {
+        removeRelatedPricesSection();
+        const series = extractSeries(currentGame?.title);
+        if (!series || series.length < 3) {
+          return;
+        }
+
+        try {
+          const data = await fetchJson(`/api/games?q=${encodeURIComponent(series)}&limit=50`);
+          const normalizedSeries = series.toLowerCase();
+          const currentTitle = String(currentGame.title || "").toLowerCase();
+          const spinOffKeywords = ["party", "kart", "golf", "tennis", "tactics", "legend", "revenant", "& luigi", "paper mario"];
+          const related = (data.items || [])
+            .filter((game) => game.id !== currentGame.id)
+            .filter((game) => String(game.title || "").toLowerCase().includes(normalizedSeries))
+            .sort((left, right) => {
+              const score = (game) => {
+                const title = String(game.title || "").toLowerCase();
+                let total = 0;
+                if (title.startsWith(normalizedSeries)) total += 20;
+                if (currentTitle.startsWith("super mario") && title.startsWith("super mario")) total += 40;
+                if (String(game.console || "").toLowerCase() === String(currentGame.console || "").toLowerCase()) total += 15;
+                if (spinOffKeywords.some((keyword) => title.includes(keyword))) total -= 25;
+                total -= Math.abs(title.length - currentTitle.length) * 0.1;
+                return total;
+              };
+              return score(right) - score(left);
+            })
+            .slice(0, 4);
+
+          if (related.length < 2) {
+            return;
+          }
+
+          renderRelatedPrices(currentGame, related);
+        } catch (error) {
+          console.warn("[RetroDex] Related franchise lookup failed:", error.message);
+        }
+      }
+
       async function loadSimilarGames(game) {
         try {
           const payload = await fetchJson(`/api/games?console=${encodeURIComponent(game.console)}&limit=8`);
@@ -777,6 +951,7 @@
           collectionButtonEl.addEventListener("click", handleCollectionAction);
           await refreshCollectionStatus();
           await loadPriceHistory(currentGame.id);
+          await loadRelatedGames(currentGame);
           await loadSimilarGames(currentGame);
         } catch (error) {
           heroEl.innerHTML = `<div class="loading-card">Impossible de charger la fiche (${escapeHtml(error.message)}).</div>`;
