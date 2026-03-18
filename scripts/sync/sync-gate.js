@@ -268,42 +268,65 @@ function archiveApprovedStage(staged, stagePath, createdPage) {
   writeJson(approvedPath, approvedRecord);
 }
 
+function archiveRejectedStage(staged, stagePath, reason) {
+  ensureDir(PATHS.failedDir);
+  const rejectedRecord = {
+    ...staged,
+    status: "rejected",
+    rejected_at: nowIso(),
+    rejection_reason: reason || "Rejected manually.",
+  };
+
+  const failedFileName = path.basename(stagePath).replace("_pending.json", "_rejected.json");
+  const failedPath = path.join(PATHS.failedDir, failedFileName);
+  writeJson(failedPath, rejectedRecord);
+}
+
 async function approve(stageFilePath) {
   if (!NOTION_API_KEY) {
     throw new Error("NOTION_API_KEY is missing. Populate .env or load it into the process first.");
   }
 
-  const absolutePath = path.resolve(PATHS.root, stageFilePath);
-  const staged = readJson(absolutePath);
-  if (!staged.database || !staged.database.databaseId) {
-    throw new Error(`No databaseId configured for staged event ${relativeToRoot(absolutePath)}.`);
+  try {
+    const absolutePath = path.resolve(PATHS.root, stageFilePath);
+    const staged = readJson(absolutePath);
+    if (!staged.database || !staged.database.databaseId) {
+      throw new Error(`No databaseId configured for staged event ${relativeToRoot(absolutePath)}.`);
+    }
+
+    await fetchDatabaseSchema(staged.database.databaseId);
+
+    const pagePayload = {
+      parent: { database_id: staged.database.databaseId },
+      properties: buildNotionProperties(staged),
+    };
+
+    const createResult = await notionRequest("https://api.notion.com/v1/pages", {
+      method: "POST",
+      body: JSON.stringify(pagePayload),
+    });
+    console.log("STATUS:", createResult.status);
+
+    if (!createResult.ok) {
+      throw createNotionApiError(
+        createResult.body.message || "Notion page creation failed.",
+        createResult.status,
+        createResult.body,
+      );
+    }
+
+    archiveApprovedStage(staged, absolutePath, createResult.body);
+    fs.unlinkSync(absolutePath);
+    console.log("SUCCESS:", createResult.body.url);
+    console.log("Pending file deleted.");
+  } catch (error) {
+    console.error("ERROR:", error.message);
+    if (error.notionBody) {
+      console.error(JSON.stringify(error.notionBody, null, 2));
+    }
+    error.logged = true;
+    throw error;
   }
-
-  await fetchDatabaseSchema(staged.database.databaseId);
-
-  const pagePayload = {
-    parent: { database_id: staged.database.databaseId },
-    properties: buildNotionProperties(staged),
-  };
-
-  const createResult = await notionRequest("https://api.notion.com/v1/pages", {
-    method: "POST",
-    body: JSON.stringify(pagePayload),
-  });
-  console.log(`STATUS: ${createResult.status}`);
-
-  if (!createResult.ok) {
-    throw createNotionApiError(
-      createResult.body.message || "Notion page creation failed.",
-      createResult.status,
-      createResult.body,
-    );
-  }
-
-  archiveApprovedStage(staged, absolutePath, createResult.body);
-  fs.unlinkSync(absolutePath);
-  console.log(`SUCCESS: ${createResult.body.url}`);
-  console.log("Pending file deleted.");
 }
 
 function printUsage() {
@@ -313,70 +336,97 @@ function printUsage() {
   console.error("  node scripts/sync/sync-gate.js list");
   console.error("  node scripts/sync/sync-gate.js dryrun <stage-file>");
   console.error("  node scripts/sync/sync-gate.js approve <stage-file>");
+  console.error("  node scripts/sync/sync-gate.js reject <stage-file>");
 }
 
-async function dispatchCli() {
+function cmdStage(eventType, rawPayload) {
+  if (!eventType || !rawPayload) {
+    throw new Error("Usage: node scripts/sync/sync-gate.js stage <sync_log|dev_task> '<json>'");
+  }
+  stageEvent(eventType, rawPayload);
+}
+
+function cmdList() {
+  listPending();
+}
+
+function cmdDryrun(stageFilePath) {
+  if (!stageFilePath) {
+    throw new Error("Usage: node scripts/sync/sync-gate.js dryrun <stage-file>");
+  }
+  dryRun(stageFilePath);
+}
+
+async function cmdApprove(stageFilePath) {
+  if (!stageFilePath) {
+    throw new Error("Usage: node scripts/sync/sync-gate.js approve <stage-file>");
+  }
+  await approve(stageFilePath);
+}
+
+function cmdReject(stageFilePath) {
+  if (!stageFilePath) {
+    throw new Error("Usage: node scripts/sync/sync-gate.js reject <stage-file>");
+  }
+
+  const absolutePath = path.resolve(PATHS.root, stageFilePath);
+  const staged = readJson(absolutePath);
+  archiveRejectedStage(staged, absolutePath, "Rejected manually.");
+  fs.unlinkSync(absolutePath);
+  console.log(`REJECTED: ${relativeToRoot(absolutePath)}`);
+}
+
+async function main() {
   ensureDir(PATHS.pendingDir);
   ensureDir(PATHS.approvedDir);
   ensureDir(PATHS.failedDir);
 
   const [, , command, ...args] = process.argv;
-
-  if (command === "stage") {
-    const [eventType, rawPayload] = args;
-    if (!eventType || !rawPayload) {
-      throw new Error("Usage: node scripts/sync/sync-gate.js stage <sync_log|dev_task> '<json>'");
-    }
-    stageEvent(eventType, rawPayload);
-    return;
+  switch (command) {
+    case "stage":
+      cmdStage(args[0], args[1]);
+      break;
+    case "list":
+      cmdList();
+      break;
+    case "dryrun":
+      cmdDryrun(args[0]);
+      break;
+    case "approve":
+      await cmdApprove(args[0]);
+      break;
+    case "reject":
+      cmdReject(args[0]);
+      break;
+    default:
+      console.log("Usage: node sync-gate.js <stage|list|dryrun|approve|reject>");
   }
-
-  if (command === "list") {
-    listPending();
-    return;
-  }
-
-  if (command === "dryrun") {
-    const [stageFilePath] = args;
-    if (!stageFilePath) {
-      throw new Error("Usage: node scripts/sync/sync-gate.js dryrun <stage-file>");
-    }
-    dryRun(stageFilePath);
-    return;
-  }
-
-  if (command === "approve") {
-    const [stageFilePath] = args;
-    if (!stageFilePath) {
-      throw new Error("Usage: node scripts/sync/sync-gate.js approve <stage-file>");
-    }
-    await approve(stageFilePath);
-    return;
-  }
-
-  printUsage();
-  process.exitCode = 1;
 }
 
 module.exports = {
   buildDryRun,
   buildNotionProperties,
+  cmdApprove,
+  cmdDryrun,
+  cmdList,
+  cmdReject,
+  cmdStage,
   approve,
   dryRun,
-  dispatchCli,
   getDatabaseConfig,
   listPending,
+  main,
   stageEvent,
 };
 
 if (require.main === module) {
-  (async () => {
-    await dispatchCli();
-  })().catch((error) => {
-    console.error(`ERROR: ${error.message}`);
-    if (error.notionBody) {
-      console.error(JSON.stringify(error.notionBody, null, 2));
+  main().then(() => process.exit(0)).catch((error) => {
+    if (!error.logged) {
+      console.error(error.message);
+      if (error.notionBody) {
+        console.error(JSON.stringify(error.notionBody, null, 2));
+      }
     }
-    process.exitCode = 1;
+    process.exit(1);
   });
 }
