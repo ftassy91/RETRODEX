@@ -3,101 +3,269 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RetroDex Stats</title>
+    <title>RetroDex — Statistiques</title>
+    <link rel="stylesheet" href="/style.css" />
     <style>
       :root {
-        color-scheme: dark;
-        --bg: #081008;
-        --panel: #102010;
-        --line: #294229;
-        --text: #d7efd7;
-        --muted: #98b898;
-        --accent: #8bac0f;
+        --panel-bg: rgba(15, 56, 15, 0.2);
+        --panel-line: rgba(155, 188, 15, 0.18);
+        --panel-line-strong: rgba(155, 188, 15, 0.42);
+        --text-strong: #cfe66f;
+        --text-soft: rgba(155, 188, 15, 0.62);
+        --text-faint: rgba(155, 188, 15, 0.4);
+        --legendary: #ffd700;
+        --epic: #9b59b6;
+        --rare: #e74c3c;
+        --uncommon: rgba(155, 188, 15, 0.6);
+        --common: rgba(155, 188, 15, 0.18);
       }
 
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        font-family: Consolas, "Courier New", monospace;
-        background: var(--bg);
-        color: var(--text);
+      .stats-shell {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
       }
-      .page { max-width: 1080px; margin: 0 auto; padding: 24px; }
-      .panel {
-        margin-bottom: 16px;
-        padding: 16px;
-        border: 1px solid var(--line);
-        background: var(--panel);
+
+      .page-header {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding-bottom: 14px;
       }
-      h1, h2, h3, p { margin: 0 0 12px; }
-      .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-      .button-link, button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 12px;
-        border: 1px solid var(--line);
-        background: #183018;
-        color: var(--text);
-        text-decoration: none;
-        font: inherit;
-        cursor: pointer;
-        min-width: 170px;
+
+      .page-header h1 {
+        font-size: 26px;
+        color: var(--text-strong);
+        letter-spacing: 0.12em;
+        margin: 10px 0 6px;
       }
-      .button-link:hover, button:hover { border-color: var(--accent); }
-      .status { color: var(--accent); min-height: 20px; }
-      .muted { color: var(--muted); }
-      .meta {
+
+      .page-header p {
+        font-size: 12px;
+        color: var(--text-faint);
+      }
+
+      .hero-stats {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 12px;
       }
-      .card {
-        border: 1px solid var(--line);
-        background: #0b160b;
-        padding: 12px;
+
+      .hero-card,
+      .panel {
+        background: var(--panel-bg);
+        border: 1px solid var(--panel-line);
+        border-radius: 6px;
+        padding: 16px;
       }
-      .list {
+
+      .hero-card .label {
+        display: block;
+        font-size: 10px;
+        color: var(--text-faint);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 8px;
+      }
+
+      .hero-card .value {
+        font-size: 24px;
+        color: var(--text-strong);
+      }
+
+      .panel h2 {
+        font-size: 12px;
+        color: var(--text-faint);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 12px;
+      }
+
+      .rarity-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .rarity-pill {
+        padding: 12px;
+        border-radius: 6px;
+        background: rgba(10, 10, 10, 0.36);
+        border: 1px solid currentColor;
+      }
+
+      .rarity-pill .name {
+        display: block;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+      }
+
+      .rarity-pill .count {
+        display: block;
+        font-size: 20px;
+      }
+
+      .rarity-pill .pct {
+        display: block;
+        font-size: 11px;
+        color: var(--text-soft);
+        margin-top: 4px;
+      }
+
+      .rarity-pill.legendary { color: var(--legendary); }
+      .rarity-pill.epic { color: var(--epic); }
+      .rarity-pill.rare { color: var(--rare); }
+      .rarity-pill.uncommon { color: rgba(155, 188, 15, 0.9); }
+      .rarity-pill.common { color: rgba(155, 188, 15, 0.65); }
+
+      .bars {
         display: grid;
         gap: 10px;
+      }
+
+      .bar-row {
+        display: grid;
+        grid-template-columns: 180px 60px 1fr;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .bar-label,
+      .bar-count {
+        font-size: 11px;
+        color: var(--text-soft);
+      }
+
+      .bar-track {
+        height: 14px;
+        border-radius: 999px;
+        background: rgba(155, 188, 15, 0.08);
+        overflow: hidden;
+        border: 1px solid rgba(155, 188, 15, 0.12);
+      }
+
+      .bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, rgba(155, 188, 15, 0.45), rgba(207, 230, 111, 0.95));
+      }
+
+      .price-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .price-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        border: 1px solid rgba(155, 188, 15, 0.16);
+        border-radius: 6px;
+        padding: 12px;
+        background: rgba(15, 56, 15, 0.12);
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .price-item:hover {
+        border-color: var(--panel-line-strong);
+      }
+
+      .price-item .title {
+        font-size: 13px;
+        color: var(--text-strong);
+      }
+
+      .price-item .meta {
+        font-size: 11px;
+        color: var(--text-soft);
+      }
+
+      .price-item .value {
+        font-size: 14px;
+        color: var(--text-strong);
+      }
+
+      .status-text {
+        font-size: 11px;
+        color: var(--text-faint);
+        min-height: 16px;
+      }
+
+      @media (max-width: 900px) {
+        .hero-stats,
+        .rarity-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .bar-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .hero-stats,
+        .rarity-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .price-item {
+          flex-direction: column;
+          align-items: flex-start;
+        }
       }
     </style>
   </head>
   <body>
-    <main class="page">
-      <section class="panel">
-        <h1>RetroDex Stats</h1>
-        <p class="muted">
-          Page beginner qui consomme <code>GET /api/stats</code> pour lire des chiffres simples.
-        </p>
-        <div class="actions">
-          <a class="button-link" href="/home.html">Retour a Home backend</a>
-          <a class="button-link" href="/collection.html">Ouvrir Collection</a>
-          <button id="refreshButton" type="button">Rafraichir</button>
-        </div>
+    <main class="stats-shell">
+      <nav>
+        <a href="/hub.html" class="btn">← Hub</a>
+      </nav>
+
+      <header class="page-header">
+        <h1>STATISTIQUES</h1>
+        <p>Vue globale du catalogue</p>
+      </header>
+
+      <div id="status-text" class="status-text">Chargement...</div>
+
+      <section class="hero-stats">
+        <article class="hero-card"><span class="label">Total jeux</span><span class="value" id="games-total">—</span></article>
+        <article class="hero-card"><span class="label">Consoles</span><span class="value" id="consoles-total">—</span></article>
+        <article class="hero-card"><span class="label">Metascore moyen</span><span class="value" id="metascore-average">—</span></article>
+        <article class="hero-card"><span class="label">Prix Mint moyen</span><span class="value" id="mint-average">—</span></article>
       </section>
 
       <section class="panel">
-        <h2>Etat</h2>
-        <div id="status" class="status">Chargement des stats...</div>
+        <h2>Répartition par rareté</h2>
+        <div id="rarity-grid" class="rarity-grid"></div>
       </section>
 
       <section class="panel">
-        <h2>Resume</h2>
-        <div id="meta" class="meta"></div>
+        <h2>Top consoles</h2>
+        <div id="top-consoles" class="bars"></div>
       </section>
 
       <section class="panel">
-        <h2>Collection par console</h2>
-        <div id="results" class="list"></div>
+        <h2>Jeux les plus chers</h2>
+        <div id="price-list" class="price-list"></div>
       </section>
     </main>
 
     <script>
-      const statusEl = document.getElementById("status");
-      const metaEl = document.getElementById("meta");
-      const resultsEl = document.getElementById("results");
-      const refreshButtonEl = document.getElementById("refreshButton");
+      const statusTextEl = document.getElementById("status-text");
+      const gamesTotalEl = document.getElementById("games-total");
+      const consolesTotalEl = document.getElementById("consoles-total");
+      const metascoreAverageEl = document.getElementById("metascore-average");
+      const mintAverageEl = document.getElementById("mint-average");
+      const rarityGridEl = document.getElementById("rarity-grid");
+      const topConsolesEl = document.getElementById("top-consoles");
+      const priceListEl = document.getElementById("price-list");
+
+      const rarityOrder = ["LEGENDARY", "EPIC", "RARE", "UNCOMMON", "COMMON"];
 
       function escapeHtml(value) {
         return String(value ?? "")
@@ -108,55 +276,113 @@
           .replaceAll("'", "&#039;");
       }
 
+      function rarityClass(value) {
+        return String(value || "COMMON").toLowerCase();
+      }
+
+      function formatCurrency(value) {
+        const number = Number(value);
+        return Number.isFinite(number) ? `$${number.toFixed(1)}`.replace(".0", "") : "$0";
+      }
+
       async function fetchJson(url) {
         const response = await fetch(url);
-
         if (!response.ok) {
           throw new Error(`${response.status} ${response.statusText}`);
         }
-
         return response.json();
       }
 
-      async function loadStats() {
-        statusEl.textContent = "Chargement...";
-        metaEl.innerHTML = "";
-        resultsEl.innerHTML = "";
-
-        try {
-          const stats = await fetchJson("/api/stats");
-          statusEl.textContent = "Stats chargees.";
-          metaEl.innerHTML = `
-            <article class="card"><span class="muted">Jeux catalogues</span><br>${escapeHtml(stats.totalGames)}</article>
-            <article class="card"><span class="muted">Items collection</span><br>${escapeHtml(stats.totalCollectionItems)}</article>
-            <article class="card"><span class="muted">Consoles presentes</span><br>${escapeHtml(Object.keys(stats.byConsole || {}).length)}</article>
-          `;
-
-          const entries = Object.entries(stats.byConsole || {});
-
-          if (!entries.length) {
-            resultsEl.innerHTML = `<div class="muted">Aucun item de collection pour l'instant.</div>`;
-            return;
-          }
-
-          resultsEl.innerHTML = entries
-            .map(
-              ([consoleName, count]) => `
-                <article class="card">
-                  <strong>${escapeHtml(consoleName)}</strong><br>
-                  <span class="muted">${escapeHtml(count)} item(s) dans la collection</span>
-                </article>
-              `
-            )
-            .join("");
-        } catch (error) {
-          statusEl.textContent = `Erreur stats - ${error.message}`;
+      async function fetchAllGames() {
+        const payload = await fetchJson("/api/games?limit=507");
+        if (Array.isArray(payload.items) && payload.items.length === payload.total) {
+          return payload.items;
         }
+        const fallback = await fetchJson("/games");
+        return Array.isArray(fallback) ? fallback : payload.items || [];
       }
 
-      refreshButtonEl.addEventListener("click", () => {
-        loadStats();
-      });
+      function renderRarityBreakdown(games, totalGames) {
+        const counts = new Map(rarityOrder.map((rarity) => [rarity, 0]));
+        for (const game of games) {
+          const rarity = counts.has(game.rarity) ? game.rarity : "COMMON";
+          counts.set(rarity, counts.get(rarity) + 1);
+        }
+
+        rarityGridEl.innerHTML = rarityOrder.map((rarity) => {
+          const count = counts.get(rarity) || 0;
+          const pct = totalGames ? ((count / totalGames) * 100).toFixed(1) : "0.0";
+          return `
+            <div class="rarity-pill ${escapeHtml(rarityClass(rarity))}">
+              <span class="name">${escapeHtml(rarity)}</span>
+              <span class="count">${escapeHtml(count)}</span>
+              <span class="pct">${escapeHtml(pct)}%</span>
+            </div>
+          `;
+        }).join("");
+      }
+
+      function renderTopConsoles(topConsoles) {
+        const max = Math.max(...topConsoles.map((item) => item.gamesCount), 1);
+        topConsolesEl.innerHTML = topConsoles.map((item) => `
+          <div class="bar-row">
+            <div class="bar-label">${escapeHtml(item.name)}</div>
+            <div class="bar-count">${escapeHtml(item.gamesCount)}</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width:${((item.gamesCount / max) * 100).toFixed(2)}%"></div>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      function renderMostExpensive(games) {
+        const topFive = [...games]
+          .filter((game) => Number.isFinite(Number(game.mintPrice)))
+          .sort((left, right) => Number(right.mintPrice) - Number(left.mintPrice))
+          .slice(0, 5);
+
+        priceListEl.innerHTML = topFive.map((game, index) => `
+          <a class="price-item" href="/game-detail.html?id=${encodeURIComponent(game.id)}">
+            <div>
+              <div class="title">#${index + 1} ${escapeHtml(game.title)}</div>
+              <div class="meta">${escapeHtml(game.console || "Console inconnue")} · Mint ${escapeHtml(formatCurrency(game.mintPrice))}</div>
+            </div>
+            <div class="value">${escapeHtml(formatCurrency(game.mintPrice))}</div>
+          </a>
+        `).join("");
+      }
+
+      function renderHero(stats, games) {
+        const mintValues = games
+          .map((game) => Number(game.mintPrice))
+          .filter((value) => Number.isFinite(value) && value > 0);
+        const mintAverage = mintValues.length
+          ? mintValues.reduce((sum, value) => sum + value, 0) / mintValues.length
+          : 0;
+
+        gamesTotalEl.textContent = String(stats.totals.games);
+        consolesTotalEl.textContent = String(stats.totals.consoles);
+        metascoreAverageEl.textContent = String(stats.totals.averageMetascore);
+        mintAverageEl.textContent = formatCurrency(mintAverage);
+      }
+
+      async function loadStats() {
+        statusTextEl.textContent = "Chargement...";
+        try {
+          const [stats, games] = await Promise.all([
+            fetchJson("/api/stats"),
+            fetchAllGames(),
+          ]);
+
+          renderHero(stats, games);
+          renderRarityBreakdown(games, stats.totals.games);
+          renderTopConsoles(stats.topConsoles || []);
+          renderMostExpensive(games);
+          statusTextEl.textContent = "Statistiques chargées.";
+        } catch (error) {
+          statusTextEl.textContent = `Erreur stats : ${error.message}`;
+        }
+      }
 
       loadStats();
     </script>

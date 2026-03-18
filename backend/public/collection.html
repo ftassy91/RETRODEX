@@ -3,135 +3,222 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RetroDex Collection</title>
+    <title>RetroDex — Ma collection</title>
+    <link rel="stylesheet" href="/style.css" />
     <style>
       :root {
-        color-scheme: dark;
-        --bg: #081008;
-        --panel: #102010;
-        --line: #294229;
-        --text: #d7efd7;
-        --muted: #98b898;
-        --accent: #8bac0f;
+        --panel-bg: rgba(15, 56, 15, 0.2);
+        --panel-line: rgba(155, 188, 15, 0.18);
+        --panel-line-strong: rgba(155, 188, 15, 0.42);
+        --text-strong: #cfe66f;
+        --text-soft: rgba(155, 188, 15, 0.62);
+        --text-faint: rgba(155, 188, 15, 0.4);
+        --legendary: #ffd700;
+        --epic: #9b59b6;
+        --rare: #e74c3c;
+        --uncommon: rgba(155, 188, 15, 0.6);
+        --common: rgba(155, 188, 15, 0.18);
       }
 
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        font-family: Consolas, "Courier New", monospace;
-        background: var(--bg);
-        color: var(--text);
-      }
-
-      .page {
-        max-width: 1080px;
+      .collection-shell {
+        max-width: 1100px;
         margin: 0 auto;
-        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
       }
 
-      h1,
-      h2,
-      h3,
-      p {
-        margin: 0 0 12px;
-      }
-
-      .panel {
-        margin-bottom: 16px;
-        padding: 16px;
-        border: 1px solid var(--line);
-        background: var(--panel);
-      }
-
-      .actions {
+      .top-nav {
         display: flex;
         gap: 8px;
         flex-wrap: wrap;
-        margin-top: 12px;
       }
 
-      .button-link,
-      button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 12px;
-        border: 1px solid var(--line);
-        background: #183018;
-        color: var(--text);
-        text-decoration: none;
-        font: inherit;
-        cursor: pointer;
-        min-width: 170px;
+      .page-header {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding-bottom: 14px;
       }
 
-      .button-link:hover,
-      button:hover {
-        border-color: var(--accent);
+      .page-header h1 {
+        font-size: 26px;
+        color: var(--text-strong);
+        letter-spacing: 0.12em;
+        margin-bottom: 6px;
       }
 
-      .status {
-        color: var(--accent);
-        min-height: 20px;
-      }
-
-      .muted {
-        color: var(--muted);
-      }
-
-      .grid {
+      .summary-bar {
         display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 12px;
       }
 
-      .item-card {
-        border: 1px solid var(--line);
-        background: #0b160b;
-        padding: 12px;
+      .summary-card,
+      .collection-card,
+      .value-footer {
+        background: var(--panel-bg);
+        border: 1px solid var(--panel-line);
+        border-radius: 6px;
+        padding: 16px;
       }
 
-      .meta {
+      .summary-card .label {
+        display: block;
+        font-size: 10px;
+        color: var(--text-faint);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 8px;
+      }
+
+      .summary-card .value {
+        font-size: 24px;
+        color: var(--text-strong);
+      }
+
+      .collection-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 8px;
-        margin-top: 8px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .collection-card {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .card-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .card-title {
+        font-size: 15px;
+        color: var(--text-strong);
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .card-title:hover {
+        text-decoration: underline;
+      }
+
+      .card-subtitle {
+        font-size: 11px;
+        color: var(--text-soft);
+      }
+
+      .rarity-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        border: 1px solid currentColor;
+        background: rgba(10, 10, 10, 0.35);
+      }
+
+      .rarity-badge.legendary { color: var(--legendary); }
+      .rarity-badge.epic { color: var(--epic); }
+      .rarity-badge.rare { color: var(--rare); }
+      .rarity-badge.uncommon { color: rgba(155, 188, 15, 0.9); }
+      .rarity-badge.common { color: rgba(155, 188, 15, 0.65); }
+
+      .price-row {
+        font-size: 11px;
+        color: var(--text-soft);
+        line-height: 1.6;
+      }
+
+      .danger-btn {
+        border-color: rgba(155, 188, 15, 0.25);
+      }
+
+      .danger-btn:hover {
+        border-color: #e74c3c;
+        background: rgba(231, 76, 60, 0.08);
+      }
+
+      .empty-state {
+        background: rgba(15, 56, 15, 0.12);
+        border: 1px dashed rgba(155, 188, 15, 0.18);
+        border-radius: 6px;
+        padding: 40px 20px;
+        text-align: center;
+        color: var(--text-faint);
+      }
+
+      .empty-state p {
+        font-size: 13px;
+        margin-bottom: 16px;
+      }
+
+      .value-footer {
+        font-size: 12px;
+        color: var(--text-soft);
+      }
+
+      .status-text {
+        font-size: 11px;
+        color: var(--text-faint);
+        min-height: 16px;
+      }
+
+      @media (max-width: 800px) {
+        .summary-bar,
+        .collection-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
-    <main class="page">
-      <section class="panel">
-        <h1>RetroDex Collection</h1>
-        <p class="muted">
-          Page beginner qui consomme <code>GET /api/collection</code> et
-          <code>DELETE /api/collection/:id</code>.
-        </p>
-        <div class="actions">
-          <a class="button-link" href="/home.html">Retour a Home backend</a>
-          <a class="button-link" href="/games-list.html">Ouvrir GamesList</a>
-          <a class="button-link" href="/game-detail.html?id=tetris-game-boy">Ouvrir GameDetail</a>
-          <button id="refreshButton" type="button">Rafraichir</button>
-        </div>
+    <main class="collection-shell">
+      <nav class="top-nav">
+        <a href="/hub.html" class="btn">← Hub</a>
+        <a href="/games-list.html" class="btn">← Catalogue</a>
+      </nav>
+
+      <header class="page-header">
+        <h1>MA COLLECTION</h1>
+      </header>
+
+      <section class="summary-bar">
+        <article class="summary-card">
+          <span class="label">Total items</span>
+          <span class="value" id="total-items">—</span>
+        </article>
+        <article class="summary-card">
+          <span class="label">Valeur Loose</span>
+          <span class="value" id="total-loose">—</span>
+        </article>
+        <article class="summary-card">
+          <span class="label">Valeur Mint</span>
+          <span class="value" id="total-mint">—</span>
+        </article>
       </section>
 
-      <section class="panel">
-        <h2>Etat</h2>
-        <div id="status" class="status">Chargement de la collection...</div>
-      </section>
+      <div id="status-text" class="status-text">Chargement...</div>
 
-      <section class="panel">
-        <h2>Items</h2>
-        <div id="results" class="grid"></div>
-      </section>
+      <section id="collection-content"></section>
+
+      <section class="value-footer" id="value-footer">Valeur totale Loose : — · Valeur Mint : —</section>
     </main>
 
     <script>
-      const statusEl = document.getElementById("status");
-      const resultsEl = document.getElementById("results");
-      const refreshButtonEl = document.getElementById("refreshButton");
+      const totalItemsEl = document.getElementById("total-items");
+      const totalLooseEl = document.getElementById("total-loose");
+      const totalMintEl = document.getElementById("total-mint");
+      const statusTextEl = document.getElementById("status-text");
+      const collectionContentEl = document.getElementById("collection-content");
+      const valueFooterEl = document.getElementById("value-footer");
+
+      let enrichedItems = [];
 
       function escapeHtml(value) {
         return String(value ?? "")
@@ -142,85 +229,134 @@
           .replaceAll("'", "&#039;");
       }
 
-      async function fetchJson(url) {
-        const response = await fetch(url);
+      function formatCurrency(value) {
+        const number = Number(value);
+        return Number.isFinite(number) ? `$${number}` : "$0";
+      }
 
+      function rarityClass(value) {
+        return String(value || "COMMON").toLowerCase();
+      }
+
+      async function fetchJson(url, options) {
+        const response = await fetch(url, options);
         if (!response.ok) {
-          throw new Error(`${response.status} ${response.statusText}`);
+          const body = await response.json().catch(() => ({}));
+          throw new Error(body.error || `${response.status} ${response.statusText}`);
         }
-
         return response.json();
       }
 
-      async function deleteJson(url) {
-        const response = await fetch(url, { method: "DELETE" });
-
-        if (!response.ok) {
-          const data = await response.json().catch(() => ({}));
-          throw new Error(data.error || `${response.status} ${response.statusText}`);
-        }
-
-        return response.json();
+      function computeTotals(items) {
+        return items.reduce((acc, item) => {
+          acc.count += 1;
+          acc.loose += Number(item.game?.loosePrice || 0);
+          acc.mint += Number(item.game?.mintPrice || 0);
+          return acc;
+        }, { count: 0, loose: 0, mint: 0 });
       }
 
-      function itemCard(item) {
-        return `
-          <article class="item-card">
-            <h3>${escapeHtml(item.gameId)}</h3>
-            <div class="meta">
-              <div><span class="muted">Item ID</span><br>${escapeHtml(item.id)}</div>
-              <div><span class="muted">Condition</span><br>${escapeHtml(item.condition || "n/a")}</div>
-              <div><span class="muted">Notes</span><br>${escapeHtml(item.notes || "n/a")}</div>
-            </div>
-            <div class="actions">
-              <a class="button-link" href="/game-detail.html?id=${encodeURIComponent(item.gameId)}">Voir le jeu</a>
-              <button type="button" data-delete-id="${escapeHtml(item.id)}">Supprimer</button>
-            </div>
-          </article>
+      function updateSummary(items) {
+        const totals = computeTotals(items);
+        totalItemsEl.textContent = String(totals.count);
+        totalLooseEl.textContent = formatCurrency(totals.loose);
+        totalMintEl.textContent = formatCurrency(totals.mint);
+        valueFooterEl.textContent = `Valeur totale Loose : ${formatCurrency(totals.loose)} · Valeur Mint : ${formatCurrency(totals.mint)}`;
+      }
+
+      function renderEmptyState() {
+        collectionContentEl.innerHTML = `
+          <div class="empty-state">
+            <p>Votre collection est vide. Ajoutez des jeux depuis les fiches.</p>
+            <a href="/games-list.html" class="btn">Parcourir le catalogue →</a>
+          </div>
+        `;
+      }
+
+      function renderCollection(items) {
+        if (!items.length) {
+          renderEmptyState();
+          return;
+        }
+
+        collectionContentEl.innerHTML = `
+          <div class="collection-grid">
+            ${items.map((item) => `
+              <article class="collection-card" data-item-id="${escapeHtml(item.id)}">
+                <div class="card-head">
+                  <div>
+                    <a class="card-title" href="/game-detail.html?id=${encodeURIComponent(item.game.id)}">${escapeHtml(item.game.title)}</a>
+                    <div class="card-subtitle">${escapeHtml(item.game.console || "Console inconnue")} · ${escapeHtml(item.game.year || "n/a")}</div>
+                  </div>
+                  <span class="rarity-badge ${escapeHtml(rarityClass(item.game.rarity))}">${escapeHtml(item.game.rarity || "COMMON")}</span>
+                </div>
+                <div class="price-row">
+                  Loose ${escapeHtml(formatCurrency(item.game.loosePrice))} · CIB ${escapeHtml(formatCurrency(item.game.cibPrice))} · Mint ${escapeHtml(formatCurrency(item.game.mintPrice))}
+                </div>
+                <div>
+                  <button type="button" class="btn danger-btn" data-delete-id="${escapeHtml(item.id)}">Retirer</button>
+                </div>
+              </article>
+            `).join("")}
+          </div>
         `;
       }
 
       async function loadCollection() {
-        statusEl.textContent = "Chargement...";
-        resultsEl.innerHTML = "";
+        statusTextEl.textContent = "Chargement...";
+        collectionContentEl.innerHTML = "";
 
         try {
-          const data = await fetchJson("/api/collection");
-          statusEl.textContent = `${data.total} item(s) dans la collection.`;
+          const payload = await fetchJson("/api/collection");
+          const items = payload.items || [];
 
-          if (!data.items.length) {
-            resultsEl.innerHTML = `<div class="muted">La collection est vide pour l'instant.</div>`;
+          if (!items.length) {
+            enrichedItems = [];
+            updateSummary(enrichedItems);
+            renderEmptyState();
+            statusTextEl.textContent = "Aucun jeu dans la collection.";
             return;
           }
 
-          resultsEl.innerHTML = data.items.map(itemCard).join("");
+          const details = await Promise.all(
+            items.map(async (item) => {
+              const game = await fetchJson(`/api/games/${encodeURIComponent(item.gameId)}`);
+              return { ...item, game };
+            }),
+          );
+
+          enrichedItems = details;
+          updateSummary(enrichedItems);
+          renderCollection(enrichedItems);
+          statusTextEl.textContent = `${enrichedItems.length} jeu(x) dans votre collection.`;
         } catch (error) {
-          statusEl.textContent = `Erreur collection - ${error.message}`;
-          resultsEl.innerHTML = "";
+          statusTextEl.textContent = `Erreur collection : ${error.message}`;
+          renderEmptyState();
         }
       }
 
-      resultsEl.addEventListener("click", async (event) => {
+      collectionContentEl.addEventListener("click", async (event) => {
         const button = event.target.closest("[data-delete-id]");
-
         if (!button) {
           return;
         }
 
-        const deleteId = button.getAttribute("data-delete-id");
-        statusEl.textContent = `Suppression de l'item #${deleteId}...`;
+        const collectionItemId = button.getAttribute("data-delete-id");
+        statusTextEl.textContent = "Suppression...";
+        button.disabled = true;
 
         try {
-          await deleteJson(`/api/collection/${encodeURIComponent(deleteId)}`);
-          statusEl.textContent = `Item #${deleteId} supprime.`;
-          await loadCollection();
+          await fetchJson(`/api/collection/${encodeURIComponent(collectionItemId)}`, {
+            method: "DELETE",
+          });
+          enrichedItems = enrichedItems.filter((item) => String(item.id) !== String(collectionItemId));
+          updateSummary(enrichedItems);
+          renderCollection(enrichedItems);
+          statusTextEl.textContent = "Jeu retiré de la collection.";
         } catch (error) {
-          statusEl.textContent = `Erreur suppression - ${error.message}`;
+          statusTextEl.textContent = `Erreur suppression : ${error.message}`;
+          button.disabled = false;
         }
-      });
-
-      refreshButtonEl.addEventListener("click", () => {
-        loadCollection();
       });
 
       loadCollection();
