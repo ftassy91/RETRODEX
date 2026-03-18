@@ -3,6 +3,37 @@
 const fs = require("fs");
 const path = require("path");
 
+function loadEnv() {
+  const envPath = path.resolve(__dirname, "../../.env");
+  if (!fs.existsSync(envPath)) {
+    return;
+  }
+
+  const lines = fs.readFileSync(envPath, "utf8")
+    .replace(/^\uFEFF/, "")
+    .split(/\r?\n/);
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) {
+      continue;
+    }
+
+    const eqIdx = trimmed.indexOf("=");
+    if (eqIdx < 0) {
+      continue;
+    }
+
+    const key = trimmed.slice(0, eqIdx).trim();
+    const val = trimmed.slice(eqIdx + 1).trim();
+    if (key && val && !process.env[key]) {
+      process.env[key] = val.replace(/^"(.*)"$/, "$1");
+    }
+  }
+}
+
+loadEnv();
+
 const ROOT = path.resolve(__dirname, "..", "..");
 const ENV_PATH = path.join(ROOT, ".env");
 const EXAMPLE_ENV_PATH = path.join(ROOT, ".env.example");
@@ -51,7 +82,7 @@ function readEnv(name, fallback = "") {
   return fallback;
 }
 
-const DATABASES = {
+const SYNC_TARGETS = {
   sync_log: {
     key: "sync_log",
     label: "Codex Sync Log",
@@ -64,6 +95,15 @@ const DATABASES = {
     envKey: "NOTION_DB_DEV_TASKS",
     databaseId: readEnv("NOTION_DB_DEV_TASKS"),
   },
+};
+const DATABASES = SYNC_TARGETS;
+const CONFIG = {
+  ROOT,
+  ENV_PATH,
+  EXAMPLE_ENV_PATH,
+  PATHS,
+  NOTION_API_KEY: readEnv("NOTION_API_KEY"),
+  NOTION_VERSION: "2022-06-28",
 };
 
 function buildTitle(eventType, payload) {
@@ -78,9 +118,18 @@ module.exports = {
   ENV_PATH,
   EXAMPLE_ENV_PATH,
   PATHS,
+  SYNC_TARGETS,
   DATABASES,
-  NOTION_API_KEY: readEnv("NOTION_API_KEY"),
-  NOTION_VERSION: "2022-06-28",
+  CONFIG,
+  NOTION_API_KEY: CONFIG.NOTION_API_KEY,
+  NOTION_VERSION: CONFIG.NOTION_VERSION,
   buildTitle,
   readEnv,
 };
+
+if (require.main === module) {
+  const key = process.env.NOTION_API_KEY || "";
+  console.log("NOTION_API_KEY length:", key.length);
+  console.log("Starts with secret_:", key.startsWith("secret_"));
+  console.log("DB sync_log:", SYNC_TARGETS.sync_log.databaseId);
+}
