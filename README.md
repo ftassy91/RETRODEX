@@ -1,12 +1,31 @@
-﻿# RetroDex
-Hub centralise des collectionneurs de jeux video retro.
+# RetroDex
 
-## Lancement
-- Backend  : run_retrodex.bat -> http://localhost:3000
-- Frontend : run_frontend.bat -> http://localhost:8080
+Hub centralise pour collectionneurs de jeux video retro.
+
+## Lancement rapide
+
+Backend (port 3000):
+  run_backend.bat  ou  cd backend && node server.js
+
+Frontend (port 8080):
+  run_frontend.bat  ou  cd frontend && python -m http.server 8080
+
+URLs:
+  Hub         : http://localhost:3000/hub.html
+  Catalogue   : http://localhost:3000/games-list.html
+  RetroMarket : http://localhost:8080/modules/retromarket/market.html
+  3DS Proto   : http://localhost:8080/modules/retrodex/index.html
 
 ## Stack
-Node.js / Express / SQLite / Vanilla JS
+- Backend  : Node.js 24 + Express + SQLite
+- Frontend : Vanilla JS + Canvas (Game Boy renderer)
+- Sync     : Notion API (scripts/sync/)
+- Data     : 507 jeux, 16 consoles, prix Loose/CIB/Mint
 
-## Chemin
-RETRODEX VERSION OK\retrodex_v2_checkpoint_20260313_1722
+## Structure
+backend/     → API REST port 3000
+frontend/    → prototype 3DS + RetroMarket port 8080
+scripts/     → audit, import, sync
+docs/        → runbooks et documentation
+logs/        → audit trail et checkpoints
+data/        → market_candidates.json

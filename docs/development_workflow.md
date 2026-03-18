@@ -1,19 +1,34 @@
-﻿# RetroDex - Development Workflow
+# RetroDex - Development Workflow
 
 ## Triangle Claude / Codex / Notion
-- Claude  = Architecture, audit, planification
-- Codex   = Execution de code, commits Git
-- Notion  = Memoire, tickets, documentation
+- Claude = Architecture, audit, planning
+- Codex = Code changes, validation, commits
+- Notion = Project memory and tracking
 
-## Session type
-1. Lire Guide Reprise Codex dans Notion
-2. Claude genere le prompt Codex exact
-3. Codex execute + commit Git
-4. Claude valide via navigateur
-5. Notion mis a jour
+## Canonical work locations
+- Repository root work happens in `RETRODEXseed`.
+- Backend work happens in `backend/`.
+- Frontend work happens in `frontend/`.
 
-## Regles absolues
-- Port backend = 3000
-- Tester sur http:// jamais file://
-- Une tache = un commit
-- RETRODEXseed uniquement
+## Session flow
+1. Read [docs/setup_runbook.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/setup_runbook.md).
+2. Confirm whether the task belongs to `backend/` or `frontend/`.
+3. Make one focused change set at a time.
+4. Test over `http://`, never `file://`.
+5. If the work changes project state, record a local sync event with `scripts/sync/local_sync.py`.
+6. If the work prepares a future import file, validate it first with `scripts/import/validate_import.py`.
+7. Record a checkpoint after a meaningful stage.
+
+## Absolute rules
+- Backend port = 3000
+- Frontend port = 8080
+- Test on `http://`, never `file://`
+- One focused task = one coherent commit
+- Work inside `RETRODEXseed` only
+
+## Controlled automation rules
+- Root automation is local-only until explicitly expanded.
+- Use `scripts/sync/` for logging and handoff preparation, not live Notion writes.
+- Use `scripts/import/` for validation and audit trails, not ingestion.
+- Use `scripts/sync/sync-gate.js` only for one staged payload at a time and only after manual dry-run review.
+- Do not enable broader automation until schemas are stable, root scripts are verified, and manual review gates remain in place.
