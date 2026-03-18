@@ -3,539 +3,129 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#9bbc0f">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RetroDex">
-    <link rel="apple-touch-icon" href="/icons/icon-192.png">
-    <title>RetroDex — Catalogue</title>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#9bbc0f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="RetroDex" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <title>RetroDex - Catalogue</title>
     <link rel="stylesheet" href="/style.css" />
     <style>
-      :root {
-        --panel-bg: rgba(15, 56, 15, 0.2);
-        --panel-line: rgba(155, 188, 15, 0.18);
-        --panel-line-strong: rgba(155, 188, 15, 0.42);
-        --text-strong: #cfe66f;
-        --text-soft: rgba(155, 188, 15, 0.62);
-        --text-faint: rgba(155, 188, 15, 0.4);
-        --legendary: #ffd700;
-        --epic: #9b59b6;
-        --rare: #e74c3c;
-        --uncommon: rgba(155, 188, 15, 0.6);
-        --common: rgba(155, 188, 15, 0.18);
-      }
-
-      .catalog-shell {
-        max-width: 1100px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-
-      .catalog-header {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        align-items: end;
-        flex-wrap: wrap;
-        padding: 10px 0 18px;
-        border-bottom: 1px solid rgba(155, 188, 15, 0.16);
-      }
-
-      .catalog-header h1 {
-        font-size: 26px;
-        color: var(--text-strong);
-        letter-spacing: 0.12em;
-        margin: 10px 0 6px;
-      }
-
-      .catalog-header p {
-        font-size: 11px;
-        color: var(--text-faint);
-      }
-
-      .search-panel {
-        background: var(--panel-bg);
-        border: 1px solid var(--panel-line);
-        border-radius: 6px;
-        padding: 18px;
-      }
-
-      .search-grid {
-        display: grid;
-        grid-template-columns: minmax(0, 2fr) repeat(3, minmax(150px, 1fr));
-        gap: 12px;
-      }
-
-      .field {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-
-      .field label {
-        font-size: 10px;
-        color: var(--text-faint);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-      }
-
-      .field input,
-      .field select {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid var(--panel-line);
-        border-radius: 4px;
-        background: rgba(10, 10, 10, 0.85);
-        color: #9bbc0f;
-        font: inherit;
-      }
-
-      .field input:focus,
-      .field select:focus {
-        outline: none;
-        border-color: var(--panel-line-strong);
-      }
-
-      .search-actions {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 14px;
-      }
-
-      .results-bar,
-      .pagination-bar {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        align-items: center;
-        flex-wrap: wrap;
-      }
-
-      .results-bar {
-        font-size: 11px;
-        color: var(--text-faint);
-      }
-
-      .results-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 14px;
-      }
-
-      .game-card {
-        background: rgba(15, 56, 15, 0.16);
-        border: 1px solid var(--common);
-        border-radius: 6px;
-        padding: 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        min-height: 220px;
-      }
-
-      .game-card.rarity-legendary { border-color: var(--legendary); }
-      .game-card.rarity-epic { border-color: var(--epic); }
-      .game-card.rarity-rare { border-color: var(--rare); }
-      .game-card.rarity-uncommon { border-color: var(--uncommon); }
-      .game-card.rarity-common { border-color: var(--common); }
-
-      .game-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 10px;
-      }
-
-      .game-title {
-        font-size: 14px;
-        color: var(--text-strong);
-        font-weight: bold;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .game-subtitle {
-        font-size: 11px;
-        color: var(--text-soft);
-      }
-
-      .pill-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .genre-pill,
-      .rarity-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 3px 8px;
-        border-radius: 999px;
-        font-size: 10px;
-        letter-spacing: 0.05em;
-      }
-
-      .genre-pill {
-        border: 1px solid rgba(155, 188, 15, 0.22);
-        background: rgba(155, 188, 15, 0.08);
-        color: rgba(155, 188, 15, 0.72);
-      }
-
-      .rarity-badge {
-        border: 1px solid currentColor;
-        background: rgba(10, 10, 10, 0.4);
-        text-transform: uppercase;
-      }
-
-      .rarity-badge.legendary { color: var(--legendary); }
-      .rarity-badge.epic { color: var(--epic); }
-      .rarity-badge.rare { color: var(--rare); }
-      .rarity-badge.uncommon { color: rgba(155, 188, 15, 0.9); }
-      .rarity-badge.common { color: rgba(155, 188, 15, 0.6); }
-
-      .price-row {
-        margin-top: auto;
-        font-size: 11px;
-        color: var(--text-soft);
-        line-height: 1.6;
-      }
-
-      .empty-state,
-      .loading-state {
-        padding: 32px 20px;
-        text-align: center;
-        border: 1px dashed rgba(155, 188, 15, 0.18);
-        border-radius: 6px;
-        color: var(--text-faint);
-        background: rgba(15, 56, 15, 0.08);
-      }
-
-      .pagination-bar {
-        padding-bottom: 20px;
-      }
-
-      .page-indicator {
-        font-size: 11px;
-        color: var(--text-faint);
-      }
-
-      @media (max-width: 900px) {
-        .search-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .results-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-      }
-
-      @media (max-width: 640px) {
-        .search-grid,
-        .results-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .catalog-header {
-          align-items: flex-start;
-        }
-
-        .results-bar,
-        .pagination-bar {
-          flex-direction: column;
-          align-items: stretch;
-        }
-
-        .pagination-bar .btn {
-          width: 100%;
-          text-align: center;
-        }
-      }
+      :root{--panel-bg:rgba(15,56,15,.2);--panel-line:rgba(155,188,15,.18);--panel-strong:rgba(155,188,15,.42);--text-strong:#cfe66f;--text-soft:rgba(155,188,15,.62);--text-faint:rgba(155,188,15,.4);--text-active:#d8f08f;--legendary:#ffd700;--epic:#9b59b6;--rare:#e74c3c;--uncommon:rgba(155,188,15,.75);--common:rgba(155,188,15,.18)}
+      .catalog-shell{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+      .catalog-header{display:flex;justify-content:space-between;gap:12px;align-items:end;flex-wrap:wrap;padding:10px 0 18px;border-bottom:1px solid rgba(155,188,15,.16)}
+      .catalog-header h1{font-size:26px;color:var(--text-strong);letter-spacing:.12em;margin:10px 0 6px}
+      .catalog-header p{font-size:11px;color:var(--text-faint)}
+      .search-panel{background:var(--panel-bg);border:1px solid var(--panel-line);border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:12px}
+      .search-grid,.filter-grid{display:grid;gap:12px}
+      .search-grid{grid-template-columns:minmax(0,2fr) repeat(3,minmax(150px,1fr))}
+      .filter-grid{grid-template-columns:minmax(160px,1.2fr) repeat(2,minmax(120px,.9fr)) minmax(180px,1.2fr)}
+      .field{display:flex;flex-direction:column;gap:6px}
+      .field label{font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em}
+      .field input,.field select{width:100%;padding:10px 12px;border:1px solid var(--panel-line);border-radius:4px;background:rgba(10,10,10,.85);color:#9bbc0f;font:inherit}
+      .field input:focus,.field select:focus{outline:none;border-color:var(--panel-strong)}
+      .search-actions,.results-bar,.pagination-bar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+      .reset-link{color:var(--text-active);font-size:11px;text-decoration:none;border-bottom:1px dashed rgba(216,240,143,.45)}
+      .reset-link:hover{border-bottom-color:var(--text-active)}
+      .results-bar{font-size:11px;color:var(--text-faint)}
+      .results-summary-line{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+      .summary-pill{display:inline-flex;align-items:center;padding:3px 8px;border-radius:999px;border:1px solid rgba(155,188,15,.2);background:rgba(10,10,10,.35)}
+      .summary-pill.active{color:var(--text-active);border-color:rgba(216,240,143,.55);background:rgba(216,240,143,.08)}
+      .results-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+      .game-card{background:rgba(15,56,15,.16);border:1px solid var(--common);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:12px;min-height:220px}
+      .game-card.rarity-legendary{border-color:var(--legendary)} .game-card.rarity-epic{border-color:var(--epic)} .game-card.rarity-rare{border-color:var(--rare)} .game-card.rarity-uncommon{border-color:var(--uncommon)} .game-card.rarity-common{border-color:var(--common)}
+      .game-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+      .game-title{font-size:14px;color:var(--text-strong);font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .game-subtitle{font-size:11px;color:var(--text-soft)}
+      .pill-row{display:flex;flex-wrap:wrap;gap:8px}
+      .genre-pill,.rarity-badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:999px;font-size:10px;letter-spacing:.05em}
+      .genre-pill{border:1px solid rgba(155,188,15,.22);background:rgba(155,188,15,.08);color:rgba(155,188,15,.72)}
+      .rarity-badge{border:1px solid currentColor;background:rgba(10,10,10,.4);text-transform:uppercase}
+      .rarity-badge.legendary{color:var(--legendary)} .rarity-badge.epic{color:var(--epic)} .rarity-badge.rare{color:var(--rare)} .rarity-badge.uncommon{color:rgba(155,188,15,.9)} .rarity-badge.common{color:rgba(155,188,15,.6)}
+      .price-row{margin-top:auto;font-size:11px;color:var(--text-soft);line-height:1.6}
+      .empty-state,.loading-state{padding:32px 20px;text-align:center;border:1px dashed rgba(155,188,15,.18);border-radius:6px;color:var(--text-faint);background:rgba(15,56,15,.08)}
+      .empty-state strong{color:var(--text-strong)}
+      .suggestions{margin-top:14px;display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+      .suggestion-btn{background:transparent;color:var(--text-active);border:1px solid rgba(216,240,143,.28);border-radius:999px;padding:6px 10px;font:inherit;font-size:11px;cursor:pointer}
+      .suggestion-btn:hover{border-color:rgba(216,240,143,.7);background:rgba(216,240,143,.08)}
+      .pagination-bar{padding-bottom:20px}
+      .page-indicator{font-size:11px;color:var(--text-faint)}
+      @media (max-width:980px){.search-grid,.filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.results-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+      @media (max-width:640px){.search-grid,.filter-grid,.results-grid{grid-template-columns:1fr}.catalog-header{align-items:flex-start}.results-bar,.pagination-bar,.search-actions{flex-direction:column;align-items:stretch}.search-actions .btn,.pagination-bar .btn{width:100%;text-align:center}}
     </style>
   </head>
   <body>
     <main class="catalog-shell">
       <header class="catalog-header">
         <div>
-          <a href="/hub.html" class="btn">← Hub</a>
+          <a href="/hub.html" class="btn">&larr; Hub</a>
           <h1>CATALOGUE</h1>
-          <p id="catalog-subtitle">507 jeux rétro</p>
+          <p id="catalog-subtitle">507 jeux retro</p>
         </div>
       </header>
-
       <section class="search-panel">
         <div class="search-grid">
-          <div class="field">
-            <label for="query">Recherche</label>
-            <input id="query" type="text" placeholder="Zelda, Mario, Metroid..." />
-          </div>
-          <div class="field">
-            <label for="console">Console</label>
-            <select id="console">
-              <option value="">Toutes</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="rarity">Rareté</label>
-            <select id="rarity">
-              <option value="">Toutes</option>
-              <option value="LEGENDARY">LEGENDARY</option>
-              <option value="EPIC">EPIC</option>
-              <option value="RARE">RARE</option>
-              <option value="UNCOMMON">UNCOMMON</option>
-              <option value="COMMON">COMMON</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="limit">Par page</label>
-            <select id="limit">
-              <option value="20" selected>20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-          </div>
+          <div class="field"><label for="query">Recherche</label><input id="query" type="text" placeholder="Zelda, Mario, Metroid..." autocomplete="off" /></div>
+          <div class="field"><label for="console">Console</label><select id="console"><option value="">Toutes</option></select></div>
+          <div class="field"><label for="rarity">Rarete</label><select id="rarity"><option value="">Toutes</option><option value="LEGENDARY">LEGENDARY</option><option value="EPIC">EPIC</option><option value="RARE">RARE</option><option value="UNCOMMON">UNCOMMON</option><option value="COMMON">COMMON</option></select></div>
+          <div class="field"><label for="limit">Par page</label><select id="limit"><option value="20" selected>20</option><option value="50">50</option><option value="100">100</option></select></div>
         </div>
-        <div class="search-actions">
-          <button id="search-button" type="button" class="btn">Rechercher</button>
+        <div class="filter-grid">
+          <div class="field"><label for="genre">Genre</label><select id="genre"><option value="">Tous</option></select></div>
+          <div class="field"><label for="year-min">Annee min</label><input id="year-min" type="number" min="1970" max="2012" placeholder="1970" /></div>
+          <div class="field"><label for="year-max">Annee max</label><input id="year-max" type="number" min="1970" max="2012" placeholder="2012" /></div>
+          <div class="field"><label for="sort-by">Trier par</label><select id="sort-by"><option value="title_asc" selected>Title A-Z</option><option value="title_desc">Title Z-A</option><option value="loose_asc">Price Loose ↑</option><option value="loose_desc">Price Loose ↓</option><option value="mint_asc">Price Mint ↑</option><option value="mint_desc">Price Mint ↓</option><option value="meta_asc">Metascore ↑</option><option value="meta_desc">Metascore ↓</option><option value="year_asc">Year ↑</option><option value="year_desc">Year ↓</option></select></div>
         </div>
+        <div class="search-actions"><a id="reset-filters" href="#" class="reset-link">Reinitialiser</a><button id="search-button" type="button" class="btn">Rechercher</button></div>
       </section>
-
       <section class="results-bar">
-        <div id="results-summary">Chargement...</div>
+        <div id="results-summary" class="results-summary-line">Chargement...</div>
         <div id="loading-indicator" class="status-bar"></div>
       </section>
-
       <section id="results" class="results-grid"></section>
-
       <section class="pagination-bar">
         <button id="prev-button" type="button" class="btn">Previous</button>
         <div id="page-indicator" class="page-indicator">Page 1 of 1</div>
         <button id="next-button" type="button" class="btn">Next</button>
       </section>
     </main>
-
     <script>
-      const queryEl = document.getElementById("query");
-      const consoleEl = document.getElementById("console");
-      const rarityEl = document.getElementById("rarity");
-      const limitEl = document.getElementById("limit");
-      const searchButtonEl = document.getElementById("search-button");
-      const resultsSummaryEl = document.getElementById("results-summary");
-      const loadingIndicatorEl = document.getElementById("loading-indicator");
-      const resultsEl = document.getElementById("results");
-      const pageIndicatorEl = document.getElementById("page-indicator");
-      const prevButtonEl = document.getElementById("prev-button");
-      const nextButtonEl = document.getElementById("next-button");
-      const subtitleEl = document.getElementById("catalog-subtitle");
-
-      let allGames = [];
-      let filteredGames = [];
-      let totalGames = 507;
-
-      function escapeHtml(value) {
-        return String(value ?? "")
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#039;");
-      }
-
-      function formatPrice(value) {
-        const number = Number(value);
-        return Number.isFinite(number) ? `$${number}` : "n/a";
-      }
-
-      function rarityClass(value) {
-        return String(value || "COMMON").toLowerCase();
-      }
-
-      function readStateFromUrl() {
-        const params = new URLSearchParams(window.location.search);
-        queryEl.value = params.get("q") || "";
-        consoleEl.dataset.pending = params.get("console") || "";
-        rarityEl.value = params.get("rarity") || "";
-        limitEl.value = ["20", "50", "100"].includes(params.get("limit")) ? params.get("limit") : "20";
-        return {
-          offset: Math.max(0, Number.parseInt(params.get("offset") || "0", 10) || 0),
-        };
-      }
-
-      function currentState(offsetOverride) {
-        return {
-          q: queryEl.value.trim(),
-          console: consoleEl.value,
-          rarity: rarityEl.value,
-          limit: Number.parseInt(limitEl.value, 10) || 20,
-          offset: Math.max(0, Number.isInteger(offsetOverride) ? offsetOverride : Number.parseInt(new URLSearchParams(window.location.search).get("offset") || "0", 10) || 0),
-        };
-      }
-
-      function updateUrl(state) {
-        const url = new URL(window.location.href);
-        const entries = [
-          ["q", state.q],
-          ["console", state.console],
-          ["rarity", state.rarity],
-          ["limit", String(state.limit)],
-          ["offset", String(state.offset)],
-        ];
-
-        for (const [key, value] of entries) {
-          if (value) {
-            url.searchParams.set(key, value);
-          } else {
-            url.searchParams.delete(key);
-          }
-        }
-
-        window.history.replaceState({}, "", url);
-      }
-
-      async function fetchJson(url) {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`${response.status} ${response.statusText}`);
-        }
-        return response.json();
-      }
-
-      function gameCard(game) {
-        return `
-          <article class="game-card rarity-${escapeHtml(rarityClass(game.rarity))}">
-            <div class="game-head">
-              <div style="min-width:0;">
-                <h3 class="game-title" title="${escapeHtml(game.title)}">${escapeHtml(game.title)}</h3>
-                <div class="game-subtitle">${escapeHtml(game.console || "Console inconnue")} · ${escapeHtml(game.year || "n/a")}</div>
-              </div>
-              <span class="rarity-badge ${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || "COMMON")}</span>
-            </div>
-            <div class="pill-row">
-              <span class="genre-pill">${escapeHtml(game.genre || "Genre inconnu")}</span>
-            </div>
-            <div class="price-row">
-              Loose ${escapeHtml(formatPrice(game.loosePrice))} · CIB ${escapeHtml(formatPrice(game.cibPrice))} · Mint ${escapeHtml(formatPrice(game.mintPrice))}
-            </div>
-            <div>
-              <a href="/game-detail.html?id=${encodeURIComponent(game.id)}&q=${encodeURIComponent(queryEl.value.trim())}&console=${encodeURIComponent(consoleEl.value)}&rarity=${encodeURIComponent(rarityEl.value)}&limit=${encodeURIComponent(limitEl.value)}&offset=${encodeURIComponent(currentState().offset)}" class="btn">Voir fiche</a>
-            </div>
-          </article>
-        `;
-      }
-
-      async function loadConsoles() {
-        const payload = await fetchJson("/api/consoles");
-        for (const item of payload.items) {
-          const option = document.createElement("option");
-          option.value = item.name;
-          option.textContent = `${item.name} (${item.gamesCount})`;
-          if (consoleEl.dataset.pending && consoleEl.dataset.pending === item.name) {
-            option.selected = true;
-          }
-          consoleEl.appendChild(option);
-        }
-      }
-
-      async function loadCatalogueTotal() {
-        try {
-          const payload = await fetchJson("/api/stats");
-          totalGames = payload.totals?.games || totalGames;
-        } catch (_error) {
-        }
-        subtitleEl.textContent = `${totalGames} jeux rétro`;
-      }
-
-      function applyClientFilters(state) {
-        filteredGames = allGames.filter((game) => {
-          if (state.rarity && String(game.rarity || "").toUpperCase() !== state.rarity) {
-            return false;
-          }
-          return true;
-        });
-      }
-
-      function render(state) {
-        const total = filteredGames.length;
-        const start = state.offset;
-        const end = Math.min(start + state.limit, total);
-        const pageItems = filteredGames.slice(start, end);
-        const currentPage = total ? Math.floor(start / state.limit) + 1 : 1;
-        const totalPages = Math.max(1, Math.ceil(total / state.limit));
-        const consoleLabel = state.console || "Toutes";
-        const rarityLabel = state.rarity || "Toutes";
-
-        resultsSummaryEl.textContent = `${total} jeu(x) — console ${consoleLabel} — rareté ${rarityLabel}`;
-        pageIndicatorEl.textContent = `Page ${currentPage} of ${totalPages}`;
-        prevButtonEl.disabled = start <= 0;
-        nextButtonEl.disabled = end >= total;
-
-        if (!pageItems.length) {
-          resultsEl.innerHTML = '<div class="empty-state">Aucun jeu ne correspond à ces filtres.</div>';
-          return;
-        }
-
-        resultsEl.innerHTML = pageItems.map(gameCard).join("");
-      }
-
-      async function runSearch(offsetOverride) {
-        const state = currentState(offsetOverride);
-        updateUrl(state);
-        loadingIndicatorEl.textContent = "Chargement...";
-        resultsEl.innerHTML = '<div class="loading-state">Chargement...</div>';
-
-        const params = new URLSearchParams();
-        if (state.q) {
-          params.set("q", state.q);
-        }
-        if (state.console) {
-          params.set("console", state.console);
-        }
-
-        try {
-          allGames = await fetchJson(`/games?${params.toString()}`);
-          applyClientFilters(state);
-
-          if (state.offset >= filteredGames.length && filteredGames.length > 0) {
-            const safeOffset = Math.max(0, Math.floor((filteredGames.length - 1) / state.limit) * state.limit);
-            return runSearch(safeOffset);
-          }
-
-          render(state);
-          loadingIndicatorEl.textContent = "";
-        } catch (error) {
-          loadingIndicatorEl.textContent = `Erreur: ${error.message}`;
-          resultsEl.innerHTML = '<div class="empty-state">Impossible de charger le catalogue.</div>';
-        }
-      }
-
-      searchButtonEl.addEventListener("click", () => runSearch(0));
-      queryEl.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-          runSearch(0);
-        }
-      });
-      consoleEl.addEventListener("change", () => runSearch(0));
-      rarityEl.addEventListener("change", () => runSearch(0));
-      limitEl.addEventListener("change", () => runSearch(0));
-      prevButtonEl.addEventListener("click", () => {
-        const state = currentState();
-        runSearch(Math.max(0, state.offset - state.limit));
-      });
-      nextButtonEl.addEventListener("click", () => {
-        const state = currentState();
-        runSearch(state.offset + state.limit);
-      });
-
-      const initialState = readStateFromUrl();
-      Promise.all([loadConsoles(), loadCatalogueTotal()])
-        .then(() => runSearch(initialState.offset))
-        .catch((error) => {
-          loadingIndicatorEl.textContent = `Erreur initiale: ${error.message}`;
-          resultsEl.innerHTML = '<div class="empty-state">Chargement impossible.</div>';
-        });
+      const queryEl=document.getElementById("query"),consoleEl=document.getElementById("console"),rarityEl=document.getElementById("rarity"),limitEl=document.getElementById("limit"),genreEl=document.getElementById("genre"),yearMinEl=document.getElementById("year-min"),yearMaxEl=document.getElementById("year-max"),sortEl=document.getElementById("sort-by"),searchButtonEl=document.getElementById("search-button"),resetFiltersEl=document.getElementById("reset-filters"),resultsSummaryEl=document.getElementById("results-summary"),loadingIndicatorEl=document.getElementById("loading-indicator"),resultsEl=document.getElementById("results"),pageIndicatorEl=document.getElementById("page-indicator"),prevButtonEl=document.getElementById("prev-button"),nextButtonEl=document.getElementById("next-button"),subtitleEl=document.getElementById("catalog-subtitle");
+      let debounceTimer,currentOffset=0,totalGames=507,masterGames=[],fetchedGames=[],filteredGames=[];
+      const esc=(v)=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+      const num=(v)=>Number(v)||0,price=(v)=>Number.isFinite(Number(v))?`$${Number(v)}`:"n/a",rClass=(v)=>String(v||"COMMON").toLowerCase();
+      const yearVal=(v)=>{const y=Number.parseInt(String(v||""),10);return Number.isFinite(y)?Math.max(1970,Math.min(2012,y)):"";};
+      const textCmp=(a,b)=>String(a||"").localeCompare(String(b||""),"fr",{sensitivity:"base"});
+      const fetchJson=(url)=>fetch(url).then((r)=>{if(!r.ok)throw new Error(`${r.status} ${r.statusText}`);return r.json();});
+      function readStateFromUrl(){const p=new URLSearchParams(location.search);queryEl.value=p.get("q")||"";consoleEl.dataset.pending=p.get("console")||"";rarityEl.value=p.get("rarity")||"";genreEl.dataset.pending=p.get("genre")||"";limitEl.value=["20","50","100"].includes(p.get("limit"))?p.get("limit"):"20";sortEl.value=p.get("sort")||"title_asc";yearMinEl.value=yearVal(p.get("yearMin"));yearMaxEl.value=yearVal(p.get("yearMax"));currentOffset=Math.max(0,Number.parseInt(p.get("offset")||"0",10)||0);}
+      function state(){let yearMin=yearVal(yearMinEl.value),yearMax=yearVal(yearMaxEl.value);if(yearMin&&yearMax&&yearMin>yearMax){const s=yearMin;yearMin=yearMax;yearMax=s;}return{q:queryEl.value.trim(),console:consoleEl.value,rarity:rarityEl.value,genre:genreEl.value,yearMin,yearMax,limit:Number.parseInt(limitEl.value,10)||20,sort:sortEl.value||"title_asc",offset:currentOffset};}
+      function updateUrl(s){const u=new URL(location.href),entries=[["q",s.q],["console",s.console],["rarity",s.rarity],["genre",s.genre],["yearMin",s.yearMin?String(s.yearMin):""],["yearMax",s.yearMax?String(s.yearMax):""],["limit",String(s.limit)],["sort",s.sort],["offset",String(s.offset)]];entries.forEach(([k,v])=>v?u.searchParams.set(k,v):u.searchParams.delete(k));history.replaceState({},"",u);}
+      function sortGames(items,sortKey){return [...items].sort((a,b)=>{switch(sortKey){case"title_desc":return textCmp(b.title,a.title);case"loose_asc":return num(a.loosePrice)-num(b.loosePrice)||textCmp(a.title,b.title);case"loose_desc":return num(b.loosePrice)-num(a.loosePrice)||textCmp(a.title,b.title);case"mint_asc":return num(a.mintPrice)-num(b.mintPrice)||textCmp(a.title,b.title);case"mint_desc":return num(b.mintPrice)-num(a.mintPrice)||textCmp(a.title,b.title);case"meta_asc":return num(a.metascore)-num(b.metascore)||textCmp(a.title,b.title);case"meta_desc":return num(b.metascore)-num(a.metascore)||textCmp(a.title,b.title);case"year_asc":return num(a.year)-num(b.year)||textCmp(a.title,b.title);case"year_desc":return num(b.year)-num(a.year)||textCmp(a.title,b.title);default:return textCmp(a.title,b.title);}});}
+      function detailUrl(game,s){const p=new URLSearchParams();[["q",s.q],["console",s.console],["rarity",s.rarity],["genre",s.genre]].forEach(([k,v])=>v&&p.set(k,v));s.yearMin&&p.set("yearMin",String(s.yearMin));s.yearMax&&p.set("yearMax",String(s.yearMax));p.set("limit",String(s.limit));p.set("sort",s.sort);p.set("offset",String(s.offset));p.set("id",game.id);return`/game-detail.html?${p.toString()}`;}
+      function card(game,s){return`<article class="game-card rarity-${esc(rClass(game.rarity))}"><div class="game-head"><div style="min-width:0;"><h3 class="game-title" title="${esc(game.title)}">${esc(game.title)}</h3><div class="game-subtitle">${esc(game.console||"Console inconnue")} · ${esc(game.year||"n/a")}</div></div><span class="rarity-badge ${esc(rClass(game.rarity))}">${esc(game.rarity||"COMMON")}</span></div><div class="pill-row"><span class="genre-pill">${esc(game.genre||"Genre inconnu")}</span></div><div class="price-row">Loose ${esc(price(game.loosePrice))} · CIB ${esc(price(game.cibPrice))} · Mint ${esc(price(game.mintPrice))}</div><div><a href="${detailUrl(game,s)}" class="btn">Voir fiche</a></div></article>`;}
+      function renderSummary(s,total){const pills=[`<span class="summary-pill active">${total} jeux</span>`,`<span class="summary-pill ${s.console?"active":""}">console: ${esc(s.console||"Toutes")}</span>`,`<span class="summary-pill ${s.rarity?"active":""}">rarete: ${esc(s.rarity||"Toutes")}</span>`,`<span class="summary-pill ${s.genre?"active":""}">genre: ${esc(s.genre||"Tous")}</span>`];if(s.yearMin||s.yearMax)pills.push(`<span class="summary-pill active">annee: ${esc(s.yearMin||1970)}-${esc(s.yearMax||2012)}</span>`);resultsSummaryEl.innerHTML=pills.join("");}
+      function suggestions(){const fallback=[{title:"Panzer Dragoon Saga",metascore:98},{title:"Chrono Trigger",metascore:95},{title:"Super Mario World",metascore:94},{title:"The Legend of Zelda: A Link to the Past",metascore:95},{title:"Final Fantasy VII",metascore:92},{title:"Radiant Silvergun",metascore:94}],pool=[...(masterGames.length?masterGames:fallback)].sort((a,b)=>num(b.metascore)-num(a.metascore)||textCmp(a.title,b.title)).slice(0,24),out=[];while(pool.length&&out.length<3)out.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);return out;}
+      function renderEmpty(s){const picks=suggestions(),title=s.q?` pour &laquo;${esc(s.q)}&raquo;.`:".";resultsEl.innerHTML=`<div class="empty-state"><div><strong>Aucun jeu trouve${title}</strong></div><div style="margin-top:8px;">Essayez: ${picks.map((g)=>esc(g.title)).join(" · ")||"un autre filtre"}.</div>${picks.length?`<div class="suggestions">${picks.map((g)=>`<button type="button" class="suggestion-btn" data-suggestion="${esc(g.title)}">${esc(g.title)}</button>`).join("")}</div>`:""}</div>`;resultsEl.querySelectorAll("[data-suggestion]").forEach((btn)=>btn.addEventListener("click",()=>{queryEl.value=btn.dataset.suggestion||"";currentOffset=0;loadGames();}));}
+      function applyFilters(s){filteredGames=fetchedGames.filter((g)=>{const rarity=String(g.rarity||"").toUpperCase(),genre=String(g.genre||""),year=num(g.year);if(s.rarity&&rarity!==s.rarity)return false;if(s.genre&&genre!==s.genre)return false;if(s.yearMin&&(!year||year<s.yearMin))return false;if(s.yearMax&&(!year||year>s.yearMax))return false;return true;});}
+      function render(s){filteredGames=sortGames(filteredGames,s.sort);const total=filteredGames.length,start=s.offset,end=Math.min(start+s.limit,total),pageItems=filteredGames.slice(start,end),page=total?Math.floor(start/s.limit)+1:1,totalPages=Math.max(1,Math.ceil(total/s.limit));renderSummary(s,total);pageIndicatorEl.textContent=`Page ${page} of ${totalPages}`;prevButtonEl.disabled=start<=0;nextButtonEl.disabled=end>=total;if(!pageItems.length){renderEmpty(s);return;}resultsEl.innerHTML=pageItems.map((g)=>card(g,s)).join("");}
+      async function loadConsoles(){const payload=await fetchJson("/api/consoles");payload.items.forEach((item)=>{const option=document.createElement("option");option.value=item.name;option.textContent=`${item.name} (${item.gamesCount})`;if(consoleEl.dataset.pending===item.name)option.selected=true;consoleEl.appendChild(option);});}
+      function populateGenres(source){const genres=[...new Set((source||masterGames).map((g)=>String(g.genre||"").trim()).filter(Boolean))].sort(textCmp);if(genreEl.options.length>1||!genres.length)return;genres.forEach((genre)=>{const option=document.createElement("option");option.value=genre;option.textContent=genre;if(genreEl.dataset.pending===genre)option.selected=true;genreEl.appendChild(option);});}
+      async function loadMeta(){try{const [statsPayload,gamesPayload]=await Promise.all([fetchJson("/api/stats"),fetchJson("/games")]);totalGames=statsPayload.totals?.games||totalGames;masterGames=Array.isArray(gamesPayload)?gamesPayload:[];}catch(_){masterGames=masterGames||[];}subtitleEl.textContent=`${totalGames} jeux retro`;populateGenres();}
+      async function loadGames(){const s=state();updateUrl(s);loadingIndicatorEl.textContent="Chargement...";resultsEl.innerHTML='<div class="loading-state">Chargement...</div>';const p=new URLSearchParams();s.q&&p.set("q",s.q);s.console&&p.set("console",s.console);try{fetchedGames=await fetchJson(`/games?${p.toString()}`);populateGenres(fetchedGames);applyFilters(s);if(s.offset>=filteredGames.length&&filteredGames.length>0){currentOffset=Math.max(0,Math.floor((filteredGames.length-1)/s.limit)*s.limit);return loadGames();}render(s);loadingIndicatorEl.textContent="";}catch(error){loadingIndicatorEl.textContent=`Erreur: ${error.message}`;resultsEl.innerHTML='<div class="empty-state">Impossible de charger le catalogue.</div>';}}
+      function searchNow(){clearTimeout(debounceTimer);currentOffset=0;loadGames();}
+      function resetFilters(){queryEl.value="";consoleEl.value="";rarityEl.value="";genreEl.value="";yearMinEl.value="";yearMaxEl.value="";sortEl.value="title_asc";limitEl.value="20";currentOffset=0;loadGames();}
+      searchButtonEl.addEventListener("click",searchNow);
+      resetFiltersEl.addEventListener("click",(e)=>{e.preventDefault();resetFilters();});
+      queryEl.addEventListener("input",()=>{clearTimeout(debounceTimer);debounceTimer=setTimeout(()=>{currentOffset=0;loadGames();},300);});
+      queryEl.addEventListener("keydown",(e)=>{if(e.key==="Enter"){e.preventDefault();searchNow();}if(e.key==="Escape"){e.preventDefault();queryEl.value="";searchNow();}});
+      [consoleEl,rarityEl,genreEl,limitEl,sortEl].forEach((el)=>el.addEventListener("change",()=>{currentOffset=0;loadGames();}));
+      [yearMinEl,yearMaxEl].forEach((el)=>{el.addEventListener("input",()=>{clearTimeout(debounceTimer);debounceTimer=setTimeout(()=>{currentOffset=0;loadGames();},300);});el.addEventListener("keydown",(e)=>{if(e.key==="Enter"){e.preventDefault();searchNow();}});});
+      prevButtonEl.addEventListener("click",()=>{const s=state();currentOffset=Math.max(0,s.offset-s.limit);loadGames();});
+      nextButtonEl.addEventListener("click",()=>{const s=state();if(s.offset+s.limit<filteredGames.length){currentOffset=s.offset+s.limit;loadGames();}});
+      document.addEventListener("keydown",(e)=>{const tag=e.target?.tagName,inField=tag==="INPUT"||tag==="SELECT"||tag==="TEXTAREA"||e.target?.isContentEditable;if(e.key==="Escape"&&queryEl.value){queryEl.value="";currentOffset=0;loadGames();return;}if(inField)return;const s=state();if(e.key==="ArrowLeft"&&s.offset>0){e.preventDefault();currentOffset=Math.max(0,s.offset-s.limit);loadGames();}if(e.key==="ArrowRight"&&s.offset+s.limit<filteredGames.length){e.preventDefault();currentOffset=s.offset+s.limit;loadGames();}});
+      readStateFromUrl();
+      Promise.all([loadConsoles(),loadMeta()]).then(()=>loadGames()).catch((error)=>{loadingIndicatorEl.textContent=`Erreur initiale: ${error.message}`;resultsEl.innerHTML='<div class="empty-state">Chargement impossible.</div>';});
     </script>
   </body>
 </html>
