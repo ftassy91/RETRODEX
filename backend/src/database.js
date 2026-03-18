@@ -1,9 +1,11 @@
 const path = require("path");
 const { Sequelize } = require("sequelize");
 
+const repoRoot = path.resolve(__dirname, "..", "..");
+const dbPath = process.env.RETRODEX_SQLITE_PATH || "./backend/storage/retrodex.sqlite";
 const storagePath = process.env.SQLITE_STORAGE
   ? path.resolve(process.cwd(), process.env.SQLITE_STORAGE)
-  : path.resolve(__dirname, "..", "storage", "retrodex.sqlite");
+  : path.resolve(repoRoot, dbPath);
 const postgresSchema = process.env.PGSCHEMA || "";
 
 function getSslOption() {
