@@ -1,0 +1,14 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Courier New', monospace; background: #0a0a0a; color: #9bbc0f; min-height: 100vh; padding: 20px 16px; }
+a { color: #9bbc0f; }
+.page-header { max-width: 900px; margin: 0 auto 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(155,188,15,0.2); }
+.page-header h1 { font-size: 18px; color: #cfe66f; letter-spacing: 0.05em; margin-bottom: 4px; }
+.nav-links { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+.btn { display: inline-block; padding: 6px 14px; border: 1px solid rgba(155,188,15,0.35); border-radius: 3px; font-size: 11px; font-family: inherit; background: transparent; color: #9bbc0f; cursor: pointer; text-decoration: none; }
+.btn:hover { border-color: rgba(155,188,15,0.7); background: rgba(155,188,15,0.08); }
+.card { background: rgba(15,56,15,0.2); border: 1px solid rgba(155,188,15,0.18); border-radius: 4px; padding: 14px 16px; }
+.grid-2 { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 12px; }
+.page-shell { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+.empty-state { max-width: 900px; margin: 40px auto; text-align: center; font-size: 12px; color: rgba(155,188,15,0.3); }
+.status-bar { max-width: 900px; margin: 0 auto 14px; font-size: 11px; color: rgba(155,188,15,0.45); min-height: 16px; }
+.pill { display: inline-block; padding: 2px 8px; border: 1px solid rgba(155,188,15,0.28); border-radius: 999px; background: rgba(155,188,15,0.18); color: #9bbc0f; font-size: 10px; margin-right: 8px; margin-bottom: 8px; }

@@ -297,8 +297,8 @@ app.get("/api/collection", handleAsync(async (_req, res) => {
 app.get("/api/stats", handleAsync(async (_req, res) => {
   const [games, collectionItems] = await Promise.all([
     Game.findAll({
-      attributes: ["id", "console"],
-      order: [["console", "ASC"]],
+      attributes: ["id", "console", "metascore", "loosePrice", "cibPrice", "mintPrice"],
+      order: [["console", "ASC"], ["title", "ASC"]],
     }),
     CollectionItem.findAll({
       order: [["id", "ASC"]],
@@ -306,21 +306,43 @@ app.get("/api/stats", handleAsync(async (_req, res) => {
   ]);
 
   const gamesById = new Map(games.map((game) => [game.id, game]));
-  const byConsole = new Map();
+  const collectionByConsole = new Map();
+  const catalogueByConsole = new Map();
+  let pricedGames = 0;
+  let metascoreSum = 0;
+  let metascoreCount = 0;
+
+  for (const game of games) {
+    const consoleName = game.console || "Unknown";
+    catalogueByConsole.set(consoleName, (catalogueByConsole.get(consoleName) || 0) + 1);
+
+    if ([game.loosePrice, game.cibPrice, game.mintPrice].some((price) => Number(price) > 0)) {
+      pricedGames += 1;
+    }
+
+    if (Number.isFinite(Number(game.metascore))) {
+      metascoreSum += Number(game.metascore);
+      metascoreCount += 1;
+    }
+  }
 
   for (const item of collectionItems) {
     const game = gamesById.get(item.gameId);
     const consoleName = game?.console || "Unknown";
-    byConsole.set(consoleName, (byConsole.get(consoleName) || 0) + 1);
+    collectionByConsole.set(consoleName, (collectionByConsole.get(consoleName) || 0) + 1);
   }
 
   return res.json({
     ok: true,
-    totalGames: games.length,
-    totalCollectionItems: collectionItems.length,
-    byConsole: Object.fromEntries(
-      Array.from(byConsole.entries()).sort((left, right) => left[0].localeCompare(right[0]))
-    ),
+    totals: {
+      games: games.length,
+      consoles: catalogueByConsole.size,
+      pricedGames,
+      averageMetascore: metascoreCount ? Number((metascoreSum / metascoreCount).toFixed(1)) : 0,
+    },
+    topConsoles: Array.from(catalogueByConsole.entries())
+      .map(([name, gamesCount]) => ({ name, gamesCount }))
+      .sort((left, right) => right.gamesCount - left.gamesCount || left.name.localeCompare(right.name)),
   });
 }));
 

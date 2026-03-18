@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RetroDex — Hub</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .hub-hero { max-width:900px; margin:0 auto 32px; text-align:center; padding:32px 0 24px; border-bottom:1px solid rgba(155,188,15,0.15); }
+    .hub-hero h1 { font-size:28px; color:#cfe66f; letter-spacing:0.12em; margin-bottom:8px; }
+    .hub-hero .tagline { font-size:11px; color:rgba(155,188,15,0.5); margin-bottom:20px; }
+    .hub-stats { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-top:16px; }
+    .hub-stat { text-align:center; }
+    .hub-stat .val { font-size:22px; color:#cfe66f; display:block; }
+    .hub-stat .lbl { font-size:10px; color:rgba(155,188,15,0.45); letter-spacing:0.06em; }
+    .modules-grid { max-width:900px; margin:0 auto 32px; display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; }
+    .module-card { background:rgba(15,56,15,0.2); border:1px solid rgba(155,188,15,0.18); border-radius:6px; padding:20px; text-decoration:none; color:#9bbc0f; display:block; transition:border-color 0.15s,background 0.15s; }
+    .module-card:hover { border-color:rgba(155,188,15,0.55); background:rgba(15,56,15,0.4); }
+    .module-card .icon { font-size:20px; margin-bottom:10px; display:block; }
+    .module-card h2 { font-size:13px; color:#cfe66f; margin-bottom:6px; }
+    .module-card p { font-size:11px; color:rgba(155,188,15,0.55); line-height:1.5; }
+    .module-card .port { display:inline-block; margin-top:12px; font-size:10px; color:rgba(155,188,15,0.4); border:1px solid rgba(155,188,15,0.2); border-radius:2px; padding:2px 6px; }
+    .section-title { max-width:900px; margin:0 auto 14px; font-size:11px; color:rgba(155,188,15,0.4); letter-spacing:0.08em; text-transform:uppercase; }
+    .collection-preview { max-width:900px; margin:0 auto 32px; background:rgba(15,56,15,0.15); border:1px solid rgba(155,188,15,0.15); border-radius:6px; padding:16px 20px; }
+    .collection-preview h3 { font-size:12px; color:#cfe66f; margin-bottom:12px; }
+    .coll-items { display:flex; gap:10px; flex-wrap:wrap; }
+    .coll-pill { font-size:11px; padding:4px 10px; border:1px solid rgba(155,188,15,0.25); border-radius:3px; color:rgba(155,188,15,0.7); text-decoration:none; }
+    .coll-empty { font-size:11px; color:rgba(155,188,15,0.3); }
+    #status-bar { max-width:900px; margin:0 auto 20px; font-size:11px; color:rgba(155,188,15,0.35); }
+  </style>
+</head>
+<body>
+  <div class="hub-hero">
+    <h1>RETRODEX</h1>
+    <div class="tagline">Hub de navigation — collectionneurs de jeux retro</div>
+    <div class="hub-stats">
+      <div class="hub-stat"><span class="val" id="stat-games">—</span><span class="lbl">JEUX</span></div>
+      <div class="hub-stat"><span class="val" id="stat-consoles">—</span><span class="lbl">CONSOLES</span></div>
+      <div class="hub-stat"><span class="val" id="stat-collection">—</span><span class="lbl">MA COLLECTION</span></div>
+      <div class="hub-stat"><span class="val" id="stat-meta">—</span><span class="lbl">METASCORE MOY.</span></div>
+    </div>
+  </div>
+  <div id="status-bar">Chargement...</div>
+  <div class="section-title">Modules</div>
+  <div class="modules-grid">
+    <a href="/games-list.html" class="module-card">
+      <span class="icon">🗂</span><h2>CATALOGUE</h2>
+      <p>507 jeux retro. Recherche par titre, filtre par console ou rareté.</p>
+      <span class="port">port 3000</span>
+    </a>
+    <a href="/consoles.html" class="module-card">
+      <span class="icon">🕹</span><h2>CONSOLES</h2>
+      <p>16 systèmes retro. Nombre de jeux par plateforme.</p>
+      <span class="port">port 3000</span>
+    </a>
+    <a href="/collection.html" class="module-card">
+      <span class="icon">📦</span><h2>MA COLLECTION</h2>
+      <p>Gérer votre collection personnelle. Ajouter et retirer des jeux.</p>
+      <span class="port">port 3000</span>
+    </a>
+    <a href="/stats.html" class="module-card">
+      <span class="icon">📊</span><h2>STATISTIQUES</h2>
+      <p>Vue globale du catalogue — totaux, top consoles, metascore moyen.</p>
+      <span class="port">port 3000</span>
+    </a>
+    <a href="http://localhost:8080/launcher.html" class="module-card" target="_blank">
+      <span class="icon">🎮</span><h2>RETRODEX FRONT</h2>
+      <p>Prototype 3DS — 40 jeux showcase, artworks Game Boy.</p>
+      <span class="port">port 8080</span>
+    </a>
+    <a href="http://localhost:8080/modules/retromarket/market.html" class="module-card" target="_blank">
+      <span class="icon">💹</span><h2>RETROMARKET</h2>
+      <p>Terminal CRT — prix Loose/CIB/Mint, historique 10 ans.</p>
+      <span class="port">port 8080</span>
+    </a>
+  </div>
+  <div class="collection-preview">
+    <h3>Collection actuelle</h3>
+    <div class="coll-items" id="coll-items"><span class="coll-empty">Chargement...</span></div>
+  </div>
+  <div style="max-width:900px;margin:0 auto 32px;">
+    <a href="/about.html" class="btn">A propos</a>
+    <a href="/api/health" class="btn" style="margin-left:8px">API health</a>
+  </div>
+  <script>
+    fetch('/api/stats').then(r=>r.json()).then(d=>{
+      document.getElementById('stat-games').textContent=d.totals.games;
+      document.getElementById('stat-consoles').textContent=d.totals.consoles;
+      document.getElementById('stat-meta').textContent=d.totals.averageMetascore;
+      document.getElementById('status-bar').textContent='Backend OK — SQLite actif';
+    }).catch(()=>{ document.getElementById('status-bar').textContent='Erreur connexion backend'; });
+    fetch('/api/collection').then(r=>r.json()).then(d=>{
+      const items=d.items||[];
+      document.getElementById('stat-collection').textContent=items.length;
+      const c=document.getElementById('coll-items');
+      if(items.length===0){ c.innerHTML='<span class="coll-empty">Aucun jeu — ajoutez-en depuis une fiche</span>'; }
+      else{ c.innerHTML=items.map(i=>'<a href="/game-detail.html?id='+i.id+'" class="coll-pill">'+i.title+'</a>').join(''); }
+    }).catch(()=>{ document.getElementById('stat-collection').textContent='—'; });
+  </script>
+</body>
+</html>
