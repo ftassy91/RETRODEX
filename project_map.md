@@ -1,11 +1,13 @@
 # Project Map — RETRODEXseed
+Note: this is a historical audit snapshot. Any `prototype_v2` path in this file corresponds to `RETRODEXseedV0/prototype_v0/` in the current repository layout.
+
 Généré le : 2026-03-17
 Source analysée via backend actif + analyse ZIP lot41
 
 ---
 
 ## Source 1 : retrodex_v2_checkpoint_20260313_1722
-`C:\Users\ftass\OneDrive\Bureau\RETRODEX VERSION OK\retrodex_v2_checkpoint_20260313_1722`
+Historical source label only. For current work, use `C:\Users\ftass\OneDrive\Bureau\RETRODEXseed\RETRODEXseedV0\prototype_v0`.
 
 ```
 retrodex_v2_checkpoint_20260313_1722/

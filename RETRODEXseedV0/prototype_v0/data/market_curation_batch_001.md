@@ -8,7 +8,7 @@ Verified history, sales, and source fields must be filled from real checked sour
 1. Fill `market_history_template.json` with verified yearly points
 2. Fill `market_sales_template.json` with verified recent sales
 3. Fill `market_sources_template.json` with source metadata
-4. Run `python prototype_v2/data/refresh_market_imports.py`
+4. Run `python RETRODEXseedV0/prototype_v0/data/refresh_market_imports.py`
 
 ## Priority Games
 

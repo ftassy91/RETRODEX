@@ -6,7 +6,7 @@ Ce dossier contient les cartes affichées dans le **top screen en Screen 3**.
 
 ### Option A — Script automatique (macOS / Linux)
 ```bash
-cd prototype_v2/maps
+cd RETRODEXseedV0/prototype_v0/maps
 bash download_maps.sh
 ```
 

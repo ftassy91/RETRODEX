@@ -3,9 +3,9 @@
 RetroMarket is local-first. Verified market history and verified sales can be added without changing the module code.
 
 ## Files
-- `prototype_v2/data/market_history.js`
-- `prototype_v2/data/market_sales.js`
-- `prototype_v2/data/market_sources.js`
+- `RETRODEXseedV0/prototype_v0/data/market_history.js`
+- `RETRODEXseedV0/prototype_v0/data/market_sales.js`
+- `RETRODEXseedV0/prototype_v0/data/market_sources.js`
 
 ## History format
 ```js
@@ -36,32 +36,32 @@ window.MARKET_SALES_DATA = {
 
 ## Validation
 ```bash
-python prototype_v2/data/validate_market_imports.py --verbose
+python RETRODEXseedV0/prototype_v0/data/validate_market_imports.py --verbose
 ```
 
 ## Template workflow
 Generate empty templates for a first batch:
 ```bash
-python prototype_v2/data/generate_market_import_templates.py --top 12
+python RETRODEXseedV0/prototype_v0/data/generate_market_import_templates.py --top 12
 ```
 
 Rebuild the JS files after filling the JSON templates:
 ```bash
-python prototype_v2/data/build_market_import_js.py
-python prototype_v2/data/validate_market_imports.py --verbose
+python RETRODEXseedV0/prototype_v0/data/build_market_import_js.py
+python RETRODEXseedV0/prototype_v0/data/validate_market_imports.py --verbose
 ```
 
 Generated helper files:
-- `prototype_v2/data/market_history_template.json`
-- `prototype_v2/data/market_sales_template.json`
-- `prototype_v2/data/market_sources_template.json`
-- `prototype_v2/data/market_import_manifest.json`
-- `prototype_v2/data/market_curation_batch_001.json`
-- `prototype_v2/data/market_curation_batch_001.md`
+- `RETRODEXseedV0/prototype_v0/data/market_history_template.json`
+- `RETRODEXseedV0/prototype_v0/data/market_sales_template.json`
+- `RETRODEXseedV0/prototype_v0/data/market_sources_template.json`
+- `RETRODEXseedV0/prototype_v0/data/market_import_manifest.json`
+- `RETRODEXseedV0/prototype_v0/data/market_curation_batch_001.json`
+- `RETRODEXseedV0/prototype_v0/data/market_curation_batch_001.md`
 
 Generate the first curation workspace:
 ```bash
-python prototype_v2/data/generate_market_curation_workspace.py
+python RETRODEXseedV0/prototype_v0/data/generate_market_curation_workspace.py
 ```
 
 This workspace mirrors the priority manifest plus current local snapshot prices so verified market entry can be prepared without inventing values.
@@ -81,10 +81,10 @@ window.MARKET_SOURCE_DATA = {
 
 ## Full refresh workflow
 ```bash
-python prototype_v2/data/refresh_market_imports.py
+python RETRODEXseedV0/prototype_v0/data/refresh_market_imports.py
 ```
 
 ## Coverage report
 Refresh also generates:
-- `prototype_v2/data/market_coverage_report.json`
-- `prototype_v2/data/market_coverage_report.md`
+- `RETRODEXseedV0/prototype_v0/data/market_coverage_report.json`
+- `RETRODEXseedV0/prototype_v0/data/market_coverage_report.md`

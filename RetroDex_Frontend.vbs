@@ -1,5 +1,5 @@
 ' RetroDex_Frontend.vbs
-' Lance le prototype front et ouvre le navigateur
+' Lance le frontend canonique depuis RETRODEXseed
 
 Option Explicit
 
@@ -10,18 +10,16 @@ Dim i, bReady
 Set oShell = CreateObject("WScript.Shell")
 Set oFSO   = CreateObject("Scripting.FileSystemObject")
 
-' === 1. Chemin frontend ===
-sFrontend = oFSO.GetParentFolderName(WScript.ScriptFullName) & "\frontend"
+' === 1. Chemin frontend canonique ===
+Dim sRoot
+sRoot = oFSO.GetParentFolderName(WScript.ScriptFullName)
+sFrontend = sRoot & "\RETRODEXseedV0\prototype_v0"
 
 If Not oFSO.FolderExists(sFrontend) Then
-    ' Fallback vers source originale
-    sFrontend = "C:\Users\ftass\OneDrive\Bureau\RETRODEX VERSION OK\retrodex_v2_checkpoint_20260313_1722\prototype_v2"
-    If Not oFSO.FolderExists(sFrontend) Then
-        MsgBox "Dossier frontend introuvable." & vbCrLf & _
-               "Verifier que frontend\ est dans le meme dossier que ce script.", _
-               vbCritical, "RetroDex Frontend"
-        WScript.Quit 1
-    End If
+    MsgBox "Dossier frontend introuvable." & vbCrLf & _
+           "Chemin attendu : RETRODEXseedV0\prototype_v0", _
+           vbCritical, "RetroDex Frontend"
+    WScript.Quit 1
 End If
 
 ' === 2. Trouver python ===
@@ -54,7 +52,7 @@ If sPython = "" Then
 End If
 
 ' === 3. Lancer le serveur ===
-Dim sCmd : sCmd = "cmd /k cd /d """ & sFrontend & """ && " & sPython & " -m http.server 8080"
+Dim sCmd : sCmd = "cmd /k cd /d """ & sFrontend & """ && title RetroDex Frontend && " & sPython & " -m http.server 8080"
 oShell.Run sCmd, 1, False
 
 ' === 4. Attendre que le port 8080 reponde (max 15 sec) ===

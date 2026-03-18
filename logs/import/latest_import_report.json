@@ -1,0 +1,17 @@
+{
+  "schema_version": "retrodex.import.validation.v1",
+  "timestamp": "2026-03-18T10:11:10Z",
+  "kind": "assets",
+  "label": "smoke_invalid_assets",
+  "input_file": "C:\\Users\\ftass\\AppData\\Local\\Temp\\tmp065lc932\\assets.json",
+  "accepted": false,
+  "record_count": 1,
+  "errors": [
+    {
+      "record": 1,
+      "field": "source_path",
+      "message": "Expected a non-empty string."
+    }
+  ],
+  "warnings": []
+}

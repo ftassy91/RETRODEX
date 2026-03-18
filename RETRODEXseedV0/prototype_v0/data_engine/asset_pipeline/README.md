@@ -4,12 +4,12 @@ Purpose
 - Build a persistent local sprite library for RetroDex without losing progress if execution stops.
 
 What it creates
-- `prototype_v2/retrodeck_assets/<game_slug>/sprite.png`
-- `prototype_v2/retrodeck_assets/<game_slug>/metadata.json`
-- `prototype_v2/retrodeck_assets/checkpoint.json`
-- `prototype_v2/retrodeck_assets/asset_pipeline.log`
-- `prototype_v2/data/retrodeck_asset_library.json`
-- `prototype_v2/data/retrodeck_asset_library.js`
+- `RETRODEXseedV0/prototype_v0/retrodeck_assets/<game_slug>/sprite.png`
+- `RETRODEXseedV0/prototype_v0/retrodeck_assets/<game_slug>/metadata.json`
+- `RETRODEXseedV0/prototype_v0/retrodeck_assets/checkpoint.json`
+- `RETRODEXseedV0/prototype_v0/retrodeck_assets/asset_pipeline.log`
+- `RETRODEXseedV0/prototype_v0/data/retrodeck_asset_library.json`
+- `RETRODEXseedV0/prototype_v0/data/retrodeck_asset_library.js`
 
 Current source strategy
 - Reuses `data/top_screen_artwork.js` manual and identity overrides.

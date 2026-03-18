@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-03-18T10:03:30Z",
+  "operation_performed": "Remediate canonical paths and root launch behavior",
+  "files_modified": [
+    "README.md",
+    "docs/project_overview.md",
+    "docs/development_workflow.md",
+    "docs/setup_runbook.md",
+    "backend/src/loadPrototypeData.js",
+    "backend/README.md",
+    "RetroDex_Frontend.vbs",
+    "Creer_Raccourcis.vbs",
+    "RETRODEXseedV0/README_RETRODEXseedV0.md",
+    "RETRODEXseedV0/manifest.json",
+    "RETRODEXseedV0/prototype_v0/start.sh",
+    "RETRODEXseedV0/prototype_v0/CHART_INSTALL.md",
+    "RETRODEXseedV0/prototype_v0/maps/README.md",
+    "RETRODEXseedV0/prototype_v0/maps/download_maps.sh",
+    "RETRODEXseedV0/prototype_v0/modules/retromarket/README.md",
+    "RETRODEXseedV0/prototype_v0/data/market_curation_batch_001.md",
+    "RETRODEXseedV0/prototype_v0/data_engine/asset_pipeline/README.md",
+    "project_map.md",
+    "duplicate_report.md",
+    "logs/audit/20260318_canonical_path_remediation.md"
+  ],
+  "next_recommended_step": "Normalize remaining generated metadata paths and implement real root-level sync/import tooling before enabling broad automation."
+}

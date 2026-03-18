@@ -5,9 +5,19 @@ function readJsonFile(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
-function loadPrototypeData() {
+function resolveDataRoot() {
   const projectRoot = path.resolve(__dirname, "..", "..");
-  const dataRoot = path.join(projectRoot, "prototype_v2", "data");
+  const dataRoot = path.join(projectRoot, "RETRODEXseedV0", "prototype_v0", "data");
+
+  if (!fs.existsSync(dataRoot)) {
+    throw new Error(`RetroDex data directory not found: ${dataRoot}`);
+  }
+
+  return dataRoot;
+}
+
+function loadPrototypeData() {
+  const dataRoot = resolveDataRoot();
 
   const catalog = readJsonFile(path.join(dataRoot, "catalog.json"));
   const entries = readJsonFile(path.join(dataRoot, "entries.json"));
@@ -40,4 +50,3 @@ function loadPrototypeData() {
 module.exports = {
   loadPrototypeData,
 };
-

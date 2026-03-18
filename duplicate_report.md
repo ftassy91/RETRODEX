@@ -1,4 +1,7 @@
 # Duplicate Report — RETRODEXseed
+Note: this is a historical duplicate report. Any `prototype_v2` path in this file corresponds to `RETRODEXseedV0/prototype_v0/` in the current repository layout.
+Historical labels are preserved for traceability only; do not treat `prototype_v2` as an active workspace path.
+
 Généré le : 2026-03-17
 
 ---

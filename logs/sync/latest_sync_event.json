@@ -1,0 +1,34 @@
+{
+  "schema_version": "retrodex.sync.event.v1",
+  "timestamp": "2026-03-18T10:10:52Z",
+  "event_kind": "progress",
+  "area": "automation",
+  "summary": "Enabled minimal root-level sync and import modules",
+  "status": "completed",
+  "task_id": "DEV-TRINITY-AUTO-001",
+  "milestone": null,
+  "source": "codex",
+  "notes": null,
+  "files_modified": [
+    "scripts/sync/local_sync.py",
+    "scripts/import/validate_import.py",
+    "docs/setup_runbook.md",
+    "docs/development_workflow.md"
+  ],
+  "notion_sync": {
+    "enabled": false,
+    "mode": "manual_gate",
+    "planned_targets": [
+      "RetroDex Dev Tasks",
+      "RetroDex Roadmap",
+      "Codex Sync Log"
+    ],
+    "activation_requirements": [
+      "root sync/import modules validated locally",
+      "schemas documented and agreed",
+      "Notion database IDs configured explicitly",
+      "manual review gate kept in place"
+    ],
+    "state": "not_configured"
+  }
+}

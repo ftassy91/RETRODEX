@@ -5,7 +5,7 @@
   "updated_at": "2026-03-18",
   "root_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0",
   "prototype_root": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0",
-  "full_workspace_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722",
+  "full_workspace_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed",
   "purpose": "Static frontend seed for RetroDex / RetroMarket demo flows. Not a full development workspace.",
   "contains": {
     "frontend_static": true,
@@ -62,6 +62,6 @@
   "notes": [
     "Use this package as a static demo seed only.",
     "Do not assume backend, Notion, or Docker availability from this folder.",
-    "Prefer the full workspace for development or integration tasks."
+    "Prefer the repository root workspace for development or integration tasks."
   ]
 }
