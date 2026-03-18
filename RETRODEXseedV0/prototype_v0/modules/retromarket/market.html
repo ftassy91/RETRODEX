@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RetroMarket Terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --dmg-0: #0f380f;
+      --dmg-1: #306230;
+      --dmg-2: #8bac0f;
+      --dmg-3: #9bbc0f;
+      --dmg-lite: #e6f2d8;
+      --panel-bg: rgba(9, 24, 16, 0.82);
+      --panel-border: rgba(181, 209, 166, 0.16);
+      --panel-glow: rgba(155, 188, 15, 0.09);
+      --screen-left: 19.55%;
+      --screen-top: 14.45%;
+      --screen-width: 56.05%;
+      --screen-height: 58.95%;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      padding: 18px;
+      color: var(--dmg-lite);
+      font-family: "VT323", monospace;
+      background:
+        radial-gradient(circle at top, rgba(139, 172, 15, 0.08), transparent 32%),
+        linear-gradient(180deg, #050806 0%, #000 100%);
+    }
+
+    .rm-topbar {
+      width: min(1200px, 96vw);
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid rgba(181, 209, 166, 0.14);
+      border-radius: 14px;
+      background:
+        linear-gradient(180deg, rgba(15, 56, 15, 0.3), rgba(15, 56, 15, 0.18)),
+        rgba(0, 0, 0, 0.18);
+      box-shadow:
+        inset 0 1px 0 rgba(181, 209, 166, 0.05),
+        0 0 18px rgba(155, 188, 15, 0.04);
+    }
+
+    .rm-brand {
+      font-family: "Jersey 10", cursive;
+      font-size: clamp(32px, 4vw, 44px);
+      color: var(--dmg-3);
+      letter-spacing: 0.06em;
+    }
+
+    .rm-brand-block {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .rm-subtitle {
+      font-size: clamp(18px, 1.3vw, 22px);
+      color: rgba(230, 242, 216, 0.72);
+      line-height: 1;
+    }
+
+    .rm-status-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .rm-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(181, 209, 166, 0.16);
+      background: rgba(15, 56, 15, 0.42);
+      color: rgba(230, 242, 216, 0.78);
+      font-size: clamp(16px, 1vw, 19px);
+      line-height: 1;
+    }
+
+    .rm-status-pill strong {
+      color: var(--dmg-3);
+      font-family: "Jersey 10", cursive;
+      font-size: clamp(18px, 1.14vw, 22px);
+      font-weight: normal;
+      letter-spacing: 0.05em;
+    }
+
+    .rm-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .rm-link {
+      text-decoration: none;
+      color: var(--dmg-lite);
+      border: 1px solid rgba(181, 209, 166, 0.22);
+      background: rgba(15, 56, 15, 0.44);
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: clamp(20px, 2vw, 26px);
+      line-height: 1;
+    }
+
+    .rm-frame {
+      position: relative;
+      width: min(1200px, 96vw);
+      margin: 0 auto;
+    }
+
+    .rm-template {
+      display: block;
+      width: 100%;
+      height: auto;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .rm-screen {
+      position: absolute;
+      left: var(--screen-left);
+      top: var(--screen-top);
+      width: var(--screen-width);
+      height: var(--screen-height);
+      overflow: hidden;
+      border-radius: 13% / 12%;
+      background:
+        radial-gradient(circle at 50% 52%, rgba(155, 188, 15, 0.11), rgba(15, 56, 15, 0.12) 58%, rgba(4, 10, 7, 0.58) 100%),
+        linear-gradient(180deg, rgba(155, 188, 15, 0.08), rgba(15, 56, 15, 0.24)),
+        var(--dmg-0);
+      box-shadow:
+        inset 0 0 0 1px rgba(181, 209, 166, 0.08),
+        inset 0 0 26px rgba(139, 172, 15, 0.12),
+        inset 0 0 80px rgba(0, 0, 0, 0.24);
+    }
+
+    .rm-screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(230, 242, 216, 0.05) 0px,
+          rgba(230, 242, 216, 0.05) 1px,
+          transparent 1px,
+          transparent 4px
+        ),
+        radial-gradient(circle at 50% 50%, transparent 54%, rgba(0, 0, 0, 0.22) 100%);
+      mix-blend-mode: screen;
+      opacity: 0.92;
+    }
+
+    .rm-screen::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      box-shadow:
+        inset 0 0 36px rgba(155, 188, 15, 0.12),
+        inset 0 0 100px rgba(0, 0, 0, 0.2);
+    }
+
+    .rm-safezone {
+      position: absolute;
+      inset: 0.28% 0.5% 0.45% 0.5%;
+      border-radius: 12.8% / 11.8%;
+      overflow: hidden;
+    }
+
+    .rm-terminal {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: 6px;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 5px;
+      background:
+        linear-gradient(180deg, rgba(15, 56, 15, 0.24), rgba(7, 20, 15, 0.18)),
+        transparent;
+    }
+
+    .rm-terminal::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border: 1px solid rgba(181, 209, 166, 0.07);
+      box-shadow: inset 0 0 0 1px rgba(15, 56, 15, 0.42);
+    }
+
+    .rm-panel {
+      border: 1px solid var(--panel-border);
+      background: var(--panel-bg);
+      box-shadow: inset 0 0 0 1px rgba(15, 56, 15, 0.35), 0 0 18px var(--panel-glow);
+      min-height: 0;
+    }
+
+    .rm-panel-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 3px 6px 3px;
+      border-bottom: 1px solid rgba(181, 209, 166, 0.12);
+      background: rgba(15, 56, 15, 0.28);
+    }
+
+    .rm-panel-head span,
+    .rm-search-label,
+    .rm-chart-title,
+    .rm-insight-head {
+      font-family: "Jersey 10", cursive;
+      font-size: clamp(13px, 1.06vw, 17px);
+      color: var(--dmg-3);
+      letter-spacing: 0.05em;
+    }
+
+    .rm-panel-head small {
+      font-size: clamp(10px, 0.82vw, 12px);
+      color: rgba(230, 242, 216, 0.72);
+    }
+
+    .rm-overview {
+      padding: 3px;
+    }
+
+    .rm-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 4px;
+    }
+
+    .rm-overview-card {
+      border: 1px solid rgba(181, 209, 166, 0.12);
+      background: rgba(15, 56, 15, 0.48);
+      padding: 3px 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .rm-overview-card span {
+      font-family: "Jersey 10", cursive;
+      font-size: clamp(10px, 0.82vw, 12px);
+      color: rgba(181, 209, 166, 0.78);
+      letter-spacing: 0.04em;
+    }
+
+    .rm-overview-card strong {
+      font-size: clamp(14px, 1.08vw, 17px);
+      line-height: 1;
+      color: var(--dmg-lite);
+    }
+
+    .rm-overview-card strong.is-positive { color: var(--dmg-3); }
+    .rm-overview-card strong.is-negative { color: #b5d1a6; }
+
+    .rm-search-panel {
+      position: relative;
+      padding: 6px;
+    }
+
+    .rm-screen-nav {
+      padding: 2px;
+    }
+
+    .rm-screen-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 4px;
+    }
+
+    .rm-screen-tab {
+      border: 1px solid rgba(181, 209, 166, 0.16);
+      background: rgba(7, 20, 15, 0.78);
+      color: rgba(230, 242, 216, 0.76);
+      font: clamp(11px, 0.86vw, 14px) "VT323", monospace;
+      letter-spacing: 0.04em;
+      padding: 4px 5px;
+      cursor: pointer;
+    }
+
+    .rm-screen-tab.active {
+      color: var(--dmg-lite);
+      border-color: rgba(181, 209, 166, 0.34);
+      background: rgba(48, 98, 48, 0.44);
+      box-shadow: inset 0 0 0 1px rgba(155, 188, 15, 0.18);
+    }
+
+    .rm-stage {
+      min-height: 0;
+      display: block;
+    }
+
+    .rm-view {
+      display: none;
+      min-height: 0;
+      height: 100%;
+    }
+
+    .rm-view.active {
+      display: block;
+    }
+
+    .rm-search-stage .rm-search-panel,
+    .rm-chart-stage #rm-pricechart,
+    .rm-insights-stage #rm-insights {
+      height: 100%;
+    }
+
+    .rm-game-stage.active {
+      display: block;
+    }
+
+    .rm-game-stage.active > #rm-gameinfo {
+      height: 100%;
+      overflow: auto;
+    }
+
+    .rm-game-stage.active > #rm-pricecards {
+      display: none;
+    }
+
+    .rm-search-label {
+      margin-bottom: 4px;
+    }
+
+    .rm-search-help {
+      margin-top: 4px;
+      font-size: clamp(12px, 0.96vw, 15px);
+      color: rgba(181, 209, 166, 0.72);
+      line-height: 1.05;
+    }
+
+    .rm-search input {
+      width: 100%;
+      border: 1px solid rgba(181, 209, 166, 0.2);
+      background: rgba(6, 16, 11, 0.94);
+      color: var(--dmg-lite);
+      padding: 8px 10px;
+      font: clamp(18px, 1.55vw, 23px) "VT323", monospace;
+      outline: none;
+    }
+
+    .rm-results {
+      position: absolute;
+      left: 6px;
+      right: 6px;
+      top: calc(100% - 1px);
+      z-index: 8;
+      max-height: 200px;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .rm-result-item,
+    .rm-insight-row {
+      width: 100%;
+      text-align: left;
+      border: 1px solid rgba(181, 209, 166, 0.14);
+      background: rgba(7, 20, 15, 0.96);
+      color: var(--dmg-lite);
+      cursor: pointer;
+      font-family: "VT323", monospace;
+    }
+
+    .rm-result-item {
+      padding: 6px 8px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: clamp(16px, 1.28vw, 19px);
+    }
+
+    .rm-result-item small {
+      color: rgba(181, 209, 166, 0.74);
+      font-size: clamp(13px, 1vw, 15px);
+      flex-shrink: 0;
+    }
+
+    .rm-dashboard {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.16fr) minmax(210px, 0.9fr);
+      gap: 7px;
+    }
+
+    .rm-column {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    #rm-gameinfo,
+    #rm-pricemarket,
+    #rm-pricecards,
+    #rm-pricechart,
+    #rm-insights {
+      min-height: 0;
+      overflow: auto;
+    }
+
+    .rm-selected-title {
+      padding: 0;
+      font-family: "Jersey 10", cursive;
+      font-size: clamp(22px, 1.72vw, 30px);
+      line-height: 0.92;
+      color: var(--dmg-lite);
+    }
+
+    .rm-selected-subtitle {
+      padding: 0;
+      font-size: clamp(13px, 0.98vw, 15px);
+      color: rgba(230, 242, 216, 0.82);
+    }
+
+    .rm-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 0;
+    }
+
+    .rm-chip {
+      padding: 2px 6px;
+      border: 1px solid rgba(181, 209, 166, 0.14);
+      background: rgba(15, 56, 15, 0.42);
+      color: var(--dmg-3);
+      font-family: "Jersey 10", cursive;
+      font-size: clamp(12px, 0.95vw, 15px);
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    .rm-info-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding: 0 7px 7px;
+    }
+
+    .rm-info-row,
+    .rm-market-strip {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 4px;
+      border-top: 1px solid rgba(181, 209, 166, 0.09);
+      font-size: clamp(13px, 1vw, 16px);
+      color: rgba(230, 242, 216, 0.78);
+    }
+
+    .rm-info-row strong {
+      color: var(--dmg-lite);
+      text-align: right;
+    }
+
+    .rm-subnote {
+      margin: 0 7px 5px;
+      font-size: clamp(12px, 0.94vw, 15px);
+      color: rgba(181, 209, 166, 0.72);
+    }
+
+    .rm-subnote strong {
+      color: var(--dmg-lite);
+      font-weight: normal;
+    }
+
+    .rm-price-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      padding: 0;
+    }
+
+    .rm-price-card {
+      border: 1px solid rgba(181, 209, 166, 0.12);
+      background: rgba(15, 56, 15, 0.5);
+      padding: 7px 6px 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .rm-price-card span {
+      font-family: "Jersey 10", cursive;
+      font-size: clamp(14px, 1.08vw, 18px);
+      color: var(--dmg-3);
+      letter-spacing: 0.04em;
+    }
+
+    .rm-price-card strong {
+      font-size: clamp(20px, 1.6vw, 25px);
+      line-height: 1;
+      color: var(--dmg-lite);
+    }
+
+    .rm-price-card small {
+      font-size: clamp(12px, 0.96vw, 15px);
+      color: rgba(230, 242, 216, 0.72);
+    }
+
+    .rm-market-strip {
+      margin: 0 7px;
+      padding-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .rm-chart-note {
+      margin: 0 7px 6px;
+      padding: 5px 6px;
+      border: 1px solid rgba(181, 209, 166, 0.11);
+      background: rgba(15, 56, 15, 0.34);
+      font-size: clamp(12px, 0.94vw, 15px);
+      color: rgba(230, 242, 216, 0.76);
+      line-height: 1.15;
+    }
+
+    .rm-chart-note strong {
+      color: var(--dmg-3);
+      font-weight: normal;
+    }
+
+    .rm-chart-title {
+      padding: 0 0 5px;
+    }
+
+    .rm-chart-wrap {
+      margin: 0;
+      height: 172px;
+      min-height: 172px;
+      border: 1px solid rgba(181, 209, 166, 0.11);
+      background: rgba(5, 14, 10, 0.72);
+    }
+
+    .rm-focus-shell {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 5px 7px 5px;
+      box-sizing: border-box;
+      gap: 0;
+    }
+
+    .rm-focus-section {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 5px 0 0;
+      border-top: 1px solid rgba(181, 209, 166, 0.16);
+      min-height: 0;
+    }
+
+    .rm-focus-section:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .rm-focus-section.is-header { flex: 0 0 auto; }
+    .rm-focus-section.is-summary { flex: 0 0 auto; }
+    .rm-focus-section.is-trend { flex: 0 0 auto; }
+    .rm-focus-section.is-history { flex: 1 1 auto; }
+
+    .rm-focus-kicker {
+      font-family: "Jersey 10", cursive;
+      font-size: clamp(11px, 0.84vw, 13px);
+      line-height: 1;
+      letter-spacing: 0.05em;
+      color: rgba(181, 209, 166, 0.74);
+      text-transform: uppercase;
+    }
+
+    .rm-focus-header-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .rm-focus-meta {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .rm-focus-console {
+      font-size: clamp(12px, 0.94vw, 14px);
+      color: rgba(230, 242, 216, 0.84);
+    }
+
+    .rm-focus-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .rm-focus-summary-item,
+    .rm-focus-metric-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 4px 0 3px;
+      min-height: 0;
+      border-top: 1px solid rgba(181, 209, 166, 0.12);
+    }
+
+    .rm-focus-summary-item:first-child,
+    .rm-focus-metric-row:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .rm-focus-summary-item span,
+    .rm-focus-metric-row span {
+      font-family: "Jersey 10", cursive;
+      font-size: clamp(10px, 0.8vw, 12px);
+      color: rgba(181, 209, 166, 0.76);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      flex: 0 0 auto;
+    }
+
+    .rm-focus-summary-item strong,
+    .rm-focus-metric-row strong {
+      font-size: clamp(18px, 1.38vw, 22px);
+      line-height: 1;
+      color: var(--dmg-lite);
+      text-align: right;
+    }
+
+    .rm-focus-summary-item small,
+    .rm-focus-metric-row small {
+      font-size: clamp(10px, 0.78vw, 11px);
+      color: rgba(230, 242, 216, 0.68);
+      line-height: 1.05;
+      text-align: right;
+      flex: 0 0 auto;
+    }
+
+    .rm-focus-summary-copy,
+    .rm-focus-metric-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      align-items: flex-end;
+    }
+
+    .rm-focus-trend-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .rm-focus-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 3px 0 2px;
+      min-height: 0;
+      border-top: 1px solid rgba(181, 209, 166, 0.12);
+    }
+
+    .rm-focus-row:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .rm-focus-row span {
+      font-family: "Jersey 10", cursive;
+      font-size: clamp(10px, 0.8vw, 12px);
+      color: rgba(181, 209, 166, 0.74);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .rm-focus-row strong {
+      font-size: clamp(15px, 1.16vw, 18px);
+      line-height: 1;
+      color: var(--dmg-lite);
+      text-align: right;
+    }
+
+    .rm-focus-row small {
+      font-size: clamp(10px, 0.76vw, 11px);
+      color: rgba(230, 242, 216, 0.64);
+      line-height: 1.1;
+      text-align: right;
+    }
+
+    .rm-focus-row strong.is-positive { color: var(--dmg-3); }
+    .rm-focus-row strong.is-negative { color: #b5d1a6; }
+
+    .rm-focus-row-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      align-items: flex-end;
+    }
+
+    .rm-focus-trend-note {
+      padding-top: 3px;
+      border-top: 1px solid rgba(181, 209, 166, 0.1);
+      font-size: clamp(10px, 0.76vw, 11px);
+      line-height: 1.08;
+      color: rgba(230, 242, 216, 0.68);
+    }
+
+    .rm-focus-history-note {
+      font-size: clamp(10px, 0.76vw, 11px);
+      line-height: 1.08;
+      color: rgba(230, 242, 216, 0.72);
+    }
+
+    .rm-focus-history-note strong {
+      color: var(--dmg-3);
+      font-weight: normal;
+    }
+
+    .rm-chart-wrap canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .rm-focus-shell .rm-chart-wrap {
+      height: 126px;
+      min-height: 126px;
+    }
+
+    #rm-insights {
+      padding: 6px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .rm-insight-block {
+      border: 1px solid rgba(181, 209, 166, 0.12);
+      background: rgba(15, 56, 15, 0.42);
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .rm-insight-head {
+      padding: 5px 6px 4px;
+      border-bottom: 1px solid rgba(181, 209, 166, 0.12);
+      background: rgba(15, 56, 15, 0.24);
+    }
+
+    .rm-insight-list {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .rm-insight-row {
+      padding: 5px 6px 4px;
+      border-left: 0;
+      border-right: 0;
+      border-top: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: transparent;
+      border-bottom: 1px solid rgba(181, 209, 166, 0.1);
+    }
+
+    .rm-insight-row:last-child {
+      border-bottom: 0;
+    }
+
+    .rm-insight-row span {
+      font-size: clamp(13px, 1vw, 16px);
+      color: var(--dmg-lite);
+      line-height: 1.05;
+    }
+
+    .rm-insight-row strong {
+      font-size: clamp(11px, 0.84vw, 13px);
+      font-weight: normal;
+      color: rgba(181, 209, 166, 0.78);
+      line-height: 1.05;
+    }
+
+    .rm-unavailable {
+      padding: 7px;
+      font-size: clamp(13px, 1vw, 16px);
+      color: rgba(181, 209, 166, 0.72);
+    }
+
+    .rm-footerline {
+      border: 1px solid rgba(181, 209, 166, 0.1);
+      background: rgba(7, 20, 15, 0.76);
+      padding: 4px 6px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: clamp(11px, 0.86vw, 13px);
+      line-height: 1;
+      color: rgba(230, 242, 216, 0.76);
+    }
+
+    #rm-gameinfo::-webkit-scrollbar,
+    #rm-pricemarket::-webkit-scrollbar,
+    #rm-pricecards::-webkit-scrollbar,
+    #rm-pricechart::-webkit-scrollbar,
+    #rm-insights::-webkit-scrollbar,
+    .rm-results::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #rm-gameinfo::-webkit-scrollbar-thumb,
+    #rm-pricemarket::-webkit-scrollbar-thumb,
+    #rm-pricecards::-webkit-scrollbar-thumb,
+    #rm-pricechart::-webkit-scrollbar-thumb,
+    #rm-insights::-webkit-scrollbar-thumb,
+    .rm-results::-webkit-scrollbar-thumb {
+      background: rgba(139, 172, 15, 0.3);
+    }
+
+    @media (max-width: 1120px) {
+      .rm-dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      .rm-game-stage.active,
+      .rm-screen-tabs {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .rm-overview-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .rm-focus-summary,
+      .rm-focus-trend-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #rm-insights {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      body { padding: 10px; }
+      .rm-topbar { flex-direction: column; align-items: flex-start; padding: 10px 12px; }
+      .rm-frame { width: min(100vw - 20px, 980px); }
+      .rm-link { font-size: 20px; }
+      .rm-screen { overflow: auto; }
+      .rm-safezone { inset: 0.5% 0.8% 0.8% 0.8%; }
+    }
+
+    @media (max-width: 640px) {
+      .rm-overview-grid,
+      .rm-price-grid,
+      .rm-screen-tabs,
+      .rm-game-stage.active,
+      .rm-focus-summary,
+      .rm-focus-trend-grid,
+      #rm-insights {
+        grid-template-columns: 1fr;
+      }
+
+      .rm-terminal {
+        padding: 6px;
+        gap: 6px;
+      }
+
+      .rm-footerline {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="rm-topbar">
+    <div class="rm-brand-block">
+      <div class="rm-brand">RETROMARKET</div>
+      <div class="rm-subtitle" id="rm-subtitle">Retro financial terminal for the live showcase.</div>
+      <div class="rm-status-strip">
+        <div class="rm-status-pill">Showcase <strong id="rm-showcase-pill">40</strong></div>
+        <div class="rm-status-pill">Top Cards <strong id="rm-cards-pill">40/40</strong></div>
+        <div class="rm-status-pill">Verified Market <strong id="rm-verified-pill">9</strong></div>
+      </div>
+    </div>
+    <div class="rm-links">
+      <a class="rm-link" href="../../index.html">RETRODEX</a>
+      <a class="rm-link" href="../../launcher.html">LAUNCHER</a>
+    </div>
+  </div>
+
+  <div class="rm-frame">
+    <img class="rm-template" src="../../assets/market/template_crt_photo.png" alt="">
+    <div class="rm-screen">
+      <div class="rm-safezone">
+        <div class="rm-terminal">
+          <section class="rm-screen-nav rm-panel">
+            <div class="rm-screen-tabs">
+              <button class="rm-screen-tab active" data-screen="search">1 SEARCH</button>
+              <button class="rm-screen-tab" data-screen="game">2 MARKET</button>
+              <button class="rm-screen-tab" data-screen="chart">3 CHART</button>
+              <button class="rm-screen-tab" data-screen="insights">4 INSIGHTS</button>
+            </div>
+          </section>
+
+          <div class="rm-stage">
+            <section class="rm-view rm-search-stage active" id="rm-screen-search">
+              <section class="rm-search-panel rm-panel">
+                <div class="rm-search-label">Search Game</div>
+                <input id="rm-search" type="search" placeholder="> Search Zelda, Mario, Tekken" title="Examples: Zelda, Mario, Tekken, Tetris">
+                <div class="rm-search-help" id="rm-search-help">Search Zelda, Mario, Tekken, Tetris</div>
+                <div class="rm-results" id="rm-results"></div>
+              </section>
+            </section>
+
+            <section class="rm-view rm-game-stage" id="rm-screen-game">
+              <article class="rm-panel" id="rm-gameinfo"></article>
+              <article class="rm-panel" id="rm-pricecards"></article>
+            </section>
+
+            <section class="rm-view rm-chart-stage" id="rm-screen-chart">
+              <article class="rm-panel" id="rm-pricechart"></article>
+            </section>
+
+            <section class="rm-view rm-insights-stage" id="rm-screen-insights">
+              <article class="rm-panel" id="rm-insights"></article>
+            </section>
+          </div>
+
+          <div class="rm-footerline" id="rm-footerline"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../data/catalog.js"></script>
+  <script src="../../data/consoles.js"></script>
+  <script src="../../data/prices.js"></script>
+  <script src="../../data/entries.js"></script>
+  <script src="../../data/market_history.js"></script>
+  <script src="../../data/market_sales.js"></script>
+  <script src="../../data/market_sources.js"></script>
+  <script src="../../data/demo_status.js"></script>
+  <script src="../../js/data-layer.js"></script>
+  <script src="market_data.js"></script>
+  <script src="market_charts.js"></script>
+  <script src="market_ui.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      RETROMARKET_UI.init();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "status": "no_frontend_change_detected",
+  "frontend_changed": false,
+  "changed_frontend_files": [],
+  "vercel_config_present": false,
+  "note": "No frontend-impacting file changes detected in the current sync pass."
+}

@@ -1,0 +1,40 @@
+{
+  "game": "Chip 'N Dale Rescue Rangers",
+  "game_id": "chip-n-dale-rescue-rangers-nintendo-entertainment-system",
+  "console": "Nintendo Entertainment System",
+  "year": 1990,
+  "asset_type": "cover_art",
+  "asset_name": "Chip 'N Dale Rescue Rangers",
+  "source_type": "wikipedia_inferred",
+  "image_reference": "Chip 'N Dale Rescue Rangers",
+  "selection_reason": "Fallback to official game cover art because no better sprite-grade source was available",
+  "episode_number": null,
+  "publisher": "Capcom",
+  "title_font": "Press Start 2P",
+  "display_layout": "sprite_identity_card",
+  "sprite_path": "retrodeck_assets/chip_n_dale_rescue_rangers_nintendo_entertainment_system/sprite.png",
+  "source_path": "retrodeck_assets/_cache/source_images/wikipedia_en_thumb_e_e5_chip_27n_27_dale_rescue_rangers_logo_png_120px_chip_27n_27_dale_re.png",
+  "asset_dir": "retrodeck_assets/chip_n_dale_rescue_rangers_nintendo_entertainment_system",
+  "palette": [
+    "#0F380F",
+    "#306230",
+    "#8BAC0F",
+    "#9BBC0F"
+  ],
+  "validation": {
+    "specific_game_reference": true,
+    "low_res_readable": true,
+    "gb_palette_ready": true,
+    "opaque_ratio": 0.4648,
+    "bbox": {
+      "y": 3,
+      "width": 39,
+      "height": 42,
+      "x": 5
+    }
+  },
+  "created_at": "2026-03-13T21:47:14Z",
+  "fallback_conditions": [
+    "inferred_title_fallback"
+  ]
+}

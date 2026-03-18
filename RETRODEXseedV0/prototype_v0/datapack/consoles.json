@@ -1,0 +1,18 @@
+[
+  { "name": "Nintendo Entertainment System", "release": 1985, "maker": "Nintendo", "gen": 3, "type": "Home" },
+  { "name": "Sega Master System",            "release": 1986, "maker": "Sega",     "gen": 3, "type": "Home" },
+  { "name": "Atari Lynx",                    "release": 1989, "maker": "Atari",    "gen": 4, "type": "Handheld" },
+  { "name": "Game Boy",                      "release": 1989, "maker": "Nintendo", "gen": 4, "type": "Handheld" },
+  { "name": "TurboGrafx-16",                 "release": 1989, "maker": "NEC",      "gen": 4, "type": "Home" },
+  { "name": "Neo Geo",                       "release": 1990, "maker": "SNK",      "gen": 4, "type": "Home" },
+  { "name": "Super Nintendo",                "release": 1991, "maker": "Nintendo", "gen": 4, "type": "Home" },
+  { "name": "Sega Genesis",                  "release": 1989, "maker": "Sega",     "gen": 4, "type": "Home" },
+  { "name": "Game Gear",                     "release": 1990, "maker": "Sega",     "gen": 4, "type": "Handheld" },
+  { "name": "Sega Saturn",                   "release": 1995, "maker": "Sega",     "gen": 5, "type": "Home" },
+  { "name": "PlayStation",                   "release": 1995, "maker": "Sony",     "gen": 5, "type": "Home" },
+  { "name": "Nintendo 64",                   "release": 1996, "maker": "Nintendo", "gen": 5, "type": "Home" },
+  { "name": "WonderSwan",                    "release": 1999, "maker": "Bandai",   "gen": 5, "type": "Handheld" },
+  { "name": "Dreamcast",                     "release": 1999, "maker": "Sega",     "gen": 6, "type": "Home" },
+  { "name": "Game Boy Advance",              "release": 2001, "maker": "Nintendo", "gen": 6, "type": "Handheld" },
+  { "name": "Nintendo DS",                   "release": 2004, "maker": "Nintendo", "gen": 7, "type": "Handheld" }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "game_id": "ghosts-n-goblins-nintendo-entertainment-system",
+    "game": "Ghosts 'n Goblins",
+    "console": "Nintendo Entertainment System",
+    "year": 1986,
+    "reason": "pipeline_error: Could not resolve image for Arthur_(Ghosts_%27n_Goblins)",
+    "updated_at": "2026-03-13T21:46:54Z"
+  },
+  {
+    "game_id": "life-force-nintendo-entertainment-system",
+    "game": "Life Force",
+    "console": "Nintendo Entertainment System",
+    "year": 1988,
+    "reason": "pipeline_error: Could not resolve image for Life Force",
+    "updated_at": "2026-03-13T21:47:05Z"
+  },
+  {
+    "game_id": "adventures-of-lolo-nintendo-entertainment-system",
+    "game": "Adventures of Lolo",
+    "console": "Nintendo Entertainment System",
+    "year": 1989,
+    "reason": "pipeline_error: HTTP Error 429: Too many requests (f061ab2)",
+    "updated_at": "2026-03-13T21:47:08Z"
+  },
+  {
+    "game_id": "mega-man-2-nintendo-entertainment-system",
+    "game": "Mega Man 2",
+    "console": "Nintendo Entertainment System",
+    "year": 1989,
+    "reason": "pipeline_error: Could not resolve image for Dr._Wily",
+    "updated_at": "2026-03-13T21:47:10Z"
+  },
+  {
+    "game_id": "tmnt-nintendo-entertainment-system",
+    "game": "Teenage Mutant Ninja Turtles",
+    "console": "Nintendo Entertainment System",
+    "year": 1989,
+    "reason": "pipeline_error: Could not resolve image for Teenage_Mutant_Ninja_Turtles",
+    "updated_at": "2026-03-13T21:47:12Z"
+  },
+  {
+    "game_id": "final-fantasy-nintendo-entertainment-system",
+    "game": "Final Fantasy",
+    "console": "Nintendo Entertainment System",
+    "year": 1990,
+    "reason": "pipeline_error: Could not resolve image for Final_Fantasy_(series)",
+    "updated_at": "2026-03-13T21:47:14Z"
+  }
+]

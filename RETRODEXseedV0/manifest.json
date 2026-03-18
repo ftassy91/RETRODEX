@@ -1,0 +1,67 @@
+{
+  "name": "RETRODEXseedV0",
+  "type": "front-static-seed",
+  "version": "0",
+  "updated_at": "2026-03-18",
+  "root_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0",
+  "prototype_root": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0",
+  "full_workspace_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722",
+  "purpose": "Static frontend seed for RetroDex / RetroMarket demo flows. Not a full development workspace.",
+  "contains": {
+    "frontend_static": true,
+    "launcher": true,
+    "retrodex": true,
+    "retromarket": true,
+    "collection_placeholder": true,
+    "neoretro_placeholder": true,
+    "data_catalog": true,
+    "data_prices": true,
+    "data_consoles": true,
+    "memory_files": true,
+    "generated_assets": true,
+    "review_files": true
+  },
+  "missing": {
+    "backend_folder": true,
+    "express_api": true,
+    "api_routes": true,
+    "docker_setup": true,
+    "notion_scripts": true,
+    "backend_env": true,
+    "archive_scripts": true,
+    "git_history": true
+  },
+  "entry_points": [
+    {
+      "label": "Launcher",
+      "relative_path": "prototype_v0/launcher.html"
+    },
+    {
+      "label": "RetroDex",
+      "relative_path": "prototype_v0/index.html"
+    },
+    {
+      "label": "RetroMarket",
+      "relative_path": "prototype_v0/modules/retromarket/market.html"
+    }
+  ],
+  "launch_urls_example": [
+    "http://localhost:8080/launcher.html",
+    "http://localhost:8080/index.html",
+    "http://localhost:8080/modules/retromarket/market.html"
+  ],
+  "data_snapshot": {
+    "catalog_games": 507,
+    "price_entries": 507,
+    "consoles": 16
+  },
+  "known_ambiguous_entries": [
+    "prototype_v0\\{css,js,data,img,memory}",
+    "prototype_v0\\assets\\{source"
+  ],
+  "notes": [
+    "Use this package as a static demo seed only.",
+    "Do not assume backend, Notion, or Docker availability from this folder.",
+    "Prefer the full workspace for development or integration tasks."
+  ]
+}

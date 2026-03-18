@@ -1,0 +1,40 @@
+{
+  "game": "Castlevania III: Dracula's Curse",
+  "game_id": "castlevania-iii-draculas-curse-nintendo-entertainment-system",
+  "console": "Nintendo Entertainment System",
+  "year": 1990,
+  "asset_type": "cover_art",
+  "asset_name": "Alucard (Castlevania)",
+  "source_type": "wikipedia_curated_reference",
+  "image_reference": "Alucard_(Castlevania)",
+  "selection_reason": "Fallback to official game cover art because no better sprite-grade source was available",
+  "episode_number": 3,
+  "publisher": "Konami",
+  "title_font": "Georgia",
+  "display_layout": "sprite_identity_card",
+  "sprite_path": "retrodeck_assets/castlevania_iii_draculas_curse_nintendo_entertainment_system/sprite.png",
+  "source_path": "retrodeck_assets/_cache/source_images/wikipedia_en_e_eb_alucard_sotn_png.png",
+  "asset_dir": "retrodeck_assets/castlevania_iii_draculas_curse_nintendo_entertainment_system",
+  "palette": [
+    "#0F380F",
+    "#306230",
+    "#8BAC0F",
+    "#9BBC0F"
+  ],
+  "validation": {
+    "specific_game_reference": true,
+    "low_res_readable": true,
+    "gb_palette_ready": true,
+    "opaque_ratio": 0.2912,
+    "bbox": {
+      "y": 3,
+      "width": 30,
+      "height": 42,
+      "x": 9
+    }
+  },
+  "created_at": "2026-03-13T21:47:13Z",
+  "fallback_conditions": [
+    "no_specific_sprite_candidate"
+  ]
+}

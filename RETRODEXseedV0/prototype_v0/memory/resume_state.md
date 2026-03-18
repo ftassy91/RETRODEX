@@ -1,0 +1,424 @@
+# Resume State - Retrodex V2
+
+## Latest completed task
+- Removed the remaining server ambiguity for this workspace:
+  - one official frontend on `8080`
+  - one official backend on `3000`
+  - one root runbook in `SERVER_RUNBOOK.md`
+  - one root launcher:
+    - `scripts/start-retrodex.ps1`
+- Confirmed the frontend / backend pair is reachable after a clean stop/start cycle
+- Continued the beginner backend after the accessible Sprint 1 item:
+  - `consoles.html` is confirmed live
+  - added `GET /api/stats`
+  - added `stats.html`
+  - linked stats from backend home
+- Repaired the RetroDex lower-screen visibility regression:
+  - the compact bottom page content was still rendered, but sat visually under the LCD overlay in the real browser
+  - `.bot-page` now renders above that overlay again
+- Confirmed the fix on representative game URLs for:
+  - `Super Mario World`
+  - `The Legend of Zelda: A Link to the Past`
+- Continued the visible RetroDex polish on the remaining compact bottom pages:
+  - `Game Background` now reads as:
+    - synopsis
+    - production facts
+    - key people
+    - why it matters
+  - `Tips & Community` now keeps:
+    - cheats
+    - important tips
+    - famous secrets
+    - guides / collector note
+  - both pages now use shorter copy and lighter guide density
+- Continued the optional beginner backend without touching the static flow
+- Added optional PostgreSQL support with SQLite fallback
+- Added beginner routes:
+  - `GET /`
+  - `GET /games`
+  - `GET /games/:id`
+  - `GET /api/games/:id/summary`
+- Added helper scripts:
+  - `backend/start-backend.ps1`
+  - `backend/stop-backend.ps1`
+  - `backend/init-postgres.ps1`
+- Added one isolated beginner consumer page:
+  - `backend/public/games-list.html`
+- Added one isolated beginner detail page:
+  - `backend/public/game-detail.html`
+- Added one tiny backend home shell:
+  - `backend/public/home.html`
+- Repaired the PostgreSQL bootstrap blocker for roles without `CREATEDB`:
+  - backend can now target an existing local database plus one dedicated schema
+  - validated working pair:
+    - `PGDATABASE=retrodex_mvp`
+    - `PGSCHEMA=retrodex`
+- Repaired two beginner-backend robustness issues:
+  - title search is now case-insensitive across SQLite and PostgreSQL
+  - async route failures now fall back to one shared JSON error response
+
+## Current phase
+- RetroDex main runtime is active and stable in `index.html`
+- RetroMarket Phase 1 implementation is now delivered and reachable
+- Top Screen local image pipeline is fixed and no longer depends on the old network-first path
+- Top Screen local image pipeline now retries local resolution even after a prior miss; failed cache lockouts are no longer sticky
+- RetroMarket curation workspace for the first verified import batch is now generated and ready to fill
+- First verified RetroMarket imports are now live for 6 games
+- First verified RetroMarket imports are now live for 9 games
+- RetroMarket CRT redesign is now live in the photo template
+- First verified yearly history series is now live for Ocarina of Time
+- Second verified yearly history series is now live for Super Mario 64
+- Main demo flow stability has been smoke-checked successfully:
+  - launcher
+  - RetroDex
+  - RetroMarket
+- RetroDex now has a locked non-destructive 40-game demo subset active by default when the subset file is valid
+- RetroDex demo subset QA is now generated locally and highlights the remaining Top Screen watchlist
+- The first flagship Top Screen curation batch is now prebuilt locally inside `assets/generated_gb/`
+- RetroDex demo Top Screen wave 2 and wave 3 are now prebuilt locally as well
+- RetroDex demo Top Screen wave 4 and wave 5 are now prebuilt locally as well
+- RetroDex demo Top Screen final wave is now prebuilt locally as well
+- RetroDex demo subset is now fully showable:
+  - 40/40 entries
+  - 40/40 prices
+  - 40/40 prebuilt local generated top cards
+  - 40/40 structurally ready bottom cards
+- Demo opening state is now curated:
+  - RetroDex opens on a flagship Zelda entry
+  - RetroMarket opens on a game with verified market data first
+
+## RetroMarket runtime
+- Entry: `modules/retromarket/market.html`
+- Uses: `DATA_LAYER`, local catalog/prices datasets, custom canvas chart renderer
+- Screen frame asset: `assets/market/template_crt_photo.png`
+- Search works locally against the 507-game dataset
+- The active CRT overlay has been recalibrated to fill the green monitor area more closely without panel overlap
+
+## Known limits
+- No verified external sales feed is bundled locally
+- No broad year-by-year historical price feed is bundled locally
+- As a result, history/trend/recent-sales sections intentionally show `data unavailable` instead of fabricated values
+- Official Top Screen asset folders are currently mostly empty, so many games use generated DMG fallbacks until curated local images are added
+- `assets/generated_gb/` now contains a strong demo-safe local fallback layer for the 40-game presentation subset
+- Only two clean yearly history sources have been imported so far, so most games still fall back to unavailable history
+- Five clean yearly history sources are now imported, but most games still fall back to unavailable history
+- The redesign keeps the 10-year chart strict: it only activates when a verified yearly history source exists for the selected game
+
+## Last verified checks
+- Asset/file reference check for `modules/retromarket/market.html`: OK
+- Data validator: OK
+- RetroMarket import validator: OK
+- RetroDex demo subset QA: OK
+- HTTP smoke test completed with a temporary Python server:
+  - `launcher.html` returned 200
+  - `index.html` returned 200
+  - `modules/retromarket/market.html` returned 200
+  - `data/demo_subset.js` returned 200
+
+## Next checkpoint focus
+- Prototype is currently in presentation-freeze mode:
+  - keep the main launcher -> RetroDex -> RetroMarket path stable
+  - only allow tiny demo-safe polish or additional verified market data curation
+- A side integration is now available for future workflow sync:
+  - optional Notion connector in `prototype_v2/integrations/notion/`
+  - currently inactive until a local `.env` is filled with:
+    - `NOTION_ACCESS_TOKEN`
+    - and optionally a page/database/data source id
+- Latest completed micro-task:
+  - unified visible module chrome with shared status pills and aligned module naming across launcher, RetroDex, and RetroMarket
+  - tightened the RetroDex top chrome into one presentation block
+  - applied the same presentation-shell treatment to the launcher hero and RetroMarket topbar
+  - harmonized micro-copy across launcher, RetroDex, and RetroMarket
+  - imported one more verified RetroMarket batch for Gran Turismo, GoldenEye 007, and Yoshi's Island
+  - split RetroDex bottom UX into 4 compact pages with dedicated `L` / `R` navigation and a chart-only final page
+  - split RetroMarket into 4 dedicated screens:
+    - Search
+    - Game
+    - Chart
+    - Insights
+  - completed a full prototype audit focused on UX, UI, data, render pipeline, illustration consistency, RetroDex screens, and RetroMarket
+  - redesigned RetroDex toward a brighter Game Boy terminal look with separator-driven bottom pages
+  - tightened the top-screen illustration engine so generated Game Boy output is preferred for display consistency
+  - reviewed the real rendered result after export and corrected the top-screen fallback chain:
+    - old broken generated caches invalidated via `v3`
+    - demo title cards are no longer treated like direct top-screen images
+    - wide generated local cards are cropped and re-rendered into a true top-screen DMG poster
+  - increased bottom-screen readability with bigger typography, clearer separators, and a fuller identity page
+  - replaced the active RetroDex bottom flow with 3 pages:
+    - Overview
+    - Game Background
+    - Tips & Community
+  - reduced bottom dots to 3 and removed the old chart-only page from the active demo flow
+  - each bottom page now uses full-height stacked blocks with horizontal separators
+  - RetroMarket hierarchy pass completed from a real rendered review:
+    - default `MARKET` screen now reads in a strict vertical order:
+      - selected game
+      - price summary
+      - market trend
+      - price history
+    - removed the always-visible CRT overview panel from the shell
+    - reduced navigation to tabs only
+    - chart is now visible without scrolling in the active market screen
+    - review capture stored at:
+      - `exports/review_shots/retromarket_review3.png`
+  - a safe "master archive" package now exists to preserve the working prototype without older redundant checkpoints:
+    - built from the active root with `build_master_archive.ps1`
+    - keeps `prototype_v2`, data, memory, generated assets, and market imports
+    - drops caches/debug/older exports only
+  - RetroMarket `MARKET` screen now uses stronger RetroDex-like hierarchy:
+    - summary and trend use separator-based rows instead of equally weighted mini-cards
+    - title remains the dominant element
+    - market values and chart read much faster at a glance
+  - RetroMarket QA follow-up completed:
+    - `SEARCH`, `MARKET`, `CHART`, and `INSIGHTS` were reviewed through a local screenshot harness
+    - `INSIGHTS` was simplified again for demo readability
+    - each insight block now shows only the strongest single item instead of a denser list
+  - one more verified RetroMarket batch is now integrated:
+    - Resident Evil 2
+    - Pokemon Gold
+    - Super Metroid
+  - current market coverage:
+    - 15 games with verified sales
+    - 15 games with attributed sources
+    - 120 total verified sales rows
+  - one more verified 10-year history series is now integrated:
+    - Resident Evil 2
+  - current history coverage:
+    - 5 games with verified history
+    - 50 total history points
+  - Super Metroid is now the first Super Nintendo title with a verified 10-year history series in RetroMarket
+  - a 3rd verified history series is now integrated:
+    - Pokemon Gold
+  - current history coverage:
+    - 3 games
+    - 30 yearly points
+- Next recommended micro-task:
+  - continue the roadmap with either:
+    - a 4th verified 10-year history series for another flagship game
+    - or a final small 3-game verified sales batch to broaden console coverage
+  - optional backend follow-up:
+    - either wire one RetroDex UI action to the backend without breaking the static flow
+    - or add one more beginner route such as `GET /api/games/random`
+- Optional backend follow-up completed on 2026-03-16 / 2026-03-17:
+  - current backend optional routes are now:
+    - `/`
+    - `/games`
+    - `/games/:id`
+    - `/api/health`
+    - `/api/games`
+    - `/api/games/random`
+    - `/api/games/:id`
+    - `/api/games/:id/summary`
+    - `/api/consoles`
+    - `/api/sync`
+  - browser-facing backend surface:
+    - `backend/public/debug.html`
+  - helper scripts:
+    - `start-backend.ps1`
+    - `stop-backend.ps1`
+    - `init-postgres.ps1`
+  - PostgreSQL mode now works against an existing local database when valid credentials are provided
+  - fresh database creation is no longer required for local use when the role lacks `CREATEDB`
+  - fallback strategy is now:
+    - existing database
+    - dedicated schema
+- Git workspace cleanup completed on 2026-03-17:
+  - root `.gitignore` now ignores generated runtime noise:
+    - root exports
+    - Python caches
+    - RetroDeck asset caches
+    - backend SQLite files
+    - temporary local files
+    - optional Notion JSON snapshots
+  - repository is ready for a first clean baseline commit of the working prototype
+- Optional backend/front bridge completed on 2026-03-17:
+  - `prototype_v2/debug.html` is now the single debug-only entry point for backend checks
+  - it can read:
+    - backend health
+    - backend random game
+  - the static RetroDex main flow is still untouched
+- Optional backend/front bridge follow-up completed on 2026-03-17:
+  - `prototype_v2/debug.html` now also supports:
+    - backend search results
+    - direct "open in RetroDex" links
+  - `prototype_v2/index.html` now supports:
+    - `?game=<id or title>`
+  - this enables a safe debug-only read bridge from backend data into the static RetroDex screen
+- Backend simplification pass completed on 2026-03-17:
+  - startup seed is now non-destructive
+  - SQLite is only auto-seeded when empty
+  - `/api/sync` remains the explicit manual reseed action
+  - `/api/games` now exposes:
+    - `total` = all matching rows
+    - `returned` = rows in the current response
+- Optional backend/front bridge comparison pass completed on 2026-03-17:
+  - `prototype_v2/debug.html` now includes one dedicated comparison panel
+  - a backend game can be checked against the matching static RetroDex entry when available
+  - the comparison currently covers:
+    - title
+    - console
+    - year
+    - genre
+    - metascore
+    - rarity
+    - developer
+    - summary presence
+    - loose / cib / mint values
+- Optional backend/front bridge drift pass completed on 2026-03-17:
+  - `prototype_v2/debug.html` now also exposes:
+    - one compact console drift report
+  - the report compares:
+    - static game count
+    - backend game count
+    - ids missing in backend
+    - ids missing in static
+    - a short sample of differing fields
+- Backend beginner debug-page fix completed on 2026-03-17:
+  - `backend/public/debug.html` now supports direct `file://` opening safely
+  - it auto-targets `http://127.0.0.1:3000` when no web origin exists
+  - it exposes an editable backend URL field
+  - it shows a clearer message when the API is not started yet
+- Backend detail panel follow-up completed on 2026-03-17:
+  - `backend/public/debug.html` now exposes one fuller backend game detail panel
+  - the rich page now reads one compact summary payload from:
+    - `/api/games/:id/summary`
+  - `prototype_v2/debug.html` no longer duplicates that same detail view
+  - result cards can now open the richer backend sheet without changing the static RetroDex flow
+- Backend simplification safety pass completed on 2026-03-17:
+  - `GET /api/games` now sanitizes invalid `limit` values safely
+  - forced reseed in `backend/src/syncGames.js` is now transaction-safe
+  - the backend keeps the same beginner surface, but with less surprising failure behavior
+- Backend debug bridge cleanup completed on 2026-03-17:
+  - `backend/public/debug.html` is now the rich backend debug source of truth
+  - it supports `?gameId=<slug>` and one quick `Copier ID + titre` action
+  - `prototype_v2/debug.html` is now the lighter bridge:
+    - backend search and compare stay local
+    - rich backend detail opens in the backend page instead of being duplicated locally
+    - one quick copy action is available for bug reports
+- Consoles beginner page completed on 2026-03-17:
+ - `backend/public/consoles.html` now consumes:
+    - `GET /api/consoles`
+  - `backend/public/home.html` links to it
+  - `backend/public/games-list.html` now accepts:
+    - `?console=...`
+    - `?q=...`
+    - `?limit=...`
+  - the beginner backend now exposes:
+    - `home.html`
+    - `consoles.html`
+    - `games-list.html`
+    - `game-detail.html`
+    - `debug.html`
+- Current next-action recommendation:
+  - start next time with one tiny backend home polish:
+    - add one `random beginner start` action from `home.html`
+  - reason:
+  - the visible beginner pages are now complete enough
+  - the next useful step is a tiny UX improvement, not a new data surface
+- RetroDex architecture sprint completed on 2026-03-17:
+  - improvement 1:
+    - fallback editorial entries are now centralized in `DATA_LAYER`
+  - improvement 2:
+    - Game Boy palette literals are now routed through `RDX_PALETTE`
+  - improvement 3:
+    - beginner backend pages now share `backend/public/style.css`
+  - improvement 4:
+    - `GET /api/search` is now available server-side
+  - improvement 5:
+    - top screen responsibilities were split into:
+      - `top-screen-loader.js`
+      - `top-screen-generator.js`
+      - `top-screen.js` as the remaining orchestrator shell
+- Validation state after the sprint:
+  - frontend pages still answer on localhost:
+    - `launcher.html`
+    - `index.html`
+    - `modules/retromarket/market.html`
+  - backend smoke test still passes
+  - shared backend CSS is served correctly on the backend of this workspace
+- Important environment note:
+  - port `3000` had temporarily pointed to the backend from `RETRODEXseed`
+  - it was switched back to the backend of this workspace during the sprint
+- Notion state:
+  - direct updates succeeded for:
+    - `Daily Log`
+    - `Tickets RetroDex`
+    - `RetroDex - Pilotage projet`
+  - `RetroDex Backlog` remains blocked because the database is not shared with `codex integration`
+    - the static main flow stays untouched
+- Visual overlap fix completed on 2026-03-17:
+  - the top screen title strip was reduced and compact mode was added for long titles
+  - the dots strip was lowered slightly to clear the hinge area
+  - the `Overview` bottom page spacing and row density were rebalanced
+  - `?nosplash=1` is now available on `index.html` for validation runs only
+- Manual / visual validation support now exists for the main screen:
+  - fresh review shots captured for:
+    - `Super Mario World`
+    - `The Legend of Zelda: A Link to the Past`
+    - `Resident Evil 2`
+  - stored under:
+    - `exports/review_shots/`
+- Current next-action recommendation:
+- keep the same main product focus and do one more visible bottom-screen polish pass on:
+    - the new launcher grid and its first interaction layer
+- current launcher state:
+    - `launcher.html` now shows a 2x2 retro module grid
+    - icon files live in `prototype_v2/assets/icons/`
+    - `collection` and `neoretro` now have placeholder entry pages
+    - launcher keyboard control is active:
+      - arrows move the focused card
+      - `Enter` / `Space` open the selected module
+    - launcher now also shows a compact control hint footer
+    - focused card has one very light idle pulse
+- current D-pad state:
+    - `prototype_v2/index.html` now uses 4 direct clickable hotspots plus one D-pad zone fallback
+    - however, the user still reports unreliable clicking on the in-device D-pad
+    - treat this as deferred, not resolved
+- goal:
+    - keep the launcher visually stable
+    - then add one more visible menu-system improvement instead of broad refactors
+
+## Current backend state - 2026-03-18
+- backend port:
+  - `3000`
+- runtime state:
+  - stale Node listener was stopped and the backend was restarted from this workspace
+  - live health endpoint now responds correctly on:
+    - `http://127.0.0.1:3000/api/health`
+- Sprint 4 collection state:
+  - `GET /api/collection` works
+  - `POST /api/collection` works
+  - `DELETE /api/collection/:id` works
+  - beginner UI pages now active:
+    - `backend/public/game-detail.html`
+    - `backend/public/collection.html`
+- current validated collection DoD:
+  - add a game from `GameDetail`
+  - see it via `GET /api/collection`
+  - remove it again
+
+## Next recommended task
+- close the remaining Sprint 4 Notion/documentation task:
+  - document the explicit choice:
+    - single user
+    - no auth
+- then move to the next visible product task from the backlog:
+  - Sprint 5 stats on the collection page
+
+## Updated after Sprint 5 stats start - 2026-03-18
+- documentation / framing:
+  - `backend/README.md` now states:
+    - single user
+    - no auth
+    - local-first beginner backend
+  - the same doc also states that the historical React backlog items must be requalified against the current HTML/Express surface
+- collection stats:
+  - `GET /api/collection/stats` now exists
+  - `backend/public/collection.html` now exposes a visible stats section
+  - validated on the live backend on port `3000`
+
+## Next recommended task
+- requalify the remaining Sprint 5 / frontend cleanup items against the current architecture
+- the most useful visible next step is likely:
+  - tidy the collection / stats presentation only if needed
+  - otherwise move to one search / filter improvement already present in intent form in the CSV

@@ -1,0 +1,1386 @@
+{
+  "timestamp": "2026-03-18T08:26:24Z",
+  "root": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0",
+  "snapshot": {
+    "assets/generated_gb/batman.json": {
+      "size": 785,
+      "mtime_ns": 1773451208000000000,
+      "sha1": "b11a5623e5e35037c33d26fc78c5b6d64f99b0ba"
+    },
+    "assets/generated_gb/batman.png": {
+      "size": 3223,
+      "mtime_ns": 1773451208000000000,
+      "sha1": "11a4ac1da24a024d24ad3b80d83aba58ccc3fac4"
+    },
+    "assets/generated_gb/bionic-commando.json": {
+      "size": 803,
+      "mtime_ns": 1773451200000000000,
+      "sha1": "f082cda352204b265826c23b729bf0e39c814a2a"
+    },
+    "assets/generated_gb/bionic-commando.png": {
+      "size": 3983,
+      "mtime_ns": 1773451200000000000,
+      "sha1": "f94dd4a0ccdb8359409f071f0a83ca0da770add8"
+    },
+    "assets/generated_gb/castlevania-iii-dracula-s-curse.json": {
+      "size": 834,
+      "mtime_ns": 1773451212000000000,
+      "sha1": "51f70bac3181daeb83296bb393c1c1fb038ab014"
+    },
+    "assets/generated_gb/castlevania-iii-dracula-s-curse.png": {
+      "size": 3101,
+      "mtime_ns": 1773451212000000000,
+      "sha1": "025a0405a425d58fdbc3e28f1d6cc7d5c4f4c2ee"
+    },
+    "assets/generated_gb/castlevania-symphony-of-the-night.png": {
+      "size": 5355,
+      "mtime_ns": 1773456976000000000,
+      "sha1": "d3d182884d4552172e66eb01c4abb5eaf0869968"
+    },
+    "assets/generated_gb/castlevania.json": {
+      "size": 794,
+      "mtime_ns": 1773451194000000000,
+      "sha1": "975f5a61954f35cee9a731e4766f56ee8d81b658"
+    },
+    "assets/generated_gb/castlevania.png": {
+      "size": 3214,
+      "mtime_ns": 1773451194000000000,
+      "sha1": "d3cbad7137f26568a79bd229eb2999893049229a"
+    },
+    "assets/generated_gb/chip-n-dale-rescue-rangers.json": {
+      "size": 824,
+      "mtime_ns": 1773451214000000000,
+      "sha1": "f988e7fe89009311f1db9110062480f8fb579f87"
+    },
+    "assets/generated_gb/chip-n-dale-rescue-rangers.png": {
+      "size": 4083,
+      "mtime_ns": 1773451214000000000,
+      "sha1": "4b3cb6c6a43b6ac50854599a281c0c47e3c8c263"
+    },
+    "assets/generated_gb/contra.json": {
+      "size": 785,
+      "mtime_ns": 1773451202000000000,
+      "sha1": "6af2a57d741d2c2abfab5d87fde1904869f14ce5"
+    },
+    "assets/generated_gb/contra.png": {
+      "size": 2038,
+      "mtime_ns": 1773451202000000000,
+      "sha1": "c2b341ea87c3e9dd792c6be95fbed176043d0468"
+    },
+    "assets/generated_gb/crash-bandicoot.png": {
+      "size": 4850,
+      "mtime_ns": 1773457324000000000,
+      "sha1": "31529a538bde2d7c7db371206196bff45e233d0e"
+    },
+    "assets/generated_gb/donkey-kong-country-2.png": {
+      "size": 5213,
+      "mtime_ns": 1773457332000000000,
+      "sha1": "26802dcb18b103c879ac6e393031caf9deeed9a2"
+    },
+    "assets/generated_gb/donkey-kong-country.png": {
+      "size": 4935,
+      "mtime_ns": 1773457332000000000,
+      "sha1": "218dcdbfed5c5a5805f5104167d70ebad4581771"
+    },
+    "assets/generated_gb/double-dragon.json": {
+      "size": 799,
+      "mtime_ns": 1773451204000000000,
+      "sha1": "6a3403acd008f7891d67421d1f4cde37d1f6705b"
+    },
+    "assets/generated_gb/double-dragon.png": {
+      "size": 4740,
+      "mtime_ns": 1773451204000000000,
+      "sha1": "e7c32f8e68f57e46507a4115263a675dea2c74f3"
+    },
+    "assets/generated_gb/duck-hunt.json": {
+      "size": 791,
+      "mtime_ns": 1773451188000000000,
+      "sha1": "55ad0aef5d83daeb982d46d3dfde267afecba2eb"
+    },
+    "assets/generated_gb/duck-hunt.png": {
+      "size": 3776,
+      "mtime_ns": 1773451188000000000,
+      "sha1": "14f53ea08e0ba8adb8bacaf9aefe8c92476fad3a"
+    },
+    "assets/generated_gb/ducktales.json": {
+      "size": 792,
+      "mtime_ns": 1773451208000000000,
+      "sha1": "b6eb4e30070c61ed65a8c743b75fa48e3b18264e"
+    },
+    "assets/generated_gb/ducktales.png": {
+      "size": 3957,
+      "mtime_ns": 1773451208000000000,
+      "sha1": "b0edca6ea5c607ebda3603989f5e23cddfd740d4"
+    },
+    "assets/generated_gb/earthbound.png": {
+      "size": 4560,
+      "mtime_ns": 1773457324000000000,
+      "sha1": "ae280183c0343afd92a9c9961a0850a46b7c2f81"
+    },
+    "assets/generated_gb/excitebike.json": {
+      "size": 793,
+      "mtime_ns": 1773451190000000000,
+      "sha1": "cf23d375099ea6e40ccad97bcfe3d54eae077719"
+    },
+    "assets/generated_gb/excitebike.png": {
+      "size": 3399,
+      "mtime_ns": 1773451190000000000,
+      "sha1": "e1796a1e38dbaaa69a9e30d73abdacc5cfc0e86c"
+    },
+    "assets/generated_gb/faxanadu.json": {
+      "size": 789,
+      "mtime_ns": 1773451204000000000,
+      "sha1": "f69a1d13f6d78cc7a314f36414f2eb038983bd51"
+    },
+    "assets/generated_gb/faxanadu.png": {
+      "size": 3080,
+      "mtime_ns": 1773451204000000000,
+      "sha1": "f2ce77743573f9c2e69503947f78220139a91edd"
+    },
+    "assets/generated_gb/final-fantasy-iii.json": {
+      "size": 807,
+      "mtime_ns": 1773451214000000000,
+      "sha1": "5ad261d6444aec2e5ee5baac97c952a078daa245"
+    },
+    "assets/generated_gb/final-fantasy-iii.png": {
+      "size": 2750,
+      "mtime_ns": 1773451214000000000,
+      "sha1": "642a7ffd19ac207d1cf111ba514af3433168b975"
+    },
+    "assets/generated_gb/final-fantasy-tactics.png": {
+      "size": 4751,
+      "mtime_ns": 1773457596000000000,
+      "sha1": "2d5910736dc1971030b1ee665b7f0ecb383ecea1"
+    },
+    "assets/generated_gb/final-fantasy-vi.png": {
+      "size": 5083,
+      "mtime_ns": 1773457324000000000,
+      "sha1": "a6517dd0443a2797e9988c90d6e3490837889410"
+    },
+    "assets/generated_gb/final-fantasy-vii.png": {
+      "size": 4655,
+      "mtime_ns": 1773456648000000000,
+      "sha1": "559a80862429dbf2b5a619a6b948c5fce9350114"
+    },
+    "assets/generated_gb/final-fantasy-viii.png": {
+      "size": 4865,
+      "mtime_ns": 1773457596000000000,
+      "sha1": "a9790dd0c07b4a25d706836f324d6748671e2365"
+    },
+    "assets/generated_gb/ice-climber.json": {
+      "size": 795,
+      "mtime_ns": 1773451190000000000,
+      "sha1": "9069c4cdbb9fe13d5f06f2643b35c5080ac7debf"
+    },
+    "assets/generated_gb/ice-climber.png": {
+      "size": 3098,
+      "mtime_ns": 1773451190000000000,
+      "sha1": "7e480c0275ef5e68deb2b3aec31d8b073f8e2f71"
+    },
+    "assets/generated_gb/kirby-s-adventure.png": {
+      "size": 4793,
+      "mtime_ns": 1773456976000000000,
+      "sha1": "c8eaace56caec3f3ab1527da5fc2e07a5e0488c4"
+    },
+    "assets/generated_gb/marble-madness.json": {
+      "size": 801,
+      "mtime_ns": 1773451192000000000,
+      "sha1": "ef88754b7955dd316d1d82f312ef16fa9ae9d2e8"
+    },
+    "assets/generated_gb/marble-madness.png": {
+      "size": 4587,
+      "mtime_ns": 1773451192000000000,
+      "sha1": "b8f5c891c9f9c04693cf13baae51d076da500f5b"
+    },
+    "assets/generated_gb/mega-man-2.png": {
+      "size": 4240,
+      "mtime_ns": 1773457332000000000,
+      "sha1": "007909107362b0a1711039ce565dab86c8f77620"
+    },
+    "assets/generated_gb/mega-man.json": {
+      "size": 789,
+      "mtime_ns": 1773451196000000000,
+      "sha1": "03dadcbdb3f743dc78ac8dfb80dd9e55efb1b0ba"
+    },
+    "assets/generated_gb/mega-man.png": {
+      "size": 2217,
+      "mtime_ns": 1773451196000000000,
+      "sha1": "f167860b3c44694fce03810de19a70293b295897"
+    },
+    "assets/generated_gb/metal-gear-ghost-babel.png": {
+      "size": 5124,
+      "mtime_ns": 1773456976000000000,
+      "sha1": "610f32a934dcde049cec50899b4c9e47f4603908"
+    },
+    "assets/generated_gb/metal-gear-solid.png": {
+      "size": 4972,
+      "mtime_ns": 1773456648000000000,
+      "sha1": "4e2ac5df00a7954f9effa6e5683f15588d8cf042"
+    },
+    "assets/generated_gb/metroid.json": {
+      "size": 787,
+      "mtime_ns": 1773451196000000000,
+      "sha1": "89009f279a10a3c8568fbdba1685b3f2c6eaf9f1"
+    },
+    "assets/generated_gb/metroid.png": {
+      "size": 2338,
+      "mtime_ns": 1773451196000000000,
+      "sha1": "1c1450ea135a4f65c6a56438c8f363d09a931e8e"
+    },
+    "assets/generated_gb/mike-tyson-s-punch-out.json": {
+      "size": 816,
+      "mtime_ns": 1773451198000000000,
+      "sha1": "3dee4a7edbef307a23b163bc322efd779871b065"
+    },
+    "assets/generated_gb/mike-tyson-s-punch-out.png": {
+      "size": 2458,
+      "mtime_ns": 1773451198000000000,
+      "sha1": "474162fb93b0fbdb194356cea8e485f07273c4ef"
+    },
+    "assets/generated_gb/ninja-gaiden.json": {
+      "size": 797,
+      "mtime_ns": 1773451210000000000,
+      "sha1": "f1f4ebac0eab8762fb4a3d1149db06d741faebbf"
+    },
+    "assets/generated_gb/ninja-gaiden.png": {
+      "size": 2399,
+      "mtime_ns": 1773451210000000000,
+      "sha1": "9c9734093e8ef53d85161f4d8aa4e7f9b3450d14"
+    },
+    "assets/generated_gb/paperboy.json": {
+      "size": 789,
+      "mtime_ns": 1773451206000000000,
+      "sha1": "8c92bfcef11791f6a410b279a63f982123d8098d"
+    },
+    "assets/generated_gb/paperboy.png": {
+      "size": 3014,
+      "mtime_ns": 1773451206000000000,
+      "sha1": "3d00aa2fef6b8888c46e4cf3b94022c50e6a60b7"
+    },
+    "assets/generated_gb/poka-mon-gold.png": {
+      "size": 4848,
+      "mtime_ns": 1773456472000000000,
+      "sha1": "b3c73d2db8857bccaacfc5d32f675f98572cb105"
+    },
+    "assets/generated_gb/pokemon-gold.png": {
+      "size": 4848,
+      "mtime_ns": 1773456648000000000,
+      "sha1": "b3c73d2db8857bccaacfc5d32f675f98572cb105"
+    },
+    "assets/generated_gb/pokemon-red.png": {
+      "size": 4684,
+      "mtime_ns": 1773456976000000000,
+      "sha1": "e385d76e3b72725d4b00a245fe6f05cb31f96a77"
+    },
+    "assets/generated_gb/pokemon-silver.png": {
+      "size": 4801,
+      "mtime_ns": 1773456964000000000,
+      "sha1": "1682c5f1a7dc40a832f1d23574316ca242c93089"
+    },
+    "assets/generated_gb/rad-racer.json": {
+      "size": 791,
+      "mtime_ns": 1773451198000000000,
+      "sha1": "d275336bd4124f6a7064906fb397cffd0be91f36"
+    },
+    "assets/generated_gb/rad-racer.png": {
+      "size": 3562,
+      "mtime_ns": 1773451198000000000,
+      "sha1": "3eb29883a9b73ca11312afd81827e223f7fde406"
+    },
+    "assets/generated_gb/resident-evil-2.png": {
+      "size": 4798,
+      "mtime_ns": 1773457324000000000,
+      "sha1": "9a619f7865a42a0dda9f0d733ff148b3491baeb6"
+    },
+    "assets/generated_gb/secret-of-mana.png": {
+      "size": 4961,
+      "mtime_ns": 1773457332000000000,
+      "sha1": "fd39a6e20b146369ad2939f0b339443cea5904e4"
+    },
+    "assets/generated_gb/silent-hill.png": {
+      "size": 4229,
+      "mtime_ns": 1773457332000000000,
+      "sha1": "f79421a6178c7516bb2cf1738fa92527a7f3ebe4"
+    },
+    "assets/generated_gb/super-mario-bros-3.png": {
+      "size": 4966,
+      "mtime_ns": 1773456976000000000,
+      "sha1": "ade02d64ae07c6478ea94b7cf1a728b6f9555649"
+    },
+    "assets/generated_gb/super-mario-bros.json": {
+      "size": 805,
+      "mtime_ns": 1773451192000000000,
+      "sha1": "47c7905cb309ae1daa27331918bfacb00a863c76"
+    },
+    "assets/generated_gb/super-mario-bros.png": {
+      "size": 3478,
+      "mtime_ns": 1773451192000000000,
+      "sha1": "24a430f33f500500413b16fa7854374a5d974949"
+    },
+    "assets/generated_gb/super-mario-kart.png": {
+      "size": 4500,
+      "mtime_ns": 1773457324000000000,
+      "sha1": "d171ddf82cfa929fbdee87ad25f50785bcf694cf"
+    },
+    "assets/generated_gb/super-mario-land-2-6-golden-coins.png": {
+      "size": 5224,
+      "mtime_ns": 1773457332000000000,
+      "sha1": "6000d938615cc2316bbd712b86ec56c1b27b6110"
+    },
+    "assets/generated_gb/super-mario-world-2-yoshi-s-island.png": {
+      "size": 5372,
+      "mtime_ns": 1773456976000000000,
+      "sha1": "5e2e921d96b18c2531f567c1ac4838519d1f4481"
+    },
+    "assets/generated_gb/super-mario-world.png": {
+      "size": 4876,
+      "mtime_ns": 1773456964000000000,
+      "sha1": "ff3e6e8808ad3cc0e4448969ff44171aa5793ce0"
+    },
+    "assets/generated_gb/super-metroid.png": {
+      "size": 4356,
+      "mtime_ns": 1773456648000000000,
+      "sha1": "cfa4d14384906789b9e2c7581ea2f7dc3292a1d8"
+    },
+    "assets/generated_gb/tecmo-bowl.json": {
+      "size": 793,
+      "mtime_ns": 1773451212000000000,
+      "sha1": "71447653be3571ee86bafd515c0d3d45f29d3f94"
+    },
+    "assets/generated_gb/tecmo-bowl.png": {
+      "size": 4310,
+      "mtime_ns": 1773451212000000000,
+      "sha1": "fddf368abc419c2b37997ba4a56653e8be7d7b91"
+    },
+    "assets/generated_gb/tekken-3.png": {
+      "size": 4517,
+      "mtime_ns": 1773456964000000000,
+      "sha1": "d0fa0a472a34f2d7d64e2032afb8ff6852f997e2"
+    },
+    "assets/generated_gb/tetris-dx.png": {
+      "size": 4456,
+      "mtime_ns": 1773457324000000000,
+      "sha1": "2d8ca0f436cbfd969816c482f735de4351c0b0e9"
+    },
+    "assets/generated_gb/tetris.png": {
+      "size": 4487,
+      "mtime_ns": 1773456648000000000,
+      "sha1": "0b26d53a999301b1ff4edc1ab95a5d46dacfb467"
+    },
+    "assets/generated_gb/the-legend-of-zelda-a-link-to-the-past.png": {
+      "size": 5451,
+      "mtime_ns": 1773456648000000000,
+      "sha1": "d24115ba9a38e5f1a636615c0a3fb530d9ee875d"
+    },
+    "assets/generated_gb/the-legend-of-zelda-link-s-awakening.png": {
+      "size": 5453,
+      "mtime_ns": 1773456964000000000,
+      "sha1": "25ed5bc1c36ceb3342b65e68d90b8f823c9d23b9"
+    },
+    "assets/generated_gb/the-legend-of-zelda-oracle-of-ages.png": {
+      "size": 5288,
+      "mtime_ns": 1773456964000000000,
+      "sha1": "6eaf44100b6cb176711c7bf45e5a25bc9a93ecd6"
+    },
+    "assets/generated_gb/the-legend-of-zelda-oracle-of-seasons.png": {
+      "size": 5427,
+      "mtime_ns": 1773456964000000000,
+      "sha1": "904d572dbb93f69b4123923c397922c7aee4e136"
+    },
+    "assets/generated_gb/the-legend-of-zelda.json": {
+      "size": 811,
+      "mtime_ns": 1773451200000000000,
+      "sha1": "dbe6ad710bba7ba9803ca7f9bf06b289014d8962"
+    },
+    "assets/generated_gb/the-legend-of-zelda.png": {
+      "size": 4461,
+      "mtime_ns": 1773451200000000000,
+      "sha1": "12c105735f9dd8b65b94bfab3023b92f9322e931"
+    },
+    "assets/generated_gb/vagrant-story.png": {
+      "size": 5032,
+      "mtime_ns": 1773457596000000000,
+      "sha1": "8559edc739c5bbcae5e825737869fca5b945eef9"
+    },
+    "assets/generated_gb/zelda-ii-the-adventure-of-link.json": {
+      "size": 833,
+      "mtime_ns": 1773451206000000000,
+      "sha1": "3b204ef5ed1d60a549da0421045556fe32063c01"
+    },
+    "assets/generated_gb/zelda-ii-the-adventure-of-link.png": {
+      "size": 3141,
+      "mtime_ns": 1773451206000000000,
+      "sha1": "3fa874fe5e4492b54fc45a9734a95696a52c5bab"
+    },
+    "assets/icons/collection_icon.png": {
+      "size": 481399,
+      "mtime_ns": 1773775850000000000,
+      "sha1": "34a7e41c454b2549e0f60ef8f4a9e2263b762272"
+    },
+    "assets/icons/neoretro_icon.png": {
+      "size": 382431,
+      "mtime_ns": 1773775850000000000,
+      "sha1": "de4d54617fc9dcbca7956fd25d19a382372eeb8a"
+    },
+    "assets/icons/retrodex_icon.png": {
+      "size": 352813,
+      "mtime_ns": 1773775850000000000,
+      "sha1": "71cc9503f82cca873c81d7acabb481dad1d7f55b"
+    },
+    "assets/icons/retromarket_icon.png": {
+      "size": 331733,
+      "mtime_ns": 1773775850000000000,
+      "sha1": "5d8e45479c3fbba9db96545e451aaa5294a6a26a"
+    },
+    "assets/market/template_crt_01.svg": {
+      "size": 2591,
+      "mtime_ns": 1773445986000000000,
+      "sha1": "fb0ca813bacf784520b0d2cbf003a4b664dcea90"
+    },
+    "assets/market/template_crt_02.svg": {
+      "size": 2026,
+      "mtime_ns": 1773445986000000000,
+      "sha1": "db95ab2e9b5022c91735e65c7f06d09f9f7e8014"
+    },
+    "assets/market/template_crt_photo.png": {
+      "size": 2501220,
+      "mtime_ns": 1773445306000000000,
+      "sha1": "a43545efbb4a9720c4b34364836d13b94799c377"
+    },
+    "assets/placeholders/default.png": {
+      "size": 3113,
+      "mtime_ns": 1773451188000000000,
+      "sha1": "e9d12ab54f345a6cb49009e372548a0619b6fe23"
+    },
+    "assets/top-screen/README.md": {
+      "size": 564,
+      "mtime_ns": 1773428774000000000,
+      "sha1": "2417e5e87002641062c0c53173f9a7b31698523b"
+    },
+    "CHART_INSTALL.md": {
+      "size": 577,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "cc84886ff2af107126228c27978a88e30b7aad83"
+    },
+    "css/main.css": {
+      "size": 46721,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "e734bdd2ba5a1a29aade2f8d52114e3edca635dc"
+    },
+    "css/retrodex.css": {
+      "size": 6799,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "98447b151d7b2ca3c81c073a8ce76f8d8d5210d4"
+    },
+    "data/build_demo_status.py": {
+      "size": 1220,
+      "mtime_ns": 1773475346000000000,
+      "sha1": "14ac0b1300f563bdeb5012a5f083cf7912755f8a"
+    },
+    "data/build_demo_subset.py": {
+      "size": 3852,
+      "mtime_ns": 1773455694000000000,
+      "sha1": "15159455295f5facb1a80cf9a0bed2be9cd02b69"
+    },
+    "data/build_market_import_js.py": {
+      "size": 1468,
+      "mtime_ns": 1773449138000000000,
+      "sha1": "d5851f8e3f478bee39514d432915f8d3d195e630"
+    },
+    "data/catalog.js": {
+      "size": 107139,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "e2653fda8095ce28ff1484b54d1e8f1c4f895d87"
+    },
+    "data/catalog.json": {
+      "size": 107065,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "08d6a8ed52d6483d73258bfe498b940638c5637b"
+    },
+    "data/catalog_active.js": {
+      "size": 17200,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "76a2441d18460b30af9d25bb28f87eb3d07bd096"
+    },
+    "data/catalog_synthetic_backup.json": {
+      "size": 259171,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "0efd3ef93662fd9ff45c33d57d6be294e85d85fe"
+    },
+    "data/consoles.js": {
+      "size": 1925,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "4f7c5206152d9de10bd5574c0d2493b4d51df709"
+    },
+    "data/consoles.json": {
+      "size": 1803,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "26275fe03d42c54292c4b7f452673b17452779bd"
+    },
+    "data/demo_status.js": {
+      "size": 251,
+      "mtime_ns": 1773475356000000000,
+      "sha1": "2ee67111f7571dcf40ff112fe28eea9575393177"
+    },
+    "data/demo_status.json": {
+      "size": 220,
+      "mtime_ns": 1773475356000000000,
+      "sha1": "7a9fe70d508723e8a4c5c01e5e2ff2f43dafc3d5"
+    },
+    "data/demo_subset.js": {
+      "size": 3926,
+      "mtime_ns": 1773457596000000000,
+      "sha1": "265597b92323958435a4d608c465612a4821f3f6"
+    },
+    "data/demo_subset.json": {
+      "size": 3895,
+      "mtime_ns": 1773457596000000000,
+      "sha1": "8a209333503e9f7829406974caf8e42e99db7e4e"
+    },
+    "data/demo_subset_qa.json": {
+      "size": 22906,
+      "mtime_ns": 1773482970000000000,
+      "sha1": "cd61507e3e35bf94f054328f590a791557c38af8"
+    },
+    "data/demo_subset_qa.md": {
+      "size": 6298,
+      "mtime_ns": 1773482970000000000,
+      "sha1": "9eedd33869266a04e56ee4f607e07a0171cebb28"
+    },
+    "data/demo_top_card_batch_001.json": {
+      "size": 287,
+      "mtime_ns": 1773456448000000000,
+      "sha1": "699aac5502aa57061056797cede892ef5d02bf39"
+    },
+    "data/demo_top_card_batch_002.json": {
+      "size": 281,
+      "mtime_ns": 1773456952000000000,
+      "sha1": "c1fcd8a879ade3c3a69ea35a0c752a617c040d97"
+    },
+    "data/demo_top_card_batch_003.json": {
+      "size": 329,
+      "mtime_ns": 1773456952000000000,
+      "sha1": "d7ac33b6437ac86aeb154705163711d4acde53ae"
+    },
+    "data/demo_top_card_batch_004.json": {
+      "size": 272,
+      "mtime_ns": 1773457310000000000,
+      "sha1": "13d7b786986652d9cdba45c57becd1ec703b4e9e"
+    },
+    "data/demo_top_card_batch_005.json": {
+      "size": 302,
+      "mtime_ns": 1773457310000000000,
+      "sha1": "69dc02f7c8d7f6bf23a48c3e2c38223e5d6ea71b"
+    },
+    "data/demo_top_card_batch_006.json": {
+      "size": 177,
+      "mtime_ns": 1773457584000000000,
+      "sha1": "b4b94d86c6ecd0b2a42983c5776484b75db3c6a8"
+    },
+    "data/entries.js": {
+      "size": 289507,
+      "mtime_ns": 1773457584000000000,
+      "sha1": "2dca8360444f2a298af1b9ced98b6c6d3cf6039d"
+    },
+    "data/entries.json": {
+      "size": 289484,
+      "mtime_ns": 1773457584000000000,
+      "sha1": "a5c0b68b8879fcf44d46c3f4bc5b3bfba7d4be2a"
+    },
+    "data/entries_active.js": {
+      "size": 143169,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "d10b1774e27dc0b52218226a6f8d728723714326"
+    },
+    "data/generate_demo_title_cards.ps1": {
+      "size": 7772,
+      "mtime_ns": 1773456952000000000,
+      "sha1": "e45b5d0d9d126708e83d7ee38bf2d0cb3d8bfe6e"
+    },
+    "data/generate_market_coverage_report.py": {
+      "size": 3347,
+      "mtime_ns": 1773449426000000000,
+      "sha1": "ce24ceed36fb73f81413a3edb0b08701c9123f2d"
+    },
+    "data/generate_market_curation_workspace.py": {
+      "size": 5800,
+      "mtime_ns": 1773451926000000000,
+      "sha1": "14b8d2eaff4bbee34549a3421900077d94bebf43"
+    },
+    "data/generate_market_import_templates.py": {
+      "size": 2953,
+      "mtime_ns": 1773449128000000000,
+      "sha1": "373e575d27671d67ac2d2daf3213290cef49e13f"
+    },
+    "data/generate_top_screen_generated_gb.py": {
+      "size": 4173,
+      "mtime_ns": 1773456176000000000,
+      "sha1": "6ab656e7710a4ec1f2fb6e9c9ec23097bdfff8bf"
+    },
+    "data/market_coverage_report.json": {
+      "size": 2199,
+      "mtime_ns": 1773520338000000000,
+      "sha1": "2b1e9d023c3b13a592fd3227a15814668cac7578"
+    },
+    "data/market_coverage_report.md": {
+      "size": 1106,
+      "mtime_ns": 1773520338000000000,
+      "sha1": "80f24740f5be05542342bb5ee9ae6ee716faa0b4"
+    },
+    "data/market_curation_batch_001.json": {
+      "size": 13015,
+      "mtime_ns": 1773502664000000000,
+      "sha1": "1a9983edba6f8a212dce7b337d74029a3efa1dbb"
+    },
+    "data/market_curation_batch_001.md": {
+      "size": 2243,
+      "mtime_ns": 1773502664000000000,
+      "sha1": "c43fb31a33c613dc0c65666b1f1d00db792eaefd"
+    },
+    "data/market_history.js": {
+      "size": 3528,
+      "mtime_ns": 1773520338000000000,
+      "sha1": "1ecb3619a40b2756319ee11364d6ca3399134cc3"
+    },
+    "data/market_history_template.json": {
+      "size": 3283,
+      "mtime_ns": 1773520320000000000,
+      "sha1": "7f75d51e6cd6f43770b56af30053887ed1d66c2c"
+    },
+    "data/market_import_manifest.json": {
+      "size": 1955,
+      "mtime_ns": 1773449456000000000,
+      "sha1": "1cf5e9b13ba67a13dd3f2a293eef4b0ca67e5c99"
+    },
+    "data/market_sales.js": {
+      "size": 11982,
+      "mtime_ns": 1773520338000000000,
+      "sha1": "321ba19ddc587f3e7b26776695355d08317ce355"
+    },
+    "data/market_sales_template.json": {
+      "size": 11323,
+      "mtime_ns": 1773502630000000000,
+      "sha1": "03f502f8dcb25fa8556f3a20c79666e1066f20f5"
+    },
+    "data/market_sources.js": {
+      "size": 7246,
+      "mtime_ns": 1773520338000000000,
+      "sha1": "6988a94214719f26d604709b323e850bf6ac61d3"
+    },
+    "data/market_sources_template.json": {
+      "size": 7111,
+      "mtime_ns": 1773520320000000000,
+      "sha1": "874114d76ace26709b03af5780592826f5c0a1e3"
+    },
+    "data/prices.js": {
+      "size": 52042,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "4bfca8b3af3eb137082fdc0a728aa0a15d287c44"
+    },
+    "data/prices.json": {
+      "size": 51969,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "a949734bc980d9bf448428edeabfed8c1bda273d"
+    },
+    "data/qa_demo_subset.py": {
+      "size": 5778,
+      "mtime_ns": 1773456074000000000,
+      "sha1": "f97fda365397506654e96396acfd70981f8de1d3"
+    },
+    "data/refresh_market_imports.py": {
+      "size": 842,
+      "mtime_ns": 1773449596000000000,
+      "sha1": "a613cddeebdf8ea400bc0eedf7d68f614798c5fe"
+    },
+    "data/regen.py": {
+      "size": 2452,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "b8b42c5c74735ae0d12be07258963352dee1e4b5"
+    },
+    "data/retrodeck_asset_library.js": {
+      "size": 19903,
+      "mtime_ns": 1773438434000000000,
+      "sha1": "5aa466a5c7fd1700ccf55cfe30fb20f44f5e6773"
+    },
+    "data/retrodeck_asset_library.json": {
+      "size": 19869,
+      "mtime_ns": 1773438434000000000,
+      "sha1": "9ba5ecd0bc3fd60763a27ded71c5ded090b998f1"
+    },
+    "data/tmp2tbxpvnl": {
+      "size": 16016,
+      "mtime_ns": 1773437066000000000,
+      "sha1": "bdc32331b0f666be03cf003463e1ecea97b6fad6"
+    },
+    "data/top_screen_artwork.js": {
+      "size": 2738,
+      "mtime_ns": 1773429338000000000,
+      "sha1": "0ede36f6722c2f87653f99119d85f48da02a59bc"
+    },
+    "data/validate.py": {
+      "size": 7927,
+      "mtime_ns": 1773425382000000000,
+      "sha1": "8088823b62a397b711f5b53e0d70ce62db6f8a2f"
+    },
+    "data/validate_market_imports.py": {
+      "size": 8806,
+      "mtime_ns": 1773449560000000000,
+      "sha1": "bb6505b4c858a31837d14a6ebc70b1f34cd47f9b"
+    },
+    "data_engine/asset_pipeline/build_asset_library.py": {
+      "size": 24682,
+      "mtime_ns": 1773438616000000000,
+      "sha1": "fa3fec33792a25751af50cbc6bc2f8880601005d"
+    },
+    "data_engine/asset_pipeline/convert_to_gb_sprite.ps1": {
+      "size": 7897,
+      "mtime_ns": 1773438168000000000,
+      "sha1": "18f457631fd276f111089e173c0296c6ea161194"
+    },
+    "data_engine/asset_pipeline/README.md": {
+      "size": 1247,
+      "mtime_ns": 1773436390000000000,
+      "sha1": "0806179a319acceb5a134f4fb7944dea7120b445"
+    },
+    "data_engine/illustration_engine/illustration_queue.json": {
+      "size": 603,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "6bb6db4831926a82c24c16265644f60ddd8449d0"
+    },
+    "data_engine/illustration_engine/illustration_rules.json": {
+      "size": 574,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "0d22b8008e004f81a3ba3597d90753a4bcc7819e"
+    },
+    "datapack/3ds-template.png": {
+      "size": 1324035,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "5d27a93f5aa08afa0d0221922574dd62dd14c2b4"
+    },
+    "datapack/catalog.json": {
+      "size": 59790,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "6ee38cd6ccb36ece1dd8da27bb0b34e37a835d14"
+    },
+    "datapack/consoles.json": {
+      "size": 1803,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "26275fe03d42c54292c4b7f452673b17452779bd"
+    },
+    "datapack/manifest.json": {
+      "size": 1064,
+      "mtime_ns": 1773425408000000000,
+      "sha1": "49fef6250bde8899086f5919fb178510d217bae8"
+    },
+    "datapack/prices.json": {
+      "size": 29092,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "84e09ad12f5e4adb26a337a0c96529df7fc676d7"
+    },
+    "datapack/README.md": {
+      "size": 1091,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "ea2e5af392b338a8f0badaf3fe8aff9f5c572901"
+    },
+    "datapack/update_pack.py": {
+      "size": 3136,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "bc1730c327ed19c2bf1b47249d75dc7354fc1172"
+    },
+    "debug.html": {
+      "size": 31298,
+      "mtime_ns": 1773711122000000000,
+      "sha1": "901e0434467f405feb8a3254dde765548e4585aa"
+    },
+    "debug_calibration.png": {
+      "size": 759166,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "1cf761cd1013574d1d2756ff6edc4e8b205a90e1"
+    },
+    "debug_screens.png": {
+      "size": 991204,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "78db40e28d39ea1d8cb81990bdc1ef4cab60dd24"
+    },
+    "img/3ds-frame.png": {
+      "size": 700102,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "c9ddad3526ef60024462d08d3b640ab3d1ce28df"
+    },
+    "img/3ds-master.png": {
+      "size": 105468,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "d437e07ae06c2c069e4a9c9e294846db5b0e9892"
+    },
+    "img/3ds-template.png": {
+      "size": 1324035,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "5d27a93f5aa08afa0d0221922574dd62dd14c2b4"
+    },
+    "index.html": {
+      "size": 124621,
+      "mtime_ns": 1773798402000000000,
+      "sha1": "7f7a1b12756dad89c061e6f890ef942c2fb3f805"
+    },
+    "js/app.js": {
+      "size": 892,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "dc77c94bea5845d77435b5336c652d784c338d94"
+    },
+    "js/consoles.js": {
+      "size": 1710,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "3d78aeb17817982287954ce3e6c9918a4ebfabd6"
+    },
+    "js/data-layer.js": {
+      "size": 4921,
+      "mtime_ns": 1773754142000000000,
+      "sha1": "64e2e56a4ce336cba7d4ef67e50b7ce7c7618300"
+    },
+    "js/home.js": {
+      "size": 14747,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "713b38a8c1e3f9ed1c44c0ab3804c48d6e847880"
+    },
+    "js/illustration.js": {
+      "size": 46036,
+      "mtime_ns": 1773754666000000000,
+      "sha1": "b1149e5af7885ceb1da1702bbf5ae10caea20a9c"
+    },
+    "js/illustration_v3_backup.js": {
+      "size": 20088,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "77331bf02d3b325968a0c59225631f59d3b449eb"
+    },
+    "js/market.js": {
+      "size": 4716,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "d18358c4791fc36b0938d09523ce5c5d8875f79f"
+    },
+    "js/retrodex.js": {
+      "size": 11767,
+      "mtime_ns": 1773425196000000000,
+      "sha1": "57ad11b768cd6f13e3d97e07bcbfaad9cbce2c3a"
+    },
+    "js/router.js": {
+      "size": 1217,
+      "mtime_ns": 1773446172000000000,
+      "sha1": "dfe686a042c55a07d5db7b5d94a3331c08f106a7"
+    },
+    "js/scene.js": {
+      "size": 3274,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "105724f9fb0e40d85af03e302cadaaeb69d8b378"
+    },
+    "js/search.js": {
+      "size": 3634,
+      "mtime_ns": 1773425306000000000,
+      "sha1": "8d162771225a03a03c3ebaab28cc231c2ce6ce13"
+    },
+    "js/top-screen-generator.js": {
+      "size": 4424,
+      "mtime_ns": 1773769442000000000,
+      "sha1": "09fbf637ff6be30296cf62f085cca0697467ec22"
+    },
+    "js/top-screen-loader.js": {
+      "size": 8284,
+      "mtime_ns": 1773755850000000000,
+      "sha1": "ecc6b8f525784a8ef9e351630bfe322859aa5bac"
+    },
+    "js/top-screen.js": {
+      "size": 106368,
+      "mtime_ns": 1773757310000000000,
+      "sha1": "7b648fefb1d2729b3f6db78a39a0b5494b67b339"
+    },
+    "js/utils.js": {
+      "size": 6541,
+      "mtime_ns": 1773754618000000000,
+      "sha1": "1890b5380f2dd278f3066d7f71fd9132d28bde59"
+    },
+    "launcher.html": {
+      "size": 22918,
+      "mtime_ns": 1773797166000000000,
+      "sha1": "7c89c042c06fa6aab0e410b81b1997dfa99788e9"
+    },
+    "maps/download_maps.sh": {
+      "size": 3149,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "d5bf60f5126f2ad3f950397069447b30700992c0"
+    },
+    "maps/maps_manifest.json": {
+      "size": 1178,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "1911906bfc8e9f8ec9fa7768257fc155e51ef439"
+    },
+    "maps/README.md": {
+      "size": 1483,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "2d2fae3721d59376fbd2a520ad0a76681c964a14"
+    },
+    "memory/next_task.md": {
+      "size": 1532,
+      "mtime_ns": 1773801468000000000,
+      "sha1": "842cdabb4dda662fdb6a357c29e14808d9a4f0c4"
+    },
+    "memory/progress_log.md": {
+      "size": 53965,
+      "mtime_ns": 1773802490000000000,
+      "sha1": "61a6bc9f51e68b5bbd5d466291100c47cf38a487"
+    },
+    "memory/project_memory.md": {
+      "size": 30807,
+      "mtime_ns": 1773801428000000000,
+      "sha1": "017c55029e770502ce8daf15cc5149178a7c643f"
+    },
+    "memory/resume_state.md": {
+      "size": 20019,
+      "mtime_ns": 1773801392000000000,
+      "sha1": "6d28e43b74e09aff72c463f7c39415a50a9c0fc2"
+    },
+    "memory/top_screen_artwork_backlog.md": {
+      "size": 648,
+      "mtime_ns": 1773428774000000000,
+      "sha1": "d5e2674103d3487fbb1009b036d04d0080658951"
+    },
+    "modules/collection/index.html": {
+      "size": 2305,
+      "mtime_ns": 1773775770000000000,
+      "sha1": "a7bf83dd521ceb9f19d7032757e89382263b607c"
+    },
+    "modules/neoretro/index.html": {
+      "size": 2327,
+      "mtime_ns": 1773775770000000000,
+      "sha1": "a07754cf50f367784133c9f079b35180533598e6"
+    },
+    "modules/retrodex/index.html": {
+      "size": 1533,
+      "mtime_ns": 1773775770000000000,
+      "sha1": "1b48ee41e6405d1ddf7d8126f1f61942b0ea545a"
+    },
+    "modules/retromarket/market.html": {
+      "size": 24594,
+      "mtime_ns": 1773486630000000000,
+      "sha1": "509ba93c083ebc8330cca36e13a69e609198d21c"
+    },
+    "modules/retromarket/market_charts.js": {
+      "size": 4599,
+      "mtime_ns": 1773458496000000000,
+      "sha1": "e4b956bb3333b5980a2d587e38e52cc259639371"
+    },
+    "modules/retromarket/market_data.js": {
+      "size": 21699,
+      "mtime_ns": 1773452424000000000,
+      "sha1": "57402b7294347de1e6093a36c5c7c647fcc0b2f7"
+    },
+    "modules/retromarket/market_ui.js": {
+      "size": 15877,
+      "mtime_ns": 1773486790000000000,
+      "sha1": "60d430e04c081744ca0ca987cc3a959c87ad01f7"
+    },
+    "modules/retromarket/README.md": {
+      "size": 2379,
+      "mtime_ns": 1773451528000000000,
+      "sha1": "51a73e95e0a032ee727ad63ee4bc950ac42f5cf8"
+    },
+    "retrodeck_assets/archived_games.json": {
+      "size": 1789,
+      "mtime_ns": 1773438434000000000,
+      "sha1": "18162ff44b839137d85d3ddb26ca9437220c404c"
+    },
+    "retrodeck_assets/asset_pipeline.log": {
+      "size": 27831,
+      "mtime_ns": 1773438434000000000,
+      "sha1": "52fa356a338f7df9801ca439dbcf8fcf9081e414"
+    },
+    "retrodeck_assets/batman_nintendo_entertainment_system/conversion_report.json": {
+      "size": 864,
+      "mtime_ns": 1773438428000000000,
+      "sha1": "0aa4ac37dfdb947b7a56334cabae15df4567a541"
+    },
+    "retrodeck_assets/batman_nintendo_entertainment_system/metadata.json": {
+      "size": 1248,
+      "mtime_ns": 1773438428000000000,
+      "sha1": "58b6df7fd95a02a6a4f4f6fbe8d584ed26c83cf0"
+    },
+    "retrodeck_assets/batman_nintendo_entertainment_system/sprite.png": {
+      "size": 1974,
+      "mtime_ns": 1773438428000000000,
+      "sha1": "859687427a09743e2bbdde3bafc2a3a9e8181640"
+    },
+    "retrodeck_assets/bionic_commando_nintendo_entertainment_system/conversion_report.json": {
+      "size": 873,
+      "mtime_ns": 1773438422000000000,
+      "sha1": "67a2419513a9995825905a4a45f1636938fc87f3"
+    },
+    "retrodeck_assets/bionic_commando_nintendo_entertainment_system/metadata.json": {
+      "size": 1351,
+      "mtime_ns": 1773438422000000000,
+      "sha1": "9e72adddb7b0a803b8df38acb142433d92eb6484"
+    },
+    "retrodeck_assets/bionic_commando_nintendo_entertainment_system/sprite.png": {
+      "size": 2217,
+      "mtime_ns": 1773438422000000000,
+      "sha1": "7259c0b06e7c7284ed54811a987d97e82764b4c2"
+    },
+    "retrodeck_assets/castlevania_iii_draculas_curse_nintendo_entertainment_system/conversion_report.json": {
+      "size": 855,
+      "mtime_ns": 1773438432000000000,
+      "sha1": "ccaf1187d83d6cf21edd571ddc74f39a806afa94"
+    },
+    "retrodeck_assets/castlevania_iii_draculas_curse_nintendo_entertainment_system/metadata.json": {
+      "size": 1346,
+      "mtime_ns": 1773438432000000000,
+      "sha1": "c8580d214620b893008b2da7ea0dded7f6e92a6d"
+    },
+    "retrodeck_assets/castlevania_iii_draculas_curse_nintendo_entertainment_system/sprite.png": {
+      "size": 1588,
+      "mtime_ns": 1773438432000000000,
+      "sha1": "4a3123e6ef0e8744d046a01f1371d1e211930832"
+    },
+    "retrodeck_assets/castlevania_nintendo_entertainment_system/conversion_report.json": {
+      "size": 879,
+      "mtime_ns": 1773438416000000000,
+      "sha1": "f19081096955c8d32c56a4ca34127650f2e2f376"
+    },
+    "retrodeck_assets/castlevania_nintendo_entertainment_system/metadata.json": {
+      "size": 1239,
+      "mtime_ns": 1773438416000000000,
+      "sha1": "b5c20c3e8455280c484a8b01279cbf69199dfb95"
+    },
+    "retrodeck_assets/castlevania_nintendo_entertainment_system/sprite.png": {
+      "size": 1899,
+      "mtime_ns": 1773438416000000000,
+      "sha1": "580916bc16aa71f4ae0fe63557f7300b8c1876f4"
+    },
+    "retrodeck_assets/checkpoint.json": {
+      "size": 162,
+      "mtime_ns": 1773438434000000000,
+      "sha1": "770eec4479adff1969f52addefdf8e70d27fb446"
+    },
+    "retrodeck_assets/chip_n_dale_rescue_rangers_nintendo_entertainment_system/conversion_report.json": {
+      "size": 907,
+      "mtime_ns": 1773438434000000000,
+      "sha1": "e3224ba266a7663b31a26d77175e1c0e19c353d3"
+    },
+    "retrodeck_assets/chip_n_dale_rescue_rangers_nintendo_entertainment_system/metadata.json": {
+      "size": 1393,
+      "mtime_ns": 1773438434000000000,
+      "sha1": "2c87ae07e8528b5306233fef3348ad5916af11e6"
+    },
+    "retrodeck_assets/chip_n_dale_rescue_rangers_nintendo_entertainment_system/sprite.png": {
+      "size": 2114,
+      "mtime_ns": 1773438434000000000,
+      "sha1": "9473e08cb9b89edfaab3dc3f96bf17e7b319c40d"
+    },
+    "retrodeck_assets/contra_nintendo_entertainment_system/conversion_report.json": {
+      "size": 836,
+      "mtime_ns": 1773438422000000000,
+      "sha1": "ad75b24782cc2f503adcf6f920bee7b471668659"
+    },
+    "retrodeck_assets/contra_nintendo_entertainment_system/metadata.json": {
+      "size": 1251,
+      "mtime_ns": 1773438422000000000,
+      "sha1": "37427e9629e8c8cf2315cfc69d513951a703cb8a"
+    },
+    "retrodeck_assets/contra_nintendo_entertainment_system/sprite.png": {
+      "size": 1152,
+      "mtime_ns": 1773438422000000000,
+      "sha1": "03d395cd35226f141099bd48a050791b542d470d"
+    },
+    "retrodeck_assets/double_dragon_nintendo_entertainment_system/conversion_report.json": {
+      "size": 879,
+      "mtime_ns": 1773438424000000000,
+      "sha1": "f80bf2f8a5781c247ca7f92820a8802f2f471295"
+    },
+    "retrodeck_assets/double_dragon_nintendo_entertainment_system/metadata.json": {
+      "size": 1323,
+      "mtime_ns": 1773438424000000000,
+      "sha1": "fc1de07f283712f9939062dd82f8a79c94a15a12"
+    },
+    "retrodeck_assets/double_dragon_nintendo_entertainment_system/sprite.png": {
+      "size": 2418,
+      "mtime_ns": 1773438424000000000,
+      "sha1": "911b0666fb193338bad6d3c3247f3dbd53954ee6"
+    },
+    "retrodeck_assets/duck_hunt_nintendo_entertainment_system/conversion_report.json": {
+      "size": 833,
+      "mtime_ns": 1773438410000000000,
+      "sha1": "2f2d4ea3cbff6c8f5557f04e80260842f91f8b00"
+    },
+    "retrodeck_assets/duck_hunt_nintendo_entertainment_system/metadata.json": {
+      "size": 1238,
+      "mtime_ns": 1773438410000000000,
+      "sha1": "cd8f59e9513b180bbd050ee9d2e4f68a77ea67b6"
+    },
+    "retrodeck_assets/duck_hunt_nintendo_entertainment_system/sprite.png": {
+      "size": 2058,
+      "mtime_ns": 1773438410000000000,
+      "sha1": "f0d016c354df252d529a1f72b019ac51c7a2e324"
+    },
+    "retrodeck_assets/duck_tales_nintendo_entertainment_system/conversion_report.json": {
+      "size": 838,
+      "mtime_ns": 1773438430000000000,
+      "sha1": "c07670fbe0e25a344a14fd96f6898bc4e581adb8"
+    },
+    "retrodeck_assets/duck_tales_nintendo_entertainment_system/metadata.json": {
+      "size": 1203,
+      "mtime_ns": 1773438430000000000,
+      "sha1": "1a658bba09fabf31bd5425d5d5b382413da52428"
+    },
+    "retrodeck_assets/duck_tales_nintendo_entertainment_system/sprite.png": {
+      "size": 2239,
+      "mtime_ns": 1773438430000000000,
+      "sha1": "e035a8239a9bfcf86322edba824d79d1e95febf9"
+    },
+    "retrodeck_assets/excitebike_nintendo_entertainment_system/conversion_report.json": {
+      "size": 839,
+      "mtime_ns": 1773438412000000000,
+      "sha1": "172114946c04174123c52cc9f485725aa082a817"
+    },
+    "retrodeck_assets/excitebike_nintendo_entertainment_system/metadata.json": {
+      "size": 1249,
+      "mtime_ns": 1773438412000000000,
+      "sha1": "c50ea84e079bc05d0948f96e9035774a6e9c9216"
+    },
+    "retrodeck_assets/excitebike_nintendo_entertainment_system/sprite.png": {
+      "size": 1869,
+      "mtime_ns": 1773438412000000000,
+      "sha1": "ca970227ec48c1459665ec92b8297953da697210"
+    },
+    "retrodeck_assets/faxanadu_nintendo_entertainment_system/conversion_report.json": {
+      "size": 840,
+      "mtime_ns": 1773438424000000000,
+      "sha1": "02e3b7e2d7b1f3c3d1b6045ca1153ba5611d1a7b"
+    },
+    "retrodeck_assets/faxanadu_nintendo_entertainment_system/metadata.json": {
+      "size": 1238,
+      "mtime_ns": 1773438424000000000,
+      "sha1": "8a02696307b2d2ba6b8373c16d25aa0f24a0b5ce"
+    },
+    "retrodeck_assets/faxanadu_nintendo_entertainment_system/sprite.png": {
+      "size": 1715,
+      "mtime_ns": 1773438424000000000,
+      "sha1": "7223fafd5378b68f7c8b741cfda2ca0616b0dd2f"
+    },
+    "retrodeck_assets/final_fantasy_iii_nintendo_entertainment_system/conversion_report.json": {
+      "size": 864,
+      "mtime_ns": 1773438434000000000,
+      "sha1": "f74dadaa9c8d1122a30fb5e9acc14feff6b5e773"
+    },
+    "retrodeck_assets/final_fantasy_iii_nintendo_entertainment_system/metadata.json": {
+      "size": 1306,
+      "mtime_ns": 1773438434000000000,
+      "sha1": "5a4d93a8a958cfff1a013d5cd4aac5662e6f49fe"
+    },
+    "retrodeck_assets/final_fantasy_iii_nintendo_entertainment_system/sprite.png": {
+      "size": 1780,
+      "mtime_ns": 1773438434000000000,
+      "sha1": "543e1f04a6f8514bd74a36caa7c3609c03b6f227"
+    },
+    "retrodeck_assets/ice_climber_nintendo_entertainment_system/conversion_report.json": {
+      "size": 879,
+      "mtime_ns": 1773438412000000000,
+      "sha1": "4b35fe228410808238e55aa6602d7aedb1cbe3d7"
+    },
+    "retrodeck_assets/ice_climber_nintendo_entertainment_system/metadata.json": {
+      "size": 1294,
+      "mtime_ns": 1773438412000000000,
+      "sha1": "11c8cdb1a8f3bd50e0dd202727a0cc406b14d309"
+    },
+    "retrodeck_assets/ice_climber_nintendo_entertainment_system/sprite.png": {
+      "size": 1707,
+      "mtime_ns": 1773438412000000000,
+      "sha1": "b1b672668a8f5f2ab8343f446bf57b91893298a1"
+    },
+    "retrodeck_assets/marble_madness_nintendo_entertainment_system/conversion_report.json": {
+      "size": 894,
+      "mtime_ns": 1773438414000000000,
+      "sha1": "c88fe50d360b4f9d38cdb7700a5ca87d60330711"
+    },
+    "retrodeck_assets/marble_madness_nintendo_entertainment_system/metadata.json": {
+      "size": 1322,
+      "mtime_ns": 1773438414000000000,
+      "sha1": "8634c8f37bc8b6b0e89c61f917023c2e928f926d"
+    },
+    "retrodeck_assets/marble_madness_nintendo_entertainment_system/sprite.png": {
+      "size": 2311,
+      "mtime_ns": 1773438414000000000,
+      "sha1": "47f2be2d7ac80a145963c1167ad5c7f7e4ad8b2e"
+    },
+    "retrodeck_assets/mega_man_nintendo_entertainment_system/conversion_report.json": {
+      "size": 841,
+      "mtime_ns": 1773438416000000000,
+      "sha1": "228f865b607f55ecd202b6370fc641528a6f5716"
+    },
+    "retrodeck_assets/mega_man_nintendo_entertainment_system/metadata.json": {
+      "size": 1272,
+      "mtime_ns": 1773438416000000000,
+      "sha1": "f271e6291920c6f1d451445df142150ca9e60285"
+    },
+    "retrodeck_assets/mega_man_nintendo_entertainment_system/sprite.png": {
+      "size": 1302,
+      "mtime_ns": 1773438416000000000,
+      "sha1": "cc1e35a2c4a2e20637631e04d041d741c6db5278"
+    },
+    "retrodeck_assets/metroid_nintendo_entertainment_system/conversion_report.json": {
+      "size": 858,
+      "mtime_ns": 1773438418000000000,
+      "sha1": "396a0c4c082396c5d4f13ab5bb12b7aef6e77991"
+    },
+    "retrodeck_assets/metroid_nintendo_entertainment_system/metadata.json": {
+      "size": 1214,
+      "mtime_ns": 1773438418000000000,
+      "sha1": "d5e6d9008239c982fba34de4ecf017aa047cf128"
+    },
+    "retrodeck_assets/metroid_nintendo_entertainment_system/sprite.png": {
+      "size": 1409,
+      "mtime_ns": 1773438418000000000,
+      "sha1": "63f6f42df46b14c3eeac31292a89e13bf5ce40a7"
+    },
+    "retrodeck_assets/mike_tysons_punch_out_nintendo_entertainment_system/conversion_report.json": {
+      "size": 872,
+      "mtime_ns": 1773438418000000000,
+      "sha1": "34cfd836f3027f62957efedc1fa37ac1c19cb395"
+    },
+    "retrodeck_assets/mike_tysons_punch_out_nintendo_entertainment_system/metadata.json": {
+      "size": 1273,
+      "mtime_ns": 1773438418000000000,
+      "sha1": "320deee20e0b0d0530bd6dd36ccb18c1c20f72f1"
+    },
+    "retrodeck_assets/mike_tysons_punch_out_nintendo_entertainment_system/sprite.png": {
+      "size": 1380,
+      "mtime_ns": 1773438418000000000,
+      "sha1": "79febdb3f9eb312a94616ff5f2d978993ee8f827"
+    },
+    "retrodeck_assets/ninja_gaiden_nintendo_entertainment_system/conversion_report.json": {
+      "size": 838,
+      "mtime_ns": 1773438430000000000,
+      "sha1": "d372049978639f8452caf5b54af4573307e3d039"
+    },
+    "retrodeck_assets/ninja_gaiden_nintendo_entertainment_system/metadata.json": {
+      "size": 1264,
+      "mtime_ns": 1773438430000000000,
+      "sha1": "c819ed933f64731207a44ad93e4460be157fe5e7"
+    },
+    "retrodeck_assets/ninja_gaiden_nintendo_entertainment_system/sprite.png": {
+      "size": 1357,
+      "mtime_ns": 1773438430000000000,
+      "sha1": "c1408aa45b83d2dc9c0555fec2c3a5d962e88fe5"
+    },
+    "retrodeck_assets/paperboy_nintendo_entertainment_system/conversion_report.json": {
+      "size": 889,
+      "mtime_ns": 1773438426000000000,
+      "sha1": "6c5f494313b5ccd04ea12119919585c048382a9e"
+    },
+    "retrodeck_assets/paperboy_nintendo_entertainment_system/metadata.json": {
+      "size": 1285,
+      "mtime_ns": 1773438426000000000,
+      "sha1": "0a04e861a135b535919686e90392d7ff88ebba11"
+    },
+    "retrodeck_assets/paperboy_nintendo_entertainment_system/sprite.png": {
+      "size": 1881,
+      "mtime_ns": 1773438426000000000,
+      "sha1": "35e64e95f3c6b885a551f889bafce29089864dc6"
+    },
+    "retrodeck_assets/rad_racer_nintendo_entertainment_system/conversion_report.json": {
+      "size": 841,
+      "mtime_ns": 1773438420000000000,
+      "sha1": "70c3bc542f9d7ca3a70789a5a68caf99b1ad1879"
+    },
+    "retrodeck_assets/rad_racer_nintendo_entertainment_system/metadata.json": {
+      "size": 1239,
+      "mtime_ns": 1773438420000000000,
+      "sha1": "40af7e2eab67b0a480aec2c2fb8fb1a62550d3ab"
+    },
+    "retrodeck_assets/rad_racer_nintendo_entertainment_system/sprite.png": {
+      "size": 1997,
+      "mtime_ns": 1773438420000000000,
+      "sha1": "56ff0f92f15cf3862966f73341241fa38b26cd78"
+    },
+    "retrodeck_assets/super_mario_bros_nintendo_entertainment_system/conversion_report.json": {
+      "size": 896,
+      "mtime_ns": 1773438414000000000,
+      "sha1": "b4fe45fbda211757efcfc6d58c9e32ffcd7b6ff4"
+    },
+    "retrodeck_assets/super_mario_bros_nintendo_entertainment_system/metadata.json": {
+      "size": 1270,
+      "mtime_ns": 1773438414000000000,
+      "sha1": "ad9ef2a18b183ba4caa54e1759cdbd8f46696573"
+    },
+    "retrodeck_assets/super_mario_bros_nintendo_entertainment_system/sprite.png": {
+      "size": 1787,
+      "mtime_ns": 1773438414000000000,
+      "sha1": "1755e01ab8e5225bcc4ecc2f40b4e01f4218ac26"
+    },
+    "retrodeck_assets/tecmo_bowl_nintendo_entertainment_system/conversion_report.json": {
+      "size": 882,
+      "mtime_ns": 1773438432000000000,
+      "sha1": "08be6aa3103ee66238813450a4754a348b68e721"
+    },
+    "retrodeck_assets/tecmo_bowl_nintendo_entertainment_system/metadata.json": {
+      "size": 1284,
+      "mtime_ns": 1773438432000000000,
+      "sha1": "8963372580e3f7189e7113972fcb0e8761e11b82"
+    },
+    "retrodeck_assets/tecmo_bowl_nintendo_entertainment_system/sprite.png": {
+      "size": 2319,
+      "mtime_ns": 1773438432000000000,
+      "sha1": "abaa605c361af5f99f3f3ee42826d10b60941f43"
+    },
+    "retrodeck_assets/the_legend_of_zelda_nintendo_entertainment_system/conversion_report.json": {
+      "size": 857,
+      "mtime_ns": 1773438420000000000,
+      "sha1": "f38948d11294567221cb0ff3cd8d381a23d96104"
+    },
+    "retrodeck_assets/the_legend_of_zelda_nintendo_entertainment_system/metadata.json": {
+      "size": 1274,
+      "mtime_ns": 1773438420000000000,
+      "sha1": "1944f2b89fd28e53033055c3534291c1fdedb147"
+    },
+    "retrodeck_assets/the_legend_of_zelda_nintendo_entertainment_system/sprite.png": {
+      "size": 2408,
+      "mtime_ns": 1773438420000000000,
+      "sha1": "87c203df5cea34e91ba3e1feaa5f976f824ca5e2"
+    },
+    "retrodeck_assets/zelda_ii_the_adventure_of_link_nintendo_entertainment_system/conversion_report.json": {
+      "size": 905,
+      "mtime_ns": 1773438428000000000,
+      "sha1": "43a4782a5730e26ecedeb45a94df383f44d997de"
+    },
+    "retrodeck_assets/zelda_ii_the_adventure_of_link_nintendo_entertainment_system/metadata.json": {
+      "size": 1388,
+      "mtime_ns": 1773438428000000000,
+      "sha1": "ee2249fb724046283a483abc0295ef45189217f1"
+    },
+    "retrodeck_assets/zelda_ii_the_adventure_of_link_nintendo_entertainment_system/sprite.png": {
+      "size": 1722,
+      "mtime_ns": 1773438428000000000,
+      "sha1": "c9b0c004eee424dbe5b583605d1711460a964b3d"
+    },
+    "review/retromarket_qa_harness.html": {
+      "size": 1116,
+      "mtime_ns": 1773486482000000000,
+      "sha1": "667a6f436615915975c7693b1bb438e5c335af73"
+    },
+    "scripts/README.md": {
+      "size": 1167,
+      "mtime_ns": 1773822313855732800,
+      "sha1": "cca9635abb6fc3c8e5f74b19e85672e1bfe9bd37"
+    },
+    "scripts/retrodex_sync_agent.py": {
+      "size": 48385,
+      "mtime_ns": 1773822303209399400,
+      "sha1": "84c9f642982fe27da018a016dc2a246a93972a0a"
+    },
+    "scripts/retrodex_sync_config.example.json": {
+      "size": 1079,
+      "mtime_ns": 1773808981597228900,
+      "sha1": "d3251e6095aa5b87000224c8e8e615de058fa101"
+    },
+    "start.sh": {
+      "size": 337,
+      "mtime_ns": 1773422828000000000,
+      "sha1": "64fa20d4667e971787e2baae006aa48d5fd3c22b"
+    }
+  }
+}

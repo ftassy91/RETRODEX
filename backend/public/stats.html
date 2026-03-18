@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RetroDex Stats</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #081008;
+        --panel: #102010;
+        --line: #294229;
+        --text: #d7efd7;
+        --muted: #98b898;
+        --accent: #8bac0f;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Consolas, "Courier New", monospace;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .page { max-width: 1080px; margin: 0 auto; padding: 24px; }
+      .panel {
+        margin-bottom: 16px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+      }
+      h1, h2, h3, p { margin: 0 0 12px; }
+      .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+      .button-link, button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        background: #183018;
+        color: var(--text);
+        text-decoration: none;
+        font: inherit;
+        cursor: pointer;
+        min-width: 170px;
+      }
+      .button-link:hover, button:hover { border-color: var(--accent); }
+      .status { color: var(--accent); min-height: 20px; }
+      .muted { color: var(--muted); }
+      .meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+      }
+      .card {
+        border: 1px solid var(--line);
+        background: #0b160b;
+        padding: 12px;
+      }
+      .list {
+        display: grid;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="panel">
+        <h1>RetroDex Stats</h1>
+        <p class="muted">
+          Page beginner qui consomme <code>GET /api/stats</code> pour lire des chiffres simples.
+        </p>
+        <div class="actions">
+          <a class="button-link" href="/home.html">Retour a Home backend</a>
+          <a class="button-link" href="/collection.html">Ouvrir Collection</a>
+          <button id="refreshButton" type="button">Rafraichir</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Etat</h2>
+        <div id="status" class="status">Chargement des stats...</div>
+      </section>
+
+      <section class="panel">
+        <h2>Resume</h2>
+        <div id="meta" class="meta"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Collection par console</h2>
+        <div id="results" class="list"></div>
+      </section>
+    </main>
+
+    <script>
+      const statusEl = document.getElementById("status");
+      const metaEl = document.getElementById("meta");
+      const resultsEl = document.getElementById("results");
+      const refreshButtonEl = document.getElementById("refreshButton");
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      async function fetchJson(url) {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error(`${response.status} ${response.statusText}`);
+        }
+
+        return response.json();
+      }
+
+      async function loadStats() {
+        statusEl.textContent = "Chargement...";
+        metaEl.innerHTML = "";
+        resultsEl.innerHTML = "";
+
+        try {
+          const stats = await fetchJson("/api/stats");
+          statusEl.textContent = "Stats chargees.";
+          metaEl.innerHTML = `
+            <article class="card"><span class="muted">Jeux catalogues</span><br>${escapeHtml(stats.totalGames)}</article>
+            <article class="card"><span class="muted">Items collection</span><br>${escapeHtml(stats.totalCollectionItems)}</article>
+            <article class="card"><span class="muted">Consoles presentes</span><br>${escapeHtml(Object.keys(stats.byConsole || {}).length)}</article>
+          `;
+
+          const entries = Object.entries(stats.byConsole || {});
+
+          if (!entries.length) {
+            resultsEl.innerHTML = `<div class="muted">Aucun item de collection pour l'instant.</div>`;
+            return;
+          }
+
+          resultsEl.innerHTML = entries
+            .map(
+              ([consoleName, count]) => `
+                <article class="card">
+                  <strong>${escapeHtml(consoleName)}</strong><br>
+                  <span class="muted">${escapeHtml(count)} item(s) dans la collection</span>
+                </article>
+              `
+            )
+            .join("");
+        } catch (error) {
+          statusEl.textContent = `Erreur stats - ${error.message}`;
+        }
+      }
+
+      refreshButtonEl.addEventListener("click", () => {
+        loadStats();
+      });
+
+      loadStats();
+    </script>
+  </body>
+</html>

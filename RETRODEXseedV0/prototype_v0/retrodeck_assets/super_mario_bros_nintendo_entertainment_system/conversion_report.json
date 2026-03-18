@@ -1,0 +1,19 @@
+﻿{
+    "output":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\retrodeck_assets\\super_mario_bros_nintendo_entertainment_system\\sprite.png",
+    "opaque_ratio":  0.3364,
+    "source":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\retrodeck_assets\\_cache\\source_images\\wikipedia_en_thumb_5_5c_mario_by_shigehisa_nakaue_png_250px_mario_by_shigehisa_nakaue_png.png",
+    "bbox":  {
+                 "y":  3,
+                 "width":  32,
+                 "height":  42,
+                 "x":  8
+             },
+    "colors_used":  [
+                        "#0F380F",
+                        "#306230",
+                        "#8BAC0F",
+                        "#9BBC0F"
+                    ],
+    "work_size":  48,
+    "canvas_size":  128
+}
