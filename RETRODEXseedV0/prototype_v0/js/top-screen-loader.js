@@ -1,5 +1,6 @@
 const TOP_SCREEN_LOADER = (() => {
   const TOP_IMAGE_CACHE = {};
+  let LAST_HELPERS = null;
   const LOCAL_IMAGE_ROOTS = [
     { type: 'boxart', path: 'assets/boxart/' },
     { type: 'titleScreen', path: 'assets/titlescreens/' },
@@ -29,6 +30,10 @@ const TOP_SCREEN_LOADER = (() => {
 
   function normalizeAssetPath(value) {
     return String(value || '').replace(/\\/g, '/').replace(/^\.\//, '');
+  }
+
+  function getGameSlug(game) {
+    return slugify(game && (game.title || game.id));
   }
 
   function getGeneratedStorageKey(slug) {
@@ -162,6 +167,44 @@ const TOP_SCREEN_LOADER = (() => {
     return sources;
   }
 
+  function renderGeneratedFromSource(game, loaded, sourceType, helpers) {
+    if (
+      typeof TOP_SCREEN_GENERATOR !== 'undefined'
+      && TOP_SCREEN_GENERATOR
+      && typeof TOP_SCREEN_GENERATOR.generateGBSprite === 'function'
+    ) {
+      return TOP_SCREEN_GENERATOR.generateGBSprite({
+        game: game,
+        image: loaded.image,
+        sourceType: sourceType,
+        width: GB_RENDER_SIZE.width,
+        height: GB_RENDER_SIZE.height
+      });
+    }
+
+    return helpers.renderLoadedGameBoyIllustration(loaded, sourceType, game);
+  }
+
+  function renderGeneratedFallback(game, helpers) {
+    if (
+      typeof TOP_SCREEN_GENERATOR !== 'undefined'
+      && TOP_SCREEN_GENERATOR
+      && typeof TOP_SCREEN_GENERATOR.generateGBSprite === 'function'
+    ) {
+      return TOP_SCREEN_GENERATOR.generateGBSprite({
+        game: game,
+        width: GB_RENDER_SIZE.width,
+        height: GB_RENDER_SIZE.height
+      });
+    }
+
+    return helpers.renderFallbackGameBoyIllustration(
+      game,
+      GB_RENDER_SIZE.width,
+      GB_RENDER_SIZE.height
+    );
+  }
+
   function normalizeTopImageLoaded(loaded) {
     var type = loaded.topImageType || 'artwork';
     var fit = getTopImageFit(type);
@@ -179,6 +222,8 @@ const TOP_SCREEN_LOADER = (() => {
   }
 
   function ensureGeneratedTopImage(game, context, slug, helpers) {
+    context = context || {};
+    helpers = helpers || {};
     var stored = readGeneratedFromStorage(slug);
     if (stored) {
       return helpers.loadImageTag(stored).then(function(loaded) {
@@ -192,11 +237,7 @@ const TOP_SCREEN_LOADER = (() => {
 
     function tryGenerate(index) {
       if (index >= generationSources.length) {
-        var fallbackDataUrl = helpers.renderFallbackGameBoyIllustration(
-          game,
-          GB_RENDER_SIZE.width,
-          GB_RENDER_SIZE.height
-        );
+        var fallbackDataUrl = renderGeneratedFallback(game, helpers);
         writeGeneratedToStorage(slug, fallbackDataUrl);
         return helpers.loadImageTag(fallbackDataUrl).then(function(loaded) {
           loaded.topImageType = 'generated-fallback';
@@ -208,7 +249,7 @@ const TOP_SCREEN_LOADER = (() => {
       var source = generationSources[index];
       return loadCachedImage(source.path, helpers.loadImageTag)
         .then(function(loaded) {
-          var dataUrl = helpers.renderLoadedGameBoyIllustration(loaded, source.type);
+          var dataUrl = renderGeneratedFromSource(game, loaded, source.type, helpers);
           writeGeneratedToStorage(slug, dataUrl);
           return helpers.loadImageTag(dataUrl).then(function(generated) {
             generated.topImageType = 'generated-' + source.type;
@@ -225,7 +266,11 @@ const TOP_SCREEN_LOADER = (() => {
   }
 
   function resolveTopImage(game, context, helpers) {
-    var slug = slugify(game && game.title);
+    context = context || {};
+    helpers = helpers || {};
+    LAST_HELPERS = helpers;
+
+    var slug = getGameSlug(game);
     var localCandidates = buildTopImagePaths(slug);
     context.topImageSlug = slug;
     context.topImagePaths = localCandidates.map(function(item) { return item.path; });
@@ -246,15 +291,57 @@ const TOP_SCREEN_LOADER = (() => {
       });
   }
 
+  function forceRegenerate(game, context, helpers) {
+    var slug = getGameSlug(game);
+    var stored = readGeneratedFromStorage(slug);
+    var activeHelpers = helpers || LAST_HELPERS;
+
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem(getGeneratedStorageKey(slug));
+      }
+    } catch (_error) {
+      /* localStorage may be unavailable - ignore safely */
+    }
+
+    if (stored) {
+      delete TOP_IMAGE_CACHE[stored];
+    }
+
+    if (!activeHelpers) {
+      return Promise.reject(new Error('TOP_SCREEN_LOADER.forceRegenerate requires helpers on first call.'));
+    }
+
+    return resolveTopImage(game, context || {}, activeHelpers);
+  }
+
   return {
     LOCAL_IMAGE_ROOTS: LOCAL_IMAGE_ROOTS,
     PLACEHOLDER_TOP_IMAGE: PLACEHOLDER_TOP_IMAGE,
     GENERATED_STORAGE_PREFIX: GENERATED_STORAGE_PREFIX,
     GB_RENDER_SIZE: GB_RENDER_SIZE,
     slugify: slugify,
+    forceRegenerate: forceRegenerate,
     buildTopImagePaths: buildTopImagePaths,
     readGeneratedFromStorage: readGeneratedFromStorage,
     writeGeneratedToStorage: writeGeneratedToStorage,
     resolveTopImage: resolveTopImage
   };
+})();
+
+(function clearOldCache() {
+  try {
+    if (typeof localStorage === 'undefined') return;
+    var prefix = 'retrodex.top.generated.';
+    var currentPrefix = 'retrodex.top.generated.v3.';
+    Object.keys(localStorage)
+      .filter(function(key) {
+        return key.indexOf(prefix) === 0 && key.indexOf(currentPrefix) !== 0;
+      })
+      .forEach(function(key) {
+        localStorage.removeItem(key);
+      });
+  } catch (_error) {
+    /* localStorage may be unavailable - ignore safely */
+  }
 })();
