@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#9bbc0f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="RetroDex">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <title>RetroDex — Hub</title>
   <link rel="stylesheet" href="/style.css">
   <style>
@@ -96,6 +102,13 @@
       if(items.length===0){ c.innerHTML='<span class="coll-empty">Aucun jeu — ajoutez-en depuis une fiche</span>'; }
       else{ c.innerHTML=items.map(i=>'<a href="/game-detail.html?id='+i.id+'" class="coll-pill">'+i.title+'</a>').join(''); }
     }).catch(()=>{ document.getElementById('stat-collection').textContent='—'; });
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then(() => console.log('[RetroDex] Service worker registered'))
+        .catch(e => console.warn('[RetroDex] SW registration failed:', e));
+    }
   </script>
 </body>
 </html>
