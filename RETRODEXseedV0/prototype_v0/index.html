@@ -431,6 +431,14 @@
       flex-direction: column;
       gap: 1px;
     }
+    .bot-page-facts-release .bot-page-row:last-child {
+      padding-bottom: 8px;
+    }
+    .bot-page-row.is-rank strong {
+      padding-left: 4px;
+      overflow: visible;
+      text-overflow: clip;
+    }
     .bot-page-people {
       font-family: var(--rdx-body-font), monospace;
       font-size: 7.6px;
@@ -1849,6 +1857,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     return '<div class="bot-page-row"><span>' + escHtml(label) + '</span><strong>' + escHtml(String(value || '—')) + '</strong></div>';
   }
 
+  function pageRowLiteWithClass(label, value, extraClass) {
+    return '<div class="bot-page-row' + (extraClass ? ' ' + extraClass : '') + '"><span>' + escHtml(label) + '</span><strong>' + escHtml(String(value == null || value === '' ? '—' : value)) + '</strong></div>';
+  }
+
   function pageTitleLite(value) {
     return '<div class="bot-page-title-main">' + escHtml(String(value || '—')) + '</div>';
   }
@@ -1971,14 +1983,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     return pageShellLite(
       'OVERVIEW',
       pageBlockLite('GAME', pageTitleLite(game.title), 'is-compact') +
-      pageBlockLite('RELEASE', '<div class="bot-page-facts">' +
+      pageBlockLite('RELEASE', '<div class="bot-page-facts bot-page-facts-release">' +
         pageRowLite('CONSOLE', shortConsole(game.console)) +
         pageRowLite('YEAR', game.year || '-') +
         pageRowLite('GENRE', genre) +
       '</div>', 'is-medium') +
       pageBlockLite('POSITION', '<div class="bot-page-facts">' +
         pageRowLite('SCORE', game.metascore || '-') +
-        pageRowLite('RANK', '#' + getRank(game)) +
+        pageRowLiteWithClass('RANK', '#' + getRank(game), 'is-rank') +
         pageRowLite('RARITY', game.rarity || 'COMMON') +
       '</div>', 'is-medium'),
       ''
