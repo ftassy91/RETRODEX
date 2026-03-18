@@ -157,6 +157,22 @@ function computeTrend(history) {
   return "stable";
 }
 
+function computePriceTrend(gameId, currentPrice, priceType = "mint") {
+  const history = generateHistory(currentPrice, gameId, priceType, buildMonthLabels(12));
+  return computeTrend(history);
+}
+
+function withGameTrend(game) {
+  const plainGame = typeof game?.toJSON === "function" ? game.toJSON() : game;
+
+  return {
+    ...plainGame,
+    trend: {
+      mint: computePriceTrend(plainGame.id, plainGame.mintPrice, "mint"),
+    },
+  };
+}
+
 function buildPriceHistoryPayload(game) {
   const monthLabels = buildMonthLabels(12);
   const looseHistory = generateHistory(game.loosePrice, game.id, "loose", monthLabels);
@@ -294,8 +310,9 @@ app.delete("/collection/:id", handleAsync(async (req, res) => {
 }));
 
 app.get("/api/games", handleAsync(async (req, res) => {
-  const limit = parseLimit(req.query.limit);
+  const limit = parseLimit(req.query.limit, 20, 1000);
   const where = buildGameWhere(req.query);
+  const includeTrend = String(req.query.include_trend || "") === "1";
 
   const total = await Game.count({ where });
   const games = await Game.findAll({
@@ -305,7 +322,7 @@ app.get("/api/games", handleAsync(async (req, res) => {
   });
 
   res.json({
-    items: games,
+    items: includeTrend ? games.map(withGameTrend) : games,
     returned: games.length,
     total,
   });
