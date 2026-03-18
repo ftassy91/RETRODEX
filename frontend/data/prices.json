@@ -1,0 +1,3044 @@
+[
+  {
+    "game": "super-mario-bros-nintendo-entertainment-system",
+    "loose": 17,
+    "cib": 41,
+    "mint": 56
+  },
+  {
+    "game": "super-mario-bros-3-nintendo-entertainment-system",
+    "loose": 10,
+    "cib": 29,
+    "mint": 40
+  },
+  {
+    "game": "the-legend-of-zelda-nintendo-entertainment-system",
+    "loose": 29,
+    "cib": 34,
+    "mint": 47
+  },
+  {
+    "game": "zelda-ii-the-adventure-of-link-nintendo-entertainment-system",
+    "loose": 17,
+    "cib": 50,
+    "mint": 78
+  },
+  {
+    "game": "metroid-nintendo-entertainment-system",
+    "loose": 22,
+    "cib": 27,
+    "mint": 45
+  },
+  {
+    "game": "mega-man-2-nintendo-entertainment-system",
+    "loose": 20,
+    "cib": 32,
+    "mint": 46
+  },
+  {
+    "game": "mega-man-3-nintendo-entertainment-system",
+    "loose": 24,
+    "cib": 37,
+    "mint": 59
+  },
+  {
+    "game": "castlevania-nintendo-entertainment-system",
+    "loose": 30,
+    "cib": 41,
+    "mint": 66
+  },
+  {
+    "game": "castlevania-iii-draculas-curse-nintendo-entertainment-system",
+    "loose": 58,
+    "cib": 71,
+    "mint": 96
+  },
+  {
+    "game": "ninja-gaiden-nintendo-entertainment-system",
+    "loose": 26,
+    "cib": 37,
+    "mint": 60
+  },
+  {
+    "game": "contra-nintendo-entertainment-system",
+    "loose": 15,
+    "cib": 20,
+    "mint": 33
+  },
+  {
+    "game": "duck-tales-nintendo-entertainment-system",
+    "loose": 48,
+    "cib": 59,
+    "mint": 87
+  },
+  {
+    "game": "bionic-commando-nintendo-entertainment-system",
+    "loose": 17,
+    "cib": 19,
+    "mint": 26
+  },
+  {
+    "game": "mike-tysons-punch-out-nintendo-entertainment-system",
+    "loose": 15,
+    "cib": 94,
+    "mint": 129
+  },
+  {
+    "game": "battletoads-nintendo-entertainment-system",
+    "loose": 49,
+    "cib": 59,
+    "mint": 87
+  },
+  {
+    "game": "tetris-game-boy",
+    "loose": 11,
+    "cib": 53,
+    "mint": 78
+  },
+  {
+    "game": "pokemon-red-game-boy",
+    "loose": 6,
+    "cib": 37,
+    "mint": 50
+  },
+  {
+    "game": "pokemon-blue-game-boy",
+    "loose": 27,
+    "cib": 37,
+    "mint": 59
+  },
+  {
+    "game": "pokemon-yellow-game-boy",
+    "loose": 19,
+    "cib": 57,
+    "mint": 95
+  },
+  {
+    "game": "super-mario-land-game-boy",
+    "loose": 10,
+    "cib": 47,
+    "mint": 73
+  },
+  {
+    "game": "super-mario-land-2-game-boy",
+    "loose": 6,
+    "cib": 22,
+    "mint": 28
+  },
+  {
+    "game": "the-legend-of-zelda-links-awakening-game-boy",
+    "loose": 20,
+    "cib": 46,
+    "mint": 61
+  },
+  {
+    "game": "kirby-dream-land-game-boy",
+    "loose": 18,
+    "cib": 58,
+    "mint": 77
+  },
+  {
+    "game": "metroid-ii-return-of-samus-game-boy",
+    "loose": 14,
+    "cib": 54,
+    "mint": 70
+  },
+  {
+    "game": "donkey-kong-game-boy",
+    "loose": 15,
+    "cib": 23,
+    "mint": 34
+  },
+  {
+    "game": "wario-land-super-mario-land-3-game-boy",
+    "loose": 11,
+    "cib": 18,
+    "mint": 28
+  },
+  {
+    "game": "gargoyles-quest-game-boy",
+    "loose": 43,
+    "cib": 75,
+    "mint": 113
+  },
+  {
+    "game": "dr-mario-game-boy",
+    "loose": 29,
+    "cib": 37,
+    "mint": 53
+  },
+  {
+    "game": "pokemon-gold-game-boy",
+    "loose": 27,
+    "cib": 57,
+    "mint": 95
+  },
+  {
+    "game": "pokemon-silver-game-boy",
+    "loose": 9,
+    "cib": 60,
+    "mint": 92
+  },
+  {
+    "game": "sonic-the-hedgehog-sega-genesis",
+    "loose": 28,
+    "cib": 37,
+    "mint": 57
+  },
+  {
+    "game": "sonic-the-hedgehog-2-sega-genesis",
+    "loose": 18,
+    "cib": 25,
+    "mint": 33
+  },
+  {
+    "game": "sonic-the-hedgehog-3-sega-genesis",
+    "loose": 9,
+    "cib": 33,
+    "mint": 45
+  },
+  {
+    "game": "streets-of-rage-2-sega-genesis",
+    "loose": 10,
+    "cib": 41,
+    "mint": 55
+  },
+  {
+    "game": "gunstar-heroes-sega-genesis",
+    "loose": 28,
+    "cib": 111,
+    "mint": 158
+  },
+  {
+    "game": "phantasy-star-iv-sega-genesis",
+    "loose": 46,
+    "cib": 75,
+    "mint": 122
+  },
+  {
+    "game": "shining-force-sega-genesis",
+    "loose": 22,
+    "cib": 86,
+    "mint": 118
+  },
+  {
+    "game": "shining-force-ii-sega-genesis",
+    "loose": 19,
+    "cib": 104,
+    "mint": 147
+  },
+  {
+    "game": "ecco-the-dolphin-sega-genesis",
+    "loose": 23,
+    "cib": 26,
+    "mint": 37
+  },
+  {
+    "game": "castlevania-bloodlines-sega-genesis",
+    "loose": 39,
+    "cib": 91,
+    "mint": 130
+  },
+  {
+    "game": "mortal-kombat-sega-genesis",
+    "loose": 30,
+    "cib": 42,
+    "mint": 61
+  },
+  {
+    "game": "earthworm-jim-sega-genesis",
+    "loose": 16,
+    "cib": 50,
+    "mint": 66
+  },
+  {
+    "game": "altered-beast-sega-genesis",
+    "loose": 6,
+    "cib": 38,
+    "mint": 60
+  },
+  {
+    "game": "comix-zone-sega-genesis",
+    "loose": 40,
+    "cib": 96,
+    "mint": 133
+  },
+  {
+    "game": "toejam-and-earl-sega-genesis",
+    "loose": 56,
+    "cib": 84,
+    "mint": 131
+  },
+  {
+    "game": "final-fantasy-vi-super-nintendo",
+    "loose": 34,
+    "cib": 53,
+    "mint": 87
+  },
+  {
+    "game": "super-mario-kart-super-nintendo",
+    "loose": 28,
+    "cib": 48,
+    "mint": 66
+  },
+  {
+    "game": "street-fighter-ii-super-nintendo",
+    "loose": 30,
+    "cib": 52,
+    "mint": 81
+  },
+  {
+    "game": "donkey-kong-country-2-super-nintendo",
+    "loose": 12,
+    "cib": 39,
+    "mint": 55
+  },
+  {
+    "game": "super-mario-rpg-super-nintendo",
+    "loose": 20,
+    "cib": 96,
+    "mint": 140
+  },
+  {
+    "game": "yoshi-island-super-nintendo",
+    "loose": 13,
+    "cib": 19,
+    "mint": 28
+  },
+  {
+    "game": "kirby-super-star-super-nintendo",
+    "loose": 58,
+    "cib": 113,
+    "mint": 161
+  },
+  {
+    "game": "super-punch-out-super-nintendo",
+    "loose": 45,
+    "cib": 113,
+    "mint": 152
+  },
+  {
+    "game": "starfox-super-nintendo",
+    "loose": 13,
+    "cib": 42,
+    "mint": 69
+  },
+  {
+    "game": "f-zero-super-nintendo",
+    "loose": 18,
+    "cib": 60,
+    "mint": 97
+  },
+  {
+    "game": "final-fantasy-iv-super-nintendo",
+    "loose": 10,
+    "cib": 33,
+    "mint": 47
+  },
+  {
+    "game": "final-fantasy-v-super-nintendo",
+    "loose": 58,
+    "cib": 96,
+    "mint": 157
+  },
+  {
+    "game": "secret-of-mana-super-nintendo",
+    "loose": 24,
+    "cib": 52,
+    "mint": 71
+  },
+  {
+    "game": "tales-of-phantasia-super-nintendo",
+    "loose": 83,
+    "cib": 133,
+    "mint": 191
+  },
+  {
+    "game": "mega-man-x2-super-nintendo",
+    "loose": 57,
+    "cib": 102,
+    "mint": 160
+  },
+  {
+    "game": "crash-bandicoot-playstation",
+    "loose": 11,
+    "cib": 57,
+    "mint": 89
+  },
+  {
+    "game": "spyro-the-dragon-playstation",
+    "loose": 30,
+    "cib": 50,
+    "mint": 70
+  },
+  {
+    "game": "tomb-raider-playstation",
+    "loose": 18,
+    "cib": 32,
+    "mint": 46
+  },
+  {
+    "game": "final-fantasy-ix-playstation",
+    "loose": 16,
+    "cib": 58,
+    "mint": 84
+  },
+  {
+    "game": "parasite-eve-playstation",
+    "loose": 22,
+    "cib": 104,
+    "mint": 157
+  },
+  {
+    "game": "vagrant-story-playstation",
+    "loose": 15,
+    "cib": 106,
+    "mint": 150
+  },
+  {
+    "game": "xenogears-playstation",
+    "loose": 58,
+    "cib": 120,
+    "mint": 191
+  },
+  {
+    "game": "wild-arms-playstation",
+    "loose": 25,
+    "cib": 105,
+    "mint": 169
+  },
+  {
+    "game": "suikoden-playstation",
+    "loose": 96,
+    "cib": 148,
+    "mint": 208
+  },
+  {
+    "game": "suikoden-ii-playstation",
+    "loose": 297,
+    "cib": 486,
+    "mint": 712
+  },
+  {
+    "game": "chrono-cross-playstation",
+    "loose": 22,
+    "cib": 55,
+    "mint": 85
+  },
+  {
+    "game": "tony-hawks-pro-skater-2-playstation",
+    "loose": 29,
+    "cib": 47,
+    "mint": 64
+  },
+  {
+    "game": "crash-team-racing-playstation",
+    "loose": 5,
+    "cib": 21,
+    "mint": 34
+  },
+  {
+    "game": "legend-of-dragoon-playstation",
+    "loose": 19,
+    "cib": 114,
+    "mint": 149
+  },
+  {
+    "game": "bushido-blade-playstation",
+    "loose": 18,
+    "cib": 93,
+    "mint": 132
+  },
+  {
+    "game": "panzer-dragoon-saga-sega-saturn",
+    "loose": 770,
+    "cib": 1411,
+    "mint": 2369
+  },
+  {
+    "game": "nights-into-dreams-sega-saturn",
+    "loose": 52,
+    "cib": 89,
+    "mint": 122
+  },
+  {
+    "game": "guardian-heroes-sega-saturn",
+    "loose": 52,
+    "cib": 181,
+    "mint": 264
+  },
+  {
+    "game": "dragon-force-sega-saturn",
+    "loose": 62,
+    "cib": 147,
+    "mint": 218
+  },
+  {
+    "game": "radiant-silvergun-sega-saturn",
+    "loose": 331,
+    "cib": 667,
+    "mint": 1107
+  },
+  {
+    "game": "castlevania-symphony-of-the-night-sega-saturn",
+    "loose": 297,
+    "cib": 474,
+    "mint": 749
+  },
+  {
+    "game": "burning-rangers-sega-saturn",
+    "loose": 187,
+    "cib": 474,
+    "mint": 797
+  },
+  {
+    "game": "shining-the-holy-ark-sega-saturn",
+    "loose": 62,
+    "cib": 172,
+    "mint": 240
+  },
+  {
+    "game": "albert-odyssey-sega-saturn",
+    "loose": 75,
+    "cib": 198,
+    "mint": 302
+  },
+  {
+    "game": "fighters-megamix-sega-saturn",
+    "loose": 59,
+    "cib": 83,
+    "mint": 113
+  },
+  {
+    "game": "conkers-bad-fur-day-nintendo-64",
+    "loose": 101,
+    "cib": 247,
+    "mint": 409
+  },
+  {
+    "game": "perfect-dark-nintendo-64",
+    "loose": 20,
+    "cib": 30,
+    "mint": 50
+  },
+  {
+    "game": "majoras-mask-nintendo-64",
+    "loose": 22,
+    "cib": 37,
+    "mint": 62
+  },
+  {
+    "game": "kirby-64-crystal-shards-nintendo-64",
+    "loose": 21,
+    "cib": 21,
+    "mint": 28
+  },
+  {
+    "game": "f-zero-x-nintendo-64",
+    "loose": 30,
+    "cib": 45,
+    "mint": 59
+  },
+  {
+    "game": "wave-race-64-nintendo-64",
+    "loose": 25,
+    "cib": 25,
+    "mint": 38
+  },
+  {
+    "game": "mario-party-nintendo-64",
+    "loose": 22,
+    "cib": 39,
+    "mint": 60
+  },
+  {
+    "game": "pokemon-snap-nintendo-64",
+    "loose": 23,
+    "cib": 43,
+    "mint": 63
+  },
+  {
+    "game": "1080-snowboarding-nintendo-64",
+    "loose": 10,
+    "cib": 23,
+    "mint": 35
+  },
+  {
+    "game": "diddy-kong-racing-nintendo-64",
+    "loose": 6,
+    "cib": 40,
+    "mint": 52
+  },
+  {
+    "game": "metroid-zero-mission-game-boy-advance",
+    "loose": 15,
+    "cib": 47,
+    "mint": 65
+  },
+  {
+    "game": "golden-sun-the-lost-age-game-boy-advance",
+    "loose": 29,
+    "cib": 47,
+    "mint": 64
+  },
+  {
+    "game": "warioware-inc-game-boy-advance",
+    "loose": 19,
+    "cib": 22,
+    "mint": 34
+  },
+  {
+    "game": "mario-kart-super-circuit-game-boy-advance",
+    "loose": 18,
+    "cib": 32,
+    "mint": 51
+  },
+  {
+    "game": "kirby-nightmare-in-dream-land-game-boy-advance",
+    "loose": 8,
+    "cib": 46,
+    "mint": 62
+  },
+  {
+    "game": "boktai-the-sun-is-in-your-hand-game-boy-advance",
+    "loose": 75,
+    "cib": 248,
+    "mint": 358
+  },
+  {
+    "game": "tactics-ogre-the-knight-of-lodis-game-boy-advance",
+    "loose": 50,
+    "cib": 75,
+    "mint": 120
+  },
+  {
+    "game": "mother-3-game-boy-advance",
+    "loose": 124,
+    "cib": 331,
+    "mint": 516
+  },
+  {
+    "game": "megaman-zero-game-boy-advance",
+    "loose": 49,
+    "cib": 59,
+    "mint": 94
+  },
+  {
+    "game": "pokemon-emerald-game-boy-advance",
+    "loose": 8,
+    "cib": 23,
+    "mint": 37
+  },
+  {
+    "game": "chrono-trigger-nintendo-ds",
+    "loose": 24,
+    "cib": 109,
+    "mint": 145
+  },
+  {
+    "game": "radiant-historia-nintendo-ds",
+    "loose": 105,
+    "cib": 202,
+    "mint": 276
+  },
+  {
+    "game": "the-world-ends-with-you-nintendo-ds",
+    "loose": 60,
+    "cib": 74,
+    "mint": 114
+  },
+  {
+    "game": "pokemon-heartgold-nintendo-ds",
+    "loose": 54,
+    "cib": 74,
+    "mint": 106
+  },
+  {
+    "game": "dragon-quest-ix-nintendo-ds",
+    "loose": 6,
+    "cib": 36,
+    "mint": 58
+  },
+  {
+    "game": "castlevania-order-of-ecclesia-nintendo-ds",
+    "loose": 42,
+    "cib": 66,
+    "mint": 93
+  },
+  {
+    "game": "ghost-trick-phantom-detective-nintendo-ds",
+    "loose": 54,
+    "cib": 117,
+    "mint": 175
+  },
+  {
+    "game": "phoenix-wright-ace-attorney-nintendo-ds",
+    "loose": 48,
+    "cib": 49,
+    "mint": 68
+  },
+  {
+    "game": "999-nine-hours-nine-persons-nine-doors-nintendo-ds",
+    "loose": 52,
+    "cib": 140,
+    "mint": 213
+  },
+  {
+    "game": "mario-and-luigi-bowsers-inside-story-nintendo-ds",
+    "loose": 28,
+    "cib": 33,
+    "mint": 54
+  },
+  {
+    "game": "power-stone-dreamcast",
+    "loose": 25,
+    "cib": 61,
+    "mint": 98
+  },
+  {
+    "game": "crazy-taxi-dreamcast",
+    "loose": 16,
+    "cib": 32,
+    "mint": 45
+  },
+  {
+    "game": "seaman-dreamcast",
+    "loose": 17,
+    "cib": 114,
+    "mint": 166
+  },
+  {
+    "game": "ikaruga-dreamcast",
+    "loose": 156,
+    "cib": 237,
+    "mint": 320
+  },
+  {
+    "game": "tech-romancer-dreamcast",
+    "loose": 15,
+    "cib": 76,
+    "mint": 123
+  },
+  {
+    "game": "metal-slug-neo-geo",
+    "loose": 155,
+    "cib": 303,
+    "mint": 408
+  },
+  {
+    "game": "metal-slug-2-neo-geo",
+    "loose": 189,
+    "cib": 226,
+    "mint": 297
+  },
+  {
+    "game": "the-king-of-fighters-98-neo-geo",
+    "loose": 121,
+    "cib": 460,
+    "mint": 723
+  },
+  {
+    "game": "samurai-shodown-ii-neo-geo",
+    "loose": 296,
+    "cib": 381,
+    "mint": 596
+  },
+  {
+    "game": "fatal-fury-special-neo-geo",
+    "loose": 44,
+    "cib": 176,
+    "mint": 286
+  },
+  {
+    "game": "bonk-revenge-turbografx-16",
+    "loose": 54,
+    "cib": 83,
+    "mint": 126
+  },
+  {
+    "game": "castlevania-rondo-of-blood-turbografx-16",
+    "loose": 218,
+    "cib": 991,
+    "mint": 1581
+  },
+  {
+    "game": "lords-of-thunder-turbografx-16",
+    "loose": 93,
+    "cib": 224,
+    "mint": 355
+  },
+  {
+    "game": "y-s-book-i-ii-turbografx-16",
+    "loose": 69,
+    "cib": 124,
+    "mint": 187
+  },
+  {
+    "game": "military-madness-turbografx-16",
+    "loose": 18,
+    "cib": 67,
+    "mint": 93
+  },
+  {
+    "game": "marvel-vs-capcom-2-dreamcast",
+    "loose": 31,
+    "cib": 60,
+    "mint": 98
+  },
+  {
+    "game": "grandia-ii-dreamcast",
+    "loose": 21,
+    "cib": 95,
+    "mint": 123
+  },
+  {
+    "game": "space-channel-5-dreamcast",
+    "loose": 16,
+    "cib": 65,
+    "mint": 87
+  },
+  {
+    "game": "virtua-fighter-3tb-dreamcast",
+    "loose": 26,
+    "cib": 120,
+    "mint": 170
+  },
+  {
+    "game": "cannon-spike-dreamcast",
+    "loose": 72,
+    "cib": 126,
+    "mint": 193
+  },
+  {
+    "game": "alex-kidd-in-miracle-world-sega-master-system",
+    "loose": 18,
+    "cib": 27,
+    "mint": 35
+  },
+  {
+    "game": "phantasy-star-sega-master-system",
+    "loose": 56,
+    "cib": 60,
+    "mint": 90
+  },
+  {
+    "game": "wonder-boy-iii-the-dragons-trap-sega-master-system",
+    "loose": 43,
+    "cib": 52,
+    "mint": 71
+  },
+  {
+    "game": "sonic-the-hedgehog-sega-master-system",
+    "loose": 12,
+    "cib": 36,
+    "mint": 53
+  },
+  {
+    "game": "golvellius-valley-of-doom-sega-master-system",
+    "loose": 45,
+    "cib": 56,
+    "mint": 81
+  },
+  {
+    "game": "castle-of-illusion-sega-master-system",
+    "loose": 25,
+    "cib": 69,
+    "mint": 109
+  },
+  {
+    "game": "r-type-sega-master-system",
+    "loose": 46,
+    "cib": 72,
+    "mint": 114
+  },
+  {
+    "game": "double-dragon-sega-master-system",
+    "loose": 8,
+    "cib": 42,
+    "mint": 64
+  },
+  {
+    "game": "sonic-the-hedgehog-game-gear",
+    "loose": 30,
+    "cib": 35,
+    "mint": 47
+  },
+  {
+    "game": "columns-game-gear",
+    "loose": 28,
+    "cib": 43,
+    "mint": 58
+  },
+  {
+    "game": "shinobi-game-gear",
+    "loose": 26,
+    "cib": 42,
+    "mint": 57
+  },
+  {
+    "game": "streets-of-rage-game-gear",
+    "loose": 21,
+    "cib": 53,
+    "mint": 88
+  },
+  {
+    "game": "defenders-of-oasis-game-gear",
+    "loose": 49,
+    "cib": 58,
+    "mint": 80
+  },
+  {
+    "game": "the-gg-shinobi-game-gear",
+    "loose": 21,
+    "cib": 35,
+    "mint": 55
+  },
+  {
+    "game": "tails-adventure-game-gear",
+    "loose": 41,
+    "cib": 91,
+    "mint": 137
+  },
+  {
+    "game": "chip-and-dales-rescue-rangers-atari-lynx",
+    "loose": 49,
+    "cib": 141,
+    "mint": 197
+  },
+  {
+    "game": "blue-lightning-atari-lynx",
+    "loose": 51,
+    "cib": 93,
+    "mint": 139
+  },
+  {
+    "game": "vikings-child-atari-lynx",
+    "loose": 21,
+    "cib": 120,
+    "mint": 157
+  },
+  {
+    "game": "roadblasters-atari-lynx",
+    "loose": 17,
+    "cib": 95,
+    "mint": 125
+  },
+  {
+    "game": "klax-atari-lynx",
+    "loose": 27,
+    "cib": 46,
+    "mint": 71
+  },
+  {
+    "game": "final-fantasy-wonderswan",
+    "loose": 63,
+    "cib": 148,
+    "mint": 245
+  },
+  {
+    "game": "final-fantasy-ii-wonderswan",
+    "loose": 72,
+    "cib": 82,
+    "mint": 125
+  },
+  {
+    "game": "gunpey-wonderswan",
+    "loose": 33,
+    "cib": 65,
+    "mint": 103
+  },
+  {
+    "game": "judgement-silversword-wonderswan",
+    "loose": 316,
+    "cib": 726,
+    "mint": 1043
+  },
+  {
+    "game": "beatmania-wonderswan",
+    "loose": 24,
+    "cib": 79,
+    "mint": 119
+  },
+  {
+    "game": "kirby-adventure-nintendo-entertainment-system",
+    "loose": 27,
+    "cib": 97,
+    "mint": 128
+  },
+  {
+    "game": "double-dragon-nintendo-entertainment-system",
+    "loose": 5,
+    "cib": 37,
+    "mint": 51
+  },
+  {
+    "game": "tecmo-super-bowl-nintendo-entertainment-system",
+    "loose": 24,
+    "cib": 29,
+    "mint": 47
+  },
+  {
+    "game": "river-city-ransom-nintendo-entertainment-system",
+    "loose": 39,
+    "cib": 42,
+    "mint": 60
+  },
+  {
+    "game": "actraiser-super-nintendo",
+    "loose": 35,
+    "cib": 88,
+    "mint": 123
+  },
+  {
+    "game": "terranigma-super-nintendo",
+    "loose": 119,
+    "cib": 187,
+    "mint": 244
+  },
+  {
+    "game": "illusion-of-gaia-super-nintendo",
+    "loose": 26,
+    "cib": 67,
+    "mint": 93
+  },
+  {
+    "game": "rock-n-roll-racing-super-nintendo",
+    "loose": 24,
+    "cib": 40,
+    "mint": 64
+  },
+  {
+    "game": "ristar-sega-genesis",
+    "loose": 19,
+    "cib": 40,
+    "mint": 58
+  },
+  {
+    "game": "dynamite-headdy-sega-genesis",
+    "loose": 95,
+    "cib": 115,
+    "mint": 181
+  },
+  {
+    "game": "rocket-knight-adventures-sega-genesis",
+    "loose": 38,
+    "cib": 103,
+    "mint": 151
+  },
+  {
+    "game": "beyond-oasis-sega-genesis",
+    "loose": 39,
+    "cib": 111,
+    "mint": 184
+  },
+  {
+    "game": "landstalker-sega-genesis",
+    "loose": 31,
+    "cib": 81,
+    "mint": 128
+  },
+  {
+    "game": "alundra-playstation",
+    "loose": 22,
+    "cib": 74,
+    "mint": 111
+  },
+  {
+    "game": "klonoa-door-to-phantomile-playstation",
+    "loose": 48,
+    "cib": 88,
+    "mint": 122
+  },
+  {
+    "game": "legend-of-mana-playstation",
+    "loose": 35,
+    "cib": 119,
+    "mint": 159
+  },
+  {
+    "game": "breath-of-fire-iii-playstation",
+    "loose": 34,
+    "cib": 119,
+    "mint": 184
+  },
+  {
+    "game": "breath-of-fire-iv-playstation",
+    "loose": 28,
+    "cib": 96,
+    "mint": 150
+  },
+  {
+    "game": "pokemon-stadium-nintendo-64",
+    "loose": 21,
+    "cib": 22,
+    "mint": 33
+  },
+  {
+    "game": "harvest-moon-64-nintendo-64",
+    "loose": 31,
+    "cib": 49,
+    "mint": 78
+  },
+  {
+    "game": "ogre-battle-64-nintendo-64",
+    "loose": 55,
+    "cib": 84,
+    "mint": 118
+  },
+  {
+    "game": "castlevania-circle-of-the-moon-game-boy-advance",
+    "loose": 29,
+    "cib": 57,
+    "mint": 83
+  },
+  {
+    "game": "sonic-advance-game-boy-advance",
+    "loose": 29,
+    "cib": 49,
+    "mint": 73
+  },
+  {
+    "game": "hotel-dusk-room-215-nintendo-ds",
+    "loose": 30,
+    "cib": 117,
+    "mint": 184
+  },
+  {
+    "game": "infinite-space-nintendo-ds",
+    "loose": 53,
+    "cib": 153,
+    "mint": 223
+  },
+  {
+    "game": "virtua-fighter-2-sega-saturn",
+    "loose": 11,
+    "cib": 19,
+    "mint": 29
+  },
+  {
+    "game": "rival-schools-evolution-dreamcast",
+    "loose": 32,
+    "cib": 98,
+    "mint": 156
+  },
+  {
+    "game": "dungeon-explorer-turbografx-16",
+    "loose": 36,
+    "cib": 116,
+    "mint": 154
+  },
+  {
+    "game": "contra-iii-alien-wars-super-nintendo",
+    "loose": 5,
+    "cib": 18,
+    "mint": 27
+  },
+  {
+    "game": "super-probotector-super-nintendo",
+    "loose": 55,
+    "cib": 71,
+    "mint": 116
+  },
+  {
+    "game": "gradius-iii-super-nintendo",
+    "loose": 11,
+    "cib": 42,
+    "mint": 69
+  },
+  {
+    "game": "super-ghouls-n-ghosts-super-nintendo",
+    "loose": 26,
+    "cib": 27,
+    "mint": 35
+  },
+  {
+    "game": "breath-of-fire-super-nintendo",
+    "loose": 35,
+    "cib": 67,
+    "mint": 92
+  },
+  {
+    "game": "breath-of-fire-ii-super-nintendo",
+    "loose": 55,
+    "cib": 68,
+    "mint": 88
+  },
+  {
+    "game": "lufia-ii-rise-of-the-sinistrals-super-nintendo",
+    "loose": 42,
+    "cib": 78,
+    "mint": 107
+  },
+  {
+    "game": "demons-crest-super-nintendo",
+    "loose": 114,
+    "cib": 296,
+    "mint": 503
+  },
+  {
+    "game": "zombies-ate-my-neighbors-super-nintendo",
+    "loose": 60,
+    "cib": 86,
+    "mint": 115
+  },
+  {
+    "game": "pilot-wings-super-nintendo",
+    "loose": 10,
+    "cib": 41,
+    "mint": 59
+  },
+  {
+    "game": "harvest-moon-super-nintendo",
+    "loose": 21,
+    "cib": 49,
+    "mint": 68
+  },
+  {
+    "game": "thunder-force-iv-sega-genesis",
+    "loose": 107,
+    "cib": 184,
+    "mint": 257
+  },
+  {
+    "game": "herzog-zwei-sega-genesis",
+    "loose": 25,
+    "cib": 75,
+    "mint": 119
+  },
+  {
+    "game": "battletoads-double-dragon-sega-genesis",
+    "loose": 6,
+    "cib": 53,
+    "mint": 86
+  },
+  {
+    "game": "alien-soldier-sega-genesis",
+    "loose": 144,
+    "cib": 392,
+    "mint": 570
+  },
+  {
+    "game": "contra-hard-corps-sega-genesis",
+    "loose": 33,
+    "cib": 116,
+    "mint": 173
+  },
+  {
+    "game": "vectorman-sega-genesis",
+    "loose": 29,
+    "cib": 48,
+    "mint": 78
+  },
+  {
+    "game": "truxton-sega-genesis",
+    "loose": 31,
+    "cib": 104,
+    "mint": 145
+  },
+  {
+    "game": "madden-nfl-94-sega-genesis",
+    "loose": 10,
+    "cib": 44,
+    "mint": 62
+  },
+  {
+    "game": "mortal-kombat-ii-sega-genesis",
+    "loose": 11,
+    "cib": 36,
+    "mint": 54
+  },
+  {
+    "game": "kid-chameleon-sega-genesis",
+    "loose": 30,
+    "cib": 46,
+    "mint": 64
+  },
+  {
+    "game": "story-of-thor-sega-genesis",
+    "loose": 37,
+    "cib": 117,
+    "mint": 176
+  },
+  {
+    "game": "sonic-spinball-sega-genesis",
+    "loose": 12,
+    "cib": 50,
+    "mint": 73
+  },
+  {
+    "game": "castlevania-chronicles-playstation",
+    "loose": 24,
+    "cib": 113,
+    "mint": 146
+  },
+  {
+    "game": "dragon-quest-vii-playstation",
+    "loose": 40,
+    "cib": 114,
+    "mint": 184
+  },
+  {
+    "game": "diablo-playstation",
+    "loose": 5,
+    "cib": 42,
+    "mint": 56
+  },
+  {
+    "game": "fear-effect-playstation",
+    "loose": 44,
+    "cib": 57,
+    "mint": 76
+  },
+  {
+    "game": "soul-blade-playstation",
+    "loose": 11,
+    "cib": 20,
+    "mint": 32
+  },
+  {
+    "game": "wipeout-xl-playstation",
+    "loose": 14,
+    "cib": 27,
+    "mint": 36
+  },
+  {
+    "game": "twisted-metal-2-playstation",
+    "loose": 28,
+    "cib": 44,
+    "mint": 69
+  },
+  {
+    "game": "intelligent-qube-playstation",
+    "loose": 26,
+    "cib": 111,
+    "mint": 174
+  },
+  {
+    "game": "um-jammer-lammy-playstation",
+    "loose": 27,
+    "cib": 51,
+    "mint": 78
+  },
+  {
+    "game": "colin-mcrae-rally-playstation",
+    "loose": 15,
+    "cib": 16,
+    "mint": 26
+  },
+  {
+    "game": "azure-dreams-playstation",
+    "loose": 28,
+    "cib": 78,
+    "mint": 114
+  },
+  {
+    "game": "omega-boost-playstation",
+    "loose": 47,
+    "cib": 52,
+    "mint": 76
+  },
+  {
+    "game": "spyro-2-riptos-rage-playstation",
+    "loose": 13,
+    "cib": 45,
+    "mint": 68
+  },
+  {
+    "game": "crash-bandicoot-3-warped-playstation",
+    "loose": 16,
+    "cib": 29,
+    "mint": 41
+  },
+  {
+    "game": "syphon-filter-playstation",
+    "loose": 6,
+    "cib": 59,
+    "mint": 84
+  },
+  {
+    "game": "tenchu-stealth-assassins-playstation",
+    "loose": 22,
+    "cib": 36,
+    "mint": 59
+  },
+  {
+    "game": "bomberman-64-nintendo-64",
+    "loose": 30,
+    "cib": 55,
+    "mint": 85
+  },
+  {
+    "game": "jet-force-gemini-nintendo-64",
+    "loose": 24,
+    "cib": 51,
+    "mint": 80
+  },
+  {
+    "game": "lylat-wars-nintendo-64",
+    "loose": 10,
+    "cib": 53,
+    "mint": 76
+  },
+  {
+    "game": "castlevania-nintendo-64",
+    "loose": 10,
+    "cib": 48,
+    "mint": 78
+  },
+  {
+    "game": "blast-corps-nintendo-64",
+    "loose": 22,
+    "cib": 41,
+    "mint": 53
+  },
+  {
+    "game": "body-harvest-nintendo-64",
+    "loose": 53,
+    "cib": 97,
+    "mint": 132
+  },
+  {
+    "game": "buck-bumble-nintendo-64",
+    "loose": 18,
+    "cib": 20,
+    "mint": 26
+  },
+  {
+    "game": "final-fantasy-vi-advance-game-boy-advance",
+    "loose": 35,
+    "cib": 111,
+    "mint": 157
+  },
+  {
+    "game": "astro-boy-omega-factor-game-boy-advance",
+    "loose": 38,
+    "cib": 62,
+    "mint": 94
+  },
+  {
+    "game": "megaman-zero-2-game-boy-advance",
+    "loose": 59,
+    "cib": 120,
+    "mint": 193
+  },
+  {
+    "game": "sword-of-mana-game-boy-advance",
+    "loose": 8,
+    "cib": 50,
+    "mint": 70
+  },
+  {
+    "game": "mario-golf-advance-tour-game-boy-advance",
+    "loose": 26,
+    "cib": 47,
+    "mint": 69
+  },
+  {
+    "game": "rebelstar-tactical-command-game-boy-advance",
+    "loose": 55,
+    "cib": 75,
+    "mint": 98
+  },
+  {
+    "game": "disgaea-ds-nintendo-ds",
+    "loose": 55,
+    "cib": 66,
+    "mint": 98
+  },
+  {
+    "game": "knights-in-the-nightmare-nintendo-ds",
+    "loose": 94,
+    "cib": 233,
+    "mint": 353
+  },
+  {
+    "game": "etrian-odyssey-nintendo-ds",
+    "loose": 38,
+    "cib": 115,
+    "mint": 179
+  },
+  {
+    "game": "contact-nintendo-ds",
+    "loose": 39,
+    "cib": 73,
+    "mint": 97
+  },
+  {
+    "game": "final-fantasy-xii-revenant-wings-nintendo-ds",
+    "loose": 11,
+    "cib": 37,
+    "mint": 50
+  },
+  {
+    "game": "meteos-nintendo-ds",
+    "loose": 13,
+    "cib": 58,
+    "mint": 77
+  },
+  {
+    "game": "children-of-mana-nintendo-ds",
+    "loose": 5,
+    "cib": 38,
+    "mint": 55
+  },
+  {
+    "game": "virtual-on-oratorio-tangram-dreamcast",
+    "loose": 52,
+    "cib": 82,
+    "mint": 126
+  },
+  {
+    "game": "sega-rally-2-dreamcast",
+    "loose": 24,
+    "cib": 42,
+    "mint": 71
+  },
+  {
+    "game": "record-of-lodoss-war-dreamcast",
+    "loose": 75,
+    "cib": 184,
+    "mint": 305
+  },
+  {
+    "game": "capcom-vs-snk-dreamcast",
+    "loose": 23,
+    "cib": 56,
+    "mint": 79
+  },
+  {
+    "game": "evolution-the-world-of-sacred-device-dreamcast",
+    "loose": 59,
+    "cib": 101,
+    "mint": 162
+  },
+  {
+    "game": "vampire-savior-sega-saturn",
+    "loose": 43,
+    "cib": 220,
+    "mint": 330
+  },
+  {
+    "game": "house-of-the-dead-sega-saturn",
+    "loose": 31,
+    "cib": 58,
+    "mint": 81
+  },
+  {
+    "game": "street-fighter-alpha-3-sega-saturn",
+    "loose": 48,
+    "cib": 118,
+    "mint": 159
+  },
+  {
+    "game": "thunder-force-v-sega-saturn",
+    "loose": 78,
+    "cib": 191,
+    "mint": 305
+  },
+  {
+    "game": "dungeons-dragons-collection-sega-saturn",
+    "loose": 294,
+    "cib": 1107,
+    "mint": 1452
+  },
+  {
+    "game": "mega-man-nintendo-entertainment-system",
+    "loose": 46,
+    "cib": 75,
+    "mint": 111
+  },
+  {
+    "game": "mega-man-4-nintendo-entertainment-system",
+    "loose": 7,
+    "cib": 46,
+    "mint": 75
+  },
+  {
+    "game": "mega-man-6-nintendo-entertainment-system",
+    "loose": 30,
+    "cib": 104,
+    "mint": 176
+  },
+  {
+    "game": "final-fantasy-nintendo-entertainment-system",
+    "loose": 9,
+    "cib": 44,
+    "mint": 71
+  },
+  {
+    "game": "final-fantasy-ii-nintendo-entertainment-system",
+    "loose": 19,
+    "cib": 85,
+    "mint": 129
+  },
+  {
+    "game": "final-fantasy-iii-nintendo-entertainment-system",
+    "loose": 56,
+    "cib": 244,
+    "mint": 407
+  },
+  {
+    "game": "tmnt-nintendo-entertainment-system",
+    "loose": 16,
+    "cib": 50,
+    "mint": 84
+  },
+  {
+    "game": "ghosts-n-goblins-nintendo-entertainment-system",
+    "loose": 7,
+    "cib": 15,
+    "mint": 24
+  },
+  {
+    "game": "duck-tales-2-nintendo-entertainment-system",
+    "loose": 265,
+    "cib": 453,
+    "mint": 757
+  },
+  {
+    "game": "pokemon-crystal-game-boy",
+    "loose": 19,
+    "cib": 31,
+    "mint": 48
+  },
+  {
+    "game": "oracle-of-ages-game-boy",
+    "loose": 29,
+    "cib": 58,
+    "mint": 86
+  },
+  {
+    "game": "oracle-of-seasons-game-boy",
+    "loose": 27,
+    "cib": 27,
+    "mint": 37
+  },
+  {
+    "game": "tetris-dx-game-boy",
+    "loose": 6,
+    "cib": 53,
+    "mint": 73
+  },
+  {
+    "game": "mole-mania-game-boy",
+    "loose": 55,
+    "cib": 110,
+    "mint": 151
+  },
+  {
+    "game": "galaga-90-turbografx-16",
+    "loose": 9,
+    "cib": 50,
+    "mint": 74
+  },
+  {
+    "game": "neutopia-turbografx-16",
+    "loose": 53,
+    "cib": 55,
+    "mint": 88
+  },
+  {
+    "game": "splatterhouse-turbografx-16",
+    "loose": 17,
+    "cib": 78,
+    "mint": 103
+  },
+  {
+    "game": "metal-slug-3-neo-geo",
+    "loose": 88,
+    "cib": 277,
+    "mint": 423
+  },
+  {
+    "game": "the-last-blade-2-neo-geo",
+    "loose": 297,
+    "cib": 392,
+    "mint": 656
+  },
+  {
+    "game": "garou-mark-of-the-wolves-neo-geo",
+    "loose": 207,
+    "cib": 276,
+    "mint": 390
+  },
+  {
+    "game": "shinobi-sega-master-system",
+    "loose": 16,
+    "cib": 60,
+    "mint": 99
+  },
+  {
+    "game": "streets-of-rage-sega-master-system",
+    "loose": 27,
+    "cib": 29,
+    "mint": 46
+  },
+  {
+    "game": "mortal-kombat-sega-master-system",
+    "loose": 23,
+    "cib": 46,
+    "mint": 69
+  },
+  {
+    "game": "sonic-the-hedgehog-2-game-gear",
+    "loose": 11,
+    "cib": 57,
+    "mint": 83
+  },
+  {
+    "game": "baku-baku-animal-game-gear",
+    "loose": 58,
+    "cib": 74,
+    "mint": 101
+  },
+  {
+    "game": "dragon-crystal-game-gear",
+    "loose": 13,
+    "cib": 45,
+    "mint": 73
+  },
+  {
+    "game": "final-fantasy-legend-ii-game-boy",
+    "loose": 7,
+    "cib": 18,
+    "mint": 35
+  },
+  {
+    "game": "super-mario-world-super-nintendo",
+    "loose": 22,
+    "cib": 55,
+    "mint": 110
+  },
+  {
+    "game": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+    "loose": 35,
+    "cib": 90,
+    "mint": 200
+  },
+  {
+    "game": "super-metroid-super-nintendo",
+    "loose": 55,
+    "cib": 140,
+    "mint": 320
+  },
+  {
+    "game": "donkey-kong-country-super-nintendo",
+    "loose": 20,
+    "cib": 45,
+    "mint": 95
+  },
+  {
+    "game": "mega-man-x-super-nintendo",
+    "loose": 38,
+    "cib": 85,
+    "mint": 185
+  },
+  {
+    "game": "earthbound-super-nintendo",
+    "loose": 180,
+    "cib": 450,
+    "mint": 1100
+  },
+  {
+    "game": "final-fantasy-vii-playstation",
+    "loose": 22,
+    "cib": 55,
+    "mint": 130
+  },
+  {
+    "game": "metal-gear-solid-playstation",
+    "loose": 28,
+    "cib": 65,
+    "mint": 160
+  },
+  {
+    "game": "resident-evil-2-playstation",
+    "loose": 25,
+    "cib": 60,
+    "mint": 145
+  },
+  {
+    "game": "gran-turismo-playstation",
+    "loose": 9,
+    "cib": 22,
+    "mint": 55
+  },
+  {
+    "game": "tekken-3-playstation",
+    "loose": 12,
+    "cib": 28,
+    "mint": 65
+  },
+  {
+    "game": "silent-hill-playstation",
+    "loose": 85,
+    "cib": 190,
+    "mint": 450
+  },
+  {
+    "game": "duck-hunt-nintendo-entertainment-system",
+    "loose": 14,
+    "cib": 15,
+    "mint": 29
+  },
+  {
+    "game": "excitebike-nintendo-entertainment-system",
+    "loose": 8,
+    "cib": 30,
+    "mint": 54
+  },
+  {
+    "game": "ice-climber-nintendo-entertainment-system",
+    "loose": 18,
+    "cib": 20,
+    "mint": 39
+  },
+  {
+    "game": "marble-madness-nintendo-entertainment-system",
+    "loose": 5,
+    "cib": 14,
+    "mint": 40
+  },
+  {
+    "game": "rad-racer-nintendo-entertainment-system",
+    "loose": 5,
+    "cib": 13,
+    "mint": 47
+  },
+  {
+    "game": "faxanadu-nintendo-entertainment-system",
+    "loose": 40,
+    "cib": 53,
+    "mint": 119
+  },
+  {
+    "game": "life-force-nintendo-entertainment-system",
+    "loose": 52,
+    "cib": 52,
+    "mint": 143
+  },
+  {
+    "game": "paperboy-nintendo-entertainment-system",
+    "loose": 15,
+    "cib": 23,
+    "mint": 30
+  },
+  {
+    "game": "adventures-of-lolo-nintendo-entertainment-system",
+    "loose": 59,
+    "cib": 72,
+    "mint": 81
+  },
+  {
+    "game": "batman-nintendo-entertainment-system",
+    "loose": 21,
+    "cib": 88,
+    "mint": 134
+  },
+  {
+    "game": "tecmo-bowl-nintendo-entertainment-system",
+    "loose": 17,
+    "cib": 33,
+    "mint": 51
+  },
+  {
+    "game": "chip-n-dale-rescue-rangers-nintendo-entertainment-system",
+    "loose": 59,
+    "cib": 74,
+    "mint": 124
+  },
+  {
+    "game": "gremlins-2-the-new-batch-nintendo-entertainment-system",
+    "loose": 53,
+    "cib": 81,
+    "mint": 153
+  },
+  {
+    "game": "startropics-nintendo-entertainment-system",
+    "loose": 42,
+    "cib": 82,
+    "mint": 86
+  },
+  {
+    "game": "tiny-toon-adventures-nintendo-entertainment-system",
+    "loose": 8,
+    "cib": 17,
+    "mint": 21
+  },
+  {
+    "game": "darkwing-duck-nintendo-entertainment-system",
+    "loose": 27,
+    "cib": 35,
+    "mint": 78
+  },
+  {
+    "game": "little-samson-nintendo-entertainment-system",
+    "loose": 770,
+    "cib": 1091,
+    "mint": 1827
+  },
+  {
+    "game": "final-fight-super-nintendo",
+    "loose": 8,
+    "cib": 17,
+    "mint": 69
+  },
+  {
+    "game": "simcity-super-nintendo",
+    "loose": 16,
+    "cib": 32,
+    "mint": 39
+  },
+  {
+    "game": "super-castlevania-iv-super-nintendo",
+    "loose": 17,
+    "cib": 21,
+    "mint": 40
+  },
+  {
+    "game": "batman-returns-super-nintendo",
+    "loose": 21,
+    "cib": 34,
+    "mint": 55
+  },
+  {
+    "game": "joe-mac-super-nintendo",
+    "loose": 16,
+    "cib": 38,
+    "mint": 64
+  },
+  {
+    "game": "teenage-mutant-ninja-turtles-iv-super-nintendo",
+    "loose": 9,
+    "cib": 10,
+    "mint": 31
+  },
+  {
+    "game": "aladdin-super-nintendo",
+    "loose": 9,
+    "cib": 16,
+    "mint": 69
+  },
+  {
+    "game": "shadowrun-super-nintendo",
+    "loose": 60,
+    "cib": 75,
+    "mint": 144
+  },
+  {
+    "game": "super-bomberman-super-nintendo",
+    "loose": 11,
+    "cib": 39,
+    "mint": 54
+  },
+  {
+    "game": "super-mario-all-stars-super-nintendo",
+    "loose": 9,
+    "cib": 17,
+    "mint": 48
+  },
+  {
+    "game": "nba-jam-super-nintendo",
+    "loose": 9,
+    "cib": 28,
+    "mint": 68
+  },
+  {
+    "game": "the-lion-king-super-nintendo",
+    "loose": 12,
+    "cib": 19,
+    "mint": 72
+  },
+  {
+    "game": "wild-guns-super-nintendo",
+    "loose": 139,
+    "cib": 157,
+    "mint": 175
+  },
+  {
+    "game": "castlevania-dracula-x-super-nintendo",
+    "loose": 23,
+    "cib": 79,
+    "mint": 159
+  },
+  {
+    "game": "killer-instinct-super-nintendo",
+    "loose": 12,
+    "cib": 14,
+    "mint": 36
+  },
+  {
+    "game": "mega-man-7-super-nintendo",
+    "loose": 66,
+    "cib": 88,
+    "mint": 177
+  },
+  {
+    "game": "mega-man-x3-super-nintendo",
+    "loose": 59,
+    "cib": 60,
+    "mint": 146
+  },
+  {
+    "game": "tactics-ogre-super-nintendo",
+    "loose": 166,
+    "cib": 257,
+    "mint": 333
+  },
+  {
+    "game": "donkey-kong-country-3-super-nintendo",
+    "loose": 16,
+    "cib": 19,
+    "mint": 42
+  },
+  {
+    "game": "ghouls-n-ghosts-sega-genesis",
+    "loose": 30,
+    "cib": 79,
+    "mint": 128
+  },
+  {
+    "game": "golden-axe-sega-genesis",
+    "loose": 7,
+    "cib": 19,
+    "mint": 25
+  },
+  {
+    "game": "the-revenge-of-shinobi-sega-genesis",
+    "loose": 46,
+    "cib": 76,
+    "mint": 94
+  },
+  {
+    "game": "castle-of-illusion-sega-genesis",
+    "loose": 12,
+    "cib": 24,
+    "mint": 29
+  },
+  {
+    "game": "quackshot-sega-genesis",
+    "loose": 41,
+    "cib": 63,
+    "mint": 119
+  },
+  {
+    "game": "spider-man-vs-the-kingpin-sega-genesis",
+    "loose": 33,
+    "cib": 33,
+    "mint": 68
+  },
+  {
+    "game": "streets-of-rage-sega-genesis",
+    "loose": 4,
+    "cib": 30,
+    "mint": 51
+  },
+  {
+    "game": "splatterhouse-2-sega-genesis",
+    "loose": 43,
+    "cib": 55,
+    "mint": 60
+  },
+  {
+    "game": "tmnt-the-hyperstone-heist-sega-genesis",
+    "loose": 45,
+    "cib": 79,
+    "mint": 84
+  },
+  {
+    "game": "world-of-illusion-sega-genesis",
+    "loose": 31,
+    "cib": 34,
+    "mint": 111
+  },
+  {
+    "game": "aladdin-sega-genesis",
+    "loose": 13,
+    "cib": 15,
+    "mint": 34
+  },
+  {
+    "game": "nba-jam-sega-genesis",
+    "loose": 11,
+    "cib": 16,
+    "mint": 49
+  },
+  {
+    "game": "shinobi-iii-sega-genesis",
+    "loose": 29,
+    "cib": 40,
+    "mint": 91
+  },
+  {
+    "game": "pac-man-2-the-new-adventures-sega-genesis",
+    "loose": 13,
+    "cib": 17,
+    "mint": 29
+  },
+  {
+    "game": "sonic-knuckles-sega-genesis",
+    "loose": 16,
+    "cib": 26,
+    "mint": 38
+  },
+  {
+    "game": "streets-of-rage-3-sega-genesis",
+    "loose": 32,
+    "cib": 38,
+    "mint": 60
+  },
+  {
+    "game": "mortal-kombat-3-sega-genesis",
+    "loose": 8,
+    "cib": 22,
+    "mint": 29
+  },
+  {
+    "game": "sonic-3d-blast-sega-genesis",
+    "loose": 6,
+    "cib": 8,
+    "mint": 37
+  },
+  {
+    "game": "rayman-playstation",
+    "loose": 7,
+    "cib": 32,
+    "mint": 56
+  },
+  {
+    "game": "lunar-silver-star-story-playstation",
+    "loose": 18,
+    "cib": 40,
+    "mint": 114
+  },
+  {
+    "game": "street-fighter-alpha-2-playstation",
+    "loose": 7,
+    "cib": 11,
+    "mint": 57
+  },
+  {
+    "game": "ace-combat-2-playstation",
+    "loose": 12,
+    "cib": 23,
+    "mint": 52
+  },
+  {
+    "game": "castlevania-symphony-of-the-night-playstation",
+    "loose": 47,
+    "cib": 55,
+    "mint": 64
+  },
+  {
+    "game": "crash-bandicoot-2-cortex-strikes-back-playstation",
+    "loose": 10,
+    "cib": 21,
+    "mint": 39
+  },
+  {
+    "game": "final-fantasy-tactics-playstation",
+    "loose": 44,
+    "cib": 75,
+    "mint": 149
+  },
+  {
+    "game": "mega-man-legends-playstation",
+    "loose": 19,
+    "cib": 51,
+    "mint": 85
+  },
+  {
+    "game": "mega-man-x4-playstation",
+    "loose": 16,
+    "cib": 21,
+    "mint": 28
+  },
+  {
+    "game": "oddworld-abes-oddysee-playstation",
+    "loose": 10,
+    "cib": 21,
+    "mint": 32
+  },
+  {
+    "game": "point-blank-playstation",
+    "loose": 7,
+    "cib": 33,
+    "mint": 45
+  },
+  {
+    "game": "brave-fencer-musashi-playstation",
+    "loose": 49,
+    "cib": 72,
+    "mint": 76
+  },
+  {
+    "game": "dino-crisis-playstation",
+    "loose": 18,
+    "cib": 32,
+    "mint": 59
+  },
+  {
+    "game": "driver-playstation",
+    "loose": 17,
+    "cib": 32,
+    "mint": 37
+  },
+  {
+    "game": "final-fantasy-viii-playstation",
+    "loose": 11,
+    "cib": 16,
+    "mint": 34
+  },
+  {
+    "game": "medal-of-honor-playstation",
+    "loose": 5,
+    "cib": 17,
+    "mint": 59
+  },
+  {
+    "game": "mr-driller-playstation",
+    "loose": 8,
+    "cib": 29,
+    "mint": 43
+  },
+  {
+    "game": "resident-evil-3-nemesis-playstation",
+    "loose": 10,
+    "cib": 34,
+    "mint": 60
+  },
+  {
+    "game": "spyro-year-of-the-dragon-playstation",
+    "loose": 12,
+    "cib": 29,
+    "mint": 34
+  },
+  {
+    "game": "threads-of-fate-playstation",
+    "loose": 27,
+    "cib": 88,
+    "mint": 124
+  },
+  {
+    "game": "mario-kart-64-nintendo-64",
+    "loose": 14,
+    "cib": 35,
+    "mint": 37
+  },
+  {
+    "game": "pilotwings-64-nintendo-64",
+    "loose": 15,
+    "cib": 29,
+    "mint": 66
+  },
+  {
+    "game": "super-mario-64-nintendo-64",
+    "loose": 7,
+    "cib": 41,
+    "mint": 43
+  },
+  {
+    "game": "goldeneye-007-nintendo-64",
+    "loose": 8,
+    "cib": 28,
+    "mint": 58
+  },
+  {
+    "game": "star-fox-64-nintendo-64",
+    "loose": 9,
+    "cib": 13,
+    "mint": 66
+  },
+  {
+    "game": "turok-dinosaur-hunter-nintendo-64",
+    "loose": 9,
+    "cib": 29,
+    "mint": 56
+  },
+  {
+    "game": "yoshis-story-nintendo-64",
+    "loose": 12,
+    "cib": 30,
+    "mint": 52
+  },
+  {
+    "game": "banjo-kazooie-nintendo-64",
+    "loose": 21,
+    "cib": 25,
+    "mint": 59
+  },
+  {
+    "game": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+    "loose": 9,
+    "cib": 22,
+    "mint": 56
+  },
+  {
+    "game": "donkey-kong-64-nintendo-64",
+    "loose": 10,
+    "cib": 20,
+    "mint": 59
+  },
+  {
+    "game": "mario-party-2-nintendo-64",
+    "loose": 6,
+    "cib": 23,
+    "mint": 72
+  },
+  {
+    "game": "super-smash-bros-nintendo-64",
+    "loose": 22,
+    "cib": 23,
+    "mint": 33
+  },
+  {
+    "game": "banjo-tooie-nintendo-64",
+    "loose": 9,
+    "cib": 40,
+    "mint": 68
+  },
+  {
+    "game": "mario-party-3-nintendo-64",
+    "loose": 20,
+    "cib": 28,
+    "mint": 35
+  },
+  {
+    "game": "pokemon-puzzle-league-nintendo-64",
+    "loose": 19,
+    "cib": 35,
+    "mint": 58
+  },
+  {
+    "game": "pokemon-stadium-2-nintendo-64",
+    "loose": 21,
+    "cib": 35,
+    "mint": 35
+  },
+  {
+    "game": "the-legend-of-zelda-majoras-mask-nintendo-64",
+    "loose": 19,
+    "cib": 26,
+    "mint": 57
+  },
+  {
+    "game": "paper-mario-nintendo-64",
+    "loose": 21,
+    "cib": 24,
+    "mint": 30
+  },
+  {
+    "game": "kirbys-pinball-land-game-boy",
+    "loose": 5,
+    "cib": 20,
+    "mint": 29
+  },
+  {
+    "game": "donkey-kong-land-game-boy",
+    "loose": 11,
+    "cib": 26,
+    "mint": 32
+  },
+  {
+    "game": "dragon-warrior-monsters-game-boy",
+    "loose": 12,
+    "cib": 17,
+    "mint": 35
+  },
+  {
+    "game": "pokemon-trading-card-game-game-boy",
+    "loose": 15,
+    "cib": 29,
+    "mint": 31
+  },
+  {
+    "game": "mario-golf-game-boy",
+    "loose": 9,
+    "cib": 15,
+    "mint": 15
+  },
+  {
+    "game": "kirby-tilt-n-tumble-game-boy",
+    "loose": 13,
+    "cib": 25,
+    "mint": 33
+  },
+  {
+    "game": "mario-tennis-game-boy",
+    "loose": 13,
+    "cib": 23,
+    "mint": 36
+  },
+  {
+    "game": "metal-gear-ghost-babel-game-boy",
+    "loose": 14,
+    "cib": 27,
+    "mint": 123
+  },
+  {
+    "game": "zelda-oracle-of-ages-game-boy",
+    "loose": 15,
+    "cib": 24,
+    "mint": 49
+  },
+  {
+    "game": "shantae-game-boy",
+    "loose": 266,
+    "cib": 307,
+    "mint": 390
+  },
+  {
+    "game": "advance-wars-game-boy-advance",
+    "loose": 8,
+    "cib": 32,
+    "mint": 54
+  },
+  {
+    "game": "golden-sun-game-boy-advance",
+    "loose": 16,
+    "cib": 33,
+    "mint": 39
+  },
+  {
+    "game": "super-mario-advance-game-boy-advance",
+    "loose": 7,
+    "cib": 10,
+    "mint": 49
+  },
+  {
+    "game": "wario-land-4-game-boy-advance",
+    "loose": 16,
+    "cib": 24,
+    "mint": 46
+  },
+  {
+    "game": "castlevania-harmony-of-dissonance-game-boy-advance",
+    "loose": 6,
+    "cib": 33,
+    "mint": 56
+  },
+  {
+    "game": "pokemon-ruby-game-boy-advance",
+    "loose": 18,
+    "cib": 32,
+    "mint": 57
+  },
+  {
+    "game": "the-legend-of-zelda-a-link-to-the-past-game-boy-advance",
+    "loose": 4,
+    "cib": 27,
+    "mint": 38
+  },
+  {
+    "game": "castlevania-aria-of-sorrow-game-boy-advance",
+    "loose": 17,
+    "cib": 31,
+    "mint": 56
+  },
+  {
+    "game": "donkey-kong-country-game-boy-advance",
+    "loose": 15,
+    "cib": 20,
+    "mint": 51
+  },
+  {
+    "game": "final-fantasy-tactics-advance-game-boy-advance",
+    "loose": 6,
+    "cib": 31,
+    "mint": 56
+  },
+  {
+    "game": "fire-emblem-game-boy-advance",
+    "loose": 7,
+    "cib": 30,
+    "mint": 44
+  },
+  {
+    "game": "mario-luigi-superstar-saga-game-boy-advance",
+    "loose": 8,
+    "cib": 29,
+    "mint": 36
+  },
+  {
+    "game": "kirby-the-amazing-mirror-game-boy-advance",
+    "loose": 4,
+    "cib": 12,
+    "mint": 28
+  },
+  {
+    "game": "mega-man-zero-3-game-boy-advance",
+    "loose": 50,
+    "cib": 89,
+    "mint": 106
+  },
+  {
+    "game": "pokemon-firered-game-boy-advance",
+    "loose": 13,
+    "cib": 22,
+    "mint": 59
+  },
+  {
+    "game": "advance-wars-dual-strike-nintendo-ds",
+    "loose": 9,
+    "cib": 27,
+    "mint": 29
+  },
+  {
+    "game": "animal-crossing-wild-world-nintendo-ds",
+    "loose": 14,
+    "cib": 16,
+    "mint": 47
+  },
+  {
+    "game": "castlevania-dawn-of-sorrow-nintendo-ds",
+    "loose": 6,
+    "cib": 8,
+    "mint": 25
+  },
+  {
+    "game": "kirby-canvas-curse-nintendo-ds",
+    "loose": 35,
+    "cib": 47,
+    "mint": 91
+  },
+  {
+    "game": "mario-kart-ds-nintendo-ds",
+    "loose": 9,
+    "cib": 16,
+    "mint": 34
+  },
+  {
+    "game": "trauma-center-under-the-knife-nintendo-ds",
+    "loose": 20,
+    "cib": 57,
+    "mint": 57
+  },
+  {
+    "game": "elite-beat-agents-nintendo-ds",
+    "loose": 42,
+    "cib": 58,
+    "mint": 103
+  },
+  {
+    "game": "metroid-prime-hunters-nintendo-ds",
+    "loose": 12,
+    "cib": 23,
+    "mint": 32
+  },
+  {
+    "game": "new-super-mario-bros-nintendo-ds",
+    "loose": 4,
+    "cib": 20,
+    "mint": 29
+  },
+  {
+    "game": "pokemon-diamond-nintendo-ds",
+    "loose": 7,
+    "cib": 25,
+    "mint": 42
+  },
+  {
+    "game": "yoshis-island-ds-nintendo-ds",
+    "loose": 7,
+    "cib": 13,
+    "mint": 27
+  },
+  {
+    "game": "dragon-quest-iv-nintendo-ds",
+    "loose": 25,
+    "cib": 39,
+    "mint": 49
+  },
+  {
+    "game": "professor-layton-and-the-curious-village-nintendo-ds",
+    "loose": 8,
+    "cib": 27,
+    "mint": 41
+  },
+  {
+    "game": "the-legend-of-zelda-phantom-hourglass-nintendo-ds",
+    "loose": 13,
+    "cib": 22,
+    "mint": 30
+  },
+  {
+    "game": "clockwork-knight-sega-saturn",
+    "loose": 52,
+    "cib": 52,
+    "mint": 100
+  },
+  {
+    "game": "darius-gaiden-sega-saturn",
+    "loose": 148,
+    "cib": 290,
+    "mint": 513
+  },
+  {
+    "game": "daytona-usa-sega-saturn",
+    "loose": 15,
+    "cib": 30,
+    "mint": 42
+  },
+  {
+    "game": "sega-rally-championship-sega-saturn",
+    "loose": 15,
+    "cib": 46,
+    "mint": 76
+  },
+  {
+    "game": "shining-wisdom-sega-saturn",
+    "loose": 31,
+    "cib": 43,
+    "mint": 135
+  },
+  {
+    "game": "wipeout-sega-saturn",
+    "loose": 18,
+    "cib": 28,
+    "mint": 74
+  },
+  {
+    "game": "dark-savior-sega-saturn",
+    "loose": 207,
+    "cib": 331,
+    "mint": 398
+  },
+  {
+    "game": "panzer-dragoon-ii-zwei-sega-saturn",
+    "loose": 106,
+    "cib": 119,
+    "mint": 281
+  },
+  {
+    "game": "dead-or-alive-sega-saturn",
+    "loose": 48,
+    "cib": 114,
+    "mint": 121
+  },
+  {
+    "game": "sonic-adventure-dreamcast",
+    "loose": 11,
+    "cib": 28,
+    "mint": 35
+  },
+  {
+    "game": "shenmue-dreamcast",
+    "loose": 47,
+    "cib": 73,
+    "mint": 95
+  },
+  {
+    "game": "soul-calibur-dreamcast",
+    "loose": 15,
+    "cib": 15,
+    "mint": 53
+  },
+  {
+    "game": "the-king-of-fighters-dream-match-1999-dreamcast",
+    "loose": 50,
+    "cib": 55,
+    "mint": 102
+  },
+  {
+    "game": "jet-set-radio-dreamcast",
+    "loose": 24,
+    "cib": 96,
+    "mint": 132
+  },
+  {
+    "game": "power-stone-2-dreamcast",
+    "loose": 19,
+    "cib": 45,
+    "mint": 147
+  },
+  {
+    "game": "resident-evil-code-veronica-dreamcast",
+    "loose": 11,
+    "cib": 33,
+    "mint": 55
+  },
+  {
+    "game": "skies-of-arcadia-dreamcast",
+    "loose": 196,
+    "cib": 263,
+    "mint": 483
+  },
+  {
+    "game": "tony-hawks-pro-skater-2-dreamcast",
+    "loose": 18,
+    "cib": 31,
+    "mint": 56
+  },
+  {
+    "game": "hang-on-sega-master-system",
+    "loose": 11,
+    "cib": 31,
+    "mint": 47
+  },
+  {
+    "game": "space-harrier-sega-master-system",
+    "loose": 17,
+    "cib": 30,
+    "mint": 44
+  },
+  {
+    "game": "spy-vs-spy-sega-master-system",
+    "loose": 8,
+    "cib": 15,
+    "mint": 44
+  },
+  {
+    "game": "fantasy-zone-sega-master-system",
+    "loose": 15,
+    "cib": 25,
+    "mint": 47
+  },
+  {
+    "game": "quartet-sega-master-system",
+    "loose": 8,
+    "cib": 10,
+    "mint": 24
+  },
+  {
+    "game": "wonder-boy-sega-master-system",
+    "loose": 8,
+    "cib": 17,
+    "mint": 40
+  },
+  {
+    "game": "zillion-sega-master-system",
+    "loose": 21,
+    "cib": 40,
+    "mint": 116
+  },
+  {
+    "game": "kenseiden-sega-master-system",
+    "loose": 43,
+    "cib": 46,
+    "mint": 88
+  },
+  {
+    "game": "psycho-fox-sega-master-system",
+    "loose": 37,
+    "cib": 59,
+    "mint": 78
+  },
+  {
+    "game": "aerial-assault-game-gear",
+    "loose": 29,
+    "cib": 76,
+    "mint": 110
+  },
+  {
+    "game": "wonder-boy-game-gear",
+    "loose": 12,
+    "cib": 29,
+    "mint": 48
+  },
+  {
+    "game": "crystal-warriors-game-gear",
+    "loose": 27,
+    "cib": 27,
+    "mint": 71
+  },
+  {
+    "game": "castle-of-illusion-game-gear",
+    "loose": 41,
+    "cib": 75,
+    "mint": 132
+  },
+  {
+    "game": "sonic-chaos-game-gear",
+    "loose": 9,
+    "cib": 26,
+    "mint": 41
+  },
+  {
+    "game": "mighty-morphin-power-rangers-game-gear",
+    "loose": 11,
+    "cib": 16,
+    "mint": 24
+  },
+  {
+    "game": "sonic-triple-trouble-game-gear",
+    "loose": 9,
+    "cib": 10,
+    "mint": 25
+  },
+  {
+    "game": "earthworm-jim-game-gear",
+    "loose": 12,
+    "cib": 20,
+    "mint": 26
+  },
+  {
+    "game": "gunstar-heroes-game-gear",
+    "loose": 100,
+    "cib": 119,
+    "mint": 297
+  },
+  {
+    "game": "ristar-game-gear",
+    "loose": 14,
+    "cib": 46,
+    "mint": 96
+  },
+  {
+    "game": "space-harrier-turbografx-16",
+    "loose": 24,
+    "cib": 100,
+    "mint": 117
+  },
+  {
+    "game": "the-legendary-axe-turbografx-16",
+    "loose": 50,
+    "cib": 54,
+    "mint": 123
+  },
+  {
+    "game": "bonks-adventure-turbografx-16",
+    "loose": 10,
+    "cib": 24,
+    "mint": 74
+  },
+  {
+    "game": "power-golf-turbografx-16",
+    "loose": 14,
+    "cib": 43,
+    "mint": 82
+  },
+  {
+    "game": "bloody-wolf-turbografx-16",
+    "loose": 38,
+    "cib": 46,
+    "mint": 63
+  },
+  {
+    "game": "bomberman-turbografx-16",
+    "loose": 17,
+    "cib": 52,
+    "mint": 65
+  },
+  {
+    "game": "cratermaze-turbografx-16",
+    "loose": 20,
+    "cib": 45,
+    "mint": 74
+  },
+  {
+    "game": "devil-crash-turbografx-16",
+    "loose": 68,
+    "cib": 132,
+    "mint": 151
+  },
+  {
+    "game": "neutopia-ii-turbografx-16",
+    "loose": 24,
+    "cib": 52,
+    "mint": 81
+  },
+  {
+    "game": "air-zonk-turbografx-16",
+    "loose": 63,
+    "cib": 104,
+    "mint": 130
+  },
+  {
+    "game": "soldier-blade-turbografx-16",
+    "loose": 211,
+    "cib": 371,
+    "mint": 422
+  },
+  {
+    "game": "fatal-fury-2-neo-geo",
+    "loose": 86,
+    "cib": 170,
+    "mint": 188
+  },
+  {
+    "game": "samurai-shodown-neo-geo",
+    "loose": 105,
+    "cib": 195,
+    "mint": 210
+  },
+  {
+    "game": "art-of-fighting-2-neo-geo",
+    "loose": 35,
+    "cib": 100,
+    "mint": 256
+  },
+  {
+    "game": "puzzle-bobble-neo-geo",
+    "loose": 117,
+    "cib": 149,
+    "mint": 278
+  },
+  {
+    "game": "pulstar-neo-geo",
+    "loose": 132,
+    "cib": 480,
+    "mint": 800
+  },
+  {
+    "game": "the-king-of-fighters-95-neo-geo",
+    "loose": 42,
+    "cib": 165,
+    "mint": 305
+  },
+  {
+    "game": "neo-turf-masters-neo-geo",
+    "loose": 86,
+    "cib": 100,
+    "mint": 326
+  },
+  {
+    "game": "real-bout-fatal-fury-special-neo-geo",
+    "loose": 102,
+    "cib": 135,
+    "mint": 219
+  },
+  {
+    "game": "magical-drop-iii-neo-geo",
+    "loose": 66,
+    "cib": 133,
+    "mint": 200
+  },
+  {
+    "game": "shock-troopers-neo-geo",
+    "loose": 353,
+    "cib": 569,
+    "mint": 613
+  },
+  {
+    "game": "the-king-of-fighters-97-neo-geo",
+    "loose": 118,
+    "cib": 169,
+    "mint": 302
+  },
+  {
+    "game": "blazing-star-neo-geo",
+    "loose": 312,
+    "cib": 444,
+    "mint": 845
+  },
+  {
+    "game": "electrocop-atari-lynx",
+    "loose": 54,
+    "cib": 64,
+    "mint": 134
+  },
+  {
+    "game": "paperboy-atari-lynx",
+    "loose": 12,
+    "cib": 23,
+    "mint": 39
+  },
+  {
+    "game": "rampage-atari-lynx",
+    "loose": 14,
+    "cib": 20,
+    "mint": 54
+  },
+  {
+    "game": "rygar-atari-lynx",
+    "loose": 48,
+    "cib": 52,
+    "mint": 138
+  },
+  {
+    "game": "warbirds-atari-lynx",
+    "loose": 25,
+    "cib": 55,
+    "mint": 113
+  },
+  {
+    "game": "california-games-atari-lynx",
+    "loose": 9,
+    "cib": 10,
+    "mint": 53
+  },
+  {
+    "game": "checkered-flag-atari-lynx",
+    "loose": 7,
+    "cib": 13,
+    "mint": 50
+  },
+  {
+    "game": "hydra-atari-lynx",
+    "loose": 29,
+    "cib": 83,
+    "mint": 130
+  },
+  {
+    "game": "batman-returns-atari-lynx",
+    "loose": 26,
+    "cib": 27,
+    "mint": 144
+  },
+  {
+    "game": "shadow-of-the-beast-atari-lynx",
+    "loose": 18,
+    "cib": 72,
+    "mint": 110
+  },
+  {
+    "game": "chocobos-mysterious-dungeon-wonderswan",
+    "loose": 50,
+    "cib": 84,
+    "mint": 136
+  },
+  {
+    "game": "digimon-adventure-wonderswan",
+    "loose": 12,
+    "cib": 33,
+    "mint": 36
+  },
+  {
+    "game": "klonoa-moonlight-museum-wonderswan",
+    "loose": 26,
+    "cib": 77,
+    "mint": 104
+  },
+  {
+    "game": "puyo-pop-wonderswan",
+    "loose": 13,
+    "cib": 25,
+    "mint": 47
+  },
+  {
+    "game": "hunter-x-hunter-wonderswan",
+    "loose": 11,
+    "cib": 32,
+    "mint": 43
+  },
+  {
+    "game": "makaimura-for-wonderswan-wonderswan",
+    "loose": 47,
+    "cib": 61,
+    "mint": 87
+  },
+  {
+    "game": "pocket-fighter-wonderswan",
+    "loose": 22,
+    "cib": 41,
+    "mint": 58
+  },
+  {
+    "game": "final-fantasy-iv-wonderswan",
+    "loose": 40,
+    "cib": 85,
+    "mint": 100
+  },
+  {
+    "game": "one-piece-grand-battle-swan-colosseum-wonderswan",
+    "loose": 8,
+    "cib": 23,
+    "mint": 54
+  },
+  {
+    "game": "dicing-knight-period-wonderswan",
+    "loose": 195,
+    "cib": 254,
+    "mint": 322
+  }
+]

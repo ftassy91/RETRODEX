@@ -1,0 +1,39 @@
+{
+  "notion": {
+    "enabled": false,
+    "token_env_var": "RETRODEX_NOTION_TOKEN",
+    "api_version": "2022-06-28",
+    "databases": {
+      "Codex Sync Log": {
+        "database_id": "replace-with-database-id",
+        "title_property": "Name",
+        "notes_property": "Notes"
+      },
+      "RetroDex Dev Tasks": {
+        "database_id": "replace-with-database-id",
+        "title_property": "Name",
+        "notes_property": "Notes"
+      },
+      "RetroDex Roadmap": {
+        "database_id": "replace-with-database-id",
+        "title_property": "Name",
+        "notes_property": "Notes"
+      },
+      "RetroDex Games": {
+        "database_id": "replace-with-database-id",
+        "title_property": "Name",
+        "notes_property": "Notes"
+      },
+      "RetroDex Market": {
+        "database_id": "replace-with-database-id",
+        "title_property": "Name",
+        "notes_property": "Notes"
+      },
+      "RetroDex Assets": {
+        "database_id": "replace-with-database-id",
+        "title_property": "Name",
+        "notes_property": "Notes"
+      }
+    }
+  }
+}

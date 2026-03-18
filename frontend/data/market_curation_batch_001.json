@@ -1,0 +1,355 @@
+{
+  "generatedAt": "2026-03-14",
+  "batch": "001",
+  "purpose": "First verified RetroMarket import batch",
+  "items": [
+    {
+      "rank": 1,
+      "id": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+      "title": "The Legend of Zelda: Ocarina of Time",
+      "console": "Nintendo 64",
+      "year": 1998,
+      "metascore": 99,
+      "snapshot": {
+        "loose": 9,
+        "cib": 22,
+        "mint": 56
+      },
+      "verification": {
+        "status": "verified_batch_ready",
+        "history_points": 10,
+        "sales_entries": 4,
+        "source": {
+          "sourceType": "market database",
+          "sourceName": "PriceCharting",
+          "sourceUrl": "https://www.pricecharting.com/game/nintendo-64/zelda-ocarina-of-time",
+          "verifiedAt": "2026-03-14",
+          "notes": "Verified recent sold listings captured from the PriceCharting Nintendo 64 page on 2026-03-14. Imported 10 yearly history points for 2016-2025 using yearly averages from the embedded chart_data used-series. Current guide on that page also listed Loose $48.95, Complete $152.99, New $441.56."
+        }
+      },
+      "notes": [
+        "Use only verified sources.",
+        "Snapshot prices below are local references only; do not treat them as verified sales history."
+      ]
+    },
+    {
+      "rank": 2,
+      "id": "tony-hawks-pro-skater-2-playstation",
+      "title": "Tony Hawk's Pro Skater 2",
+      "console": "PlayStation",
+      "year": 2000,
+      "metascore": 98,
+      "snapshot": {
+        "loose": 29,
+        "cib": 47,
+        "mint": 64
+      },
+      "verification": {
+        "status": "sales_and_source_captured",
+        "history_points": 0,
+        "sales_entries": 4,
+        "source": {
+          "sourceType": "market database",
+          "sourceName": "PriceCharting",
+          "sourceUrl": "https://www.pricecharting.com/game/playstation/tony-hawk-2",
+          "verifiedAt": "2026-03-14",
+          "notes": "Verified sealed sales captured from the PriceCharting PlayStation page on 2026-03-14. This first pass only imports sealed sales because those were the clearest sold listings available in the captured source."
+        }
+      },
+      "notes": [
+        "Use only verified sources.",
+        "Snapshot prices below are local references only; do not treat them as verified sales history."
+      ]
+    },
+    {
+      "rank": 3,
+      "id": "soul-calibur-dreamcast",
+      "title": "Soul Calibur",
+      "console": "Dreamcast",
+      "year": 1999,
+      "metascore": 98,
+      "snapshot": {
+        "loose": 15,
+        "cib": 15,
+        "mint": 53
+      },
+      "verification": {
+        "status": "sales_and_source_captured",
+        "history_points": 0,
+        "sales_entries": 5,
+        "source": {
+          "sourceType": "market database",
+          "sourceName": "PriceCharting",
+          "sourceUrl": "https://www.pricecharting.com/game/sega-dreamcast/soul-calibur",
+          "verifiedAt": "2026-03-14",
+          "notes": "Verified loose and CIB sold listings captured from the PriceCharting Dreamcast page on 2026-03-14. Current guide on that page also listed Loose $20.56, Complete $39.53, New $129.95."
+        }
+      },
+      "notes": [
+        "Use only verified sources.",
+        "Snapshot prices below are local references only; do not treat them as verified sales history."
+      ]
+    },
+    {
+      "rank": 4,
+      "id": "panzer-dragoon-saga-sega-saturn",
+      "title": "Panzer Dragoon Saga",
+      "console": "Sega Saturn",
+      "year": 1998,
+      "metascore": 98,
+      "snapshot": {
+        "loose": 770,
+        "cib": 1411,
+        "mint": 2369
+      },
+      "verification": {
+        "status": "sales_and_source_captured",
+        "history_points": 0,
+        "sales_entries": 6,
+        "source": {
+          "sourceType": "market database",
+          "sourceName": "PriceCharting",
+          "sourceUrl": "https://www.pricecharting.com/game/sega-saturn/panzer-dragoon-saga",
+          "verifiedAt": "2026-03-14",
+          "notes": "Verified loose discs-only and CIB sold listings captured from the PriceCharting Sega Saturn page on 2026-03-14. This first pass imports clear recent loose and complete sales only."
+        }
+      },
+      "notes": [
+        "Use only verified sources.",
+        "Snapshot prices below are local references only; do not treat them as verified sales history."
+      ]
+    },
+    {
+      "rank": 5,
+      "id": "tetris-game-boy",
+      "title": "Tetris",
+      "console": "Game Boy",
+      "year": 1989,
+      "metascore": 98,
+      "snapshot": {
+        "loose": 11,
+        "cib": 53,
+        "mint": 78
+      },
+      "verification": {
+        "status": "sales_and_source_captured",
+        "history_points": 0,
+        "sales_entries": 9,
+        "source": {
+          "sourceType": "market database",
+          "sourceName": "PriceCharting",
+          "sourceUrl": "https://www.pricecharting.com/game/gameboy/tetris",
+          "verifiedAt": "2026-03-14",
+          "notes": "Verified recent loose sold listings plus incomplete and CIB examples captured from the PriceCharting Game Boy page on 2026-03-14. This first pass avoids bundle-only and console-bundle rows."
+        }
+      },
+      "notes": [
+        "Use only verified sources.",
+        "Snapshot prices below are local references only; do not treat them as verified sales history."
+      ]
+    },
+    {
+      "rank": 6,
+      "id": "perfect-dark-nintendo-64",
+      "title": "Perfect Dark",
+      "console": "Nintendo 64",
+      "year": 2000,
+      "metascore": 97,
+      "snapshot": {
+        "loose": 20,
+        "cib": 30,
+        "mint": 50
+      },
+      "verification": {
+        "status": "sales_and_source_captured",
+        "history_points": 0,
+        "sales_entries": 11,
+        "source": {
+          "sourceType": "market database",
+          "sourceName": "PriceCharting",
+          "sourceUrl": "https://www.pricecharting.com/game/nintendo-64/perfect-dark",
+          "verifiedAt": "2026-03-14",
+          "notes": "Verified recent loose, incomplete, and CIB sold listings captured from the PriceCharting Nintendo 64 page on 2026-03-14. This first pass imports the clearest cartridge and complete-in-box rows."
+        }
+      },
+      "notes": [
+        "Use only verified sources.",
+        "Snapshot prices below are local references only; do not treat them as verified sales history."
+      ]
+    },
+    {
+      "rank": 7,
+      "id": "super-mario-64-nintendo-64",
+      "title": "Super Mario 64",
+      "console": "Nintendo 64",
+      "year": 1996,
+      "metascore": 97,
+      "snapshot": {
+        "loose": 7,
+        "cib": 41,
+        "mint": 43
+      },
+      "verification": {
+        "status": "verified_batch_ready",
+        "history_points": 10,
+        "sales_entries": 11,
+        "source": {
+          "sourceType": "market database",
+          "sourceName": "PriceCharting",
+          "sourceUrl": "https://www.pricecharting.com/game/nintendo-64/super-mario-64",
+          "verifiedAt": "2026-03-14",
+          "notes": "Verified recent loose, CIB, and sealed sold listings captured from the PriceCharting Nintendo 64 page on 2026-03-14. Imported 10 yearly history points for 2016-2025 using yearly averages from the embedded chart_data used-series."
+        }
+      },
+      "notes": [
+        "Use only verified sources.",
+        "Snapshot prices below are local references only; do not treat them as verified sales history."
+      ]
+    },
+    {
+      "rank": 8,
+      "id": "super-mario-bros-3-nintendo-entertainment-system",
+      "title": "Super Mario Bros. 3",
+      "console": "Nintendo Entertainment System",
+      "year": 1990,
+      "metascore": 97,
+      "snapshot": {
+        "loose": 10,
+        "cib": 29,
+        "mint": 40
+      },
+      "verification": {
+        "status": "sales_and_source_captured",
+        "history_points": 0,
+        "sales_entries": 11,
+        "source": {
+          "sourceType": "market database",
+          "sourceName": "PriceCharting",
+          "sourceUrl": "https://www.pricecharting.com/game/nes/super-mario-bros-3",
+          "verifiedAt": "2026-03-14",
+          "notes": "Verified recent loose, CIB, and sealed sold listings captured from the PriceCharting NES page on 2026-03-14. This first pass imports the clearest cartridge-only and complete-in-box rows."
+        }
+      },
+      "notes": [
+        "Use only verified sources.",
+        "Snapshot prices below are local references only; do not treat them as verified sales history."
+      ]
+    },
+    {
+      "rank": 9,
+      "id": "tekken-3-playstation",
+      "title": "Tekken 3",
+      "console": "PlayStation",
+      "year": 1998,
+      "metascore": 96,
+      "snapshot": {
+        "loose": 12,
+        "cib": 28,
+        "mint": 65
+      },
+      "verification": {
+        "status": "sales_and_source_captured",
+        "history_points": 0,
+        "sales_entries": 11,
+        "source": {
+          "sourceType": "market database",
+          "sourceName": "PriceCharting",
+          "sourceUrl": "https://www.pricecharting.com/game/playstation/tekken-3",
+          "verifiedAt": "2026-03-14",
+          "notes": "Verified recent loose disc-only, CIB, and sealed sold listings captured from the PriceCharting PlayStation page on 2026-03-14. This first pass keeps only clear Tekken 3 rows and ignores unrelated merch."
+        }
+      },
+      "notes": [
+        "Use only verified sources.",
+        "Snapshot prices below are local references only; do not treat them as verified sales history."
+      ]
+    },
+    {
+      "rank": 10,
+      "id": "gran-turismo-playstation",
+      "title": "Gran Turismo",
+      "console": "PlayStation",
+      "year": 1997,
+      "metascore": 96,
+      "snapshot": {
+        "loose": 9,
+        "cib": 22,
+        "mint": 55
+      },
+      "verification": {
+        "status": "sales_and_source_captured",
+        "history_points": 0,
+        "sales_entries": 7,
+        "source": {
+          "sourceType": "market database",
+          "sourceName": "PriceCharting",
+          "sourceUrl": "https://www.pricecharting.com/game/playstation/gran-turismo",
+          "verifiedAt": "2026-03-14",
+          "notes": "Verified recent loose and CIB sold listings captured from the PriceCharting PlayStation page on 2026-03-14. Current guide on that page also listed Loose $11.83, Complete $32.42, New $271.40."
+        }
+      },
+      "notes": [
+        "Use only verified sources.",
+        "Snapshot prices below are local references only; do not treat them as verified sales history."
+      ]
+    },
+    {
+      "rank": 11,
+      "id": "goldeneye-007-nintendo-64",
+      "title": "GoldenEye 007",
+      "console": "Nintendo 64",
+      "year": 1997,
+      "metascore": 96,
+      "snapshot": {
+        "loose": 8,
+        "cib": 28,
+        "mint": 58
+      },
+      "verification": {
+        "status": "sales_and_source_captured",
+        "history_points": 0,
+        "sales_entries": 7,
+        "source": {
+          "sourceType": "market database",
+          "sourceName": "PriceCharting",
+          "sourceUrl": "https://www.pricecharting.com/game/nintendo-64/007-goldeneye",
+          "verifiedAt": "2026-03-14",
+          "notes": "Verified recent loose and CIB sold listings captured from the PriceCharting Nintendo 64 page on 2026-03-14. Current guide on that page also listed Loose $28.37, Complete $107.50, New $595.00."
+        }
+      },
+      "notes": [
+        "Use only verified sources.",
+        "Snapshot prices below are local references only; do not treat them as verified sales history."
+      ]
+    },
+    {
+      "rank": 12,
+      "id": "yoshi-island-super-nintendo",
+      "title": "Super Mario World 2: Yoshi's Island",
+      "console": "Super Nintendo",
+      "year": 1995,
+      "metascore": 96,
+      "snapshot": {
+        "loose": 13,
+        "cib": 19,
+        "mint": 28
+      },
+      "verification": {
+        "status": "sales_and_source_captured",
+        "history_points": 0,
+        "sales_entries": 6,
+        "source": {
+          "sourceType": "market database",
+          "sourceName": "PriceCharting",
+          "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/super-mario-world-2-yoshi%27s-island",
+          "verifiedAt": "2026-03-14",
+          "notes": "Verified recent loose and CIB sold listings captured from the PriceCharting Super Nintendo page on 2026-03-14. Current guide on that page also listed Loose $37.81, Complete $143.07, New $825.00."
+        }
+      },
+      "notes": [
+        "Use only verified sources.",
+        "Snapshot prices below are local references only; do not treat them as verified sales history."
+      ]
+    }
+  ]
+}

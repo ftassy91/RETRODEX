@@ -1,0 +1,38 @@
+{
+  "game": "The Legend of Zelda",
+  "game_id": "the-legend-of-zelda-nintendo-entertainment-system",
+  "console": "Nintendo Entertainment System",
+  "year": 1987,
+  "asset_type": "character_sprite",
+  "asset_name": "Link (The Legend of Zelda)",
+  "source_type": "wikipedia_identity_override",
+  "image_reference": "Link_(The_Legend_of_Zelda)",
+  "selection_reason": "Most recognizable character sprite tied to this specific game",
+  "episode_number": null,
+  "publisher": "Nintendo R&D4",
+  "title_font": "Georgia",
+  "display_layout": "sprite_identity_card",
+  "sprite_path": "retrodeck_assets/the_legend_of_zelda_nintendo_entertainment_system/sprite.png",
+  "source_path": "retrodeck_assets/_cache/source_images/wikipedia_en_9_9d_link_28hyrule_historia_29_png.png",
+  "asset_dir": "retrodeck_assets/the_legend_of_zelda_nintendo_entertainment_system",
+  "palette": [
+    "#0F380F",
+    "#306230",
+    "#8BAC0F",
+    "#9BBC0F"
+  ],
+  "validation": {
+    "specific_game_reference": true,
+    "low_res_readable": true,
+    "gb_palette_ready": true,
+    "opaque_ratio": 0.5213,
+    "bbox": {
+      "y": 3,
+      "width": 29,
+      "height": 42,
+      "x": 9
+    }
+  },
+  "created_at": "2026-03-13T21:47:01Z",
+  "fallback_conditions": []
+}

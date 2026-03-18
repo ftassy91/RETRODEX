@@ -1,0 +1,19 @@
+﻿{
+    "output":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\assets\\generated_gb\\super-mario-bros.png",
+    "opaque_ratio":  0.3164,
+    "source":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\retrodeck_assets\\super_mario_bros_nintendo_entertainment_system\\sprite.png",
+    "bbox":  {
+                 "y":  6,
+                 "width":  45,
+                 "height":  59,
+                 "x":  13
+             },
+    "colors_used":  [
+                        "#0F380F",
+                        "#306230",
+                        "#8BAC0F",
+                        "#9BBC0F"
+                    ],
+    "work_size":  72,
+    "canvas_size":  180
+}

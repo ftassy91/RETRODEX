@@ -1,0 +1,275 @@
+/* =====================================================================
+   RETRODEX CSS — version sans container queries, px fixes
+   Bot screen effectif : 375×190px (wrapper 740px)
+   ===================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: #000 !important;
+  color: #9bbc0f;
+  font-family: "Share Tech Mono", "Courier New", monospace;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: #000 !important;
+}
+
+/* ── Page ─────────────────────────────────────────────────────────── */
+.screen-retrodex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 32px;
+  width: 100%;
+  min-height: 100vh;
+  background: #000 !important;
+}
+
+/* ── Wrapper PNG ──────────────────────────────────────────────────── */
+.rdx-wrapper {
+  position: relative;
+  width: min(92vw, 740px);
+  aspect-ratio: 1313 / 875;
+  background: #000 !important;
+  flex-shrink: 0;
+}
+
+/* ── PNG 3DS couche supérieure ────────────────────────────────────── */
+.rdx-png {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  z-index: 10;
+  display: block;
+}
+
+/* ── Écran haut ───────────────────────────────────────────────────── */
+.rdx-top {
+  position: absolute;
+  left:   15.16%;
+  top:    6.86%;
+  width:  69.69%;
+  height: 37.37%;
+  background: #0f380f;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.rdx-top canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.rdx-top::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    180deg, rgba(0,0,0,0.10) 0px 1px, transparent 1px 3px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Écran bas ────────────────────────────────────────────────────── */
+.rdx-bot {
+  position: absolute;
+  left:   24.60%;
+  top:    47.43%;
+  width:  50.65%;
+  height: 38.51%;
+  background: #0f380f;
+  z-index: 1;
+  overflow: hidden;
+  padding: 7px 9px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rdx-bot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    180deg, rgba(155,188,15,0.04) 0px 1px, transparent 1px 4px
+  );
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* ── DATA CARD ────────────────────────────────────────────────────── */
+.rdx-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Titre */
+.rdx-card-title {
+  font-family: "Press Start 2P", "Courier New", cursive;
+  font-size: 7px;
+  color: #9bbc0f;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+  margin-bottom: 3px;
+}
+
+/* Séparateur */
+.rdx-hr {
+  border: none;
+  border-top: 1px solid rgba(139,172,15,0.55);
+  margin: 2px 0 3px;
+  flex-shrink: 0;
+}
+
+/* Ligne de donnée */
+.rdx-line {
+  font-family: "Share Tech Mono", "Courier New", monospace;
+  font-size: 7.5px;
+  color: #9bbc0f;
+  line-height: 1.55;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+}
+
+.rdx-lbl {
+  color: #9bbc0f;
+  font-weight: bold;
+}
+
+/* Ligne genre + badge rarity */
+.rdx-genre-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1px;
+}
+
+.rdx-badge {
+  font-family: "Press Start 2P", "Courier New", cursive;
+  font-size: 5.5px;
+  color: #0f380f;
+  background: #8bac0f;
+  padding: 2px 4px;
+  border-radius: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1.5;
+}
+
+/* ── Section Prix ─────────────────────────────────────────────────── */
+.rdx-price-head {
+  font-family: "Press Start 2P", "Courier New", cursive;
+  font-size: 6.5px;
+  color: #9bbc0f;
+  margin: 4px 0 3px;
+  flex-shrink: 0;
+}
+
+.rdx-price-body {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  flex: 1;
+  min-height: 0;
+}
+
+.rdx-price-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  flex-shrink: 0;
+}
+
+.rdx-pline {
+  font-family: "Share Tech Mono", "Courier New", monospace;
+  font-size: 7px;
+  color: #9bbc0f;
+  white-space: nowrap;
+  line-height: 1.5;
+}
+
+.rdx-spark-wrap {
+  flex: 1;
+  min-width: 0;
+  min-height: 24px;
+  border: 1px solid rgba(155,188,15,0.35);
+  background: rgba(10,30,10,0.6);
+  position: relative;
+}
+
+.rdx-spark-wrap canvas {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ── Navigation ───────────────────────────────────────────────────── */
+.rdx-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 14px;
+  width: min(92vw, 740px);
+}
+
+.rdx-btn {
+  font-family: "Press Start 2P", "Courier New", cursive;
+  font-size: 9px;
+  color: #9bbc0f;
+  background: rgba(155,188,15,0.07);
+  border: 1px solid rgba(155,188,15,0.3);
+  border-radius: 3px;
+  padding: 10px 22px;
+  cursor: pointer;
+  transition: background 120ms, border-color 120ms;
+  letter-spacing: 0.04em;
+}
+
+.rdx-btn:hover, .rdx-btn:focus-visible {
+  background: rgba(155,188,15,0.18);
+  border-color: rgba(155,188,15,0.65);
+  outline: none;
+}
+
+.rdx-ctr {
+  font-family: "Share Tech Mono", "Courier New", monospace;
+  font-size: 11px;
+  color: rgba(155,188,15,0.5);
+  min-width: 80px;
+  text-align: center;
+}
+
+/* ── Responsive — petit écran ─────────────────────────────────────── */
+@media (max-width: 600px) {
+  .rdx-card-title  { font-size: 5.5px; }
+  .rdx-line        { font-size: 6px; }
+  .rdx-pline       { font-size: 5.5px; }
+  .rdx-price-head  { font-size: 5px; }
+  .rdx-badge       { font-size: 4.5px; }
+  .rdx-bot         { padding: 5px 7px; }
+}

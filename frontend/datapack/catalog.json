@@ -1,0 +1,2549 @@
+[
+  {
+    "id": "super-mario-bros-nintendo-entertainment-system",
+    "title": "Super Mario Bros.",
+    "console": "Nintendo Entertainment System",
+    "year": 1985,
+    "developer": "Nintendo R&D4",
+    "metascore": 89,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "super-mario-bros-3-nintendo-entertainment-system",
+    "title": "Super Mario Bros. 3",
+    "console": "Nintendo Entertainment System",
+    "year": 1990,
+    "developer": "Nintendo R&D4",
+    "metascore": 97,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "the-legend-of-zelda-nintendo-entertainment-system",
+    "title": "The Legend of Zelda",
+    "console": "Nintendo Entertainment System",
+    "year": 1987,
+    "developer": "Nintendo R&D4",
+    "metascore": 93,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "zelda-ii-the-adventure-of-link-nintendo-entertainment-system",
+    "title": "Zelda II: The Adventure of Link",
+    "console": "Nintendo Entertainment System",
+    "year": 1988,
+    "developer": "Nintendo R&D4",
+    "metascore": 78,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "metroid-nintendo-entertainment-system",
+    "title": "Metroid",
+    "console": "Nintendo Entertainment System",
+    "year": 1987,
+    "developer": "Nintendo R&D1",
+    "metascore": 82,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "mega-man-2-nintendo-entertainment-system",
+    "title": "Mega Man 2",
+    "console": "Nintendo Entertainment System",
+    "year": 1989,
+    "developer": "Capcom",
+    "metascore": 90,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "mega-man-3-nintendo-entertainment-system",
+    "title": "Mega Man 3",
+    "console": "Nintendo Entertainment System",
+    "year": 1990,
+    "developer": "Capcom",
+    "metascore": 82,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "castlevania-nintendo-entertainment-system",
+    "title": "Castlevania",
+    "console": "Nintendo Entertainment System",
+    "year": 1987,
+    "developer": "Konami",
+    "metascore": 86,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "castlevania-iii-draculas-curse-nintendo-entertainment-system",
+    "title": "Castlevania III: Dracula's Curse",
+    "console": "Nintendo Entertainment System",
+    "year": 1990,
+    "developer": "Konami",
+    "metascore": 84,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "ninja-gaiden-nintendo-entertainment-system",
+    "title": "Ninja Gaiden",
+    "console": "Nintendo Entertainment System",
+    "year": 1989,
+    "developer": "Tecmo",
+    "metascore": 83,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "contra-nintendo-entertainment-system",
+    "title": "Contra",
+    "console": "Nintendo Entertainment System",
+    "year": 1988,
+    "developer": "Konami",
+    "metascore": 87,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "duck-tales-nintendo-entertainment-system",
+    "title": "DuckTales",
+    "console": "Nintendo Entertainment System",
+    "year": 1989,
+    "developer": "Capcom",
+    "metascore": 85,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "bionic-commando-nintendo-entertainment-system",
+    "title": "Bionic Commando",
+    "console": "Nintendo Entertainment System",
+    "year": 1988,
+    "developer": "Capcom",
+    "metascore": 80,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "mike-tysons-punch-out-nintendo-entertainment-system",
+    "title": "Mike Tyson's Punch-Out!!",
+    "console": "Nintendo Entertainment System",
+    "year": 1987,
+    "developer": "Nintendo R&D3",
+    "metascore": 91,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "battletoads-nintendo-entertainment-system",
+    "title": "Battletoads",
+    "console": "Nintendo Entertainment System",
+    "year": 1991,
+    "developer": "Rare",
+    "metascore": 81,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "tetris-game-boy",
+    "title": "Tetris",
+    "console": "Game Boy",
+    "year": 1989,
+    "developer": "Nintendo R&D1",
+    "metascore": 98,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "pokemon-red-game-boy",
+    "title": "Pokémon Red",
+    "console": "Game Boy",
+    "year": 1998,
+    "developer": "Game Freak",
+    "metascore": 89,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "pokemon-blue-game-boy",
+    "title": "Pokémon Blue",
+    "console": "Game Boy",
+    "year": 1998,
+    "developer": "Game Freak",
+    "metascore": 89,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "pokemon-yellow-game-boy",
+    "title": "Pokémon Yellow",
+    "console": "Game Boy",
+    "year": 1999,
+    "developer": "Game Freak",
+    "metascore": 87,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "super-mario-land-game-boy",
+    "title": "Super Mario Land",
+    "console": "Game Boy",
+    "year": 1989,
+    "developer": "Nintendo R&D1",
+    "metascore": 80,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "super-mario-land-2-game-boy",
+    "title": "Super Mario Land 2: 6 Golden Coins",
+    "console": "Game Boy",
+    "year": 1992,
+    "developer": "Nintendo R&D1",
+    "metascore": 85,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "the-legend-of-zelda-links-awakening-game-boy",
+    "title": "The Legend of Zelda: Link's Awakening",
+    "console": "Game Boy",
+    "year": 1993,
+    "developer": "Nintendo EAD",
+    "metascore": 90,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "kirby-dream-land-game-boy",
+    "title": "Kirby's Dream Land",
+    "console": "Game Boy",
+    "year": 1992,
+    "developer": "HAL Laboratory",
+    "metascore": 77,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "metroid-ii-return-of-samus-game-boy",
+    "title": "Metroid II: Return of Samus",
+    "console": "Game Boy",
+    "year": 1991,
+    "developer": "Nintendo R&D1",
+    "metascore": 80,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "donkey-kong-game-boy",
+    "title": "Donkey Kong",
+    "console": "Game Boy",
+    "year": 1994,
+    "developer": "Nintendo R&D1",
+    "metascore": 87,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "wario-land-super-mario-land-3-game-boy",
+    "title": "Wario Land: Super Mario Land 3",
+    "console": "Game Boy",
+    "year": 1994,
+    "developer": "Nintendo R&D1",
+    "metascore": 84,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "gargoyles-quest-game-boy",
+    "title": "Gargoyle's Quest",
+    "console": "Game Boy",
+    "year": 1990,
+    "developer": "Capcom",
+    "metascore": 80,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "dr-mario-game-boy",
+    "title": "Dr. Mario",
+    "console": "Game Boy",
+    "year": 1990,
+    "developer": "Nintendo R&D1",
+    "metascore": 79,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "pokemon-gold-game-boy",
+    "title": "Pokémon Gold",
+    "console": "Game Boy",
+    "year": 2000,
+    "developer": "Game Freak",
+    "metascore": 91,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "pokemon-silver-game-boy",
+    "title": "Pokémon Silver",
+    "console": "Game Boy",
+    "year": 2000,
+    "developer": "Game Freak",
+    "metascore": 91,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "sonic-the-hedgehog-sega-genesis",
+    "title": "Sonic the Hedgehog",
+    "console": "Sega Genesis",
+    "year": 1991,
+    "developer": "Sonic Team",
+    "metascore": 86,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "sonic-the-hedgehog-2-sega-genesis",
+    "title": "Sonic the Hedgehog 2",
+    "console": "Sega Genesis",
+    "year": 1992,
+    "developer": "Sonic Team",
+    "metascore": 87,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "sonic-the-hedgehog-3-sega-genesis",
+    "title": "Sonic the Hedgehog 3",
+    "console": "Sega Genesis",
+    "year": 1994,
+    "developer": "Sonic Team",
+    "metascore": 82,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "streets-of-rage-2-sega-genesis",
+    "title": "Streets of Rage 2",
+    "console": "Sega Genesis",
+    "year": 1992,
+    "developer": "Sega AM7",
+    "metascore": 92,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "gunstar-heroes-sega-genesis",
+    "title": "Gunstar Heroes",
+    "console": "Sega Genesis",
+    "year": 1993,
+    "developer": "Treasure",
+    "metascore": 93,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "phantasy-star-iv-sega-genesis",
+    "title": "Phantasy Star IV",
+    "console": "Sega Genesis",
+    "year": 1993,
+    "developer": "Sega",
+    "metascore": 90,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "shining-force-sega-genesis",
+    "title": "Shining Force",
+    "console": "Sega Genesis",
+    "year": 1992,
+    "developer": "Climax Entertainment",
+    "metascore": 84,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "shining-force-ii-sega-genesis",
+    "title": "Shining Force II",
+    "console": "Sega Genesis",
+    "year": 1993,
+    "developer": "Sonic! Software Planning",
+    "metascore": 86,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "ecco-the-dolphin-sega-genesis",
+    "title": "Ecco the Dolphin",
+    "console": "Sega Genesis",
+    "year": 1992,
+    "developer": "Novotrade",
+    "metascore": 79,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "castlevania-bloodlines-sega-genesis",
+    "title": "Castlevania: Bloodlines",
+    "console": "Sega Genesis",
+    "year": 1994,
+    "developer": "Konami",
+    "metascore": 83,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "mortal-kombat-sega-genesis",
+    "title": "Mortal Kombat",
+    "console": "Sega Genesis",
+    "year": 1993,
+    "developer": "Midway",
+    "metascore": 78,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "earthworm-jim-sega-genesis",
+    "title": "Earthworm Jim",
+    "console": "Sega Genesis",
+    "year": 1994,
+    "developer": "Shiny Entertainment",
+    "metascore": 85,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "altered-beast-sega-genesis",
+    "title": "Altered Beast",
+    "console": "Sega Genesis",
+    "year": 1989,
+    "developer": "Sega",
+    "metascore": 68,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "comix-zone-sega-genesis",
+    "title": "Comix Zone",
+    "console": "Sega Genesis",
+    "year": 1995,
+    "developer": "Sega",
+    "metascore": 82,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "toejam-and-earl-sega-genesis",
+    "title": "ToeJam & Earl",
+    "console": "Sega Genesis",
+    "year": 1991,
+    "developer": "Johnson Voorsanger Productions",
+    "metascore": 80,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "final-fantasy-vi-super-nintendo",
+    "title": "Final Fantasy VI",
+    "console": "Super Nintendo",
+    "year": 1994,
+    "developer": "Square",
+    "metascore": 92,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "super-mario-kart-super-nintendo",
+    "title": "Super Mario Kart",
+    "console": "Super Nintendo",
+    "year": 1992,
+    "developer": "Nintendo EAD",
+    "metascore": 87,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "street-fighter-ii-super-nintendo",
+    "title": "Street Fighter II",
+    "console": "Super Nintendo",
+    "year": 1992,
+    "developer": "Capcom",
+    "metascore": 89,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "donkey-kong-country-2-super-nintendo",
+    "title": "Donkey Kong Country 2",
+    "console": "Super Nintendo",
+    "year": 1995,
+    "developer": "Rare",
+    "metascore": 91,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "super-mario-rpg-super-nintendo",
+    "title": "Super Mario RPG",
+    "console": "Super Nintendo",
+    "year": 1996,
+    "developer": "Square",
+    "metascore": 87,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "yoshi-island-super-nintendo",
+    "title": "Super Mario World 2: Yoshi's Island",
+    "console": "Super Nintendo",
+    "year": 1995,
+    "developer": "Nintendo EAD",
+    "metascore": 96,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "kirby-super-star-super-nintendo",
+    "title": "Kirby Super Star",
+    "console": "Super Nintendo",
+    "year": 1996,
+    "developer": "HAL Laboratory",
+    "metascore": 85,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "super-punch-out-super-nintendo",
+    "title": "Super Punch-Out!!",
+    "console": "Super Nintendo",
+    "year": 1994,
+    "developer": "Nintendo EAD",
+    "metascore": 83,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "starfox-super-nintendo",
+    "title": "Star Fox",
+    "console": "Super Nintendo",
+    "year": 1993,
+    "developer": "Nintendo EAD",
+    "metascore": 85,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "f-zero-super-nintendo",
+    "title": "F-Zero",
+    "console": "Super Nintendo",
+    "year": 1991,
+    "developer": "Nintendo EAD",
+    "metascore": 87,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "final-fantasy-iv-super-nintendo",
+    "title": "Final Fantasy IV",
+    "console": "Super Nintendo",
+    "year": 1991,
+    "developer": "Square",
+    "metascore": 85,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "final-fantasy-v-super-nintendo",
+    "title": "Final Fantasy V",
+    "console": "Super Nintendo",
+    "year": 1992,
+    "developer": "Square",
+    "metascore": 83,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "secret-of-mana-super-nintendo",
+    "title": "Secret of Mana",
+    "console": "Super Nintendo",
+    "year": 1993,
+    "developer": "Square",
+    "metascore": 88,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "tales-of-phantasia-super-nintendo",
+    "title": "Tales of Phantasia",
+    "console": "Super Nintendo",
+    "year": 1995,
+    "developer": "Wolf Team",
+    "metascore": 82,
+    "rarity": "RARE"
+  },
+  {
+    "id": "mega-man-x2-super-nintendo",
+    "title": "Mega Man X2",
+    "console": "Super Nintendo",
+    "year": 1994,
+    "developer": "Capcom",
+    "metascore": 85,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "crash-bandicoot-playstation",
+    "title": "Crash Bandicoot",
+    "console": "PlayStation",
+    "year": 1996,
+    "developer": "Naughty Dog",
+    "metascore": 88,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "spyro-the-dragon-playstation",
+    "title": "Spyro the Dragon",
+    "console": "PlayStation",
+    "year": 1998,
+    "developer": "Insomniac Games",
+    "metascore": 86,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "tomb-raider-playstation",
+    "title": "Tomb Raider",
+    "console": "PlayStation",
+    "year": 1996,
+    "developer": "Core Design",
+    "metascore": 91,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "final-fantasy-ix-playstation",
+    "title": "Final Fantasy IX",
+    "console": "PlayStation",
+    "year": 2000,
+    "developer": "Square",
+    "metascore": 94,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "parasite-eve-playstation",
+    "title": "Parasite Eve",
+    "console": "PlayStation",
+    "year": 1998,
+    "developer": "Square",
+    "metascore": 83,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "vagrant-story-playstation",
+    "title": "Vagrant Story",
+    "console": "PlayStation",
+    "year": 2000,
+    "developer": "Square",
+    "metascore": 92,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "xenogears-playstation",
+    "title": "Xenogears",
+    "console": "PlayStation",
+    "year": 1998,
+    "developer": "Square",
+    "metascore": 88,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "wild-arms-playstation",
+    "title": "Wild Arms",
+    "console": "PlayStation",
+    "year": 1997,
+    "developer": "Media.Vision",
+    "metascore": 79,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "suikoden-playstation",
+    "title": "Suikoden",
+    "console": "PlayStation",
+    "year": 1996,
+    "developer": "Konami",
+    "metascore": 83,
+    "rarity": "RARE"
+  },
+  {
+    "id": "suikoden-ii-playstation",
+    "title": "Suikoden II",
+    "console": "PlayStation",
+    "year": 1998,
+    "developer": "Konami",
+    "metascore": 93,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "chrono-cross-playstation",
+    "title": "Chrono Cross",
+    "console": "PlayStation",
+    "year": 2000,
+    "developer": "Square",
+    "metascore": 94,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "tony-hawks-pro-skater-2-playstation",
+    "title": "Tony Hawk's Pro Skater 2",
+    "console": "PlayStation",
+    "year": 2000,
+    "developer": "Neversoft",
+    "metascore": 98,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "crash-team-racing-playstation",
+    "title": "Crash Team Racing",
+    "console": "PlayStation",
+    "year": 1999,
+    "developer": "Naughty Dog",
+    "metascore": 91,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "legend-of-dragoon-playstation",
+    "title": "The Legend of Dragoon",
+    "console": "PlayStation",
+    "year": 2000,
+    "developer": "Sony Japan",
+    "metascore": 77,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "bushido-blade-playstation",
+    "title": "Bushido Blade",
+    "console": "PlayStation",
+    "year": 1997,
+    "developer": "Light Weight",
+    "metascore": 79,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "panzer-dragoon-saga-sega-saturn",
+    "title": "Panzer Dragoon Saga",
+    "console": "Sega Saturn",
+    "year": 1998,
+    "developer": "Sega AM2",
+    "metascore": 98,
+    "rarity": "LEGENDARY"
+  },
+  {
+    "id": "nights-into-dreams-sega-saturn",
+    "title": "NiGHTS into Dreams",
+    "console": "Sega Saturn",
+    "year": 1996,
+    "developer": "Sonic Team",
+    "metascore": 90,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "guardian-heroes-sega-saturn",
+    "title": "Guardian Heroes",
+    "console": "Sega Saturn",
+    "year": 1996,
+    "developer": "Treasure",
+    "metascore": 88,
+    "rarity": "RARE"
+  },
+  {
+    "id": "dragon-force-sega-saturn",
+    "title": "Dragon Force",
+    "console": "Sega Saturn",
+    "year": 1996,
+    "developer": "J-Force",
+    "metascore": 87,
+    "rarity": "RARE"
+  },
+  {
+    "id": "radiant-silvergun-sega-saturn",
+    "title": "Radiant Silvergun",
+    "console": "Sega Saturn",
+    "year": 1998,
+    "developer": "Treasure",
+    "metascore": 94,
+    "rarity": "LEGENDARY"
+  },
+  {
+    "id": "castlevania-symphony-of-the-night-sega-saturn",
+    "title": "Castlevania: Symphony of the Night",
+    "console": "Sega Saturn",
+    "year": 1998,
+    "developer": "Konami",
+    "metascore": 91,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "burning-rangers-sega-saturn",
+    "title": "Burning Rangers",
+    "console": "Sega Saturn",
+    "year": 1998,
+    "developer": "Sonic Team",
+    "metascore": 81,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "shining-the-holy-ark-sega-saturn",
+    "title": "Shining the Holy Ark",
+    "console": "Sega Saturn",
+    "year": 1997,
+    "developer": "Sonic! Software Planning",
+    "metascore": 84,
+    "rarity": "RARE"
+  },
+  {
+    "id": "albert-odyssey-sega-saturn",
+    "title": "Albert Odyssey: Legend of Eldean",
+    "console": "Sega Saturn",
+    "year": 1997,
+    "developer": "Sunsoft",
+    "metascore": 75,
+    "rarity": "RARE"
+  },
+  {
+    "id": "fighters-megamix-sega-saturn",
+    "title": "Fighters Megamix",
+    "console": "Sega Saturn",
+    "year": 1997,
+    "developer": "Sega AM2",
+    "metascore": 87,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "conkers-bad-fur-day-nintendo-64",
+    "title": "Conker's Bad Fur Day",
+    "console": "Nintendo 64",
+    "year": 2001,
+    "developer": "Rare",
+    "metascore": 92,
+    "rarity": "RARE"
+  },
+  {
+    "id": "perfect-dark-nintendo-64",
+    "title": "Perfect Dark",
+    "console": "Nintendo 64",
+    "year": 2000,
+    "developer": "Rare",
+    "metascore": 97,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "majoras-mask-nintendo-64",
+    "title": "The Legend of Zelda: Majora's Mask",
+    "console": "Nintendo 64",
+    "year": 2000,
+    "developer": "Nintendo EAD",
+    "metascore": 95,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "kirby-64-crystal-shards-nintendo-64",
+    "title": "Kirby 64: The Crystal Shards",
+    "console": "Nintendo 64",
+    "year": 2000,
+    "developer": "HAL Laboratory",
+    "metascore": 77,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "f-zero-x-nintendo-64",
+    "title": "F-Zero X",
+    "console": "Nintendo 64",
+    "year": 1998,
+    "developer": "Nintendo EAD",
+    "metascore": 89,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "wave-race-64-nintendo-64",
+    "title": "Wave Race 64",
+    "console": "Nintendo 64",
+    "year": 1996,
+    "developer": "Nintendo EAD",
+    "metascore": 93,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "mario-party-nintendo-64",
+    "title": "Mario Party",
+    "console": "Nintendo 64",
+    "year": 1999,
+    "developer": "Hudson Soft",
+    "metascore": 73,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "pokemon-snap-nintendo-64",
+    "title": "Pokémon Snap",
+    "console": "Nintendo 64",
+    "year": 1999,
+    "developer": "HAL Laboratory",
+    "metascore": 79,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "1080-snowboarding-nintendo-64",
+    "title": "1080° Snowboarding",
+    "console": "Nintendo 64",
+    "year": 1998,
+    "developer": "Nintendo EAD",
+    "metascore": 88,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "diddy-kong-racing-nintendo-64",
+    "title": "Diddy Kong Racing",
+    "console": "Nintendo 64",
+    "year": 1997,
+    "developer": "Rare",
+    "metascore": 88,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "metroid-zero-mission-game-boy-advance",
+    "title": "Metroid: Zero Mission",
+    "console": "Game Boy Advance",
+    "year": 2004,
+    "developer": "Nintendo R&D1",
+    "metascore": 89,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "golden-sun-the-lost-age-game-boy-advance",
+    "title": "Golden Sun: The Lost Age",
+    "console": "Game Boy Advance",
+    "year": 2002,
+    "developer": "Camelot",
+    "metascore": 82,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "warioware-inc-game-boy-advance",
+    "title": "WarioWare, Inc.: Mega Microgame$",
+    "console": "Game Boy Advance",
+    "year": 2003,
+    "developer": "Nintendo R&D1",
+    "metascore": 91,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "mario-kart-super-circuit-game-boy-advance",
+    "title": "Mario Kart: Super Circuit",
+    "console": "Game Boy Advance",
+    "year": 2001,
+    "developer": "Intelligent Systems",
+    "metascore": 85,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "kirby-nightmare-in-dream-land-game-boy-advance",
+    "title": "Kirby: Nightmare in Dream Land",
+    "console": "Game Boy Advance",
+    "year": 2002,
+    "developer": "HAL Laboratory",
+    "metascore": 80,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "boktai-the-sun-is-in-your-hand-game-boy-advance",
+    "title": "Boktai: The Sun Is in Your Hand",
+    "console": "Game Boy Advance",
+    "year": 2003,
+    "developer": "Konami",
+    "metascore": 82,
+    "rarity": "RARE"
+  },
+  {
+    "id": "tactics-ogre-the-knight-of-lodis-game-boy-advance",
+    "title": "Tactics Ogre: The Knight of Lodis",
+    "console": "Game Boy Advance",
+    "year": 2002,
+    "developer": "Quest",
+    "metascore": 84,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "mother-3-game-boy-advance",
+    "title": "Mother 3",
+    "console": "Game Boy Advance",
+    "year": 2006,
+    "developer": "HAL Laboratory",
+    "metascore": 89,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "megaman-zero-game-boy-advance",
+    "title": "Mega Man Zero",
+    "console": "Game Boy Advance",
+    "year": 2002,
+    "developer": "Inti Creates",
+    "metascore": 84,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "pokemon-emerald-game-boy-advance",
+    "title": "Pokémon Emerald",
+    "console": "Game Boy Advance",
+    "year": 2004,
+    "developer": "Game Freak",
+    "metascore": 76,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "chrono-trigger-nintendo-ds",
+    "title": "Chrono Trigger",
+    "console": "Nintendo DS",
+    "year": 2008,
+    "developer": "Square Enix",
+    "metascore": 92,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "radiant-historia-nintendo-ds",
+    "title": "Radiant Historia",
+    "console": "Nintendo DS",
+    "year": 2010,
+    "developer": "Atlus",
+    "metascore": 88,
+    "rarity": "RARE"
+  },
+  {
+    "id": "the-world-ends-with-you-nintendo-ds",
+    "title": "The World Ends with You",
+    "console": "Nintendo DS",
+    "year": 2007,
+    "developer": "Square Enix",
+    "metascore": 88,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "pokemon-heartgold-nintendo-ds",
+    "title": "Pokémon HeartGold",
+    "console": "Nintendo DS",
+    "year": 2009,
+    "developer": "Game Freak",
+    "metascore": 87,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "dragon-quest-ix-nintendo-ds",
+    "title": "Dragon Quest IX",
+    "console": "Nintendo DS",
+    "year": 2009,
+    "developer": "Level-5",
+    "metascore": 87,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "castlevania-order-of-ecclesia-nintendo-ds",
+    "title": "Castlevania: Order of Ecclesia",
+    "console": "Nintendo DS",
+    "year": 2008,
+    "developer": "Konami",
+    "metascore": 90,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "ghost-trick-phantom-detective-nintendo-ds",
+    "title": "Ghost Trick: Phantom Detective",
+    "console": "Nintendo DS",
+    "year": 2010,
+    "developer": "Capcom",
+    "metascore": 91,
+    "rarity": "RARE"
+  },
+  {
+    "id": "phoenix-wright-ace-attorney-nintendo-ds",
+    "title": "Phoenix Wright: Ace Attorney",
+    "console": "Nintendo DS",
+    "year": 2005,
+    "developer": "Capcom",
+    "metascore": 81,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "999-nine-hours-nine-persons-nine-doors-nintendo-ds",
+    "title": "999: Nine Hours, Nine Persons, Nine Doors",
+    "console": "Nintendo DS",
+    "year": 2009,
+    "developer": "Chunsoft",
+    "metascore": 90,
+    "rarity": "RARE"
+  },
+  {
+    "id": "mario-and-luigi-bowsers-inside-story-nintendo-ds",
+    "title": "Mario & Luigi: Bowser's Inside Story",
+    "console": "Nintendo DS",
+    "year": 2009,
+    "developer": "AlphaDream",
+    "metascore": 90,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "power-stone-dreamcast",
+    "title": "Power Stone",
+    "console": "Dreamcast",
+    "year": 1999,
+    "developer": "Capcom",
+    "metascore": 84,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "crazy-taxi-dreamcast",
+    "title": "Crazy Taxi",
+    "console": "Dreamcast",
+    "year": 2000,
+    "developer": "Hitmaker",
+    "metascore": 90,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "seaman-dreamcast",
+    "title": "Seaman",
+    "console": "Dreamcast",
+    "year": 1999,
+    "developer": "Vivarium",
+    "metascore": 79,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "ikaruga-dreamcast",
+    "title": "Ikaruga",
+    "console": "Dreamcast",
+    "year": 2002,
+    "developer": "Treasure",
+    "metascore": 93,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "tech-romancer-dreamcast",
+    "title": "Tech Romancer",
+    "console": "Dreamcast",
+    "year": 1999,
+    "developer": "Capcom",
+    "metascore": 77,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "metal-slug-neo-geo",
+    "title": "Metal Slug",
+    "console": "Neo Geo",
+    "year": 1996,
+    "developer": "Nazca Corporation",
+    "metascore": 91,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "metal-slug-2-neo-geo",
+    "title": "Metal Slug 2",
+    "console": "Neo Geo",
+    "year": 1998,
+    "developer": "SNK",
+    "metascore": 89,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "the-king-of-fighters-98-neo-geo",
+    "title": "The King of Fighters '98",
+    "console": "Neo Geo",
+    "year": 1998,
+    "developer": "SNK",
+    "metascore": 93,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "samurai-shodown-ii-neo-geo",
+    "title": "Samurai Shodown II",
+    "console": "Neo Geo",
+    "year": 1994,
+    "developer": "SNK",
+    "metascore": 90,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "fatal-fury-special-neo-geo",
+    "title": "Fatal Fury Special",
+    "console": "Neo Geo",
+    "year": 1993,
+    "developer": "SNK",
+    "metascore": 87,
+    "rarity": "RARE"
+  },
+  {
+    "id": "bonk-revenge-turbografx-16",
+    "title": "Bonk's Revenge",
+    "console": "TurboGrafx-16",
+    "year": 1991,
+    "developer": "Red Company",
+    "metascore": 82,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "castlevania-rondo-of-blood-turbografx-16",
+    "title": "Castlevania: Rondo of Blood",
+    "console": "TurboGrafx-16",
+    "year": 1993,
+    "developer": "Konami",
+    "metascore": 94,
+    "rarity": "LEGENDARY"
+  },
+  {
+    "id": "lords-of-thunder-turbografx-16",
+    "title": "Lords of Thunder",
+    "console": "TurboGrafx-16",
+    "year": 1993,
+    "developer": "Red Company",
+    "metascore": 87,
+    "rarity": "RARE"
+  },
+  {
+    "id": "y-s-book-i-ii-turbografx-16",
+    "title": "Ys Book I & II",
+    "console": "TurboGrafx-16",
+    "year": 1990,
+    "developer": "Hudson Soft",
+    "metascore": 91,
+    "rarity": "RARE"
+  },
+  {
+    "id": "military-madness-turbografx-16",
+    "title": "Military Madness",
+    "console": "TurboGrafx-16",
+    "year": 1990,
+    "developer": "Hudson Soft",
+    "metascore": 86,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "marvel-vs-capcom-2-dreamcast",
+    "title": "Marvel vs. Capcom 2",
+    "console": "Dreamcast",
+    "year": 2000,
+    "developer": "Capcom",
+    "metascore": 91,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "grandia-ii-dreamcast",
+    "title": "Grandia II",
+    "console": "Dreamcast",
+    "year": 2000,
+    "developer": "Game Arts",
+    "metascore": 84,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "space-channel-5-dreamcast",
+    "title": "Space Channel 5",
+    "console": "Dreamcast",
+    "year": 1999,
+    "developer": "United Game Artists",
+    "metascore": 82,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "virtua-fighter-3tb-dreamcast",
+    "title": "Virtua Fighter 3tb",
+    "console": "Dreamcast",
+    "year": 1998,
+    "developer": "Sega AM2",
+    "metascore": 86,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "cannon-spike-dreamcast",
+    "title": "Cannon Spike",
+    "console": "Dreamcast",
+    "year": 2000,
+    "developer": "Capcom",
+    "metascore": 80,
+    "rarity": "RARE"
+  },
+  {
+    "id": "alex-kidd-in-miracle-world-sega-master-system",
+    "title": "Alex Kidd in Miracle World",
+    "console": "Sega Master System",
+    "year": 1986,
+    "developer": "Sega",
+    "metascore": 78,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "phantasy-star-sega-master-system",
+    "title": "Phantasy Star",
+    "console": "Sega Master System",
+    "year": 1987,
+    "developer": "Sega",
+    "metascore": 88,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "wonder-boy-iii-the-dragons-trap-sega-master-system",
+    "title": "Wonder Boy III: The Dragon's Trap",
+    "console": "Sega Master System",
+    "year": 1989,
+    "developer": "Westone",
+    "metascore": 87,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "sonic-the-hedgehog-sega-master-system",
+    "title": "Sonic the Hedgehog",
+    "console": "Sega Master System",
+    "year": 1991,
+    "developer": "Sega",
+    "metascore": 79,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "golvellius-valley-of-doom-sega-master-system",
+    "title": "Golvellius: Valley of Doom",
+    "console": "Sega Master System",
+    "year": 1988,
+    "developer": "Compile",
+    "metascore": 82,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "castle-of-illusion-sega-master-system",
+    "title": "Castle of Illusion",
+    "console": "Sega Master System",
+    "year": 1990,
+    "developer": "Sega",
+    "metascore": 81,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "r-type-sega-master-system",
+    "title": "R-Type",
+    "console": "Sega Master System",
+    "year": 1988,
+    "developer": "Compile",
+    "metascore": 84,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "double-dragon-sega-master-system",
+    "title": "Double Dragon",
+    "console": "Sega Master System",
+    "year": 1988,
+    "developer": "Technos",
+    "metascore": 77,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "sonic-the-hedgehog-game-gear",
+    "title": "Sonic the Hedgehog",
+    "console": "Game Gear",
+    "year": 1991,
+    "developer": "Sega",
+    "metascore": 80,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "columns-game-gear",
+    "title": "Columns",
+    "console": "Game Gear",
+    "year": 1990,
+    "developer": "Sega",
+    "metascore": 76,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "shinobi-game-gear",
+    "title": "Shinobi",
+    "console": "Game Gear",
+    "year": 1991,
+    "developer": "Sega",
+    "metascore": 82,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "streets-of-rage-game-gear",
+    "title": "Streets of Rage",
+    "console": "Game Gear",
+    "year": 1991,
+    "developer": "Sega",
+    "metascore": 79,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "defenders-of-oasis-game-gear",
+    "title": "Defenders of Oasis",
+    "console": "Game Gear",
+    "year": 1992,
+    "developer": "Sega",
+    "metascore": 84,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "the-gg-shinobi-game-gear",
+    "title": "The GG Shinobi",
+    "console": "Game Gear",
+    "year": 1991,
+    "developer": "Sega",
+    "metascore": 83,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "tails-adventure-game-gear",
+    "title": "Tails Adventure",
+    "console": "Game Gear",
+    "year": 1995,
+    "developer": "Sega",
+    "metascore": 78,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "chip-and-dales-rescue-rangers-atari-lynx",
+    "title": "Chip 'N Dale Rescue Rangers",
+    "console": "Atari Lynx",
+    "year": 1992,
+    "developer": "Atari",
+    "metascore": 74,
+    "rarity": "RARE"
+  },
+  {
+    "id": "blue-lightning-atari-lynx",
+    "title": "Blue Lightning",
+    "console": "Atari Lynx",
+    "year": 1990,
+    "developer": "Epyx",
+    "metascore": 78,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "vikings-child-atari-lynx",
+    "title": "Viking Child",
+    "console": "Atari Lynx",
+    "year": 1992,
+    "developer": "Imagitec Design",
+    "metascore": 72,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "roadblasters-atari-lynx",
+    "title": "RoadBlasters",
+    "console": "Atari Lynx",
+    "year": 1991,
+    "developer": "Atari",
+    "metascore": 73,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "klax-atari-lynx",
+    "title": "Klax",
+    "console": "Atari Lynx",
+    "year": 1990,
+    "developer": "Atari",
+    "metascore": 76,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "final-fantasy-wonderswan",
+    "title": "Final Fantasy",
+    "console": "WonderSwan",
+    "year": 2000,
+    "developer": "Square",
+    "metascore": 82,
+    "rarity": "RARE"
+  },
+  {
+    "id": "final-fantasy-ii-wonderswan",
+    "title": "Final Fantasy II",
+    "console": "WonderSwan",
+    "year": 2001,
+    "developer": "Square",
+    "metascore": 80,
+    "rarity": "RARE"
+  },
+  {
+    "id": "gunpey-wonderswan",
+    "title": "Gunpey",
+    "console": "WonderSwan",
+    "year": 1999,
+    "developer": "Koto",
+    "metascore": 78,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "judgement-silversword-wonderswan",
+    "title": "Judgement Silversword",
+    "console": "WonderSwan",
+    "year": 2004,
+    "developer": "Qute",
+    "metascore": 90,
+    "rarity": "LEGENDARY"
+  },
+  {
+    "id": "beatmania-wonderswan",
+    "title": "Beatmania",
+    "console": "WonderSwan",
+    "year": 2000,
+    "developer": "Konami",
+    "metascore": 75,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "kirby-adventure-nintendo-entertainment-system",
+    "title": "Kirby's Adventure",
+    "console": "Nintendo Entertainment System",
+    "year": 1993,
+    "developer": "HAL Laboratory",
+    "metascore": 93,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "double-dragon-nintendo-entertainment-system",
+    "title": "Double Dragon",
+    "console": "Nintendo Entertainment System",
+    "year": 1988,
+    "developer": "Technos",
+    "metascore": 79,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "tecmo-super-bowl-nintendo-entertainment-system",
+    "title": "Tecmo Super Bowl",
+    "console": "Nintendo Entertainment System",
+    "year": 1991,
+    "developer": "Tecmo",
+    "metascore": 85,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "river-city-ransom-nintendo-entertainment-system",
+    "title": "River City Ransom",
+    "console": "Nintendo Entertainment System",
+    "year": 1990,
+    "developer": "Technos",
+    "metascore": 84,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "actraiser-super-nintendo",
+    "title": "ActRaiser",
+    "console": "Super Nintendo",
+    "year": 1991,
+    "developer": "Quintet",
+    "metascore": 83,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "terranigma-super-nintendo",
+    "title": "Terranigma",
+    "console": "Super Nintendo",
+    "year": 1995,
+    "developer": "Quintet",
+    "metascore": 89,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "illusion-of-gaia-super-nintendo",
+    "title": "Illusion of Gaia",
+    "console": "Super Nintendo",
+    "year": 1994,
+    "developer": "Quintet",
+    "metascore": 84,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "rock-n-roll-racing-super-nintendo",
+    "title": "Rock N' Roll Racing",
+    "console": "Super Nintendo",
+    "year": 1993,
+    "developer": "Silicon & Synapse",
+    "metascore": 82,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "ristar-sega-genesis",
+    "title": "Ristar",
+    "console": "Sega Genesis",
+    "year": 1995,
+    "developer": "Sega",
+    "metascore": 87,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "dynamite-headdy-sega-genesis",
+    "title": "Dynamite Headdy",
+    "console": "Sega Genesis",
+    "year": 1994,
+    "developer": "Treasure",
+    "metascore": 85,
+    "rarity": "RARE"
+  },
+  {
+    "id": "rocket-knight-adventures-sega-genesis",
+    "title": "Rocket Knight Adventures",
+    "console": "Sega Genesis",
+    "year": 1993,
+    "developer": "Konami",
+    "metascore": 88,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "beyond-oasis-sega-genesis",
+    "title": "Beyond Oasis",
+    "console": "Sega Genesis",
+    "year": 1995,
+    "developer": "Ancient",
+    "metascore": 84,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "landstalker-sega-genesis",
+    "title": "Landstalker",
+    "console": "Sega Genesis",
+    "year": 1992,
+    "developer": "Climax Entertainment",
+    "metascore": 86,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "alundra-playstation",
+    "title": "Alundra",
+    "console": "PlayStation",
+    "year": 1997,
+    "developer": "Matrix Software",
+    "metascore": 88,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "klonoa-door-to-phantomile-playstation",
+    "title": "Klonoa: Door to Phantomile",
+    "console": "PlayStation",
+    "year": 1997,
+    "developer": "Namco",
+    "metascore": 88,
+    "rarity": "RARE"
+  },
+  {
+    "id": "legend-of-mana-playstation",
+    "title": "Legend of Mana",
+    "console": "PlayStation",
+    "year": 1999,
+    "developer": "Square",
+    "metascore": 80,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "breath-of-fire-iii-playstation",
+    "title": "Breath of Fire III",
+    "console": "PlayStation",
+    "year": 1998,
+    "developer": "Capcom",
+    "metascore": 81,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "breath-of-fire-iv-playstation",
+    "title": "Breath of Fire IV",
+    "console": "PlayStation",
+    "year": 2000,
+    "developer": "Capcom",
+    "metascore": 82,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "pokemon-stadium-nintendo-64",
+    "title": "Pokémon Stadium",
+    "console": "Nintendo 64",
+    "year": 2000,
+    "developer": "HAL Laboratory",
+    "metascore": 79,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "harvest-moon-64-nintendo-64",
+    "title": "Harvest Moon 64",
+    "console": "Nintendo 64",
+    "year": 1999,
+    "developer": "Victor Interactive",
+    "metascore": 82,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "ogre-battle-64-nintendo-64",
+    "title": "Ogre Battle 64",
+    "console": "Nintendo 64",
+    "year": 2000,
+    "developer": "Quest",
+    "metascore": 83,
+    "rarity": "RARE"
+  },
+  {
+    "id": "castlevania-circle-of-the-moon-game-boy-advance",
+    "title": "Castlevania: Circle of the Moon",
+    "console": "Game Boy Advance",
+    "year": 2001,
+    "developer": "Konami",
+    "metascore": 87,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "sonic-advance-game-boy-advance",
+    "title": "Sonic Advance",
+    "console": "Game Boy Advance",
+    "year": 2001,
+    "developer": "Sonic Team",
+    "metascore": 82,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "hotel-dusk-room-215-nintendo-ds",
+    "title": "Hotel Dusk: Room 215",
+    "console": "Nintendo DS",
+    "year": 2006,
+    "developer": "Cing",
+    "metascore": 82,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "infinite-space-nintendo-ds",
+    "title": "Infinite Space",
+    "console": "Nintendo DS",
+    "year": 2009,
+    "developer": "Nude Maker",
+    "metascore": 81,
+    "rarity": "RARE"
+  },
+  {
+    "id": "virtua-fighter-2-sega-saturn",
+    "title": "Virtua Fighter 2",
+    "console": "Sega Saturn",
+    "year": 1995,
+    "developer": "Sega AM2",
+    "metascore": 90,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "rival-schools-evolution-dreamcast",
+    "title": "Project Justice",
+    "console": "Dreamcast",
+    "year": 2000,
+    "developer": "Capcom",
+    "metascore": 83,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "dungeon-explorer-turbografx-16",
+    "title": "Dungeon Explorer",
+    "console": "TurboGrafx-16",
+    "year": 1989,
+    "developer": "Hudson Soft",
+    "metascore": 80,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "contra-iii-alien-wars-super-nintendo",
+    "title": "Contra III: The Alien Wars",
+    "console": "Super Nintendo",
+    "year": 1992,
+    "developer": "Konami",
+    "metascore": 88,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "super-probotector-super-nintendo",
+    "title": "Super Probotector",
+    "console": "Super Nintendo",
+    "year": 1992,
+    "developer": "Konami",
+    "metascore": 86,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "gradius-iii-super-nintendo",
+    "title": "Gradius III",
+    "console": "Super Nintendo",
+    "year": 1991,
+    "developer": "Konami",
+    "metascore": 82,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "super-ghouls-n-ghosts-super-nintendo",
+    "title": "Super Ghouls 'n Ghosts",
+    "console": "Super Nintendo",
+    "year": 1991,
+    "developer": "Capcom",
+    "metascore": 84,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "breath-of-fire-super-nintendo",
+    "title": "Breath of Fire",
+    "console": "Super Nintendo",
+    "year": 1994,
+    "developer": "Capcom",
+    "metascore": 79,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "breath-of-fire-ii-super-nintendo",
+    "title": "Breath of Fire II",
+    "console": "Super Nintendo",
+    "year": 1995,
+    "developer": "Capcom",
+    "metascore": 80,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "lufia-ii-rise-of-the-sinistrals-super-nintendo",
+    "title": "Lufia II: Rise of the Sinistrals",
+    "console": "Super Nintendo",
+    "year": 1996,
+    "developer": "Neverland",
+    "metascore": 83,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "demons-crest-super-nintendo",
+    "title": "Demon's Crest",
+    "console": "Super Nintendo",
+    "year": 1994,
+    "developer": "Capcom",
+    "metascore": 84,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "zombies-ate-my-neighbors-super-nintendo",
+    "title": "Zombies Ate My Neighbors",
+    "console": "Super Nintendo",
+    "year": 1993,
+    "developer": "LucasArts",
+    "metascore": 82,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "pilot-wings-super-nintendo",
+    "title": "Pilotwings",
+    "console": "Super Nintendo",
+    "year": 1991,
+    "developer": "Nintendo EAD",
+    "metascore": 84,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "harvest-moon-super-nintendo",
+    "title": "Harvest Moon",
+    "console": "Super Nintendo",
+    "year": 1997,
+    "developer": "Pack-In-Video",
+    "metascore": 82,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "thunder-force-iv-sega-genesis",
+    "title": "Thunder Force IV",
+    "console": "Sega Genesis",
+    "year": 1992,
+    "developer": "Technosoft",
+    "metascore": 90,
+    "rarity": "RARE"
+  },
+  {
+    "id": "herzog-zwei-sega-genesis",
+    "title": "Herzog Zwei",
+    "console": "Sega Genesis",
+    "year": 1990,
+    "developer": "Technosoft",
+    "metascore": 85,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "battletoads-double-dragon-sega-genesis",
+    "title": "Battletoads & Double Dragon",
+    "console": "Sega Genesis",
+    "year": 1993,
+    "developer": "Rare",
+    "metascore": 80,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "alien-soldier-sega-genesis",
+    "title": "Alien Soldier",
+    "console": "Sega Genesis",
+    "year": 1995,
+    "developer": "Treasure",
+    "metascore": 89,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "contra-hard-corps-sega-genesis",
+    "title": "Contra: Hard Corps",
+    "console": "Sega Genesis",
+    "year": 1994,
+    "developer": "Konami",
+    "metascore": 87,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "vectorman-sega-genesis",
+    "title": "Vectorman",
+    "console": "Sega Genesis",
+    "year": 1995,
+    "developer": "BlueSky Software",
+    "metascore": 84,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "truxton-sega-genesis",
+    "title": "Truxton",
+    "console": "Sega Genesis",
+    "year": 1990,
+    "developer": "Toaplan",
+    "metascore": 83,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "madden-nfl-94-sega-genesis",
+    "title": "Madden NFL '94",
+    "console": "Sega Genesis",
+    "year": 1993,
+    "developer": "EA Sports",
+    "metascore": 88,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "mortal-kombat-ii-sega-genesis",
+    "title": "Mortal Kombat II",
+    "console": "Sega Genesis",
+    "year": 1994,
+    "developer": "Midway",
+    "metascore": 85,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "kid-chameleon-sega-genesis",
+    "title": "Kid Chameleon",
+    "console": "Sega Genesis",
+    "year": 1992,
+    "developer": "Sega",
+    "metascore": 80,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "story-of-thor-sega-genesis",
+    "title": "The Story of Thor",
+    "console": "Sega Genesis",
+    "year": 1994,
+    "developer": "Ancient",
+    "metascore": 87,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "sonic-spinball-sega-genesis",
+    "title": "Sonic Spinball",
+    "console": "Sega Genesis",
+    "year": 1993,
+    "developer": "Sega Technical Institute",
+    "metascore": 72,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "castlevania-chronicles-playstation",
+    "title": "Castlevania Chronicles",
+    "console": "PlayStation",
+    "year": 2001,
+    "developer": "Konami",
+    "metascore": 77,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "dragon-quest-vii-playstation",
+    "title": "Dragon Quest VII",
+    "console": "PlayStation",
+    "year": 2001,
+    "developer": "Heartbeat",
+    "metascore": 80,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "diablo-playstation",
+    "title": "Diablo",
+    "console": "PlayStation",
+    "year": 1998,
+    "developer": "Blizzard North",
+    "metascore": 82,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "fear-effect-playstation",
+    "title": "Fear Effect",
+    "console": "PlayStation",
+    "year": 2000,
+    "developer": "Kronos Digital",
+    "metascore": 83,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "soul-blade-playstation",
+    "title": "Soul Blade",
+    "console": "PlayStation",
+    "year": 1997,
+    "developer": "Namco",
+    "metascore": 88,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "wipeout-xl-playstation",
+    "title": "Wipeout XL",
+    "console": "PlayStation",
+    "year": 1996,
+    "developer": "Psygnosis",
+    "metascore": 91,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "twisted-metal-2-playstation",
+    "title": "Twisted Metal 2",
+    "console": "PlayStation",
+    "year": 1996,
+    "developer": "SingleTrac",
+    "metascore": 89,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "intelligent-qube-playstation",
+    "title": "Intelligent Qube",
+    "console": "PlayStation",
+    "year": 1997,
+    "developer": "G-Artists",
+    "metascore": 82,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "um-jammer-lammy-playstation",
+    "title": "Um Jammer Lammy",
+    "console": "PlayStation",
+    "year": 1999,
+    "developer": "NanaOn-Sha",
+    "metascore": 84,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "colin-mcrae-rally-playstation",
+    "title": "Colin McRae Rally",
+    "console": "PlayStation",
+    "year": 1998,
+    "developer": "Codemasters",
+    "metascore": 85,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "azure-dreams-playstation",
+    "title": "Azure Dreams",
+    "console": "PlayStation",
+    "year": 1998,
+    "developer": "Konami",
+    "metascore": 78,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "omega-boost-playstation",
+    "title": "Omega Boost",
+    "console": "PlayStation",
+    "year": 1999,
+    "developer": "Polyphony Digital",
+    "metascore": 80,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "spyro-2-riptos-rage-playstation",
+    "title": "Spyro 2: Ripto's Rage!",
+    "console": "PlayStation",
+    "year": 1999,
+    "developer": "Insomniac Games",
+    "metascore": 88,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "crash-bandicoot-3-warped-playstation",
+    "title": "Crash Bandicoot 3: Warped",
+    "console": "PlayStation",
+    "year": 1998,
+    "developer": "Naughty Dog",
+    "metascore": 91,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "syphon-filter-playstation",
+    "title": "Syphon Filter",
+    "console": "PlayStation",
+    "year": 1999,
+    "developer": "Bend Studio",
+    "metascore": 87,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "tenchu-stealth-assassins-playstation",
+    "title": "Tenchu: Stealth Assassins",
+    "console": "PlayStation",
+    "year": 1998,
+    "developer": "Acquire",
+    "metascore": 83,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "bomberman-64-nintendo-64",
+    "title": "Bomberman 64",
+    "console": "Nintendo 64",
+    "year": 1997,
+    "developer": "Hudson Soft",
+    "metascore": 75,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "jet-force-gemini-nintendo-64",
+    "title": "Jet Force Gemini",
+    "console": "Nintendo 64",
+    "year": 1999,
+    "developer": "Rare",
+    "metascore": 87,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "lylat-wars-nintendo-64",
+    "title": "Lylat Wars",
+    "console": "Nintendo 64",
+    "year": 1997,
+    "developer": "Nintendo EAD",
+    "metascore": 88,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "castlevania-nintendo-64",
+    "title": "Castlevania",
+    "console": "Nintendo 64",
+    "year": 1999,
+    "developer": "Konami",
+    "metascore": 79,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "blast-corps-nintendo-64",
+    "title": "Blast Corps",
+    "console": "Nintendo 64",
+    "year": 1997,
+    "developer": "Rare",
+    "metascore": 88,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "body-harvest-nintendo-64",
+    "title": "Body Harvest",
+    "console": "Nintendo 64",
+    "year": 1998,
+    "developer": "DMA Design",
+    "metascore": 77,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "buck-bumble-nintendo-64",
+    "title": "Buck Bumble",
+    "console": "Nintendo 64",
+    "year": 1998,
+    "developer": "Argonaut Games",
+    "metascore": 68,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "final-fantasy-vi-advance-game-boy-advance",
+    "title": "Final Fantasy VI Advance",
+    "console": "Game Boy Advance",
+    "year": 2006,
+    "developer": "Square Enix",
+    "metascore": 94,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "astro-boy-omega-factor-game-boy-advance",
+    "title": "Astro Boy: Omega Factor",
+    "console": "Game Boy Advance",
+    "year": 2004,
+    "developer": "Treasure",
+    "metascore": 87,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "megaman-zero-2-game-boy-advance",
+    "title": "Mega Man Zero 2",
+    "console": "Game Boy Advance",
+    "year": 2003,
+    "developer": "Inti Creates",
+    "metascore": 84,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "sword-of-mana-game-boy-advance",
+    "title": "Sword of Mana",
+    "console": "Game Boy Advance",
+    "year": 2003,
+    "developer": "Square Enix",
+    "metascore": 75,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "mario-golf-advance-tour-game-boy-advance",
+    "title": "Mario Golf: Advance Tour",
+    "console": "Game Boy Advance",
+    "year": 2004,
+    "developer": "Camelot",
+    "metascore": 85,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "rebelstar-tactical-command-game-boy-advance",
+    "title": "Rebelstar: Tactical Command",
+    "console": "Game Boy Advance",
+    "year": 2005,
+    "developer": "Codo Technologies",
+    "metascore": 82,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "disgaea-ds-nintendo-ds",
+    "title": "Disgaea DS",
+    "console": "Nintendo DS",
+    "year": 2008,
+    "developer": "Nippon Ichi",
+    "metascore": 83,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "knights-in-the-nightmare-nintendo-ds",
+    "title": "Knights in the Nightmare",
+    "console": "Nintendo DS",
+    "year": 2008,
+    "developer": "Sting",
+    "metascore": 82,
+    "rarity": "RARE"
+  },
+  {
+    "id": "etrian-odyssey-nintendo-ds",
+    "title": "Etrian Odyssey",
+    "console": "Nintendo DS",
+    "year": 2007,
+    "developer": "Atlus",
+    "metascore": 78,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "contact-nintendo-ds",
+    "title": "Contact",
+    "console": "Nintendo DS",
+    "year": 2006,
+    "developer": "Grasshopper Manufacture",
+    "metascore": 74,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "final-fantasy-xii-revenant-wings-nintendo-ds",
+    "title": "Final Fantasy XII: Revenant Wings",
+    "console": "Nintendo DS",
+    "year": 2007,
+    "developer": "Think & Feel",
+    "metascore": 79,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "meteos-nintendo-ds",
+    "title": "Meteos",
+    "console": "Nintendo DS",
+    "year": 2005,
+    "developer": "Q Entertainment",
+    "metascore": 88,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "children-of-mana-nintendo-ds",
+    "title": "Children of Mana",
+    "console": "Nintendo DS",
+    "year": 2006,
+    "developer": "Nex Entertainment",
+    "metascore": 66,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "virtual-on-oratorio-tangram-dreamcast",
+    "title": "Virtual-On Oratorio Tangram",
+    "console": "Dreamcast",
+    "year": 1999,
+    "developer": "Sega AM3",
+    "metascore": 85,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "sega-rally-2-dreamcast",
+    "title": "Sega Rally 2",
+    "console": "Dreamcast",
+    "year": 1999,
+    "developer": "Sega AM4",
+    "metascore": 82,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "record-of-lodoss-war-dreamcast",
+    "title": "Record of Lodoss War",
+    "console": "Dreamcast",
+    "year": 2000,
+    "developer": "Kadokawa",
+    "metascore": 72,
+    "rarity": "RARE"
+  },
+  {
+    "id": "capcom-vs-snk-dreamcast",
+    "title": "Capcom vs. SNK",
+    "console": "Dreamcast",
+    "year": 2000,
+    "developer": "Capcom",
+    "metascore": 86,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "evolution-the-world-of-sacred-device-dreamcast",
+    "title": "Evolution: The World of Sacred Device",
+    "console": "Dreamcast",
+    "year": 1999,
+    "developer": "Sting",
+    "metascore": 72,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "vampire-savior-sega-saturn",
+    "title": "Vampire Savior",
+    "console": "Sega Saturn",
+    "year": 1998,
+    "developer": "Capcom",
+    "metascore": 87,
+    "rarity": "RARE"
+  },
+  {
+    "id": "house-of-the-dead-sega-saturn",
+    "title": "The House of the Dead",
+    "console": "Sega Saturn",
+    "year": 1998,
+    "developer": "Sega AM1",
+    "metascore": 75,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "street-fighter-alpha-3-sega-saturn",
+    "title": "Street Fighter Alpha 3",
+    "console": "Sega Saturn",
+    "year": 1999,
+    "developer": "Capcom",
+    "metascore": 88,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "thunder-force-v-sega-saturn",
+    "title": "Thunder Force V",
+    "console": "Sega Saturn",
+    "year": 1997,
+    "developer": "Technosoft",
+    "metascore": 86,
+    "rarity": "RARE"
+  },
+  {
+    "id": "dungeons-dragons-collection-sega-saturn",
+    "title": "Dungeons & Dragons Collection",
+    "console": "Sega Saturn",
+    "year": 1999,
+    "developer": "Capcom",
+    "metascore": 88,
+    "rarity": "LEGENDARY"
+  },
+  {
+    "id": "mega-man-nintendo-entertainment-system",
+    "title": "Mega Man",
+    "console": "Nintendo Entertainment System",
+    "year": 1987,
+    "developer": "Capcom",
+    "metascore": 83,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "mega-man-4-nintendo-entertainment-system",
+    "title": "Mega Man 4",
+    "console": "Nintendo Entertainment System",
+    "year": 1992,
+    "developer": "Capcom",
+    "metascore": 80,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "mega-man-6-nintendo-entertainment-system",
+    "title": "Mega Man 6",
+    "console": "Nintendo Entertainment System",
+    "year": 1994,
+    "developer": "Capcom",
+    "metascore": 79,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "final-fantasy-nintendo-entertainment-system",
+    "title": "Final Fantasy",
+    "console": "Nintendo Entertainment System",
+    "year": 1990,
+    "developer": "Square",
+    "metascore": 84,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "final-fantasy-ii-nintendo-entertainment-system",
+    "title": "Final Fantasy II",
+    "console": "Nintendo Entertainment System",
+    "year": 1991,
+    "developer": "Square",
+    "metascore": 78,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "final-fantasy-iii-nintendo-entertainment-system",
+    "title": "Final Fantasy III",
+    "console": "Nintendo Entertainment System",
+    "year": 1990,
+    "developer": "Square",
+    "metascore": 85,
+    "rarity": "RARE"
+  },
+  {
+    "id": "tmnt-nintendo-entertainment-system",
+    "title": "Teenage Mutant Ninja Turtles",
+    "console": "Nintendo Entertainment System",
+    "year": 1989,
+    "developer": "Konami",
+    "metascore": 77,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "ghosts-n-goblins-nintendo-entertainment-system",
+    "title": "Ghosts 'n Goblins",
+    "console": "Nintendo Entertainment System",
+    "year": 1986,
+    "developer": "Capcom",
+    "metascore": 80,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "duck-tales-2-nintendo-entertainment-system",
+    "title": "DuckTales 2",
+    "console": "Nintendo Entertainment System",
+    "year": 1993,
+    "developer": "Capcom",
+    "metascore": 82,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "pokemon-crystal-game-boy",
+    "title": "Pokémon Crystal",
+    "console": "Game Boy",
+    "year": 2001,
+    "developer": "Game Freak",
+    "metascore": 89,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "oracle-of-ages-game-boy",
+    "title": "The Legend of Zelda: Oracle of Ages",
+    "console": "Game Boy",
+    "year": 2001,
+    "developer": "Capcom",
+    "metascore": 91,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "oracle-of-seasons-game-boy",
+    "title": "The Legend of Zelda: Oracle of Seasons",
+    "console": "Game Boy",
+    "year": 2001,
+    "developer": "Capcom",
+    "metascore": 91,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "tetris-dx-game-boy",
+    "title": "Tetris DX",
+    "console": "Game Boy",
+    "year": 1998,
+    "developer": "Nintendo R&D1",
+    "metascore": 90,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "mole-mania-game-boy",
+    "title": "Mole Mania",
+    "console": "Game Boy",
+    "year": 1996,
+    "developer": "Nintendo R&D1",
+    "metascore": 79,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "galaga-90-turbografx-16",
+    "title": "Galaga '90",
+    "console": "TurboGrafx-16",
+    "year": 1990,
+    "developer": "Namco",
+    "metascore": 81,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "neutopia-turbografx-16",
+    "title": "Neutopia",
+    "console": "TurboGrafx-16",
+    "year": 1990,
+    "developer": "Hudson Soft",
+    "metascore": 83,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "splatterhouse-turbografx-16",
+    "title": "Splatterhouse",
+    "console": "TurboGrafx-16",
+    "year": 1990,
+    "developer": "Namco",
+    "metascore": 80,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "metal-slug-3-neo-geo",
+    "title": "Metal Slug 3",
+    "console": "Neo Geo",
+    "year": 2000,
+    "developer": "SNK",
+    "metascore": 94,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "the-last-blade-2-neo-geo",
+    "title": "The Last Blade 2",
+    "console": "Neo Geo",
+    "year": 1998,
+    "developer": "SNK",
+    "metascore": 88,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "garou-mark-of-the-wolves-neo-geo",
+    "title": "Garou: Mark of the Wolves",
+    "console": "Neo Geo",
+    "year": 1999,
+    "developer": "SNK",
+    "metascore": 92,
+    "rarity": "EPIC"
+  },
+  {
+    "id": "shinobi-sega-master-system",
+    "title": "Shinobi",
+    "console": "Sega Master System",
+    "year": 1988,
+    "developer": "Sega",
+    "metascore": 81,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "streets-of-rage-sega-master-system",
+    "title": "Streets of Rage",
+    "console": "Sega Master System",
+    "year": 1992,
+    "developer": "Sega",
+    "metascore": 78,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "mortal-kombat-sega-master-system",
+    "title": "Mortal Kombat",
+    "console": "Sega Master System",
+    "year": 1993,
+    "developer": "Probe Software",
+    "metascore": 72,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "sonic-the-hedgehog-2-game-gear",
+    "title": "Sonic the Hedgehog 2",
+    "console": "Game Gear",
+    "year": 1992,
+    "developer": "Sega",
+    "metascore": 78,
+    "rarity": "COMMON"
+  },
+  {
+    "id": "baku-baku-animal-game-gear",
+    "title": "Baku Baku Animal",
+    "console": "Game Gear",
+    "year": 1996,
+    "developer": "Sega",
+    "metascore": 80,
+    "rarity": "UNCOMMON"
+  },
+  {
+    "id": "dragon-crystal-game-gear",
+    "title": "Dragon Crystal",
+    "console": "Game Gear",
+    "year": 1991,
+    "developer": "Sega",
+    "metascore": 76,
+    "rarity": "COMMON"
+  }
+]

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RETRODEX Launcher V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gb-screen: #9bbc0f;
+      --gb-dark: #306230;
+      --gb-black: #0f380f;
+      --gb-lite: #e6f2d8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at center, #111 0%, #000 80%);
+      font-family: "VT323", monospace;
+      color: var(--gb-screen);
+      padding: 18px;
+    }
+
+    .boot {
+      width: min(620px, 94vw);
+      padding: 34px 28px;
+      border: 1px solid rgba(155, 188, 15, 0.22);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top left, rgba(155, 188, 15, 0.07), transparent 22%),
+        rgba(15, 56, 15, 0.82);
+      box-shadow:
+        0 32px 56px rgba(0,0,0,0.52),
+        0 0 40px rgba(155,188,15,0.06),
+        inset 0 1px 0 rgba(155,188,15,0.08);
+      text-align: center;
+    }
+
+    .boot-hero {
+      margin-bottom: 18px;
+      padding: 14px 14px 12px;
+      border: 1px solid rgba(155,188,15,0.14);
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(15,56,15,0.26), rgba(15,56,15,0.16)),
+        rgba(0,0,0,0.16);
+      box-shadow:
+        inset 0 1px 0 rgba(155,188,15,0.05),
+        0 0 18px rgba(155,188,15,0.04);
+    }
+
+    .boot-logo {
+      font-family: "Jersey 10", cursive;
+      font-size: clamp(2.6rem, 8vw, 3.8rem);
+      letter-spacing: 0.08em;
+      color: var(--gb-screen);
+      margin-bottom: 8px;
+      text-shadow: 0 0 18px rgba(155,188,15,0.28), 2px 2px 0 rgba(15,56,15,0.5);
+    }
+
+    .boot-version {
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      color: rgba(155, 188, 15, 0.55);
+      margin-bottom: 18px;
+    }
+
+    .boot-status {
+      font-size: 1.28rem;
+      letter-spacing: 0.04em;
+      color: rgba(155, 188, 15, 0.8);
+      margin-bottom: 18px;
+      min-height: 1.4em;
+    }
+
+    .boot-bar-wrap {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(155,188,15,0.12);
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .boot-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--gb-dark), var(--gb-screen));
+      transition: width 200ms ease;
+      box-shadow: 0 0 8px rgba(155,188,15,0.4);
+    }
+
+    .boot-intro {
+      margin-bottom: 14px;
+      font-size: 1.12rem;
+      line-height: 1.2;
+      color: rgba(230,242,216,0.78);
+    }
+
+    .boot-status-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 0;
+    }
+
+    .boot-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border: 1px solid rgba(155,188,15,0.14);
+      border-radius: 999px;
+      background: rgba(15,56,15,0.34);
+      color: rgba(230,242,216,0.82);
+      font-size: 0.98rem;
+      line-height: 1;
+    }
+
+    .boot-status-pill strong {
+      color: var(--gb-screen);
+      font-family: "Jersey 10", cursive;
+      font-size: 1.1rem;
+      font-weight: normal;
+      letter-spacing: 0.04em;
+    }
+
+    .boot-demo-path {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .boot-step {
+      border: 1px solid rgba(155,188,15,0.14);
+      border-radius: 14px;
+      background: rgba(15,56,15,0.32);
+      padding: 10px 10px 12px;
+      text-align: left;
+    }
+
+    .boot-step-n {
+      font-family: "Jersey 10", cursive;
+      font-size: 1.15rem;
+      color: var(--gb-screen);
+      margin-bottom: 3px;
+      letter-spacing: 0.05em;
+    }
+
+    .boot-step-copy {
+      font-size: 0.98rem;
+      line-height: 1.08;
+      color: rgba(230,242,216,0.78);
+    }
+
+    .boot-snapshot {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .boot-snapshot-card {
+      border: 1px solid rgba(155,188,15,0.14);
+      border-radius: 14px;
+      background: rgba(15,56,15,0.28);
+      padding: 10px;
+    }
+
+    .boot-snapshot-n {
+      font-family: "Jersey 10", cursive;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--gb-lite);
+      margin-bottom: 3px;
+    }
+
+    .boot-snapshot-l {
+      font-size: 0.96rem;
+      line-height: 1.05;
+      color: rgba(155,188,15,0.72);
+    }
+
+    .main-menu {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 4px;
+    }
+
+    .menu-card {
+      border: 1px solid rgba(155,188,15,0.16);
+      border-radius: 18px;
+      background: rgba(15,56,15,0.42);
+      padding: 18px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 300ms ease, transform 300ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .menu-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .menu-card.is-focused {
+      border-color: rgba(155,188,15,0.58);
+      box-shadow:
+        0 0 0 2px rgba(155,188,15,0.18),
+        0 0 22px rgba(155,188,15,0.2);
+      transform: translateY(-2px);
+    }
+
+    .menu-card.visible.is-focused {
+      animation: menu-focus-pulse 1.9s ease-in-out infinite;
+    }
+
+    .menu-card:hover {
+      border-color: rgba(155,188,15,0.28);
+      box-shadow: 0 0 18px rgba(155,188,15,0.12);
+    }
+
+    .menu-card:focus {
+      outline: none;
+    }
+
+    .menu-card.is-focused .menu-title,
+    .menu-card:focus .menu-title {
+      color: var(--gb-lite);
+      text-shadow: 0 0 10px rgba(155,188,15,0.2);
+    }
+
+    .menu-card.is-focused .menu-status,
+    .menu-card:focus .menu-status {
+      border-color: rgba(155,188,15,0.35);
+      background: rgba(155,188,15,0.12);
+    }
+
+    .menu-card.is-focused .boot-launch,
+    .menu-card:focus .boot-launch {
+      background: rgba(155,188,15,0.2);
+      box-shadow: 0 0 16px rgba(155,188,15,0.18);
+    }
+
+    .menu-card.is-focused .menu-icon-shell,
+    .menu-card:focus .menu-icon-shell {
+      box-shadow:
+        inset 0 1px 0 rgba(155,188,15,0.08),
+        0 0 18px rgba(155,188,15,0.16);
+      border-color: rgba(155,188,15,0.28);
+    }
+
+    .menu-icon-shell {
+      width: 110px;
+      height: 110px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(155,188,15,0.12);
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(15,56,15,0.18), rgba(15,56,15,0.32)),
+        rgba(0,0,0,0.12);
+      overflow: hidden;
+    }
+
+    .menu-icon {
+      width: 78px;
+      height: 78px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.22));
+    }
+
+    .menu-icon-placeholder {
+      position: absolute;
+      inset: 12px;
+      display: none;
+      place-items: center;
+      border: 1px dashed rgba(155,188,15,0.26);
+      border-radius: 14px;
+      background: rgba(15,56,15,0.18);
+      color: rgba(230,242,216,0.72);
+      font-family: "Jersey 10", cursive;
+      font-size: 1.35rem;
+      letter-spacing: 0.05em;
+      line-height: 0.95;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .menu-title {
+      font-family: "Jersey 10", cursive;
+      font-size: 1.58rem;
+      letter-spacing: 0.05em;
+      color: var(--gb-screen);
+    }
+
+    .menu-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border: 1px solid rgba(155,188,15,0.18);
+      border-radius: 999px;
+      background: rgba(15,56,15,0.38);
+      font-size: 0.92rem;
+      line-height: 1;
+      color: rgba(155,188,15,0.74);
+      letter-spacing: 0.04em;
+    }
+
+    .menu-status strong {
+      color: var(--gb-lite);
+      font-family: "Jersey 10", cursive;
+      font-weight: normal;
+      font-size: 1rem;
+    }
+
+    .menu-copy {
+      font-size: 1rem;
+      line-height: 1.08;
+      color: rgba(230,242,216,0.84);
+      min-height: 3.1em;
+    }
+
+    .menu-meta {
+      font-size: 0.94rem;
+      color: rgba(155,188,15,0.62);
+      letter-spacing: 0.04em;
+    }
+
+    .boot-launch {
+      display: inline-block;
+      padding: 10px 18px;
+      border: 1px solid rgba(155,188,15,0.4);
+      border-radius: 999px;
+      background: rgba(155,188,15,0.12);
+      color: var(--gb-screen);
+      font-family: "Jersey 10", cursive;
+      font-size: 1.25rem;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 180ms, box-shadow 180ms, transform 180ms;
+    }
+
+    .boot-launch:hover {
+      background: rgba(155,188,15,0.22);
+      box-shadow: 0 0 18px rgba(155,188,15,0.24);
+      transform: translateY(-2px);
+    }
+
+    .boot-note {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: rgba(155,188,15,0.35);
+      letter-spacing: 0.03em;
+    }
+
+    .boot-controls {
+      margin-top: 18px;
+      padding: 10px 12px;
+      border: 1px solid rgba(155,188,15,0.14);
+      border-radius: 14px;
+      background: rgba(15,56,15,0.28);
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 14px;
+      color: rgba(230,242,216,0.82);
+      font-size: 0.98rem;
+    }
+
+    .boot-controls strong {
+      color: var(--gb-screen);
+      font-family: "Jersey 10", cursive;
+      font-size: 1.05rem;
+      font-weight: normal;
+      letter-spacing: 0.05em;
+    }
+
+    @keyframes menu-focus-pulse {
+      0%, 100% {
+        box-shadow:
+          0 0 0 2px rgba(155,188,15,0.14),
+          0 0 18px rgba(155,188,15,0.16);
+      }
+      50% {
+        box-shadow:
+          0 0 0 2px rgba(155,188,15,0.22),
+          0 0 26px rgba(155,188,15,0.24);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .menu-card.visible.is-focused {
+        animation: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .boot {
+        padding: 28px 20px;
+      }
+
+      .boot-demo-path,
+      .boot-snapshot,
+      .main-menu {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="boot">
+    <div class="boot-hero">
+      <div class="boot-logo">RETRODEX</div>
+      <div class="boot-version">PROTOTYPE V2 - BUILD 2026</div>
+      <div class="boot-status" id="status">Initializing demo modules...</div>
+      <div class="boot-bar-wrap">
+        <div class="boot-bar" id="bar"></div>
+      </div>
+      <div class="boot-intro">Two-minute demo: browse the archive, then open the CRT market terminal.</div>
+      <div class="boot-status-strip">
+        <div class="boot-status-pill">Showcase <strong id="bootShowcasePill">40</strong></div>
+        <div class="boot-status-pill">Top Cards <strong id="bootCardsPill">40/40</strong></div>
+        <div class="boot-status-pill">Verified Market <strong id="bootMarketPill">9</strong></div>
+      </div>
+    </div>
+    <div class="boot-demo-path">
+      <div class="boot-step">
+        <div class="boot-step-n">1. Launch</div>
+        <div class="boot-step-copy">Open RetroDex on a flagship game card.</div>
+      </div>
+      <div class="boot-step">
+        <div class="boot-step-n">2. Browse</div>
+        <div class="boot-step-copy">Use search, filters, and PREV / NEXT to scan the showcase set.</div>
+      </div>
+      <div class="boot-step">
+        <div class="boot-step-n">3. Market</div>
+        <div class="boot-step-copy">Open RetroMarket to compare Loose, CIB, Mint, and trend view.</div>
+      </div>
+    </div>
+    <div class="boot-snapshot">
+      <div class="boot-snapshot-card">
+        <div class="boot-snapshot-n" id="snapGames">40</div>
+        <div class="boot-snapshot-l">RetroDex showcase games ready</div>
+      </div>
+      <div class="boot-snapshot-card">
+        <div class="boot-snapshot-n" id="snapCards">40 / 40</div>
+        <div class="boot-snapshot-l">Top screens and bottom cards locked</div>
+      </div>
+      <div class="boot-snapshot-card">
+        <div class="boot-snapshot-n" id="snapMarket">9</div>
+        <div class="boot-snapshot-l">RetroMarket verified pricing games</div>
+      </div>
+    </div>
+    <div class="main-menu">
+      <a class="menu-card" id="dexCard" href="modules/retrodex/index.html">
+        <div class="menu-icon-shell">
+          <img class="menu-icon" src="assets/icons/retrodex_icon.png" alt="RetroDex icon" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+          <div class="menu-icon-placeholder">NEW 3DS</div>
+        </div>
+        <div class="menu-title">RetroDex</div>
+        <div class="menu-status" id="dexStatus">Status <strong>Ready</strong></div>
+        <div class="menu-copy" id="dexCopy">Handheld-style encyclopedia for the live showcase set.</div>
+        <div class="menu-meta" id="dexMeta">Current runtime at <code>index.html</code></div>
+        <span class="boot-launch">Open module</span>
+      </a>
+      <a class="menu-card" id="collectionCard" href="modules/collection/index.html">
+        <div class="menu-icon-shell">
+          <img class="menu-icon" src="assets/icons/collection_icon.png" alt="Collection icon" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+          <div class="menu-icon-placeholder">COLLECT<br>SHELF</div>
+        </div>
+        <div class="menu-title">RetroDex Collection</div>
+        <div class="menu-status" id="collectionStatus">Status <strong>Placeholder</strong></div>
+        <div class="menu-copy">Library and inventory module for owned games, carts, and boxed editions.</div>
+        <div class="menu-meta">Placeholder route keeps navigation stable until the full module is built.</div>
+        <span class="boot-launch">Open module</span>
+      </a>
+      <a class="menu-card" id="marketCard" href="modules/retromarket/market.html">
+        <div class="menu-icon-shell">
+          <img class="menu-icon" src="assets/icons/retromarket_icon.png" alt="RetroMarket icon" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+          <div class="menu-icon-placeholder">C64<br>MARKET</div>
+        </div>
+        <div class="menu-title">RetroMarket</div>
+        <div class="menu-status" id="marketStatus">Status <strong>Ready</strong></div>
+        <div class="menu-copy" id="marketCopy">CRT market terminal with verified pricing snapshots and chart views.</div>
+        <div class="menu-meta" id="marketMeta">Commodore 64 style financial terminal</div>
+        <span class="boot-launch">Open module</span>
+      </a>
+      <a class="menu-card" id="neoCard" href="modules/neoretro/index.html">
+        <div class="menu-icon-shell">
+          <img class="menu-icon" src="assets/icons/neoretro_icon.png" alt="Neo Retro Games icon" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+          <div class="menu-icon-placeholder">NEW<br>RETRO</div>
+        </div>
+        <div class="menu-title">Neo Retro Games</div>
+        <div class="menu-status" id="neoStatus">Status <strong>Placeholder</strong></div>
+        <div class="menu-copy">Modern physical retro-style releases, collector editions, and new-old-console launches.</div>
+        <div class="menu-meta">Placeholder route for the future blister-packaged releases module.</div>
+        <span class="boot-launch">Open module</span>
+      </a>
+    </div>
+    <div class="boot-controls" aria-label="Launcher controls">
+      <span><strong>ARROWS</strong> move</span>
+      <span><strong>ENTER</strong> open</span>
+      <span><strong>SPACE</strong> open</span>
+    </div>
+    <p class="boot-note">Run locally with python -m http.server from the project root.</p>
+  </div>
+
+  <script src="data/demo_status.js"></script>
+  <script>
+    const steps = [
+      [15, "Checking data layer..."],
+      [34, "Loading RetroDex demo set..."],
+      [56, "Loading RetroMarket terminal..."],
+      [76, "Verifying local assets..."],
+      [92, "Preparing demo flow..."],
+      [100, "Ready for presentation."]
+    ];
+
+    const status = document.getElementById('status');
+    const bar = document.getElementById('bar');
+    const dexCard = document.getElementById('dexCard');
+    const collectionCard = document.getElementById('collectionCard');
+    const marketCard = document.getElementById('marketCard');
+    const neoCard = document.getElementById('neoCard');
+    const bootShowcasePill = document.getElementById('bootShowcasePill');
+    const bootCardsPill = document.getElementById('bootCardsPill');
+    const bootMarketPill = document.getElementById('bootMarketPill');
+    const snapGames = document.getElementById('snapGames');
+    const snapCards = document.getElementById('snapCards');
+    const snapMarket = document.getElementById('snapMarket');
+    const dexStatus = document.getElementById('dexStatus');
+    const collectionStatus = document.getElementById('collectionStatus');
+    const dexMeta = document.getElementById('dexMeta');
+    const dexCopy = document.getElementById('dexCopy');
+    const marketStatus = document.getElementById('marketStatus');
+    const marketMeta = document.getElementById('marketMeta');
+    const marketCopy = document.getElementById('marketCopy');
+    const neoStatus = document.getElementById('neoStatus');
+    const menuCards = Array.from(document.querySelectorAll('.menu-card'));
+    let stepIndex = 0;
+    let focusedMenuIndex = 0;
+
+    function getMenuColumns() {
+      return window.innerWidth <= 640 ? 1 : 2;
+    }
+
+    function setLauncherFocus(index, options = {}) {
+      const { domFocus = true } = options;
+      if (!menuCards.length) return;
+      focusedMenuIndex = Math.max(0, Math.min(menuCards.length - 1, index));
+      menuCards.forEach((card, cardIndex) => {
+        card.classList.toggle('is-focused', cardIndex === focusedMenuIndex);
+      });
+      if (domFocus) {
+        menuCards[focusedMenuIndex].focus({ preventScroll: true });
+      }
+    }
+
+    function moveLauncherFocus(direction) {
+      if (!menuCards.length) return;
+      const cols = getMenuColumns();
+      const rows = Math.ceil(menuCards.length / cols);
+      const currentRow = Math.floor(focusedMenuIndex / cols);
+      const currentCol = focusedMenuIndex % cols;
+      let nextRow = currentRow;
+      let nextCol = currentCol;
+
+      if (direction === 'left') nextCol -= 1;
+      if (direction === 'right') nextCol += 1;
+      if (direction === 'up') nextRow -= 1;
+      if (direction === 'down') nextRow += 1;
+
+      nextRow = Math.max(0, Math.min(rows - 1, nextRow));
+      nextCol = Math.max(0, Math.min(cols - 1, nextCol));
+
+      let nextIndex = (nextRow * cols) + nextCol;
+      while (nextIndex >= menuCards.length && nextCol > 0) {
+        nextCol -= 1;
+        nextIndex = (nextRow * cols) + nextCol;
+      }
+
+      setLauncherFocus(nextIndex);
+    }
+
+    function activateFocusedMenuCard() {
+      if (!menuCards.length) return;
+      menuCards[focusedMenuIndex].click();
+    }
+
+    const sharedStatus = window.RETRODEX_DEMO_STATUS || null;
+    if (sharedStatus) {
+      if (bootShowcasePill) bootShowcasePill.textContent = String(sharedStatus.showcaseGames || 40);
+      if (bootCardsPill) bootCardsPill.textContent = `${sharedStatus.topCardsReady || 0}/${sharedStatus.bottomCardsReady || 0}`;
+      if (bootMarketPill) bootMarketPill.textContent = String(sharedStatus.verifiedSalesGames || 9);
+      if (snapGames) snapGames.textContent = String(sharedStatus.showcaseGames || 40);
+      if (snapCards) snapCards.textContent = `${sharedStatus.topCardsReady || 0} / ${sharedStatus.bottomCardsReady || 0}`;
+      if (snapMarket) snapMarket.textContent = String(sharedStatus.verifiedSalesGames || 9);
+      if (dexStatus) dexStatus.innerHTML = 'Status <strong>Ready</strong>';
+      if (collectionStatus) collectionStatus.innerHTML = 'Status <strong>Placeholder</strong>';
+      if (dexMeta) dexMeta.textContent = `${sharedStatus.showcaseGames || 40}-game showcase - ${sharedStatus.showcaseConsoles || 4} consoles`;
+      if (dexCopy && sharedStatus.showcaseGames) {
+        dexCopy.textContent = `Handheld-style archive with ${sharedStatus.topCardsReady || 0}/${sharedStatus.showcaseGames} top visuals and ${sharedStatus.bottomCardsReady || 0}/${sharedStatus.showcaseGames} ready bottom cards. Opens on the RetroDex runtime.`;
+      }
+      if (marketStatus) marketStatus.innerHTML = 'Status <strong>Ready</strong>';
+      if (marketMeta) marketMeta.textContent = `CRT terminal - ${sharedStatus.verifiedSalesGames || 0} verified pricing games`;
+      if (marketCopy) {
+        marketCopy.textContent = `Search a game, compare Loose / CIB / Mint pricing, and review the CRT market view. Opens on Ocarina of Time, with ${sharedStatus.verifiedHistoryGames || 0} verified history charts.`;
+      }
+      if (neoStatus) neoStatus.innerHTML = 'Status <strong>Placeholder</strong>';
+    }
+
+    function tick() {
+      if (stepIndex >= steps.length) {
+        dexCard.classList.add('visible');
+        collectionCard.classList.add('visible');
+        marketCard.classList.add('visible');
+        neoCard.classList.add('visible');
+        setLauncherFocus(focusedMenuIndex, { domFocus: false });
+        return;
+      }
+      const [pct, msg] = steps[stepIndex++];
+      bar.style.width = pct + '%';
+      status.textContent = msg;
+      setTimeout(tick, 320 + Math.random() * 180);
+    }
+
+    menuCards.forEach((card, cardIndex) => {
+      card.addEventListener('focus', () => {
+        setLauncherFocus(cardIndex, { domFocus: false });
+      });
+      card.addEventListener('mouseenter', () => {
+        setLauncherFocus(cardIndex, { domFocus: false });
+      });
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (!menuCards.length) return;
+      if (event.target && (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT' || event.target.tagName === 'TEXTAREA')) {
+        return;
+      }
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        moveLauncherFocus('left');
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        moveLauncherFocus('right');
+      }
+      if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        moveLauncherFocus('up');
+      }
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        moveLauncherFocus('down');
+      }
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        activateFocusedMenuCard();
+      }
+    });
+
+    tick();
+  </script>
+</body>
+</html>

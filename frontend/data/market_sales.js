@@ -1,0 +1,632 @@
+window.MARKET_SALES_DATA = {
+  "the-legend-of-zelda-ocarina-of-time-nintendo-64": [
+    {
+      "date": "2026-03-04",
+      "price": 49.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-04",
+      "price": 50.0,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-03",
+      "price": 39.95,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-02",
+      "price": 55.0,
+      "condition": "Loose"
+    }
+  ],
+  "tony-hawks-pro-skater-2-playstation": [
+    {
+      "date": "2025-09-01",
+      "price": 299.0,
+      "condition": "Sealed"
+    },
+    {
+      "date": "2025-08-18",
+      "price": 1225.0,
+      "condition": "Sealed"
+    },
+    {
+      "date": "2025-04-01",
+      "price": 250.0,
+      "condition": "Sealed"
+    },
+    {
+      "date": "2025-02-27",
+      "price": 285.0,
+      "condition": "Sealed"
+    }
+  ],
+  "soul-calibur-dreamcast": [
+    {
+      "date": "2026-02-15",
+      "price": 14.5,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-02-15",
+      "price": 17.0,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-02-15",
+      "price": 44.97,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-02-13",
+      "price": 39.5,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-02-13",
+      "price": 44.99,
+      "condition": "CIB"
+    }
+  ],
+  "panzer-dragoon-saga-sega-saturn": [
+    {
+      "date": "2026-02-27",
+      "price": 1104.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-02-24",
+      "price": 1025.0,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-02-24",
+      "price": 700.0,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-02-23",
+      "price": 1150.0,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-02-07",
+      "price": 1199.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-01-19",
+      "price": 699.95,
+      "condition": "Loose"
+    }
+  ],
+  "tetris-game-boy": [
+    {
+      "date": "2026-03-13",
+      "price": 14.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-12",
+      "price": 14.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-11",
+      "price": 13.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 18.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 16.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-06",
+      "price": 22.99,
+      "condition": "Incomplete"
+    },
+    {
+      "date": "2026-02-14",
+      "price": 13.5,
+      "condition": "Incomplete"
+    },
+    {
+      "date": "2026-01-29",
+      "price": 199.9,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-01-24",
+      "price": 218.99,
+      "condition": "CIB"
+    }
+  ],
+  "perfect-dark-nintendo-64": [
+    {
+      "date": "2026-03-10",
+      "price": 35.0,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 18.49,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 29.95,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 20.44,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-09",
+      "price": 24.95,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-07",
+      "price": 29.71,
+      "condition": "Incomplete"
+    },
+    {
+      "date": "2026-03-06",
+      "price": 99.95,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-06",
+      "price": 52.3,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-06",
+      "price": 102.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-06",
+      "price": 64.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-05",
+      "price": 59.99,
+      "condition": "CIB"
+    }
+  ],
+  "super-mario-64-nintendo-64": [
+    {
+      "date": "2026-03-13",
+      "price": 37.0,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-13",
+      "price": 33.95,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-13",
+      "price": 35.0,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-12",
+      "price": 44.97,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-12",
+      "price": 39.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-12",
+      "price": 169.0,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-06",
+      "price": 175.64,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-04",
+      "price": 117.27,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-01",
+      "price": 114.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-01",
+      "price": 159.97,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-02-20",
+      "price": 1075.01,
+      "condition": "Sealed"
+    }
+  ],
+  "super-mario-bros-3-nintendo-entertainment-system": [
+    {
+      "date": "2026-03-12",
+      "price": 11.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-12",
+      "price": 15.5,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-11",
+      "price": 14.98,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 16.0,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-08",
+      "price": 14.5,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-13",
+      "price": 36.0,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 124.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 74.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-09",
+      "price": 105.0,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-09",
+      "price": 50.85,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-02-23",
+      "price": 549.99,
+      "condition": "Sealed"
+    }
+  ],
+  "tekken-3-playstation": [
+    {
+      "date": "2026-03-09",
+      "price": 6.5,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-08",
+      "price": 11.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-08",
+      "price": 20.38,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-08",
+      "price": 9.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-07",
+      "price": 11.49,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-12",
+      "price": 34.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-09",
+      "price": 30.0,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-08",
+      "price": 29.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-07",
+      "price": 29.47,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-07",
+      "price": 20.0,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-02-27",
+      "price": 50.0,
+      "condition": "Sealed"
+    }
+  ],
+  "gran-turismo-playstation": [
+    {
+      "date": "2026-03-06",
+      "price": 13.5,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-06",
+      "price": 14.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-03",
+      "price": 14.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-03",
+      "price": 14.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-02-26",
+      "price": 9.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-02-20",
+      "price": 34.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-02-17",
+      "price": 29.9,
+      "condition": "CIB"
+    }
+  ],
+  "goldeneye-007-nintendo-64": [
+    {
+      "date": "2026-03-11",
+      "price": 29.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-11",
+      "price": 24.95,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 23.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 19.0,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 20.98,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-07",
+      "price": 95.0,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-07",
+      "price": 82.0,
+      "condition": "CIB"
+    }
+  ],
+  "yoshi-island-super-nintendo": [
+    {
+      "date": "2026-03-09",
+      "price": 60.0,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-11",
+      "price": 214.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-11",
+      "price": 189.95,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 135.5,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 179.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-02-11",
+      "price": 150.0,
+      "condition": "CIB"
+    }
+  ],
+  "resident-evil-2-playstation": [
+    {
+      "date": "2026-02-18",
+      "price": 38.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-02-17",
+      "price": 35.0,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-02-15",
+      "price": 35.0,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-02-14",
+      "price": 41.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-02-12",
+      "price": 34.95,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-12",
+      "price": 58.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-12",
+      "price": 113.98,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-11",
+      "price": 59.94,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 125.0,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 69.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 84.95,
+      "condition": "CIB"
+    }
+  ],
+  "pokemon-gold-game-boy": [
+    {
+      "date": "2026-03-05",
+      "price": 64.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-05",
+      "price": 67.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-04",
+      "price": 84.99,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-04",
+      "price": 70.0,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-04",
+      "price": 75.0,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-04",
+      "price": 65.93,
+      "condition": "Loose"
+    },
+    {
+      "date": "2026-03-10",
+      "price": 412.49,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-08",
+      "price": 279.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-08",
+      "price": 199.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-04",
+      "price": 299.99,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-02",
+      "price": 260.0,
+      "condition": "CIB"
+    },
+    {
+      "date": "2026-03-02",
+      "price": 349.99,
+      "condition": "CIB"
+    }
+  ],
+  "super-metroid-super-nintendo": [
+    {
+      "date": "2026-01-02",
+      "price": 110.0,
+      "condition": "CIB"
+    },
+    {
+      "date": "2025-10-21",
+      "price": 162.5,
+      "condition": "CIB"
+    },
+    {
+      "date": "2025-11-04",
+      "price": 650.0,
+      "condition": "Sealed"
+    },
+    {
+      "date": "2025-09-21",
+      "price": 5700.0,
+      "condition": "Sealed"
+    },
+    {
+      "date": "2025-05-30",
+      "price": 6850.0,
+      "condition": "Sealed"
+    }
+  ]
+};

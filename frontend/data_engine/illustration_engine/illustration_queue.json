@@ -1,0 +1,9 @@
+{
+  "queue": [
+    {"game_id":"super-mario-bros-nintendo-entertainment-system","priority":1,"source_availability":"generated","status":"done"},
+    {"game_id":"the-legend-of-zelda-game-boy","priority":1,"source_availability":"generated","status":"done"},
+    {"game_id":"sonic-the-hedgehog-sega-genesis","priority":2,"source_availability":"generated","status":"done"},
+    {"game_id":"final-fantasy-vi-super-nintendo","priority":2,"source_availability":"generated","status":"done"},
+    {"game_id":"street-fighter-ii-super-nintendo","priority":3,"source_availability":"generated","status":"done"}
+  ]
+}

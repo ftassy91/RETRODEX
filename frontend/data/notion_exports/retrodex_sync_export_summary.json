@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-03-18T08:26:25Z",
+  "paths": {
+    "games": "data/notion_exports/retrodex_games_sync_preview.json",
+    "assets": "data/notion_exports/retrodex_assets_sync_preview.json",
+    "market": "data/notion_exports/retrodex_market_sync_preview.json",
+    "games_backlog": "data/notion_exports/retrodex_games_curation_backlog.json",
+    "asset_backlog": "data/notion_exports/retrodex_asset_reconciliation_backlog.json"
+  },
+  "games_summary": {
+    "eligible_games": 453,
+    "gap_to_goal": 47,
+    "core_ready_records": 142,
+    "records_missing_core_fields": 311,
+    "records_needing_enrichment": 453,
+    "records_with_local_assets": 22
+  },
+  "assets_summary": {
+    "direct_asset_records": 58,
+    "pipeline_asset_records": 24,
+    "matched_direct_assets": 44,
+    "unmatched_direct_assets": 14
+  },
+  "market_summary": {
+    "manifest_priority_games": 12,
+    "games_with_sales": 15,
+    "games_with_history": 15,
+    "games_with_sources": 15,
+    "total_sales_records": 120,
+    "coverage_tracked_games": 507
+  },
+  "games_backlog_summary": {
+    "records_missing_core_fields": 311,
+    "records_ready_for_enrichment_only": 142
+  },
+  "asset_backlog_summary": {
+    "unmatched_direct_assets": 14
+  }
+}

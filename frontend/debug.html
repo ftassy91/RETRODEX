@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RETRODEX Debug</title>
+  <style>
+    :root {
+      --bg: #050805;
+      --panel: #0d150d;
+      --line: rgba(155, 188, 15, 0.28);
+      --text: #d6efb7;
+      --muted: rgba(214, 239, 183, 0.72);
+      --accent: #9bbc0f;
+      --accent-dark: #306230;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #102010 0%, #000 75%);
+      color: var(--text);
+      font-family: "VT323", Consolas, monospace;
+      padding: 20px;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: rgba(13, 21, 13, 0.94);
+      padding: 16px;
+      box-shadow: 0 0 18px rgba(155, 188, 15, 0.06);
+    }
+
+    h1, h2 {
+      margin: 0 0 10px;
+      font-family: "Jersey 10", "VT323", monospace;
+      letter-spacing: 0.04em;
+      font-weight: normal;
+    }
+
+    h1 { font-size: 42px; }
+    h2 { font-size: 26px; color: var(--accent); }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.1;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: end;
+    }
+
+    .field {
+      flex: 1 1 220px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #081008;
+      color: var(--text);
+      font: inherit;
+      font-size: 22px;
+      padding: 10px 12px;
+      outline: none;
+    }
+
+    button {
+      cursor: pointer;
+      background: linear-gradient(180deg, rgba(48, 98, 48, 0.7), rgba(15, 56, 15, 0.9));
+    }
+
+    button:hover {
+      border-color: rgba(155, 188, 15, 0.6);
+    }
+
+    .status-line {
+      min-height: 26px;
+      color: var(--accent);
+      font-size: 20px;
+    }
+
+    .log {
+      min-height: 80px;
+      white-space: pre-wrap;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .card {
+      border: 1px solid rgba(155, 188, 15, 0.18);
+      padding: 12px;
+      background: rgba(8, 16, 8, 0.85);
+    }
+
+    .card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 24px;
+      color: var(--text);
+    }
+
+    .card-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 180px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      background: rgba(48, 98, 48, 0.22);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .card-link:hover {
+      border-color: rgba(155, 188, 15, 0.6);
+      color: var(--accent);
+    }
+
+    .meta {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .meta span {
+      color: var(--accent);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .compare-layout {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .compare-block {
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+    }
+
+    .compare-block strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 24px;
+    }
+
+    .compare-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .compare-row {
+      border: 1px solid rgba(155, 188, 15, 0.18);
+      padding: 10px;
+      background: rgba(8, 16, 8, 0.75);
+    }
+
+    .compare-row span {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent);
+      font-size: 17px;
+    }
+
+    .compare-value {
+      font-size: 19px;
+      color: var(--text);
+    }
+
+    .compare-note {
+      margin-top: 6px;
+      font-size: 17px;
+      color: var(--muted);
+    }
+
+    .compare-match {
+      color: var(--accent);
+    }
+
+    .compare-diff {
+      color: #e8e89a;
+    }
+
+    .drift-summary {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      margin-bottom: 12px;
+    }
+
+    .drift-list {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .drift-list ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .drift-list li + li {
+      margin-top: 4px;
+    }
+
+    .summary {
+      margin-top: 10px;
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.15;
+    }
+
+    .price-strip {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      margin-top: 10px;
+    }
+
+    .price-pill {
+      border: 1px solid rgba(155, 188, 15, 0.18);
+      background: rgba(8, 16, 8, 0.7);
+      padding: 8px 10px;
+      font-size: 18px;
+    }
+
+    .price-pill span {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--accent);
+    }
+
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="panel">
+      <h1>RETRODEX Debug Console</h1>
+      <p>Page debug unique pour verifier le flow statique local et tester un point d'entree backend sans toucher au front principal.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Etat local statique</h2>
+      <div id="staticLog" class="log">Chargement...</div>
+    </section>
+
+    <section class="panel">
+      <h2>Backend optionnel</h2>
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="field">
+          <label for="backendBase">URL backend</label>
+          <input id="backendBase" type="text" value="http://127.0.0.1:3000">
+        </div>
+        <div class="field">
+          <label for="backendConsole">Console</label>
+          <select id="backendConsole">
+            <option value="">Toutes</option>
+          </select>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="field">
+          <button id="checkBackendBtn" type="button">Verifier le backend</button>
+        </div>
+        <div class="field">
+          <button id="randomBackendBtn" type="button">Jeu aleatoire backend</button>
+        </div>
+        <div class="field">
+          <button id="openBackendDebugBtn" type="button">Ouvrir debug backend</button>
+        </div>
+      </div>
+      <div id="backendStatus" class="status-line"></div>
+      <div id="backendCard"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Recherche backend</h2>
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="field">
+          <label for="backendQuery">Titre contient</label>
+          <input id="backendQuery" type="text" placeholder="Zelda, Metroid, Mario...">
+        </div>
+        <div class="field">
+          <label for="backendLimit">Limite</label>
+          <select id="backendLimit">
+            <option>5</option>
+            <option selected>8</option>
+            <option>12</option>
+          </select>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="field">
+          <button id="searchBackendBtn" type="button">Rechercher dans le backend</button>
+        </div>
+      </div>
+      <div id="backendSearchStatus" class="status-line"></div>
+      <div id="backendResults" class="grid"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Comparaison statique / backend</h2>
+      <p>Selectionne un jeu backend pour verifier rapidement l'alignement entre les donnees JSON du prototype et l'API optionnelle.</p>
+      <div id="compareStatus" class="status-line"></div>
+      <div id="compareResult"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Drift report backend</h2>
+      <p>Rapport compact pour verifier une console complete entre le prototype statique et le backend optionnel.</p>
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="field">
+          <button id="driftReportBtn" type="button">Generer le drift report de la console</button>
+        </div>
+      </div>
+      <div id="driftStatus" class="status-line"></div>
+      <div id="driftResult"></div>
+    </section>
+  </main>
+
+  <script src="data/catalog.js"></script>
+  <script src="data/consoles.js"></script>
+  <script src="data/prices.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/data-layer.js"></script>
+  <script src="js/illustration.js"></script>
+  <script>
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function buildOpenLink(game) {
+      const target = `index.html?game=${encodeURIComponent(game.id || game.title || "")}`;
+      return `
+        <div class="card-actions">
+          <a class="card-link" href="${target}" target="_blank" rel="noopener">Ouvrir dans RetroDex</a>
+          <button
+            class="card-link open-backend-debug-detail-btn"
+            type="button"
+            data-game-id="${escapeHtml(game.id || "")}"
+            data-game-title="${escapeHtml(game.title || "")}"
+          >
+            Ouvrir detail backend
+          </button>
+          <button
+            class="card-link compare-backend-btn"
+            type="button"
+            data-game-id="${escapeHtml(game.id || "")}"
+            data-game-title="${escapeHtml(game.title || "")}"
+          >
+            Comparer statique / backend
+          </button>
+          <button
+            class="card-link copy-backend-meta-btn"
+            type="button"
+            data-game-id="${escapeHtml(game.id || "")}"
+            data-game-title="${escapeHtml(game.title || "")}"
+            data-game-console="${escapeHtml(game.console || "")}"
+          >
+            Copier ID + titre
+          </button>
+        </div>
+      `;
+    }
+
+    function truncateText(value, limit = 180) {
+      const text = String(value || "").trim();
+      if (!text) {
+        return "";
+      }
+      return text.length > limit ? `${text.slice(0, limit - 1)}...` : text;
+    }
+
+    function renderPriceStrip(game) {
+      return `
+        <div class="price-strip">
+          <div class="price-pill"><span>Loose</span>${escapeHtml(formatPrice(game.loosePrice))}</div>
+          <div class="price-pill"><span>CIB</span>${escapeHtml(formatPrice(game.cibPrice))}</div>
+          <div class="price-pill"><span>Mint</span>${escapeHtml(formatPrice(game.mintPrice))}</div>
+        </div>
+      `;
+    }
+
+    function buildCopyPayload(gameId, gameTitle, gameConsole) {
+      return [
+        `id: ${gameId || "n/a"}`,
+        `title: ${gameTitle || "n/a"}`,
+        `console: ${gameConsole || "n/a"}`,
+      ].join("\n");
+    }
+
+    async function copyBackendMeta(gameId, gameTitle, gameConsole) {
+      const payload = buildCopyPayload(gameId, gameTitle, gameConsole);
+
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(payload);
+        backendStatusEl.textContent = `Infos copiees pour ${gameTitle || gameId || "le jeu selectionne"}`;
+        return;
+      }
+
+      const temp = document.createElement("textarea");
+      temp.value = payload;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand("copy");
+      temp.remove();
+      backendStatusEl.textContent = `Infos copiees pour ${gameTitle || gameId || "le jeu selectionne"}`;
+    }
+
+    function renderGameCard(game) {
+      return `
+        <article class="card">
+          <strong>${escapeHtml(game.title || "Unknown game")}</strong>
+          <div class="meta">
+            <div><span>ID</span>${escapeHtml(game.id || "n/a")}</div>
+            <div><span>Console</span>${escapeHtml(game.console || "n/a")}</div>
+            <div><span>Annee</span>${escapeHtml(game.year || "n/a")}</div>
+            <div><span>Genre</span>${escapeHtml(game.genre || "n/a")}</div>
+            <div><span>Metascore</span>${escapeHtml(formatValue(game.metascore))}</div>
+            <div><span>Rarity</span>${escapeHtml(formatValue(game.rarity))}</div>
+            <div><span>Developer</span>${escapeHtml(formatValue(game.developer))}</div>
+          </div>
+          ${truncateText(game.summary) ? `<div class="summary">${escapeHtml(truncateText(game.summary))}</div>` : ""}
+          ${renderPriceStrip(game)}
+          ${buildOpenLink(game)}
+        </article>
+      `;
+    }
+
+    async function fetchJson(url) {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+      return response.json();
+    }
+
+    function normalizeText(value) {
+      return String(value || "").trim().toLowerCase();
+    }
+
+    function findStaticGame(backendGame) {
+      const byId = backendGame?.id ? DATA_LAYER.getGameBySlug(backendGame.id) : null;
+      if (byId) {
+        return { game: byId, source: "id exact" };
+      }
+
+      const titleTerm = normalizeText(backendGame?.title);
+      if (!titleTerm) {
+        return { game: null, source: "aucun titre exploitable" };
+      }
+
+      const candidates = DATA_LAYER.searchGames(backendGame.title, {});
+      const exactTitle = candidates.find((candidate) => {
+        return normalizeText(candidate.title) === titleTerm
+          && normalizeText(candidate.console) === normalizeText(backendGame.console);
+      });
+
+      if (exactTitle) {
+        return { game: exactTitle, source: "titre + console" };
+      }
+
+      const looseTitle = candidates.find((candidate) => normalizeText(candidate.title) === titleTerm);
+      if (looseTitle) {
+        return { game: looseTitle, source: "titre seul" };
+      }
+
+      return { game: null, source: "aucune correspondance statique" };
+    }
+
+    function formatValue(value) {
+      if (value === null || value === undefined || value === "") {
+        return "n/a";
+      }
+      return String(value);
+    }
+
+    function formatPrice(value) {
+      if (value === null || value === undefined || value === "") {
+        return "n/a";
+      }
+      const number = Number(value);
+      return Number.isFinite(number) ? `$${number}` : String(value);
+    }
+
+    function renderCompareRow(label, staticValue, backendValue) {
+      const isMatch = String(staticValue ?? "") === String(backendValue ?? "");
+      return `
+        <div class="compare-row">
+          <span>${escapeHtml(label)}</span>
+          <div class="compare-value">Statique: ${escapeHtml(formatValue(staticValue))}</div>
+          <div class="compare-value">Backend: ${escapeHtml(formatValue(backendValue))}</div>
+          <div class="compare-note ${isMatch ? "compare-match" : "compare-diff"}">
+            ${isMatch ? "Aligne" : "Different"}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderPriceCompareRow(label, staticValue, backendValue) {
+      const staticNormalized = staticValue === null || staticValue === undefined ? "" : Number(staticValue);
+      const backendNormalized = backendValue === null || backendValue === undefined ? "" : Number(backendValue);
+      const isMatch = staticNormalized === backendNormalized;
+      return `
+        <div class="compare-row">
+          <span>${escapeHtml(label)}</span>
+          <div class="compare-value">Statique: ${escapeHtml(formatPrice(staticValue))}</div>
+          <div class="compare-value">Backend: ${escapeHtml(formatPrice(backendValue))}</div>
+          <div class="compare-note ${isMatch ? "compare-match" : "compare-diff"}">
+            ${isMatch ? "Prix aligne" : "Prix different"}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderComparison(backendGame, staticMatch) {
+      const staticGame = staticMatch?.game;
+
+      if (!staticGame) {
+        return `
+          <article class="card">
+            <strong>${escapeHtml(backendGame.title || "Unknown game")}</strong>
+            <div class="compare-note compare-diff">
+              Aucun match statique trouve (${escapeHtml(staticMatch?.source || "inconnu")}).
+            </div>
+            <div class="compare-block">
+              <div class="compare-grid">
+                ${renderCompareRow("Console", "n/a", backendGame.console)}
+                ${renderCompareRow("Annee", "n/a", backendGame.year)}
+                ${renderCompareRow("Genre", "n/a", backendGame.genre)}
+              </div>
+            </div>
+          </article>
+        `;
+      }
+
+      return `
+        <article class="card">
+          <strong>${escapeHtml(backendGame.title || staticGame.title || "Unknown game")}</strong>
+          <div class="compare-note compare-match">
+            Match local trouve via ${escapeHtml(staticMatch.source)}.
+          </div>
+          <div class="compare-layout">
+            <section class="compare-block">
+              <strong>Identite</strong>
+              <div class="compare-grid">
+                ${renderCompareRow("Titre", staticGame.title, backendGame.title)}
+                ${renderCompareRow("Console", staticGame.console, backendGame.console)}
+                ${renderCompareRow("Annee", staticGame.year, backendGame.year)}
+                ${renderCompareRow("Genre", staticGame.genre, backendGame.genre)}
+              </div>
+            </section>
+            <section class="compare-block">
+              <strong>Detail backend</strong>
+              <div class="compare-grid">
+                ${renderCompareRow("Metascore", staticGame.metascore, backendGame.metascore)}
+                ${renderCompareRow("Rarity", staticGame.rarity, backendGame.rarity)}
+                ${renderCompareRow("Developer", staticGame.developer, backendGame.developer)}
+                ${renderCompareRow("Resume", staticGame.summary ? "oui" : "non", backendGame.summary ? "oui" : "non")}
+              </div>
+            </section>
+            <section class="compare-block">
+              <strong>Prix</strong>
+              <div class="compare-grid">
+                ${renderPriceCompareRow("Loose", staticGame.price?.loose, backendGame.loosePrice)}
+                ${renderPriceCompareRow("CIB", staticGame.price?.cib, backendGame.cibPrice)}
+                ${renderPriceCompareRow("Mint", staticGame.price?.mint, backendGame.mintPrice)}
+              </div>
+            </section>
+          </div>
+          ${buildOpenLink(staticGame)}
+        </article>
+      `;
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const staticLog = document.getElementById("staticLog");
+      const backendBaseEl = document.getElementById("backendBase");
+      const backendConsoleEl = document.getElementById("backendConsole");
+      const backendQueryEl = document.getElementById("backendQuery");
+      const backendLimitEl = document.getElementById("backendLimit");
+      const backendStatusEl = document.getElementById("backendStatus");
+      const backendCardEl = document.getElementById("backendCard");
+      const backendSearchStatusEl = document.getElementById("backendSearchStatus");
+      const backendResultsEl = document.getElementById("backendResults");
+      const compareStatusEl = document.getElementById("compareStatus");
+      const compareResultEl = document.getElementById("compareResult");
+      const driftStatusEl = document.getElementById("driftStatus");
+      const driftResultEl = document.getElementById("driftResult");
+      const lines = [];
+
+      try {
+        lines.push(`CATALOG_DATA: ${typeof CATALOG_DATA} len=${CATALOG_DATA?.length ?? 0}`);
+        lines.push(`PRICES_DATA: ${typeof PRICES_DATA} len=${PRICES_DATA?.length ?? 0}`);
+        lines.push(`DATA_LAYER: ${typeof DATA_LAYER}`);
+        lines.push(`ILLUSTRATOR: ${typeof ILLUSTRATOR}`);
+
+        await DATA_LAYER.init();
+        const games = DATA_LAYER.getGames();
+        lines.push("DATA_LAYER.init() OK");
+        lines.push(`getGames(): ${games.length}`);
+        lines.push(`sample: ${games[0]?.title ?? "n/a"}`);
+
+        for (const consoleName of Array.from(new Set(games.map((game) => game.console).filter(Boolean))).sort()) {
+          const option = document.createElement("option");
+          option.value = consoleName;
+          option.textContent = consoleName;
+          backendConsoleEl.appendChild(option);
+        }
+      } catch (error) {
+        lines.push(`ERROR: ${error.message}`);
+      }
+
+      staticLog.textContent = lines.join("\n");
+
+      async function checkBackend() {
+        backendStatusEl.textContent = "Verification backend en cours...";
+        backendCardEl.innerHTML = "";
+
+        try {
+          const base = backendBaseEl.value.trim().replace(/\/$/, "");
+          const health = await fetchJson(`${base}/api/health`);
+          backendStatusEl.textContent = `Backend OK - ${health.games} jeux disponibles`;
+        } catch (error) {
+          backendStatusEl.textContent = `Backend indisponible - ${error.message}`;
+        }
+      }
+
+      async function loadRandomGame() {
+        backendStatusEl.textContent = "Chargement d'un jeu backend...";
+        backendCardEl.innerHTML = "";
+
+        try {
+          const base = backendBaseEl.value.trim().replace(/\/$/, "");
+          const params = new URLSearchParams();
+          if (backendConsoleEl.value) {
+            params.set("console", backendConsoleEl.value);
+          }
+          const game = await fetchJson(`${base}/api/games/random?${params.toString()}`);
+          backendStatusEl.textContent = "Jeu backend charge";
+          backendCardEl.innerHTML = renderGameCard(game);
+        } catch (error) {
+          backendStatusEl.textContent = `Erreur backend - ${error.message}`;
+        }
+      }
+      function openBackendDebugDetail(gameId) {
+        const base = backendBaseEl.value.trim().replace(/\/$/, "");
+        if (!base) {
+          backendStatusEl.textContent = "Ajoute d'abord une URL backend valide.";
+          return;
+        }
+        window.open(`${base}/debug.html?gameId=${encodeURIComponent(gameId)}`, "_blank", "noopener");
+      }
+
+      function openBackendDebugPage() {
+        const base = backendBaseEl.value.trim().replace(/\/$/, "");
+        if (!base) {
+          backendStatusEl.textContent = "Ajoute d'abord une URL backend valide.";
+          return;
+        }
+        window.open(`${base}/debug.html`, "_blank", "noopener");
+      }
+
+      async function searchBackendGames() {
+        backendSearchStatusEl.textContent = "Recherche backend en cours...";
+        backendResultsEl.innerHTML = "";
+
+        try {
+          const base = backendBaseEl.value.trim().replace(/\/$/, "");
+          const params = new URLSearchParams();
+          if (backendConsoleEl.value) {
+            params.set("console", backendConsoleEl.value);
+          }
+          if (backendQueryEl.value.trim()) {
+            params.set("q", backendQueryEl.value.trim());
+          }
+          params.set("limit", backendLimitEl.value);
+          const payload = await fetchJson(`${base}/api/games?${params.toString()}`);
+          backendSearchStatusEl.textContent = `${payload.returned} affiche(s) / ${payload.total} resultat(s) backend`;
+          backendResultsEl.innerHTML = payload.items.length
+            ? payload.items.map(renderGameCard).join("")
+            : '<div class="card">Aucun resultat backend.</div>';
+        } catch (error) {
+          backendSearchStatusEl.textContent = `Erreur backend - ${error.message}`;
+        }
+      }
+
+      async function compareBackendGame(gameId, fallbackTitle) {
+        compareStatusEl.textContent = "Comparaison en cours...";
+        compareResultEl.innerHTML = "";
+
+        try {
+          const base = backendBaseEl.value.trim().replace(/\/$/, "");
+          const backendGame = await fetchJson(`${base}/api/games/${encodeURIComponent(gameId)}`);
+          const staticMatch = findStaticGame(backendGame);
+          compareStatusEl.textContent = `Comparaison chargee pour ${backendGame.title || fallbackTitle || gameId}`;
+          compareResultEl.innerHTML = renderComparison(backendGame, staticMatch);
+        } catch (error) {
+          compareStatusEl.textContent = `Erreur comparaison - ${error.message}`;
+        }
+      }
+
+      function compareField(staticGame, backendGame, label, staticValue, backendValue) {
+        if (String(staticValue ?? "") === String(backendValue ?? "")) {
+          return null;
+        }
+
+        return {
+          id: backendGame.id || staticGame?.id || "n/a",
+          title: backendGame.title || staticGame?.title || "Unknown game",
+          label,
+          staticValue: formatValue(staticValue),
+          backendValue: formatValue(backendValue),
+        };
+      }
+
+      function renderMismatchList(title, items) {
+        if (!items.length) {
+          return `
+            <article class="card">
+              <strong>${escapeHtml(title)}</strong>
+              <div class="compare-note compare-match">Aucun ecart detecte.</div>
+            </article>
+          `;
+        }
+
+        return `
+          <article class="card">
+            <strong>${escapeHtml(title)}</strong>
+            <ul>
+              ${items.map((item) => `
+                <li>
+                  <strong style="display:inline; font-size:19px;">${escapeHtml(item.title)}</strong>
+                  <span class="muted">(${escapeHtml(item.id)})</span><br>
+                  ${escapeHtml(item.label)} : ${escapeHtml(item.staticValue)} -> ${escapeHtml(item.backendValue)}
+                </li>
+              `).join("")}
+            </ul>
+          </article>
+        `;
+      }
+
+      async function buildDriftReport() {
+        driftStatusEl.textContent = "Generation du drift report...";
+        driftResultEl.innerHTML = "";
+
+        if (!backendConsoleEl.value) {
+          driftStatusEl.textContent = "Choisis une console pour un rapport complet et fiable.";
+          return;
+        }
+
+        try {
+          const base = backendBaseEl.value.trim().replace(/\/$/, "");
+          const consoleName = backendConsoleEl.value;
+          const params = new URLSearchParams({
+            console: consoleName,
+            limit: "100",
+          });
+          const payload = await fetchJson(`${base}/api/games?${params.toString()}`);
+          const backendItems = Array.isArray(payload.items) ? payload.items : [];
+          const staticItems = DATA_LAYER.searchGames("", { console: consoleName });
+          const staticById = new Map(staticItems.map((game) => [game.id, game]));
+          const backendById = new Map(backendItems.map((game) => [game.id, game]));
+
+          const missingInBackend = staticItems
+            .filter((game) => !backendById.has(game.id))
+            .slice(0, 6)
+            .map((game) => ({ id: game.id, title: game.title, label: "Manque dans backend", staticValue: "present", backendValue: "absent" }));
+
+          const missingInStatic = backendItems
+            .filter((game) => !staticById.has(game.id))
+            .slice(0, 6)
+            .map((game) => ({ id: game.id, title: game.title, label: "Manque dans statique", staticValue: "absent", backendValue: "present" }));
+
+          const mismatches = [];
+          for (const backendGame of backendItems) {
+            const staticGame = staticById.get(backendGame.id);
+            if (!staticGame) continue;
+            mismatches.push(
+              compareField(staticGame, backendGame, "Annee", staticGame.year, backendGame.year),
+              compareField(staticGame, backendGame, "Genre", staticGame.genre, backendGame.genre),
+              compareField(staticGame, backendGame, "Metascore", staticGame.metascore, backendGame.metascore),
+              compareField(staticGame, backendGame, "Loose", staticGame.price?.loose, backendGame.loosePrice),
+              compareField(staticGame, backendGame, "CIB", staticGame.price?.cib, backendGame.cibPrice),
+              compareField(staticGame, backendGame, "Mint", staticGame.price?.mint, backendGame.mintPrice)
+            );
+          }
+
+          const realMismatches = mismatches.filter(Boolean).slice(0, 8);
+          const exactCountMatch = staticItems.length === payload.total;
+          driftStatusEl.textContent = `Rapport pret pour ${consoleName} - ${staticItems.length} statique / ${payload.total} backend`;
+          driftResultEl.innerHTML = `
+            <div class="drift-summary">
+              <div class="compare-row">
+                <span>Console</span>
+                <div class="compare-value">${escapeHtml(consoleName)}</div>
+              </div>
+              <div class="compare-row">
+                <span>Jeux statiques</span>
+                <div class="compare-value">${staticItems.length}</div>
+              </div>
+              <div class="compare-row">
+                <span>Jeux backend</span>
+                <div class="compare-value">${payload.total}</div>
+              </div>
+              <div class="compare-row">
+                <span>Compte global</span>
+                <div class="compare-note ${exactCountMatch ? "compare-match" : "compare-diff"}">
+                  ${exactCountMatch ? "Aligne" : "Ecart detecte"}
+                </div>
+              </div>
+            </div>
+            <div class="drift-list">
+              ${renderMismatchList("Manquants dans backend", missingInBackend)}
+              ${renderMismatchList("Manquants dans statique", missingInStatic)}
+              ${renderMismatchList("Champs differents", realMismatches)}
+            </div>
+          `;
+        } catch (error) {
+          driftStatusEl.textContent = `Erreur drift report - ${error.message}`;
+        }
+      }
+
+      document.getElementById("checkBackendBtn").addEventListener("click", checkBackend);
+      document.getElementById("randomBackendBtn").addEventListener("click", loadRandomGame);
+      document.getElementById("openBackendDebugBtn").addEventListener("click", openBackendDebugPage);
+      document.getElementById("searchBackendBtn").addEventListener("click", searchBackendGames);
+      document.getElementById("driftReportBtn").addEventListener("click", buildDriftReport);
+
+      document.body.addEventListener("click", (event) => {
+        const detailButton = event.target.closest(".open-backend-debug-detail-btn");
+        if (detailButton) {
+          openBackendDebugDetail(detailButton.dataset.gameId);
+          return;
+        }
+
+        const copyButton = event.target.closest(".copy-backend-meta-btn");
+        if (copyButton) {
+          copyBackendMeta(
+            copyButton.dataset.gameId,
+            copyButton.dataset.gameTitle,
+            copyButton.dataset.gameConsole
+          ).catch((error) => {
+            backendStatusEl.textContent = `Erreur copie - ${error.message}`;
+          });
+          return;
+        }
+
+        const compareButton = event.target.closest(".compare-backend-btn");
+        if (!compareButton) return;
+        compareBackendGame(compareButton.dataset.gameId, compareButton.dataset.gameTitle);
+      });
+    });
+  </script>
+</body>
+</html>
+

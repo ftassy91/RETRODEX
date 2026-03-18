@@ -1,0 +1,19 @@
+﻿{
+    "output":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\retrodeck_assets\\paperboy_nintendo_entertainment_system\\sprite.png",
+    "opaque_ratio":  0.5799,
+    "source":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\retrodeck_assets\\_cache\\source_images\\wikipedia_commons_thumb_d_d7_toronto_star_paperboy_whitby_jpg_330px_toronto_star_paperboy_.jpg",
+    "bbox":  {
+                 "y":  3,
+                 "width":  32,
+                 "height":  42,
+                 "x":  8
+             },
+    "colors_used":  [
+                        "#9BBC0F",
+                        "#306230",
+                        "#8BAC0F",
+                        "#0F380F"
+                    ],
+    "work_size":  48,
+    "canvas_size":  128
+}

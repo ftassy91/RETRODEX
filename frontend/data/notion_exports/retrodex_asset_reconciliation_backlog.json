@@ -1,0 +1,512 @@
+{
+  "generated_at": "2026-03-18T08:26:25Z",
+  "summary": {
+    "unmatched_direct_assets": 14
+  },
+  "records": [
+    {
+      "asset_path": "assets/generated_gb/castlevania-symphony-of-the-night.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "castlevania-symphony-of-the-night.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "castlevania-symphony-of-the-night-playstation",
+          "title": "Castlevania: Symphony of the Night",
+          "platform": "PlayStation",
+          "score": 2.0
+        },
+        {
+          "game_id": "castlevania-symphony-of-the-night-sega-saturn",
+          "title": "Castlevania: Symphony of the Night",
+          "platform": "Sega Saturn",
+          "score": 2.0
+        },
+        {
+          "game_id": "castlevania-circle-of-the-moon-game-boy-advance",
+          "title": "Castlevania: Circle of the Moon",
+          "platform": "Game Boy Advance",
+          "score": 0.6
+        },
+        {
+          "game_id": "castlevania-aria-of-sorrow-game-boy-advance",
+          "title": "Castlevania: Aria of Sorrow",
+          "platform": "Game Boy Advance",
+          "score": 0.4
+        },
+        {
+          "game_id": "castlevania-dawn-of-sorrow-nintendo-ds",
+          "title": "Castlevania: Dawn of Sorrow",
+          "platform": "Nintendo DS",
+          "score": 0.4
+        }
+      ],
+      "needs_manual_review": true
+    },
+    {
+      "asset_path": "assets/generated_gb/crash-bandicoot.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "crash-bandicoot.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "crash-bandicoot-2-cortex-strikes-back-playstation",
+          "title": "Crash Bandicoot 2: Cortex Strikes Back",
+          "platform": "PlayStation",
+          "score": 2.0
+        },
+        {
+          "game_id": "crash-bandicoot-3-warped-playstation",
+          "title": "Crash Bandicoot 3: Warped",
+          "platform": "PlayStation",
+          "score": 2.0
+        },
+        {
+          "game_id": "crash-bandicoot-playstation",
+          "title": "Crash Bandicoot",
+          "platform": "PlayStation",
+          "score": 2.0
+        },
+        {
+          "game_id": "crash-team-racing-playstation",
+          "title": "Crash Team Racing",
+          "platform": "PlayStation",
+          "score": 0.5
+        },
+        {
+          "game_id": "devil-crash-turbografx-16",
+          "title": "Devil Crash",
+          "platform": "TurboGrafx-16",
+          "score": 0.5
+        }
+      ],
+      "needs_manual_review": true
+    },
+    {
+      "asset_path": "assets/generated_gb/donkey-kong-country.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "donkey-kong-country.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "donkey-kong-country-2-super-nintendo",
+          "title": "Donkey Kong Country 2",
+          "platform": "Super Nintendo",
+          "score": 2.0
+        },
+        {
+          "game_id": "donkey-kong-country-3-super-nintendo",
+          "title": "Donkey Kong Country 3",
+          "platform": "Super Nintendo",
+          "score": 2.0
+        },
+        {
+          "game_id": "donkey-kong-country-game-boy-advance",
+          "title": "Donkey Kong Country",
+          "platform": "Game Boy Advance",
+          "score": 2.0
+        },
+        {
+          "game_id": "donkey-kong-country-super-nintendo",
+          "title": "Donkey Kong Country",
+          "platform": "Super Nintendo",
+          "score": 2.0
+        },
+        {
+          "game_id": "donkey-kong-64-nintendo-64",
+          "title": "Donkey Kong 64",
+          "platform": "Nintendo 64",
+          "score": 0.667
+        }
+      ],
+      "needs_manual_review": true
+    },
+    {
+      "asset_path": "assets/generated_gb/final-fantasy-tactics.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "final-fantasy-tactics.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "final-fantasy-tactics-advance-game-boy-advance",
+          "title": "Final Fantasy Tactics Advance",
+          "platform": "Game Boy Advance",
+          "score": 2.0
+        },
+        {
+          "game_id": "final-fantasy-tactics-playstation",
+          "title": "Final Fantasy Tactics",
+          "platform": "PlayStation",
+          "score": 2.0
+        },
+        {
+          "game_id": "final-fantasy-ii-nintendo-entertainment-system",
+          "title": "Final Fantasy II",
+          "platform": "Nintendo Entertainment System",
+          "score": 0.667
+        },
+        {
+          "game_id": "final-fantasy-ii-wonderswan",
+          "title": "Final Fantasy II",
+          "platform": "WonderSwan",
+          "score": 0.667
+        },
+        {
+          "game_id": "final-fantasy-iii-nintendo-entertainment-system",
+          "title": "Final Fantasy III",
+          "platform": "Nintendo Entertainment System",
+          "score": 0.667
+        }
+      ],
+      "needs_manual_review": true
+    },
+    {
+      "asset_path": "assets/generated_gb/final-fantasy-vi.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "final-fantasy-vi.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "final-fantasy-vi-advance-game-boy-advance",
+          "title": "Final Fantasy VI Advance",
+          "platform": "Game Boy Advance",
+          "score": 2.0
+        },
+        {
+          "game_id": "final-fantasy-vi-super-nintendo",
+          "title": "Final Fantasy VI",
+          "platform": "Super Nintendo",
+          "score": 2.0
+        },
+        {
+          "game_id": "final-fantasy-vii-playstation",
+          "title": "Final Fantasy VII",
+          "platform": "PlayStation",
+          "score": 1.667
+        },
+        {
+          "game_id": "final-fantasy-viii-playstation",
+          "title": "Final Fantasy VIII",
+          "platform": "PlayStation",
+          "score": 1.667
+        },
+        {
+          "game_id": "final-fantasy-ii-nintendo-entertainment-system",
+          "title": "Final Fantasy II",
+          "platform": "Nintendo Entertainment System",
+          "score": 0.667
+        }
+      ],
+      "needs_manual_review": true
+    },
+    {
+      "asset_path": "assets/generated_gb/kirby-s-adventure.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "kirby-s-adventure.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "kirby-adventure-nintendo-entertainment-system",
+          "title": "Kirby's Adventure",
+          "platform": "Nintendo Entertainment System",
+          "score": 0.667
+        },
+        {
+          "game_id": "bonks-adventure-turbografx-16",
+          "title": "Bonk's Adventure",
+          "platform": "TurboGrafx-16",
+          "score": 0.333
+        },
+        {
+          "game_id": "digimon-adventure-wonderswan",
+          "title": "Digimon Adventure",
+          "platform": "WonderSwan",
+          "score": 0.333
+        },
+        {
+          "game_id": "kirby-64-crystal-shards-nintendo-64",
+          "title": "Kirby 64: The Crystal Shards",
+          "platform": "Nintendo 64",
+          "score": 0.333
+        },
+        {
+          "game_id": "kirby-canvas-curse-nintendo-ds",
+          "title": "Kirby: Canvas Curse",
+          "platform": "Nintendo DS",
+          "score": 0.333
+        }
+      ],
+      "needs_manual_review": true
+    },
+    {
+      "asset_path": "assets/generated_gb/poka-mon-gold.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "poka-mon-gold.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "pokemon-gold-game-boy",
+          "title": "Pok\u00e9mon Gold",
+          "platform": "Game Boy",
+          "score": 0.333
+        }
+      ],
+      "needs_manual_review": true
+    },
+    {
+      "asset_path": "assets/generated_gb/super-mario-land-2-6-golden-coins.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "super-mario-land-2-6-golden-coins.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "super-mario-land-2-game-boy",
+          "title": "Super Mario Land 2: 6 Golden Coins",
+          "platform": "Game Boy",
+          "score": 0.571
+        },
+        {
+          "game_id": "super-mario-land-game-boy",
+          "title": "Super Mario Land",
+          "platform": "Game Boy",
+          "score": 0.429
+        },
+        {
+          "game_id": "wario-land-super-mario-land-3-game-boy",
+          "title": "Wario Land: Super Mario Land 3",
+          "platform": "Game Boy",
+          "score": 0.429
+        },
+        {
+          "game_id": "donkey-kong-country-2-super-nintendo",
+          "title": "Donkey Kong Country 2",
+          "platform": "Super Nintendo",
+          "score": 0.286
+        },
+        {
+          "game_id": "mario-kart-super-circuit-game-boy-advance",
+          "title": "Mario Kart: Super Circuit",
+          "platform": "Game Boy Advance",
+          "score": 0.286
+        }
+      ],
+      "needs_manual_review": true
+    },
+    {
+      "asset_path": "assets/generated_gb/super-mario-world-2-yoshi-s-island.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "super-mario-world-2-yoshi-s-island.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "super-mario-land-2-game-boy",
+          "title": "Super Mario Land 2: 6 Golden Coins",
+          "platform": "Game Boy",
+          "score": 0.429
+        },
+        {
+          "game_id": "super-mario-world-super-nintendo",
+          "title": "Super Mario World",
+          "platform": "Super Nintendo",
+          "score": 0.429
+        },
+        {
+          "game_id": "yoshi-island-super-nintendo",
+          "title": "Super Mario World 2: Yoshi's Island",
+          "platform": "Super Nintendo",
+          "score": 0.429
+        },
+        {
+          "game_id": "donkey-kong-country-2-super-nintendo",
+          "title": "Donkey Kong Country 2",
+          "platform": "Super Nintendo",
+          "score": 0.286
+        },
+        {
+          "game_id": "mario-kart-super-circuit-game-boy-advance",
+          "title": "Mario Kart: Super Circuit",
+          "platform": "Game Boy Advance",
+          "score": 0.286
+        }
+      ],
+      "needs_manual_review": true
+    },
+    {
+      "asset_path": "assets/generated_gb/tetris.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "tetris.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "tetris-dx-game-boy",
+          "title": "Tetris DX",
+          "platform": "Game Boy",
+          "score": 2.0
+        },
+        {
+          "game_id": "tetris-game-boy",
+          "title": "Tetris",
+          "platform": "Game Boy",
+          "score": 2.0
+        }
+      ],
+      "needs_manual_review": true
+    },
+    {
+      "asset_path": "assets/generated_gb/the-legend-of-zelda-a-link-to-the-past.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "the-legend-of-zelda-a-link-to-the-past.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "the-legend-of-zelda-a-link-to-the-past-game-boy-advance",
+          "title": "The Legend of Zelda: A Link to the Past",
+          "platform": "Game Boy Advance",
+          "score": 2.0
+        },
+        {
+          "game_id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+          "title": "The Legend of Zelda: A Link to the Past",
+          "platform": "Super Nintendo",
+          "score": 2.0
+        },
+        {
+          "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+          "title": "The Legend of Zelda: Link's Awakening",
+          "platform": "Game Boy",
+          "score": 0.556
+        },
+        {
+          "game_id": "the-legend-of-zelda-majoras-mask-nintendo-64",
+          "title": "The Legend of Zelda: Majora's Mask",
+          "platform": "Nintendo 64",
+          "score": 0.556
+        },
+        {
+          "game_id": "the-legend-of-zelda-nintendo-entertainment-system",
+          "title": "The Legend of Zelda",
+          "platform": "Nintendo Entertainment System",
+          "score": 0.556
+        }
+      ],
+      "needs_manual_review": true
+    },
+    {
+      "asset_path": "assets/generated_gb/the-legend-of-zelda-link-s-awakening.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "the-legend-of-zelda-link-s-awakening.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "the-legend-of-zelda-a-link-to-the-past-game-boy-advance",
+          "title": "The Legend of Zelda: A Link to the Past",
+          "platform": "Game Boy Advance",
+          "score": 0.714
+        },
+        {
+          "game_id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+          "title": "The Legend of Zelda: A Link to the Past",
+          "platform": "Super Nintendo",
+          "score": 0.714
+        },
+        {
+          "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+          "title": "The Legend of Zelda: Link's Awakening",
+          "platform": "Game Boy",
+          "score": 0.714
+        },
+        {
+          "game_id": "the-legend-of-zelda-majoras-mask-nintendo-64",
+          "title": "The Legend of Zelda: Majora's Mask",
+          "platform": "Nintendo 64",
+          "score": 0.571
+        },
+        {
+          "game_id": "the-legend-of-zelda-nintendo-entertainment-system",
+          "title": "The Legend of Zelda",
+          "platform": "Nintendo Entertainment System",
+          "score": 0.571
+        }
+      ],
+      "needs_manual_review": true
+    },
+    {
+      "asset_path": "assets/generated_gb/the-legend-of-zelda-oracle-of-ages.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "the-legend-of-zelda-oracle-of-ages.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "the-legend-of-zelda-a-link-to-the-past-game-boy-advance",
+          "title": "The Legend of Zelda: A Link to the Past",
+          "platform": "Game Boy Advance",
+          "score": 0.714
+        },
+        {
+          "game_id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+          "title": "The Legend of Zelda: A Link to the Past",
+          "platform": "Super Nintendo",
+          "score": 0.714
+        },
+        {
+          "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+          "title": "The Legend of Zelda: Link's Awakening",
+          "platform": "Game Boy",
+          "score": 0.714
+        },
+        {
+          "game_id": "the-legend-of-zelda-majoras-mask-nintendo-64",
+          "title": "The Legend of Zelda: Majora's Mask",
+          "platform": "Nintendo 64",
+          "score": 0.714
+        },
+        {
+          "game_id": "the-legend-of-zelda-nintendo-entertainment-system",
+          "title": "The Legend of Zelda",
+          "platform": "Nintendo Entertainment System",
+          "score": 0.714
+        }
+      ],
+      "needs_manual_review": true
+    },
+    {
+      "asset_path": "assets/generated_gb/the-legend-of-zelda-oracle-of-seasons.png",
+      "asset_folder": "generated_gb",
+      "asset_file": "the-legend-of-zelda-oracle-of-seasons.png",
+      "matching_method": "unmatched",
+      "suggested_matches": [
+        {
+          "game_id": "the-legend-of-zelda-a-link-to-the-past-game-boy-advance",
+          "title": "The Legend of Zelda: A Link to the Past",
+          "platform": "Game Boy Advance",
+          "score": 0.714
+        },
+        {
+          "game_id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+          "title": "The Legend of Zelda: A Link to the Past",
+          "platform": "Super Nintendo",
+          "score": 0.714
+        },
+        {
+          "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+          "title": "The Legend of Zelda: Link's Awakening",
+          "platform": "Game Boy",
+          "score": 0.714
+        },
+        {
+          "game_id": "the-legend-of-zelda-majoras-mask-nintendo-64",
+          "title": "The Legend of Zelda: Majora's Mask",
+          "platform": "Nintendo 64",
+          "score": 0.714
+        },
+        {
+          "game_id": "the-legend-of-zelda-nintendo-entertainment-system",
+          "title": "The Legend of Zelda",
+          "platform": "Nintendo Entertainment System",
+          "score": 0.714
+        }
+      ],
+      "needs_manual_review": true
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neo Retro Games</title>
+  <style>
+    :root {
+      --bg: #0f380f;
+      --mid: #306230;
+      --light: #8bac0f;
+      --bright: #9bbc0f;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: radial-gradient(circle at top, rgba(139,172,15,0.12), transparent 30%), #020402;
+      color: var(--bright);
+      font-family: "Courier New", monospace;
+    }
+
+    .panel {
+      width: min(680px, 100%);
+      padding: 28px;
+      border: 1px solid rgba(155,188,15,0.2);
+      border-radius: 18px;
+      background: rgba(15,56,15,0.78);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      letter-spacing: 0.08em;
+    }
+
+    .status {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 6px 10px;
+      border: 1px solid rgba(155,188,15,0.2);
+      border-radius: 999px;
+      color: rgba(230,242,216,0.82);
+      background: rgba(155,188,15,0.08);
+      font-size: 14px;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: rgba(230,242,216,0.8);
+      line-height: 1.5;
+    }
+
+    ul {
+      margin: 0 0 18px;
+      padding-left: 20px;
+      color: rgba(230,242,216,0.8);
+      line-height: 1.5;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    a {
+      display: inline-block;
+      padding: 10px 18px;
+      border: 1px solid rgba(155,188,15,0.35);
+      border-radius: 999px;
+      color: var(--bright);
+      text-decoration: none;
+      background: rgba(155,188,15,0.1);
+    }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <h1>NEO RETRO GAMES</h1>
+    <div class="status">Placeholder module</div>
+    <p>This module is reserved for modern retro-style physical releases and “new” cartridge or disc projects.</p>
+    <ul>
+      <li>Neo-retro boxed releases</li>
+      <li>Publisher pages and product shelves</li>
+      <li>Launch status and collector notes</li>
+    </ul>
+    <div class="actions">
+      <a href="../../launcher.html">Back to launcher</a>
+      <a href="../../modules/retromarket/market.html">Open RetroMarket</a>
+    </div>
+  </main>
+</body>
+</html>
