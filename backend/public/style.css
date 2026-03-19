@@ -13,3 +13,17 @@ a { color: #9bbc0f; }
 .empty-state { max-width: 900px; margin: 40px auto; text-align: center; font-size: 12px; color: rgba(155,188,15,0.3); }
 .status-bar { max-width: 900px; margin: 0 auto 14px; font-size: 0.7rem; color: rgba(155,188,15,0.45); min-height: 16px; }
 .pill { display: inline-block; padding: 2px 8px; border: 1px solid rgba(155,188,15,0.28); border-radius: 999px; background: rgba(155,188,15,0.18); color: #9bbc0f; font-size: 0.7rem; margin-right: 8px; margin-bottom: 8px; }
+.rarity-badge {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.rarity-legendary { color: #ddc420; border-color: #ddc420; }
+.rarity-epic { color: #c48be8; border-color: #c48be8; }
+.rarity-rare { color: #e88855; border-color: #e88855; }
+.rarity-uncommon { color: #44aadd; border-color: #44aadd; }
+.rarity-common { color: #5a9a3a; border-color: #5a9a3a; }

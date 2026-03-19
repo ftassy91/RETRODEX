@@ -19,11 +19,11 @@
         --text-strong: #cfe66f;
         --text-soft: rgba(155, 188, 15, 0.62);
         --text-faint: rgba(155, 188, 15, 0.4);
-        --legendary: #ffd700;
-        --epic: #9b59b6;
-        --rare: #e74c3c;
-        --uncommon: rgba(155, 188, 15, 0.6);
-        --common: rgba(155, 188, 15, 0.18);
+        --legendary: #ddc420;
+        --epic: #c48be8;
+        --rare: #e88855;
+        --uncommon: #44aadd;
+        --common: #5a9a3a;
       }
 
       .stats-shell {
@@ -98,14 +98,14 @@
         gap: 10px;
       }
 
-      .rarity-pill {
+      .rarity-stat {
         padding: 12px;
         border-radius: 6px;
         background: rgba(10, 10, 10, 0.36);
         border: 1px solid currentColor;
       }
 
-      .rarity-pill .name {
+      .rarity-stat .name {
         display: block;
         font-size: 0.7rem;
         text-transform: uppercase;
@@ -113,23 +113,17 @@
         margin-bottom: 6px;
       }
 
-      .rarity-pill .count {
+      .rarity-stat .count {
         display: block;
         font-size: 20px;
       }
 
-      .rarity-pill .pct {
+      .rarity-stat .pct {
         display: block;
         font-size: 0.7rem;
         color: var(--text-soft);
         margin-top: 4px;
       }
-
-      .rarity-pill.legendary { color: var(--legendary); }
-      .rarity-pill.epic { color: var(--epic); }
-      .rarity-pill.rare { color: var(--rare); }
-      .rarity-pill.uncommon { color: rgba(155, 188, 15, 0.9); }
-      .rarity-pill.common { color: rgba(155, 188, 15, 0.65); }
 
       .bars {
         display: grid;
@@ -320,7 +314,7 @@
           const count = counts.get(rarity) || 0;
           const pct = totalGames ? ((count / totalGames) * 100).toFixed(1) : "0.0";
           return `
-            <div class="rarity-pill ${escapeHtml(rarityClass(rarity))}">
+            <div class="rarity-stat rarity-${escapeHtml(rarityClass(rarity))}">
               <span class="name">${escapeHtml(rarity)}</span>
               <span class="count">${escapeHtml(count)}</span>
               <span class="pct">${escapeHtml(pct)}%</span>

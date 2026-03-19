@@ -12,7 +12,7 @@
     <title>RetroDex - Catalogue</title>
     <link rel="stylesheet" href="/style.css" />
     <style>
-      :root { --panel-bg: rgba(15,56,15,.2); --panel-line: rgba(155,188,15,.18); --panel-strong: rgba(155,188,15,.42); --text-strong: #cfe66f; --text-soft: rgba(155,188,15,.62); --text-faint: rgba(155,188,15,.4); --text-active: #d8f08f; --legendary: #ffd700; --epic: #9b59b6; --rare: #e74c3c; --uncommon: rgba(155,188,15,.75); --common: rgba(155,188,15,.18); }
+      :root { --panel-bg: rgba(15,56,15,.2); --panel-line: rgba(155,188,15,.18); --panel-strong: rgba(155,188,15,.42); --text-strong: #cfe66f; --text-soft: rgba(155,188,15,.62); --text-faint: rgba(155,188,15,.4); --text-active: #d8f08f; --legendary: #ddc420; --epic: #c48be8; --rare: #e88855; --uncommon: #44aadd; --common: #5a9a3a; }
       .catalog-shell { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
       .catalog-header { display: flex; justify-content: space-between; gap: 12px; align-items: end; flex-wrap: wrap; padding: 10px 0 18px; border-bottom: 1px solid rgba(155,188,15,.16); }
       .catalog-header h1 { font-size: 26px; color: var(--text-strong); letter-spacing: .12em; margin: 10px 0 6px; }
@@ -43,14 +43,7 @@
       .game-title { font-size: 14px; color: var(--text-strong); font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .game-subtitle { font-size: 11px; color: var(--text-soft); }
       .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
-      .genre-pill, .rarity-badge { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 999px; font-size: 10px; letter-spacing: .05em; }
-      .genre-pill { border: 1px solid rgba(155,188,15,.22); background: rgba(155,188,15,.08); color: rgba(155,188,15,.72); }
-      .rarity-badge { border: 1px solid currentColor; background: rgba(10,10,10,.4); text-transform: uppercase; }
-      .rarity-badge.legendary { color: var(--legendary); }
-      .rarity-badge.epic { color: var(--epic); }
-      .rarity-badge.rare { color: var(--rare); }
-      .rarity-badge.uncommon { color: rgba(155,188,15,.9); }
-      .rarity-badge.common { color: rgba(155,188,15,.6); }
+      .genre-pill { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 999px; font-size: 10px; letter-spacing: .05em; border: 1px solid rgba(155,188,15,.22); background: rgba(155,188,15,.08); color: rgba(155,188,15,.72); }
       .price-row { margin-top: auto; font-size: 11px; color: var(--text-soft); line-height: 1.6; }
       .trend-mini { font-size: .65rem; padding: 0 .3rem; font-weight: bold; }
       .trend-mini.up { color: #9bbc0f; }
@@ -338,7 +331,7 @@
               <h3 class="game-title" title="${esc(game.title)}">${esc(game.title)}</h3>
               <div class="game-subtitle">${esc(game.console || "Console inconnue")} · ${esc(game.year || "n/a")}</div>
             </div>
-            <span class="rarity-badge ${esc(rClass(game.rarity))}">${esc(game.rarity || "COMMON")}</span>
+            <span class="rarity-badge rarity-${esc(rClass(game.rarity))}">${esc(game.rarity || "COMMON")}</span>
           </div>
           <div class="pill-row">
             <span class="genre-pill">${esc(game.genre || "Genre inconnu")}</span>

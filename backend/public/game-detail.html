@@ -19,11 +19,11 @@
         --text-strong: #cfe66f;
         --text-soft: rgba(155, 188, 15, 0.65);
         --text-faint: rgba(155, 188, 15, 0.42);
-        --legendary: #ffd700;
-        --epic: #9b59b6;
-        --rare: #e74c3c;
-        --uncommon: rgba(155, 188, 15, 0.7);
-        --common: rgba(155, 188, 15, 0.18);
+        --legendary: #ddc420;
+        --epic: #c48be8;
+        --rare: #e88855;
+        --uncommon: #44aadd;
+        --common: #5a9a3a;
       }
 
       .detail-shell {
@@ -71,8 +71,7 @@
         margin-bottom: 12px;
       }
 
-      .pill,
-      .rarity-badge {
+      .pill {
         display: inline-flex;
         align-items: center;
         padding: 4px 10px;
@@ -86,18 +85,6 @@
         background: rgba(155, 188, 15, 0.08);
         color: rgba(155, 188, 15, 0.76);
       }
-
-      .rarity-badge {
-        border: 1px solid currentColor;
-        background: rgba(10, 10, 10, 0.35);
-        text-transform: uppercase;
-      }
-
-      .rarity-badge.legendary { color: var(--legendary); }
-      .rarity-badge.epic { color: var(--epic); }
-      .rarity-badge.rare { color: var(--rare); }
-      .rarity-badge.uncommon { color: rgba(155, 188, 15, 0.9); }
-      .rarity-badge.common { color: rgba(155, 188, 15, 0.65); }
 
       .developer-line {
         font-size: 12px;
@@ -434,12 +421,6 @@
         background: #0a1a0a;
       }
 
-      .rarity-legendary { color: #ffd700; }
-      .rarity-epic { color: #9b59b6; }
-      .rarity-rare { color: #e74c3c; }
-      .rarity-uncommon { color: rgba(155, 188, 15, 0.9); }
-      .rarity-common { color: rgba(155, 188, 15, 0.7); }
-
       .loading-card {
         padding: 32px 20px;
         text-align: center;
@@ -575,7 +556,7 @@
                 <span class="pill">${escapeHtml(game.console || "Console inconnue")}</span>
                 <span class="pill">${escapeHtml(game.year || "n/a")}</span>
                 <span class="pill">${escapeHtml(game.genre || "Genre inconnu")}</span>
-                <span class="rarity-badge ${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || "COMMON")}</span>
+                <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || "COMMON")}</span>
               </div>
               <div class="developer-line">Développé par ${escapeHtml(game.developer || "studio inconnu")}</div>
             </div>
@@ -775,7 +756,7 @@
               <span>${escapeHtml(current.console || "n/a")}</span>
               <span>${escapeHtml(formatPrice(current.loosePrice))}</span>
               <span>${escapeHtml(formatPrice(current.mintPrice))}</span>
-              <span class="rarity-${escapeHtml(rarityClass(current.rarity))}">${escapeHtml(current.rarity || "COMMON")}</span>
+              <span class="rarity-badge rarity-${escapeHtml(rarityClass(current.rarity))}">${escapeHtml(current.rarity || "COMMON")}</span>
             </div>
             ${related.map((game) => `
               <div class="compare-row clickable" onclick="window.location='/game-detail.html?id=${encodeURIComponent(game.id)}'" style="cursor:pointer">
@@ -783,7 +764,7 @@
                 <span>${escapeHtml(game.console || "n/a")}</span>
                 <span>${escapeHtml(formatPrice(game.loosePrice))}</span>
                 <span>${escapeHtml(formatPrice(game.mintPrice))}</span>
-                <span class="rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || "COMMON")}</span>
+                <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || "COMMON")}</span>
               </div>
             `).join("")}
           </div>
