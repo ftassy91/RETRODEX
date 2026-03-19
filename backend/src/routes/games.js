@@ -28,7 +28,7 @@ async function findGameById(id) {
   return Game.findByPk(id);
 }
 
-// --- Beginner routes (raw response) ---
+// --- Simple routes (/games) ---
 
 router.get("/games", handleAsync(async (req, res) => {
   const where = buildGameWhere(req.query);
@@ -52,7 +52,7 @@ router.get("/games/:id", handleAsync(async (req, res) => {
   return res.json(game);
 }));
 
-// --- API routes (wrapped response) ---
+// --- API routes (/api/games) ---
 
 router.get("/api/games", handleAsync(async (req, res) => {
   const limit = parseLimit(req.query.limit, 20, 1000);
@@ -79,6 +79,10 @@ router.get("/api/games/random", handleAsync(async (req, res) => {
 
   const offset = Math.floor(Math.random() * count);
   const items = await Game.findAll({ where, order: [["title", "ASC"]], limit: 1, offset });
+
+  if (!items.length) {
+    return res.status(404).json({ ok: false, error: "No game found for the current filter" });
+  }
 
   return res.json(items[0]);
 }));

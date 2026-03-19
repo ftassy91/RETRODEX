@@ -8,6 +8,7 @@ const { sequelize, storagePath, databaseMode, databaseTarget } = require("./data
 const Game = require("./models/Game");
 const CollectionItem = require("./models/CollectionItem");
 const { syncGamesFromPrototype } = require("./syncGames");
+const { handleAsync } = require("./helpers/query");
 
 // --- Model associations ---
 CollectionItem.belongsTo(Game, {
@@ -56,20 +57,16 @@ app.get("/", (_req, res) => {
   });
 });
 
-app.get("/api/health", async (_req, res, next) => {
-  try {
-    const games = await Game.count();
-    res.json({
-      ok: true,
-      backend: "retrodex-express-sequelize",
-      database: databaseMode,
-      storage: databaseTarget || storagePath,
-      games,
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+app.get("/api/health", handleAsync(async (_req, res) => {
+  const games = await Game.count();
+  res.json({
+    ok: true,
+    backend: "retrodex-express-sequelize",
+    database: databaseMode,
+    storage: databaseTarget || storagePath,
+    games,
+  });
+}));
 
 // --- Mount routes ---
 app.use(gamesRoutes);
@@ -79,8 +76,13 @@ app.use(statsRoutes);
 app.use(syncRoutes);
 
 // --- Error handler ---
-app.use((error, _req, res, _next) => {
-  console.error("RetroDex backend request failed:", error);
+app.use((error, req, res, _next) => {
+  console.error(`RetroDex backend request failed: ${req.method} ${req.originalUrl}`, error);
+
+  if (res.headersSent) {
+    return;
+  }
+
   res.status(500).json({
     ok: false,
     error: "Internal server error",

@@ -17,7 +17,7 @@ function normalizeCollectionPayload(body) {
   };
 }
 
-// --- Beginner routes (raw response) ---
+// --- Simple routes (/collection) ---
 
 router.get("/collection", handleAsync(async (_req, res) => {
   const items = await CollectionItem.findAll({ order: [["gameId", "ASC"]] });
@@ -37,6 +37,11 @@ router.post("/collection", handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: "Game not found" });
   }
 
+  const existing = await CollectionItem.findByPk(payload.gameId);
+  if (existing) {
+    return res.status(409).json({ ok: false, error: "Game is already in your collection" });
+  }
+
   const item = await CollectionItem.create(payload);
   return res.status(201).json(item);
 }));
@@ -52,7 +57,7 @@ router.delete("/collection/:id", handleAsync(async (req, res) => {
   return res.json({ ok: true, deletedId: item.id });
 }));
 
-// --- API routes (wrapped response) ---
+// --- API routes (/api/collection, includes game data) ---
 
 router.get("/api/collection", handleAsync(async (_req, res) => {
   const items = await CollectionItem.findAll({
@@ -90,6 +95,11 @@ router.post("/api/collection", handleAsync(async (req, res) => {
 
   if (!game) {
     return res.status(404).json({ ok: false, error: "Game not found" });
+  }
+
+  const existing = await CollectionItem.findByPk(payload.gameId);
+  if (existing) {
+    return res.status(409).json({ ok: false, error: "Game is already in your collection" });
   }
 
   const item = await CollectionItem.create(payload);

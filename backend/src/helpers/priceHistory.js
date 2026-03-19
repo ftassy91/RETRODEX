@@ -70,36 +70,9 @@ function computeHistoryTrend(history) {
 }
 
 function computePriceTrend(gameId, currentPrice) {
-  const priceType = "mint";
-  const str = `${gameId}${priceType}`;
-  let seed = 0;
-
-  for (let index = 0; index < str.length; index += 1) {
-    seed = (seed * 31 + str.charCodeAt(index)) | 0;
-  }
-
-  seed = Math.abs(seed);
-
-  let price = Math.max(1, Math.round(Number(currentPrice) || 0));
-  for (let index = 0; index < 12; index += 1) {
-    seed = Math.imul(seed ^ (seed >>> 16), 0x45d9f3b) | 0;
-    const variation = ((Math.abs(seed) % 11) - 5) / 100;
-    price = Math.round(price / (1 + variation));
-    price = Math.max(1, price);
-  }
-
-  const oldestPrice = price;
-  const safeCurrentPrice = Math.max(1, Math.round(Number(currentPrice) || 0));
-
-  if (safeCurrentPrice > oldestPrice * 1.03) {
-    return "up";
-  }
-
-  if (safeCurrentPrice < oldestPrice * 0.97) {
-    return "down";
-  }
-
-  return "stable";
+  const labels = buildMonthLabels(12);
+  const history = generateHistory(currentPrice, gameId, "mint", labels);
+  return computeHistoryTrend(history);
 }
 
 function withGameTrend(game) {
