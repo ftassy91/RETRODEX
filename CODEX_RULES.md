@@ -1,3 +1,16 @@
+## RÈGLE GIT — Branches
+
+Ne jamais créer de branche autonome (codex/*, fix/*, etc.).
+Ne jamais committer directement sur main ou develop.
+
+Avant tout travail :
+  git branch --show-current
+  → doit afficher : feature/sprint-X-nom
+  → sinon : STOP, attendre instruction
+
+Flux obligatoire :
+  feature/sprint-X-nom → develop → main
+
 ## REGLE GIT - Branchement
 
 Ne jamais committer directement sur main.
