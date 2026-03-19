@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
+﻿* { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Courier New', monospace; background: #0a0a0a; color: #9bbc0f; min-height: 100vh; padding: 20px 16px; }
 a { color: #9bbc0f; }
 .page-header { max-width: 900px; margin: 0 auto 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(155,188,15,0.2); }
@@ -27,3 +27,454 @@ a { color: #9bbc0f; }
 .rarity-rare { color: #e88855; border-color: #e88855; }
 .rarity-uncommon { color: #44aadd; border-color: #44aadd; }
 .rarity-common { color: #5a9a3a; border-color: #5a9a3a; }
+/* =============================================
+   game-detail — Sprint 5 additions
+   price-history + price-compare sections
+   ============================================= */
+:root {
+        --panel-bg: rgba(15, 56, 15, 0.2);
+        --panel-line: rgba(155, 188, 15, 0.18);
+        --panel-line-strong: rgba(155, 188, 15, 0.4);
+        --text-strong: #cfe66f;
+        --text-soft: rgba(155, 188, 15, 0.65);
+        --text-faint: rgba(155, 188, 15, 0.42);
+        --legendary: #ddc420;
+        --epic: #c48be8;
+        --rare: #e88855;
+        --uncommon: #44aadd;
+        --common: #5a9a3a;
+      }
+
+      .detail-shell {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .top-nav {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .hero-card,
+      .summary-card,
+      .collection-card,
+      .similar-card,
+      .stats-card {
+        background: var(--panel-bg);
+        border: 1px solid var(--panel-line);
+        border-radius: 6px;
+        padding: 18px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+        gap: 16px;
+        align-items: start;
+      }
+
+      .hero-title {
+        font-size: 30px;
+        color: var(--text-strong);
+        margin-bottom: 10px;
+      }
+
+      .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 10px;
+        letter-spacing: 0.06em;
+      }
+
+      .pill {
+        border: 1px solid rgba(155, 188, 15, 0.22);
+        background: rgba(155, 188, 15, 0.08);
+        color: rgba(155, 188, 15, 0.76);
+      }
+
+      .developer-line {
+        font-size: 12px;
+        color: var(--text-soft);
+      }
+
+      .price-panel {
+        background: rgba(10, 10, 10, 0.38);
+        border: 1px solid var(--panel-line);
+        border-radius: 6px;
+        padding: 16px;
+      }
+
+      .price-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .metascore-circle {
+        width: 74px;
+        height: 74px;
+        border-radius: 50%;
+        border: 2px solid rgba(155, 188, 15, 0.4);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: var(--text-strong);
+      }
+
+      .metascore-circle strong {
+        font-size: 20px;
+        line-height: 1;
+      }
+
+      .metascore-circle span {
+        font-size: 9px;
+        color: var(--text-faint);
+        letter-spacing: 0.08em;
+      }
+
+      .price-table {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .price-cell {
+        border: 1px solid rgba(155, 188, 15, 0.16);
+        border-radius: 4px;
+        padding: 12px;
+        background: rgba(15, 56, 15, 0.18);
+      }
+
+      .price-cell .label {
+        display: block;
+        font-size: 10px;
+        color: var(--text-faint);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+      }
+
+      .price-cell .value {
+        font-size: 18px;
+        color: var(--text-strong);
+      }
+
+      .summary-card h2,
+      .collection-card h2,
+      .stats-card h2,
+      .similar-card h2 {
+        font-size: 12px;
+        color: var(--text-faint);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 12px;
+      }
+
+      .summary-text {
+        font-size: 13px;
+        line-height: 1.7;
+        color: var(--text-soft);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .stat-cell {
+        border: 1px solid rgba(155, 188, 15, 0.16);
+        border-radius: 4px;
+        padding: 12px;
+        background: rgba(15, 56, 15, 0.14);
+      }
+
+      .stat-cell .label {
+        display: block;
+        font-size: 10px;
+        color: var(--text-faint);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+      }
+
+      .stat-cell .value {
+        font-size: 14px;
+        color: var(--text-strong);
+      }
+
+      .collection-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .collection-state {
+        font-size: 12px;
+        color: var(--text-soft);
+      }
+
+      .similar-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .mini-card {
+        border: 1px solid rgba(155, 188, 15, 0.16);
+        border-radius: 5px;
+        background: rgba(15, 56, 15, 0.12);
+        padding: 12px;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .mini-card:hover {
+        border-color: var(--panel-line-strong);
+      }
+
+      .mini-card h3 {
+        font-size: 12px;
+        color: var(--text-strong);
+        margin-bottom: 8px;
+      }
+
+      .mini-card p {
+        font-size: 11px;
+        color: var(--text-soft);
+      }
+
+      .status-text {
+        font-size: 11px;
+        color: var(--text-faint);
+        min-height: 16px;
+      }
+
+      .price-history {
+        margin-top: 2rem;
+        padding: 1rem;
+        border: 1px solid #306230;
+      }
+
+      .price-history h3 {
+        color: #9bbc0f;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        margin-bottom: 1rem;
+      }
+
+      .trend-row {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .trend-badge {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.65rem;
+        border: 1px solid #306230;
+        color: #9bbc0f;
+      }
+
+      .trend-badge.up {
+        border-color: #9bbc0f;
+        color: #9bbc0f;
+      }
+
+      .trend-badge.up::before {
+        content: "â†‘ ";
+      }
+
+      .trend-badge.down {
+        border-color: #e85555;
+        color: #e85555;
+      }
+
+      .trend-badge.down::before {
+        content: "â†“ ";
+      }
+
+      .trend-badge.stable {
+        border-color: #8bac0f;
+      }
+
+      .trend-badge.stable::before {
+        content: "= ";
+      }
+
+      .chart-toggle {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .chart-btn {
+        background: none;
+        border: 1px solid #306230;
+        color: #306230;
+        padding: 0.2rem 0.75rem;
+        font-size: 0.65rem;
+        cursor: pointer;
+      }
+
+      .chart-btn.active {
+        border-color: #9bbc0f;
+        color: #9bbc0f;
+        background: #0a1a0a;
+      }
+
+      .chart-container {
+        position: relative;
+        background: #0a0a0a;
+        border: 1px solid #1a3a1a;
+      }
+
+      #price-chart {
+        width: 100%;
+        height: 160px;
+      }
+
+      .chart-labels {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.25rem 0.5rem;
+        gap: 8px;
+      }
+
+      .chart-label {
+        font-size: 0.55rem;
+        color: #306230;
+      }
+
+      .price-stats-row {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.75rem;
+      }
+
+      .price-stat {
+        flex: 1;
+        text-align: center;
+        padding: 0.5rem;
+        border: 1px solid #1a3a1a;
+      }
+
+      .stat-label {
+        display: block;
+        font-size: 0.55rem;
+        color: #306230;
+        margin-bottom: 0.25rem;
+      }
+
+      .stat-value {
+        font-size: 0.9rem;
+        color: #9bbc0f;
+        font-weight: bold;
+      }
+
+      .price-compare {
+        margin-top: 2rem;
+        padding: 1rem;
+        border: 1px solid #306230;
+        background: rgba(10, 10, 10, 0.24);
+      }
+
+      .price-compare h3 {
+        color: #9bbc0f;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        margin-bottom: 1rem;
+      }
+
+      .compare-table {
+        width: 100%;
+      }
+
+      .compare-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 0.7fr 0.7fr 0.8fr;
+        gap: 0.5rem;
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #1a3a1a;
+        font-size: 0.7rem;
+        align-items: center;
+      }
+
+      .compare-row span {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .compare-header {
+        color: #306230;
+        font-size: 0.6rem;
+        letter-spacing: 0.05em;
+      }
+
+      .compare-row.current {
+        background: #0a1a0a;
+        color: #9bbc0f;
+      }
+
+      .compare-row.clickable:hover {
+        background: #0a1a0a;
+      }
+
+      .loading-card {
+        padding: 32px 20px;
+        text-align: center;
+        color: var(--text-faint);
+        border: 1px dashed rgba(155, 188, 15, 0.18);
+        border-radius: 6px;
+      }
+
+      @media (max-width: 900px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .stats-grid,
+        .similar-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 640px) {
+        .price-table,
+        .stats-grid,
+        .similar-grid,
+        .price-stats-row {
+          grid-template-columns: 1fr;
+        }
+
+        .price-stats-row {
+          display: grid;
+        }
+
+        .compare-row {
+          grid-template-columns: 1.5fr 1fr 0.8fr 0.8fr 0.9fr;
+          font-size: 0.65rem;
+        }
+      }
+
+
