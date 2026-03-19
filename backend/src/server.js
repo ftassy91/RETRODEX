@@ -82,16 +82,72 @@ function toGameSummary(game) {
   };
 }
 
+const VALID_COLLECTION_CONDITIONS = new Set(["Loose", "CIB", "Mint"]);
+
+function normalizeCollectionCondition(value) {
+  const raw = String(value ?? "").trim();
+  if (!raw) {
+    return "Loose";
+  }
+
+  const upper = raw.toUpperCase();
+  if (upper === "LOOSE") return "Loose";
+  if (upper === "CIB") return "CIB";
+  if (upper === "MINT") return "Mint";
+  return null;
+}
+
 function normalizeCollectionPayload(body) {
   const gameId = String(body?.gameId ?? "").trim();
-  const condition = String(body?.condition ?? "").trim();
+  const condition = normalizeCollectionCondition(body?.condition);
   const notes = String(body?.notes ?? "").trim();
 
   return {
     gameId,
-    condition: condition || null,
+    condition,
     notes: notes || null,
   };
+}
+
+function serializeCollectionItem(item) {
+  const condition = normalizeCollectionCondition(item?.condition) || "Loose";
+
+  return {
+    id: item?.gameId,
+    gameId: item?.gameId,
+    condition,
+    notes: item?.notes || null,
+    addedAt: item?.addedAt || null,
+    game: item?.game ? {
+      id: item.game.id,
+      title: item.game.title,
+      console: item.game.console,
+      platform: item.game.console,
+      year: item.game.year,
+      image: item.game.image || null,
+      rarity: item.game.rarity,
+      loosePrice: item.game.loosePrice,
+      cibPrice: item.game.cibPrice,
+      mintPrice: item.game.mintPrice,
+    } : null,
+  };
+}
+
+async function listCollectionItems() {
+  const items = await CollectionItem.findAll({
+    include: [
+      {
+        model: Game,
+        as: "game",
+        attributes: ["id", "title", "console", "year", "rarity", "loosePrice", "cibPrice", "mintPrice"],
+      },
+    ],
+    order: [["gameId", "ASC"]],
+  });
+
+  return items
+    .map(serializeCollectionItem)
+    .sort((left, right) => String(left.game?.title || left.gameId || "").localeCompare(String(right.game?.title || right.gameId || "")));
 }
 
 async function findGameById(id) {
@@ -302,10 +358,7 @@ app.get("/games/:id", handleAsync(async (req, res) => {
 }));
 
 app.get("/collection", handleAsync(async (_req, res) => {
-  const items = await CollectionItem.findAll({
-    order: [["gameId", "ASC"]],
-  });
-
+  const items = await listCollectionItems();
   return res.json(items);
 }));
 
@@ -319,6 +372,13 @@ app.post("/collection", handleAsync(async (req, res) => {
     });
   }
 
+  if (!VALID_COLLECTION_CONDITIONS.has(payload.condition)) {
+    return res.status(400).json({
+      ok: false,
+      error: "condition must be one of Loose, CIB or Mint",
+    });
+  }
+
   const game = await findGameById(payload.gameId);
 
   if (!game) {
@@ -329,7 +389,16 @@ app.post("/collection", handleAsync(async (req, res) => {
   }
 
   const item = await CollectionItem.create(payload);
-  return res.status(201).json(item);
+  const created = await CollectionItem.findByPk(item.gameId, {
+    include: [
+      {
+        model: Game,
+        as: "game",
+        attributes: ["id", "title", "console", "year", "rarity", "loosePrice", "cibPrice", "mintPrice"],
+      },
+    ],
+  });
+  return res.status(201).json(serializeCollectionItem(created));
 }));
 
 app.delete("/collection/:id", handleAsync(async (req, res) => {
@@ -345,7 +414,7 @@ app.delete("/collection/:id", handleAsync(async (req, res) => {
   await item.destroy();
   return res.json({
     ok: true,
-    deletedId: item.id,
+    deletedId: item.gameId,
   });
 }));
 
@@ -453,28 +522,10 @@ app.get("/api/consoles", handleAsync(async (_req, res) => {
 }));
 
 app.get("/api/collection", handleAsync(async (_req, res) => {
-  const items = await CollectionItem.findAll({
-    include: [
-      {
-        model: Game,
-        as: "game",
-        attributes: ["title", "console", "loosePrice", "mintPrice"],
-      },
-    ],
-    order: [["gameId", "ASC"]],
-  });
+  const items = await listCollectionItems();
 
   return res.json({
-    items: items.map((item) => ({
-      id: item.gameId,
-      gameId: item.gameId,
-      game: item.game ? {
-        title: item.game.title,
-        console: item.game.console,
-        loosePrice: item.game.loosePrice,
-        mintPrice: item.game.mintPrice,
-      } : null,
-    })),
+    items,
     total: items.length,
   });
 }));
@@ -541,6 +592,13 @@ app.post("/api/collection", handleAsync(async (req, res) => {
     });
   }
 
+  if (!VALID_COLLECTION_CONDITIONS.has(payload.condition)) {
+    return res.status(400).json({
+      ok: false,
+      error: "condition must be one of Loose, CIB or Mint",
+    });
+  }
+
   const game = await findGameById(payload.gameId);
 
   if (!game) {
@@ -551,10 +609,19 @@ app.post("/api/collection", handleAsync(async (req, res) => {
   }
 
   const item = await CollectionItem.create(payload);
+  const created = await CollectionItem.findByPk(item.gameId, {
+    include: [
+      {
+        model: Game,
+        as: "game",
+        attributes: ["id", "title", "console", "year", "rarity", "loosePrice", "cibPrice", "mintPrice"],
+      },
+    ],
+  });
 
   return res.status(201).json({
     ok: true,
-    item,
+    item: serializeCollectionItem(created),
   });
 }));
 
@@ -572,7 +639,7 @@ app.delete("/api/collection/:id", handleAsync(async (req, res) => {
 
   return res.json({
     ok: true,
-    deletedId: item.id,
+    deletedId: item.gameId,
   });
 }));
 
