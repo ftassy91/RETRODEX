@@ -19,9 +19,12 @@
   </head>
   <body>
     <main class="detail-shell">
-      <nav class="top-nav">
-        <a id="catalog-back-link" href="/games-list.html" class="btn">← Catalogue</a>
-        <a href="/hub.html" class="btn">← Hub</a>
+      <nav class="breadcrumb">
+        <a href="/hub.html">HUB</a>
+        <span class="sep">&rsaquo;</span>
+        <a id="catalog-back-link" href="/games-list.html">CATALOGUE</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="current" id="breadcrumb-title">—</span>
       </nav>
 
       <section id="hero" class="hero-card">
@@ -62,6 +65,7 @@
       const collectionStatusEl = document.getElementById("collection-status");
       const similarGamesEl = document.getElementById("similar-games");
       const catalogBackLinkEl = document.getElementById("catalog-back-link");
+      const breadcrumbTitleEl = document.getElementById("breadcrumb-title");
       const detailShellEl = document.querySelector(".detail-shell, main, .content");
 
       let currentGame = null;
@@ -564,6 +568,9 @@
         try {
           currentGame = await fetchJson(`/api/games/${encodeURIComponent(gameId)}`);
           document.title = `RetroDex — ${currentGame.title}`;
+          if (breadcrumbTitleEl) {
+            breadcrumbTitleEl.textContent = (currentGame.title || "").toUpperCase().substring(0, 30) || "—";
+          }
           renderHeroSection(currentGame);
           const heroCanvas = document.createElement("canvas");
           heroCanvas.className = "game-hero-canvas";

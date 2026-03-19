@@ -5,6 +5,22 @@ a { color: #9bbc0f; }
 .page-header h1 { font-size: 18px; color: #cfe66f; letter-spacing: 0.05em; margin-bottom: 4px; }
 .page-title, h1.title, .section-title { text-align: left; }
 .nav-links { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.65rem;
+  color: #5a9a3a;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.05em;
+}
+.breadcrumb a {
+  color: #5a9a3a;
+  text-decoration: none;
+}
+.breadcrumb a:hover { color: #9bbc0f; }
+.breadcrumb .sep { color: #306230; }
+.breadcrumb .current { color: #9bbc0f; }
 .btn { display: inline-block; padding: 6px 14px; border: 1px solid rgba(155,188,15,0.35); border-radius: 3px; font-size: 0.7rem; font-family: inherit; background: transparent; color: #9bbc0f; cursor: pointer; text-decoration: none; }
 .btn:hover { border-color: rgba(155,188,15,0.7); background: rgba(155,188,15,0.08); }
 .card { background: rgba(15,56,15,0.2); border: 1px solid rgba(155,188,15,0.18); border-radius: 4px; padding: 14px 16px; }
