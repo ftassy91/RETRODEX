@@ -158,14 +158,6 @@
         background: linear-gradient(90deg, rgba(139, 172, 15, 0.7), #9bbc0f);
       }
 
-      .bar-caption {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        font-size: 10px;
-        color: var(--text-faint);
-      }
-
       .summary-panel {
         display: flex;
         flex-direction: column;
@@ -314,10 +306,6 @@
             <div class="bar-track">
               <div class="bar-fill" style="width:${width}%"></div>
             </div>
-            <div class="bar-caption">
-              <span>${escapeHtml(item.name)}</span>
-              <span>${escapeHtml(item.gamesCount)} / ${escapeHtml(maxCount)}</span>
-            </div>
             <div>
               <a href="${gamesUrl(item.name)}" class="btn">Voir les jeux &rarr;</a>
             </div>
@@ -340,7 +328,7 @@
       async function loadConsoles() {
         try {
           const payload = await fetchJson("/api/consoles");
-          const items = payload.items || [];
+          const items = [...(payload.items || [])].sort((a, b) => Number(b.gamesCount || 0) - Number(a.gamesCount || 0));
           const totalGames = items.reduce((sum, item) => sum + Number(item.gamesCount || 0), 0);
           const maxCount = Math.max(...items.map((item) => Number(item.gamesCount || 0)), 1);
 
