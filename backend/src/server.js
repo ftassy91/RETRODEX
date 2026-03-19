@@ -150,7 +150,7 @@ function generateHistory(currentPrice, gameId, priceType, monthLabels) {
   return history;
 }
 
-function computeTrend(history) {
+function computeHistoryTrend(history) {
   if (!Array.isArray(history) || history.length === 0) {
     return "stable";
   }
@@ -169,9 +169,37 @@ function computeTrend(history) {
   return "stable";
 }
 
-function computePriceTrend(gameId, currentPrice, priceType = "mint") {
-  const history = generateHistory(currentPrice, gameId, priceType, buildMonthLabels(12));
-  return computeTrend(history);
+function computePriceTrend(gameId, currentPrice) {
+  const priceType = "mint";
+  const str = `${gameId}${priceType}`;
+  let seed = 0;
+
+  for (let index = 0; index < str.length; index += 1) {
+    seed = (seed * 31 + str.charCodeAt(index)) | 0;
+  }
+
+  seed = Math.abs(seed);
+
+  let price = Math.max(1, Math.round(Number(currentPrice) || 0));
+  for (let index = 0; index < 12; index += 1) {
+    seed = Math.imul(seed ^ (seed >>> 16), 0x45d9f3b) | 0;
+    const variation = ((Math.abs(seed) % 11) - 5) / 100;
+    price = Math.round(price / (1 + variation));
+    price = Math.max(1, price);
+  }
+
+  const oldestPrice = price;
+  const safeCurrentPrice = Math.max(1, Math.round(Number(currentPrice) || 0));
+
+  if (safeCurrentPrice > oldestPrice * 1.03) {
+    return "up";
+  }
+
+  if (safeCurrentPrice < oldestPrice * 0.97) {
+    return "down";
+  }
+
+  return "stable";
 }
 
 function withGameTrend(game) {
@@ -180,7 +208,7 @@ function withGameTrend(game) {
   return {
     ...plainGame,
     trend: {
-      mint: computePriceTrend(plainGame.id, plainGame.mintPrice, "mint"),
+      mint: computePriceTrend(plainGame.id, plainGame.mintPrice),
     },
   };
 }
@@ -206,9 +234,9 @@ function buildPriceHistoryPayload(game) {
       mint: mintHistory[index].price,
     })),
     trend: {
-      loose: computeTrend(looseHistory),
-      cib: computeTrend(cibHistory),
-      mint: computeTrend(mintHistory),
+      loose: computeHistoryTrend(looseHistory),
+      cib: computeHistoryTrend(cibHistory),
+      mint: computeHistoryTrend(mintHistory),
     },
   };
 }
