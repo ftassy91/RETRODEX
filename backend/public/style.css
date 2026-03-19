@@ -5,6 +5,22 @@ a { color: #9bbc0f; }
 .page-header h1 { font-size: 18px; color: #cfe66f; letter-spacing: 0.05em; margin-bottom: 4px; }
 .page-title, h1.title, .section-title { text-align: left; }
 .nav-links { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.65rem;
+  color: #5a9a3a;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.05em;
+}
+.breadcrumb a {
+  color: #5a9a3a;
+  text-decoration: none;
+}
+.breadcrumb a:hover { color: #9bbc0f; }
+.breadcrumb .sep { color: #306230; }
+.breadcrumb .current { color: #9bbc0f; }
 .btn { display: inline-block; padding: 6px 14px; border: 1px solid rgba(155,188,15,0.35); border-radius: 3px; font-size: 0.7rem; font-family: inherit; background: transparent; color: #9bbc0f; cursor: pointer; text-decoration: none; }
 .btn:hover { border-color: rgba(155,188,15,0.7); background: rgba(155,188,15,0.08); }
 .card { background: rgba(15,56,15,0.2); border: 1px solid rgba(155,188,15,0.18); border-radius: 4px; padding: 14px 16px; }
@@ -43,6 +59,62 @@ a { color: #9bbc0f; }
         --rare: #e88855;
         --uncommon: #44aadd;
         --common: #5a9a3a;
+      }
+
+      /* === TYPOGRAPHIC SCALE === */
+      .page-title {
+        font-size: 1.6rem;
+        font-weight: bold;
+        letter-spacing: 0.12em;
+        color: #9bbc0f;
+        text-transform: uppercase;
+        text-align: left;
+        margin-bottom: 0.25rem;
+      }
+
+      .page-subtitle {
+        font-size: 0.75rem;
+        color: #5a9a3a;
+        letter-spacing: 0.05em;
+        margin-bottom: 1.5rem;
+      }
+
+      .section-title {
+        font-size: 0.75rem;
+        font-weight: bold;
+        letter-spacing: 0.1em;
+        color: #9bbc0f;
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+      }
+
+      .card-title {
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #9bbc0f;
+      }
+
+      .card-meta {
+        font-size: 0.72rem;
+        color: #5a9a3a;
+      }
+
+      .label-key {
+        font-size: 0.65rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #5a9a3a;
+      }
+
+      .value-large {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #9bbc0f;
+      }
+
+      .value-medium {
+        font-size: 1rem;
+        color: #9bbc0f;
       }
 
       .detail-shell {
@@ -108,6 +180,14 @@ a { color: #9bbc0f; }
       .developer-line {
         font-size: 12px;
         color: var(--text-soft);
+      }
+
+      .game-hero-canvas {
+        width: 100%;
+        height: 180px;
+        display: block;
+        margin: 1rem 0;
+        border: 1px solid #1a3a1a;
       }
 
       .price-panel {
@@ -475,6 +555,65 @@ a { color: #9bbc0f; }
           grid-template-columns: 1.5fr 1fr 0.8fr 0.8fr 0.9fr;
           font-size: 0.65rem;
         }
+      }
+
+      /* === RESPONSIVE — mobile 768px === */
+      @media (max-width: 768px) {
+
+        /* Grid: 2 columns → 1 column */
+        .games-grid,
+        .cards-grid,
+        .console-grid,
+        .stats-grid,
+        [class*="grid-2"],
+        [class*="two-col"] {
+          grid-template-columns: 1fr !important;
+        }
+
+        /* Filter bar: stack vertically */
+        .filter-bar,
+        .filter-row,
+        [class*="filter"] {
+          flex-direction: column !important;
+          gap: 0.5rem !important;
+        }
+
+        /* Inputs full width */
+        .filter-bar input,
+        .filter-bar select,
+        .filter-row input,
+        .filter-row select {
+          width: 100% !important;
+          box-sizing: border-box;
+        }
+
+        /* Min font-size for readability */
+        body { font-size: 16px; }
+        input, select, button { font-size: 16px; }
+
+        /* Price cards: stack vertically */
+        .price-cards,
+        .prices-row,
+        [class*="price-col"] {
+          flex-direction: column !important;
+        }
+
+        /* Stats cards: 1 column */
+        .stat-card,
+        .stats-row {
+          grid-template-columns: 1fr !important;
+        }
+
+        /* Breadcrumb: smaller */
+        .breadcrumb { font-size: 0.6rem; }
+
+        /* Page title: smaller */
+        .page-title { font-size: 1.2rem; }
+
+        /* Pagination: wrap */
+        #page-numbers { gap: 0.15rem; }
+        #page-numbers button { min-width: 24px; padding: 0.15rem 0.3rem; }
+
       }
 
 
