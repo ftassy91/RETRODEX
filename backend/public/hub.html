@@ -12,6 +12,7 @@
   <title>RetroDex — Hub</title>
   <link rel="stylesheet" href="/style.css">
   <style>
+    body { padding-bottom:24px; }
     .hub-hero { max-width:900px; margin:0 auto 32px; text-align:center; padding:32px 0 24px; border-bottom:1px solid rgba(155,188,15,0.15); }
     .hub-hero h1 { font-size:28px; color:#cfe66f; letter-spacing:0.12em; margin-bottom:8px; }
     .hub-hero .tagline { font-size:11px; color:rgba(155,188,15,0.5); margin-bottom:20px; }
@@ -32,7 +33,6 @@
     .coll-items { display:flex; gap:10px; flex-wrap:wrap; }
     .coll-pill { font-size:11px; padding:4px 10px; border:1px solid rgba(155,188,15,0.25); border-radius:3px; color:rgba(155,188,15,0.7); text-decoration:none; }
     .coll-empty { font-size:11px; color:rgba(155,188,15,0.3); }
-    #status-bar { max-width:900px; margin:0 auto 20px; font-size:11px; color:rgba(155,188,15,0.35); }
   </style>
 </head>
 <body>
@@ -46,7 +46,6 @@
       <div class="hub-stat"><span class="val" id="stat-meta">—</span><span class="lbl">METASCORE MOY.</span></div>
     </div>
   </div>
-  <div id="status-bar">Chargement...</div>
   <div class="section-title">Modules</div>
   <div class="modules-grid">
     <a href="/games-list.html" class="module-card">
@@ -88,13 +87,37 @@
     <a href="/about.html" class="btn">A propos</a>
     <a href="/api/health" class="btn" style="margin-left:8px">API health</a>
   </div>
+  <footer style="
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    padding: 4px 16px;
+    background: #050505;
+    border-top: 1px solid #1a3a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.65rem;
+    color: #306230;
+    z-index: 100;
+  ">
+    <span id="footer-status">RetroDex</span>
+    <span id="footer-db"></span>
+  </footer>
   <script>
     fetch('/api/stats').then(r=>r.json()).then(d=>{
       document.getElementById('stat-games').textContent=d.totals.games;
       document.getElementById('stat-consoles').textContent=d.totals.consoles;
       document.getElementById('stat-meta').textContent=d.totals.averageMetascore;
-      document.getElementById('status-bar').textContent='Backend OK — SQLite actif';
-    }).catch(()=>{ document.getElementById('status-bar').textContent='Erreur connexion backend'; });
+    }).catch(()=>{});
+    fetch('/api/health').then(r=>r.json()).then(data=>{
+      document.getElementById('footer-status').textContent =
+        data.ok ? 'Backend OK' : 'Backend offline';
+      document.getElementById('footer-db').textContent =
+        `SQLite · ${data.games || 0} jeux`;
+    }).catch(()=>{
+      document.getElementById('footer-status').textContent = 'Backend offline';
+      document.getElementById('footer-db').textContent = '';
+    });
     fetch('/api/collection').then(r=>r.json()).then(d=>{
       const items=d.items||[];
       document.getElementById('stat-collection').textContent=items.length;
