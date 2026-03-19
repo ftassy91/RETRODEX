@@ -557,4 +557,63 @@ a { color: #9bbc0f; }
         }
       }
 
+      /* === RESPONSIVE — mobile 768px === */
+      @media (max-width: 768px) {
+
+        /* Grid: 2 columns → 1 column */
+        .games-grid,
+        .cards-grid,
+        .console-grid,
+        .stats-grid,
+        [class*="grid-2"],
+        [class*="two-col"] {
+          grid-template-columns: 1fr !important;
+        }
+
+        /* Filter bar: stack vertically */
+        .filter-bar,
+        .filter-row,
+        [class*="filter"] {
+          flex-direction: column !important;
+          gap: 0.5rem !important;
+        }
+
+        /* Inputs full width */
+        .filter-bar input,
+        .filter-bar select,
+        .filter-row input,
+        .filter-row select {
+          width: 100% !important;
+          box-sizing: border-box;
+        }
+
+        /* Min font-size for readability */
+        body { font-size: 16px; }
+        input, select, button { font-size: 16px; }
+
+        /* Price cards: stack vertically */
+        .price-cards,
+        .prices-row,
+        [class*="price-col"] {
+          flex-direction: column !important;
+        }
+
+        /* Stats cards: 1 column */
+        .stat-card,
+        .stats-row {
+          grid-template-columns: 1fr !important;
+        }
+
+        /* Breadcrumb: smaller */
+        .breadcrumb { font-size: 0.6rem; }
+
+        /* Page title: smaller */
+        .page-title { font-size: 1.2rem; }
+
+        /* Pagination: wrap */
+        #page-numbers { gap: 0.15rem; }
+        #page-numbers button { min-width: 24px; padding: 0.15rem 0.3rem; }
+
+      }
+
 
