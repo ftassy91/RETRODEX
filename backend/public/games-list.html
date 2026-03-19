@@ -102,6 +102,14 @@
           </div>
         </div>
 
+        <button id="toggle-advanced"
+          type="button"
+          onclick="toggleAdvanced()"
+          style="background:none;border:1px solid #306230;color:#5a9a3a;padding:0.3rem 0.75rem;font-size:0.7rem;cursor:pointer;margin-top:0.5rem;align-self:flex-start;">
+          + Filtres avancés
+        </button>
+
+        <div id="advanced-filters" style="display:none;">
         <div class="filter-grid">
           <div class="field">
             <label for="genre">Genre</label>
@@ -139,6 +147,8 @@
               <option value="year_desc">Year ↓</option>
             </select>
           </div>
+        </div>
+
         </div>
 
         <div class="search-actions">
@@ -180,6 +190,8 @@
       const prevButtonEl = document.getElementById("prev-button");
       const nextButtonEl = document.getElementById("next-button");
       const subtitleEl = document.getElementById("catalog-subtitle");
+      const advancedFiltersEl = document.getElementById("advanced-filters");
+      const toggleAdvancedEl = document.getElementById("toggle-advanced");
 
       let debounceTimer;
       let currentOffset = 0;
@@ -282,6 +294,15 @@
       function yearVal(value) {
         const year = Number.parseInt(String(value || ""), 10);
         return Number.isFinite(year) ? Math.max(1970, Math.min(2012, year)) : "";
+      }
+
+      function toggleAdvanced(forceOpen) {
+        const open = typeof forceOpen === "boolean"
+          ? forceOpen
+          : advancedFiltersEl.style.display === "none";
+
+        advancedFiltersEl.style.display = open ? "block" : "none";
+        toggleAdvancedEl.textContent = open ? "− Filtres avancés" : "+ Filtres avancés";
       }
 
       async function fetchJson(url) {
@@ -614,6 +635,7 @@
         sortEl.value = "title_asc";
         limitEl.value = "20";
         currentOffset = 0;
+        toggleAdvanced(false);
         loadGames();
       }
 
@@ -707,6 +729,15 @@
       });
 
       readStateFromUrl();
+      window.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const hasAdv = params.get("genre")
+          || params.get("yearMin")
+          || params.get("yearMax")
+          || params.get("trend")
+          || (params.get("sort") && params.get("sort") !== "title_asc");
+        if (hasAdv) toggleAdvanced(true);
+      });
       Promise.all([loadConsoles(), loadMeta()])
         .then(() => loadGames())
         .catch((error) => {
