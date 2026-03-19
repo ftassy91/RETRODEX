@@ -5,10 +5,10 @@ Hub centralise pour collectionneurs de jeux video retro.
 ## Lancement rapide
 
 Backend (port 3000):
-  run_backend.bat  ou  cd backend && node server.js
+  run_backend.bat  ou  cd backend && node src/server.js
 
 Frontend (port 8080):
-  run_frontend.bat  ou  cd frontend && python -m http.server 8080
+  run_frontend.bat  ou  npx http-server frontend -p 8080
 
 URLs:
   Hub         : http://localhost:3000/hub.html

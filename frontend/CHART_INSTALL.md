@@ -6,7 +6,7 @@ Pour que les graphiques fonctionnent sans connexion internet :
    https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js
 
 2. Enregistre le fichier ici :
-   RETRODEXseedV0/prototype_v0/js/vendors/chart.min.js
+   frontend/js/vendors/chart.min.js
 
 3. Dans index.html, remplace cette ligne :
    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/..."></script>

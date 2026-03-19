@@ -13,11 +13,11 @@ Set oFSO   = CreateObject("Scripting.FileSystemObject")
 ' === 1. Chemin frontend canonique ===
 Dim sRoot
 sRoot = oFSO.GetParentFolderName(WScript.ScriptFullName)
-sFrontend = sRoot & "\RETRODEXseedV0\prototype_v0"
+sFrontend = sRoot & "\frontend"
 
 If Not oFSO.FolderExists(sFrontend) Then
     MsgBox "Dossier frontend introuvable." & vbCrLf & _
-           "Chemin attendu : RETRODEXseedV0\prototype_v0", _
+           "Chemin attendu : frontend", _
            vbCritical, "RetroDex Frontend"
     WScript.Quit 1
 End If

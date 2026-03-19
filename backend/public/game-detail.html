@@ -44,8 +44,27 @@
       <section class="collection-card">
         <h2>Collection</h2>
         <div class="collection-row">
-          <div id="collection-state" class="collection-state">Chargement...</div>
+          <div>
+            <div id="collection-state" class="collection-state">Chargement...</div>
+            <div id="collection-current-meta" class="collection-current-meta"></div>
+          </div>
           <button id="collection-button" type="button" class="btn" disabled>Chargement...</button>
+        </div>
+        <div id="collection-form" class="collection-form">
+          <div class="collection-controls">
+            <select id="collection-condition" class="collection-condition-select" aria-label="État du jeu">
+              <option value="Loose">Loose</option>
+              <option value="CIB">CIB</option>
+              <option value="Mint">Mint</option>
+            </select>
+          </div>
+          <input
+            id="collection-notes"
+            class="collection-note-input"
+            type="text"
+            maxlength="160"
+            placeholder="Notes optionnelles..."
+          />
         </div>
         <div id="collection-status" class="status-text"></div>
       </section>
@@ -61,7 +80,11 @@
       const summaryEl = document.getElementById("summary");
       const statsRowEl = document.getElementById("stats-row");
       const collectionStateEl = document.getElementById("collection-state");
+      const collectionCurrentMetaEl = document.getElementById("collection-current-meta");
       const collectionButtonEl = document.getElementById("collection-button");
+      const collectionFormEl = document.getElementById("collection-form");
+      const collectionConditionEl = document.getElementById("collection-condition");
+      const collectionNotesEl = document.getElementById("collection-notes");
       const collectionStatusEl = document.getElementById("collection-status");
       const similarGamesEl = document.getElementById("similar-games");
       const catalogBackLinkEl = document.getElementById("catalog-back-link");
@@ -87,6 +110,11 @@
 
       function rarityClass(value) {
         return String(value || "COMMON").toLowerCase();
+      }
+
+      function conditionClass(value) {
+        const normalized = String(value || "Loose").toLowerCase();
+        return normalized === "mint" ? "mint" : normalized === "cib" ? "cib" : "loose";
       }
 
       function getGameId() {
@@ -284,15 +312,24 @@
           currentCollectionItem = (payload.items || []).find((item) => item.gameId === currentGame.id) || null;
           if (currentCollectionItem) {
             collectionStateEl.textContent = "Dans votre collection ✓";
+            collectionCurrentMetaEl.innerHTML = `
+              <span class="condition-badge condition-${escapeHtml(conditionClass(currentCollectionItem.condition))}">${escapeHtml(currentCollectionItem.condition || "Loose")}</span>
+              ${currentCollectionItem.notes ? `<span class="collection-note-text">${escapeHtml(currentCollectionItem.notes)}</span>` : ""}
+            `;
+            collectionFormEl.hidden = true;
             collectionButtonEl.textContent = "Retirer";
             collectionButtonEl.disabled = false;
           } else {
             collectionStateEl.textContent = "Ce jeu n'est pas encore dans votre collection.";
+            collectionCurrentMetaEl.innerHTML = "";
+            collectionFormEl.hidden = false;
             collectionButtonEl.textContent = "Ajouter à ma collection";
             collectionButtonEl.disabled = false;
           }
         } catch (error) {
           collectionStateEl.textContent = `Impossible de charger la collection (${error.message}).`;
+          collectionCurrentMetaEl.innerHTML = "";
+          collectionFormEl.hidden = false;
           collectionButtonEl.disabled = true;
         }
       }
@@ -312,12 +349,18 @@
             });
             collectionStatusEl.textContent = "Jeu retiré de votre collection.";
           } else {
+            const condition = collectionConditionEl?.value || "Loose";
+            const notes = collectionNotesEl?.value?.trim() || null;
             await fetchJson("/api/collection", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ gameId: currentGame.id }),
+              body: JSON.stringify({
+                gameId: currentGame.id,
+                condition,
+                notes,
+              }),
             });
             collectionStatusEl.textContent = "Jeu ajouté à votre collection.";
           }

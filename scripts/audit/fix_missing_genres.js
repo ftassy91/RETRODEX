@@ -7,16 +7,8 @@ const vm = require("vm");
 const { DatabaseSync } = require("node:sqlite");
 
 const ROOT = path.resolve(__dirname, "..", "..");
-const DEFAULT_DB_PATH = path.resolve(
-  ROOT,
-  "..",
-  "RETRODEX VERSION OK",
-  "retrodex_v2_checkpoint_20260313_1722",
-  "backend",
-  "storage",
-  "retrodex.sqlite",
-);
-const UTILS_PATH = path.join(ROOT, "RETRODEXseedV0", "prototype_v0", "js", "utils.js");
+const DEFAULT_DB_PATH = path.join(ROOT, "backend", "storage", "retrodex.sqlite");
+const UTILS_PATH = path.join(ROOT, "frontend", "js", "utils.js");
 
 function loadEnvFile() {
   const envPath = path.join(ROOT, ".env");
