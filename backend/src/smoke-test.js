@@ -76,7 +76,7 @@ async function main() {
       condition: "Loose",
       notes: "Smoke test insert",
     });
-    createdCollectionItemId = createdCollectionItem.item?.id ?? null;
+    createdCollectionItemId = createdCollectionItem.item?.id ?? createdCollectionItem.item?.gameId ?? null;
     const collectionAfter = await fetchJson(`${baseUrl}/api/collection`);
     const deletedCollectionItem = await deleteJson(
       `${baseUrl}/api/collection/${createdCollectionItemId}`
