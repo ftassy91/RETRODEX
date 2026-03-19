@@ -60,8 +60,7 @@
       }
 
       .summary-card,
-      .collection-card,
-      .value-footer {
+      .collection-card {
         background: var(--panel-bg);
         border: 1px solid var(--panel-line);
         border-radius: 6px;
@@ -164,11 +163,6 @@
         margin-bottom: 16px;
       }
 
-      .value-footer {
-        font-size: 12px;
-        color: var(--text-soft);
-      }
-
       .status-text {
         font-size: 11px;
         color: var(--text-faint);
@@ -213,7 +207,6 @@
 
       <section id="collection-content"></section>
 
-      <section class="value-footer" id="value-footer">Valeur totale Loose : — · Valeur Mint : —</section>
     </main>
 
     <script>
@@ -222,8 +215,6 @@
       const totalMintEl = document.getElementById("total-mint");
       const statusTextEl = document.getElementById("status-text");
       const collectionContentEl = document.getElementById("collection-content");
-      const valueFooterEl = document.getElementById("value-footer");
-
       let enrichedItems = [];
 
       function escapeHtml(value) {
@@ -267,13 +258,13 @@
         totalItemsEl.textContent = String(totals.count);
         totalLooseEl.textContent = formatCurrency(totals.loose);
         totalMintEl.textContent = formatCurrency(totals.mint);
-        valueFooterEl.textContent = `Valeur totale Loose : ${formatCurrency(totals.loose)} · Valeur Mint : ${formatCurrency(totals.mint)}`;
       }
 
       function renderEmptyState() {
         collectionContentEl.innerHTML = `
           <div class="empty-state">
-            <p>Votre collection est vide. Ajoutez des jeux depuis les fiches.</p>
+            <p>Votre collection est vide.</p>
+            <p>Parcourez le catalogue pour ajouter vos premiers jeux.</p>
             <a href="/games-list.html" class="btn">Parcourir le catalogue →</a>
           </div>
         `;
@@ -320,7 +311,7 @@
             enrichedItems = [];
             updateSummary(enrichedItems);
             renderEmptyState();
-            statusTextEl.textContent = "Aucun jeu dans la collection.";
+            statusTextEl.textContent = "";
             return;
           }
 

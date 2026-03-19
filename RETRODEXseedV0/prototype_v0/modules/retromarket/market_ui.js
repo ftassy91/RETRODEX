@@ -326,11 +326,8 @@ const RETROMARKET_UI = (() => {
     const target = document.getElementById('rm-footerline');
     if (!target || !record) return;
     target.innerHTML = `
-      <span>SCREENS : 1 SEARCH | 2 MARKET | 3 CHART | 4 INSIGHTS</span>
       <span>SEARCH : /</span>
-      <span>ENTER : PICK TOP RESULT</span>
-      <span>RAND : R</span>
-      <span>MINT LEADER : H</span>
+      <span>ENTER : PICK RESULT</span>
       <span>STATUS : ${esc(record.verificationStatus.toUpperCase())}</span>
     `;
   }

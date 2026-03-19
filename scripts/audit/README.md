@@ -1,9 +1,9 @@
-# Audit Scripts
+# scripts/audit — Validation et audit SQLite
 
-This directory contains repository audit and checkpoint helpers.
+Scripts de contrôle qualité du catalogue. Tous en lecture seule
+sauf fix_missing_genres.js.
 
-Current utility:
-
-- `write_checkpoint.py`
-  - writes a checkpoint JSON file
-  - appends the same entry to the audit log
+validate_all.js       — 4 checks qualité, exit 0/1. Lancer en premier.
+audit_games.js        — rapport complet du catalogue SQLite
+fix_missing_genres.js — correction genres manquants (modifie SQLite)
+validate_all.js doit passer avant tout autre script.
