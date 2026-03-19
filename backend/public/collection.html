@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="RetroDex">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
-    <title>RetroDex — Ma collection</title>
+    <title>RetroDex - Ma collection</title>
     <link rel="stylesheet" href="/style.css" />
     <style>
       :root {
@@ -19,11 +19,6 @@
         --text-strong: #cfe66f;
         --text-soft: rgba(155, 188, 15, 0.62);
         --text-faint: rgba(155, 188, 15, 0.4);
-        --legendary: #ffd700;
-        --epic: #9b59b6;
-        --rare: #e74c3c;
-        --uncommon: rgba(155, 188, 15, 0.6);
-        --common: rgba(155, 188, 15, 0.18);
       }
 
       .collection-shell {
@@ -34,23 +29,10 @@
         gap: 16px;
       }
 
-      .top-nav {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-
       .page-header {
         max-width: 1100px;
         margin: 0 auto;
         padding-bottom: 14px;
-      }
-
-      .page-header h1 {
-        font-size: 26px;
-        color: var(--text-strong);
-        letter-spacing: 0.12em;
-        margin-bottom: 6px;
       }
 
       .summary-bar {
@@ -100,6 +82,13 @@
         gap: 10px;
       }
 
+      .title-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
       .card-title {
         font-size: 15px;
         color: var(--text-strong);
@@ -116,23 +105,11 @@
         color: var(--text-soft);
       }
 
-      .rarity-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 10px;
-        border-radius: 999px;
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        border: 1px solid currentColor;
-        background: rgba(10, 10, 10, 0.35);
+      .note-row {
+        font-size: 12px;
+        color: var(--text-soft);
+        line-height: 1.5;
       }
-
-      .rarity-badge.legendary { color: var(--legendary); }
-      .rarity-badge.epic { color: var(--epic); }
-      .rarity-badge.rare { color: var(--rare); }
-      .rarity-badge.uncommon { color: rgba(155, 188, 15, 0.9); }
-      .rarity-badge.common { color: rgba(155, 188, 15, 0.65); }
 
       .price-row {
         font-size: 11px;
@@ -179,13 +156,14 @@
   </head>
   <body>
     <main class="collection-shell">
-      <nav class="top-nav">
-        <a href="/hub.html" class="btn">← Hub</a>
-        <a href="/games-list.html" class="btn">← Catalogue</a>
+      <nav class="breadcrumb">
+        <a href="/hub.html">HUB</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="current">MA COLLECTION</span>
       </nav>
 
       <header class="page-header">
-        <h1>MA COLLECTION</h1>
+        <h1 class="page-title">MA COLLECTION</h1>
       </header>
 
       <section class="summary-bar">
@@ -206,7 +184,6 @@
       <div id="status-text" class="status-text">Chargement...</div>
 
       <section id="collection-content"></section>
-
     </main>
 
     <script>
@@ -233,6 +210,11 @@
 
       function rarityClass(value) {
         return String(value || "COMMON").toLowerCase();
+      }
+
+      function conditionClass(value) {
+        const normalized = String(value || "Loose").toLowerCase();
+        return normalized === "mint" ? "mint" : normalized === "cib" ? "cib" : "loose";
       }
 
       async function fetchJson(url, options) {
@@ -263,9 +245,8 @@
       function renderEmptyState() {
         collectionContentEl.innerHTML = `
           <div class="empty-state">
-            <p>Votre collection est vide.</p>
-            <p>Parcourez le catalogue pour ajouter vos premiers jeux.</p>
-            <a href="/games-list.html" class="btn">Parcourir le catalogue →</a>
+            <p>Aucun jeu &mdash; ajoutez-en depuis une fiche</p>
+            <a href="/games-list.html" class="btn">Parcourir le catalogue &rarr;</a>
           </div>
         `;
       }
@@ -282,10 +263,14 @@
               <article class="collection-card" data-item-id="${escapeHtml(item.id)}">
                 <div class="card-head">
                   <div>
-                    <a class="card-title" href="/game-detail.html?id=${encodeURIComponent(item.game.id)}">${escapeHtml(item.game.title)}</a>
-                    <div class="card-subtitle">${escapeHtml(item.game.console || "Console inconnue")} · ${escapeHtml(item.game.year || "n/a")}</div>
+                    <div class="title-row">
+                      <a class="card-title" href="/game-detail.html?id=${encodeURIComponent(item.game.id)}">${escapeHtml(item.game.title)}</a>
+                      <span class="condition-badge condition-${escapeHtml(conditionClass(item.condition))}">${escapeHtml(item.condition || "Loose")}</span>
+                    </div>
+                    <div class="card-subtitle">${escapeHtml(item.game.platform || item.game.console || "Console inconnue")} · ${escapeHtml(item.game.year || "n/a")}</div>
+                    ${item.notes ? `<div class="note-row">${escapeHtml(item.notes)}</div>` : ""}
                   </div>
-                  <span class="rarity-badge ${escapeHtml(rarityClass(item.game.rarity))}">${escapeHtml(item.game.rarity || "COMMON")}</span>
+                  <span class="rarity-badge rarity-${escapeHtml(rarityClass(item.game.rarity))}">${escapeHtml(item.game.rarity || "COMMON")}</span>
                 </div>
                 <div class="price-row">
                   Loose ${escapeHtml(formatCurrency(item.game.loosePrice))} · CIB ${escapeHtml(formatCurrency(item.game.cibPrice))} · Mint ${escapeHtml(formatCurrency(item.game.mintPrice))}
@@ -315,14 +300,7 @@
             return;
           }
 
-          const details = await Promise.all(
-            items.map(async (item) => {
-              const game = await fetchJson(`/api/games/${encodeURIComponent(item.gameId)}`);
-              return { ...item, game };
-            }),
-          );
-
-          enrichedItems = details;
+          enrichedItems = items.filter((item) => item.game);
           updateSummary(enrichedItems);
           renderCollection(enrichedItems);
           statusTextEl.textContent = `${enrichedItems.length} jeu(x) dans votre collection.`;

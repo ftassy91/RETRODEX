@@ -7,7 +7,7 @@ function readJsonFile(filePath) {
 
 function resolveDataRoot() {
   const projectRoot = path.resolve(__dirname, "..", "..");
-  const dataRoot = path.join(projectRoot, "RETRODEXseedV0", "prototype_v0", "data");
+  const dataRoot = path.join(projectRoot, "frontend", "data");
 
   if (!fs.existsSync(dataRoot)) {
     throw new Error(`RetroDex data directory not found: ${dataRoot}`);

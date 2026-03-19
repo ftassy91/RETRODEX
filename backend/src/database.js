@@ -1,11 +1,7 @@
-const path = require("path");
 const sequelize = require("../config/database");
+const { resolveSqlitePath } = require("../config/database");
 
-const configuredSqlitePath = process.env.RETRODEX_SQLITE_PATH
-  || path.resolve(__dirname, "../../backend/storage/retrodex.sqlite");
-const storagePath = path.isAbsolute(configuredSqlitePath)
-  ? configuredSqlitePath
-  : path.resolve(__dirname, "..", "..", configuredSqlitePath);
+const storagePath = resolveSqlitePath();
 const postgresSchema = process.env.PGSCHEMA || "";
 const databaseMode = process.env.DATABASE_URL ? "postgres" : "sqlite";
 const databaseTarget = process.env.DATABASE_URL

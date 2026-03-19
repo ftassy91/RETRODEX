@@ -8,26 +8,31 @@ const CollectionItem = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       primaryKey: true,
+      field: "gameId",
     },
     addedAt: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
+      field: "addedAt",
     },
     condition: {
       type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "LOOSE",
+      allowNull: true,
+      defaultValue: "Loose",
+      field: "condition",
     },
     notes: {
       type: DataTypes.TEXT,
-      allowNull: false,
-      defaultValue: "",
+      allowNull: true,
+      defaultValue: null,
+      field: "notes",
     },
   },
   {
     tableName: "collection_items",
     timestamps: false,
+    underscored: false,
   }
 );
 
