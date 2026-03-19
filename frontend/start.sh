@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Starting RETRODEX prototype_v0..."
+echo "Starting RetroDex frontend..."
 cd "$(dirname "$0")"
 python3 -m http.server 8080 &
 sleep 1

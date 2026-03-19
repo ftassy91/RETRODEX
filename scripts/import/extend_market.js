@@ -7,18 +7,11 @@ const { DatabaseSync } = require("node:sqlite");
 
 const ROOT = path.resolve(__dirname, "..", "..");
 const OUTPUT_PATH = path.join(ROOT, "data", "market_candidates.json");
-const PRICES_PATH = path.join(ROOT, "RETRODEXseedV0", "prototype_v0", "data", "prices.json");
-const MARKET_SALES_PATH = path.join(ROOT, "RETRODEXseedV0", "prototype_v0", "data", "market_sales.js");
-const MARKET_HISTORY_PATH = path.join(ROOT, "RETRODEXseedV0", "prototype_v0", "data", "market_history.js");
-const DEFAULT_DB_PATH = path.resolve(
-  ROOT,
-  "..",
-  "RETRODEX VERSION OK",
-  "retrodex_v2_checkpoint_20260313_1722",
-  "backend",
-  "storage",
-  "retrodex.sqlite",
-);
+const FRONTEND_DATA_ROOT = path.join(ROOT, "frontend", "data");
+const PRICES_PATH = path.join(FRONTEND_DATA_ROOT, "prices.json");
+const MARKET_SALES_PATH = path.join(FRONTEND_DATA_ROOT, "market_sales.js");
+const MARKET_HISTORY_PATH = path.join(FRONTEND_DATA_ROOT, "market_history.js");
+const DEFAULT_DB_PATH = path.join(ROOT, "backend", "storage", "retrodex.sqlite");
 
 function loadEnvFile() {
   const envPath = path.join(ROOT, ".env");

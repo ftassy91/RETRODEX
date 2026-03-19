@@ -43,20 +43,24 @@ const Game = sequelize.define(
     loosePrice: {
       type: DataTypes.FLOAT,
       allowNull: true,
+      field: "loose_price",
     },
     cibPrice: {
       type: DataTypes.FLOAT,
       allowNull: true,
+      field: "cib_price",
     },
     mintPrice: {
       type: DataTypes.FLOAT,
       allowNull: true,
+      field: "mint_price",
     },
   },
   {
     tableName: "games",
+    timestamps: false,
+    underscored: false,
   }
 );
 
 module.exports = Game;
-
