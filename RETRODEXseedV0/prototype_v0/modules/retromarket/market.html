@@ -17,10 +17,10 @@
       --panel-bg: rgba(9, 24, 16, 0.82);
       --panel-border: rgba(181, 209, 166, 0.16);
       --panel-glow: rgba(155, 188, 15, 0.09);
-      --screen-left: 19.55%;
-      --screen-top: 14.45%;
-      --screen-width: 56.05%;
-      --screen-height: 58.95%;
+      --screen-left: 27.8%;
+      --screen-top: 17.9%;
+      --screen-width: 45.4%;
+      --screen-height: 46.2%;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -122,6 +122,7 @@
       position: relative;
       width: min(1200px, 96vw);
       margin: 0 auto;
+      isolation: isolate;
     }
 
     .rm-template {
@@ -132,6 +133,8 @@
       object-position: center;
       user-select: none;
       pointer-events: none;
+      position: relative;
+      z-index: 2;
     }
 
     .rm-screen {
@@ -141,15 +144,16 @@
       width: var(--screen-width);
       height: var(--screen-height);
       overflow: hidden;
-      border-radius: 13% / 12%;
+      border-radius: 11.5% / 12.5%;
+      z-index: 1;
       background:
         radial-gradient(circle at 50% 52%, rgba(155, 188, 15, 0.11), rgba(15, 56, 15, 0.12) 58%, rgba(4, 10, 7, 0.58) 100%),
         linear-gradient(180deg, rgba(155, 188, 15, 0.08), rgba(15, 56, 15, 0.24)),
         var(--dmg-0);
       box-shadow:
-        inset 0 0 0 1px rgba(181, 209, 166, 0.08),
-        inset 0 0 26px rgba(139, 172, 15, 0.12),
-        inset 0 0 80px rgba(0, 0, 0, 0.24);
+        inset 0 0 0 1px rgba(181, 209, 166, 0.04),
+        inset 0 0 18px rgba(139, 172, 15, 0.08),
+        inset 0 0 52px rgba(0, 0, 0, 0.18);
     }
 
     .rm-screen::before {
@@ -182,8 +186,8 @@
 
     .rm-safezone {
       position: absolute;
-      inset: 0.28% 0.5% 0.45% 0.5%;
-      border-radius: 12.8% / 11.8%;
+      inset: 0;
+      border-radius: inherit;
       overflow: hidden;
     }
 
@@ -191,10 +195,10 @@
       position: relative;
       width: 100%;
       height: 100%;
-      padding: 6px;
+      padding: 4px;
       display: grid;
       grid-template-rows: auto minmax(0, 1fr) auto;
-      gap: 5px;
+      gap: 4px;
       background:
         linear-gradient(180deg, rgba(15, 56, 15, 0.24), rgba(7, 20, 15, 0.18)),
         transparent;
@@ -282,7 +286,7 @@
     }
 
     .rm-screen-nav {
-      padding: 2px;
+      padding: 1px;
     }
 
     .rm-screen-tabs {
@@ -295,9 +299,9 @@
       border: 1px solid rgba(181, 209, 166, 0.16);
       background: rgba(7, 20, 15, 0.78);
       color: rgba(230, 242, 216, 0.76);
-      font: clamp(11px, 0.86vw, 14px) "VT323", monospace;
+      font: clamp(10px, 0.82vw, 13px) "VT323", monospace;
       letter-spacing: 0.04em;
-      padding: 4px 5px;
+      padding: 3px 4px;
       cursor: pointer;
     }
 
@@ -820,12 +824,12 @@
     .rm-footerline {
       border: 1px solid rgba(181, 209, 166, 0.1);
       background: rgba(7, 20, 15, 0.76);
-      padding: 4px 6px;
+      padding: 3px 6px;
       display: flex;
       justify-content: space-between;
-      gap: 8px;
+      gap: 12px;
       flex-wrap: wrap;
-      font-size: clamp(11px, 0.86vw, 13px);
+      font-size: clamp(10px, 0.8vw, 12px);
       line-height: 1;
       color: rgba(230, 242, 216, 0.76);
     }
@@ -922,7 +926,6 @@
   </div>
 
   <div class="rm-frame">
-    <img class="rm-template" src="../../assets/img/retromarket-template.png" alt="">
     <div class="rm-screen">
       <div class="rm-safezone">
         <div class="rm-terminal">
@@ -963,6 +966,7 @@
         </div>
       </div>
     </div>
+    <img class="rm-template" src="../../assets/img/retromarket-template-overlay.png" alt="">
   </div>
 
   <script src="../../data/catalog.js"></script>
