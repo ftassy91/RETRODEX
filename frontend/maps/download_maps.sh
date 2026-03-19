@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # RETRODEX - Download game maps
 # Sources: ian-albert.com, VGMaps.com (public domain / personal use)
-# Run from the maps directory: cd RETRODEXseedV0/prototype_v0/maps && bash download_maps.sh
+# Run from the maps directory: cd frontend/maps && bash download_maps.sh
 
 set -e
 cd "$(dirname "$0")"

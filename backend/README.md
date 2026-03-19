@@ -8,9 +8,9 @@ RetroDex existantes.
 - utilise `Express` pour exposer des routes simples
 - utilise `Sequelize` avec `SQLite`
 - recharge les donnees depuis :
-  - `RETRODEXseedV0/prototype_v0/data/catalog.json`
-  - `RETRODEXseedV0/prototype_v0/data/entries.json`
-  - `RETRODEXseedV0/prototype_v0/data/prices.json`
+  - `frontend/data/catalog.json`
+  - `frontend/data/entries.json`
+  - `frontend/data/prices.json`
 - stocke une copie locale dans `backend/storage/retrodex.sqlite`
 - garde les donnees SQLite entre deux redemarrages
 - ne reseed pas au boot si la base contient deja des jeux
@@ -67,7 +67,7 @@ RetroDex existantes.
 ## Demarrage
 
 ```powershell
-cd "C:\Users\ftass\OneDrive\Bureau\RETRODEXseed\backend"
+cd backend
 Copy-Item .env.example .env
 npm install
 npm start
@@ -221,7 +221,7 @@ Elle permet de :
 
 Elle est volontairement simple pour rester lisible par un debutant.
 
-Le fichier `RETRODEXseedV0/prototype_v0/debug.html` reste volontairement plus leger :
+Le fichier `frontend/debug.html` reste volontairement plus leger :
 
 - il sert de pont statique/backend
 - il peut comparer les donnees
@@ -245,7 +245,7 @@ Elle permet de :
 Cette page est volontairement separee du prototype principal :
 
 - elle sert juste a prouver que le backend peut etre consomme
-- elle ne remplace pas `RETRODEXseedV0/prototype_v0/index.html`
+- elle ne remplace pas `frontend/index.html`
 
 ## Consoles beginner
 
