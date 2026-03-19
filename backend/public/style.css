@@ -59,6 +59,9 @@ a { color: #9bbc0f; }
         --rare: #e88855;
         --uncommon: #44aadd;
         --common: #5a9a3a;
+        --condition-loose: #888888;
+        --condition-cib: #4ecdc4;
+        --condition-mint: #ffd700;
       }
 
       /* === TYPOGRAPHIC SCALE === */
@@ -575,18 +578,18 @@ a { color: #9bbc0f; }
       }
 
       .condition-loose {
-        color: #9aa18c;
-        border-color: #9aa18c;
+        color: var(--condition-loose);
+        border-color: var(--condition-loose);
       }
 
       .condition-cib {
-        color: #44aadd;
-        border-color: #44aadd;
+        color: var(--condition-cib);
+        border-color: var(--condition-cib);
       }
 
       .condition-mint {
-        color: #ddc420;
-        border-color: #ddc420;
+        color: var(--condition-mint);
+        border-color: var(--condition-mint);
       }
 
       .collection-note-text {
