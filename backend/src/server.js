@@ -542,8 +542,12 @@ app.get("/api/stats", handleAsync(async (_req, res) => {
   ]);
 
   const gamesById = new Map(games.map((game) => [game.id, game]));
-  const collectionByConsole = new Map();
   const catalogueByConsole = new Map();
+  const conditionBreakdown = {
+    Loose: 0,
+    CIB: 0,
+    Mint: 0,
+  };
   let pricedGames = 0;
   let metascoreSum = 0;
   let metascoreCount = 0;
@@ -563,9 +567,8 @@ app.get("/api/stats", handleAsync(async (_req, res) => {
   }
 
   for (const item of collectionItems) {
-    const game = gamesById.get(item.gameId);
-    const consoleName = game?.console || "Unknown";
-    collectionByConsole.set(consoleName, (collectionByConsole.get(consoleName) || 0) + 1);
+    const normalizedCondition = normalizeCollectionCondition(item.condition) || "Loose";
+    conditionBreakdown[normalizedCondition] += 1;
   }
 
   return res.json({
@@ -576,6 +579,7 @@ app.get("/api/stats", handleAsync(async (_req, res) => {
       pricedGames,
       averageMetascore: metascoreCount ? Number((metascoreSum / metascoreCount).toFixed(1)) : 0,
     },
+    conditionBreakdown,
     topConsoles: Array.from(catalogueByConsole.entries())
       .map(([name, gamesCount]) => ({ name, gamesCount }))
       .sort((left, right) => right.gamesCount - left.gamesCount || left.name.localeCompare(right.name)),
