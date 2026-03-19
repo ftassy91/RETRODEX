@@ -164,6 +164,11 @@
 
       <section id="results" class="results-grid"></section>
 
+      <div id="page-numbers" style="
+        display:flex;flex-wrap:wrap;gap:0.25rem;
+        justify-content:center;margin:1rem 0;
+      "></div>
+
       <section class="pagination-bar">
         <button id="prev-button" type="button" class="btn">Previous</button>
         <div id="page-indicator" class="page-indicator">Page 1 of 1</div>
@@ -186,6 +191,7 @@
       const resultsSummaryEl = document.getElementById("results-summary");
       const loadingIndicatorEl = document.getElementById("loading-indicator");
       const resultsEl = document.getElementById("results");
+      const pageNumbersEl = document.getElementById("page-numbers");
       const pageIndicatorEl = document.getElementById("page-indicator");
       const prevButtonEl = document.getElementById("prev-button");
       const nextButtonEl = document.getElementById("next-button");
@@ -303,6 +309,59 @@
 
         advancedFiltersEl.style.display = open ? "block" : "none";
         toggleAdvancedEl.textContent = open ? "− Filtres avancés" : "+ Filtres avancés";
+      }
+
+      function goToPage(page) {
+        const limit = Number.parseInt(document.getElementById("limit")?.value || "20", 10) || 20;
+        currentOffset = Math.max(0, (page - 1) * limit);
+        loadGames();
+        window.scrollTo(0, 0);
+      }
+
+      function renderPageNumbers(currentPage, totalPages) {
+        if (!pageNumbersEl) return;
+
+        if (totalPages <= 1) {
+          pageNumbersEl.innerHTML = "";
+          return;
+        }
+
+        pageNumbersEl.innerHTML = "";
+        let pages = [];
+
+        if (totalPages <= 7) {
+          pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+        } else {
+          pages = [1, 2];
+          if (currentPage > 4) pages.push("...");
+          for (let page = Math.max(3, currentPage - 1); page <= Math.min(totalPages - 2, currentPage + 1); page++) {
+            pages.push(page);
+          }
+          if (currentPage < totalPages - 3) pages.push("...");
+          pages.push(totalPages - 1, totalPages);
+        }
+
+        pages.forEach((page) => {
+          if (page === "...") {
+            const span = document.createElement("span");
+            span.textContent = "...";
+            span.style.cssText = "color:#306230;padding:0 0.25rem;";
+            pageNumbersEl.appendChild(span);
+            return;
+          }
+
+          const btn = document.createElement("button");
+          btn.textContent = page;
+          btn.style.cssText = `
+            background:${page === currentPage ? "#0a1a0a" : "none"};
+            border:1px solid ${page === currentPage ? "#9bbc0f" : "#306230"};
+            color:${page === currentPage ? "#9bbc0f" : "#5a9a3a"};
+            padding:0.2rem 0.5rem;font-size:0.7rem;cursor:pointer;
+            min-width:28px;
+          `;
+          btn.onclick = () => goToPage(page);
+          pageNumbersEl.appendChild(btn);
+        });
       }
 
       async function fetchJson(url) {
@@ -489,6 +548,7 @@
       function renderEmpty(currentState) {
         const picks = suggestions();
         const suffix = currentState.q ? ` pour &laquo;${esc(currentState.q)}&raquo;.` : ".";
+        renderPageNumbers(1, 1);
 
         resultsEl.innerHTML = `<div class="empty-state">
           <div><strong>Aucun jeu trouve${suffix}</strong></div>
@@ -535,6 +595,7 @@
         pageIndicatorEl.textContent = `Page ${page} of ${totalPages}`;
         prevButtonEl.disabled = start <= 0;
         nextButtonEl.disabled = end >= total;
+        renderPageNumbers(page, totalPages);
 
         if (!pageItems.length) {
           renderEmpty(currentState);
