@@ -236,8 +236,6 @@
         <p>Vue globale du catalogue</p>
       </header>
 
-      <div id="status-text" class="status-text">Chargement...</div>
-
       <section class="hero-stats">
         <article class="hero-card"><span class="label">Total jeux</span><span class="value" id="games-total">—</span></article>
         <article class="hero-card"><span class="label">Consoles</span><span class="value" id="consoles-total">—</span></article>
@@ -262,7 +260,6 @@
     </main>
 
     <script>
-      const statusTextEl = document.getElementById("status-text");
       const gamesTotalEl = document.getElementById("games-total");
       const consolesTotalEl = document.getElementById("consoles-total");
       const metascoreAverageEl = document.getElementById("metascore-average");
@@ -373,7 +370,6 @@
       }
 
       async function loadStats() {
-        statusTextEl.textContent = "Chargement...";
         try {
           const [stats, games] = await Promise.all([
             fetchJson("/api/stats"),
@@ -384,9 +380,8 @@
           renderRarityBreakdown(games, stats.totals.games);
           renderTopConsoles(stats.topConsoles || []);
           renderMostExpensive(games);
-          statusTextEl.textContent = "Statistiques chargées.";
         } catch (error) {
-          statusTextEl.textContent = `Erreur stats : ${error.message}`;
+          console.error("Erreur stats :", error);
         }
       }
 
