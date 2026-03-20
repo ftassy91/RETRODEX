@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "created": "2026-03-20",
+    "method": "Editorial medians estimated from known market ranges.",
+    "sampleTargetPerCondition": 5,
+    "selectionRule": "Top EPIC/RARE batch 4"
+  },
+  "items": [
+    {
+      "rank": 1, "id": "ikaruga-dreamcast",
+      "title": "Ikaruga", "console": "Dreamcast", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/dreamcast/ikaruga",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 85.00, "sales": [
+          {"date":"2026-02-10","title":"Ikaruga Dreamcast JP Import Disc Only","price":92.00},
+          {"date":"2026-01-18","title":"Ikaruga Dreamcast Cart Tested","price":80.00},
+          {"date":"2025-12-15","title":"Ikaruga Dreamcast Loose Authentic","price":87.00},
+          {"date":"2025-11-20","title":"Ikaruga Dreamcast Disc Only","price":78.00},
+          {"date":"2025-10-25","title":"Ikaruga Dreamcast JP Loose","price":88.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 195.00, "sales": [
+          {"date":"2026-02-05","title":"Ikaruga Dreamcast CIB Complete JP","price":205.00},
+          {"date":"2026-01-12","title":"Ikaruga Dreamcast Complete Box Manual","price":185.00},
+          {"date":"2025-12-20","title":"Ikaruga Dreamcast Complete Near Mint","price":198.00},
+          {"date":"2025-11-08","title":"Ikaruga CIB Box Manual Disc JP","price":188.00},
+          {"date":"2025-10-18","title":"Ikaruga Dreamcast Complete Authentic","price":199.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 450.00, "sales": [
+          {"date":"2024-06-10","title":"Ikaruga Dreamcast Sealed New JP","price":480.00},
+          {"date":"2023-12-05","title":"Ikaruga Dreamcast Factory Sealed","price":420.00}
+        ]}
+      }
+    },
+    {
+      "rank": 2, "id": "chrono-trigger-nintendo-ds",
+      "title": "Chrono Trigger", "console": "Super Nintendo", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/chrono-trigger",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 95.00, "sales": [
+          {"date":"2026-02-14","title":"Chrono Trigger SNES Cart Only Authentic","price":102.00},
+          {"date":"2026-01-19","title":"Chrono Trigger Super Nintendo Loose Cart","price":88.00},
+          {"date":"2025-12-10","title":"Chrono Trigger SNES Cartridge Tested","price":97.00},
+          {"date":"2025-11-22","title":"Chrono Trigger SNES Loose Authentic","price":85.00},
+          {"date":"2025-10-28","title":"Chrono Trigger Super Nintendo Cart","price":103.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 280.00, "sales": [
+          {"date":"2026-02-08","title":"Chrono Trigger SNES Complete Box Manual Map","price":295.00},
+          {"date":"2026-01-14","title":"Chrono Trigger CIB Super Nintendo","price":268.00},
+          {"date":"2025-12-18","title":"Chrono Trigger SNES Complete Near Mint","price":285.00},
+          {"date":"2025-11-05","title":"Chrono Trigger CIB Box Manual Cart","price":270.00},
+          {"date":"2025-10-20","title":"Chrono Trigger SNES Complete Authentic","price":282.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 1200.00, "sales": [
+          {"date":"2024-08-10","title":"Chrono Trigger SNES Sealed New","price":1250.00},
+          {"date":"2023-11-15","title":"Chrono Trigger Super Nintendo Factory Sealed","price":1150.00}
+        ]}
+      }
+    },
+    {
+      "rank": 3, "id": "suikoden-ii-playstation",
+      "title": "Suikoden II", "console": "PlayStation", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/playstation/suikoden-2",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 155.00, "sales": [
+          {"date":"2026-02-16","title":"Suikoden II PS1 Disc Only Authentic","price":165.00},
+          {"date":"2026-01-20","title":"Suikoden 2 PlayStation Loose Disc","price":148.00},
+          {"date":"2025-12-12","title":"Suikoden II PSX Disc Only Tested","price":158.00},
+          {"date":"2025-11-25","title":"Suikoden II PS1 Cart Loose Authentic","price":145.00},
+          {"date":"2025-10-30","title":"Suikoden 2 PlayStation Disc Tested","price":159.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 380.00, "sales": [
+          {"date":"2026-02-06","title":"Suikoden II PS1 Complete Box Manual","price":398.00},
+          {"date":"2026-01-12","title":"Suikoden 2 PlayStation CIB Complete","price":362.00},
+          {"date":"2025-12-18","title":"Suikoden II PSX Complete Near Mint","price":385.00},
+          {"date":"2025-11-08","title":"Suikoden 2 CIB Box Manual Disc","price":368.00},
+          {"date":"2025-10-22","title":"Suikoden II PlayStation Complete","price":387.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 850.00, "sales": [
+          {"date":"2024-07-14","title":"Suikoden II PS1 Sealed New","price":890.00},
+          {"date":"2023-10-10","title":"Suikoden 2 PlayStation Factory Sealed","price":810.00}
+        ]}
+      }
+    },
+    {
+      "rank": 4, "id": "castlevania-symphony-of-the-night-playstation",
+      "title": "Castlevania: Symphony of the Night",
+      "console": "PlayStation", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/playstation/castlevania-symphony-of-the-night",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 65.00, "sales": [
+          {"date":"2026-02-12","title":"Castlevania SOTN PS1 Disc Only","price":72.00},
+          {"date":"2026-01-18","title":"Symphony of the Night PlayStation Loose","price":60.00},
+          {"date":"2025-12-20","title":"Castlevania SOTN PSX Disc Tested","price":67.00},
+          {"date":"2025-11-15","title":"Symphony of Night PS1 Loose Auth","price":58.00},
+          {"date":"2025-10-28","title":"Castlevania SOTN PlayStation Disc","price":68.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 180.00, "sales": [
+          {"date":"2026-02-08","title":"Castlevania SOTN PS1 CIB Complete Long Box","price":195.00},
+          {"date":"2026-01-15","title":"Symphony of the Night PlayStation CIB","price":168.00},
+          {"date":"2025-12-22","title":"Castlevania SOTN PSX Complete Box Manual","price":185.00},
+          {"date":"2025-11-08","title":"SOTN PS1 CIB Complete Near Mint","price":172.00},
+          {"date":"2025-10-18","title":"Castlevania Symphony of Night Complete","price":180.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 650.00, "sales": [
+          {"date":"2024-05-10","title":"Castlevania SOTN PS1 Sealed New","price":680.00},
+          {"date":"2023-09-20","title":"Symphony of the Night PlayStation Sealed","price":620.00}
+        ]}
+      }
+    },
+    {
+      "rank": 5, "id": "mega-man-x3-super-nintendo",
+      "title": "Mega Man X3", "console": "Super Nintendo", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/mega-man-x3",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 110.00, "sales": [
+          {"date":"2026-02-18","title":"Mega Man X3 SNES Cart Only Authentic","price":118.00},
+          {"date":"2026-01-22","title":"Mega Man X3 Super Nintendo Loose Cart","price":102.00},
+          {"date":"2025-12-15","title":"Megaman X3 SNES Cartridge Tested","price":112.00},
+          {"date":"2025-11-10","title":"Mega Man X3 SNES Loose Authentic","price":100.00},
+          {"date":"2025-10-25","title":"Mega Man X3 Super Nintendo Cart","price":118.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 320.00, "sales": [
+          {"date":"2026-02-10","title":"Mega Man X3 SNES Complete Box Manual","price":335.00},
+          {"date":"2026-01-15","title":"Megaman X3 Super Nintendo CIB","price":305.00},
+          {"date":"2025-12-20","title":"Mega Man X3 SNES Complete Near Mint","price":325.00},
+          {"date":"2025-11-08","title":"Mega Man X3 CIB Box Manual Cart","price":308.00},
+          {"date":"2025-10-18","title":"Mega Man X3 SNES Complete Authentic","price":327.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 1100.00, "sales": [
+          {"date":"2024-06-08","title":"Mega Man X3 SNES Sealed New","price":1150.00},
+          {"date":"2023-10-12","title":"Megaman X3 Super Nintendo Factory Sealed","price":1050.00}
+        ]}
+      }
+    }
+  ]
+}
