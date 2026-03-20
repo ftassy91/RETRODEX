@@ -694,4 +694,17 @@ a { color: #9bbc0f; }
 
       }
 
+      .item-visual {
+        height: 120px;
+        background: #131a13;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .item-initial {
+        font-size: 2rem;
+        color: #a8d8a8;
+        font-family: monospace;
+      }
 
