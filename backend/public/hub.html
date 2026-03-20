@@ -66,8 +66,8 @@
     </div>
   </div>
   <section class="hub-search">
-    <form class="hub-search-form" action="/games-list.html" method="get">
-      <input class="hub-search-input" type="search" name="q" placeholder="Rechercher un jeu, une console..." aria-label="Rechercher un jeu, une console...">
+    <form class="hub-search-form" action="/search.html" method="get">
+      <input id="hub-search-input" class="hub-search-input" type="search" name="q" placeholder="Rechercher un jeu, une console..." aria-label="Rechercher un jeu, une console...">
       <button class="hub-search-button" type="submit">RECHERCHER</button>
     </form>
     <div class="hub-quick-links">
@@ -257,6 +257,17 @@
       }
     }).catch(() => {
       document.getElementById('stat-collection').textContent = '—';
+    });
+    document.addEventListener('keydown', (event) => {
+      const tag = event.target?.tagName;
+      const inField = tag === 'INPUT' || tag === 'TEXTAREA' || event.target?.isContentEditable;
+      const hubSearchInput = document.getElementById('hub-search-input');
+
+      if (event.key === '/' && !inField && hubSearchInput) {
+        event.preventDefault();
+        hubSearchInput.focus();
+        hubSearchInput.select();
+      }
     });
     loadLegendary().catch(() => {});
   </script>

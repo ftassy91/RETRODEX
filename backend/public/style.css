@@ -1704,3 +1704,150 @@ a:hover {
     gap: 4px;
   }
 }
+
+.search-page {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.search-panel-shell {
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  padding: 16px;
+}
+
+.search-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+#search-results {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  min-height: 72px;
+}
+
+#search-input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  padding: 14px 16px;
+  outline: none;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+}
+
+#search-input:focus { border-color: var(--accent); }
+#search-input::placeholder { color: var(--text-muted); }
+
+.filter-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 4px 12px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  margin-right: 6px;
+}
+
+.filter-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.filter-btn:hover { color: var(--text-primary); }
+
+.result-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 140px 70px 90px;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.result-row:hover { background: var(--bg-card); }
+
+.result-franchise {
+  grid-template-columns: 80px 1fr 140px 1fr;
+}
+
+.result-type-badge {
+  font-size: 9px;
+  padding: 2px 6px;
+  border: 1px solid currentColor;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+.badge-franchise { color: var(--text-alert); }
+.badge-game { color: var(--text-secondary); }
+
+.result-title { color: var(--text-primary); }
+.result-meta { color: var(--text-muted); font-size: 10px; }
+.result-sub { color: var(--text-muted); font-size: 10px; }
+.result-price { color: var(--text-alert); text-align: right; }
+
+.result-rarity { font-size: 9px; text-align: right; }
+.result-rarity.rarity-legendary { color: var(--confidence-high); }
+.result-rarity.rarity-epic { color: var(--text-alert); }
+.result-rarity.rarity-rare { color: var(--confidence-mid); }
+.result-rarity.rarity-uncommon { color: var(--text-muted); }
+.result-rarity.rarity-common { color: var(--text-muted); }
+
+#search-count {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.search-empty {
+  padding: 24px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-align: center;
+}
+
+.global-search-bar {
+  margin-bottom: 12px;
+}
+
+#global-search {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 6px 12px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+#global-search:hover { border-color: var(--accent); }
+
+@media (max-width: 768px) {
+  .result-row,
+  .result-franchise {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .result-price,
+  .result-rarity {
+    text-align: left;
+  }
+}

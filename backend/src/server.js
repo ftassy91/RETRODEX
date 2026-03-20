@@ -337,6 +337,64 @@ app.get("/api/franchises/:slug/games", handleAsync(async (req, res) => {
     count: games.length,
   });
 }));
+app.get("/api/search", handleAsync(async (req, res) => {
+  const q = String(req.query.q || "").trim();
+  const type = ["all", "game", "franchise"].includes(String(req.query.type || "all"))
+    ? String(req.query.type || "all")
+    : "all";
+  const limit = parseItemsLimit(req.query.limit, 20, 100);
+
+  if (!q || q.length < 2) {
+    return res.json({ ok: true, results: [], query: q });
+  }
+
+  const like = { [Op.like]: `%${q}%` };
+
+  let games = [];
+  let franchises = [];
+
+  if (type === "all" || type === "game") {
+    games = await Game.findAll({
+      where: {
+        type: "game",
+        [Op.or]: [
+          { title: like },
+          { console: like },
+          { genre: like },
+        ],
+      },
+      attributes: ["id", "title", "console", "year", "rarity", "loosePrice", "slug"],
+      order: [["rarity", "ASC"], ["title", "ASC"]],
+      limit: type === "all" ? Math.ceil(limit * 0.7) : limit,
+    });
+  }
+
+  if (type === "all" || type === "franchise") {
+    franchises = await Franchise.findAll({
+      where: {
+        [Op.or]: [
+          { name: like },
+          { description: like },
+        ],
+      },
+      attributes: ["id", "name", "slug", "first_game", "last_game", "developer"],
+      order: [["name", "ASC"]],
+      limit: type === "all" ? Math.ceil(limit * 0.3) : limit,
+    });
+  }
+
+  const results = [
+    ...franchises.map((franchise) => ({ ...franchise.toJSON(), _type: "franchise" })),
+    ...games.map((game) => ({ ...game.toJSON(), _type: "game" })),
+  ];
+
+  return res.json({
+    ok: true,
+    results,
+    count: results.length,
+    query: q,
+  });
+}));
 app.get("/api/items", handleAsync(async (req, res) => {
   const where = buildItemsWhere(req.query);
   const limit = parseItemsLimit(req.query.limit, 20, 100);

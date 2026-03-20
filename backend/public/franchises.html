@@ -16,6 +16,16 @@
 
       <h1 class="page-title">FRANCHISES</h1>
       <p id="franchise-count" class="page-subtitle">Chargement...</p>
+      <div class="global-search-bar">
+        <input
+          type="text"
+          id="global-search"
+          placeholder="/ Rechercher..."
+          readonly
+          onclick="location.href='/search.html'"
+          style="cursor:pointer"
+        />
+      </div>
 
       <section class="franchises-layout">
         <aside class="franchises-sidebar">
@@ -31,6 +41,7 @@
       const countEl = document.getElementById('franchise-count');
       const listEl = document.getElementById('franchise-list');
       const detailEl = document.getElementById('franchise-detail');
+      const requestedSlug = new URLSearchParams(window.location.search).get('slug') || '';
       let selectedSlug = '';
 
       function escapeHtml(value) {
@@ -96,6 +107,8 @@
 
       async function loadFranchise(slug) {
         markSelected(slug);
+        const targetUrl = slug ? `/franchises.html?slug=${encodeURIComponent(slug)}` : '/franchises.html';
+        window.history.replaceState({}, '', targetUrl);
         detailEl.innerHTML = '<div class="franchise-detail-empty">Chargement...</div>';
 
         const [detailRes, gamesRes] = await Promise.all([
@@ -233,7 +246,8 @@
         });
 
         if (franchises.length > 0) {
-          await loadFranchise(franchises[0].slug);
+          const initialFranchise = franchises.find((item) => item.slug === requestedSlug) || franchises[0];
+          await loadFranchise(initialFranchise.slug);
         } else {
           detailEl.innerHTML = '<div class="franchise-detail-empty">Aucune franchise indexée.</div>';
         }
