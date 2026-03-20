@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const { Op } = require("sequelize");
+const { Op, DataTypes } = require("sequelize");
 
 const { sequelize, storagePath, databaseMode, databaseTarget } = require("./database");
 const Game = require("./models/Game");
@@ -180,8 +180,65 @@ function getItemConditionValue(item) {
   return toPriceNumber(game.loosePrice);
 }
 
+function parseStoredJson(value) {
+  if (value == null || value === "") {
+    return null;
+  }
+
+  if (Array.isArray(value) || typeof value === "object") {
+    return value;
+  }
+
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  try {
+    return JSON.parse(value);
+  } catch (_error) {
+    return null;
+  }
+}
+
+async function ensureGameEncyclopediaColumns() {
+  const queryInterface = sequelize.getQueryInterface();
+  const columns = await queryInterface.describeTable("games").catch(() => null);
+
+  if (!columns) {
+    return;
+  }
+
+  const missingColumns = [
+    ["synopsis", { type: DataTypes.TEXT, allowNull: true }],
+    ["dev_anecdotes", { type: DataTypes.TEXT, allowNull: true }],
+    ["dev_team", { type: DataTypes.TEXT, allowNull: true }],
+    ["cheat_codes", { type: DataTypes.TEXT, allowNull: true }],
+  ].filter(([name]) => !columns[name]);
+
+  for (const [name, definition] of missingColumns) {
+    await queryInterface.addColumn("games", name, definition);
+  }
+}
+
 // --- Mount routes ---
 app.use(gamesRoutes);
+app.get("/api/games/:id/encyclopedia", handleAsync(async (req, res) => {
+  const game = await Game.findByPk(req.params.id, {
+    attributes: ["id", "synopsis", "dev_anecdotes", "dev_team", "cheat_codes"],
+  });
+
+  if (!game) {
+    return res.status(404).json({ ok: false, error: "Game not found" });
+  }
+
+  return res.json({
+    ok: true,
+    synopsis: game.synopsis ?? null,
+    dev_anecdotes: parseStoredJson(game.dev_anecdotes),
+    dev_team: parseStoredJson(game.dev_team),
+    cheat_codes: parseStoredJson(game.cheat_codes),
+  });
+}));
 app.get("/api/items", handleAsync(async (req, res) => {
   const where = buildItemsWhere(req.query);
   const limit = parseItemsLimit(req.query.limit, 20, 100);
@@ -563,7 +620,18 @@ app.use((error, req, res, _next) => {
 
 // --- Startup ---
 async function startServer(portOverride) {
-  await syncGamesFromPrototype();
+  await ensureGameEncyclopediaColumns();
+  let shouldBootstrap = true;
+
+  try {
+    shouldBootstrap = (await Game.count()) === 0;
+  } catch (_error) {
+    shouldBootstrap = true;
+  }
+
+  if (shouldBootstrap) {
+    await syncGamesFromPrototype();
+  }
 
   const PORT = Number(portOverride || process.env.PORT || 3000);
 

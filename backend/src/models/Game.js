@@ -40,6 +40,22 @@ const Game = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    synopsis: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    dev_anecdotes: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    dev_team: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    cheat_codes: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     type: {
       type: DataTypes.STRING,
       defaultValue: "game",
