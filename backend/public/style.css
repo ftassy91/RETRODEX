@@ -1,5 +1,28 @@
-﻿* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Courier New', monospace; background: #0a0a0a; color: #9bbc0f; min-height: 100vh; padding: 20px 16px; }
+:root {
+  --bg:              #0a0e0a;
+  --bg-surface:      #0f1510;
+  --bg-card:         #131a13;
+  --border:          #1e2e1e;
+  --text-primary:    #a8d8a8;
+  --text-secondary:  #5a8a5a;
+  --text-muted:      #2e4e2e;
+  --text-value:      #d4f0d4;
+  --text-alert:      #f0d060;
+  --accent:          #3ddc3d;
+  --accent-dim:      #1a6e1a;
+  --condition-loose: #888888;
+  --condition-cib:   #4ecdc4;
+  --condition-mint:  #ffd700;
+  --confidence-low:  #e05252;
+  --confidence-mid:  #e0b352;
+  --confidence-high: #52e052;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  --font-size-base:  13px;
+  --line-height:     1.5;
+  --radius:          3px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-mono); font-size: var(--font-size-base); line-height: var(--line-height); background: var(--bg); color: #9bbc0f; min-height: 100vh; padding: 20px 16px; }
 a { color: #9bbc0f; }
 .page-header { max-width: 900px; margin: 0 auto 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(155,188,15,0.2); }
 .page-header h1 { font-size: 18px; color: #cfe66f; letter-spacing: 0.05em; margin-bottom: 4px; }
@@ -47,22 +70,6 @@ a { color: #9bbc0f; }
    game-detail — Sprint 5 additions
    price-history + price-compare sections
    ============================================= */
-:root {
-        --panel-bg: rgba(15, 56, 15, 0.2);
-        --panel-line: rgba(155, 188, 15, 0.18);
-        --panel-line-strong: rgba(155, 188, 15, 0.4);
-        --text-strong: #cfe66f;
-        --text-soft: rgba(155, 188, 15, 0.65);
-        --text-faint: rgba(155, 188, 15, 0.42);
-        --legendary: #ddc420;
-        --epic: #c48be8;
-        --rare: #e88855;
-        --uncommon: #44aadd;
-        --common: #5a9a3a;
-        --condition-loose: #888888;
-        --condition-cib: #4ecdc4;
-        --condition-mint: #ffd700;
-      }
 
       /* === TYPOGRAPHIC SCALE === */
       .page-title {
@@ -139,8 +146,8 @@ a { color: #9bbc0f; }
       .collection-card,
       .similar-card,
       .stats-card {
-        background: var(--panel-bg);
-        border: 1px solid var(--panel-line);
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
         border-radius: 6px;
         padding: 18px;
       }
@@ -154,7 +161,7 @@ a { color: #9bbc0f; }
 
       .hero-title {
         font-size: 30px;
-        color: var(--text-strong);
+        color: var(--text-value);
         margin-bottom: 10px;
       }
 
@@ -182,7 +189,7 @@ a { color: #9bbc0f; }
 
       .developer-line {
         font-size: 12px;
-        color: var(--text-soft);
+        color: var(--text-secondary);
       }
 
       .game-hero-canvas {
@@ -195,7 +202,7 @@ a { color: #9bbc0f; }
 
       .price-panel {
         background: rgba(10, 10, 10, 0.38);
-        border: 1px solid var(--panel-line);
+        border: 1px solid var(--border);
         border-radius: 6px;
         padding: 16px;
       }
@@ -217,7 +224,7 @@ a { color: #9bbc0f; }
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        color: var(--text-strong);
+        color: var(--text-value);
       }
 
       .metascore-circle strong {
@@ -227,7 +234,7 @@ a { color: #9bbc0f; }
 
       .metascore-circle span {
         font-size: 9px;
-        color: var(--text-faint);
+        color: var(--text-muted);
         letter-spacing: 0.08em;
       }
 
@@ -247,14 +254,14 @@ a { color: #9bbc0f; }
       .price-cell .label {
         display: block;
         font-size: 10px;
-        color: var(--text-faint);
+        color: var(--text-muted);
         margin-bottom: 6px;
         text-transform: uppercase;
       }
 
       .price-cell .value {
         font-size: 18px;
-        color: var(--text-strong);
+        color: var(--text-value);
       }
 
       .summary-card h2,
@@ -262,7 +269,7 @@ a { color: #9bbc0f; }
       .stats-card h2,
       .similar-card h2 {
         font-size: 12px;
-        color: var(--text-faint);
+        color: var(--text-muted);
         text-transform: uppercase;
         letter-spacing: 0.08em;
         margin-bottom: 12px;
@@ -271,7 +278,7 @@ a { color: #9bbc0f; }
       .summary-text {
         font-size: 13px;
         line-height: 1.7;
-        color: var(--text-soft);
+        color: var(--text-secondary);
       }
 
       .stats-grid {
@@ -290,14 +297,14 @@ a { color: #9bbc0f; }
       .stat-cell .label {
         display: block;
         font-size: 10px;
-        color: var(--text-faint);
+        color: var(--text-muted);
         margin-bottom: 6px;
         text-transform: uppercase;
       }
 
       .stat-cell .value {
         font-size: 14px;
-        color: var(--text-strong);
+        color: var(--text-value);
       }
 
       .collection-row {
@@ -310,7 +317,7 @@ a { color: #9bbc0f; }
 
       .collection-state {
         font-size: 12px;
-        color: var(--text-soft);
+        color: var(--text-secondary);
       }
 
       .similar-grid {
@@ -329,23 +336,23 @@ a { color: #9bbc0f; }
       }
 
       .mini-card:hover {
-        border-color: var(--panel-line-strong);
+        border-color: var(--accent-dim);
       }
 
       .mini-card h3 {
         font-size: 12px;
-        color: var(--text-strong);
+        color: var(--text-value);
         margin-bottom: 8px;
       }
 
       .mini-card p {
         font-size: 11px;
-        color: var(--text-soft);
+        color: var(--text-secondary);
       }
 
       .status-text {
         font-size: 11px;
-        color: var(--text-faint);
+        color: var(--text-muted);
         min-height: 16px;
       }
 
@@ -541,7 +548,7 @@ a { color: #9bbc0f; }
       .collection-note-input {
         border: 1px solid rgba(155, 188, 15, 0.22);
         background: rgba(10, 10, 10, 0.5);
-        color: var(--text-strong);
+        color: var(--text-value);
         font-family: inherit;
         font-size: 0.7rem;
         padding: 0.45rem 0.65rem;
@@ -594,14 +601,14 @@ a { color: #9bbc0f; }
 
       .collection-note-text {
         font-size: 0.72rem;
-        color: var(--text-soft);
+        color: var(--text-secondary);
         line-height: 1.5;
       }
 
       .loading-card {
         padding: 32px 20px;
         text-align: center;
-        color: var(--text-faint);
+        color: var(--text-muted);
         border: 1px dashed rgba(155, 188, 15, 0.18);
         border-radius: 6px;
       }
@@ -696,7 +703,7 @@ a { color: #9bbc0f; }
 
       .item-visual {
         height: 120px;
-        background: #131a13;
+        background: var(--bg-card);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -704,7 +711,7 @@ a { color: #9bbc0f; }
 
       .item-initial {
         font-size: 2rem;
-        color: #a8d8a8;
-        font-family: monospace;
+        color: var(--text-primary);
+        font-family: var(--font-mono);
       }
 
