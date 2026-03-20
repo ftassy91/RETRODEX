@@ -20,13 +20,15 @@
     .hub-stat { text-align:center; }
     .hub-stat .val { font-size:22px; color:#cfe66f; display:block; }
     .hub-stat .lbl { font-size:10px; color:rgba(155,188,15,0.45); letter-spacing:0.06em; }
-    .modules-grid { max-width:900px; margin:0 auto 32px; display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; }
-    .module-card { background:rgba(15,56,15,0.2); border:1px solid rgba(155,188,15,0.18); border-radius:6px; padding:20px; text-decoration:none; color:#9bbc0f; display:block; transition:border-color 0.15s,background 0.15s; }
-    .module-card:hover { border-color:rgba(155,188,15,0.55); background:rgba(15,56,15,0.4); }
-    .module-card .icon { font-size:20px; margin-bottom:10px; display:block; }
-    .module-card h2 { font-size:13px; color:#cfe66f; margin-bottom:6px; }
-    .module-card p { font-size:11px; color:rgba(155,188,15,0.55); line-height:1.5; }
-    .module-card .port { display:inline-block; margin-top:12px; font-size:10px; color:rgba(155,188,15,0.4); border:1px solid rgba(155,188,15,0.2); border-radius:2px; padding:2px 6px; }
+    .hub-search { max-width:900px; margin:0 auto 32px; text-align:center; }
+    .hub-search-form { display:flex; gap:10px; align-items:center; margin:0 auto 12px; }
+    .hub-search-input { flex:1; min-width:0; height:52px; padding:0 16px; border:1px solid #3ddc3d; background:#131a13; color:#a8d8a8; font:16px monospace; }
+    .hub-search-input::placeholder { color:rgba(168,216,168,0.55); }
+    .hub-search-button { height:52px; padding:0 18px; border:1px solid #3ddc3d; background:#131a13; color:#a8d8a8; font:14px monospace; cursor:pointer; }
+    .hub-search-button:hover { background:rgba(61,220,61,0.08); }
+    .hub-quick-links { font-size:12px; color:rgba(168,216,168,0.7); }
+    .hub-quick-links a { color:#a8d8a8; text-decoration:none; }
+    .hub-quick-links a:hover { color:#cfe66f; }
     .section-title { max-width:900px; margin:0 auto 14px; font-size:11px; color:rgba(155,188,15,0.4); letter-spacing:0.08em; text-transform:uppercase; }
     .collection-preview { max-width:900px; margin:0 auto 32px; background:rgba(15,56,15,0.15); border:1px solid rgba(155,188,15,0.15); border-radius:6px; padding:16px 20px; }
     .collection-preview h3 { font-size:12px; color:#cfe66f; margin-bottom:12px; }
@@ -42,7 +44,11 @@
     .legendary-card-title { font-size:0.7rem; color:#ddc420; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .legendary-card-meta { font-size:0.6rem; color:#5a9a3a; margin-top:0.15rem; }
     .legendary-card-price { font-size:0.75rem; color:#9bbc0f; margin-top:0.15rem; }
-    @media (max-width:768px) { .legendary-grid { grid-template-columns:1fr; } }
+    @media (max-width:768px) {
+      .legendary-grid { grid-template-columns:1fr; }
+      .hub-search-form { flex-direction:column; }
+      .hub-search-button { width:100%; }
+    }
   </style>
 </head>
 <body>
@@ -51,7 +57,7 @@
   </nav>
   <div class="hub-hero">
     <h1 class="page-title">RETRODEX</h1>
-    <div class="tagline page-subtitle">Hub de navigation — collectionneurs de jeux retro</div>
+    <div class="tagline page-subtitle">Base de données retrogaming</div>
     <div class="hub-stats">
       <div class="hub-stat"><span class="val" id="stat-games">—</span><span class="lbl">JEUX</span></div>
       <div class="hub-stat"><span class="val" id="stat-consoles">—</span><span class="lbl">CONSOLES</span></div>
@@ -59,25 +65,18 @@
       <div class="hub-stat"><span class="val" id="stat-meta">—</span><span class="lbl">METASCORE MOY.</span></div>
     </div>
   </div>
-  <div class="section-title">Modules</div>
-  <div class="modules-grid">
-    <a href="/games-list.html" class="module-card">
-      <span class="icon">🗂</span><h2>CATALOGUE</h2>
-      <p>507 jeux retro. Recherche par titre, filtre par console ou rareté.</p>
-    </a>
-    <a href="/consoles.html" class="module-card">
-      <span class="icon">🕹</span><h2>CONSOLES</h2>
-      <p>16 systèmes retro. Nombre de jeux par plateforme.</p>
-    </a>
-    <a href="/collection.html" class="module-card">
-      <span class="icon">📦</span><h2>MA COLLECTION</h2>
-      <p>Gérer votre collection personnelle. Ajouter et retirer des jeux.</p>
-    </a>
-    <a href="/stats.html" class="module-card">
-      <span class="icon">📊</span><h2>STATISTIQUES</h2>
-      <p>Vue globale du catalogue — totaux, top consoles, metascore moyen.</p>
-    </a>
-  </div>
+  <section class="hub-search">
+    <form class="hub-search-form" action="/games-list.html" method="get">
+      <input class="hub-search-input" type="search" name="q" placeholder="Rechercher un jeu, une console..." aria-label="Rechercher un jeu, une console...">
+      <button class="hub-search-button" type="submit">RECHERCHER</button>
+    </form>
+    <div class="hub-quick-links">
+      <a href="/games-list.html">Catalogue complet</a> &middot;
+      <a href="/collection.html">Ma collection</a> &middot;
+      <a href="/stats.html">Statistiques</a> &middot;
+      <a href="/consoles.html">Consoles</a>
+    </div>
+  </section>
   <section class="legendary-section">
     <h2 class="section-title">&#11035; TOP LEGENDARY</h2>
     <p class="page-subtitle">Les 6 jeux les plus rares du catalogue</p>
@@ -231,28 +230,33 @@
       });
     }
 
-    fetch('/api/stats').then(r=>r.json()).then(d=>{
-      document.getElementById('stat-games').textContent=d.totals.games;
-      document.getElementById('stat-consoles').textContent=d.totals.consoles;
-      document.getElementById('stat-meta').textContent=d.totals.averageMetascore;
-    }).catch(()=>{});
-    fetch('/api/health').then(r=>r.json()).then(data=>{
+    fetch('/api/stats').then(r => r.json()).then(d => {
+      document.getElementById('stat-games').textContent = d.totals.games;
+      document.getElementById('stat-consoles').textContent = d.totals.consoles;
+      document.getElementById('stat-meta').textContent = d.totals.averageMetascore;
+    }).catch(() => {});
+    fetch('/api/health').then(r => r.json()).then(data => {
       document.getElementById('footer-status').textContent =
         data.ok ? 'Backend OK' : 'Backend offline';
       document.getElementById('footer-db').textContent =
         `SQLite · ${data.games || 0} jeux`;
-    }).catch(()=>{
+    }).catch(() => {
       document.getElementById('footer-status').textContent = 'Backend offline';
       document.getElementById('footer-db').textContent = '';
     });
-    fetch('/api/collection').then(r=>r.json()).then(d=>{
-      const items=d.items||[];
-      document.getElementById('stat-collection').textContent=items.length;
-      const c=document.getElementById('coll-items');
-      if(items.length===0){ c.innerHTML='<span class="coll-empty">Aucun jeu — ajoutez-en depuis une fiche</span>'; }
-      else{ c.innerHTML=items.map(i=>'<a href="/game-detail.html?id='+i.id+'" class="coll-pill">'+i.title+'</a>').join(''); }
-    }).catch(()=>{ document.getElementById('stat-collection').textContent='—'; });
-    loadLegendary().catch(()=>{});
+    fetch('/api/collection').then(r => r.json()).then(d => {
+      const items = d.items || [];
+      document.getElementById('stat-collection').textContent = items.length;
+      const c = document.getElementById('coll-items');
+      if (items.length === 0) {
+        c.innerHTML = '<span class="coll-empty">Aucun jeu — ajoutez-en depuis une fiche</span>';
+      } else {
+        c.innerHTML = items.map(i => '<a href="/game-detail.html?id=' + i.id + '" class="coll-pill">' + i.title + '</a>').join('');
+      }
+    }).catch(() => {
+      document.getElementById('stat-collection').textContent = '—';
+    });
+    loadLegendary().catch(() => {});
   </script>
   <script>
     if ('serviceWorker' in navigator) {
