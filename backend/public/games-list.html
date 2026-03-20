@@ -437,6 +437,10 @@
         return `/game-detail.html?${params.toString()}`;
       }
 
+      function navigateTo(gameId) {
+        window.location.href = detailUrl(gameId, state());
+      }
+
       function renderQuickDetailEmpty(message = "&larr; Selectionner un jeu") {
         quickDetailEl.className = "quick-detail-placeholder";
         quickDetailEl.innerHTML = message;
@@ -502,17 +506,15 @@
         const initial = ((game.title || "").trim().charAt(0) || "?").toUpperCase();
 
         return `
-          <button type="button" class="result-row" data-game-id="${esc(game.id)}">
-            <span class="result-row-initial-wrap"><span class="result-row-initial">${esc(initial)}</span></span>
-            <span class="result-row-main">
-              <span class="result-row-title" title="${esc(game.title)}">${esc(game.title)}</span>
-              <span class="result-row-meta">${esc(game.console || "Console inconnue")} &middot; ${esc(game.year || "n/a")}</span>
-            </span>
-            <span class="result-row-side">
-              <span class="rarity-badge rarity-${esc(rClass(game.rarity))}">${esc(game.rarity || "COMMON")}</span>
-              <span class="result-row-price">Mint ${esc(price(game.mintPrice))}</span>
-            </span>
-          </button>
+          <div class="result-row" role="link" tabindex="0" data-game-id="${esc(game.id)}" onclick="navigateTo('${esc(game.id)}')">
+            <div class="result-initial">${esc(initial)}</div>
+            <div class="result-info">
+              <span class="result-title" title="${esc(game.title)}">${esc(game.title)}</span>
+              <span class="result-meta">${esc(game.console || "Console inconnue")} &middot; ${esc(game.year || "n/a")}</span>
+            </div>
+            <div class="result-price">${esc(price(game.mintPrice))}</div>
+            <div class="result-badge rarity-badge rarity-${esc(rClass(game.rarity))}">${esc(game.rarity || "COMMON")}</div>
+          </div>
         `;
       }
 
@@ -608,20 +610,19 @@
         nextButtonEl.disabled = end >= total;
         renderPageNumbers(page, totalPages);
 
-        if (selectedGameId && !filteredGames.some((game) => game.id === selectedGameId)) {
-          selectedGameId = "";
-          renderQuickDetailEmpty();
-        }
-
         if (!pageItems.length) {
           renderEmpty(currentState);
           return;
         }
 
         resultsEl.innerHTML = pageItems.map((game) => row(game)).join("");
-        markSelectedRow();
-        resultsEl.querySelectorAll(".result-row").forEach((button) => {
-          button.addEventListener("click", () => loadQuickDetail(button.dataset.gameId));
+        resultsEl.querySelectorAll(".result-row").forEach((rowEl) => {
+          rowEl.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              navigateTo(rowEl.dataset.gameId);
+            }
+          });
         });
       }
 
