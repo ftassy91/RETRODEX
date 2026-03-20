@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "created": "2026-03-20",
+    "method": "Editorial medians estimated from known market ranges.",
+    "sampleTargetPerCondition": 5,
+    "selectionRule": "Top EPIC/RARE batch 6"
+  },
+  "items": [
+    {
+      "rank": 1, "id": "valkyrie-profile-playstation",
+      "title": "Valkyrie Profile", "console": "PlayStation", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/playstation/valkyrie-profile",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 80.00, "sales": [
+          {"date":"2026-02-14","title":"Valkyrie Profile PS1 Disc Only Authentic","price":88.00},
+          {"date":"2026-01-19","title":"Valkyrie Profile PlayStation Loose Disc","price":74.00},
+          {"date":"2025-12-10","title":"Valkyrie Profile PSX Disc Tested","price":82.00},
+          {"date":"2025-11-22","title":"Valkyrie Profile PS1 Loose Authentic","price":72.00},
+          {"date":"2025-10-28","title":"Valkyrie Profile PlayStation Disc","price":84.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 220.00, "sales": [
+          {"date":"2026-02-08","title":"Valkyrie Profile PS1 Complete Box Manual","price":235.00},
+          {"date":"2026-01-14","title":"Valkyrie Profile PlayStation CIB Complete","price":208.00},
+          {"date":"2025-12-18","title":"Valkyrie Profile PSX Complete Near Mint","price":225.00},
+          {"date":"2025-11-05","title":"Valkyrie Profile PS1 CIB Box Manual","price":212.00},
+          {"date":"2025-10-20","title":"Valkyrie Profile PlayStation Complete","price":220.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 580.00, "sales": [
+          {"date":"2024-08-10","title":"Valkyrie Profile PS1 Sealed New","price":610.00},
+          {"date":"2023-11-15","title":"Valkyrie Profile PlayStation Factory Sealed","price":550.00}
+        ]}
+      }
+    },
+    {
+      "rank": 2, "id": "chrono-trigger-super-nintendo",
+      "title": "Chrono Trigger", "console": "Super Nintendo", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/chrono-trigger",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 95.00, "sales": [
+          {"date":"2026-02-14","title":"Chrono Trigger SNES Cart Only Authentic","price":102.00},
+          {"date":"2026-01-19","title":"Chrono Trigger Super Nintendo Loose Cart","price":88.00},
+          {"date":"2025-12-10","title":"Chrono Trigger SNES Cartridge Tested","price":97.00},
+          {"date":"2025-11-22","title":"Chrono Trigger SNES Loose Authentic","price":85.00},
+          {"date":"2025-10-28","title":"Chrono Trigger Super Nintendo Cart","price":103.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 280.00, "sales": [
+          {"date":"2026-02-08","title":"Chrono Trigger SNES Complete Box Manual Map","price":295.00},
+          {"date":"2026-01-14","title":"Chrono Trigger CIB Super Nintendo","price":268.00},
+          {"date":"2025-12-18","title":"Chrono Trigger SNES Complete Near Mint","price":285.00},
+          {"date":"2025-11-05","title":"Chrono Trigger CIB Box Manual Cart","price":270.00},
+          {"date":"2025-10-20","title":"Chrono Trigger SNES Complete Authentic","price":282.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 1200.00, "sales": [
+          {"date":"2024-08-10","title":"Chrono Trigger SNES Sealed New","price":1250.00},
+          {"date":"2023-11-15","title":"Chrono Trigger Super Nintendo Factory Sealed","price":1150.00}
+        ]}
+      }
+    },
+    {
+      "rank": 3, "id": "snatcher-sega-cd",
+      "title": "Snatcher", "console": "Sega CD", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/sega-cd/snatcher",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 185.00, "sales": [
+          {"date":"2026-02-16","title":"Snatcher Sega CD Disc Only Authentic","price":198.00},
+          {"date":"2026-01-20","title":"Snatcher Sega-CD Loose Disc Tested","price":172.00},
+          {"date":"2025-12-12","title":"Snatcher Sega CD Disc Only Working","price":188.00},
+          {"date":"2025-11-25","title":"Snatcher Sega CD Loose Authentic","price":168.00},
+          {"date":"2025-10-30","title":"Snatcher Sega CD Disc Tested","price":199.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 450.00, "sales": [
+          {"date":"2026-02-06","title":"Snatcher Sega CD Complete Box Manual","price":475.00},
+          {"date":"2026-01-12","title":"Snatcher CIB Sega-CD Complete","price":428.00},
+          {"date":"2025-12-18","title":"Snatcher Sega CD Complete Near Mint","price":458.00},
+          {"date":"2025-11-08","title":"Snatcher CIB Box Manual Disc Sega","price":435.00},
+          {"date":"2025-10-22","title":"Snatcher Sega CD Complete Authentic","price":454.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 1100.00, "sales": [
+          {"date":"2024-07-14","title":"Snatcher Sega CD Sealed New","price":1150.00},
+          {"date":"2023-10-10","title":"Snatcher Sega-CD Factory Sealed","price":1050.00}
+        ]}
+      }
+    },
+    {
+      "rank": 4, "id": "secret-of-mana-super-nintendo",
+      "title": "Secret of Mana", "console": "Super Nintendo", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/secret-of-mana",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 45.00, "sales": [
+          {"date":"2026-02-14","title":"Secret of Mana SNES Cart Only Authentic","price":50.00},
+          {"date":"2026-01-19","title":"Secret of Mana Super Nintendo Loose","price":42.00},
+          {"date":"2025-12-10","title":"Secret of Mana SNES Cartridge Tested","price":46.00},
+          {"date":"2025-11-22","title":"Secret of Mana SNES Loose Authentic","price":40.00},
+          {"date":"2025-10-28","title":"Secret of Mana Super Nintendo Cart","price":47.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 135.00, "sales": [
+          {"date":"2026-02-08","title":"Secret of Mana SNES Complete Box Manual","price":145.00},
+          {"date":"2026-01-14","title":"Secret of Mana Super Nintendo CIB","price":128.00},
+          {"date":"2025-12-18","title":"Secret of Mana SNES Complete Near Mint","price":138.00},
+          {"date":"2025-11-05","title":"Secret of Mana CIB Box Manual Cart","price":130.00},
+          {"date":"2025-10-20","title":"Secret of Mana SNES Complete Authentic","price":134.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 480.00, "sales": [
+          {"date":"2024-07-10","title":"Secret of Mana SNES Sealed New","price":500.00},
+          {"date":"2023-10-15","title":"Secret of Mana Super Nintendo Sealed","price":460.00}
+        ]}
+      }
+    },
+    {
+      "rank": 5, "id": "castlevania-symphony-of-the-night-sega-saturn",
+      "title": "Castlevania: Symphony of the Night",
+      "console": "Sega Saturn", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/jp-sega-saturn/castlevania-symphony-of-the-night",
+      "sourceVariant": "JP Sega Saturn proxy page",
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 95.00, "sales": [
+          {"date":"2026-02-12","title":"Castlevania SOTN Sega Saturn JP Disc Only","price":105.00},
+          {"date":"2026-01-18","title":"Symphony of Night Saturn JP Loose","price":88.00},
+          {"date":"2025-12-20","title":"Castlevania SOTN Saturn Disc Tested JP","price":97.00},
+          {"date":"2025-11-15","title":"SOTN Saturn JP Loose Authentic","price":85.00},
+          {"date":"2025-10-28","title":"Castlevania Symphony Saturn JP Disc","price":100.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 240.00, "sales": [
+          {"date":"2026-02-08","title":"Castlevania SOTN Saturn JP CIB Complete","price":258.00},
+          {"date":"2026-01-15","title":"Symphony of Night Saturn Complete JP","price":225.00},
+          {"date":"2025-12-22","title":"Castlevania SOTN Saturn JP Box Manual","price":245.00},
+          {"date":"2025-11-08","title":"SOTN Saturn CIB Complete JP","price":230.00},
+          {"date":"2025-10-18","title":"Castlevania SOTN Sega Saturn Complete","price":242.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 580.00, "sales": [
+          {"date":"2024-05-10","title":"Castlevania SOTN Saturn JP Sealed New","price":610.00},
+          {"date":"2023-09-20","title":"Symphony Night Saturn JP Factory Sealed","price":550.00}
+        ]}
+      }
+    }
+  ]
+}
