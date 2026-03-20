@@ -715,3 +715,266 @@ a { color: #9bbc0f; }
         font-family: var(--font-mono);
       }
 
+      /* =============================================
+         games-list — Bloomberg 3-column layout
+         ============================================= */
+      .bloomberg-layout {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr) 320px;
+        gap: 16px;
+        align-items: start;
+      }
+
+      .bloomberg-sidebar,
+      .bloomberg-center,
+      .bloomberg-detail {
+        min-width: 0;
+      }
+
+      .bloomberg-sidebar,
+      .bloomberg-detail {
+        position: sticky;
+        top: 16px;
+        align-self: start;
+      }
+
+      .filters-mobile-toggle {
+        display: none;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: var(--bg-surface);
+        color: var(--text-primary);
+        font: inherit;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+
+      .filters-sidebar-content {
+        display: block;
+      }
+
+      .filters-sidebar-title {
+        margin-bottom: 12px;
+      }
+
+      .results-list {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--bg-surface);
+        overflow: hidden;
+      }
+
+      .result-row {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 36px minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        min-height: 48px;
+        padding: 8px 12px;
+        border: 0;
+        border-bottom: 1px solid rgba(155, 188, 15, 0.12);
+        background: transparent;
+        color: inherit;
+        text-align: left;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .result-row:last-child {
+        border-bottom: 0;
+      }
+
+      .result-row:hover,
+      .result-row.is-selected {
+        background: rgba(61, 220, 61, 0.08);
+      }
+
+      .result-row-initial-wrap {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--bg-card);
+      }
+
+      .result-row-initial {
+        font-size: 1.1rem;
+        color: var(--text-primary);
+        font-family: var(--font-mono);
+        line-height: 1;
+      }
+
+      .result-row-main {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .result-row-title {
+        font-size: 0.82rem;
+        font-weight: bold;
+        color: var(--text-value);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .result-row-meta {
+        font-size: 0.68rem;
+        color: var(--text-secondary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .result-row-side {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-end;
+      }
+
+      .result-row-price {
+        font-size: 0.72rem;
+        color: var(--text-alert);
+        white-space: nowrap;
+      }
+
+      .quick-detail-panel {
+        min-height: 360px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--bg-surface);
+        padding: 16px;
+      }
+
+      .quick-detail-head {
+        font-size: 0.7rem;
+        color: var(--text-secondary);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      .quick-detail-placeholder,
+      .quick-detail-loading {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+      }
+
+      .quick-detail-title {
+        font-size: 1rem;
+        color: var(--text-value);
+        margin-bottom: 10px;
+      }
+
+      .quick-detail-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .quick-detail-meta {
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(155, 188, 15, 0.2);
+        background: rgba(10, 10, 10, 0.35);
+        color: var(--text-secondary);
+        font-size: 0.68rem;
+      }
+
+      .quick-detail-prices {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .quick-detail-price {
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: var(--bg-card);
+      }
+
+      .quick-detail-price-label {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 0.62rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+      }
+
+      .quick-detail-price-value {
+        font-size: 0.85rem;
+        color: var(--text-value);
+      }
+
+      .quick-detail-summary {
+        font-size: 0.72rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 12px;
+      }
+
+      .quick-detail-link {
+        color: var(--text-primary);
+        text-decoration: none;
+      }
+
+      .quick-detail-link:hover {
+        color: var(--text-value);
+      }
+
+      @media (max-width: 768px) {
+        .bloomberg-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .bloomberg-sidebar,
+        .bloomberg-detail {
+          position: static;
+        }
+
+        .filters-mobile-toggle {
+          display: flex;
+        }
+
+        .filters-sidebar-content {
+          display: none;
+        }
+
+        .filters-sidebar-content.is-open {
+          display: block;
+        }
+
+        .result-row {
+          grid-template-columns: 36px minmax(0, 1fr);
+          align-items: start;
+        }
+
+        .result-row-side {
+          grid-column: 2;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .quick-detail-prices {
+          grid-template-columns: 1fr;
+        }
+      }
