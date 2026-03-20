@@ -137,6 +137,17 @@ function toItemPayload(game) {
   };
 }
 
+function toConsolePayload(game, gamesCount = 0) {
+  return {
+    id: game.id,
+    title: game.title,
+    platform: game.console,
+    year: game.year,
+    slug: game.slug || null,
+    gamesCount,
+  };
+}
+
 // --- Mount routes ---
 app.use(gamesRoutes);
 app.get("/api/items", handleAsync(async (req, res) => {
@@ -178,6 +189,64 @@ app.get("/api/items/:id", handleAsync(async (req, res) => {
   return res.json({
     ok: true,
     item: toItemPayload(item),
+  });
+}));
+app.get("/api/consoles", handleAsync(async (_req, res) => {
+  const consoles = await Game.findAll({
+    where: { type: "console" },
+    order: [["year", "ASC"], ["title", "ASC"]],
+  });
+
+  const counts = await Game.findAll({
+    attributes: ["console"],
+    where: {
+      type: "game",
+      console: {
+        [Op.in]: consoles.map((item) => item.console),
+      },
+    },
+  });
+
+  const gamesByPlatform = new Map();
+  for (const game of counts) {
+    gamesByPlatform.set(game.console, (gamesByPlatform.get(game.console) || 0) + 1);
+  }
+
+  res.json({
+    ok: true,
+    consoles: consoles.map((item) => toConsolePayload(item, gamesByPlatform.get(item.console) || 0)),
+    count: consoles.length,
+  });
+}));
+app.get("/api/consoles/:id", handleAsync(async (req, res) => {
+  const lookup = String(req.params.id || "").trim();
+  const consoleItem = await Game.findOne({
+    where: {
+      type: "console",
+      [Op.or]: [
+        { id: lookup },
+        { slug: lookup },
+      ],
+    },
+  });
+
+  if (!consoleItem) {
+    return res.status(404).json({ ok: false, error: "Not found" });
+  }
+
+  const games = await Game.findAll({
+    where: {
+      type: "game",
+      console: consoleItem.console,
+    },
+    order: [["title", "ASC"]],
+    limit: 20,
+  });
+
+  return res.json({
+    ok: true,
+    console: toConsolePayload(consoleItem, games.length),
+    games: games.map(toItemPayload),
   });
 }));
 app.get("/api/index/:id", handleAsync(async (req, res) => {
