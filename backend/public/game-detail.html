@@ -259,9 +259,9 @@
         try {
           const payload = await fetchJson(`/api/index/${encodeURIComponent(gameId)}`);
           const entries = Array.isArray(payload.index) ? payload.index : [];
-          const hasConfidence = entries.some((entry) => (Number(entry.confidence_pct) || 0) >= 30);
+          const hasUsableIndex = entries.some((entry) => (Number(entry.index_value) || 0) > 0);
 
-          if (!entries.length || !hasConfidence) {
+          if (!entries.length || !hasUsableIndex) {
             indexEl.className = "index-insufficient";
             indexEl.textContent = "Données insuffisantes — contribuez un prix";
             return;
