@@ -7,6 +7,7 @@ const cors = require("cors");
 const { sequelize, storagePath, databaseMode, databaseTarget } = require("./database");
 const Game = require("./models/Game");
 const CollectionItem = require("./models/CollectionItem");
+const RetrodexIndex = require("../models/RetrodexIndex");
 const { syncGamesFromPrototype } = require("./syncGames");
 const { handleAsync } = require("./helpers/query");
 
@@ -70,6 +71,29 @@ app.get("/api/health", handleAsync(async (_req, res) => {
 
 // --- Mount routes ---
 app.use(gamesRoutes);
+app.get("/api/index/:id", handleAsync(async (req, res) => {
+  const indexEntries = await RetrodexIndex.findAll({
+    where: {
+      item_id: req.params.id,
+    },
+    order: [["condition", "ASC"]],
+  });
+
+  res.json({
+    ok: true,
+    item_id: req.params.id,
+    index: indexEntries.map((entry) => ({
+      condition: entry.condition,
+      index_value: entry.index_value,
+      range_low: entry.range_low,
+      range_high: entry.range_high,
+      confidence_pct: entry.confidence_pct,
+      trend: entry.trend,
+      sources_editorial: entry.sources_editorial,
+      last_sale_date: entry.last_sale_date,
+    })),
+  });
+}));
 app.use(collectionRoutes);
 app.use(consolesRoutes);
 app.use(statsRoutes);
