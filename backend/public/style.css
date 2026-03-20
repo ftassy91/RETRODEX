@@ -207,6 +207,70 @@ a { color: #9bbc0f; }
         padding: 16px;
       }
 
+      .retrodex-index {
+        border: 1px solid var(--border);
+        padding: 16px;
+        margin-bottom: 16px;
+        background: rgba(10, 10, 10, 0.24);
+        border-radius: var(--radius);
+      }
+
+      .index-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-secondary);
+        flex-wrap: wrap;
+      }
+
+      .confidence-high { color: var(--confidence-high); }
+      .confidence-mid { color: var(--confidence-mid); }
+      .confidence-low { color: var(--confidence-low); }
+
+      .index-prices {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .index-condition .label {
+        display: block;
+        font-size: 10px;
+        color: var(--text-muted);
+      }
+
+      .index-condition .value {
+        display: block;
+        font-size: 1.2rem;
+        color: var(--text-alert);
+        font-family: var(--font-mono);
+        margin: 4px 0;
+      }
+
+      .index-condition .range {
+        display: block;
+        font-size: 10px;
+        color: var(--text-secondary);
+      }
+
+      .index-sources {
+        margin-top: 8px;
+        font-size: 11px;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+      }
+
+      .index-insufficient {
+        border: 1px dashed var(--border);
+        padding: 16px;
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
+        border-radius: var(--radius);
+      }
+
       .price-top {
         display: flex;
         justify-content: space-between;

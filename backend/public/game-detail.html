@@ -139,32 +139,21 @@
 
       function renderHeroSection(game) {
         heroEl.innerHTML = `
-          <div class="game-header">
-            <h1 class="hero-title page-title">${escapeHtml(game.title)}</h1>
-            <div class="hero-meta">
-              <span class="pill">${escapeHtml(game.console || "Console inconnue")}</span>
-              <span class="pill">${escapeHtml(game.year || "n/a")}</span>
-              <span class="pill">${escapeHtml(game.genre || "Genre inconnu")}</span>
-              <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || "COMMON")}</span>
+          <div class="hero-grid">
+            <div class="game-header">
+              <h1 class="hero-title page-title">${escapeHtml(game.title)}</h1>
+              <div class="hero-meta">
+                <span class="pill">${escapeHtml(game.console || "Console inconnue")}</span>
+                <span class="pill">${escapeHtml(game.year || "n/a")}</span>
+                <span class="pill">${escapeHtml(game.genre || "Genre inconnu")}</span>
+                <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || "COMMON")}</span>
+              </div>
+              <div class="developer-line">Développé par ${escapeHtml(game.developer || "studio inconnu")}</div>
             </div>
-            <div class="developer-line">Développé par ${escapeHtml(game.developer || "studio inconnu")}</div>
+            <aside class="price-panel">
+              <div id="retrodex-index" class="index-insufficient">Chargement de l'indice RetroDex...</div>
+            </aside>
           </div>
-          <aside class="price-panel">
-            <div class="price-top">
-              <div>
-                <div style="font-size:10px;color:rgba(155,188,15,0.4);text-transform:uppercase;letter-spacing:0.08em;">Prix collection</div>
-              </div>
-              <div class="metascore-circle">
-                <strong>${escapeHtml(game.metascore || "—")}</strong>
-                <span>METASCORE</span>
-              </div>
-            </div>
-            <div class="price-table">
-              <div class="price-cell"><span class="label">Loose</span><span class="value">${escapeHtml(formatPrice(game.loosePrice))}</span></div>
-              <div class="price-cell"><span class="label">CIB</span><span class="value">${escapeHtml(formatPrice(game.cibPrice))}</span></div>
-              <div class="price-cell"><span class="label">Mint</span><span class="value">${escapeHtml(formatPrice(game.mintPrice))}</span></div>
-            </div>
-          </aside>
           <section class="price-history">
             <h3>HISTORIQUE DES PRIX - 12 MOIS</h3>
             <div class="trend-row">
@@ -203,6 +192,76 @@
             </div>
           </section>
         `;
+      }
+
+      function confidenceClass(value) {
+        const pct = Number(value) || 0;
+        if (pct >= 70) return "confidence-high";
+        if (pct >= 30) return "confidence-mid";
+        return "confidence-low";
+      }
+
+      function formatIndexValue(value) {
+        const number = Number(value);
+        return Number.isFinite(number) && number > 0 ? `$${Math.round(number)}` : "$—";
+      }
+
+      function formatIndexRange(low, high) {
+        const lowNumber = Number(low);
+        const highNumber = Number(high);
+        if (!Number.isFinite(lowNumber) || !Number.isFinite(highNumber) || lowNumber <= 0 || highNumber <= 0) {
+          return "—";
+        }
+        return `$${Math.round(lowNumber)} – $${Math.round(highNumber)}`;
+      }
+
+      async function loadRetrodexIndex(gameId) {
+        const indexEl = document.getElementById("retrodex-index");
+        if (!indexEl) {
+          return;
+        }
+
+        try {
+          const payload = await fetchJson(`/api/index/${encodeURIComponent(gameId)}`);
+          const entries = Array.isArray(payload.index) ? payload.index : [];
+          const hasConfidence = entries.some((entry) => (Number(entry.confidence_pct) || 0) >= 30);
+
+          if (!entries.length || !hasConfidence) {
+            indexEl.className = "index-insufficient";
+            indexEl.textContent = "Données insuffisantes — contribuez un prix";
+            return;
+          }
+
+          const orderedEntries = ["Loose", "CIB", "Mint"].map((condition) =>
+            entries.find((entry) => entry.condition === condition) || { condition }
+          );
+          const confidence = Math.round(Math.max(...entries.map((entry) => Number(entry.confidence_pct) || 0)));
+          const sourcesEditorial = entries.reduce((total, entry) => total + (Number(entry.sources_editorial) || 0), 0);
+          const sourcesCommunity = entries.reduce((total, entry) => total + (Number(entry.sources_community) || 0), 0);
+
+          indexEl.className = "retrodex-index";
+          indexEl.innerHTML = `
+            <div class="index-header">
+              <span>INDICE RETRODEX</span>
+              <span class="confidence ${confidenceClass(confidence)}">${confidence}% confiance</span>
+            </div>
+            <div class="index-prices">
+              ${orderedEntries.map((entry) => `
+                <div class="index-condition">
+                  <span class="label">${escapeHtml(entry.condition || "—")}</span>
+                  <span class="value">${escapeHtml(formatIndexValue(entry.index_value))}</span>
+                  <span class="range">${escapeHtml(formatIndexRange(entry.range_low, entry.range_high))}</span>
+                </div>
+              `).join("")}
+            </div>
+            <div class="index-sources">
+              ${sourcesEditorial} ventes · 0 listings · ${sourcesCommunity} contributions
+            </div>
+          `;
+        } catch (_error) {
+          indexEl.className = "index-insufficient";
+          indexEl.textContent = "Données insuffisantes — contribuez un prix";
+        }
       }
 
       function renderSummary(game) {
@@ -594,6 +653,7 @@
             breadcrumbTitleEl.textContent = (currentGame.title || "").toUpperCase().substring(0, 30) || "—";
           }
           renderHeroSection(currentGame);
+          await loadRetrodexIndex(currentGame.id);
           renderSummary(currentGame);
           renderStats(currentGame);
           collectionButtonEl.addEventListener("click", handleCollectionAction);
