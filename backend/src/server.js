@@ -154,6 +154,45 @@ app.post("/api/reports", handleAsync(async (req, res) => {
     id: newReport.id,
   });
 }));
+app.get("/api/collection/public", handleAsync(async (_req, res) => {
+  const items = await CollectionItem.findAll({
+    where: {
+      list_type: "for_sale",
+    },
+    include: [{
+      model: Game,
+      as: "game",
+      attributes: ["id", "title", "console", "year", "rarity"],
+    }],
+    order: [["gameId", "ASC"]],
+  });
+
+  const serializedItems = items
+    .map((item) => ({
+      id: item.gameId,
+      gameId: item.gameId,
+      condition: item.condition || "Loose",
+      notes: item.notes || null,
+      list_type: item.list_type || "for_sale",
+      price_paid: item.price_paid ?? null,
+      addedAt: item.addedAt || null,
+      game: item.game ? {
+        id: item.game.id,
+        title: item.game.title,
+        platform: item.game.console,
+        console: item.game.console,
+        year: item.game.year,
+        rarity: item.game.rarity,
+      } : null,
+    }))
+    .sort((left, right) => String(left.game?.title || left.gameId || "").localeCompare(String(right.game?.title || right.gameId || "")));
+
+  res.json({
+    ok: true,
+    items: serializedItems,
+    count: serializedItems.length,
+  });
+}));
 app.use(collectionRoutes);
 app.use(consolesRoutes);
 app.use(statsRoutes);
