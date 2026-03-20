@@ -1,0 +1,180 @@
+[
+  {
+    "id": "castlevania",
+    "name": "Castlevania",
+    "slug": "castlevania",
+    "description": "Castlevania est l'une des franchises les plus influentes de l'histoire du jeu vidéo, née en 1986 chez Konami. La série a défini le genre action-platformer gothique avant de révolutionner l'exploration non-linéaire avec Symphony of the Night en 1997, donnant naissance au sous-genre Metroidvania. Sur près de trois décennies, la franchise a traversé des transitions radicales de gameplay, de plateforme et d'équipe créative tout en maintenant une identité visuelle et sonore cohérente.",
+    "first_game": 1986,
+    "last_game": 2014,
+    "developer": "Konami",
+    "publisher": "Konami",
+    "genres": ["Action-Platformer", "Metroidvania", "Action-RPG"],
+    "platforms": ["NES", "Super Nintendo", "Sega Genesis", "Game Boy", "PlayStation", "Nintendo 64", "Nintendo DS", "PlayStation 2", "Wii", "Xbox 360"],
+    "timeline": [
+      { "year": 1986, "title": "Castlevania", "platform": "NES", "event_type": "release", "description": "Premier épisode fondateur. Simon Belmont contre Dracula. Définit le format action-platformer linéaire de la série." },
+      { "year": 1987, "title": "Castlevania II: Simon's Quest", "platform": "NES", "event_type": "release", "description": "Premier pivot — introduction d'un monde ouvert et de RPG légers. Accueil divisé mais très influent sur la direction future." },
+      { "year": 1989, "title": "Castlevania III: Dracula's Curse", "platform": "NES", "event_type": "release", "description": "Retour aux racines du premier épisode avec des chemins multiples. Introduit des personnages jouables alternatifs." },
+      { "year": 1991, "title": "Super Castlevania IV", "platform": "Super Nintendo", "event_type": "release", "description": "Showcase technologique du SNES. Whip multidirectionnel, Mode 7, bande-son remarquable par Masahiro Inoue." },
+      { "year": 1993, "title": "Castlevania: Rondo of Blood", "platform": "PC Engine", "event_type": "release", "description": "Sommet du format classique. Richter Belmont. Chemins alternatifs, personnages sauvables, boss mémorables. Jamais localisé officiellement en Occident." },
+      { "year": 1994, "title": "Castlevania: Bloodlines", "platform": "Sega Genesis", "event_type": "release", "description": "Seul épisode principal sur Mega Drive. Deux protagonistes jouables avec styles différents. Centurier sur la Première Guerre mondiale." },
+      { "year": 1997, "title": "Castlevania: Symphony of the Night", "platform": "PlayStation", "event_type": "pivot_majeur", "description": "Révolution totale du genre. Koji Igarashi prend le contrôle. RPG non-linéaire, château inversé, équipements. Définit le Metroidvania." },
+      { "year": 1999, "title": "Castlevania: Legacy of Darkness", "platform": "Nintendo 64", "event_type": "release", "description": "Tentative 3D controversée. Gameplay limité par les contraintes hardware. Marque la limite de la transition 3D." },
+      { "year": 2001, "title": "Castlevania: Circle of the Moon", "platform": "Game Boy Advance", "event_type": "release", "description": "Retour au format Metroidvania sur portable. Développé sans Igarashi — tension interne notable." },
+      { "year": 2003, "title": "Castlevania: Aria of Sorrow", "platform": "Game Boy Advance", "event_type": "release", "description": "Sommet de la période GBA. Système Soul d'absorption des ennemis. Scénario futuriste innovant." },
+      { "year": 2008, "title": "Castlevania: Order of Ecclesia", "platform": "Nintendo DS", "event_type": "release", "description": "Dernier grand Metroidvania d'Igarashi. Shanoa protagoniste féminine. Difficulté revue à la hausse, accueil excellent." },
+      { "year": 2010, "title": "Castlevania: Lords of Shadow", "platform": "Xbox 360 / PS3", "event_type": "reboot", "description": "Reboot total par MercurySteam. God of War-like. Igarashi quitte le projet. Accueil commercial positif, accueil fan divisé." },
+      { "year": 2014, "title": "Castlevania: Lords of Shadow 2", "platform": "Xbox 360 / PS3", "event_type": "release", "description": "Suite du reboot. Accueil décevant. Marque la fin de la série principale pour une longue période." }
+    ],
+    "team_changes": [
+      { "year": 1986, "name": "Hitoshi Akamatsu", "role": "Director", "event": "joined", "note": "Dirige le premier Castlevania. Quitte Konami peu après." },
+      { "year": 1991, "name": "Masahiro Inoue", "role": "Composer", "event": "joined", "note": "Compose Super Castlevania IV. Bande-son considérée comme la meilleure de la série classique." },
+      { "year": 1997, "name": "Koji Igarashi", "role": "Assistant Director → Series Producer", "event": "joined", "note": "Prend le contrôle créatif avec Symphony of the Night. Définit la direction Metroidvania pour 15 ans." },
+      { "year": 1997, "name": "Michiru Yamane", "role": "Composer", "event": "joined", "note": "Bande-son de Symphony of the Night. Devient la compositrice principale de la série pendant une décennie." },
+      { "year": 2010, "name": "Koji Igarashi", "role": "Series Producer", "event": "left", "note": "Ne participe pas au développement de Lords of Shadow. Quitte Konami en 2014 pour fonder Inti Creates." },
+      { "year": 2010, "name": "MercurySteam", "role": "Developer", "event": "joined", "note": "Studio espagnol reprend la franchise avec Lords of Shadow. Approche radicalement différente." }
+    ],
+    "trivia": [
+      { "title": "Nom original japonais", "text": "La série s'intitule 'Akumajō Dracula' (悪魔城ドラキュラ) au Japon, soit 'Dracula's Demon Castle'. Le nom Castlevania a été créé spécifiquement pour les marchés occidentaux." },
+      { "title": "Le fouet — arme iconique", "text": "Le Vampire Killer, le fouet de la famille Belmont, est techniquement une relique sainte transmise de génération en génération. Dans la mythologie de la série, seul un Belmont peut le manier pleinement." },
+      { "title": "Igarashi et les 15 ans perdus", "text": "Koji Igarashi a déclaré avoir voulu faire un nouveau Metroidvania pendant des années mais en avoir été empêché par la direction de Konami. Il a finalement réalisé ce projet sous la forme de Bloodstained: Ritual of the Night en 2019." },
+      { "title": "Dracula ressuscite tous les 100 ans", "text": "La chronologie interne de la série indique que Dracula est réveillé par des rituels tous les 100 ans environ, ce qui explique pourquoi les jeux se déroulent dans des époques différentes." }
+    ],
+    "legacy": "Castlevania a directement influencé des dizaines de jeux et a codéfini un genre entier. Des jeux comme Hollow Knight, Salt and Sanctuary, Bloodstained et Dead Cells citent explicitement la série comme inspiration principale. La série Netflix Castlevania (2017-2021) a introduit la franchise à une nouvelle génération."
+  },
+  {
+    "id": "mega-man",
+    "name": "Mega Man",
+    "slug": "mega-man",
+    "description": "Mega Man, connu sous le nom de Rockman au Japon, est une franchise de jeux d'action-platformer de Capcom lancée en 1987. La série classique a défini le concept de sélection des boss et d'absorption de leurs pouvoirs. Elle a donné naissance à plusieurs sous-séries — Mega Man X, Zero, ZX, Legends, Battle Network — chacune explorant une ère différente et un gameplay distinct, créant un univers chronologique complexe s'étendant sur des milliers d'années.",
+    "first_game": 1987,
+    "last_game": 2018,
+    "developer": "Capcom",
+    "publisher": "Capcom",
+    "genres": ["Action-Platformer"],
+    "platforms": ["NES", "Super Nintendo", "Sega Genesis", "Game Boy", "PlayStation", "Nintendo DS", "Game Boy Advance"],
+    "timeline": [
+      { "year": 1987, "title": "Mega Man", "platform": "NES", "event_type": "release", "description": "Fondation de la franchise. Sélection de 6 boss Robot Masters. Difficulté élevée, gameplay précis." },
+      { "year": 1988, "title": "Mega Man 2", "platform": "NES", "event_type": "release", "description": "Sommet commercial et critique de la série classique. 8 Robot Masters. Bande-son légendaire par Takashi Tateishi." },
+      { "year": 1993, "title": "Mega Man X", "platform": "Super Nintendo", "event_type": "pivot_majeur", "description": "Nouvelle série, nouveau protagoniste, nouveau ton. Plus sombre, mécaniques avancées, dash et wall-jump. Keiji Inafune comme designer." },
+      { "year": 1995, "title": "Mega Man X3", "platform": "Super Nintendo", "event_type": "release", "description": "Dernier X sur SNES. Introduction de Zero jouable." },
+      { "year": 1996, "title": "Mega Man X4", "platform": "PlayStation", "event_type": "release", "description": "Transition 32 bits. Zero devient pleinement jouable avec un gameplay distinct." },
+      { "year": 2002, "title": "Mega Man Zero", "platform": "Game Boy Advance", "event_type": "nouvelle_serie", "description": "Nouvelle sous-série se déroulant 100 ans après X. Zero protagoniste. Difficulté maximale, narration sombre." },
+      { "year": 2010, "title": "Mega Man 10", "platform": "WiiWare", "event_type": "release", "description": "Retour au pixel art NES. Dernier épisode classique numéroté pendant 8 ans." },
+      { "year": 2018, "title": "Mega Man 11", "platform": "Multi", "event_type": "release", "description": "Résurrection après 8 ans de silence. Nouveau moteur graphique, Double Gear System." }
+    ],
+    "team_changes": [
+      { "year": 1987, "name": "Keiji Inafune", "role": "Character Designer → Series Producer", "event": "joined", "note": "Co-crée Mega Man. Devient le visage public de la franchise pendant 20 ans." },
+      { "year": 1993, "name": "Keiji Inafune", "role": "Series Producer", "event": "changed_role", "note": "Supervise le lancement de Mega Man X. Expand la franchise vers de nouvelles directions." },
+      { "year": 2010, "name": "Keiji Inafune", "role": "Series Producer", "event": "left", "note": "Quitte Capcom en octobre 2010, entraînant l'annulation de Mega Man Legends 3 et Mega Man Universe. Marque une période sombre pour la franchise." }
+    ],
+    "trivia": [
+      { "title": "Mega Man ou Rock Man ?", "text": "Le nom original Rockman fait référence au thème musical de la série — Mega Man et ses frères et sœurs sont tous nommés d'après des genres musicaux : Roll, Blues, Jazz, etc." },
+      { "title": "La boîte américaine infâme", "text": "La pochette américaine du premier Mega Man est universellement moquée pour sa qualité d'illustration déplorable — un homme en combinaison bleue générique tenant un pistolet. Elle est devenue un symbole culturel de la localisation bâclée." },
+      { "title": "8 ans de silence", "text": "Entre Mega Man 10 en 2010 et Mega Man 11 en 2018, Capcom n'a sorti aucun nouveau jeu Mega Man principal. Cette période correspond au départ de Keiji Inafune et a été vécue comme un abandon de la franchise par les fans." }
+    ],
+    "legacy": "Mega Man a influencé des générations de designers de jeux d'action. La structure boss-sélection est devenue un standard du genre. Des jeux comme Shovel Knight, 20XX et Mighty No. 9 s'inscrivent directement dans sa lignée."
+  },
+  {
+    "id": "final-fantasy",
+    "name": "Final Fantasy",
+    "slug": "final-fantasy",
+    "description": "Final Fantasy est la franchise RPG la plus vendue de l'histoire, créée par Hironobu Sakaguchi chez Square en 1987 comme ultime tentative commerciale de la société. Paradoxalement devenu un succès phénoménal, la série a redéfini le JRPG à chaque décennie tout en restant fidèle à certains éléments récurrents — cristaux, Chocobos, Moogles, et la musique de Nobuo Uematsu. Chaque épisode numéroté constitue une œuvre indépendante avec ses propres personnages et univers.",
+    "first_game": 1987,
+    "last_game": 2023,
+    "developer": "Square → Square Enix",
+    "publisher": "Square → Square Enix",
+    "genres": ["RPG", "Action-RPG", "MMO"],
+    "platforms": ["NES", "Super Nintendo", "PlayStation", "PlayStation 2", "PlayStation 3", "Multi"],
+    "timeline": [
+      { "year": 1987, "title": "Final Fantasy", "platform": "NES", "event_type": "release", "description": "Né d'un désespoir commercial. Square était au bord de la faillite — ce jeu a tout sauvé." },
+      { "year": 1991, "title": "Final Fantasy IV", "platform": "Super Nintendo", "event_type": "pivot_majeur", "description": "Introduction de la narration émotionnelle et des personnages à la personnalité définie. Active Time Battle system." },
+      { "year": 1994, "title": "Final Fantasy VI", "platform": "Super Nintendo", "event_type": "release", "description": "Considéré par beaucoup comme l'apogée de la série 2D. Ensemble de 14 protagonistes. Kefka comme villain sans rédemption." },
+      { "year": 1997, "title": "Final Fantasy VII", "platform": "PlayStation", "event_type": "pivot_majeur", "description": "Transition 3D révolutionnaire. Cloud Strife, Midgar, la mort d'Aerith. 10 millions de copies. Définit le JRPG pour une décennie." },
+      { "year": 1999, "title": "Final Fantasy VIII", "platform": "PlayStation", "event_type": "release", "description": "Suite controversée à FF7. Junction system complexe. Graphismes réalistes. Accueil divisé mais commercial." },
+      { "year": 2001, "title": "Final Fantasy X", "platform": "PlayStation 2", "event_type": "release", "description": "Premier épisode entièrement doublé. Histoire de Tidus et Yuna. Abandon du monde ouvert traditionnel. Accueil excellent." },
+      { "year": 2013, "title": "Final Fantasy XIV: A Realm Reborn", "platform": "PC / PS3", "event_type": "pivot_majeur", "description": "Relaunch total d'un MMO raté. Yoshida Naoki sauve la franchise MMORPG. Devient l'un des MMO les plus appréciés." },
+      { "year": 2023, "title": "Final Fantasy XVI", "platform": "PlayStation 5", "event_type": "release", "description": "Action pure, abandon du turn-based. Hiroshi Takai directeur. Ambiance médiévale mature, inspiré de Game of Thrones." }
+    ],
+    "team_changes": [
+      { "year": 1987, "name": "Hironobu Sakaguchi", "role": "Creator / Producer", "event": "joined", "note": "Crée Final Fantasy comme dernier projet de Square. Produit les épisodes I à IX." },
+      { "year": 1987, "name": "Nobuo Uematsu", "role": "Composer", "event": "joined", "note": "Compose la bande-son de presque tous les épisodes jusqu'à XII. Devenu le compositeur de RPG le plus célèbre au monde." },
+      { "year": 1987, "name": "Yoshitaka Amano", "role": "Character Designer", "event": "joined", "note": "Design les personnages et l'identité visuelle des épisodes I à VI. Son style aquarelle est devenu l'image iconique de la franchise." },
+      { "year": 2001, "name": "Hironobu Sakaguchi", "role": "Executive VP", "event": "left", "note": "Quitte Square après l'échec financier du film Final Fantasy: The Spirits Within. Fonde Mistwalker." },
+      { "year": 2003, "name": "Nobuo Uematsu", "role": "Composer", "event": "left", "note": "Quitte Square Enix comme employé permanent pour travailler en freelance. Compose encore occasionnellement pour la série." }
+    ],
+    "trivia": [
+      { "title": "Le nom Final Fantasy", "text": "Le titre 'Final Fantasy' était censé être littéralement le dernier jeu de Square avant la faillite de la société et le départ de Sakaguchi dans l'industrie. Le succès a tout changé." },
+      { "title": "La mort d'Aerith", "text": "La mort d'Aerith dans Final Fantasy VII reste l'un des moments les plus marquants de l'histoire du jeu vidéo. Elle a choqué des millions de joueurs qui ne s'attendaient pas à la mort permanente d'un personnage principal dans un RPG." },
+      { "title": "Cristaux récurrents", "text": "Les cristaux de quatre éléments (feu, eau, terre, vent) apparaissent dans la quasi-totalité des épisodes de la série sous une forme ou une autre, représentant l'équilibre du monde." }
+    ],
+    "legacy": "Final Fantasy a défini le JRPG pour le monde occidental et a directement contribué à l'adoption massive de la PlayStation. Des franchises comme Tales of, Star Ocean et Xenogears sont nées de la même école créative."
+  },
+  {
+    "id": "sonic",
+    "name": "Sonic the Hedgehog",
+    "slug": "sonic",
+    "description": "Sonic the Hedgehog est la mascotte de Sega et l'une des franchises de jeux de plateforme les plus vendues de l'histoire. Lancée en 1991 comme réponse directe à Mario de Nintendo, la série a connu des hauts et des bas spectaculaires — des chefs-d'œuvre 16 bits aux désastres 3D des années 2000, jusqu'à une renaissance critique avec Sonic Mania en 2017. L'histoire de Sonic est indissociable de celle de Sega et de sa chute.",
+    "first_game": 1991,
+    "last_game": 2022,
+    "developer": "Sonic Team / Various",
+    "publisher": "Sega",
+    "genres": ["Action-Platformer"],
+    "platforms": ["Sega Genesis", "Game Gear", "Sega CD", "Sega Saturn", "Dreamcast", "GameCube", "Nintendo DS", "Multi"],
+    "timeline": [
+      { "year": 1991, "title": "Sonic the Hedgehog", "platform": "Sega Genesis", "event_type": "release", "description": "Naissance de la mascotte Sega. Vitesse comme concept central. Répond au défi de Nintendo avec Mario." },
+      { "year": 1992, "title": "Sonic the Hedgehog 2", "platform": "Sega Genesis", "event_type": "release", "description": "Introduction de Tails. Spin Dash. Vendu à 6 millions d'exemplaires — meilleure vente Mega Drive." },
+      { "year": 1994, "title": "Sonic & Knuckles", "platform": "Sega Genesis", "event_type": "release", "description": "Lock-on technology innovante. Introduction de Knuckles. Conclusion de la trilogie Genesis." },
+      { "year": 1998, "title": "Sonic Adventure", "platform": "Dreamcast", "event_type": "pivot_majeur", "description": "Transition 3D. Système multi-histoires. Accueil positif à l'époque, jugement plus sévère rétrospectivement." },
+      { "year": 2001, "title": "Sonic Adventure 2", "platform": "Dreamcast / GameCube", "event_type": "release", "description": "Sortie finale sur Dreamcast avant la mort de la console. Hero/Dark stories. Chao Garden culte." },
+      { "year": 2006, "title": "Sonic the Hedgehog (2006)", "platform": "Xbox 360 / PS3", "event_type": "catastrophe", "description": "Désastre critique et commercial. Développement précipité pour les 15 ans. Bugs omniprésents. Devient un symbole du déclin de la franchise." },
+      { "year": 2017, "title": "Sonic Mania", "platform": "Multi", "event_type": "renaissance", "description": "Renaissance par des fans devenus développeurs. Christian Whitehead et Headcannon. Retour aux racines 2D. Accueil unanimement enthousiaste." },
+      { "year": 2022, "title": "Sonic Frontiers", "platform": "Multi", "event_type": "release", "description": "Open world Sonic. Accueil divisé mais commercial. Montre une nouvelle direction pour la franchise." }
+    ],
+    "team_changes": [
+      { "year": 1991, "name": "Yuji Naka", "role": "Lead Programmer / Producer", "event": "joined", "note": "Cofondateur de Sonic Team. Moteur technique derrière la vitesse de Sonic. Quitte Sega en 2006." },
+      { "year": 1991, "name": "Naoto Ohshima", "role": "Character Designer", "event": "joined", "note": "Design le personnage de Sonic. Quitte Sega pour fonder Artoon." },
+      { "year": 1991, "name": "Masato Nakamura", "role": "Composer (Sonic 1 & 2)", "event": "joined", "note": "Leader de Dreams Come True, groupe de J-pop. Compose les deux premiers jeux à titre exceptionnel." },
+      { "year": 2006, "name": "Yuji Naka", "role": "Producer", "event": "left", "note": "Quitte Sega pour fonder Prope. Son départ coïncide avec la période la plus difficile de la franchise." },
+      { "year": 2017, "name": "Christian Whitehead", "role": "Lead Developer (Mania)", "event": "joined", "note": "Fan devenu développeur officiel. Avait déjà porté Sonic CD sur iOS. Sonic Mania est son chef-d'œuvre." }
+    ],
+    "trivia": [
+      { "title": "Créé pour battre Mario", "text": "Sonic a été explicitement conçu par Sega pour concurrencer Mario de Nintendo. Hayao Nakayama, PDG de Sega, voulait une mascotte aussi reconnaissable que Mickey Mouse." },
+      { "title": "La pince du développeur", "text": "Les sprites de Sonic dans le premier jeu contenaient une image cachée du visage de Michael Jackson — une rumeur persistante liée à sa collaboration sur Sonic 3 dont il aurait co-composé la bande-son (non confirmé officiellement)." },
+      { "title": "Sonic 06 en 8 mois", "text": "Sonic the Hedgehog 2006 a été développé en moins de 8 mois pour sortir pendant les fêtes. L'équipe a été divisée entre ce jeu et Sonic and the Secret Rings simultanément, expliquant en partie ses nombreux défauts." }
+    ],
+    "legacy": "Sonic a défini la console war des années 90 et reste l'une des franchises les plus reconnaissables au monde. Malgré ses vicissitudes, la série continue d'inspirer des jeux indépendants et a connu un renouveau culturel avec les films Paramount (2020-2022)."
+  },
+  {
+    "id": "street-fighter",
+    "name": "Street Fighter",
+    "slug": "street-fighter",
+    "description": "Street Fighter est la franchise de jeux de combat la plus influente de l'histoire, créée par Capcom en 1987. La série a inventé ou popularisé pratiquement tous les mécanismes fondamentaux du versus fighting — quart-de-cercle, supers, combos, garde haute/basse — et a défini le genre pendant trois décennies. Street Fighter II en 1991 a à lui seul provoqué une révolution dans l'arcade mondiale.",
+    "first_game": 1987,
+    "last_game": 2023,
+    "developer": "Capcom",
+    "publisher": "Capcom",
+    "genres": ["Versus Fighting"],
+    "platforms": ["Arcade", "Super Nintendo", "Sega Genesis", "PlayStation", "PlayStation 2", "PlayStation 3", "Multi"],
+    "timeline": [
+      { "year": 1987, "title": "Street Fighter", "platform": "Arcade", "event_type": "release", "description": "Premier épisode fondateur avec Ryu et Ken. Mécaniques encore imprécises mais les bases sont posées." },
+      { "year": 1991, "title": "Street Fighter II: The World Warrior", "platform": "Arcade", "event_type": "pivot_majeur", "description": "Révolution absolue. 8 personnages sélectionnables, combos, super moves. Devient le jeu d'arcade le plus rentable de l'histoire." },
+      { "year": 1992, "title": "Street Fighter II: Champion Edition", "platform": "Arcade", "event_type": "release", "description": "Ajout des 4 boss jouables. Début des nombreuses révisions — pratique qui deviendra une marque de Capcom." },
+      { "year": 1994, "title": "Super Street Fighter II Turbo", "platform": "Arcade", "event_type": "release", "description": "Version définitive de SF2. Introduction des Super Combos. Toujours jouée en compétition." },
+      { "year": 1995, "title": "Street Fighter Alpha", "platform": "Arcade", "event_type": "nouvelle_serie", "description": "Nouvelle série préquel avec graphismes anime. Alpha Counters, Air Blocking. Bascule vers un public jeune." },
+      { "year": 1997, "title": "Street Fighter III: New Generation", "platform": "Arcade", "event_type": "pivot_majeur", "description": "Refonte totale. Quasi tous les personnages remplacés. Nouveau système Parry révolutionnaire. Accueil initial décevant, réévaluation en légende." },
+      { "year": 2008, "title": "Street Fighter IV", "platform": "Arcade / Multi", "event_type": "renaissance", "description": "Résurrection du genre après 10 ans de disette. 3D cel-shaded. Ultra Combos. Remet le fighting game sur la scène competitive mondiale." },
+      { "year": 2023, "title": "Street Fighter 6", "platform": "Multi", "event_type": "release", "description": "Drive System. World Tour mode. Commentateurs dynamiques. Accueil unanimement enthousiaste. Considéré comme le meilleur épisode depuis des décennies." }
+    ],
+    "team_changes": [
+      { "year": 1991, "name": "Noritaka Funamizu", "role": "Producer (SF2 series)", "event": "joined", "note": "Supervise Street Fighter II et ses révisions. Architecture du succès commercial." },
+      { "year": 1997, "name": "Yoshinori Ono", "role": "Producer", "event": "joined", "note": "Rejoint l'équipe SF3. Devient le défenseur interne de la franchise pendant sa période difficile. Produit SFIV." },
+      { "year": 2020, "name": "Yoshinori Ono", "role": "Producer", "event": "left", "note": "Quitte Capcom en 2020. Laisse SF6 à Takayuki Nakayama, qui livre un épisode acclamé." }
+    ],
+    "trivia": [
+      { "title": "Le Hadouken accidentel", "text": "Le Hadouken (fireball) de Ryu a été créé presque accidentellement lors du développement de SF1 — les développeurs cherchaient un moyen de différencier Ryu et Ken avec des coups spéciaux distincts." },
+      { "title": "SF3 le mal-aimé devenu légendaire", "text": "Street Fighter III a été un échec commercial à sa sortie — le roster presque entièrement nouveau a déçu les fans de SF2. Aujourd'hui considéré comme le jeu le plus techniquement sophistiqué de la série grâce à son système de Parry." },
+      { "title": "EVO Moment 37", "text": "En 2004, lors du tournoi EVO, Daigo Umehara a repoussé 15 coups consécutifs de Ken en Parry parfait pour une victoire miraculeuse. Cette vidéo est considérée comme le moment le plus célèbre de l'e-sport fighting game." }
+    ],
+    "legacy": "Street Fighter a défini le versus fighting comme genre et comme culture. Les tournois EVO et le circuit de compétition mondiale descendent directement de SF2. Des franchises comme Mortal Kombat, King of Fighters et Guilty Gear existent en réaction directe à Street Fighter."
+  }
+]
