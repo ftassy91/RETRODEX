@@ -144,6 +144,7 @@ a { color: #9bbc0f; }
       .hero-card,
       .summary-card,
       .collection-card,
+      .contribute-section,
       .similar-card,
       .stats-card {
         background: var(--bg-surface);
@@ -692,6 +693,75 @@ a { color: #9bbc0f; }
         font-size: 0.72rem;
         color: var(--text-secondary);
         line-height: 1.5;
+      }
+
+      .contribute-section h3 {
+        font-size: 12px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 12px;
+      }
+
+      .contribute-desc {
+        color: var(--text-secondary);
+        margin-bottom: 12px;
+        font-size: 12px;
+      }
+
+      .contribute-form {
+        display: grid;
+        gap: 10px;
+      }
+
+      .contribute-form select,
+      .contribute-form input,
+      .contribute-form textarea {
+        width: 100%;
+        border: 1px solid var(--border);
+        background: var(--bg-card);
+        color: var(--text-primary);
+        font-family: var(--font-mono);
+        padding: 10px 12px;
+        border-radius: var(--radius);
+      }
+
+      .contribute-form textarea {
+        resize: vertical;
+        min-height: 64px;
+      }
+
+      #contrib-submit {
+        border: 1px solid var(--accent);
+        background: var(--accent);
+        color: var(--bg);
+        font-family: var(--font-mono);
+        padding: 10px 12px;
+        border-radius: var(--radius);
+        cursor: pointer;
+      }
+
+      #contrib-submit:disabled {
+        opacity: 0.7;
+        cursor: default;
+      }
+
+      #contrib-feedback {
+        margin-top: 12px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+      }
+
+      #contrib-feedback.is-success {
+        color: var(--confidence-high);
+      }
+
+      #contrib-feedback.is-error {
+        color: var(--confidence-low);
+      }
+
+      .hidden {
+        display: none;
       }
 
       .loading-card {

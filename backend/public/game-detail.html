@@ -69,6 +69,34 @@
         <div id="collection-status" class="status-text"></div>
       </section>
 
+      <section class="contribute-section">
+        <h3>CONTRIBUER UN PRIX</h3>
+        <p class="contribute-desc">
+          Vous avez acheté ou vendu ce jeu ? Partagez le prix.
+        </p>
+        <div class="contribute-form">
+          <select id="contrib-condition">
+            <option value="Loose">Loose</option>
+            <option value="CIB">CIB</option>
+            <option value="Mint">Mint</option>
+          </select>
+          <input type="number" id="contrib-price"
+            placeholder="Prix en $ (ex: 45)" min="1" step="0.01" />
+          <select id="contrib-context">
+            <option value="ebay">eBay</option>
+            <option value="vinted">Vinted</option>
+            <option value="brocante">Brocante</option>
+            <option value="leboncoin">Leboncoin</option>
+            <option value="autre">Autre</option>
+          </select>
+          <input type="date" id="contrib-date" />
+          <textarea id="contrib-note"
+            placeholder="Note optionnelle..." rows="2"></textarea>
+          <button id="contrib-submit" type="button">SOUMETTRE</button>
+        </div>
+        <div id="contrib-feedback" class="hidden"></div>
+      </section>
+
       <section class="similar-card">
         <h2>Jeux similaires</h2>
         <div id="similar-games" class="similar-grid"></div>
@@ -86,6 +114,13 @@
       const collectionConditionEl = document.getElementById("collection-condition");
       const collectionNotesEl = document.getElementById("collection-notes");
       const collectionStatusEl = document.getElementById("collection-status");
+      const contribConditionEl = document.getElementById("contrib-condition");
+      const contribPriceEl = document.getElementById("contrib-price");
+      const contribContextEl = document.getElementById("contrib-context");
+      const contribDateEl = document.getElementById("contrib-date");
+      const contribNoteEl = document.getElementById("contrib-note");
+      const contribSubmitEl = document.getElementById("contrib-submit");
+      const contribFeedbackEl = document.getElementById("contrib-feedback");
       const similarGamesEl = document.getElementById("similar-games");
       const catalogBackLinkEl = document.getElementById("catalog-back-link");
       const breadcrumbTitleEl = document.getElementById("breadcrumb-title");
@@ -351,6 +386,55 @@
         } catch (error) {
           collectionStatusEl.textContent = `Erreur collection: ${error.message}`;
           collectionButtonEl.disabled = false;
+        }
+      }
+
+      function setContributionFeedback(message, isError = false) {
+        if (!contribFeedbackEl) {
+          return;
+        }
+        contribFeedbackEl.classList.remove("hidden", "is-error", "is-success");
+        contribFeedbackEl.classList.add(isError ? "is-error" : "is-success");
+        contribFeedbackEl.textContent = message;
+      }
+
+      async function handleContributionSubmit() {
+        if (!currentGame) {
+          setContributionFeedback("Impossible de soumettre sans fiche chargée.", true);
+          return;
+        }
+
+        const reportedPrice = Number(contribPriceEl?.value || 0);
+
+        contribSubmitEl.disabled = true;
+        setContributionFeedback("Envoi en cours...");
+
+        try {
+          const payload = {
+            item_id: currentGame.id,
+            condition: contribConditionEl?.value || "Loose",
+            reported_price: reportedPrice,
+            context: contribContextEl?.value || "autre",
+            date_estimated: contribDateEl?.value || null,
+            text_raw: contribNoteEl?.value?.trim() || null,
+          };
+
+          await fetchJson("/api/reports", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          setContributionFeedback("Merci pour votre contribution !");
+          contribPriceEl.value = "";
+          contribDateEl.value = "";
+          contribNoteEl.value = "";
+        } catch (error) {
+          setContributionFeedback(error.message, true);
+        } finally {
+          contribSubmitEl.disabled = false;
         }
       }
 
@@ -673,6 +757,7 @@
       }
 
       loadPage();
+      contribSubmitEl?.addEventListener("click", handleContributionSubmit);
     </script>
   </body>
 </html>
