@@ -1,0 +1,2901 @@
+{
+  "generatedAt": "2026-03-20T11:14:07.410207+00:00",
+  "source": {
+    "name": "PriceCharting completed eBay sales tables",
+    "method": "Editorial medians from the latest up to 10 completed sales visible per condition on PriceCharting game pages.",
+    "note": "Used as a practical proxy for eBay sold listings because direct eBay sold pages are unstable to automate in this environment.",
+    "sampleTargetPerCondition": 10,
+    "selectionRule": "Top 20 LEGENDARY/EPIC titles by existing editorial ranking in data/market_candidates.json."
+  },
+  "items": [
+    {
+      "rank": 1,
+      "id": "panzer-dragoon-saga-sega-saturn",
+      "title": "Panzer Dragoon Saga",
+      "console": "Sega Saturn",
+      "rarity": "LEGENDARY",
+      "sourceUrl": "https://www.pricecharting.com/game/sega-saturn/panzer-dragoon-saga",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 713.69,
+          "sales": [
+            {
+              "date": "2026-02-24",
+              "title": "Panzer Dragoon Saga (Saturn, 1998) - Discs Only - Tested, working [eBay]",
+              "price": 700.0
+            },
+            {
+              "date": "2026-01-19",
+              "title": "PANZER DRAGOON SAGA Sega Saturn ALL 4 GAME DISKS ONLY usa ntsc TESTED & WORKING [eBay]",
+              "price": 699.95
+            },
+            {
+              "date": "2025-11-21",
+              "title": "Panzer Dragoon Saga (Saturn, 1998)All Disc, Tested, Working, w/ One Play Through [eBay]",
+              "price": 1100.0
+            },
+            {
+              "date": "2025-01-02",
+              "title": "Panzer Dragoon Saga (Saturn, 1998) Loose Discs Only Authentic Tested [eBay]",
+              "price": 775.0
+            },
+            {
+              "date": "2024-12-23",
+              "title": "Panzer Dragoon Saga (Saturn, 1998) Loose Discs Only Tested Authentic Mint Discs [eBay]",
+              "price": 809.1
+            },
+            {
+              "date": "2024-12-14",
+              "title": "PANZER DRAGOON SAGA - Sega Saturn (1998, NTSC-U/C) - DISCS ONLY - Retro Gaming! [eBay]",
+              "price": 600.0
+            },
+            {
+              "date": "2024-09-02",
+              "title": "Panzer Dragoon Saga (Saturn, 1998) Loose Discs [eBay]",
+              "price": 699.99
+            },
+            {
+              "date": "2024-07-23",
+              "title": "Panzer Dragoon Saga (Saturn, 1998) Authentic and tested [eBay]",
+              "price": 727.39
+            },
+            {
+              "date": "2024-07-20",
+              "title": "PANZER DRAGOON SAGA - Sega Saturn (1998,NOT TESTED 3 DISCS ONLY - Retro Gaming! [eBay]",
+              "price": 400.0
+            },
+            {
+              "date": "2024-06-04",
+              "title": "Panzer Dragoon Saga: Sega Saturn DISCS ONLY, No Case Or Manual [eBay]",
+              "price": 849.99
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 1102.47,
+          "sales": [
+            {
+              "date": "2026-03-02",
+              "title": "Panzer Dragoon Saga - Sega Saturn - Authentic RARE 🇨🇦 CAN Ship, No Tariffs [eBay]",
+              "price": 843.1
+            },
+            {
+              "date": "2026-02-27",
+              "title": "Sega Saturn Panzer Dragoon Saga CIB Complete in Box Disc Manual Case [eBay]",
+              "price": 1104.99
+            },
+            {
+              "date": "2026-02-24",
+              "title": "Panzer Dragoon Saga Sega Saturn Game Discs, Case, Manual [eBay]",
+              "price": 1025.0
+            },
+            {
+              "date": "2026-02-23",
+              "title": "Panzer Dragoon Saga US/NA SEGA Saturn Complete CIB Authentic & Tested/Works [eBay]",
+              "price": 1150.0
+            },
+            {
+              "date": "2026-02-07",
+              "title": "Panzer Dragoon Saga (Saturn, 1998) Complete Mint One Owner [eBay]",
+              "price": 1199.99
+            },
+            {
+              "date": "2026-02-02",
+              "title": "Panzer Dragoon RPG Saga for Sega Saturn Complete with Manual [eBay]",
+              "price": 999.99
+            },
+            {
+              "date": "2026-01-29",
+              "title": "Panzer Dragoon Saga (Sega Saturn) Very Good Condition| US NTSC | Authentic | [eBay]",
+              "price": 1199.99
+            },
+            {
+              "date": "2026-01-26",
+              "title": "panzer dragoon saga sega saturn [eBay]",
+              "price": 1999.99
+            },
+            {
+              "date": "2026-01-25",
+              "title": "Panzer Dragoon Saga (Sega Saturn) CIB NEAR MINT | US NTSC | Authentic | EB Games [eBay]",
+              "price": 1074.99
+            },
+            {
+              "date": "2026-01-22",
+              "title": "Panzer Dragoon Saga (Sega Saturn, 1998) Authentic CIB Complete w/ Manual Tested [eBay]",
+              "price": 1099.95
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 10,
+          "median": 1475.22,
+          "sales": [
+            {
+              "date": "2025-02-14",
+              "title": "Sega Saturn Panzer Dragoon Saga NEW Mint-The Last Dragon Rises! Fly & Conquer! [eBay]",
+              "price": 1450.44
+            },
+            {
+              "date": "2023-10-22",
+              "title": "Panzer Dragoon Saga Sega Saturn Brand New Factory Sealed !READ! [eBay]",
+              "price": 1999.99
+            },
+            {
+              "date": "2023-03-26",
+              "title": "RARE Panzer Dragoon Saga (Saturn, 1998) BRAND NEW FACTORY SEALED [eBay]",
+              "price": 2150.0
+            },
+            {
+              "date": "2021-01-16",
+              "title": "Panzer Dragoon Saga (Saturn, 1998) [eBay]",
+              "price": 2000.0
+            },
+            {
+              "date": "2020-04-27",
+              "title": "Panzer Dragoon Saga SEGA SATURN 100% Authentic NEW COMPLETE MINT [eBay]",
+              "price": 1299.95
+            },
+            {
+              "date": "2020-02-21",
+              "title": "Panzer Dragoon Saga (Saturn, 1998) SEALED Unopened Brand NEW [eBay]",
+              "price": 860.0
+            },
+            {
+              "date": "2020-02-18",
+              "title": "Panzer Dragoon Saga (Saturn, 1998) Brand New Factory Sealed UNOPENED [eBay]",
+              "price": 1005.0
+            },
+            {
+              "date": "2019-08-20",
+              "title": "Panzer Dragoon Saga NIB Sealed (Saturn, 1998) [eBay]",
+              "price": 1200.0
+            },
+            {
+              "date": "2019-08-05",
+              "title": "Panzer Dragoon Saga (Sega Saturn, 1998) - Brand New / Factory Sealed - VERY RARE [eBay]",
+              "price": 1649.98
+            },
+            {
+              "date": "2019-04-07",
+              "title": "Sega Saturn Panzer Dragoon Saga NIB Factory Sealed [eBay]",
+              "price": 1499.99
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 2,
+      "id": "little-samson-nintendo-entertainment-system",
+      "title": "Little Samson",
+      "console": "Nintendo Entertainment System",
+      "rarity": "LEGENDARY",
+      "sourceUrl": "https://www.pricecharting.com/game/nes/little-samson",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 1912.5,
+          "sales": [
+            {
+              "date": "2026-02-19",
+              "title": "Little Samson Nintendo Entertainment System, 1992 NES Authentic [eBay]",
+              "price": 800.0
+            },
+            {
+              "date": "2026-01-22",
+              "title": "Little Samson NES 1992 Nintendo Video Game, Authentic Tested [eBay]",
+              "price": 2200.0
+            },
+            {
+              "date": "2026-01-18",
+              "title": "Little Samson (Nintendo NES) Authentic Original Taito – MINT Label + Sleeve [eBay]",
+              "price": 1300.0
+            },
+            {
+              "date": "2026-01-16",
+              "title": "Little Samson (Nintendo Entertainment System, 1992) [eBay]",
+              "price": 2000.0
+            },
+            {
+              "date": "2026-01-08",
+              "title": "Little Samson (Nintendo Entertainment System, 1992) NES Cart Authentic Tested [eBay]",
+              "price": 1750.0
+            },
+            {
+              "date": "2025-12-15",
+              "title": "Little Samson NES 1992 Nintendo Video Game, Authentic Tested [eBay]",
+              "price": 1531.84
+            },
+            {
+              "date": "2025-12-11",
+              "title": "Little Samson NES Authentic Tested Nintendo Video Game RARE [eBay]",
+              "price": 1825.0
+            },
+            {
+              "date": "2025-12-08",
+              "title": "Little Samson NES Authentic Cartridge Only VGC Tested Works RARE USA Version [eBay]",
+              "price": 2999.99
+            },
+            {
+              "date": "2025-11-28",
+              "title": "Little Samson (Nintendo, 1992) NES Cart Only. Authentic Tested. [eBay]",
+              "price": 2433.8
+            },
+            {
+              "date": "2025-11-26",
+              "title": "Original Little Samson - RARE SPECIAL NINTENDO CSC COPY - Authentic - Tested [eBay]",
+              "price": 2750.0
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 9,
+          "median": 5500.0,
+          "sales": [
+            {
+              "date": "2025-11-04",
+              "title": "Little Samson - Nintendo NES Game Original NTSC, Game And Box!!! Tested [eBay]",
+              "price": 5500.0
+            },
+            {
+              "date": "2025-07-26",
+              "title": "Little Samson Nintendo NES 1992 Authentic Video Game w/all Original Packaging [eBay]",
+              "price": 5960.0
+            },
+            {
+              "date": "2025-04-23",
+              "title": "Little Samson nes cib [eBay]",
+              "price": 4200.0
+            },
+            {
+              "date": "2025-03-06",
+              "title": "Little Samson (Nintendo) complete with box and manual. Excellent condition [eBay]",
+              "price": 4750.0
+            },
+            {
+              "date": "2024-11-17",
+              "title": "Little Samson Nintendo NES OVAL SOQ REV A CIB Complete Box Manual Cartridge [eBay]",
+              "price": 6999.99
+            },
+            {
+              "date": "2024-11-02",
+              "title": "Little Samson NES Nintendo Box Manual CIB Complete Authentic! [eBay]",
+              "price": 6995.0
+            },
+            {
+              "date": "2024-10-28",
+              "title": "Little Samson - Nintendo NES Game Original NTSC 100% AUTHENTIC !! [eBay]",
+              "price": 6999.0
+            },
+            {
+              "date": "2024-09-08",
+              "title": "NINTENDO NES - LITTLE SAMSON Game COMPLETE w/Manual, Box TAITO Tested [eBay]",
+              "price": 3900.0
+            },
+            {
+              "date": "2024-08-01",
+              "title": "Little Samson , NTSC, CIB [eBay]",
+              "price": 5133.58
+            }
+          ],
+          "editorialRemoved": [
+            {
+              "date": "2025-04-25",
+              "title": "Little Samson Nes English USA Game And Manual Near Mint Authentic Nintendo [eBay]",
+              "price": 2602.94
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 0,
+          "median": null,
+          "sales": []
+        }
+      },
+      "editorialNotes": [
+        "CIB pass: removed one sale explicitly described as game + manual only because it does not meet a strict CIB definition."
+      ]
+    },
+    {
+      "rank": 3,
+      "id": "castlevania-rondo-of-blood-turbografx-16",
+      "title": "Castlevania: Rondo of Blood",
+      "console": "TurboGrafx-16",
+      "rarity": "LEGENDARY",
+      "sourceUrl": "https://www.pricecharting.com/game/jp-pc-engine-cd/castlevania-x-rondo-of-blood",
+      "sourceVariant": "JP PC Engine CD proxy page",
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 180.42,
+          "sales": [
+            {
+              "date": "2025-02-28",
+              "title": "akumajo dracula x rondo of blood castlevania pc engine super cd rom core grafx [eBay]",
+              "price": 326.81
+            },
+            {
+              "date": "2024-04-16",
+              "title": "Akumajo Dracula X Rondo of Blood Castlevania PC Engine AUTHENTIC TurboGrafx CD [eBay]",
+              "price": 203.38
+            },
+            {
+              "date": "2024-03-06",
+              "title": "Akumajo Dracula X Rondo of Blood Castlevania - Nec PC Engine Super CD Rom NTSC-J [eBay]",
+              "price": 260.62
+            },
+            {
+              "date": "2023-12-03",
+              "title": "DRACULA X Rondo of Blood for PC Engine Super CD ROM JP Castlevania [eBay]",
+              "price": 184.88
+            },
+            {
+              "date": "2023-12-02",
+              "title": "DRACULA X Rondo of Blood for PC Engine Super CD ROM JP Castlevania [eBay]",
+              "price": 163.62
+            },
+            {
+              "date": "2023-11-16",
+              "title": "Akumajo Dracula X Rondo of Blood Castlevania PC Engine Super CD-rom2 Tested [eBay]",
+              "price": 189.99
+            },
+            {
+              "date": "2023-10-29",
+              "title": "DRACULA X Rondo of Blood for PC Engine Super CD ROM JP Castlevania [eBay]",
+              "price": 175.96
+            },
+            {
+              "date": "2023-10-01",
+              "title": "Akumajo Dracula X Rondo of Blood Castlevania PC Engine Konami (TurboGrafx CD) [eBay]",
+              "price": 155.0
+            },
+            {
+              "date": "2023-09-22",
+              "title": "DRACULA X Rondo of Blood for PC Engine Super CD ROM JP Castlevania [eBay]",
+              "price": 158.67
+            },
+            {
+              "date": "2023-09-08",
+              "title": "DRACULA X Rondo of Blood for PC Engine Super CD ROM JP Castlevania [eBay]",
+              "price": 156.07
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 316.12,
+          "sales": [
+            {
+              "date": "2025-11-13",
+              "title": "Akumajo Dracula X Rondo of Blood Castlevania NEC PC ENGINE SPINE + REG CARD [eBay]",
+              "price": 499.99
+            },
+            {
+              "date": "2024-02-23",
+              "title": "Castlevania Akumajo Dracula X Chi no Rondo CD-ROM Konami NEC PC Engine Japan jp [eBay]",
+              "price": 240.0
+            },
+            {
+              "date": "2023-12-15",
+              "title": "akumajo dracula x rondo of blood castlevania pc engine super cd rom core grafx [eBay]",
+              "price": 302.25
+            },
+            {
+              "date": "2023-10-01",
+              "title": "PC Engine CD Castlevania Rondo of Blood,TOP Zustand,komplett OVP+Anleitung [eBay]",
+              "price": 339.05
+            },
+            {
+              "date": "2023-09-28",
+              "title": "Akumajo Dracula X Blood Castlevania PC Engine Rondo Konami JP Game USED [eBay]",
+              "price": 281.58
+            },
+            {
+              "date": "2023-09-12",
+              "title": "Akumajo Dracula X Rondo Of Blood Castlevania PC Engine Konami Japan Action Game [eBay]",
+              "price": 228.9
+            },
+            {
+              "date": "2023-09-11",
+              "title": "Akumajo Dracula X Rondo of Blood Castlevania NEC PC ENGINE SPINE + REG. [eBay]",
+              "price": 349.99
+            },
+            {
+              "date": "2023-08-12",
+              "title": "Akumajo Dracula X Rondo of Blood Castlevania PC Engine Konami From JP game Used [eBay]",
+              "price": 269.98
+            },
+            {
+              "date": "2023-07-29",
+              "title": "Konami Akumajo Dracula X Rondo of Blood Castlevania PC Engine Game Software F/S [eBay]",
+              "price": 330.0
+            },
+            {
+              "date": "2023-07-27",
+              "title": "PC engine Castlevania Dracula X Blood circulation Konami Video Games Used Japan [eBay]",
+              "price": 337.64
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 4,
+          "median": 289.24,
+          "sales": [
+            {
+              "date": "2022-02-08",
+              "title": "Akumajo Dracula X Castlevania: Rondo of Blood PC Engine factory sealed original [eBay]",
+              "price": 1525.0
+            },
+            {
+              "date": "2020-06-17",
+              "title": "Akumajo Dracula X Castlevania Rondo of Blood PC-Engine Japan (Brand New Sealed) [eBay]",
+              "price": 399.99
+            },
+            {
+              "date": "2020-05-01",
+              "title": "Akumajo Dracula X Castlevania Rondo of Blood PC-Engine Japan (Brand New Sealed) [eBay]",
+              "price": 149.99
+            },
+            {
+              "date": "2017-01-03",
+              "title": "Castlevania X: Rondo of Blood (TurboGrafx-CD) or Dracula X New Factory sealed. [eBay]",
+              "price": 178.49
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 4,
+      "id": "dungeons-dragons-collection-sega-saturn",
+      "title": "Dungeons & Dragons Collection",
+      "console": "Sega Saturn",
+      "rarity": "LEGENDARY",
+      "sourceUrl": "https://www.pricecharting.com/game/jp-sega-saturn/dungeons-%26-dragons-collection",
+      "sourceVariant": "JP Sega Saturn proxy page",
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 132.62,
+          "sales": [
+            {
+              "date": "2025-10-08",
+              "title": "Sega Saturn Dungeons And Dragons Collection (Japanese) US Seller Tested [eBay]",
+              "price": 180.0
+            },
+            {
+              "date": "2025-10-03",
+              "title": "Sega Saturn Dungeons And Dragons Collection (Japanese) US Seller Tested [eBay]",
+              "price": 149.99
+            },
+            {
+              "date": "2025-08-28",
+              "title": "Capcom Dungeons & Dragons Collection Sega Saturn SS Action Retro Game Tested [eBay]",
+              "price": 149.98
+            },
+            {
+              "date": "2025-04-12",
+              "title": "Dungeons & Dragons Collection Sega Saturn SS Video Game Tested Used From Japan [eBay]",
+              "price": 146.99
+            },
+            {
+              "date": "2025-02-27",
+              "title": "DUNGEONS & DRAGONS COLLECTION SEGA SATURN NTSC JAPAN - LIKE NEW - VERY RARE [eBay]",
+              "price": 145.24
+            },
+            {
+              "date": "2025-01-11",
+              "title": "Dungeons & Dragons Collection For JPN Sega Saturn Discs Only! [eBay]",
+              "price": 59.99
+            },
+            {
+              "date": "2024-06-25",
+              "title": "Dungeons & Dragons Collection Sega Saturn SS Video Game From Japan, US Seller [eBay]",
+              "price": 116.5
+            },
+            {
+              "date": "2024-06-24",
+              "title": "SEGA Saturn CAPCOM Dungeons & Dragons Collection Video Game and Manual NTSC-J [eBay]",
+              "price": 81.64
+            },
+            {
+              "date": "2024-06-04",
+              "title": "Dungeons and Dragons Collection Sega Saturn JP GAME. 9000020120383 [eBay]",
+              "price": 117.5
+            },
+            {
+              "date": "2024-04-26",
+              "title": "Dungeons and Dragons Collection Sega Saturn Capcom Japan Clean Tested [eBay]",
+              "price": 119.99
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 152.49,
+          "sales": [
+            {
+              "date": "2026-03-13",
+              "title": "Sega Saturn Dungeons and Dragons Collection Sega Saturn Japanese Edition [eBay]",
+              "price": 150.0
+            },
+            {
+              "date": "2026-01-22",
+              "title": "Sega Saturn Dungeons And Dragons Collection (Japanese) US Seller [eBay]",
+              "price": 149.99
+            },
+            {
+              "date": "2026-01-19",
+              "title": "Dungeons & Dragons Collection - Sega Saturn - Japanese - Mint Complete [eBay]",
+              "price": 165.0
+            },
+            {
+              "date": "2026-01-15",
+              "title": "Dungeons and Dragons Collection (Single Edition) Sega Saturn JP GA 9000024598942 [eBay]",
+              "price": 127.5
+            },
+            {
+              "date": "2026-01-01",
+              "title": "Dungeons & Dragons Collection (Sega Saturn, 1999) Japan Complete Mint w/ Manual [eBay]",
+              "price": 224.95
+            },
+            {
+              "date": "2026-01-01",
+              "title": "Dungeons & Dragons Collection Sega Saturn SS Video Game - Japan [eBay]",
+              "price": 174.95
+            },
+            {
+              "date": "2025-12-24",
+              "title": "Dungeons & Dragons Collection Sega Saturn Import W/Spine Japanese Mint Complete [eBay]",
+              "price": 177.0
+            },
+            {
+              "date": "2025-12-19",
+              "title": "Dungeons & Dragons Collection - Sega Saturn SS Game Japan JP w/Case Spine card [eBay]",
+              "price": 154.98
+            },
+            {
+              "date": "2025-12-10",
+              "title": "Sega Saturn Dungeons And Dragons Collection (Japanese) US Seller [eBay]",
+              "price": 100.0
+            },
+            {
+              "date": "2025-12-10",
+              "title": "Sega Saturn Dungeons & Dragons Collection Video Game 2 Discs - Japan Complete [eBay]",
+              "price": 91.0
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 10,
+          "median": 234.31,
+          "sales": [
+            {
+              "date": "2024-10-27",
+              "title": "Dungeons And Dragons New Sealed Sega Saturn NTSC Jap Amazing Conditions [eBay]",
+              "price": 2647.38
+            },
+            {
+              "date": "2024-07-02",
+              "title": "Dungeons & Dragons Collection Sega Saturn SS CAPCOM With Box 4MB Cartridge Japan [eBay]",
+              "price": 250.42
+            },
+            {
+              "date": "2024-06-01",
+              "title": "Sega Saturn - Dungeons & Dragons Collection (Disks, Manual, Registration, RAM) [eBay]",
+              "price": 267.74
+            },
+            {
+              "date": "2024-05-09",
+              "title": "DUNGEONS & DRAGONS COLLECTION SEGA SATURN NTSC JAP GIAPPONESE USATO CON GUIDA [eBay]",
+              "price": 238.13
+            },
+            {
+              "date": "2024-03-04",
+              "title": "DUNGEONS & DRAGONS COLLECTION - Sega Saturn RAM Pack - JAPANESE NTSC-J [eBay]",
+              "price": 230.5
+            },
+            {
+              "date": "2023-11-21",
+              "title": "Dungeons & Dragons Collection Expansion RAM 4MB Sega Saturn from japan [eBay]",
+              "price": 227.5
+            },
+            {
+              "date": "2023-09-29",
+              "title": "Dungeons and Dragons Collection 4MB RAM Cart Boxset, Japanese Sega Saturn, VGC [eBay]",
+              "price": 218.87
+            },
+            {
+              "date": "2022-03-03",
+              "title": "Dungeons & Dragons Collection Sega Saturn Japan (Brand New Sealed) US SELLER [eBay]",
+              "price": 280.0
+            },
+            {
+              "date": "2019-09-15",
+              "title": "SEGA Saturn DUNGEONS & DRAGONS COLLECTION CAPCOM Japan. BRAND NEW! US SELLER! [eBay]",
+              "price": 96.0
+            },
+            {
+              "date": "2019-06-22",
+              "title": "SEGA Saturn DUNGEONS & DRAGONS COLLECTION CAPCOM Japan. BRAND NEW! US SELLER! [eBay]",
+              "price": 199.99
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 5,
+      "id": "radiant-silvergun-sega-saturn",
+      "title": "Radiant Silvergun",
+      "console": "Sega Saturn",
+      "rarity": "LEGENDARY",
+      "sourceUrl": "https://www.pricecharting.com/game/jp-sega-saturn/radiant-silvergun",
+      "sourceVariant": "JP Sega Saturn proxy page",
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 156.46,
+          "sales": [
+            {
+              "date": "2026-02-09",
+              "title": "Radiant Silvergun Sega Saturn SS Treasure Shooter 【Working item】 [eBay]",
+              "price": 139.0
+            },
+            {
+              "date": "2026-01-08",
+              "title": "Radiant Silvergun Sega Saturn Treasure Shooter NTSC-J Tested Authentic JP [eBay]",
+              "price": 158.0
+            },
+            {
+              "date": "2025-12-23",
+              "title": "Disk Only, Radiant Silvergun, Disk has no scratches, Sega Saturn [eBay]",
+              "price": 154.92
+            },
+            {
+              "date": "2025-10-07",
+              "title": "Radiant Silvergun Silver Sega Saturn SS Treasure Shooter Game Japan DISC ONLY [eBay]",
+              "price": 99.99
+            },
+            {
+              "date": "2025-07-31",
+              "title": "Radiant Silvergun Sega Saturn SS Treasure Japan Shooter 1998 Tested NM Condition [eBay]",
+              "price": 180.0
+            },
+            {
+              "date": "2025-07-14",
+              "title": "Radiant Silvergun w/spine (Sega Saturn,1998) from japan [eBay]",
+              "price": 214.83
+            },
+            {
+              "date": "2025-03-23",
+              "title": "RADIANT SILVERGUN - SEGA SATURN - JAPAN - TREASURE SHMUP - DISC ONLY - US SELLER [eBay]",
+              "price": 61.0
+            },
+            {
+              "date": "2025-01-21",
+              "title": "Radiant Silvergun Sega Saturn SS Treasure Used Japan Shooter Boxed Tested 1998 [eBay]",
+              "price": 264.0
+            },
+            {
+              "date": "2025-01-07",
+              "title": "Radiant Silvergun SS Sega Saturn 1998 Used Tested Work Good From Japan [eBay]",
+              "price": 190.0
+            },
+            {
+              "date": "2023-08-19",
+              "title": "Radiant Silvergun Sega Saturn Japanese Shmup [eBay]",
+              "price": 139.12
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 183.75,
+          "sales": [
+            {
+              "date": "2026-03-12",
+              "title": "Radiant Silvergun (Sega Saturn, 1998) - JP CIB with Registration + Title Insert [eBay]",
+              "price": 249.99
+            },
+            {
+              "date": "2026-03-06",
+              "title": "RADIANT SILVERGUN Saturn Software Japan z8 [eBay]",
+              "price": 167.62
+            },
+            {
+              "date": "2026-02-27",
+              "title": "Radiant Silvergun - Sega Saturn SS Game Japan JP w/Case Manual Spine card [eBay]",
+              "price": 189.98
+            },
+            {
+              "date": "2026-02-07",
+              "title": "Radiant Silvergun Silver Sega Saturn SS Treasure Shooter Retro Game Japan [eBay]",
+              "price": 172.0
+            },
+            {
+              "date": "2026-01-31",
+              "title": "SEGA Saturn RADIANT SILVERGUN Complete w/ Spine Reg Card ESP from Japan SS JP [eBay]",
+              "price": 269.99
+            },
+            {
+              "date": "2026-01-12",
+              "title": "Radiant Silvergun - Sega Saturn Japan Import - Complete CIB Tested US Seller [eBay]",
+              "price": 184.95
+            },
+            {
+              "date": "2026-01-10",
+              "title": "Complete Radiant Silvergun Japanese w/ Spine Card Sega Saturn NTSC-J [eBay]",
+              "price": 196.95
+            },
+            {
+              "date": "2026-01-08",
+              "title": "Radiant Silvergun Sega Saturn JP Treasure OBI w/ Spine Excellent Free Ship [eBay]",
+              "price": 182.55
+            },
+            {
+              "date": "2026-01-06",
+              "title": "Radiant Silvergun Sega Saturn NTSCJ Japan [eBay]",
+              "price": 153.24
+            },
+            {
+              "date": "2026-01-04",
+              "title": "Radiant Silvergun Treasure Sega Saturn SS Game Soft Import from Japan Pre-Owned [eBay]",
+              "price": 182.48
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 10,
+          "median": 337.0,
+          "sales": [
+            {
+              "date": "2021-02-06",
+              "title": "SS SEGA SATURN RADIANT SILVERGUN NOT FOR SALE STORE PROMO CD ROM NEW JPN IMPORT [eBay]",
+              "price": 298.0
+            },
+            {
+              "date": "2019-05-13",
+              "title": "Radiant Silvergun Sega Saturn Japan NEW [eBay]",
+              "price": 729.27
+            },
+            {
+              "date": "2019-02-21",
+              "title": "Radiant Silvergun for Sega Saturn SEALED ORIGINAL RARE [eBay]",
+              "price": 240.01
+            },
+            {
+              "date": "2018-04-29",
+              "title": "Radiant Silvergun JP import SEALED for Sega Saturn [eBay]",
+              "price": 250.0
+            },
+            {
+              "date": "2017-01-27",
+              "title": "Radiant Silvergun – Saturn - JAP - Spine - Reg Card - Like New Condition - CIB [eBay]",
+              "price": 195.0
+            },
+            {
+              "date": "2016-07-04",
+              "title": "Radiant Silvergun Brand NEW Sealed REF/1701 Sega Saturn Free Shipping JAPAN ss [eBay]",
+              "price": 558.0
+            },
+            {
+              "date": "2015-11-16",
+              "title": "Radiant Silvergun Sega Saturn Import Brand New Factory Sealed Y Folds No Reserve [eBay]",
+              "price": 319.0
+            },
+            {
+              "date": "2015-04-26",
+              "title": "Radiant Silvergun Sega Saturn Japan Import Game Factory Sealed New [eBay]",
+              "price": 499.99
+            },
+            {
+              "date": "2014-09-20",
+              "title": "Radiant Silvergun Sega Saturn FACTORY SEALED MINT [eBay]",
+              "price": 399.0
+            },
+            {
+              "date": "2014-09-09",
+              "title": "Radiant Silvergun Sega Saturn FACTORY SEALED MINT [eBay]",
+              "price": 355.01
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 6,
+      "id": "earthbound-super-nintendo",
+      "title": "EarthBound",
+      "console": "Super Nintendo",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/earthbound",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 395.38,
+          "sales": [
+            {
+              "date": "2026-03-19",
+              "title": "EarthBound (SNES) Authentic 💎 [eBay]",
+              "price": 450.0
+            },
+            {
+              "date": "2026-03-13",
+              "title": "EarthBound (Super Nintendo Entertainment System, 1995) [eBay]",
+              "price": 355.0
+            },
+            {
+              "date": "2026-03-13",
+              "title": "Earthbound (Super Nintendo) - Cartridge Only - Tested, Saves, Authentic [eBay]",
+              "price": 419.99
+            },
+            {
+              "date": "2026-03-11",
+              "title": "Earthbound SNES (1995) Authentic Cartridge 100% Tested and Working OG Battery [eBay]",
+              "price": 395.0
+            },
+            {
+              "date": "2026-03-08",
+              "title": "EarthBound Super Nintendo SNES 1995 Cartridge Only Label Damage See Description [eBay]",
+              "price": 295.0
+            },
+            {
+              "date": "2026-03-05",
+              "title": "Earthbound SNES Video Game Cartridge [eBay]",
+              "price": 379.99
+            },
+            {
+              "date": "2026-03-05",
+              "title": "Earthbound Nintendo SNES (tested, works, authentic) [eBay]",
+              "price": 395.77
+            },
+            {
+              "date": "2026-03-05",
+              "title": "EarthBound SNES Super Nintendo Authentic Cartridge Rare RPG [eBay]",
+              "price": 329.99
+            },
+            {
+              "date": "2026-03-05",
+              "title": "EarthBound SNES Super Nintendo - Authentic - Rare - Board Pictures - Tested Save [eBay]",
+              "price": 549.99
+            },
+            {
+              "date": "2026-03-04",
+              "title": "AUTHENTIC! NEW BATTERY! EarthBound - GAME ONLY - SUPER NINTENDO SNES 34c [eBay]",
+              "price": 449.99
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 7,
+          "median": 2798.0,
+          "sales": [
+            {
+              "date": "2026-03-10",
+              "title": "Nintendo SNES Earthbound Video Game Complete in Box (CIB) W/ Scratch And Sniff [eBay]",
+              "price": 2700.0
+            },
+            {
+              "date": "2026-03-03",
+              "title": "Earthbound Super Nintendo SNES CIB Complete, NTSC USA [eBay]",
+              "price": 2555.96
+            },
+            {
+              "date": "2026-02-19",
+              "title": "EarthBound SNES Super Nintendo Complete Big Box CIB Guide, Scratch Sniff [eBay]",
+              "price": 2800.0
+            },
+            {
+              "date": "2026-02-11",
+              "title": "EarthBound (Super Nintendo Snes) Complete *BIG BOX* Authentic & Tested [eBay]",
+              "price": 2999.95
+            },
+            {
+              "date": "2026-02-08",
+              "title": "Earthbound Super Nintendo (SNES) Complete in Box CIB Guide w/ Scratch Sniff [eBay]",
+              "price": 3999.99
+            },
+            {
+              "date": "2026-02-02",
+              "title": "EarthBound Super Nintendo Entertainment System CIB w/ Players Guide Inserts MINT [eBay]",
+              "price": 2798.0
+            },
+            {
+              "date": "2026-01-19",
+              "title": "Earthbound (SNES) CIB - Authentic - Player's Guide - Scratch N Sniff Authentic [eBay]",
+              "price": 2700.0
+            }
+          ],
+          "editorialRemoved": [
+            {
+              "date": "2026-03-10",
+              "title": "EarthBound SNES CIB Complete w Box & Player’s Guide (No Tray) Authentic G [eBay]",
+              "price": 1379.13
+            },
+            {
+              "date": "2026-02-06",
+              "title": "Nintendo EarthBound Super Nintendo with Box, Manual, and Player's Guide [eBay]",
+              "price": 1300.0
+            },
+            {
+              "date": "2026-02-05",
+              "title": "Earthbound SNES [eBay]",
+              "price": 2000.0
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 3,
+          "median": 2125.0,
+          "sales": [
+            {
+              "date": "2013-04-22",
+              "title": "Factory Plastic Sealed NEW 1995 SNES SUPER NINTENDO EARTHBOUND No Reserve [eBay]",
+              "price": 3550.01
+            },
+            {
+              "date": "2012-10-08",
+              "title": "EarthBound (Super Nintendo, 1995) SNES New In Box!!! Never Been Opened [eBay]",
+              "price": 2125.0
+            },
+            {
+              "date": "2011-08-17",
+              "title": "EarthBound new in box (Super Nintendo, SNES 1995) [eBay]",
+              "price": 1000.0
+            }
+          ],
+          "editorialRemoved": [
+            {
+              "date": "2020-07-19",
+              "title": "Earthbound SNES VGA ULTRA RARE Player's Guide BIG BOX VERSION [eBay]",
+              "price": 3607.72
+            }
+          ]
+        }
+      },
+      "editorialNotes": [
+        "CIB pass: removed listings marked no tray or too ambiguous to confirm a complete-in-box state.",
+        "Mint pass: removed one VGA/graded sale because graded copies are tracked separately from raw mint/sealed copies."
+      ]
+    },
+    {
+      "rank": 7,
+      "id": "judgement-silversword-wonderswan",
+      "title": "Judgement Silversword",
+      "console": "WonderSwan",
+      "rarity": "LEGENDARY",
+      "sourceUrl": "https://www.pricecharting.com/game/wonderswan-color/judgement-silversword",
+      "sourceVariant": "WonderSwan Color proxy page",
+      "conditions": {
+        "loose": {
+          "sampleCount": 3,
+          "median": 898.73,
+          "sales": [
+            {
+              "date": "2024-06-06",
+              "title": "Judgement Silversword Rebirth Edition - Wonder Swan Color [eBay]",
+              "price": 870.32
+            },
+            {
+              "date": "2023-09-20",
+              "title": "Wonderswan Color Judgement Silversword Rebirth Edition CIB [eBay]",
+              "price": 898.73
+            },
+            {
+              "date": "2023-07-15",
+              "title": "Judgement Silversword Rebirth Edition Bandai Wonderswan [eBay]",
+              "price": 1131.14
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 3,
+          "median": 898.73,
+          "sales": [
+            {
+              "date": "2024-06-06",
+              "title": "Judgement Silversword Rebirth Edition - Wonder Swan Color [eBay]",
+              "price": 870.32
+            },
+            {
+              "date": "2023-09-20",
+              "title": "Wonderswan Color Judgement Silversword Rebirth Edition CIB [eBay]",
+              "price": 898.73
+            },
+            {
+              "date": "2023-07-15",
+              "title": "Judgement Silversword Rebirth Edition Bandai Wonderswan [eBay]",
+              "price": 1131.14
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 0,
+          "median": null,
+          "sales": []
+        }
+      }
+    },
+    {
+      "rank": 10,
+      "id": "burning-rangers-sega-saturn",
+      "title": "Burning Rangers",
+      "console": "Sega Saturn",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/sega-saturn/burning-rangers",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 299.99,
+          "sales": [
+            {
+              "date": "2026-02-25",
+              "title": "BURNING RANGERS FOR SEGA SATURN DISC ONLY *AUTHENTIC & TESTED* [eBay]",
+              "price": 275.0
+            },
+            {
+              "date": "2026-02-03",
+              "title": "Burning Rangers for Sega Saturn Disc Only Tested & Working Authentic Rare [eBay]",
+              "price": 274.99
+            },
+            {
+              "date": "2026-01-25",
+              "title": "BURNING RANGERS FOR SEGA SATURN DISC ONLY *AUTHENTIC & TESTED* [eBay]",
+              "price": 299.99
+            },
+            {
+              "date": "2025-11-20",
+              "title": "Burning Rangers (Sega Saturn, 1998) DISC ONLY! - CLEANED AND BUFFED [eBay]",
+              "price": 299.99
+            },
+            {
+              "date": "2025-11-19",
+              "title": "BURNING RANGERS FOR SEGA SATURN DISC ONLY *AUTHENTIC & TESTED* [eBay]",
+              "price": 319.95
+            },
+            {
+              "date": "2025-10-30",
+              "title": "Burning Rangers for Sega Saturn Disc Only Tested & Working Authentic [eBay]",
+              "price": 225.0
+            },
+            {
+              "date": "2025-09-25",
+              "title": "Burning Rangers Sega Saturn DISC ONLY Video Game 1998- UNTESTED [eBay]",
+              "price": 299.99
+            },
+            {
+              "date": "2025-09-13",
+              "title": "Burning Rangers Sega Saturn DISC ONLY Video Game 1998- UNTESTED [eBay]",
+              "price": 300.0
+            },
+            {
+              "date": "2025-08-19",
+              "title": "Authentic RARE Burning Rangers Sega Saturn DISC ONLY Video Game 1998 [eBay]",
+              "price": 250.0
+            },
+            {
+              "date": "2025-07-30",
+              "title": "Burning Rangers (Sega Saturn, 1998) Disc Only Tested Working RARE GREAT SHAPE! [eBay]",
+              "price": 350.0
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 649.99,
+          "sales": [
+            {
+              "date": "2026-02-20",
+              "title": "Burning Rangers for Sega Saturn Complete CIB [eBay]",
+              "price": 675.0
+            },
+            {
+              "date": "2026-02-15",
+              "title": "Burning Rangers - (Sega Saturn Game) - CIB - Complete CIB - Authentic - Tested [eBay]",
+              "price": 724.95
+            },
+            {
+              "date": "2026-02-14",
+              "title": "Burning Rangers (Sega Saturn, 1998) with REG CARD [eBay]",
+              "price": 720.0
+            },
+            {
+              "date": "2026-02-12",
+              "title": "Burning Rangers (Sega Saturn, 1998) Complete USA [eBay]",
+              "price": 649.99
+            },
+            {
+              "date": "2026-02-11",
+              "title": "Burning Rangers (1998) Sega Saturn Video Game Sonic Team AUTHENTIC COMPLETE [eBay]",
+              "price": 649.99
+            },
+            {
+              "date": "2026-02-05",
+              "title": "Burning Rangers (Sega Saturn, 1998) Complete CIB w/ Manual Tested Working RARE [eBay]",
+              "price": 610.0
+            },
+            {
+              "date": "2026-01-27",
+              "title": "Burning Rangers (Sega Saturn, 1998) [eBay]",
+              "price": 676.0
+            },
+            {
+              "date": "2026-01-22",
+              "title": "Burning Rangers Sega Saturn 1998 Missing Front Cover Authentic Mint Game & Case [eBay]",
+              "price": 429.0
+            },
+            {
+              "date": "2026-01-19",
+              "title": "Burning Rangers (Sega Saturn, 1998) Complete CIB w/ Manual Tested Working RARE [eBay]",
+              "price": 600.0
+            },
+            {
+              "date": "2026-01-15",
+              "title": "Burning Rangers (Sega Saturn, 1998) Complete CIB [eBay]",
+              "price": 640.0
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 10,
+          "median": 800.0,
+          "sales": [
+            {
+              "date": "2026-01-12",
+              "title": "FACTORY SEALED Burning Rangers (Sega Saturn, 1998) New RARE US ver. plastic tear [eBay]",
+              "price": 800.0
+            },
+            {
+              "date": "2026-01-12",
+              "title": "FACTORY SEALED! Burning Rangers (Sega Saturn, 1998) BRAND NEW! RARE USA Version! [eBay]",
+              "price": 800.0
+            },
+            {
+              "date": "2025-08-30",
+              "title": "RARE BURNNG RANGERS SEGA SATURN 100% COMPLETE & NEW CONDITION [eBay]",
+              "price": 729.99
+            },
+            {
+              "date": "2024-12-14",
+              "title": "Sega Saturn Burning Rangers: New Sealed -Brave the Flames and Save Lives Ranger! [eBay]",
+              "price": 1443.79
+            },
+            {
+              "date": "2024-08-29",
+              "title": "Burning Rangers (Sega Saturn, 1998) WATA Sealed Graded 9.6 B+. Not VGA or CGC [eBay]",
+              "price": 1399.99
+            },
+            {
+              "date": "2023-07-18",
+              "title": "Burning Rangers (Sega Saturn, 1998) In org. shrink-wrap. Unopened *Weekend Sale* [eBay]",
+              "price": 2500.0
+            },
+            {
+              "date": "2021-02-07",
+              "title": "Burning Rangers (Sega Saturn,1998) Brand New/Sealed [eBay]",
+              "price": 850.0
+            },
+            {
+              "date": "2020-04-21",
+              "title": "Burning Rangers Sega Saturn BRAND NEW FACTORY SEALED W HANG TAB (SEE PICS/READ) [eBay]",
+              "price": 730.0
+            },
+            {
+              "date": "2020-04-12",
+              "title": "Burning Rangers (Sega Saturn) MINT COMPLETE IN BOX CIB, NEW DISC, RARE! [eBay]",
+              "price": 599.99
+            },
+            {
+              "date": "2019-11-12",
+              "title": "Burning Rangers (Sega Saturn, 1998). New In Box - Factory Sealed - Unopened [eBay]",
+              "price": 449.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 11,
+      "id": "duck-tales-2-nintendo-entertainment-system",
+      "title": "DuckTales 2",
+      "console": "Nintendo Entertainment System",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/nes/duck-tales-2",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 299.5,
+          "sales": [
+            {
+              "date": "2026-03-17",
+              "title": "Disney's Duck Tales 2 (Nintendo NES) Tested - Authentic [eBay]",
+              "price": 303.95
+            },
+            {
+              "date": "2026-03-14",
+              "title": "Disney's Duck Tales 2 (Nintendo NES) Tested - Authentic [eBay]",
+              "price": 250.5
+            },
+            {
+              "date": "2026-03-09",
+              "title": "Disney's Ducktales 2 GAME ONLY - NINTENDO NES FAST SHIPPING! 227a [eBay]",
+              "price": 263.99
+            },
+            {
+              "date": "2026-02-16",
+              "title": "Duck Tales 2 Nintendo NES Authentic Cartridge Game, Tested Working (with Sleeve) [eBay]",
+              "price": 350.0
+            },
+            {
+              "date": "2026-02-15",
+              "title": "Disney's DuckTales 2 (Nintendo Entertainment System, 1993) [eBay]",
+              "price": 320.0
+            },
+            {
+              "date": "2026-02-14",
+              "title": "Duck Tales 2 (Nintendo Entertainment System, NES) ( 1993) Cartridge Capcom [eBay]",
+              "price": 299.0
+            },
+            {
+              "date": "2026-02-09",
+              "title": "NES Duck Tales 2 [eBay]",
+              "price": 295.0
+            },
+            {
+              "date": "2026-02-04",
+              "title": "Ducktales 2 NES Cart only Excellent Condition Authentic [eBay]",
+              "price": 295.0
+            },
+            {
+              "date": "2026-02-04",
+              "title": "Disney's DuckTales 2 Duck Tales II Authentic Nintendo NES NRMT cond cartridge [eBay]",
+              "price": 314.99
+            },
+            {
+              "date": "2026-02-02",
+              "title": "DuckTales 2 NES Authentic Cart Clean Label with Nintendo Sleeve [eBay]",
+              "price": 299.99
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 747.47,
+          "sales": [
+            {
+              "date": "2026-02-02",
+              "title": "Disney's DuckTales 2 (Nintendo Entertainment System, 1993) CIB [eBay]",
+              "price": 899.99
+            },
+            {
+              "date": "2026-01-30",
+              "title": "Disney’s Duck Tales 2 - Nintendo NES - Authentic Original - Complete w/ Manual [eBay]",
+              "price": 799.99
+            },
+            {
+              "date": "2026-01-25",
+              "title": "Disney's DuckTales 2 - Box, Manual, & All Paperwork Only (NES, 1993) Very Rare [eBay]",
+              "price": 600.0
+            },
+            {
+              "date": "2026-01-16",
+              "title": "Disney’s Duck Tales 2 - Nintendo NES - Authentic Original - Complete w/ Manual [eBay]",
+              "price": 800.0
+            },
+            {
+              "date": "2025-12-29",
+              "title": "Disney's DuckTales 2 (Nintendo Entertainment System, 1993) CIB Rare - [eBay]",
+              "price": 550.0
+            },
+            {
+              "date": "2025-12-13",
+              "title": "Nintendo NES - Disney's Duck Tales 2 - CIB Complete - *RARE* - AUTHENTIC - NES [eBay]",
+              "price": 694.95
+            },
+            {
+              "date": "2025-12-11",
+              "title": "Disney's DuckTales 2 (Nintendo Entertainment System, 1993) CIB Rare - American [eBay]",
+              "price": 599.99
+            },
+            {
+              "date": "2025-11-19",
+              "title": "Disney's DuckTales 2 Cart, Box, Manual CIB Complete Nintendo NES Duck Tales 2 [eBay]",
+              "price": 800.0
+            },
+            {
+              "date": "2025-10-25",
+              "title": "DuckTales 2 (Nintendo NES) Complete W Reg - Tested - Authentic [eBay]",
+              "price": 629.95
+            },
+            {
+              "date": "2025-10-20",
+              "title": "DuckTales 2 for Nintendo NES **BOX+GAME+MANUAL+INSERTS** Authentic OEM [eBay]",
+              "price": 1000.0
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 10,
+          "median": 1725.99,
+          "sales": [
+            {
+              "date": "2024-01-19",
+              "title": "Disney's DuckTales 2 (Nintendo Entertainment System, 1993) SEALED, HOLY GRAIL🔥 [eBay]",
+              "price": 6500.0
+            },
+            {
+              "date": "2022-05-05",
+              "title": "Duck Tales 2 NES Game FACTORY SEALED [eBay]",
+              "price": 22623.0
+            },
+            {
+              "date": "2020-11-11",
+              "title": "NEW Nintendo NES Duck Tales 2 II Game SEALED in Box Displayed Only 100% Complete [eBay]",
+              "price": 1495.0
+            },
+            {
+              "date": "2020-09-21",
+              "title": "Ducktales 2 Nes Nintendo Sealed New. [eBay]",
+              "price": 2899.0
+            },
+            {
+              "date": "2020-07-01",
+              "title": "Ducktales 2 Nes Nintendo Sealed New. MAKE OFFERS!!!!!!!! [eBay]",
+              "price": 2099.0
+            },
+            {
+              "date": "2019-07-15",
+              "title": "NINTENDO NES DUCK TALES 2 HSEAM SEALED COPY NEAR MINT QUALITY!! [eBay]",
+              "price": 1750.0
+            },
+            {
+              "date": "2018-10-29",
+              "title": "BRAND NEW DuckTales 2 (Nintendo NES) Factory Sealed H-seam! [eBay]",
+              "price": 1701.99
+            },
+            {
+              "date": "2018-10-20",
+              "title": "Disney's DuckTales 2 (Nintendo Entertainment System, 1993) NEW FACTORY SEALED [eBay]",
+              "price": 1475.0
+            },
+            {
+              "date": "2017-07-26",
+              "title": "Duck Tales 2 NES Nintendo Brand New Sealed H Seam \" Minor Blemishes \" [eBay]",
+              "price": 799.0
+            },
+            {
+              "date": "2017-05-06",
+              "title": "Disney's DuckTales 2 Brand New Factory Sealed H-Seam Nintendo NES Duck Tales [eBay]",
+              "price": 1499.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 12,
+      "id": "castlevania-symphony-of-the-night-sega-saturn",
+      "title": "Castlevania: Symphony of the Night",
+      "console": "Sega Saturn",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/jp-sega-saturn/castlevania-symphony-of-the-night",
+      "sourceVariant": "JP Sega Saturn proxy page",
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 119.98,
+          "sales": [
+            {
+              "date": "2025-12-03",
+              "title": "Castlevania: Symphony of the Night (Sega Saturn) - JAPAN - DISC ONLY - TESTED! [eBay]",
+              "price": 71.0
+            },
+            {
+              "date": "2025-08-13",
+              "title": "Castlevania Symphony of the Night Sega Saturn Japan Import Retro Game Tested Japanese [eBay]",
+              "price": 185.07
+            },
+            {
+              "date": "2025-08-09",
+              "title": "Sega Saturn Akumajo Dracula X Castlevania Symphony of the Night Japan NM Tested [eBay]",
+              "price": 180.0
+            },
+            {
+              "date": "2025-01-29",
+              "title": "AKUMAJO DRACULA X Castlevania Symphony of the Night for SEGA Saturn Disk Only [eBay]",
+              "price": 121.59
+            },
+            {
+              "date": "2025-01-29",
+              "title": "AKUMAJO DRACULA X Castlevania Symphony of the Night for SEGA Saturn KONAMI Used [eBay]",
+              "price": 155.93
+            },
+            {
+              "date": "2024-07-13",
+              "title": "AKUMAJO DRACULA X Castlevania Symphony of the Night Sega Saturn Tested Japan ver [eBay]",
+              "price": 163.51
+            },
+            {
+              "date": "2024-07-06",
+              "title": "dk2008 Castlevania Symphony of the Night Dracula X Sega Saturn Japan [eBay]",
+              "price": 103.39
+            },
+            {
+              "date": "2024-03-11",
+              "title": "Akumajo Dracula X Castlevania Symphony of the Night Sega Saturn Japan US SELLER [eBay]",
+              "price": 97.0
+            },
+            {
+              "date": "2023-07-19",
+              "title": "AKUMAJO DRACULA X Castlevania Symphony of the Night - Sega Saturn NTSC Japanese [eBay]",
+              "price": 118.37
+            },
+            {
+              "date": "2023-06-30",
+              "title": "Castlevania Symphony of the Night Sega Saturn JP Excellent Condition [eBay]",
+              "price": 115.1
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 158.62,
+          "sales": [
+            {
+              "date": "2026-03-15",
+              "title": "KONAMI Castlevania Dracula X Symphony of the Night Sega Saturn Used [eBay]",
+              "price": 253.0
+            },
+            {
+              "date": "2026-03-04",
+              "title": "Akumajo Dracula X Castlevania Symphony of the Night Sega Saturn Used from JAPAN [eBay]",
+              "price": 194.82
+            },
+            {
+              "date": "2026-03-02",
+              "title": "FJ3859 Castlevania Symphony of the Night Dracula X Sega Saturn Japan [eBay]",
+              "price": 100.94
+            },
+            {
+              "date": "2026-02-27",
+              "title": "Sega Saturn Akumajo Dracula X Castlevania Symphony of the Night - Japan [eBay]",
+              "price": 180.02
+            },
+            {
+              "date": "2026-02-11",
+              "title": "Castlevania Symphony of the Night Sega Saturn JP GAME. 9000024702288 [eBay]",
+              "price": 133.97
+            },
+            {
+              "date": "2026-02-09",
+              "title": "Sega Saturn SS Castlevania: Symphony of the Night 1998 Japanese Edition Good GP [eBay]",
+              "price": 157.24
+            },
+            {
+              "date": "2026-02-06",
+              "title": "Sega Saturn Akumajo Dracula X Castlevania Symphony of the Night - Japan [eBay]",
+              "price": 149.16
+            },
+            {
+              "date": "2026-02-04",
+              "title": "FJ3484 Castlevania Symphony of the Night Dracula X Sega Saturn Japan [eBay]",
+              "price": 107.6
+            },
+            {
+              "date": "2026-01-29",
+              "title": "Castlevania: Symphony of the Night for Sega Saturn Used CIB with Spine JP Ver [eBay]",
+              "price": 199.16
+            },
+            {
+              "date": "2026-01-26",
+              "title": "Sega Saturn Akumajo Dracula X Castlevania Symphony of the Night JAPAN Original [eBay]",
+              "price": 159.99
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 5,
+          "median": 238.8,
+          "sales": [
+            {
+              "date": "2024-04-28",
+              "title": "Castlevania: Symphony Of The Night JPN SEGA Saturn SS Spine Reg Card Dracula X [eBay]",
+              "price": 311.53
+            },
+            {
+              "date": "2024-04-25",
+              "title": "Sega Saturn SS AKUMAJO DRACULA X Castlevania Symphony of the Night Spine F/S [eBay]",
+              "price": 238.8
+            },
+            {
+              "date": "2024-03-22",
+              "title": "Castlevania Dracula X Akumajo Symphony of the Night Sega Saturn Used Japan [eBay]",
+              "price": 218.63
+            },
+            {
+              "date": "2022-12-13",
+              "title": "Akumajo Dracula X Castlevania Symphony of the Night SEGA Saturn - JAPAN SEALED [eBay]",
+              "price": 137.5
+            },
+            {
+              "date": "2021-08-09",
+              "title": "Castlevania: Symphony of the Night Sega Saturn - Japan Release - Factory Sealed [eBay]",
+              "price": 325.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 13,
+      "id": "the-king-of-fighters-98-neo-geo",
+      "title": "The King of Fighters '98",
+      "console": "Neo Geo",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/neo-geo-aes/king-of-fighters-98",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 212.39,
+          "sales": [
+            {
+              "date": "2025-01-08",
+              "title": "the king of fighters 98 - neo geo AES console KOF ntsc jp [eBay]",
+              "price": 363.79
+            },
+            {
+              "date": "2023-02-01",
+              "title": "SNK Neo-Geo AES THE KING OF FIGHTERS 98 Clean Tested Fast Shipping US Seller [eBay]",
+              "price": 349.99
+            },
+            {
+              "date": "2021-12-16",
+              "title": "King of Fighters '98 (Neo Geo AES 1998) FANTASTIC SHAPE GREAT PRICE US SELLER [eBay]",
+              "price": 270.0
+            },
+            {
+              "date": "2020-11-19",
+              "title": "The King of Fighters 98 Neo Geo AES Cartridge [eBay]",
+              "price": 155.0
+            },
+            {
+              "date": "2020-04-20",
+              "title": "King of Fighters 98 Neo Geo AES NTSC/J [eBay]",
+              "price": 190.85
+            },
+            {
+              "date": "2020-03-13",
+              "title": "King Of Fighters 98 Neo Geo AES NTSC/J [eBay]",
+              "price": 219.78
+            },
+            {
+              "date": "2020-01-22",
+              "title": "Neo Geo AES The King of Fighters 98 US seller neogeo SNK [eBay]",
+              "price": 205.0
+            },
+            {
+              "date": "2019-03-01",
+              "title": "King of Fighters 98 Neo Geo US AES [eBay]",
+              "price": 950.0
+            },
+            {
+              "date": "2018-08-20",
+              "title": "The King of Fighters '98 - NEO GEO AES 1998 JAPAN VERSION, GREAT CONDITION [eBay]",
+              "price": 198.5
+            },
+            {
+              "date": "2018-05-21",
+              "title": "The King Of Fighters 98 Neo Geo AES SNK VG [eBay]",
+              "price": 180.0
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 590.0,
+          "sales": [
+            {
+              "date": "2026-03-07",
+              "title": "The King of Fighters ‘98 Neo Geo AES jp/ntsc CIB [eBay]",
+              "price": 320.66
+            },
+            {
+              "date": "2026-02-04",
+              "title": "King of Fighters 98 (Neo Geo AES, 1998) [eBay]",
+              "price": 379.99
+            },
+            {
+              "date": "2025-10-15",
+              "title": "The King of Fighters 98 NEO GEO AES KOF98 SNK - Tested; All manuals & Box [eBay]",
+              "price": 315.0
+            },
+            {
+              "date": "2025-09-25",
+              "title": "The King of Fighters 98 (Neo Geo AES) Complete CIB US Seller Tested SNK [eBay]",
+              "price": 259.99
+            },
+            {
+              "date": "2025-07-13",
+              "title": "The King of Fighters 98 - Original US Version - Neo Geo AES - Complete [eBay]",
+              "price": 800.0
+            },
+            {
+              "date": "2024-11-26",
+              "title": "The King Of Fighters 98 NEO GEO AES ROM SNK W/ box manual US SELLER!!! [eBay]",
+              "price": 275.0
+            },
+            {
+              "date": "2023-06-24",
+              "title": "King of Fighters 98 KoF 98 Neo Geo US AES AUTHENTIC! RARE W/ HARD PLASTIC CASE [eBay]",
+              "price": 1899.95
+            },
+            {
+              "date": "2023-02-09",
+              "title": "king of fighters 98 Neo Geo Aes us [eBay]",
+              "price": 1078.33
+            },
+            {
+              "date": "2023-01-08",
+              "title": "King of Fighters 98 Neo Geo AES US 100% Geniune [eBay]",
+              "price": 1310.96
+            },
+            {
+              "date": "2022-07-23",
+              "title": "King of Fighters 98’ (Kof 98’) Neo Geo AES [eBay]",
+              "price": 2050.0
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 1,
+          "median": 1200.0,
+          "sales": [
+            {
+              "date": "2025-02-05",
+              "title": "King of Fighters '98 Neo Geo AES [eBay]",
+              "price": 1200.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 14,
+      "id": "suikoden-ii-playstation",
+      "title": "Suikoden II",
+      "console": "PlayStation",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/playstation/suikoden-ii",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 70.0,
+          "sales": [
+            {
+              "date": "2026-03-05",
+              "title": "PlayStation 1 PS1 Game Only Suikoden II [eBay]",
+              "price": 91.0
+            },
+            {
+              "date": "2026-03-05",
+              "title": "Suikoden II (Sony PlayStation 1, 1999) DISC ONLY TESTED [eBay]",
+              "price": 59.99
+            },
+            {
+              "date": "2026-03-01",
+              "title": "Suikoden II (Sony PlayStation 1) PS1 Disc Only Tested And Works [eBay]",
+              "price": 62.32
+            },
+            {
+              "date": "2026-02-28",
+              "title": "Suikoden II 2 (Sony PlayStation 1, 1999) Disc Only [eBay]",
+              "price": 70.0
+            },
+            {
+              "date": "2026-02-21",
+              "title": "Suikoden II (2) (Sony PlayStation 1, PS1, 1999) Disc Only - Tested & Works! [eBay]",
+              "price": 69.99
+            },
+            {
+              "date": "2026-02-21",
+              "title": "Suikoden II (2) (Sony PlayStation 1, PS1, 1999) Disc Only - Tested ,Very Nice !! [eBay]",
+              "price": 72.0
+            },
+            {
+              "date": "2026-01-20",
+              "title": "Suikoden II (2) (Sony PlayStation 1, PS1, 1999) Disc Only - Tested & Works [eBay]",
+              "price": 70.0
+            },
+            {
+              "date": "2026-01-15",
+              "title": "Suikoden II PS1, Disc Only, Clean, Authentic [eBay]",
+              "price": 79.99
+            },
+            {
+              "date": "2026-01-09",
+              "title": "Suikoden II PS1 (Sony PlayStation 1, Konami, 1999) Disc Only - Tested [eBay]",
+              "price": 59.91
+            },
+            {
+              "date": "2026-01-05",
+              "title": "Suikoden II 2 (Sony PlayStation 1 PS1, 1999) Disc Only - Tested - Authentic RPG [eBay]",
+              "price": 67.49
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 155.0,
+          "sales": [
+            {
+              "date": "2026-03-15",
+              "title": "Suikoden II - PlayStation 1 PS1 - Complete in Box CIB [eBay]",
+              "price": 159.99
+            },
+            {
+              "date": "2026-03-15",
+              "title": "Suikoden II Sony PlayStation Video Game Konami 1999 COMPLETE [eBay]",
+              "price": 129.99
+            },
+            {
+              "date": "2026-03-15",
+              "title": "Suikoden II 2 (Sony PlayStation 1, 1999) Complete W Registration PS1 [eBay]",
+              "price": 164.95
+            },
+            {
+              "date": "2026-03-15",
+              "title": "Suikoden II (Sony PlayStation 1, 1999) [eBay]",
+              "price": 122.5
+            },
+            {
+              "date": "2026-03-14",
+              "title": "Suikoden II (Sony PlayStation 1, 1999) [eBay]",
+              "price": 165.0
+            },
+            {
+              "date": "2026-03-07",
+              "title": "Suikoden II 2 (Sony PlayStation 1, 1999) PS1 CIB - No Reg Card RARE [eBay]",
+              "price": 140.0
+            },
+            {
+              "date": "2026-03-01",
+              "title": "Suikoden II PS1 1999 Konami Disc Complete with Manual In Box - Sony Playstation [eBay]",
+              "price": 184.99
+            },
+            {
+              "date": "2026-03-01",
+              "title": "Suikoden II 2 (Sony PlayStation 1, 1999) PS1 CIB Tested W/ REG CARD 1 Owner READ [eBay]",
+              "price": 150.0
+            },
+            {
+              "date": "2026-02-28",
+              "title": "Suikoden II 2 (Sony PlayStation 1, 1999) PS1 Game Complete W/ Manual & Reg. Card [eBay]",
+              "price": 150.0
+            },
+            {
+              "date": "2026-02-27",
+              "title": "Suikoden II (Sony PlayStation 1, 1999) CIB [eBay]",
+              "price": 175.0
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 10,
+          "median": 630.0,
+          "sales": [
+            {
+              "date": "2026-02-26",
+              "title": "Suikoden II 2 PS1 MINT COMPLETE CIB Original Owner PlayStation 1 RPG Sealed! [eBay]",
+              "price": 158.5
+            },
+            {
+              "date": "2025-08-03",
+              "title": "Brand New Suikoden II 2 PS1 - Rare, Factory Sealed, Black Label (Original), RPG [eBay]",
+              "price": 799.99
+            },
+            {
+              "date": "2025-06-01",
+              "title": "Suikoden II 2 PlayStation 1 PS1 New Sealed [eBay]",
+              "price": 449.99
+            },
+            {
+              "date": "2025-05-27",
+              "title": "Suikoden II 2 PlayStation 1 PS1 Konami Brand New Sealed (Small Crack In Back) [eBay]",
+              "price": 699.99
+            },
+            {
+              "date": "2025-03-11",
+              "title": "New Suikoden II 2 PS1 - Rare, Opened, Never played, Black Label [eBay]",
+              "price": 550.0
+            },
+            {
+              "date": "2025-03-11",
+              "title": "Brand New Suikoden II 2 PS1 - Rare, Opened, Never played, Black Label [eBay]",
+              "price": 550.0
+            },
+            {
+              "date": "2025-01-27",
+              "title": "Suikoden II 2 (Sony Playstation 1 ps1) NEW Factory Sealed [eBay]",
+              "price": 699.99
+            },
+            {
+              "date": "2024-10-11",
+              "title": "Suikoden II (Sony PlayStation 1, 1999) Brand New and Sealed [eBay]",
+              "price": 899.0
+            },
+            {
+              "date": "2023-09-17",
+              "title": "Brand New- Suikoden II (2), 1999, From Konami For The Playstation (PS1/PSX) [eBay]",
+              "price": 660.01
+            },
+            {
+              "date": "2023-07-29",
+              "title": "Suikoden II (Sony PlayStation 1, 1999) Brand New Factory Sealed! [eBay]",
+              "price": 599.99
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 15,
+      "id": "the-last-blade-2-neo-geo",
+      "title": "The Last Blade 2",
+      "console": "Neo Geo",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/neo-geo-aes/last-blade-2",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 5,
+          "median": 616.0,
+          "sales": [
+            {
+              "date": "2025-06-07",
+              "title": "last blade 2 neo geo aes [eBay]",
+              "price": 882.29
+            },
+            {
+              "date": "2021-02-01",
+              "title": "NeoGeo AES Last Blade 2 II Gekka No Kenshi SNK Neo Geo Neo-Geo (No Reserve). [eBay]",
+              "price": 616.0
+            },
+            {
+              "date": "2020-08-07",
+              "title": "Last Blade 2 US English AES • Neo Geo NGH System/Console • SNK Gekka no Kenshi [eBay]",
+              "price": 549.97
+            },
+            {
+              "date": "2019-10-18",
+              "title": "Gekka no Kenshi 2, Last Blade 2 AES Neo Geo [eBay]",
+              "price": 500.0
+            },
+            {
+              "date": "2012-06-07",
+              "title": "Last Blade 2 US Neo Geo AES SNK LB2 -Collectors- [eBay]",
+              "price": 1699.99
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 3,
+          "median": 2999.99,
+          "sales": [
+            {
+              "date": "2019-01-21",
+              "title": "The Last Blade 2 for SNK Neo Geo AES 100% Complete NM Genuine English - Rare! [eBay]",
+              "price": 4299.99
+            },
+            {
+              "date": "2016-05-14",
+              "title": "The Last Blade 2 (SNK Neo Geo AES) US English Version Complete NM - Minty! [eBay]",
+              "price": 2999.99
+            },
+            {
+              "date": "2013-12-08",
+              "title": "NEO GEO AES US English Last Blade 2 Complete+Manual SNK Neo-Geo [eBay]",
+              "price": 1525.0
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 0,
+          "median": null,
+          "sales": []
+        }
+      },
+      "editorialNotes": [
+        "Reviewed but kept as-is: very small sample sizes (5 loose / 3 CIB / 0 mint) but no clear duplicates or non-matching listings were found."
+      ]
+    },
+    {
+      "rank": 17,
+      "id": "samurai-shodown-ii-neo-geo",
+      "title": "Samurai Shodown II",
+      "console": "Neo Geo",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/neo-geo-aes/samurai-shodown-ii",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 153.75,
+          "sales": [
+            {
+              "date": "2025-02-12",
+              "title": "Samurai Showdown II 2 Neo Geo 1994 AES With Case [eBay]",
+              "price": 157.5
+            },
+            {
+              "date": "2024-06-18",
+              "title": "Neo Geo Aes 2 Soft boxes + 2 PCB AES Samurai Shodown II + SNK Neo Geo goodies [eBay]",
+              "price": 80.0
+            },
+            {
+              "date": "2024-06-18",
+              "title": "Neo Geo Aes 2 Soft boxes + 2 Samurai Shodown II AES PCB + SNK Neo Geo goodies [eBay]",
+              "price": 80.0
+            },
+            {
+              "date": "2024-03-16",
+              "title": "Samurai Shodown II 2 (Neo Geo, 1994) AES us version dogtag [eBay]",
+              "price": 150.0
+            },
+            {
+              "date": "2023-04-04",
+              "title": "Samurai Showdown II 2 Neo Geo AES Shin Spirits SNK | US Seller | Tested & works [eBay]",
+              "price": 64.99
+            },
+            {
+              "date": "2023-03-28",
+              "title": "Samurai Showdown II 2 Neo Geo AES Shin Spirits SNK | US Seller | Tested & works [eBay]",
+              "price": 75.0
+            },
+            {
+              "date": "2022-12-05",
+              "title": "Samurai Shodown II 2 (Neo Geo AES English) with Soft Shell Box Rare [eBay]",
+              "price": 499.99
+            },
+            {
+              "date": "2022-10-17",
+              "title": "Samurai Shodown II 2 (Neo Geo AES English) with Soft Shell Box Rare [eBay]",
+              "price": 256.0
+            },
+            {
+              "date": "2022-08-13",
+              "title": "Samurai Shodown II 2 (Neo Geo AES) - Dog Tag [eBay]",
+              "price": 549.99
+            },
+            {
+              "date": "2020-08-18",
+              "title": "Samurai Shodown II 2 [NTSC-U] USA US - SNK Neo Geo AES DOG TAG [eBay]",
+              "price": 534.04
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 266.43,
+          "sales": [
+            {
+              "date": "2026-02-01",
+              "title": "Samurai Shodown II - Neo Geo - Tested CIB [eBay]",
+              "price": 400.0
+            },
+            {
+              "date": "2026-01-07",
+              "title": "SAMURAI SHODOWN II NEO GEO AES ENGLISH USA DOGTAG VERSION COMPLETE AUTHENTIC SNK [eBay]",
+              "price": 174.95
+            },
+            {
+              "date": "2025-12-14",
+              "title": "Samurai Shodown 2 II Dog Tag NEO GEO AES CARTRIDGE with Box. USA. Great Shape [eBay]",
+              "price": 398.98
+            },
+            {
+              "date": "2025-11-18",
+              "title": "Samurai Shodown II SNK Neo-Geo AES US version [eBay]",
+              "price": 262.87
+            },
+            {
+              "date": "2025-09-28",
+              "title": "Neo Geo AES Shin Samurai Spirits Samurai Shodown II CIB Tested Great Condition [eBay]",
+              "price": 75.0
+            },
+            {
+              "date": "2025-09-18",
+              "title": "Samurai Spirits 2 (Samurai Shodown II) Neo Geo AES - CIB, GREAT, US SELLER [eBay]",
+              "price": 119.99
+            },
+            {
+              "date": "2025-08-24",
+              "title": "Neo Geo AES Shin Samurai Spirits Samurai Shodown II CIB Tested Good Condition [eBay]",
+              "price": 65.0
+            },
+            {
+              "date": "2025-07-10",
+              "title": "Samurai Shodown II Dog Tag 2 (Neo Geo AES English) Complete in Box [eBay]",
+              "price": 579.99
+            },
+            {
+              "date": "2025-04-22",
+              "title": "Samurai Shodown II Neo Geo AES US Dog Tag English Version [eBay]",
+              "price": 279.89
+            },
+            {
+              "date": "2025-03-27",
+              "title": "🇺🇸 Samurai Shodown II 2 Neo Geo AES US CIB (READ) [eBay]",
+              "price": 269.99
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 1,
+          "median": 749.0,
+          "sales": [
+            {
+              "date": "2024-05-17",
+              "title": "Samurai Shodown II Neo Geo AES - original US version [eBay]",
+              "price": 749.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 18,
+      "id": "alien-soldier-sega-genesis",
+      "title": "Alien Soldier",
+      "console": "Sega Genesis",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/pal-sega-mega-drive/alien-soldier",
+      "sourceVariant": "PAL Sega Mega Drive proxy page",
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 226.08,
+          "sales": [
+            {
+              "date": "2026-03-15",
+              "title": "Alien Soldier PAL Sega Mega Drive Cartridge Only *working* [eBay]",
+              "price": 115.05
+            },
+            {
+              "date": "2026-01-15",
+              "title": "Alien Soldier Sega Mega Drive Game Cartridge Only Very Rare Authentic [eBay]",
+              "price": 481.72
+            },
+            {
+              "date": "2025-11-26",
+              "title": "US Seller - Alien Soldier with GameShark - PAL Sega Genesis / Megadrive [eBay]",
+              "price": 225.0
+            },
+            {
+              "date": "2025-10-26",
+              "title": "Alien Soldier Sega Mega Drive [eBay]",
+              "price": 223.37
+            },
+            {
+              "date": "2025-08-20",
+              "title": "Alien Soldier, Sega Megadrive, *VGC* [eBay]",
+              "price": 240.47
+            },
+            {
+              "date": "2025-07-21",
+              "title": "Alien Soldier Game Sega Megadrive Pal Version [eBay]",
+              "price": 227.16
+            },
+            {
+              "date": "2025-04-09",
+              "title": "ALIEN SOLDIER Sega MegaDrive PAL Genesis 100% Authentic EU SELLER [eBay]",
+              "price": 140.0
+            },
+            {
+              "date": "2025-01-13",
+              "title": "Alien Soldier | Sega Mega Drive | PAL Original | Cartridge only [eBay]",
+              "price": 138.98
+            },
+            {
+              "date": "2024-11-19",
+              "title": "sega mega drive alien soldier. Pal [eBay]",
+              "price": 234.22
+            },
+            {
+              "date": "2024-10-20",
+              "title": "SEGA Megadrive - Alien Soldier - PAL [eBay]",
+              "price": 252.17
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 630.1,
+          "sales": [
+            {
+              "date": "2026-02-19",
+              "title": "Alien Soldier Sega Megadrive COMPLETE PAL CIB RARE [eBay]",
+              "price": 944.95
+            },
+            {
+              "date": "2026-01-19",
+              "title": "Sega Mega Drive - Alien Soldier - Complete [eBay]",
+              "price": 660.48
+            },
+            {
+              "date": "2026-01-01",
+              "title": "Alien Soldier SEGA Mega Drive Genesis 16 Bit Game Card with EUR Box & Manual [eBay]",
+              "price": 53.9
+            },
+            {
+              "date": "2025-11-18",
+              "title": "Alien Soldier - Sega Mega Drive - Complete - PAL [eBay]",
+              "price": 738.2
+            },
+            {
+              "date": "2025-10-05",
+              "title": "Alien Soldier - Sega Mega Drive Game *VERY RARE* [eBay]",
+              "price": 737.15
+            },
+            {
+              "date": "2025-08-31",
+              "title": "Alien Soldier, Sega Mega Drive, Excellent, RARE, Rare, CIB, Original Box, 100% [eBay]",
+              "price": 618.19
+            },
+            {
+              "date": "2025-07-22",
+              "title": "Alien Soldier | Sega Mega Drive | Includes Manual | VERY GOOD | 100% Genuine [eBay]",
+              "price": 577.34
+            },
+            {
+              "date": "2025-07-20",
+              "title": "Alien Soldier | Sega Mega Drive | Includes Manual | VERY GOOD | 100% Genuine [eBay]",
+              "price": 542.93
+            },
+            {
+              "date": "2025-07-19",
+              "title": "sega mega drive game Alien Soldier [eBay]",
+              "price": 467.37
+            },
+            {
+              "date": "2025-07-06",
+              "title": "Alien Soldier Megadrive Sega Treasure Complete [eBay]",
+              "price": 642.0
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 10,
+          "median": 350.09,
+          "sales": [
+            {
+              "date": "2026-03-15",
+              "title": "Completely New / Mint: SEGA Mega Drive - Alien Soldier (Authentic) [eBay]",
+              "price": 1771.36
+            },
+            {
+              "date": "2025-11-12",
+              "title": "Alien Soldier Video Game Sega Mega Drive sealed [eBay]",
+              "price": 407.47
+            },
+            {
+              "date": "2021-12-05",
+              "title": "Alien Soldier Sega Mega Drive - Brand New - Sealed [eBay]",
+              "price": 2644.0
+            },
+            {
+              "date": "2020-02-07",
+              "title": "Alien Soldier Sega Mega Drive _custom_, alternative boxart, brand new! GUARDA! [eBay]",
+              "price": 9.55
+            },
+            {
+              "date": "2019-07-14",
+              "title": "**RARE** Alien Soldier état neuf Sega Megadrive COMPLET [eBay]",
+              "price": 315.07
+            },
+            {
+              "date": "2019-06-01",
+              "title": "Alien Soldier (PAL) MegaDrive NEUF/NEW [eBay]",
+              "price": 334.31
+            },
+            {
+              "date": "2019-04-28",
+              "title": "SEGA MEGA DRIVE ALIEN SOLDIER OVP NEU MINT SEALED SEGA SEAL [eBay]",
+              "price": 317.02
+            },
+            {
+              "date": "2019-04-07",
+              "title": "SEGA MEGA DRIVE ALIEN SOLDIER OVP NEU MINT SEALED SEGA SEAL [eBay]",
+              "price": 365.87
+            },
+            {
+              "date": "2018-12-15",
+              "title": "Alien soldier Mint++++New megadrive [eBay]",
+              "price": 299.38
+            },
+            {
+              "date": "2018-11-08",
+              "title": "ALIEN SOLDIER SEGA MEGA DRIVE NEW [eBay]",
+              "price": 400.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 19,
+      "id": "mother-3-game-boy-advance",
+      "title": "Mother 3",
+      "console": "Game Boy Advance",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/jp-gameboy-advance/mother-3",
+      "sourceVariant": "JP Game Boy Advance proxy page",
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 43.05,
+          "sales": [
+            {
+              "date": "2026-03-04",
+              "title": "BB4038 Mother 3 GameBoy Advance Japan [eBay]",
+              "price": 25.94
+            },
+            {
+              "date": "2026-02-06",
+              "title": "MOTHER 3 Japanese Ver Game Boy Advance GBA New Battery Cleaned Tested [eBay]",
+              "price": 43.0
+            },
+            {
+              "date": "2026-02-06",
+              "title": "GBA Mother 3 Japan ver Gameboy Advance Cartridge only NTSC-J [A] [eBay]",
+              "price": 50.3
+            },
+            {
+              "date": "2026-01-18",
+              "title": "Mother 3 Japanese Authentic Nintendo Game Boy Advance cartridge only Excellent [eBay]",
+              "price": 43.11
+            },
+            {
+              "date": "2026-01-18",
+              "title": "BB2479 Mother 3 GameBoy Advance Japan [eBay]",
+              "price": 37.1
+            },
+            {
+              "date": "2026-01-13",
+              "title": "Nintendo Mother 3 Game Boy Advance NTSC-J Japan 2006 Mother Series Video Game [eBay]",
+              "price": 35.0
+            },
+            {
+              "date": "2026-01-11",
+              "title": "Game Boy Advance Mother 3 Japan GBA game US Seller [eBay]",
+              "price": 63.8
+            },
+            {
+              "date": "2026-01-06",
+              "title": "MOTHER 3 Earthbound Nintendo Gameboy Advance GBA Japanese Ver. Cartridge Only [eBay]",
+              "price": 57.68
+            },
+            {
+              "date": "2026-01-05",
+              "title": "Mother 3 Earthbound Nintendo Game Boy Advance 2006 Japanese Version AGB-AU3J-JPN [eBay]",
+              "price": 48.9
+            },
+            {
+              "date": "2026-01-05",
+              "title": "Mother 3 (EarthBound) Nintendo Gameboy Advance Japanese Tested GBA [eBay]",
+              "price": 37.99
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 92.47,
+          "sales": [
+            {
+              "date": "2026-03-17",
+              "title": "Complete MOTHER 3 Gameboy Advance Nintendo GBA NTSC-J CIB [eBay]",
+              "price": 96.95
+            },
+            {
+              "date": "2026-03-10",
+              "title": "Complete MOTHER 3 Gameboy Advance Nintendo GBA NTSC-J CIB [eBay]",
+              "price": 96.95
+            },
+            {
+              "date": "2026-03-06",
+              "title": "Nintendo Gameboy Advance Mother 3 GBA CIB Japan [eBay]",
+              "price": 58.49
+            },
+            {
+              "date": "2026-03-02",
+              "title": "Nintendo Gameboy Advance Mother 3 GBA CIB Japan [eBay]",
+              "price": 65.81
+            },
+            {
+              "date": "2026-02-27",
+              "title": "Complete MOTHER 3 Gameboy Advance Nintendo GBA NTSC-J CIB [eBay]",
+              "price": 75.0
+            },
+            {
+              "date": "2026-02-24",
+              "title": "MOTHER 3 Nintendo Game Boy Advance GBA Japan Game Boxed CIB Authentic EarthBound [eBay]",
+              "price": 105.0
+            },
+            {
+              "date": "2026-02-21",
+              "title": "* Mother 3 (Gameboy Advance GBA) Japan Import Complete CIB [eBay]",
+              "price": 89.99
+            },
+            {
+              "date": "2026-02-16",
+              "title": "Complete MOTHER 3 Gameboy Advance Nintendo GBA NTSC-J CIB [eBay]",
+              "price": 94.95
+            },
+            {
+              "date": "2026-02-02",
+              "title": "Mother 3, Nintendo Game Boy Advance, CIB, Japan Import [eBay]",
+              "price": 45.0
+            },
+            {
+              "date": "2026-01-30",
+              "title": "Game Boy Advance Mother 3 CIB Complete - Japan GBA game US Seller - Excellent [eBay]",
+              "price": 108.0
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 7,
+          "median": 199.99,
+          "sales": [
+            {
+              "date": "2025-07-24",
+              "title": "NINTENDO GAME BOY Advance Micro Console MOTHER 3 Limited Model [eBay]",
+              "price": 997.0
+            },
+            {
+              "date": "2024-12-04",
+              "title": "Mother 3 EarthBound Nintendo Game Boy Advance GBA JAPAN IMPORT GAMEBOY JAPANESE [eBay]",
+              "price": 249.99
+            },
+            {
+              "date": "2024-08-11",
+              "title": "Mother 3 IPS Backlit V2 Nintendo Gameboy Advance GBA RPG Red Cartridge Japan [eBay]",
+              "price": 210.0
+            },
+            {
+              "date": "2023-09-28",
+              "title": "Mother 3 IPS Backlit V2 Nintendo Gameboy Advance GBA RPG Red Cartridge Japan [eBay]",
+              "price": 199.99
+            },
+            {
+              "date": "2023-08-24",
+              "title": "Mother 3 IPS Backlit V2 Nintendo Gameboy Advance GBA RPG Red Cartridge Japan [eBay]",
+              "price": 199.99
+            },
+            {
+              "date": "2021-12-19",
+              "title": "Mother 3 Nintendo GBA, 2006 Original Japanese Edition Sealed Cartridge w/ box! [eBay]",
+              "price": 80.0
+            },
+            {
+              "date": "2020-10-14",
+              "title": "Mother 3 (Japan, Game Boy Advance) -- COMPLETE, AS NEW, GENUINE [eBay]",
+              "price": 36.78
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 21,
+      "id": "demons-crest-super-nintendo",
+      "title": "Demon's Crest",
+      "console": "Super Nintendo",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/demon%27s-crest",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 169.99,
+          "sales": [
+            {
+              "date": "2026-03-07",
+              "title": "Demon's Crest SNES (Super Nintendo Entertainment System, 1994) AUTHENTIC! Tested [eBay]",
+              "price": 170.0
+            },
+            {
+              "date": "2026-03-06",
+              "title": "Demon's Crest (SNES, 1994) Authentic Cartridge Only - Tested & Works [eBay]",
+              "price": 160.0
+            },
+            {
+              "date": "2026-03-04",
+              "title": "Demon's Crest SNES (Super Nintendo Entertainment System, 1994) Authentic Tested [eBay]",
+              "price": 169.99
+            },
+            {
+              "date": "2026-03-01",
+              "title": "Demon's Crest SNES Video Game Cartridge Authentic Play Tested [eBay]",
+              "price": 152.5
+            },
+            {
+              "date": "2026-02-27",
+              "title": "Demon's Crest SNES (Super Nintendo Entertainment System, 1994) AUTHENTIC! Tested [eBay]",
+              "price": 169.99
+            },
+            {
+              "date": "2026-02-26",
+              "title": "Demon's Crest SNES Authentic [eBay]",
+              "price": 180.0
+            },
+            {
+              "date": "2026-02-23",
+              "title": "Demon's Crest SNES (Super Nintendo Entertainment System, 1994) AUTHENTIC! Tested [eBay]",
+              "price": 179.99
+            },
+            {
+              "date": "2026-02-23",
+              "title": "Capcom Demon's Crest Super Nintendo SNES Game Cartridge NTSC-U/C US/Canada [eBay]",
+              "price": 150.0
+            },
+            {
+              "date": "2026-02-23",
+              "title": "Demon's Crest Game Cartridge (Super Nintendo, 1994) / SNES [eBay]",
+              "price": 149.95
+            },
+            {
+              "date": "2026-02-21",
+              "title": "Demon's Crest - Super Nintendo SNES - Cartridge Only [eBay]",
+              "price": 175.0
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 468.5,
+          "sales": [
+            {
+              "date": "2026-03-06",
+              "title": "Demon’s Crest (Super Nintendo SNES) CIB Complete Box & Manual Authentic Capcom [eBay]",
+              "price": 483.0
+            },
+            {
+              "date": "2026-03-01",
+              "title": "Demon's Crest (Super Nintendo Entertainment System, 1994) [eBay]",
+              "price": 499.99
+            },
+            {
+              "date": "2026-02-26",
+              "title": "Demon’s Crest (Super Nintendo SNES) CIB Complete Box & Manual Authentic Capcom [eBay]",
+              "price": 457.0
+            },
+            {
+              "date": "2026-02-25",
+              "title": "Demon's Crest (Super Nintendo SNES, 1994) CIB - Tested - Authentic [eBay]",
+              "price": 438.56
+            },
+            {
+              "date": "2026-02-17",
+              "title": "Demon's Crest Snes (Super Nintendo Entertainment System, 1994) CIB With Manual [eBay]",
+              "price": 379.99
+            },
+            {
+              "date": "2026-02-13",
+              "title": "Demon's Crest (Super Nintendo SNES, 1994) Complete CIB - Tested - Authentic [eBay]",
+              "price": 480.0
+            },
+            {
+              "date": "2026-02-03",
+              "title": "Demon’s Crest (Super Nintendo SNES) CIB Complete Box & Manual Authentic Capcom [eBay]",
+              "price": 499.99
+            },
+            {
+              "date": "2026-01-31",
+              "title": "DEMON'S CREST Super Nintendo SNES GAME 1994 Vintage COMPLETE IN BOX TESTED WORKS [eBay]",
+              "price": 589.0
+            },
+            {
+              "date": "2026-01-16",
+              "title": "Demon's Crest Super Nintendo Entertainment System SNES 12 [eBay]",
+              "price": 446.49
+            },
+            {
+              "date": "2026-01-15",
+              "title": "Super Nintendo SNES Demon's Crest [eBay]",
+              "price": 406.01
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 10,
+          "median": 799.5,
+          "sales": [
+            {
+              "date": "2024-01-04",
+              "title": "Demon's Crest (Super Nintendo SNES) NEW FACTORY SEALED! H-Seam Ultra RARE [eBay]",
+              "price": 995.0
+            },
+            {
+              "date": "2022-09-26",
+              "title": "Demon's Crest New Seal Wata VGA ready very rare to find seal game for this title [eBay]",
+              "price": 2000.0
+            },
+            {
+              "date": "2022-08-25",
+              "title": "Demon's Crest (Super Nintendo SNES) NEW FACTORY SEALED! [eBay]",
+              "price": 1499.95
+            },
+            {
+              "date": "2021-07-24",
+              "title": "Demon's Crest SNES! Super Nintendo - New Box - 100% Authentic Cart + Manual! [eBay]",
+              "price": 177.5
+            },
+            {
+              "date": "2019-05-22",
+              "title": "Super Nintendo SNES Demon's Crest NIB NEW Sealed H-Seam [eBay]",
+              "price": 679.99
+            },
+            {
+              "date": "2019-04-27",
+              "title": "Demon’s Crest Super Nintendo Entertainment System SNES US NTSC New Sealed [eBay]",
+              "price": 640.32
+            },
+            {
+              "date": "2019-01-07",
+              "title": "Demon's Crest Factory Sealed (Super Nintendo Entertainment System / SNES) [eBay]",
+              "price": 699.99
+            },
+            {
+              "date": "2018-09-02",
+              "title": "Demon's Crest (Super Nintendo SNES) ~~~FACTORY SEALED V-SEAM NM~~~SUPER RARE!! [eBay]",
+              "price": 999.99
+            },
+            {
+              "date": "2018-08-02",
+              "title": "Demon's Crest Factory Sealed Y Fold (Super Nintendo Entertainment System / SNES) [eBay]",
+              "price": 699.99
+            },
+            {
+              "date": "2018-03-13",
+              "title": "Demon's Crest (Super Nintendo Entertainment System, 1994) [eBay]",
+              "price": 899.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 24,
+      "id": "metal-slug-3-neo-geo",
+      "title": "Metal Slug 3",
+      "console": "Neo Geo",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/neo-geo-aes/metal-slug-3",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 10,
+          "median": 1145.0,
+          "sales": [
+            {
+              "date": "2020-10-16",
+              "title": "Neo Geo AES Metal Slug 3 SNK NeoGeo Japanese Retro Import [eBay]",
+              "price": 1800.0
+            },
+            {
+              "date": "2019-11-27",
+              "title": "Metal Slug 3 AES SNK NEO-GEO with Box Free Shipping! [eBay]",
+              "price": 749.99
+            },
+            {
+              "date": "2018-10-25",
+              "title": "Metal Slug 3 (Neo Geo, 2001) AES English version in Excellent condition! [eBay]",
+              "price": 1500.0
+            },
+            {
+              "date": "2018-10-24",
+              "title": "Metal Slug 3 (Neo Geo, 2001) AES English version in Excellent condition! [eBay]",
+              "price": 1600.0
+            },
+            {
+              "date": "2018-10-06",
+              "title": "NEO GEO METAL SLUG 3 - AES - First run edition [eBay]",
+              "price": 1300.0
+            },
+            {
+              "date": "2017-12-08",
+              "title": "Metal Slug 3 Neo Geo AES home cartridge mint US seller [eBay]",
+              "price": 1675.0
+            },
+            {
+              "date": "2014-09-20",
+              "title": "Metal Slug 3 US AES [eBay]",
+              "price": 990.0
+            },
+            {
+              "date": "2014-03-10",
+              "title": "Metal Slug 3 (Neo Geo, 2000) [eBay]",
+              "price": 800.0
+            },
+            {
+              "date": "2013-08-28",
+              "title": "Original NEO GEO METAL SLUG 3 with MANUAL AES SNK US Seller US Version NEOGEO [eBay]",
+              "price": 987.77
+            },
+            {
+              "date": "2012-06-10",
+              "title": "Metal Slug 3 Neo Geo AES [eBay]",
+              "price": 550.0
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 10,
+          "median": 4300.0,
+          "sales": [
+            {
+              "date": "2026-03-04",
+              "title": "METAL SLUG 3 NEO GEO AES (VERY RARE) PERFECT NEOGEO SNK [eBay]",
+              "price": 5794.89
+            },
+            {
+              "date": "2026-02-04",
+              "title": "Metal Slug 3 neo geo aes US [eBay]",
+              "price": 4132.45
+            },
+            {
+              "date": "2025-02-25",
+              "title": "Metal Slug 3 (Neo Geo AES, 2000) USA 100% Original Complete **L@@K** [eBay]",
+              "price": 4300.0
+            },
+            {
+              "date": "2025-01-25",
+              "title": "Metal Slug 3 (Neo Geo AES, 2000) USA 100% Original Complete **L@@K** [eBay]",
+              "price": 4800.0
+            },
+            {
+              "date": "2024-08-12",
+              "title": "Metal Slug 3 Neo Geo AES Authentic SNK CIB English US [eBay]",
+              "price": 4199.99
+            },
+            {
+              "date": "2024-04-17",
+              "title": "Metal Slug 3 Neo Geo AES Authentic SNK CIB English US [eBay]",
+              "price": 4665.94
+            },
+            {
+              "date": "2024-04-14",
+              "title": "Authentic Metal Slug 3 (Neo Geo AES, 2000) USA [eBay]",
+              "price": 4295.0
+            },
+            {
+              "date": "2023-10-04",
+              "title": "Metal Slug 3 (Neo Geo AES, 2000) USA 100% Original CIB NM [eBay]",
+              "price": 4300.0
+            },
+            {
+              "date": "2022-10-08",
+              "title": "Metal Slug 3 CIB w/game, instruction manual, case U.S. for the Neo-Geo AES [eBay]",
+              "price": 4500.0
+            },
+            {
+              "date": "2022-08-13",
+              "title": "Metal Slug 3 - Neo Geo AES US [eBay]",
+              "price": 3500.0
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 6,
+          "median": 2875.0,
+          "sales": [
+            {
+              "date": "2024-12-24",
+              "title": "Metal Slug 3 English AES • Neo Geo [eBay]",
+              "price": 2200.0
+            },
+            {
+              "date": "2024-12-19",
+              "title": "Metal Slug 3 English AES • Neo Geo [eBay]",
+              "price": 2300.0
+            },
+            {
+              "date": "2022-02-22",
+              "title": "NEO GEO AES Metal Slug 3 - NEW! [eBay]",
+              "price": 3100.0
+            },
+            {
+              "date": "2022-01-16",
+              "title": "NEO GEO AES Metal Slug 3 - NEW! [eBay]",
+              "price": 3500.0
+            },
+            {
+              "date": "2021-03-27",
+              "title": "Metal Slug 3 SNK Neo Geo AES Authentic Original Complete New [eBay]",
+              "price": 3500.0
+            },
+            {
+              "date": "2019-03-05",
+              "title": "Metal Slug 3 (Neo Geo AES, 2000) English Version - New and Unused [eBay]",
+              "price": 2650.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "rank": 27,
+      "id": "metal-slug-neo-geo",
+      "title": "Metal Slug",
+      "console": "Neo Geo",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/neo-geo-aes/metal-slug",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 2,
+          "median": 2525.0,
+          "sales": [
+            {
+              "date": "2022-02-20",
+              "title": "Metal Slug for Neo Geo AES 100% AUTHENTIC GENUINE ORIGINAL PCB PHOTOS WORKING [eBay]",
+              "price": 3550.0
+            },
+            {
+              "date": "2013-07-10",
+              "title": "Metal Slug (Neo Geo, 1996) [eBay]",
+              "price": 1500.0
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 0,
+          "median": null,
+          "sales": []
+        },
+        "mint": {
+          "sampleCount": 0,
+          "median": null,
+          "sales": []
+        }
+      },
+      "editorialNotes": [
+        "Reviewed but kept as-is: only two relevant loose sales were available and no clean CIB or Mint samples were visible."
+      ]
+    },
+    {
+      "rank": 30,
+      "id": "garou-mark-of-the-wolves-neo-geo",
+      "title": "Garou: Mark of the Wolves",
+      "console": "Neo Geo",
+      "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/neo-geo-aes/garou-mark-of-the-wolves",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 2,
+          "median": 2374.5,
+          "sales": [
+            {
+              "date": "2017-11-10",
+              "title": "Garou: Mark of the Wolves (Neo Geo, 2000) English Version, AES Home Cart [eBay]",
+              "price": 3750.0
+            },
+            {
+              "date": "2017-07-12",
+              "title": "Garou Mark of the Wolves AES - Neo Geo [eBay]",
+              "price": 999.0
+            }
+          ]
+        },
+        "cib": {
+          "sampleCount": 9,
+          "median": 2006.88,
+          "sales": [
+            {
+              "date": "2025-06-08",
+              "title": "SNK Garou Mark of The Wolves (Neo Geo AES) [eBay]",
+              "price": 1600.0
+            },
+            {
+              "date": "2025-03-25",
+              "title": "GAROU MARK OF THE WOLVES NEO GEO AES Genuine Near mint reg card metal slug [eBay]",
+              "price": 2696.17
+            },
+            {
+              "date": "2025-02-17",
+              "title": "Garou : Mark of the Wolves English AES • Neo Geo System/Console • SNK Fatal Fury [eBay]",
+              "price": 2000.0
+            },
+            {
+              "date": "2025-01-06",
+              "title": "Garou : Mark of the Wolves English AES • Neo Geo System/Console • SNK Fatal Fury [eBay]",
+              "price": 2000.0
+            },
+            {
+              "date": "2024-08-12",
+              "title": "GAROU MARK OF THE WOLVES Neo Geo AES Original [eBay]",
+              "price": 2070.68
+            },
+            {
+              "date": "2024-02-18",
+              "title": "Garou Mark Of The Wolves Neo Geo AES Authentique True [eBay]",
+              "price": 2006.88
+            },
+            {
+              "date": "2023-12-06",
+              "title": "garou mark of the wolves GENUINE USA VERSION neo geo aes [eBay]",
+              "price": 1800.0
+            },
+            {
+              "date": "2023-10-01",
+              "title": "Garou mark of the wolves neo geo aes complet + reg card, fatal fury, genuine [eBay]",
+              "price": 2106.91
+            },
+            {
+              "date": "2020-10-13",
+              "title": "Garou : Mark Of The Wolves - SNK Neo Geo AES Console - US Version CIB [eBay]",
+              "price": 3500.0
+            }
+          ],
+          "editorialRemoved": [
+            {
+              "date": "2025-03-25",
+              "title": "GAROU MARK OF THE WOLVES NEO GEO AES Genuine Near mint reg card metal slug [eBay]",
+              "price": 2696.17
+            }
+          ]
+        },
+        "mint": {
+          "sampleCount": 0,
+          "median": null,
+          "sales": []
+        }
+      },
+      "editorialNotes": [
+        "CIB pass: removed one exact duplicate listing/date/price combination before recomputing the median."
+      ]
+    }
+  ],
+  "editorialReview": {
+    "reviewedAt": "2026-03-20",
+    "reviewedItems": [
+      "little-samson-nintendo-entertainment-system",
+      "earthbound-super-nintendo",
+      "garou-mark-of-the-wolves-neo-geo",
+      "metal-slug-neo-geo",
+      "the-last-blade-2-neo-geo"
+    ],
+    "policy": "Removed only exact duplicates, graded sales in raw Mint buckets, and listings clearly incompatible with the target condition. Low-sample items were kept but flagged."
+  }
+}
