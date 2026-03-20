@@ -446,36 +446,47 @@
         quickDetailEl.innerHTML = message;
       }
 
+      function detailPrice(value) {
+        const amount = Number(value);
+        if (!Number.isFinite(amount) || amount <= 0) {
+          return '<div class="price-value empty">$—</div>';
+        }
+        return `<div class="price-value">$${Math.round(amount)}</div>`;
+      }
+
       function shortSummary(game) {
         const text = String(game.summary || game.description || "").trim();
-        if (!text) return "Resume indisponible.";
+        if (!text) return "";
         return text.length > 220 ? `${esc(text.slice(0, 217))}...` : esc(text);
       }
 
       function quickDetailMarkup(game, currentState) {
+        const description = shortSummary(game);
         return `
-          <div class="quick-detail-title">${esc(game.title || "Sans titre")}</div>
-          <div class="quick-detail-badges">
-            <span class="quick-detail-meta">${esc(game.console || "Console inconnue")}</span>
-            <span class="quick-detail-meta">${esc(game.year || "n/a")}</span>
-            <span class="rarity-badge rarity-${esc(rClass(game.rarity))}">${esc(game.rarity || "COMMON")}</span>
+          <div class="detail-content">
+            <div class="detail-title">${esc(game.title || "Sans titre")}</div>
+            <div class="detail-badges">
+              <span class="badge-platform">${esc(game.console || "Console inconnue")}</span>
+              <span class="badge-year">${esc(game.year || "n/a")}</span>
+              <span class="result-badge rarity-badge rarity-${esc(rClass(game.rarity))}">${esc(game.rarity || "COMMON")}</span>
+            </div>
+            <div class="detail-prices">
+              <div class="detail-price-col">
+                <div class="price-label">LOOSE</div>
+                ${detailPrice(game.loosePrice)}
+              </div>
+              <div class="detail-price-col">
+                <div class="price-label">CIB</div>
+                ${detailPrice(game.cibPrice)}
+              </div>
+              <div class="detail-price-col">
+                <div class="price-label">MINT</div>
+                ${detailPrice(game.mintPrice)}
+              </div>
+            </div>
+            ${description ? `<div class="detail-description">${description}</div>` : ""}
+            <a class="detail-link" href="${detailUrl(game.id, currentState)}">Voir fiche complete &rarr;</a>
           </div>
-          <div class="quick-detail-prices">
-            <div class="quick-detail-price">
-              <span class="quick-detail-price-label">Loose</span>
-              <span class="quick-detail-price-value">${esc(price(game.loosePrice))}</span>
-            </div>
-            <div class="quick-detail-price">
-              <span class="quick-detail-price-label">CIB</span>
-              <span class="quick-detail-price-value">${esc(price(game.cibPrice))}</span>
-            </div>
-            <div class="quick-detail-price">
-              <span class="quick-detail-price-label">Mint</span>
-              <span class="quick-detail-price-value">${esc(price(game.mintPrice))}</span>
-            </div>
-          </div>
-          <div class="quick-detail-summary">${shortSummary(game)}</div>
-          <a class="quick-detail-link" href="${detailUrl(game.id, currentState)}">Voir fiche complete &rarr;</a>
         `;
       }
 
