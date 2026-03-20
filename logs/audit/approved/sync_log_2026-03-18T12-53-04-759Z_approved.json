@@ -1,0 +1,45 @@
+{
+  "schema_version": "retrodex.notion.stage.v1",
+  "staged_at": "2026-03-18T12:53:04.759Z",
+  "status": "approved",
+  "event_type": "sync_log",
+  "database": {
+    "key": "sync_log",
+    "label": "Codex Sync Log",
+    "databaseId": "ddb39abdd2344165bbb55a4057245a9d"
+  },
+  "payload": {
+    "session": "S17 - sync-gate fix validated",
+    "tool": "Codex",
+    "type": "Validate data",
+    "status": "Success",
+    "area": "Automation",
+    "date": "2026-03-18",
+    "summary": "sync-gate.js approve fixed. Full pipeline operational.",
+    "errors": ""
+  },
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "legacyReferences": []
+  },
+  "external_write_plan": {
+    "mode": "single_page_create",
+    "scope": "session-status-date-area-summary",
+    "property_mapping": {
+      "Session": "S17 - sync-gate fix validated",
+      "Status": "Success",
+      "Date": "2026-03-18",
+      "Area": "Automation",
+      "Summary": "sync-gate.js approve fixed. Full pipeline operational."
+    },
+    "write_endpoint": "https://api.notion.com/v1/pages"
+  },
+  "approved_at": "2026-03-18T12:53:12.393Z",
+  "notion_result": {
+    "page_id": "3278a0e1-ed24-8127-89b2-d42d56c4f04d",
+    "url": "https://www.notion.so/S17-sync-gate-fix-validated-3278a0e1ed24812789b2d42d56c4f04d",
+    "write_scope": "session-status-date-area-summary"
+  }
+}

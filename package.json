@@ -7,8 +7,12 @@
     "doc": "docs"
   },
   "scripts": {
+    "dev:backend": "cd backend && node src/server.js",
+    "dev:frontend": "npx serve frontend -l 3001",
+    "dev": "npx concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "start:backend": "cd backend && node src/server.js",
     "start:frontend": "npx http-server frontend -p 8080",
+    "smoke": "cd backend && npm run smoke",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
