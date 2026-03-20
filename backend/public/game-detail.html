@@ -240,6 +240,59 @@
         return "confidence-low";
       }
 
+      function getTrustMeta(value) {
+        const pct = Number(value) || 0;
+        if (pct >= 80) return { tier: "T1", label: "✓ VÉRIFIÉ" };
+        if (pct >= 60) return { tier: "T2", label: "~ FIABLE" };
+        if (pct >= 30) return { tier: "T3", label: "≈ INDICATIF" };
+        if (pct >= 10) return { tier: "T4", label: "? ESTIMÉ" };
+        return { tier: "T0", label: "— INCONNU" };
+      }
+
+      function formatTrustDate(value) {
+        if (!value) {
+          return "";
+        }
+
+        const date = new Date(`${value}T00:00:00Z`);
+        if (Number.isNaN(date.getTime())) {
+          return "";
+        }
+
+        return new Intl.DateTimeFormat("fr-FR", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+          timeZone: "UTC",
+        }).format(date);
+      }
+
+      function buildTrustSource(entries, confidence) {
+        if (!entries.length) {
+          return "aucune donnée — contribuez un prix";
+        }
+
+        const sourcesEditorial = Math.max(0, ...entries.map((entry) => Number(entry.sources_editorial) || 0));
+        const latestSaleDate = entries
+          .map((entry) => entry.last_sale_date || "")
+          .filter(Boolean)
+          .sort()
+          .at(-1);
+
+        if (sourcesEditorial > 0) {
+          const formattedDate = formatTrustDate(latestSaleDate);
+          return formattedDate
+            ? `${sourcesEditorial} ventes réelles · dernière : ${formattedDate}`
+            : `${sourcesEditorial} ventes réelles`;
+        }
+
+        if ((Number(confidence) || 0) === 15) {
+          return "estimation statistique — aucune vente vérifiée";
+        }
+
+        return "aucune donnée — contribuez un prix";
+      }
+
       function formatIndexValue(value) {
         const number = Number(value);
         return Number.isFinite(number) && number > 0 ? `$${Math.round(number)}` : "$—";
@@ -275,14 +328,20 @@
             entries.find((entry) => entry.condition === condition) || { condition }
           );
           const confidence = Math.round(Math.max(...entries.map((entry) => Number(entry.confidence_pct) || 0)));
-          const sourcesEditorial = entries.reduce((total, entry) => total + (Number(entry.sources_editorial) || 0), 0);
-          const sourcesCommunity = entries.reduce((total, entry) => total + (Number(entry.sources_community) || 0), 0);
+          const trustMeta = getTrustMeta(confidence);
+          const trustSource = buildTrustSource(entries, confidence);
+          const sourcesEditorial = Math.max(0, ...entries.map((entry) => Number(entry.sources_editorial) || 0));
+          const sourcesCommunity = Math.max(0, ...entries.map((entry) => Number(entry.sources_community) || 0));
 
           indexEl.className = "retrodex-index";
           indexEl.innerHTML = `
             <div class="index-header">
               <span>INDICE RETRODEX</span>
               <span class="confidence ${confidenceClass(confidence)}">${confidence}% confiance</span>
+            </div>
+            <div class="trust-header">
+              <span class="trust-badge trust-${trustMeta.tier}">${trustMeta.label}</span>
+              <span class="trust-source">${escapeHtml(trustSource)}</span>
             </div>
             <div class="index-prices">
               ${orderedEntries.map((entry) => `
