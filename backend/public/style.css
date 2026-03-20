@@ -1235,3 +1235,33 @@ a:hover {
 .console-link:hover {
   text-decoration: underline;
 }
+
+.console-accessories {
+  margin-top: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.section-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.accessory-line {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  padding: 3px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.accessory-type {
+  color: var(--text-muted);
+  font-size: 10px;
+  text-transform: uppercase;
+}

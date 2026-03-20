@@ -244,10 +244,24 @@ app.get("/api/consoles/:id", handleAsync(async (req, res) => {
     limit: 20,
   });
 
+  const accessories = await Accessory.findAll({
+    where: {
+      console_id: consoleItem.id,
+    },
+    order: [["name", "ASC"]],
+    limit: 10,
+  });
+
   return res.json({
     ok: true,
     console: toConsolePayload(consoleItem, games.length),
     games: games.map(toItemPayload),
+    accessories: accessories.map((item) => ({
+      id: item.id,
+      name: item.name,
+      accessory_type: item.accessory_type || null,
+      slug: item.slug || null,
+    })),
   });
 }));
 app.get("/api/accessories/types", handleAsync(async (_req, res) => {
