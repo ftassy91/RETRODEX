@@ -7,9 +7,16 @@ const cors = require("cors");
 const { sequelize, storagePath, databaseMode, databaseTarget } = require("./database");
 const Game = require("./models/Game");
 const CollectionItem = require("./models/CollectionItem");
+const CommunityReport = require("../models/CommunityReport");
 const RetrodexIndex = require("../models/RetrodexIndex");
 const { syncGamesFromPrototype } = require("./syncGames");
 const { handleAsync } = require("./helpers/query");
+
+const baseRetrodexIndexSync = RetrodexIndex.sync.bind(RetrodexIndex);
+RetrodexIndex.sync = (options = {}) => baseRetrodexIndexSync({
+  ...options,
+  alter: false,
+}).catch(() => {});
 
 // --- Model associations ---
 CollectionItem.belongsTo(Game, {
@@ -92,6 +99,59 @@ app.get("/api/index/:id", handleAsync(async (req, res) => {
       sources_editorial: entry.sources_editorial,
       last_sale_date: entry.last_sale_date,
     })),
+  });
+}));
+app.post("/api/reports", handleAsync(async (req, res) => {
+  const { item_id, condition, reported_price, context, date_estimated, text_raw } = req.body || {};
+  const normalizedItemId = String(item_id || "").trim();
+  const allowedConditions = ["Loose", "CIB", "Mint"];
+  const normalizedPrice = Number(reported_price);
+  const normalizedDate = date_estimated == null || date_estimated === "" ? null : String(date_estimated).trim();
+
+  if (!normalizedItemId) {
+    return res.status(400).json({
+      ok: false,
+      error: "item_id requis",
+    });
+  }
+
+  if (!allowedConditions.includes(condition)) {
+    return res.status(400).json({
+      ok: false,
+      error: "condition invalide: Loose, CIB ou Mint attendu",
+    });
+  }
+
+  if (!Number.isFinite(normalizedPrice) || normalizedPrice <= 0) {
+    return res.status(400).json({
+      ok: false,
+      error: "reported_price doit être supérieur à 0",
+    });
+  }
+
+  if (normalizedDate && !/^\d{4}-\d{2}-\d{2}$/.test(normalizedDate)) {
+    return res.status(400).json({
+      ok: false,
+      error: "date_estimated doit être au format YYYY-MM-DD ou null",
+    });
+  }
+
+  const newReport = await CommunityReport.create({
+    item_id: normalizedItemId,
+    condition,
+    reported_price: normalizedPrice,
+    context: context || "autre",
+    date_estimated: normalizedDate,
+    sale_title: text_raw || null,
+    user_id: "anonymous",
+    user_trust_score: 0.40,
+    is_editorial: false,
+    report_confidence_score: 0.50,
+  });
+
+  return res.json({
+    ok: true,
+    id: newReport.id,
   });
 }));
 app.use(collectionRoutes);
