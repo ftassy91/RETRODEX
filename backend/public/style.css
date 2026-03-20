@@ -1851,3 +1851,18 @@ a:hover {
     text-align: left;
   }
 }
+
+.game-franchise-link {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+.franchise-link {
+  color: var(--text-alert);
+  text-decoration: none;
+}
+
+.franchise-link:hover { text-decoration: underline; }

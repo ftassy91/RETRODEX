@@ -177,7 +177,7 @@
           <div class="hero-grid">
             <div class="game-header">
               <h1 class="hero-title page-title">${escapeHtml(game.title)}</h1>
-              <div class="hero-meta">
+              <div class="hero-meta game-badges game-meta">
                 <span class="pill">${escapeHtml(game.console || "Console inconnue")}</span>
                 <span class="pill">${escapeHtml(game.year || "n/a")}</span>
                 <span class="pill">${escapeHtml(game.genre || "Genre inconnu")}</span>
@@ -439,6 +439,29 @@
         } catch (e) {
           console.warn("Encyclopedia load failed:", e.message);
         }
+      }
+
+      async function loadFranchise(gameId) {
+        try {
+          const res = await fetch(`/api/games/${gameId}/franchise`);
+          const data = await res.json();
+          if (!data.ok || !data.franchise) return;
+
+          const f = data.franchise;
+          const existing = document.querySelector(".game-franchise-link");
+          if (existing) {
+            existing.remove();
+          }
+
+          const el = document.createElement("div");
+          el.className = "game-franchise-link";
+          el.innerHTML = `Franchise : <a class="franchise-link" href="/franchises.html?slug=${encodeURIComponent(f.slug)}">${escapeHtml(f.name)} (${escapeHtml(f.first_game || "—")}→${escapeHtml(f.last_game || "—")}) →</a>`;
+
+          const badges = document.querySelector(".game-badges") || document.querySelector(".game-meta");
+          if (badges) {
+            badges.after(el);
+          }
+        } catch (_error) {}
       }
 
       function renderSummary(game) {
@@ -879,6 +902,7 @@
             breadcrumbTitleEl.textContent = (currentGame.title || "").toUpperCase().substring(0, 30) || "—";
           }
           renderHeroSection(currentGame);
+          await loadFranchise(currentGame.id);
           await loadRetrodexIndex(currentGame.id);
           await loadEncyclopedia(currentGame.id);
           renderSummary(currentGame);

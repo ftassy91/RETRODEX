@@ -201,6 +201,63 @@ function parseStoredJson(value) {
   }
 }
 
+function normalizeFranchiseMatchValue(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function buildTitleKeywords(title) {
+  const normalized = normalizeFranchiseMatchValue(title);
+  if (!normalized) {
+    return [];
+  }
+
+  const romanNumeralPattern = /^(?:i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii)$/i;
+  const tokens = normalized
+    .split(" ")
+    .filter((token) => token && !romanNumeralPattern.test(token) && !/^\d+$/.test(token));
+
+  const keywords = [];
+  for (let size = 3; size >= 1; size -= 1) {
+    if (tokens.length >= size) {
+      keywords.push(tokens.slice(0, size).join(" "));
+    }
+  }
+
+  return Array.from(new Set(keywords.filter((keyword) => keyword.length >= 3)));
+}
+
+function scoreFranchiseMatch(title, franchiseName) {
+  const normalizedTitle = normalizeFranchiseMatchValue(title);
+  const normalizedName = normalizeFranchiseMatchValue(franchiseName);
+
+  if (!normalizedTitle || !normalizedName) {
+    return 0;
+  }
+
+  let score = 0;
+
+  if (normalizedTitle.includes(normalizedName)) {
+    score += 100 + normalizedName.length;
+  }
+
+  if (normalizedName.includes(normalizedTitle)) {
+    score += 80 + normalizedTitle.length;
+  }
+
+  for (const keyword of buildTitleKeywords(title)) {
+    const allowKeywordMatch = keyword.includes(" ") || !normalizedName.includes(" ");
+    if (allowKeywordMatch && normalizedName.includes(keyword)) {
+      score += 40 + keyword.length;
+    }
+  }
+
+  return score;
+}
+
 function toFranchisePayload(franchise) {
   return {
     id: franchise.id,
@@ -257,6 +314,42 @@ app.get("/api/games/:id/encyclopedia", handleAsync(async (req, res) => {
     dev_anecdotes: parseStoredJson(game.dev_anecdotes),
     dev_team: parseStoredJson(game.dev_team),
     cheat_codes: parseStoredJson(game.cheat_codes),
+  });
+}));
+app.get("/api/games/:id/franchise", handleAsync(async (req, res) => {
+  const game = await Game.findByPk(req.params.id, {
+    attributes: ["id", "title"],
+  });
+
+  if (!game) {
+    return res.status(404).json({ ok: false, error: "Game not found" });
+  }
+
+  const franchises = await Franchise.findAll({
+    attributes: ["id", "name", "slug", "first_game", "last_game"],
+    order: [["name", "ASC"]],
+  });
+
+  let bestMatch = null;
+  let bestScore = 0;
+
+  for (const franchise of franchises) {
+    const score = scoreFranchiseMatch(game.title, franchise.name);
+    if (score > bestScore) {
+      bestScore = score;
+      bestMatch = franchise;
+    }
+  }
+
+  return res.json({
+    ok: true,
+    franchise: bestMatch ? {
+      id: bestMatch.id,
+      name: bestMatch.name,
+      slug: bestMatch.slug,
+      first_game: bestMatch.first_game ?? null,
+      last_game: bestMatch.last_game ?? null,
+    } : null,
   });
 }));
 app.get("/api/franchises", handleAsync(async (_req, res) => {
