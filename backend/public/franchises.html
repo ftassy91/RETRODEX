@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RetroDex - Franchises</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="franchises-page">
+      <nav class="breadcrumb">
+        <a href="/hub.html">HUB</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="current">FRANCHISES</span>
+      </nav>
+
+      <h1 class="page-title">FRANCHISES</h1>
+      <p id="franchise-count" class="page-subtitle">Chargement...</p>
+
+      <section class="franchises-layout">
+        <aside class="franchises-sidebar">
+          <div id="franchise-list" class="franchise-list"></div>
+        </aside>
+        <section id="franchise-detail" class="franchises-detail">
+          <div class="franchise-detail-empty">&larr; Selectionner une franchise</div>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      const countEl = document.getElementById('franchise-count');
+      const listEl = document.getElementById('franchise-list');
+      const detailEl = document.getElementById('franchise-detail');
+      let selectedSlug = '';
+
+      function escapeHtml(value) {
+        return String(value ?? '')
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#039;');
+      }
+
+      function toArray(value) {
+        return Array.isArray(value) ? value : [];
+      }
+
+      function formatYears(item) {
+        const first = item?.first_game;
+        const last = item?.last_game;
+        if (first && last) return `${first} → ${last}`;
+        if (first) return `${first}`;
+        if (last) return `${last}`;
+        return '—';
+      }
+
+      function timelineBadgeLabel(type) {
+        return String(type || 'release').replaceAll('_', ' ');
+      }
+
+      function timelineBadgeClass(type) {
+        return `timeline-badge timeline-badge-${String(type || 'release').replaceAll(/[^a-z_]/gi, '')}`;
+      }
+
+      function teamEventLabel(type) {
+        if (type === 'joined') return '[REJOINT]';
+        if (type === 'left') return '[QUITTE]';
+        if (type === 'changed_role') return '[ÉVOLUTION]';
+        return `[${String(type || '—').toUpperCase()}]`;
+      }
+
+      function teamEventClass(type) {
+        if (type === 'joined') return 'team-event team-event-joined';
+        if (type === 'left') return 'team-event team-event-left';
+        if (type === 'changed_role') return 'team-event team-event-changed';
+        return 'team-event';
+      }
+
+      function renderListItem(item) {
+        return `
+          <button class="franchise-list-item${item.slug === selectedSlug ? ' selected' : ''}" data-slug="${escapeHtml(item.slug)}" type="button">
+            <div class="franchise-name">${escapeHtml(item.name)}</div>
+            <div class="franchise-years">${escapeHtml(formatYears(item))}</div>
+            <div class="franchise-list-developer">${escapeHtml(item.developer || '—')}</div>
+          </button>
+        `;
+      }
+
+      function markSelected(slug) {
+        selectedSlug = slug;
+        listEl.querySelectorAll('.franchise-list-item').forEach((node) => {
+          node.classList.toggle('selected', node.dataset.slug === slug);
+        });
+      }
+
+      async function loadFranchise(slug) {
+        markSelected(slug);
+        detailEl.innerHTML = '<div class="franchise-detail-empty">Chargement...</div>';
+
+        const [detailRes, gamesRes] = await Promise.all([
+          fetch(`/api/franchises/${encodeURIComponent(slug)}`),
+          fetch(`/api/franchises/${encodeURIComponent(slug)}/games`),
+        ]);
+
+        const detailData = await detailRes.json();
+        const gamesData = await gamesRes.json();
+
+        if (!detailRes.ok || !detailData.ok) {
+          detailEl.innerHTML = '<div class="franchise-detail-empty">Franchise introuvable.</div>';
+          return;
+        }
+
+        const franchise = detailData.franchise;
+        const genres = toArray(franchise.genres);
+        const platforms = toArray(franchise.platforms);
+        const timeline = toArray(franchise.timeline);
+        const teamChanges = toArray(franchise.team_changes);
+        const trivia = toArray(franchise.trivia);
+        const games = gamesRes.ok && gamesData.ok ? toArray(gamesData.games) : [];
+
+        detailEl.innerHTML = `
+          <section class="franchise-section">
+            <div class="franchise-header">
+              <div>
+                <h2 class="detail-title">${escapeHtml(franchise.name)}</h2>
+                <div class="franchise-years-line">${escapeHtml(formatYears(franchise))}</div>
+              </div>
+              <div class="franchise-meta">
+                <span class="detail-pill">DEV · ${escapeHtml(franchise.developer || '—')}</span>
+                <span class="detail-pill">PUB · ${escapeHtml(franchise.publisher || '—')}</span>
+              </div>
+            </div>
+            <div class="franchise-description">${escapeHtml(franchise.description || '—')}</div>
+            <div class="franchise-badges">
+              ${genres.length ? genres.map((genre) => `<span class="detail-pill">${escapeHtml(genre)}</span>`).join('') : '<span class="detail-pill">—</span>'}
+            </div>
+            <div class="franchise-platforms">Plateformes : ${platforms.length ? escapeHtml(platforms.join(', ')) : '—'}</div>
+          </section>
+
+          <section class="franchise-section">
+            <div class="section-label">TIMELINE</div>
+            <div class="timeline-list">
+              ${timeline.length ? timeline.map((entry) => `
+                <div class="timeline-row">
+                  <div class="timeline-year">${escapeHtml(entry.year || '—')}</div>
+                  <div class="timeline-main">
+                    <div class="timeline-title">${escapeHtml(entry.title || '—')}</div>
+                    <div class="timeline-platform">${escapeHtml(entry.platform || '—')}</div>
+                    <div class="timeline-description">${escapeHtml(entry.description || '—')}</div>
+                  </div>
+                  <span class="${timelineBadgeClass(entry.event_type)}">${escapeHtml(timelineBadgeLabel(entry.event_type))}</span>
+                </div>
+              `).join('') : '<div class="franchise-detail-empty">Aucune timeline disponible.</div>'}
+            </div>
+          </section>
+
+          <section class="franchise-section">
+            <div class="section-label">CHANGEMENTS D&apos;ÉQUIPE</div>
+            ${teamChanges.length ? `
+              <div class="team-table">
+                <div class="team-row team-row-head">
+                  <div class="team-cell">Année</div>
+                  <div class="team-cell">Nom</div>
+                  <div class="team-cell">Rôle</div>
+                  <div class="team-cell">Événement</div>
+                  <div class="team-cell">Note</div>
+                </div>
+                ${teamChanges.map((entry) => `
+                  <div class="team-row">
+                    <div class="team-cell">${escapeHtml(entry.year || '—')}</div>
+                    <div class="team-cell team-name">${escapeHtml(entry.name || '—')}</div>
+                    <div class="team-cell">${escapeHtml(entry.role || '—')}</div>
+                    <div class="team-cell"><span class="${teamEventClass(entry.event)}">${escapeHtml(teamEventLabel(entry.event))}</span></div>
+                    <div class="team-cell">${escapeHtml(entry.note || '—')}</div>
+                  </div>
+                `).join('')}
+              </div>
+            ` : '<div class="franchise-detail-empty">Aucun changement documenté.</div>'}
+          </section>
+
+          <section class="franchise-section">
+            <div class="section-label">ANECDOTES</div>
+            ${trivia.length ? trivia.map((entry) => `
+              <div class="encyclo-anecdote">
+                <div class="anecdote-title">${escapeHtml(entry.title || '—')}</div>
+                <div class="anecdote-text">${escapeHtml(entry.text || '—')}</div>
+              </div>
+            `).join('') : '<div class="franchise-detail-empty">Aucune anecdote disponible.</div>'}
+          </section>
+
+          <section class="franchise-section">
+            <div class="section-label">HÉRITAGE</div>
+            <div class="franchise-legacy">${escapeHtml(franchise.legacy || '—')}</div>
+          </section>
+
+          <section class="franchise-section">
+            <div class="section-label">JEUX LIÉS</div>
+            ${games.length ? `
+              <div class="franchise-games-list">
+                ${games.map((game) => `
+                  <a class="franchise-game-row" href="/game-detail.html?id=${encodeURIComponent(game.id)}">
+                    <span class="franchise-game-title">${escapeHtml(game.title)}</span>
+                    <span class="franchise-game-meta">${escapeHtml(game.platform || '—')} · ${escapeHtml(game.year || '—')}</span>
+                  </a>
+                `).join('')}
+              </div>
+            ` : '<div class="franchise-detail-empty">Aucun jeu lié en base.</div>'}
+          </section>
+        `;
+      }
+
+      async function loadFranchises() {
+        const response = await fetch('/api/franchises');
+        const data = await response.json();
+
+        if (!response.ok || !data.ok) {
+          countEl.textContent = 'Impossible de charger les franchises';
+          detailEl.innerHTML = '<div class="franchise-detail-empty">Erreur de chargement.</div>';
+          return;
+        }
+
+        const franchises = toArray(data.franchises);
+        countEl.textContent = `${data.count || franchises.length} licences indexées`;
+        listEl.innerHTML = franchises.map(renderListItem).join('');
+
+        listEl.querySelectorAll('.franchise-list-item').forEach((node) => {
+          node.addEventListener('click', () => {
+            loadFranchise(node.dataset.slug).catch(() => {
+              detailEl.innerHTML = '<div class="franchise-detail-empty">Erreur de chargement.</div>';
+            });
+          });
+        });
+
+        if (franchises.length > 0) {
+          await loadFranchise(franchises[0].slug);
+        } else {
+          detailEl.innerHTML = '<div class="franchise-detail-empty">Aucune franchise indexée.</div>';
+        }
+      }
+
+      loadFranchises().catch(() => {
+        countEl.textContent = 'Impossible de charger les franchises';
+        detailEl.innerHTML = '<div class="franchise-detail-empty">Erreur de chargement.</div>';
+      });
+    </script>
+  </body>
+</html>

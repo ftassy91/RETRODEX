@@ -1435,3 +1435,272 @@ a:hover {
 .cheat-effect {
   color: var(--text-secondary);
 }
+
+.franchises-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.franchises-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+
+.franchises-sidebar {
+  border-right: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+
+.franchise-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.franchises-detail {
+  padding: 16px;
+  min-height: 640px;
+  background: var(--bg-surface);
+}
+
+.franchise-detail-empty {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.franchise-section {
+  border: 1px solid var(--border);
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--bg-card);
+}
+
+.franchise-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.franchise-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.franchise-years-line,
+.franchise-platforms,
+.franchise-list-developer,
+.timeline-platform,
+.timeline-description {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.franchise-description {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.franchise-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.franchise-list-item {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: transparent;
+  text-align: left;
+  width: 100%;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+}
+
+.franchise-list-item:hover,
+.franchise-list-item.selected {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-left: 2px solid var(--accent);
+  padding-left: 10px;
+}
+
+.franchise-name {
+  color: var(--text-primary);
+  font-size: 12px;
+}
+
+.franchise-years {
+  color: var(--text-muted);
+  font-size: 10px;
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
+
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-row {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-family: var(--font-mono);
+}
+
+.timeline-year {
+  color: var(--text-muted);
+}
+
+.timeline-main {
+  min-width: 0;
+}
+
+.timeline-title {
+  color: var(--text-primary);
+}
+
+.timeline-badge {
+  font-size: 9px;
+  padding: 2px 6px;
+  border: 1px solid currentColor;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  align-self: start;
+}
+
+.timeline-badge-release { color: var(--text-secondary); }
+.timeline-badge-pivot_majeur { color: var(--text-alert); }
+.timeline-badge-reboot { color: var(--accent); }
+.timeline-badge-catastrophe { color: var(--confidence-low); }
+.timeline-badge-renaissance { color: var(--confidence-high); }
+.timeline-badge-nouvelle_serie { color: var(--confidence-mid); }
+
+.team-table {
+  border-top: 1px solid var(--border);
+}
+
+.team-row {
+  display: grid;
+  grid-template-columns: 56px 1fr 1fr 116px 2fr;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  align-items: start;
+}
+
+.team-row-head .team-cell {
+  color: var(--text-muted);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.team-cell {
+  color: var(--text-secondary);
+  min-width: 0;
+}
+
+.team-event {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 6px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+
+.team-event-joined { color: var(--confidence-high); }
+.team-event-left { color: var(--confidence-low); }
+.team-event-changed { color: var(--text-alert); }
+
+.franchise-legacy {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  line-height: 1.7;
+  padding: 12px;
+  border: 1px solid var(--border);
+  margin-top: 8px;
+}
+
+.franchise-games-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.franchise-game-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.franchise-game-title {
+  color: var(--text-primary);
+}
+
+.franchise-game-meta {
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .franchises-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .franchises-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .franchise-header {
+    flex-direction: column;
+  }
+
+  .franchise-meta {
+    justify-content: flex-start;
+  }
+
+  .team-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .timeline-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .franchise-game-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
