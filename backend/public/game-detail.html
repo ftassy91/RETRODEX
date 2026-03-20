@@ -191,6 +191,27 @@
             </div>
             <aside class="price-panel">
               <div id="retrodex-index" class="index-insufficient">Chargement de l'indice RetroDex...</div>
+              <div class="encyclo-section" id="encyclo-section" style="display:none">
+                <div class="encyclo-header">
+                  <span class="encyclo-label">ENCYCLOPÉDIE</span>
+                </div>
+                <div class="encyclo-block" id="encyclo-synopsis-block">
+                  <div class="section-label">SYNOPSIS</div>
+                  <div class="encyclo-text" id="encyclo-synopsis"></div>
+                </div>
+                <div class="encyclo-block" id="encyclo-team-block">
+                  <div class="section-label">ÉQUIPE DE DÉVELOPPEMENT</div>
+                  <div id="encyclo-team"></div>
+                </div>
+                <div class="encyclo-block" id="encyclo-anecdotes-block">
+                  <div class="section-label">ANECDOTES</div>
+                  <div id="encyclo-anecdotes"></div>
+                </div>
+                <div class="encyclo-block" id="encyclo-cheats-block">
+                  <div class="section-label">CODES & ASTUCES</div>
+                  <div id="encyclo-cheats"></div>
+                </div>
+              </div>
             </aside>
           </div>
           <section class="price-history">
@@ -359,6 +380,64 @@
         } catch (_error) {
           indexEl.className = "index-insufficient";
           indexEl.textContent = "Données insuffisantes — contribuez un prix";
+        }
+      }
+
+      async function loadEncyclopedia(gameId) {
+        try {
+          const res = await fetch(`/api/games/${gameId}/encyclopedia`);
+          const data = await res.json();
+          if (!data.ok) return;
+
+          const hasContent = data.synopsis || data.dev_team?.length ||
+            data.dev_anecdotes?.length || data.cheat_codes?.length;
+          if (!hasContent) return;
+
+          document.getElementById("encyclo-section").style.display = "block";
+
+          if (data.synopsis) {
+            document.getElementById("encyclo-synopsis").textContent = data.synopsis;
+          } else {
+            document.getElementById("encyclo-synopsis-block").style.display = "none";
+          }
+
+          const teamEl = document.getElementById("encyclo-team");
+          if (data.dev_team?.length) {
+            data.dev_team.forEach((m) => {
+              const row = document.createElement("div");
+              row.className = "encyclo-team-row";
+              row.innerHTML = `<span class="team-role">${m.role}</span><span class="team-name">${m.name}</span>`;
+              teamEl.appendChild(row);
+            });
+          } else {
+            document.getElementById("encyclo-team-block").style.display = "none";
+          }
+
+          const anecEl = document.getElementById("encyclo-anecdotes");
+          if (data.dev_anecdotes?.length) {
+            data.dev_anecdotes.forEach((a) => {
+              const block = document.createElement("div");
+              block.className = "encyclo-anecdote";
+              block.innerHTML = `<div class="anecdote-title">${a.title}</div><div class="anecdote-text">${a.text}</div>`;
+              anecEl.appendChild(block);
+            });
+          } else {
+            document.getElementById("encyclo-anecdotes-block").style.display = "none";
+          }
+
+          const cheatEl = document.getElementById("encyclo-cheats");
+          if (data.cheat_codes?.length) {
+            data.cheat_codes.forEach((c) => {
+              const row = document.createElement("div");
+              row.className = "encyclo-cheat-row";
+              row.innerHTML = `<span class="cheat-name">${c.name}</span><span class="cheat-code">${c.code}</span><span class="cheat-effect">${c.effect}</span>`;
+              cheatEl.appendChild(row);
+            });
+          } else {
+            document.getElementById("encyclo-cheats-block").style.display = "none";
+          }
+        } catch (e) {
+          console.warn("Encyclopedia load failed:", e.message);
         }
       }
 
@@ -801,6 +880,7 @@
           }
           renderHeroSection(currentGame);
           await loadRetrodexIndex(currentGame.id);
+          await loadEncyclopedia(currentGame.id);
           renderSummary(currentGame);
           renderStats(currentGame);
           collectionButtonEl.addEventListener("click", handleCollectionAction);

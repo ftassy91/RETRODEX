@@ -1339,3 +1339,99 @@ a:hover {
   font-size: 10px;
   text-transform: uppercase;
 }
+
+.encyclo-section {
+  border: 1px solid var(--border);
+  margin-top: 16px;
+  padding: 16px;
+}
+
+.encyclo-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.encyclo-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+}
+
+.encyclo-block {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.encyclo-block:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.encyclo-text {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  line-height: 1.7;
+}
+
+.encyclo-team-row {
+  display: flex;
+  gap: 16px;
+  padding: 3px 0;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  border-bottom: 1px solid var(--border);
+}
+
+.team-role {
+  color: var(--text-muted);
+  width: 160px;
+  flex-shrink: 0;
+}
+
+.team-name {
+  color: var(--text-primary);
+}
+
+.encyclo-anecdote {
+  margin-bottom: 12px;
+}
+
+.anecdote-title {
+  font-size: 11px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  margin-bottom: 4px;
+}
+
+.anecdote-text {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  line-height: 1.6;
+}
+
+.encyclo-cheat-row {
+  display: grid;
+  grid-template-columns: 160px 200px 1fr;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  border-bottom: 1px solid var(--border);
+}
+
+.cheat-name {
+  color: var(--text-alert);
+}
+
+.cheat-code {
+  color: var(--accent);
+}
+
+.cheat-effect {
+  color: var(--text-secondary);
+}
