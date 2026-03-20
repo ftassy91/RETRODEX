@@ -8,6 +8,7 @@ const { Op } = require("sequelize");
 const { sequelize, storagePath, databaseMode, databaseTarget } = require("./database");
 const Game = require("./models/Game");
 const CollectionItem = require("./models/CollectionItem");
+const Accessory = require("./models/Accessory");
 const CommunityReport = require("../models/CommunityReport");
 const RetrodexIndex = require("../models/RetrodexIndex");
 const { syncGamesFromPrototype } = require("./syncGames");
@@ -247,6 +248,61 @@ app.get("/api/consoles/:id", handleAsync(async (req, res) => {
     ok: true,
     console: toConsolePayload(consoleItem, games.length),
     games: games.map(toItemPayload),
+  });
+}));
+app.get("/api/accessories/types", handleAsync(async (_req, res) => {
+  const accessories = await Accessory.findAll({
+    attributes: ["accessory_type"],
+    order: [["accessory_type", "ASC"]],
+  });
+
+  const types = Array.from(new Set(
+    accessories
+      .map((item) => item.accessory_type)
+      .filter(Boolean)
+  ));
+
+  res.json({
+    ok: true,
+    types,
+  });
+}));
+app.get("/api/accessories", handleAsync(async (_req, res) => {
+  const accessories = await Accessory.findAll({
+    order: [["name", "ASC"]],
+  });
+
+  const consoleIds = Array.from(new Set(
+    accessories
+      .map((item) => item.console_id)
+      .filter(Boolean)
+  ));
+
+  const consoles = consoleIds.length
+    ? await Game.findAll({
+      attributes: ["id", "title"],
+      where: {
+        id: {
+          [Op.in]: consoleIds,
+        },
+      },
+    })
+    : [];
+
+  const consoleTitles = new Map(consoles.map((item) => [item.id, item.title]));
+
+  res.json({
+    ok: true,
+    accessories: accessories.map((item) => ({
+      id: item.id,
+      name: item.name,
+      console_id: item.console_id || null,
+      console_title: item.console_id ? consoleTitles.get(item.console_id) || null : null,
+      accessory_type: item.accessory_type || null,
+      release_year: item.release_year || null,
+      slug: item.slug || null,
+    })),
+    count: accessories.length,
   });
 }));
 app.get("/api/index/:id", handleAsync(async (req, res) => {
