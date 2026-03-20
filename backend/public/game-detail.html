@@ -143,6 +143,35 @@
         return Number.isFinite(number) ? `$${number}` : "n/a";
       }
 
+      function generateCoverPlaceholder(title, rarity, consoleName) {
+        const initials = String(title || "")
+          .replace(/[^a-zA-Z0-9 ]/g, "")
+          .split(" ")
+          .filter((word) => word.length > 0)
+          .slice(0, 2)
+          .map((word) => word[0].toUpperCase())
+          .join("");
+
+        const colors = {
+          LEGENDARY: "#1a3a1a",
+          EPIC: "#2a1a00",
+          RARE: "#1a1a2a",
+          UNCOMMON: "#0f1510",
+          COMMON: "#0a0f0a",
+        };
+
+        const bg = colors[String(rarity || "").toUpperCase()] || "#0a0f0a";
+        const platformLabel = String(consoleName || "").toUpperCase().slice(0, 12);
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+          <rect width="160" height="160" fill="${bg}"/>
+          <rect x="1" y="1" width="158" height="158" fill="none" stroke="#1e2e1e" stroke-width="1"/>
+          <text x="80" y="78" text-anchor="middle" font-family="monospace" font-size="42" font-weight="bold" fill="#00ff66" opacity="0.8">${initials || "?"}</text>
+          <text x="80" y="100" text-anchor="middle" font-family="monospace" font-size="9" fill="#2e4e2e">${platformLabel}</text>
+        </svg>`;
+
+        return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+      }
+
       function rarityClass(value) {
         return String(value || "COMMON").toLowerCase();
       }
@@ -176,19 +205,33 @@
         heroEl.innerHTML = `
           <div class="hero-grid">
             <div class="game-header">
-              <h1 class="hero-title page-title">${escapeHtml(game.title)}</h1>
-              <div class="game-tagline" id="game-tagline" style="display:none"></div>
-              <div class="hero-meta game-badges game-meta">
-                <span class="pill">${escapeHtml(game.console || "Console inconnue")}</span>
-                <span class="pill">${escapeHtml(game.year || "n/a")}</span>
-                <span class="pill">${escapeHtml(game.genre || "Genre inconnu")}</span>
-                <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || "COMMON")}</span>
+              <div class="game-header-main">
+                <div class="game-cover-container">
+                  <img
+                    id="game-cover-img"
+                    src=""
+                    alt="${escapeHtml(game.title || "")}"
+                    width="160"
+                    height="160"
+                    onerror="this.src=generateCoverPlaceholder(currentGame.title, currentGame.rarity, currentGame.console)"
+                  />
+                </div>
+                <div class="game-header-copy">
+                  <h1 class="hero-title page-title">${escapeHtml(game.title)}</h1>
+                  <div class="game-tagline" id="game-tagline" style="display:none"></div>
+                  <div class="hero-meta game-badges game-meta">
+                    <span class="pill">${escapeHtml(game.console || "Console inconnue")}</span>
+                    <span class="pill">${escapeHtml(game.year || "n/a")}</span>
+                    <span class="pill">${escapeHtml(game.genre || "Genre inconnu")}</span>
+                    <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || "COMMON")}</span>
+                  </div>
+                  <div class="game-console-link">
+                    Console :
+                    <a class="console-link" href="/consoles.html?platform=${encodeURIComponent(game.console || "")}">${escapeHtml(game.console || "Console inconnue")} &rarr;</a>
+                  </div>
+                  <div class="developer-line">Développé par ${escapeHtml(game.developer || "studio inconnu")}</div>
+                </div>
               </div>
-              <div class="game-console-link">
-                Console :
-                <a class="console-link" href="/consoles.html?platform=${encodeURIComponent(game.console || "")}">${escapeHtml(game.console || "Console inconnue")} &rarr;</a>
-              </div>
-              <div class="developer-line">Développé par ${escapeHtml(game.developer || "studio inconnu")}</div>
             </div>
             <aside class="price-panel">
               <div id="retrodex-index" class="index-insufficient">Chargement de l'indice RetroDex...</div>
@@ -903,6 +946,13 @@
             breadcrumbTitleEl.textContent = (currentGame.title || "").toUpperCase().substring(0, 30) || "—";
           }
           renderHeroSection(currentGame);
+          const coverImgEl = document.getElementById("game-cover-img");
+          if (coverImgEl) {
+            coverImgEl.alt = currentGame.title || "";
+            coverImgEl.src = currentGame.cover_url
+              ? currentGame.cover_url
+              : generateCoverPlaceholder(currentGame.title, currentGame.rarity, currentGame.console);
+          }
           if (currentGame.tagline) {
             const taglineEl = document.getElementById("game-tagline");
             if (taglineEl) {

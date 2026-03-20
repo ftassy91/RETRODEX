@@ -193,6 +193,17 @@ a { color: #9bbc0f; }
         color: var(--text-secondary);
       }
 
+      .game-header-main {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+      }
+
+      .game-header-copy {
+        min-width: 0;
+        flex: 1;
+      }
+
       .game-hero-canvas {
         width: 100%;
         height: 180px;
@@ -1312,6 +1323,21 @@ a:hover {
   font-style: italic;
 }
 
+.game-cover-container {
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+#game-cover-img {
+  width: 160px;
+  height: 160px;
+  display: block;
+  image-rendering: pixelated;
+}
+
 .console-link {
   color: var(--accent);
   text-decoration: none;
@@ -1713,6 +1739,12 @@ a:hover {
   .franchise-game-row {
     flex-direction: column;
     gap: 4px;
+  }
+}
+
+@media (max-width: 768px) {
+  .game-header-main {
+    flex-direction: column;
   }
 }
 

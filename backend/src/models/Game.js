@@ -48,6 +48,10 @@ const Game = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    cover_url: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     dev_anecdotes: {
       type: DataTypes.TEXT,
       allowNull: true,

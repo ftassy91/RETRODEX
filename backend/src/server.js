@@ -287,6 +287,7 @@ async function ensureGameEncyclopediaColumns() {
 
   const missingColumns = [
     ["tagline", { type: DataTypes.TEXT, allowNull: true }],
+    ["cover_url", { type: DataTypes.TEXT, allowNull: true }],
     ["synopsis", { type: DataTypes.TEXT, allowNull: true }],
     ["dev_anecdotes", { type: DataTypes.TEXT, allowNull: true }],
     ["dev_team", { type: DataTypes.TEXT, allowNull: true }],
