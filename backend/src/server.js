@@ -318,6 +318,58 @@ app.get("/api/games/:id/encyclopedia", handleAsync(async (req, res) => {
     cheat_codes: parseStoredJson(game.cheat_codes),
   });
 }));
+app.get("/api/games/:id/similar", handleAsync(async (req, res) => {
+  const currentGame = await Game.findByPk(req.params.id, {
+    attributes: ["id", "console", "rarity"],
+  });
+
+  if (!currentGame) {
+    return res.status(404).json({ ok: false, error: "Game not found" });
+  }
+
+  const sameConsoleSameRarity = await Game.findAll({
+    where: {
+      type: "game",
+      id: { [Op.ne]: currentGame.id },
+      console: currentGame.console,
+      rarity: currentGame.rarity,
+    },
+    attributes: ["id", "title", "console", "year", "rarity", "loosePrice"],
+    order: [["loosePrice", "DESC"], ["title", "ASC"]],
+    limit: 6,
+  });
+
+  const selectedGames = [...sameConsoleSameRarity];
+
+  if (selectedGames.length < 6) {
+    const fallbackGames = await Game.findAll({
+      where: {
+        type: "game",
+        id: { [Op.notIn]: [currentGame.id, ...selectedGames.map((game) => game.id)] },
+        console: currentGame.console,
+        rarity: { [Op.ne]: currentGame.rarity },
+      },
+      attributes: ["id", "title", "console", "year", "rarity", "loosePrice"],
+      order: [["loosePrice", "DESC"], ["title", "ASC"]],
+      limit: 6 - selectedGames.length,
+    });
+
+    selectedGames.push(...fallbackGames);
+  }
+
+  return res.json({
+    ok: true,
+    games: selectedGames.map((game) => ({
+      id: game.id,
+      title: game.title,
+      console: game.console,
+      year: game.year,
+      rarity: game.rarity,
+      loosePrice: game.loosePrice,
+    })),
+    count: selectedGames.length,
+  });
+}));
 app.get("/api/games/:id/franchise", handleAsync(async (req, res) => {
   const game = await Game.findByPk(req.params.id, {
     attributes: ["id", "title"],

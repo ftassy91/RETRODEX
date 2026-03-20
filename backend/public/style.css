@@ -1895,6 +1895,48 @@ a:hover {
   }
 }
 
+.similar-section {
+  border: 1px solid var(--border);
+  margin-top: 16px;
+  padding: 16px;
+}
+
+#similar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.similar-item {
+  border: 1px solid var(--border);
+  padding: 10px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+}
+
+.similar-item:hover {
+  background: var(--bg-card);
+  border-color: var(--accent);
+}
+
+.similar-title {
+  font-size: 11px;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.similar-meta {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.similar-price {
+  font-size: 11px;
+  color: var(--text-alert);
+  margin-top: 4px;
+}
+
 .game-franchise-link {
   font-size: 11px;
   color: var(--text-secondary);

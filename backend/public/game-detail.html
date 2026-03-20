@@ -97,10 +97,6 @@
         <div id="contrib-feedback" class="hidden"></div>
       </section>
 
-      <section class="similar-card">
-        <h2>Jeux similaires</h2>
-        <div id="similar-games" class="similar-grid"></div>
-      </section>
     </main>
 
     <script>
@@ -121,7 +117,6 @@
       const contribNoteEl = document.getElementById("contrib-note");
       const contribSubmitEl = document.getElementById("contrib-submit");
       const contribFeedbackEl = document.getElementById("contrib-feedback");
-      const similarGamesEl = document.getElementById("similar-games");
       const catalogBackLinkEl = document.getElementById("catalog-back-link");
       const breadcrumbTitleEl = document.getElementById("breadcrumb-title");
       const detailShellEl = document.querySelector(".detail-shell, main, .content");
@@ -254,6 +249,10 @@
                 <div class="encyclo-block" id="encyclo-cheats-block">
                   <div class="section-label">CODES & ASTUCES</div>
                   <div id="encyclo-cheats"></div>
+                </div>
+                <div class="similar-section" id="similar-section" style="display:none">
+                  <div class="section-label">JEUX SIMILAIRES</div>
+                  <div id="similar-grid"></div>
                 </div>
               </div>
             </aside>
@@ -647,21 +646,6 @@
         }
       }
 
-      function renderSimilarGames(items) {
-        if (!items.length) {
-          similarGamesEl.innerHTML = '<div class="loading-card">Aucun jeu similaire trouvé.</div>';
-          return;
-        }
-
-        similarGamesEl.innerHTML = items.map((game) => `
-          <a class="mini-card" href="/game-detail.html?id=${encodeURIComponent(game.id)}">
-            <h3>${escapeHtml(game.title)}</h3>
-            <p>${escapeHtml(game.console || "Console inconnue")} · ${escapeHtml(game.year || "n/a")}</p>
-            <p>${escapeHtml(game.genre || "Genre inconnu")}</p>
-          </a>
-        `).join("");
-      }
-
       function removeRelatedPricesSection() {
         document.querySelector(".price-compare")?.remove();
       }
@@ -774,13 +758,32 @@
         }
       }
 
-      async function loadSimilarGames(game) {
+      async function loadSimilar(gameId) {
         try {
-          const payload = await fetchJson(`/api/games?console=${encodeURIComponent(game.console)}&limit=8`);
-          const similar = (payload.items || []).filter((item) => item.id !== game.id).slice(0, 4);
-          renderSimilarGames(similar);
+          const res = await fetch(`/api/games/${gameId}/similar`);
+          const data = await res.json();
+          if (!data.ok || !data.games?.length) return;
+
+          const section = document.getElementById("similar-section");
+          const grid = document.getElementById("similar-grid");
+          if (!section || !grid) return;
+
+          grid.innerHTML = "";
+          section.style.display = "block";
+
+          data.games.forEach((g) => {
+            const item = document.createElement("div");
+            item.className = "similar-item";
+            item.onclick = () => { location.href = `/game-detail.html?id=${g.id}`; };
+            item.innerHTML = `
+              <div class="similar-title">${escapeHtml(g.title)}</div>
+              <div class="similar-meta">${escapeHtml(g.console || "—")} · ${escapeHtml(g.year || "—")}</div>
+              <div class="similar-price">${Number(g.loosePrice) ? `$${Math.round(Number(g.loosePrice))}` : "—"}</div>
+            `;
+            grid.appendChild(item);
+          });
         } catch (error) {
-          similarGamesEl.innerHTML = `<div class="loading-card">Impossible de charger les jeux similaires (${escapeHtml(error.message)}).</div>`;
+          console.warn("Similar games load failed:", error.message);
         }
       }
 
@@ -963,18 +966,17 @@
           await loadFranchise(currentGame.id);
           await loadRetrodexIndex(currentGame.id);
           await loadEncyclopedia(currentGame.id);
+          await loadSimilar(currentGame.id);
           renderSummary(currentGame);
           renderStats(currentGame);
           collectionButtonEl.addEventListener("click", handleCollectionAction);
           await refreshCollectionStatus();
           await loadPriceHistory(currentGame.id);
           await loadRelatedGames(currentGame);
-          await loadSimilarGames(currentGame);
         } catch (error) {
           heroEl.innerHTML = `<div class="loading-card">Impossible de charger la fiche (${escapeHtml(error.message)}).</div>`;
           summaryEl.textContent = "Erreur de chargement.";
           statsRowEl.innerHTML = "";
-          similarGamesEl.innerHTML = '<div class="loading-card">Jeux similaires indisponibles.</div>';
           collectionStateEl.textContent = "Fiche indisponible.";
           collectionButtonEl.disabled = true;
           collectionButtonEl.textContent = "Indisponible";
@@ -986,3 +988,4 @@
     </script>
   </body>
 </html>
+
