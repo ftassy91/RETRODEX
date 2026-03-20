@@ -1,0 +1,189 @@
+[
+  {
+    "id": "panzer-dragoon-saga-sega-saturn",
+    "synopsis": "Panzer Dragoon Saga is a role-playing game developed by Team Andromeda and published by Sega in 1998. Set in a post-apocalyptic world ruled by an ancient empire and mysterious biological weapons called Biomonsters, the game follows Edge, a young imperial soldier who survives a massacre and bonds with a lone dragon. Unlike its rail shooter predecessors, Saga introduced a revolutionary 360-degree battle system where players position their dragon around enemies in real time to exploit weak points. With only 29,000 copies produced in North America, it remains one of the rarest and most sought-after RPGs ever made. Its haunting original soundtrack, composed by Saori Kobayashi and Mariko Nanba, and its ambitious storytelling set a benchmark that few RPGs have matched.",
+    "dev_team": [
+      { "role": "Director", "name": "Yukio Futatsugi" },
+      { "role": "Composer", "name": "Saori Kobayashi" },
+      { "role": "Composer", "name": "Mariko Nanba" },
+      { "role": "Producer", "name": "Futatsugi Yukio" }
+    ],
+    "dev_anecdotes": [
+      { "title": "Production presque annulée", "text": "Le développement de Panzer Dragoon Saga a failli être annulé plusieurs fois en raison des difficultés techniques sur Saturn. Team Andromeda a travaillé sous une pression extrême pour livrer le jeu à temps." },
+      { "title": "Tirage limité délibéré", "text": "Sega a intentionnellement limité la production à environ 29 000 exemplaires en Amérique du Nord, anticipant la fin du Saturn. Cette décision a transformé le jeu en pièce de collection légendaire." },
+      { "title": "Dernier projet de Team Andromeda", "text": "Panzer Dragoon Saga a été le dernier jeu développé par Team Andromeda avant la dissolution de l'équipe. Plusieurs membres ont ensuite rejoint d'autres studios Sega." }
+    ],
+    "cheat_codes": [
+      { "name": "Viewing Mode", "code": "Au menu principal, maintenir L + R + Z", "effect": "Accès au mode galerie d'artworks" },
+      { "name": "Hard Mode", "code": "Terminer le jeu une fois", "effect": "Débloque le mode difficile pour une nouvelle partie" }
+    ]
+  },
+  {
+    "id": "earthbound-super-nintendo",
+    "synopsis": "EarthBound, known as Mother 2 in Japan, is a role-playing game developed by Ape Inc. and HAL Laboratory, directed by Shigesato Itoi and published by Nintendo in 1994. The game follows Ness, a young boy from the fictional town of Onett, who must travel across a modern-day America-inspired world to collect eight melodies and defeat the cosmic evil Giygas. Renowned for its satirical take on American consumerism, its unconventional humor, and its surprisingly dark themes beneath a colorful exterior, EarthBound is considered one of the most emotionally resonant RPGs of the 16-bit era. Its cult following grew exponentially after its inclusion in the Super Smash Bros. series introduced Ness to new generations of players.",
+    "dev_team": [
+      { "role": "Director / Writer", "name": "Shigesato Itoi" },
+      { "role": "Developer", "name": "HAL Laboratory" },
+      { "role": "Composer", "name": "Keiichi Suzuki" },
+      { "role": "Composer", "name": "Hirokazu Tanaka" }
+    ],
+    "dev_anecdotes": [
+      { "title": "Développement chaotique", "text": "Le développement d'EarthBound a été particulièrement difficile. Shigesato Itoi, un copywriter sans expérience en jeux vidéo, a imposé une vision artistique exigeante qui a poussé l'équipe de HAL Laboratory à ses limites." },
+      { "title": "Flop commercial initial", "text": "EarthBound s'est vendu à seulement 140 000 exemplaires aux États-Unis à sa sortie, considéré comme un échec commercial. Nintendo of America avait pourtant investi massivement dans une campagne publicitaire controversée jouant sur l'odeur de scratch-and-sniff." },
+      { "title": "Résurrection via Smash Bros", "text": "L'inclusion de Ness dans Super Smash Bros. en 1999 a ravivé l'intérêt pour EarthBound, créant progressivement l'une des communautés de fans les plus passionnées du jeu vidéo." }
+    ],
+    "cheat_codes": [
+      { "name": "Sound Stone Skip", "code": "Technique de glitch avancée", "effect": "Permet de sauter certaines séquences via des manipulations de mémoire" },
+      { "name": "Debug Menu (JP)", "code": "Version japonaise uniquement — combinaison complexe au démarrage", "effect": "Accès au menu de debug développeur" }
+    ]
+  },
+  {
+    "id": "metal-slug-3-neo-geo",
+    "synopsis": "Metal Slug 3, developed by SNK and released in 2000, is widely considered the pinnacle of the series and one of the greatest run-and-gun games ever created. Players navigate Marco Rossi or Tarma Roving through increasingly surreal missions filled with grotesque enemy designs, absurd transformations, and meticulously hand-drawn animations. What sets Metal Slug 3 apart is its legendary branching paths and its final mission — the longest level in the entire franchise — which culminates in an alien invasion sequence of extraordinary scale. The game pushed Neo Geo hardware to its absolute limits and remains a benchmark of 2D sprite art.",
+    "dev_team": [
+      { "role": "Developer", "name": "SNK" },
+      { "role": "Character Designer", "name": "Akio Tanaka" },
+      { "role": "Composer", "name": "SNK Sound Team" }
+    ],
+    "dev_anecdotes": [
+      { "title": "Mission finale record", "text": "La dernière mission de Metal Slug 3 est la plus longue de la série et peut prendre plus de 45 minutes à compléter. Elle a été conçue pour offrir une expérience finale mémorable qui dépasse tout ce que les joueurs avaient vu jusque-là." },
+      { "title": "Limites du Neo Geo dépassées", "text": "L'équipe de développement a utilisé des techniques avancées de compression sprite pour faire tenir le contenu immense de Metal Slug 3 sur une cartouche Neo Geo, repoussant les limites techniques de la machine." },
+      { "title": "Zombification", "text": "La transformation zombie du personnage joueur — unique à Metal Slug 3 dans la série originale — a été ajoutée en réponse aux demandes des fans qui voulaient des transformations plus variées." }
+    ],
+    "cheat_codes": [
+      { "name": "Infinite Credits", "code": "Version console : option dans le menu de configuration", "effect": "Crédits illimités pour les sessions solo" },
+      { "name": "Mission Select", "code": "Compléter le jeu une fois", "effect": "Accès à la sélection de mission depuis le menu principal" }
+    ]
+  },
+  {
+    "id": "castlevania-symphony-of-the-night-playstation",
+    "synopsis": "Castlevania: Symphony of the Night, developed by Konami and directed by Toru Hagihara with Koji Igarashi as assistant director, is the game that defined the Metroidvania genre. Released in 1997, players control Alucard, the dhampir son of Dracula, as he explores an inverted and ever-expanding castle. The game famously subverted expectations with a dramatic mid-game reveal that doubles the castle's size. Its deep RPG mechanics, non-linear exploration, and richly layered soundtrack composed by Michiru Yamane set a template that dozens of games would follow for decades. The iconic localization line \"What is a man? A miserable little pile of secrets!\" has become one of gaming's most quoted moments.",
+    "dev_team": [
+      { "role": "Director", "name": "Toru Hagihara" },
+      { "role": "Assistant Director", "name": "Koji Igarashi" },
+      { "role": "Composer", "name": "Michiru Yamane" },
+      { "role": "Producer", "name": "Akihiro Miwa" }
+    ],
+    "dev_anecdotes": [
+      { "title": "Château inversé — idée de dernière minute", "text": "Le château inversé, le twist le plus célèbre du jeu, a été ajouté relativement tard dans le développement pour doubler la durée de vie du jeu sans doubler les ressources artistiques nécessaires." },
+      { "title": "Localisation légendaire", "text": "La traduction anglaise du jeu, notamment la réplique de Dracula, est devenue culte précisément parce qu'elle était légèrement sur-dramatisée. Le doubleur de Dracula a livré cette performance dans une seule prise." },
+      { "title": "Igarashi prend les commandes", "text": "Koji Igarashi, alors assistant director, a pris en charge une grande partie du développement quand le directeur principal s'est retrouvé débordé. C'est lui qui définira le style Castlevania pour les 15 années suivantes." }
+    ],
+    "cheat_codes": [
+      { "name": "Jouer Richter", "code": "Entrer RICHTER comme nom de fichier de sauvegarde", "effect": "Jouer l'intégralité du jeu avec Richter Belmont" },
+      { "name": "Axe armor", "code": "Charger une sauvegarde avec le nom AXEARMOR", "effect": "Commencer avec l'Axe Armor équipé et des statistiques différentes" },
+      { "name": "Turbo mode", "code": "Entrer X-X!V''Q comme nom de sauvegarde", "effect": "Commencer avec presque tous les items et une cape de vol" }
+    ]
+  },
+  {
+    "id": "suikoden-ii-playstation",
+    "synopsis": "Suikoden II, developed by Konami and released in 1998, is a Japanese role-playing game that follows a young soldier caught between two nations on the brink of war. Featuring 108 recruitable characters — the Stars of Destiny — the game weaves an emotionally sophisticated narrative about war, betrayal, friendship, and the cost of power. Its antagonist Luca Blight is frequently cited as one of gaming's greatest villains: genuinely menacing, ideologically coherent, and terrifyingly capable. Despite its modest commercial performance at launch, Suikoden II has since been recognized as a masterpiece of the genre, with original copies now commanding extraordinary prices.",
+    "dev_team": [
+      { "role": "Director", "name": "Yoshitaka Murayama" },
+      { "role": "Composer", "name": "Miki Higashino" },
+      { "role": "Artist", "name": "Junko Kawano" }
+    ],
+    "dev_anecdotes": [
+      { "title": "108 personnages — défi de cohérence", "text": "Intégrer 108 personnages recrutables avec des arcs narratifs cohérents a été un défi colossal. L'équipe a dû s'assurer que chaque personnage, même mineur, avait une raison logique de rejoindre le héros." },
+      { "title": "Luca Blight — villain par contraste", "text": "Yoshitaka Murayama a conçu Luca Blight comme une réponse aux antagonistes trop complexes ou ambigus de l'époque. Luca est simplement mauvais, mais sa puissance et sa cohérence interne en font un villain mémorable." },
+      { "title": "Flop commercial devenu légende", "text": "Suikoden II s'est si mal vendu lors de son lancement que Konami a rapidement cessé la production. Des copies neuves se trouvaient encore dans des magasins discount aux États-Unis en 2003 pour moins de $15 — elles valent aujourd'hui des centaines de dollars." }
+    ],
+    "cheat_codes": [
+      { "name": "Skip prologue", "code": "Importer une sauvegarde Suikoden 1", "effect": "Débloquer un bonus de départ et modifier légèrement le prologue" },
+      { "name": "Fin secrète", "code": "Recruter les 108 étoiles du destin avant l'affrontement final", "effect": "Débloquer la vraie fin du jeu avec une scène supplémentaire" }
+    ]
+  },
+  {
+    "id": "gunstar-heroes-sega-genesis",
+    "synopsis": "Gunstar Heroes, developed by Treasure and published by Sega in 1993, was the debut game of a studio that would become legendary for technical excellence. Players control Red or Blue, twins fighting against the evil Empire to recover four powerful gems. The game is famous for its relentless pace, its massive multi-phase boss fights, and its weapon combination system that allows players to merge any two of four weapons into unique hybrids. Treasure pushed the Mega Drive beyond what most developers thought possible, rendering particle effects, scaling sprites, and simultaneous on-screen enemies that left competitors stunned.",
+    "dev_team": [
+      { "role": "Developer", "name": "Treasure" },
+      { "role": "Director", "name": "Masato Maegawa" },
+      { "role": "Composer", "name": "Norio Hanzawa" }
+    ],
+    "dev_anecdotes": [
+      { "title": "Anciens de Konami", "text": "L'équipe de Treasure était principalement composée d'anciens développeurs de Konami qui avaient travaillé sur des titres comme Contra et Castlevania. Frustrés par les contraintes corporatives, ils ont fondé Treasure pour développer des jeux plus ambitieux." },
+      { "title": "Prouesses techniques stupéfiantes", "text": "Le niveau du général Smash, avec ses transformations rapides et ses effets de scaling intensifs, a stupéfié les développeurs de l'époque. Beaucoup pensaient qu'un tel niveau d'animation était impossible sur Mega Drive." },
+      { "title": "Système d'armes combinées", "text": "Le système de combinaison d'armes a été ajouté pour donner aux joueurs un sentiment d'expérimentation et de propriété sur leur expérience. Chacune des 14 combinaisons a été soigneusement équilibrée pour rester viable." }
+    ],
+    "cheat_codes": [
+      { "name": "Hard mode", "code": "Tenir bas + start à l'écran titre", "effect": "Active le mode Expert avec ennemis plus agressifs" },
+      { "name": "Stage select", "code": "Combinaison spécifique au menu principale", "effect": "Sélection libre du niveau de départ" }
+    ]
+  },
+  {
+    "id": "chrono-trigger-super-nintendo",
+    "synopsis": "Chrono Trigger, co-developed by Square's Dream Team — Hironobu Sakaguchi, Yuji Horii, and Akira Toriyama — and released in 1995, is a time-travel RPG following Crono and his companions across multiple eras of history to prevent a global catastrophe. The game pioneered numerous features: multiple endings determined by player choices, a New Game+ mode, seamless battle transitions with no random encounters, and combo attacks between party members. Its soundtrack, composed by Yasunori Mitsuda, is among the most celebrated in gaming history. Chrono Trigger remains the consensus choice as the greatest JRPG ever made.",
+    "dev_team": [
+      { "role": "Producer", "name": "Hironobu Sakaguchi" },
+      { "role": "Game Designer", "name": "Yuji Horii" },
+      { "role": "Character Designer", "name": "Akira Toriyama" },
+      { "role": "Composer", "name": "Yasunori Mitsuda" },
+      { "role": "Composer", "name": "Nobuo Uematsu" },
+      { "role": "Director", "name": "Takashi Tokita" }
+    ],
+    "dev_anecdotes": [
+      { "title": "La Dream Team par accident", "text": "La collaboration entre Sakaguchi, Horii et Toriyama a démarré lors d'un vol en avion commun vers CES 1992. Les trois géants de l'industrie ont commencé à esquisser des idées sur des serviettes — le résultat fut Chrono Trigger." },
+      { "title": "Mitsuda tombe malade d'épuisement", "text": "Yasunori Mitsuda a composé la quasi-totalité de la bande-son seul, travaillant d'une telle intensité qu'il a développé des ulcères à l'estomac. Nobuo Uematsu a dû reprendre et composer les 10 derniers morceaux." },
+      { "title": "New Game+ — première dans le genre", "text": "Le New Game+ de Chrono Trigger, permettant de rejouer le jeu avec tous ses équipements et niveaux acquis pour débloquer de nouvelles fins, était une première dans le genre RPG et reste une des innovations les plus imitées." }
+    ],
+    "cheat_codes": [
+      { "name": "Fin du développeur", "code": "Voyager dans l'ère préhistorique et trouver le Developer's Room secret", "effect": "Rencontrer les développeurs du jeu sous forme de personnages NPC" },
+      { "name": "Fin rapide (NG+)", "text": "En New Game+, affronter Lavos immédiatement depuis le Millennial Fair", "effect": "Débloquer la fin alternative la plus courte du jeu" }
+    ]
+  },
+  {
+    "id": "mega-man-x3-super-nintendo",
+    "synopsis": "Mega Man X3, developed by Capcom and released in 1995, is the third entry in the X series and the last to appear on the Super Nintendo. Players control X or, for the first time, Zero as a playable character, fighting eight Maverick bosses and their armies. The game introduced complex collectibles — Heart Tanks, Sub Tanks, and upgrades — that reward thorough exploration. While considered the weakest of the SNES X trilogy, its ambitious scope and the introduction of Zero as a playable character made it a landmark. The game's relative scarcity compared to its predecessors has made it one of the more valuable entries in the series.",
+    "dev_team": [
+      { "role": "Developer", "name": "Capcom" },
+      { "role": "Producer", "name": "Tokuro Fujiwara" },
+      { "role": "Composer", "name": "Kinuyo Yamashita" }
+    ],
+    "dev_anecdotes": [
+      { "title": "Zero jouable — le début d'une saga", "text": "L'introduction de Zero comme personnage jouable dans Mega Man X3 répondait aux demandes massives des fans après sa présence charismatique dans X1 et X2. Cette décision a conduit directement à la sous-série Mega Man Zero." },
+      { "title": "Dernier X sur SNES", "text": "Mega Man X3 était initialement prévu comme le dernier de la série SNES, et l'équipe a voulu le rendre le plus complet possible. La surcharge de collectibles reflète cette ambition de finir en apothéose." },
+      { "title": "Version PC-98 japonaise", "text": "Le jeu a d'abord été publié sur PC-98 au Japon avant la version SNES, une décision commerciale inhabituelle qui a permis à Capcom de tester le marché PC pour la franchise." }
+    ],
+    "cheat_codes": [
+      { "name": "Armor complet", "code": "Trouver les 4 capsules du Dr. Light dans les niveaux", "effect": "Équiper X de l'armure complète avec toutes les améliorations" },
+      { "name": "Jouer Zero", "code": "Accessible dès le départ via la sélection de personnage", "effect": "Jouer Zero avec son sabre sur certaines sections du jeu" }
+    ]
+  },
+  {
+    "id": "castlevania-dracula-x-super-nintendo",
+    "synopsis": "Castlevania: Dracula X, released by Konami in 1995 for the Super Nintendo, is a loose port of the PC Engine classic Rondo of Blood. Players control Richter Belmont on a mission to rescue his beloved Annette and defeat Dracula. While considered inferior to its PC Engine source material, Dracula X on SNES features distinct level designs, multiple branching paths, and the ability to rescue other captive women to unlock alternate endings. Its demanding difficulty and tight whip-based gameplay capture the classic Castlevania feel, and its status as the last major 2D Castlevania before Symphony of the Night makes it historically significant.",
+    "dev_team": [
+      { "role": "Developer", "name": "Konami" },
+      { "role": "Composer", "name": "Masanori Adachi" },
+      { "role": "Composer", "name": "Taro Kudo" }
+    ],
+    "dev_anecdotes": [
+      { "title": "Port incomplet de Rondo of Blood", "text": "Dracula X SNES est souvent critiqué comme une version appauvrie de Rondo of Blood sur PC Engine, qui n'a jamais reçu de localisation officielle en Occident. Ironiquement, cette situation a rendu le jeu SNES plus précieux pour les collectionneurs occidentaux." },
+      { "title": "Deux sorties différentes", "text": "Les versions japonaise (Akumajo Dracula XX) et américaine présentent des différences notables dans certains niveaux et la difficulté, Konami ayant modifié le contenu pour le marché occidental." },
+      { "title": "Dernier grand 2D Castlevania classique", "text": "Dracula X SNES marque la fin d'une ère pour Castlevania. Le jeu suivant de la série principale sera Symphony of the Night, qui révolutionnera complètement la formule. Les collectionneurs le considèrent comme le dernier représentant pur du style classique." }
+    ],
+    "cheat_codes": [
+      { "name": "Stage select", "code": "Tenir R et appuyer sur Start à l'écran titre, puis entrer un code directionnel", "effect": "Accès à la sélection de niveau" },
+      { "name": "Sauvegarder Annette", "code": "Explorer les chemins alternatifs dans les niveaux 3 et 5", "effect": "Débloquer la vraie fin du jeu et le niveau bonus" }
+    ]
+  },
+  {
+    "id": "secret-of-mana-super-nintendo",
+    "synopsis": "Secret of Mana, developed by Square and released in 1993, is an action RPG that follows Randi, a young boy who accidentally pulls a sword from a waterfall stone, setting off a chain of events threatening the world. The game is celebrated for its innovative real-time combat with a stamina system, its lush orchestral soundtrack composed by Hiroki Kikuta, and especially its three-player cooperative mode — a rare and beloved feature of its era. Secret of Mana was originally conceived as a launch title for the SNES CD-ROM add-on, and its game design bears the scars of an abbreviated development when that peripheral was cancelled.",
+    "dev_team": [
+      { "role": "Director", "name": "Koichi Ishii" },
+      { "role": "Composer", "name": "Hiroki Kikuta" },
+      { "role": "Producer", "name": "Hiromichi Tanaka" }
+    ],
+    "dev_anecdotes": [
+      { "title": "Conçu pour le CD-ROM annulé", "text": "Secret of Mana devait initialement exploiter le périphérique CD-ROM du SNES développé avec Sony. Quand ce projet fut abandonné, le jeu dut être compressé pour tenir sur cartouche, ce qui explique la fin abrupte et certaines incohérences narratives." },
+      { "title": "Kikuta autodidacte", "text": "Hiroki Kikuta, le compositeur de Secret of Mana, était un compositeur autodidacte sans formation musicale formelle. Sa bande-son reste l'une des plus originales et des plus évocatrices de l'ère 16 bits." },
+      { "title": "Mode 3 joueurs légendaire", "text": "Le mode coopératif à 3 joueurs, permis par le multitap SNES, était exceptionnel à l'époque. Beaucoup de joueurs ont découvert le jeu précisément grâce à des sessions de jeu en famille ou entre amis." }
+    ],
+    "cheat_codes": [
+      { "name": "Debug room", "code": "Exploit de glitch : interagir avec certains objets dans un ordre précis", "effect": "Accès à une salle de développeurs cachée" },
+      { "name": "Level skip", "code": "Combinaison lors de l'écran de sélection d'arme", "effect": "Augmenter instantanément le niveau d'une arme" }
+    ]
+  }
+]
