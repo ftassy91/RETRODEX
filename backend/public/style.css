@@ -1301,6 +1301,17 @@ a:hover {
   margin-bottom: 4px;
 }
 
+.game-tagline {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  line-height: 1.6;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  font-style: italic;
+}
+
 .console-link {
   color: var(--accent);
   text-decoration: none;

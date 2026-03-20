@@ -44,6 +44,10 @@ const Game = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    tagline: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     dev_anecdotes: {
       type: DataTypes.TEXT,
       allowNull: true,

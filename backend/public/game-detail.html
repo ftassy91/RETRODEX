@@ -177,6 +177,7 @@
           <div class="hero-grid">
             <div class="game-header">
               <h1 class="hero-title page-title">${escapeHtml(game.title)}</h1>
+              <div class="game-tagline" id="game-tagline" style="display:none"></div>
               <div class="hero-meta game-badges game-meta">
                 <span class="pill">${escapeHtml(game.console || "Console inconnue")}</span>
                 <span class="pill">${escapeHtml(game.year || "n/a")}</span>
@@ -902,6 +903,13 @@
             breadcrumbTitleEl.textContent = (currentGame.title || "").toUpperCase().substring(0, 30) || "—";
           }
           renderHeroSection(currentGame);
+          if (currentGame.tagline) {
+            const taglineEl = document.getElementById("game-tagline");
+            if (taglineEl) {
+              taglineEl.textContent = currentGame.tagline;
+              taglineEl.style.display = "block";
+            }
+          }
           await loadFranchise(currentGame.id);
           await loadRetrodexIndex(currentGame.id);
           await loadEncyclopedia(currentGame.id);
@@ -928,4 +936,3 @@
     </script>
   </body>
 </html>
-
