@@ -40,6 +40,20 @@ const Game = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    type: {
+      type: DataTypes.STRING,
+      defaultValue: "game",
+      comment: "game | console | accessory | ost | collector_edition",
+    },
+    slug: {
+      type: DataTypes.STRING,
+      comment: "URL-friendly unique identifier",
+    },
+    source_confidence: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0.5,
+      comment: "0.0 à 1.0 — fiabilité de la source",
+    },
     loosePrice: {
       type: DataTypes.FLOAT,
       allowNull: true,
