@@ -28,6 +28,20 @@ const CollectionItem = sequelize.define(
       defaultValue: null,
       field: "notes",
     },
+    list_type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "owned",
+      validate: {
+        isIn: [["owned", "wanted", "for_sale"]],
+      },
+      field: "list_type",
+    },
+    price_paid: {
+      type: DataTypes.FLOAT,
+      allowNull: true,
+      field: "price_paid",
+    },
   },
   {
     tableName: "collection_items",

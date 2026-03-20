@@ -6,6 +6,7 @@ const { handleAsync } = require("../helpers/query");
 const router = Router();
 
 const VALID_COLLECTION_CONDITIONS = new Set(["Loose", "CIB", "Mint"]);
+const VALID_COLLECTION_LIST_TYPES = new Set(["owned", "wanted", "for_sale"]);
 
 function normalizeCollectionCondition(value) {
   const raw = String(value ?? "").trim();
@@ -20,15 +21,37 @@ function normalizeCollectionCondition(value) {
   return null;
 }
 
+function normalizeCollectionListType(value) {
+  const raw = String(value ?? "").trim().toLowerCase();
+  if (!raw) {
+    return "owned";
+  }
+
+  return VALID_COLLECTION_LIST_TYPES.has(raw) ? raw : null;
+}
+
+function normalizePricePaid(value) {
+  if (value === undefined || value === null || value === "") {
+    return null;
+  }
+
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : Number.NaN;
+}
+
 function normalizeCollectionPayload(body) {
   const gameId = String(body?.gameId ?? "").trim();
   const condition = normalizeCollectionCondition(body?.condition);
   const notes = String(body?.notes ?? "").trim();
+  const list_type = normalizeCollectionListType(body?.list_type);
+  const price_paid = normalizePricePaid(body?.price_paid);
 
   return {
     gameId,
     condition,
     notes: notes || null,
+    list_type,
+    price_paid,
   };
 }
 
@@ -40,6 +63,8 @@ function serializeCollectionItem(item) {
     gameId: item?.gameId,
     condition,
     notes: item?.notes || null,
+    list_type: normalizeCollectionListType(item?.list_type) || "owned",
+    price_paid: item?.price_paid ?? null,
     addedAt: item?.addedAt || null,
     game: item?.game ? {
       id: item.game.id,
@@ -62,8 +87,11 @@ const GAME_INCLUDE = [{
   attributes: ["id", "title", "console", "year", "rarity", "loosePrice", "cibPrice", "mintPrice"],
 }];
 
-async function listCollectionItems() {
+async function listCollectionItems(listType) {
+  const where = listType ? { list_type: listType } : undefined;
+
   const items = await CollectionItem.findAll({
+    where,
     include: GAME_INCLUDE,
     order: [["gameId", "ASC"]],
   });
@@ -75,8 +103,13 @@ async function listCollectionItems() {
 
 // --- Simple routes (/collection) ---
 
-router.get("/collection", handleAsync(async (_req, res) => {
-  const items = await listCollectionItems();
+router.get("/collection", handleAsync(async (req, res) => {
+  const listType = req.query?.list_type ? normalizeCollectionListType(req.query.list_type) : null;
+  if (req.query?.list_type && !listType) {
+    return res.status(400).json({ ok: false, error: "list_type must be one of owned, wanted or for_sale" });
+  }
+
+  const items = await listCollectionItems(listType);
   return res.json(items);
 }));
 
@@ -89,6 +122,14 @@ router.post("/collection", handleAsync(async (req, res) => {
 
   if (!VALID_COLLECTION_CONDITIONS.has(payload.condition)) {
     return res.status(400).json({ ok: false, error: "condition must be one of Loose, CIB or Mint" });
+  }
+
+  if (!VALID_COLLECTION_LIST_TYPES.has(payload.list_type)) {
+    return res.status(400).json({ ok: false, error: "list_type must be one of owned, wanted or for_sale" });
+  }
+
+  if (payload.price_paid !== null && (!Number.isFinite(payload.price_paid) || payload.price_paid <= 0)) {
+    return res.status(400).json({ ok: false, error: "price_paid must be a positive number" });
   }
 
   const game = await Game.findByPk(payload.gameId);
@@ -120,8 +161,13 @@ router.delete("/collection/:id", handleAsync(async (req, res) => {
 
 // --- API routes (/api/collection, includes game data) ---
 
-router.get("/api/collection", handleAsync(async (_req, res) => {
-  const items = await listCollectionItems();
+router.get("/api/collection", handleAsync(async (req, res) => {
+  const listType = req.query?.list_type ? normalizeCollectionListType(req.query.list_type) : null;
+  if (req.query?.list_type && !listType) {
+    return res.status(400).json({ ok: false, error: "list_type must be one of owned, wanted or for_sale" });
+  }
+
+  const items = await listCollectionItems(listType);
 
   return res.json({
     items,
@@ -138,6 +184,14 @@ router.post("/api/collection", handleAsync(async (req, res) => {
 
   if (!VALID_COLLECTION_CONDITIONS.has(payload.condition)) {
     return res.status(400).json({ ok: false, error: "condition must be one of Loose, CIB or Mint" });
+  }
+
+  if (!VALID_COLLECTION_LIST_TYPES.has(payload.list_type)) {
+    return res.status(400).json({ ok: false, error: "list_type must be one of owned, wanted or for_sale" });
+  }
+
+  if (payload.price_paid !== null && (!Number.isFinite(payload.price_paid) || payload.price_paid <= 0)) {
+    return res.status(400).json({ ok: false, error: "price_paid must be a positive number" });
   }
 
   const game = await Game.findByPk(payload.gameId);
