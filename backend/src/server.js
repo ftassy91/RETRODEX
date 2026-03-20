@@ -318,10 +318,10 @@ app.use((error, req, res, _next) => {
 async function startServer(portOverride) {
   await syncGamesFromPrototype();
 
-  const port = Number(portOverride || process.env.PORT || 3000);
+  const PORT = Number(portOverride || process.env.PORT || 3000);
 
-  return app.listen(port, () => {
-    console.log(`RetroDex backend running on http://localhost:${port}`);
+  return app.listen(PORT, () => {
+    console.log(`RetroDex backend running on http://localhost:${PORT}`);
   });
 }
 
