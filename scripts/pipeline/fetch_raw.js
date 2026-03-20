@@ -8,20 +8,24 @@ async function fetchFromWikidata(platformName, limit = 25, offset = 0) {
   if (!platformId) throw new Error(`No Wikidata ID for: ${platformName}`)
 
   const query = `
-    SELECT DISTINCT ?item ?nameLabel ?year ?devLabel ?genreLabel WHERE {
-      ?item wdt:P31 wd:Q7889.
-      ?item wdt:P400 wd:${platformId}.
-      OPTIONAL { ?item wdt:P577 ?date. BIND(YEAR(?date) AS ?year) }
-      OPTIONAL { ?item wdt:P178 ?dev }
-      OPTIONAL { ?item wdt:P136 ?genre }
-      SERVICE wikibase:label {
-        bd:serviceParam wikibase:language "en".
-        ?item rdfs:label ?nameLabel.
-        ?dev rdfs:label ?devLabel.
-        ?genre rdfs:label ?genreLabel.
+    SELECT DISTINCT ?item ?name ?year ?dev ?genre WHERE {
+      ?item wdt:P31 wd:Q7889 .
+      ?item wdt:P400 wd:${platformId} .
+      ?item rdfs:label ?name .
+      FILTER(LANG(?name) = "en")
+      OPTIONAL { ?item wdt:P577 ?date . BIND(YEAR(?date) AS ?year) }
+      OPTIONAL {
+        ?item wdt:P178 ?devItem .
+        ?devItem rdfs:label ?dev .
+        FILTER(LANG(?dev) = "en")
+      }
+      OPTIONAL {
+        ?item wdt:P136 ?genreItem .
+        ?genreItem rdfs:label ?genre .
+        FILTER(LANG(?genre) = "en")
       }
     }
-    ORDER BY ?nameLabel
+    ORDER BY ?name
     LIMIT ${limit} OFFSET ${offset}
   `
 
@@ -35,11 +39,11 @@ async function fetchFromWikidata(platformName, limit = 25, offset = 0) {
 
   const data = await res.json()
   return data.results.bindings.map(row => ({
-    name:      row.nameLabel?.value || null,
+    name:      row.name?.value || null,
     platform:  platformName,
     year:      row.year?.value ? parseInt(row.year.value) : null,
-    developer: row.devLabel?.value || null,
-    genre:     row.genreLabel?.value || null,
+    developer: row.dev?.value || null,
+    genre:     row.genre?.value || null,
     _source:   'wikidata'
   })).filter(r => r.name)
 }
