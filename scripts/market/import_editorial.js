@@ -21,7 +21,13 @@ const fs = require('fs')
 const path = require('path')
 
 const ROOT = path.join(__dirname, '../..')
-const DATA_FILE = path.join(ROOT, 'data', 'prices_editorial.json')
+const fileArg = process.argv.find((arg) => arg.startsWith('--file='))
+const requestedFile = fileArg ? fileArg.slice('--file='.length) : null
+const DATA_FILE = requestedFile
+  ? path.isAbsolute(requestedFile)
+    ? requestedFile
+    : path.join(ROOT, requestedFile)
+  : path.join(ROOT, 'data', 'prices_editorial.json')
 const DRY_RUN = process.argv.includes('--dry-run')
 const STATS_ONLY = process.argv.includes('--stats')
 
