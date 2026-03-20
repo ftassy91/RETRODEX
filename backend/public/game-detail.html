@@ -177,6 +177,12 @@
               <button class="chart-btn" data-type="cib">CIB</button>
               <button class="chart-btn" data-type="loose">Loose</button>
             </div>
+            <div class="period-selector">
+              <button class="period-btn" data-period="30">1M</button>
+              <button class="period-btn" data-period="180">6M</button>
+              <button class="period-btn active" data-period="365">1A</button>
+              <button class="period-btn" data-period="3650">10A</button>
+            </div>
             <div class="chart-container">
               <svg id="price-chart" viewBox="0 0 600 160" preserveAspectRatio="none"></svg>
               <div class="chart-labels" id="chart-labels"></div>
@@ -446,10 +452,60 @@
         });
 
         let activeType = "mint";
+        let activePeriodDays = 365;
+
+        function monthToDate(value) {
+          const [year, month] = String(value || "").split("-").map((part) => Number.parseInt(part, 10));
+          if (!Number.isFinite(year) || !Number.isFinite(month)) {
+            return null;
+          }
+          return new Date(Date.UTC(year, Math.max(0, month - 1), 1));
+        }
+
+        function filterHistory(periodDays) {
+          const history = Array.isArray(data.history) ? data.history : [];
+          if (!history.length) {
+            return [];
+          }
+
+          const latestDate = monthToDate(history[history.length - 1].month);
+          if (!latestDate) {
+            return history;
+          }
+
+          const cutoff = new Date(latestDate.getTime() - periodDays * 24 * 60 * 60 * 1000);
+          const filtered = history.filter((entry) => {
+            const entryDate = monthToDate(entry.month);
+            return entryDate ? entryDate >= cutoff : false;
+          });
+
+          return filtered.length ? filtered : [];
+        }
 
         function drawChart(type) {
-          const prices = (data.history || []).map((entry) => Number(entry[type]) || 0);
+          const filteredHistory = filterHistory(activePeriodDays);
+          const prices = filteredHistory.map((entry) => Number(entry[type]) || 0);
+          const svg = document.getElementById("price-chart");
+          const labels = document.getElementById("chart-labels");
+          const statMinEl = document.getElementById("stat-min");
+          const statMaxEl = document.getElementById("stat-max");
+          const variationEl = document.getElementById("stat-variation");
+
+          if (!svg || !labels || !statMinEl || !statMaxEl || !variationEl) {
+            return;
+          }
+
           if (!prices.length) {
+            svg.innerHTML = `
+              <text x="300" y="84" text-anchor="middle" fill="#5a8a5a" font-size="13">
+                Aucune vente sur cette période
+              </text>
+            `;
+            labels.innerHTML = "";
+            statMinEl.textContent = "—";
+            statMaxEl.textContent = "—";
+            variationEl.textContent = "—";
+            variationEl.style.color = "";
             return;
           }
 
@@ -459,17 +515,15 @@
           const width = 600;
           const height = 160;
           const pad = 10;
+          const denominator = Math.max(prices.length - 1, 1);
 
           const points = prices.map((price, index) => {
-            const x = pad + (index / (prices.length - 1)) * (width - pad * 2);
+            const x = prices.length === 1
+              ? width / 2
+              : pad + (index / denominator) * (width - pad * 2);
             const y = height - pad - ((price - min) / range) * (height - pad * 2);
             return `${x},${y}`;
           }).join(" ");
-
-          const svg = document.getElementById("price-chart");
-          if (!svg) {
-            return;
-          }
 
           svg.innerHTML = `
             <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${height - pad}" stroke="#1a3a1a" stroke-width="1"/>
@@ -477,7 +531,9 @@
             <polygon points="${pad},${height - pad} ${points} ${width - pad},${height - pad}" fill="#0a1a0a" opacity="0.6"/>
             <polyline points="${points}" fill="none" stroke="#9bbc0f" stroke-width="2" stroke-linejoin="round"/>
             ${prices.map((price, index) => {
-              const x = pad + (index / (prices.length - 1)) * (width - pad * 2);
+              const x = prices.length === 1
+                ? width / 2
+                : pad + (index / denominator) * (width - pad * 2);
               const y = height - pad - ((price - min) / range) * (height - pad * 2);
               return `<circle cx="${x}" cy="${y}" r="3" fill="#9bbc0f"/>`;
             }).join("")}
@@ -485,20 +541,17 @@
             <text x="${pad + 4}" y="${pad + 12}" fill="#9bbc0f" font-size="10">$${max}</text>
           `;
 
-          const labels = document.getElementById("chart-labels");
-          if (labels) {
-            labels.innerHTML = (data.history || [])
-              .filter((_, index) => index % 3 === 0 || index === 11)
-              .map((entry) => `<span class="chart-label">${entry.month}</span>`)
-              .join("");
-          }
+          const labelStep = filteredHistory.length > 6 ? Math.ceil(filteredHistory.length / 4) : 1;
+          labels.innerHTML = filteredHistory
+            .filter((_, index) => index % labelStep === 0 || index === filteredHistory.length - 1)
+            .map((entry) => `<span class="chart-label">${entry.month}</span>`)
+            .join("");
 
           const oldest = prices[0] || 1;
-          const variation = ((prices[prices.length - 1] - oldest) / oldest * 100).toFixed(1);
-          const variationEl = document.getElementById("stat-variation");
+          const variation = oldest ? ((prices[prices.length - 1] - oldest) / oldest * 100).toFixed(1) : "0.0";
 
-          document.getElementById("stat-min").textContent = `$${min}`;
-          document.getElementById("stat-max").textContent = `$${max}`;
+          statMinEl.textContent = `$${min}`;
+          statMaxEl.textContent = `$${max}`;
           variationEl.textContent = `${variation > 0 ? "+" : ""}${variation}%`;
           variationEl.style.color = variation > 0 ? "#9bbc0f" : variation < 0 ? "#e85555" : "#8bac0f";
         }
@@ -510,6 +563,15 @@
             document.querySelectorAll(".chart-btn").forEach((item) => item.classList.remove("active"));
             button.classList.add("active");
             activeType = button.dataset.type;
+            drawChart(activeType);
+          });
+        });
+
+        document.querySelectorAll(".period-btn").forEach((button) => {
+          button.addEventListener("click", () => {
+            document.querySelectorAll(".period-btn").forEach((item) => item.classList.remove("active"));
+            button.classList.add("active");
+            activePeriodDays = Number.parseInt(button.dataset.period || "365", 10) || 365;
             drawChart(activeType);
           });
         });
