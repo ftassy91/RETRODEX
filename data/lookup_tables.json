@@ -55,7 +55,10 @@
     "Sega Genesis": "Q10676",
     "Sega Saturn": "Q200912",
     "Dreamcast": "Q184581",
-    "PlayStation": "Q10677"
+    "PlayStation": "Q10677",
+    "PlayStation 2": "Q10680",
+    "Nintendo DS": "Q170323",
+    "Atari 2600": "Q206835"
   },
   "igdb_platform_ids": {
     "NES": 18,
@@ -64,9 +67,11 @@
     "Game Boy": 33,
     "Game Boy Color": 22,
     "Game Boy Advance": 24,
+    "Nintendo DS": 20,
     "Sega Genesis": 29,
     "Sega Saturn": 32,
     "Dreamcast": 23,
+    "Atari 2600": 59,
     "PlayStation": 7,
     "PlayStation 2": 8
   }
