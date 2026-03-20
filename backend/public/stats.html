@@ -20,254 +20,229 @@
         gap: 16px;
       }
 
-      .page-header {
-        width: 100%;
-        max-width: 1100px;
-        margin: 0 auto;
-        align-self: stretch;
-        padding-bottom: 14px;
-      }
-
-      .hero-stats {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .hero-card,
-      .panel {
-        background: var(--panel-bg);
-        border: 1px solid var(--panel-line);
-        border-radius: 6px;
+      .stats-panel {
+        border: 1px solid var(--border);
+        background: var(--bg-surface);
         padding: 16px;
       }
 
-      .hero-card .label {
-        display: block;
-        font-size: 0.7rem;
-        color: var(--text-faint);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        margin-bottom: 8px;
+      .stats-panel h2 {
+        font-size: 11px;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        letter-spacing: 0.1em;
+        margin-bottom: 14px;
       }
 
-      .hero-card .value {
-        font-size: 24px;
-        color: var(--text-strong);
-      }
-
-      .panel h2 {
-        font-size: 12px;
-        color: var(--text-faint);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        margin-bottom: 12px;
-      }
-
-      .condition-breakdown {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .condition-cards {
+      .overview-cards,
+      .market-cards,
+      .encyclopedia-cards {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 12px;
+        margin-bottom: 16px;
       }
 
-      .condition-card {
-        padding: 16px;
-        border-radius: 6px;
-        background: rgba(10, 10, 10, 0.36);
-        border: 1px solid currentColor;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-height: 88px;
+      .stats-card {
+        border: 1px solid var(--border);
+        background: var(--bg-card);
+        padding: 14px;
       }
 
-      .condition-card .name {
+      .stats-card-label {
         display: block;
-        font-size: 0.7rem;
-        text-transform: uppercase;
+        font-size: 10px;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
         letter-spacing: 0.08em;
         margin-bottom: 8px;
+        text-transform: uppercase;
       }
 
-      .condition-card .count {
+      .stats-card-value {
         display: block;
-        font-size: 22px;
-        font-weight: bold;
+        font-size: 1.5rem;
+        color: var(--text-value);
+        font-family: var(--font-mono);
       }
 
-      .condition-card.condition-loose {
-        color: var(--condition-loose);
+      .stats-card-sub {
+        display: block;
+        font-size: 10px;
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
+        margin-top: 6px;
       }
 
-      .condition-card.condition-cib {
-        color: var(--condition-cib);
-      }
-
-      .condition-card.condition-mint {
-        color: var(--condition-mint);
-      }
-
-      .condition-bar {
-        display: flex;
-        width: 100%;
-        height: 8px;
-        border-radius: 4px;
-        overflow: hidden;
-        background: rgba(155, 188, 15, 0.08);
-        border: 1px solid rgba(155, 188, 15, 0.12);
-      }
-
-      .condition-segment {
-        height: 100%;
-        min-width: 0;
-      }
-
-      .condition-segment.loose {
-        background: var(--condition-loose);
-      }
-
-      .condition-segment.cib {
-        background: var(--condition-cib);
-      }
-
-      .condition-segment.mint {
-        background: var(--condition-mint);
-      }
-
-      .condition-empty {
-        font-size: 0.7rem;
-        color: var(--text-faint);
+      .subsection-title {
+        font-size: 10px;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        letter-spacing: 0.08em;
+        margin-bottom: 10px;
+        text-transform: uppercase;
       }
 
       .rarity-grid {
         display: grid;
         grid-template-columns: repeat(5, minmax(0, 1fr));
         gap: 10px;
+        margin-bottom: 16px;
       }
 
-      .rarity-stat {
-        padding: 12px;
-        border-radius: 6px;
-        background: rgba(10, 10, 10, 0.36);
+      .rarity-item {
         border: 1px solid currentColor;
+        background: rgba(10, 10, 10, 0.36);
+        padding: 12px;
       }
 
-      .rarity-stat .name {
+      .rarity-name {
         display: block;
-        font-size: 0.7rem;
-        text-transform: uppercase;
+        font-size: 10px;
+        font-family: var(--font-mono);
         letter-spacing: 0.08em;
         margin-bottom: 6px;
       }
 
-      .rarity-stat .count {
+      .rarity-count {
         display: block;
-        font-size: 20px;
+        font-size: 1.2rem;
+        font-family: var(--font-mono);
       }
 
-      .rarity-stat .pct {
+      .rarity-pct {
         display: block;
-        font-size: 0.7rem;
-        color: var(--text-soft);
+        font-size: 10px;
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
         margin-top: 4px;
       }
 
-      .bars {
+      .platform-bars {
         display: grid;
         gap: 10px;
       }
 
-      .bar-row {
+      .platform-row {
         display: grid;
-        grid-template-columns: 180px 60px 1fr;
+        grid-template-columns: 180px 52px 1fr;
         gap: 12px;
         align-items: center;
       }
 
-      .bar-label,
-      .bar-count {
-        font-size: 0.7rem;
-        color: var(--text-soft);
+      .platform-name,
+      .platform-count {
+        font-size: 11px;
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
       }
 
-      .bar-track {
-        height: 14px;
-        border-radius: 999px;
+      .platform-track {
+        height: 12px;
+        border: 1px solid var(--border);
         background: rgba(155, 188, 15, 0.08);
         overflow: hidden;
-        border: 1px solid rgba(155, 188, 15, 0.12);
       }
 
-      .bar-fill {
+      .platform-fill {
         height: 100%;
-        background: linear-gradient(90deg, rgba(155, 188, 15, 0.45), rgba(207, 230, 111, 0.95));
+        background: linear-gradient(90deg, rgba(0, 255, 102, 0.35), rgba(0, 255, 102, 0.9));
       }
 
-      .price-list {
+      .market-grid {
         display: grid;
-        gap: 10px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
       }
 
-      .price-item {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        align-items: center;
-        border: 1px solid rgba(155, 188, 15, 0.16);
-        border-radius: 6px;
-        padding: 12px;
-        background: rgba(15, 56, 15, 0.12);
+      .game-spot {
+        border: 1px solid var(--border);
+        background: var(--bg-card);
+        padding: 14px;
         text-decoration: none;
         color: inherit;
+        display: block;
       }
 
-      .price-item:hover {
-        border-color: var(--panel-line-strong);
+      .game-spot:hover {
+        border-color: var(--accent);
       }
 
-      .price-item .title {
+      .game-spot-title {
+        display: block;
         font-size: 13px;
-        color: var(--text-strong);
+        color: var(--text-primary);
+        font-family: var(--font-mono);
+        margin-bottom: 6px;
       }
 
-      .price-item .meta {
-        font-size: 0.7rem;
-        color: var(--text-soft);
+      .game-spot-meta,
+      .game-spot-price {
+        display: block;
+        font-size: 11px;
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
       }
 
-      .price-item .value {
-        font-size: 14px;
-        color: var(--text-strong);
+      .game-spot-price {
+        color: var(--text-alert);
+        margin-top: 6px;
+      }
+
+      .encyclopedia-link {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--border);
+        color: var(--text-alert);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        padding: 8px 12px;
+        text-decoration: none;
+      }
+
+      .encyclopedia-link:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .section-note {
+        font-size: 10px;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        margin-top: 10px;
+      }
+
+      .stats-error {
+        border: 1px solid var(--confidence-low);
+        color: var(--confidence-low);
+        background: rgba(224, 82, 82, 0.08);
+        padding: 12px;
+        font-family: var(--font-mono);
+        font-size: 11px;
       }
 
       @media (max-width: 900px) {
-        .hero-stats,
+        .overview-cards,
+        .market-cards,
+        .encyclopedia-cards,
         .rarity-grid,
-        .condition-cards {
+        .market-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
-        .bar-row {
+        .platform-row {
           grid-template-columns: 1fr;
+          gap: 6px;
         }
       }
 
       @media (max-width: 640px) {
-        .hero-stats,
+        .overview-cards,
+        .market-cards,
+        .encyclopedia-cards,
         .rarity-grid,
-        .condition-cards {
+        .market-grid {
           grid-template-columns: 1fr;
-        }
-
-        .price-item {
-          flex-direction: column;
-          align-items: flex-start;
         }
       }
     </style>
@@ -282,77 +257,116 @@
 
       <header class="page-header">
         <h1 class="page-title">STATISTIQUES</h1>
-        <p class="page-subtitle">Vue globale du catalogue</p>
+        <p class="page-subtitle">Vue d'ensemble du catalogue, du marche et de l'encyclopedie</p>
       </header>
 
-      <section class="hero-stats">
-        <article class="hero-card"><span class="label">Total jeux</span><span class="value" id="games-total">&mdash;</span></article>
-        <article class="hero-card"><span class="label">Consoles</span><span class="value" id="consoles-total">&mdash;</span></article>
-        <article class="hero-card"><span class="label">Metascore moyen</span><span class="value" id="metascore-average">&mdash;</span></article>
-        <article class="hero-card"><span class="label">Prix Mint moyen</span><span class="value" id="mint-average">&mdash;</span></article>
-      </section>
+      <div id="stats-error" class="stats-error" hidden></div>
 
-      <section class="panel">
-        <h2>&Eacute;tat de la collection</h2>
-        <div class="condition-breakdown">
-          <div id="condition-empty" class="condition-empty" hidden>Aucun jeu dans la collection</div>
-          <div id="condition-cards" class="condition-cards">
-            <article class="condition-card condition-loose">
-              <span class="name">Loose</span>
-              <strong class="count" id="condition-loose-count">0</strong>
-            </article>
-            <article class="condition-card condition-cib">
-              <span class="name">CIB</span>
-              <strong class="count" id="condition-cib-count">0</strong>
-            </article>
-            <article class="condition-card condition-mint">
-              <span class="name">Mint</span>
-              <strong class="count" id="condition-mint-count">0</strong>
-            </article>
-          </div>
-          <div id="condition-bar" class="condition-bar" aria-hidden="true">
-            <span id="condition-bar-loose" class="condition-segment loose"></span>
-            <span id="condition-bar-cib" class="condition-segment cib"></span>
-            <span id="condition-bar-mint" class="condition-segment mint"></span>
-          </div>
+      <section class="stats-panel">
+        <h2>VUE D'ENSEMBLE</h2>
+        <div class="overview-cards">
+          <article class="stats-card">
+            <span class="stats-card-label">Total jeux en base</span>
+            <span id="overview-total-games" class="stats-card-value">&mdash;</span>
+            <span class="stats-card-sub">Catalogue jouable indexe</span>
+          </article>
+          <article class="stats-card">
+            <span class="stats-card-label">Plateformes uniques</span>
+            <span id="overview-platform-total" class="stats-card-value">&mdash;</span>
+            <span class="stats-card-sub">Supports representes</span>
+          </article>
+          <article class="stats-card">
+            <span class="stats-card-label">Prix loose renseignes</span>
+            <span id="overview-priced-total" class="stats-card-value">&mdash;</span>
+            <span class="stats-card-sub">Jeux avec valeur marche</span>
+          </article>
         </div>
-      </section>
 
-      <section class="panel">
-        <h2>R&eacute;partition par raret&eacute;</h2>
+        <div class="subsection-title">Repartition par rarete</div>
         <div id="rarity-grid" class="rarity-grid"></div>
+
+        <div class="subsection-title">Top 5 plateformes</div>
+        <div id="platform-bars" class="platform-bars"></div>
       </section>
 
-      <section class="panel">
-        <h2>Top consoles</h2>
-        <div id="top-consoles" class="bars"></div>
+      <section class="stats-panel">
+        <h2>INDICE MARCHE</h2>
+        <div class="market-cards">
+          <article class="stats-card">
+            <span class="stats-card-label">T1 verifies</span>
+            <span id="market-t1-count" class="stats-card-value">&mdash;</span>
+            <span class="stats-card-sub">Jeux avec confiance >= 60</span>
+          </article>
+          <article class="stats-card">
+            <span class="stats-card-label">T3 indicatifs</span>
+            <span id="market-t3-count" class="stats-card-value">&mdash;</span>
+            <span class="stats-card-sub">Jeux avec confiance 25-59</span>
+          </article>
+          <article class="stats-card">
+            <span class="stats-card-label">T4 estimatifs</span>
+            <span id="market-t4-count" class="stats-card-value">&mdash;</span>
+            <span class="stats-card-sub">Jeux avec confiance &lt; 25</span>
+          </article>
+        </div>
+
+        <div class="market-grid">
+          <a id="market-most-expensive" class="game-spot" href="/games-list.html">
+            <span class="game-spot-title">Chargement...</span>
+            <span class="game-spot-meta">Jeu le plus cher en base</span>
+            <span class="game-spot-price">&mdash;</span>
+          </a>
+          <a id="market-least-expensive" class="game-spot" href="/games-list.html">
+            <span class="game-spot-title">Chargement...</span>
+            <span class="game-spot-meta">Jeu le moins cher en base</span>
+            <span class="game-spot-price">&mdash;</span>
+          </a>
+        </div>
+
+        <div id="market-note" class="section-note">Analyse des niveaux de confiance en cours...</div>
       </section>
 
-      <section class="panel">
-        <h2>Jeux les plus chers</h2>
-        <div id="price-list" class="price-list"></div>
+      <section class="stats-panel">
+        <h2>ENCYCLOPEDIE</h2>
+        <div class="encyclopedia-cards">
+          <article class="stats-card">
+            <span class="stats-card-label">Jeux avec synopsis</span>
+            <span id="encyclo-synopsis-count" class="stats-card-value">&mdash;</span>
+            <span class="stats-card-sub">Progression des fiches narratives</span>
+          </article>
+          <article class="stats-card">
+            <span class="stats-card-label">Franchises indexees</span>
+            <span id="encyclo-franchise-count" class="stats-card-value">&mdash;</span>
+            <span class="stats-card-sub">Licences disponibles</span>
+          </article>
+          <article class="stats-card">
+            <span class="stats-card-label">Navigation</span>
+            <span class="stats-card-value" style="font-size:1rem">/franchises.html</span>
+            <span class="stats-card-sub">Explorer la timeline des licences</span>
+          </article>
+        </div>
+
+        <a class="encyclopedia-link" href="/franchises.html">Ouvrir les franchises &rarr;</a>
       </section>
     </main>
 
     <script>
-      const gamesTotalEl = document.getElementById("games-total");
-      const consolesTotalEl = document.getElementById("consoles-total");
-      const metascoreAverageEl = document.getElementById("metascore-average");
-      const mintAverageEl = document.getElementById("mint-average");
-      const rarityGridEl = document.getElementById("rarity-grid");
-      const topConsolesEl = document.getElementById("top-consoles");
-      const priceListEl = document.getElementById("price-list");
-      const conditionEmptyEl = document.getElementById("condition-empty");
-      const conditionCardsEl = document.getElementById("condition-cards");
-      const conditionBarEl = document.getElementById("condition-bar");
-      const conditionLooseCountEl = document.getElementById("condition-loose-count");
-      const conditionCibCountEl = document.getElementById("condition-cib-count");
-      const conditionMintCountEl = document.getElementById("condition-mint-count");
-      const conditionLooseBarEl = document.getElementById("condition-bar-loose");
-      const conditionCibBarEl = document.getElementById("condition-bar-cib");
-      const conditionMintBarEl = document.getElementById("condition-bar-mint");
-
+      const TOTAL_SYNOPSIS_TARGET = 1296;
       const rarityOrder = ["LEGENDARY", "EPIC", "RARE", "UNCOMMON", "COMMON"];
+
+      const overviewTotalGamesEl = document.getElementById("overview-total-games");
+      const overviewPlatformTotalEl = document.getElementById("overview-platform-total");
+      const overviewPricedTotalEl = document.getElementById("overview-priced-total");
+      const rarityGridEl = document.getElementById("rarity-grid");
+      const platformBarsEl = document.getElementById("platform-bars");
+      const marketT1El = document.getElementById("market-t1-count");
+      const marketT3El = document.getElementById("market-t3-count");
+      const marketT4El = document.getElementById("market-t4-count");
+      const marketMostExpensiveEl = document.getElementById("market-most-expensive");
+      const marketLeastExpensiveEl = document.getElementById("market-least-expensive");
+      const marketNoteEl = document.getElementById("market-note");
+      const encycloSynopsisEl = document.getElementById("encyclo-synopsis-count");
+      const encycloFranchiseEl = document.getElementById("encyclo-franchise-count");
+      const statsErrorEl = document.getElementById("stats-error");
 
       function escapeHtml(value) {
         return String(value ?? "")
@@ -369,7 +383,7 @@
 
       function formatCurrency(value) {
         const number = Number(value);
-        return Number.isFinite(number) ? `$${number.toFixed(1)}`.replace(".0", "") : "$0";
+        return Number.isFinite(number) ? `$${number.toFixed(2).replace(/\.00$/, "")}` : "$0";
       }
 
       async function fetchJson(url) {
@@ -380,120 +394,166 @@
         return response.json();
       }
 
-      async function fetchAllGames() {
-        const payload = await fetchJson("/api/games?limit=507");
-        if (Array.isArray(payload.items) && payload.items.length === payload.total) {
-          return payload.items;
-        }
-        const fallback = await fetchJson("/games");
-        return Array.isArray(fallback) ? fallback : payload.items || [];
-      }
-
-      function renderHero(stats, games) {
-        const mintValues = games
-          .map((game) => Number(game.mintPrice))
-          .filter((value) => Number.isFinite(value) && value > 0);
-        const mintAverage = mintValues.length
-          ? mintValues.reduce((sum, value) => sum + value, 0) / mintValues.length
-          : 0;
-
-        gamesTotalEl.textContent = String(stats.totals.games);
-        consolesTotalEl.textContent = String(stats.totals.consoles);
-        metascoreAverageEl.textContent = String(stats.totals.averageMetascore);
-        mintAverageEl.textContent = formatCurrency(mintAverage);
-      }
-
-      function renderConditionBreakdown(breakdown) {
-        const normalized = {
-          Loose: Number(breakdown?.Loose || 0),
-          CIB: Number(breakdown?.CIB || 0),
-          Mint: Number(breakdown?.Mint || 0),
-        };
-        const total = normalized.Loose + normalized.CIB + normalized.Mint;
-
-        conditionLooseCountEl.textContent = String(normalized.Loose);
-        conditionCibCountEl.textContent = String(normalized.CIB);
-        conditionMintCountEl.textContent = String(normalized.Mint);
-
-        if (total === 0) {
-          conditionEmptyEl.hidden = false;
-          conditionCardsEl.hidden = true;
-          conditionBarEl.hidden = true;
-          return;
-        }
-
-        conditionEmptyEl.hidden = true;
-        conditionCardsEl.hidden = false;
-        conditionBarEl.hidden = false;
-        conditionLooseBarEl.style.width = `${(normalized.Loose / total) * 100}%`;
-        conditionCibBarEl.style.width = `${(normalized.CIB / total) * 100}%`;
-        conditionMintBarEl.style.width = `${(normalized.Mint / total) * 100}%`;
-      }
-
-      function renderRarityBreakdown(games, totalGames) {
+      function renderRarityDistribution(games) {
         const counts = new Map(rarityOrder.map((rarity) => [rarity, 0]));
-        for (const game of games) {
+
+        games.forEach((game) => {
           const rarity = counts.has(game.rarity) ? game.rarity : "COMMON";
           counts.set(rarity, counts.get(rarity) + 1);
-        }
+        });
 
         rarityGridEl.innerHTML = rarityOrder.map((rarity) => {
           const count = counts.get(rarity) || 0;
-          const pct = totalGames ? ((count / totalGames) * 100).toFixed(1) : "0.0";
+          const pct = games.length ? ((count / games.length) * 100).toFixed(1) : "0.0";
+
           return `
-            <div class="rarity-stat rarity-${escapeHtml(rarityClass(rarity))}">
-              <span class="name">${escapeHtml(rarity)}</span>
-              <span class="count">${escapeHtml(count)}</span>
-              <span class="pct">${escapeHtml(pct)}%</span>
-            </div>
+            <article class="rarity-item rarity-${escapeHtml(rarityClass(rarity))}">
+              <span class="rarity-name">${escapeHtml(rarity)}</span>
+              <span class="rarity-count">${escapeHtml(count)}</span>
+              <span class="rarity-pct">${escapeHtml(pct)}%</span>
+            </article>
           `;
         }).join("");
       }
 
-      function renderTopConsoles(topConsoles) {
-        const max = Math.max(...topConsoles.map((item) => item.gamesCount), 1);
-        topConsolesEl.innerHTML = topConsoles.map((item) => `
-          <div class="bar-row">
-            <div class="bar-label">${escapeHtml(item.name)}</div>
-            <div class="bar-count">${escapeHtml(item.gamesCount)}</div>
-            <div class="bar-track">
-              <div class="bar-fill" style="width:${((item.gamesCount / max) * 100).toFixed(2)}%"></div>
+      function renderTopPlatforms(games) {
+        const byPlatform = new Map();
+
+        games.forEach((game) => {
+          const platform = String(game.console || "Unknown").trim() || "Unknown";
+          byPlatform.set(platform, (byPlatform.get(platform) || 0) + 1);
+        });
+
+        const topPlatforms = Array.from(byPlatform.entries())
+          .map(([name, count]) => ({ name, count }))
+          .sort((left, right) => right.count - left.count || left.name.localeCompare(right.name))
+          .slice(0, 5);
+
+        const max = Math.max(...topPlatforms.map((item) => item.count), 1);
+
+        platformBarsEl.innerHTML = topPlatforms.map((item) => `
+          <div class="platform-row">
+            <div class="platform-name">${escapeHtml(item.name)}</div>
+            <div class="platform-count">${escapeHtml(item.count)}</div>
+            <div class="platform-track">
+              <div class="platform-fill" style="width:${((item.count / max) * 100).toFixed(2)}%"></div>
             </div>
           </div>
         `).join("");
+
+        overviewPlatformTotalEl.textContent = String(byPlatform.size);
       }
 
-      function renderMostExpensive(games) {
-        const topFive = [...games]
-          .filter((game) => Number.isFinite(Number(game.mintPrice)))
-          .sort((left, right) => Number(right.mintPrice) - Number(left.mintPrice))
-          .slice(0, 5);
+      function renderGameSpot(element, title, meta, price, href) {
+        element.href = href || "/games-list.html";
+        element.innerHTML = `
+          <span class="game-spot-title">${escapeHtml(title)}</span>
+          <span class="game-spot-meta">${escapeHtml(meta)}</span>
+          <span class="game-spot-price">${escapeHtml(price)}</span>
+        `;
+      }
 
-        priceListEl.innerHTML = topFive.map((game, index) => `
-          <a class="price-item" href="/game-detail.html?id=${encodeURIComponent(game.id)}">
-            <div>
-              <div class="title">#${index + 1} ${escapeHtml(game.title)}</div>
-              <div class="meta">${escapeHtml(game.console || "Console inconnue")} &middot; Mint ${escapeHtml(formatCurrency(game.mintPrice))}</div>
-            </div>
-            <div class="value">${escapeHtml(formatCurrency(game.mintPrice))}</div>
-          </a>
-        `).join("");
+      async function fetchMarketBuckets(games) {
+        const summary = { t1: 0, t3: 0, t4: 0, indexed: 0 };
+        const chunkSize = 24;
+
+        for (let index = 0; index < games.length; index += chunkSize) {
+          const chunk = games.slice(index, index + chunkSize);
+          const settled = await Promise.allSettled(chunk.map(async (game) => {
+            const payload = await fetchJson(`/api/index/${encodeURIComponent(game.id)}`);
+            const entries = Array.isArray(payload.index) ? payload.index : [];
+            if (!entries.length) {
+              return null;
+            }
+
+            return Math.max(...entries.map((entry) => Number(entry.confidence_pct) || 0));
+          }));
+
+          settled.forEach((result) => {
+            if (result.status !== "fulfilled" || result.value == null) {
+              return;
+            }
+
+            summary.indexed += 1;
+            if (result.value >= 60) {
+              summary.t1 += 1;
+            } else if (result.value >= 25) {
+              summary.t3 += 1;
+            } else {
+              summary.t4 += 1;
+            }
+          });
+
+          marketNoteEl.textContent = `Analyse de confiance: ${Math.min(index + chunk.length, games.length)} / ${games.length}`;
+        }
+
+        marketNoteEl.textContent = `Jeux indexes analyses: ${summary.indexed} / ${games.length}`;
+        return summary;
       }
 
       async function loadStats() {
         try {
-          const [stats, games] = await Promise.all([
-            fetchJson("/api/stats"),
-            fetchAllGames(),
+          const [allItems, franchisesPayload] = await Promise.all([
+            fetchJson("/games"),
+            fetchJson("/api/franchises"),
           ]);
 
-          renderHero(stats, games);
-          renderConditionBreakdown(stats.conditionBreakdown);
-          renderRarityBreakdown(games, stats.totals.games);
-          renderTopConsoles(stats.topConsoles || []);
-          renderMostExpensive(games);
+          const games = (Array.isArray(allItems) ? allItems : [])
+            .filter((item) => String(item.type || "game") === "game");
+
+          const pricedGames = games.filter((game) => Number(game.loosePrice) > 0);
+          const synopsisCount = games.filter((game) => String(game.synopsis || "").trim()).length;
+          const franchiseCount = Number(franchisesPayload.count) || (franchisesPayload.franchises || []).length || 0;
+
+          const mostExpensive = [...pricedGames]
+            .sort((left, right) => Number(right.loosePrice) - Number(left.loosePrice))
+            .at(0);
+
+          const leastExpensive = [...pricedGames]
+            .sort((left, right) => Number(left.loosePrice) - Number(right.loosePrice))
+            .at(0);
+
+          overviewTotalGamesEl.textContent = String(games.length);
+          overviewPricedTotalEl.textContent = String(pricedGames.length);
+          encycloSynopsisEl.textContent = `${synopsisCount} / ${Math.max(games.length, TOTAL_SYNOPSIS_TARGET)}`;
+          encycloFranchiseEl.textContent = String(franchiseCount);
+
+          renderRarityDistribution(games);
+          renderTopPlatforms(games);
+
+          if (mostExpensive) {
+            renderGameSpot(
+              marketMostExpensiveEl,
+              mostExpensive.title,
+              `${mostExpensive.console || "Console inconnue"} · ${mostExpensive.year || "—"}`,
+              formatCurrency(mostExpensive.loosePrice),
+              `/game-detail.html?id=${encodeURIComponent(mostExpensive.id)}`
+            );
+          } else {
+            renderGameSpot(marketMostExpensiveEl, "Aucune donnee", "Jeu le plus cher en base", "—", "/games-list.html");
+          }
+
+          if (leastExpensive) {
+            renderGameSpot(
+              marketLeastExpensiveEl,
+              leastExpensive.title,
+              `${leastExpensive.console || "Console inconnue"} · ${leastExpensive.year || "—"}`,
+              formatCurrency(leastExpensive.loosePrice),
+              `/game-detail.html?id=${encodeURIComponent(leastExpensive.id)}`
+            );
+          } else {
+            renderGameSpot(marketLeastExpensiveEl, "Aucune donnee", "Jeu le moins cher en base", "—", "/games-list.html");
+          }
+
+          const marketSummary = await fetchMarketBuckets(games);
+          marketT1El.textContent = String(marketSummary.t1);
+          marketT3El.textContent = String(marketSummary.t3);
+          marketT4El.textContent = String(marketSummary.t4);
         } catch (error) {
-          console.error("Erreur stats :", error);
+          statsErrorEl.hidden = false;
+          statsErrorEl.textContent = `Impossible de charger les statistiques (${error.message}).`;
+          marketNoteEl.textContent = "Analyse indisponible.";
+          console.error("Stats page failed:", error);
         }
       }
 
