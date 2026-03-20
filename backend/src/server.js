@@ -3,6 +3,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const { Op } = require("sequelize");
 
 const { sequelize, storagePath, databaseMode, databaseTarget } = require("./database");
 const Game = require("./models/Game");
@@ -76,8 +77,109 @@ app.get("/api/health", handleAsync(async (_req, res) => {
   });
 }));
 
+function parseItemsLimit(value, defaultValue = 20, maxValue = 100) {
+  const parsed = Number.parseInt(value, 10);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return defaultValue;
+  }
+  return Math.min(parsed, maxValue);
+}
+
+function parseItemsOffset(value, defaultValue = 0) {
+  const parsed = Number.parseInt(value, 10);
+  if (!Number.isFinite(parsed) || parsed < 0) {
+    return defaultValue;
+  }
+  return parsed;
+}
+
+function buildItemsWhere(query = {}) {
+  const where = {};
+  const titleQuery = String(query.q || "").trim();
+  const platform = String(query.platform || "").trim();
+  const rarity = String(query.rarity || "").trim();
+  const type = String(query.type || "").trim();
+
+  if (titleQuery) {
+    where.title = {
+      [Op.like]: `%${titleQuery}%`,
+    };
+  }
+
+  if (platform) {
+    where.console = platform;
+  }
+
+  if (rarity) {
+    where.rarity = rarity;
+  }
+
+  if (type) {
+    where.type = type;
+  }
+
+  return where;
+}
+
+function toItemPayload(game) {
+  return {
+    id: game.id,
+    title: game.title,
+    platform: game.console,
+    year: game.year,
+    genre: game.genre,
+    rarity: game.rarity,
+    type: game.type || "game",
+    slug: game.slug || null,
+    loosePrice: game.loosePrice,
+    cibPrice: game.cibPrice,
+    mintPrice: game.mintPrice,
+  };
+}
+
 // --- Mount routes ---
 app.use(gamesRoutes);
+app.get("/api/items", handleAsync(async (req, res) => {
+  const where = buildItemsWhere(req.query);
+  const limit = parseItemsLimit(req.query.limit, 20, 100);
+  const offset = parseItemsOffset(req.query.offset, 0);
+
+  const total = await Game.count({ where });
+  const items = await Game.findAll({
+    where,
+    order: [["title", "ASC"]],
+    limit,
+    offset,
+  });
+
+  res.json({
+    ok: true,
+    items: items.map(toItemPayload),
+    total,
+    limit,
+    offset,
+  });
+}));
+app.get("/api/items/:id", handleAsync(async (req, res) => {
+  const lookup = String(req.params.id || "").trim();
+  const item = await Game.findOne({
+    where: {
+      [Op.or]: [
+        { id: lookup },
+        { slug: lookup },
+      ],
+    },
+  });
+
+  if (!item) {
+    return res.status(404).json({ ok: false, error: "Not found" });
+  }
+
+  return res.json({
+    ok: true,
+    item: toItemPayload(item),
+  });
+}));
 app.get("/api/index/:id", handleAsync(async (req, res) => {
   const indexEntries = await RetrodexIndex.findAll({
     where: {
