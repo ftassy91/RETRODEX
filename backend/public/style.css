@@ -1,25 +1,25 @@
 :root {
-  --bg:              #0a0e0a;
-  --bg-surface:      #0f1510;
-  --bg-card:         #131a13;
-  --border:          #1e2e1e;
-  --text-primary:    #a8d8a8;
-  --text-secondary:  #5a8a5a;
-  --text-muted:      #2e4e2e;
-  --text-value:      #d4f0d4;
-  --text-alert:      #f0d060;
-  --accent:          #3ddc3d;
-  --accent-dim:      #1a6e1a;
+  --bg:              #000000;
+  --bg-surface:      #050805;
+  --bg-card:         #0a0f0a;
+  --border:          #1a2a1a;
+  --text-primary:    #00ff66;
+  --text-secondary:  #00994c;
+  --text-muted:      #1a5c2e;
+  --text-value:      #33ff99;
+  --text-alert:      #ffcc00;
+  --accent:          #00ff66;
+  --accent-dim:      #005c22;
   --condition-loose: #888888;
   --condition-cib:   #4ecdc4;
   --condition-mint:  #ffd700;
   --confidence-low:  #e05252;
   --confidence-mid:  #e0b352;
   --confidence-high: #52e052;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-  --font-size-base:  13px;
-  --line-height:     1.5;
-  --radius:          3px;
+  --font-mono: 'IBM Plex Mono', 'JetBrains Mono', 'Courier New', monospace;
+  --font-size-base:  12px;
+  --line-height:     1.4;
+  --radius:          0px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: var(--font-mono); font-size: var(--font-size-base); line-height: var(--line-height); background: var(--bg); color: #9bbc0f; min-height: 100vh; padding: 20px 16px; }
@@ -1190,3 +1190,31 @@ a { color: #9bbc0f; }
           grid-template-columns: 1fr;
         }
       }
+
+/* Phosphore — valeurs importantes uniquement */
+.text-value, .index-value, .result-price,
+.price-value, .detail-price-value {
+  text-shadow: 0 0 6px currentColor;
+}
+/* Bordures : coins droits partout */
+*, *::before, *::after {
+  border-radius: 0 !important;
+}
+/* Titre principal — accent phosphore */
+h1, .page-title {
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+/* Lignes résultats — plus compactes */
+.result-row {
+  height: 44px;
+}
+/* Liens navigation — style terminal */
+a {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
