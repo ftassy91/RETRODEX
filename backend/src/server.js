@@ -149,6 +149,37 @@ function toConsolePayload(game, gamesCount = 0) {
   };
 }
 
+function normalizeOwnedCondition(value) {
+  const raw = String(value || "").trim().toLowerCase();
+  if (raw === "cib") return "CIB";
+  if (raw === "mint") return "Mint";
+  return "Loose";
+}
+
+function toPriceNumber(value) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : 0;
+}
+
+function getItemConditionValue(item) {
+  const condition = normalizeOwnedCondition(item?.condition);
+  const game = item?.game;
+
+  if (!game) {
+    return 0;
+  }
+
+  if (condition === "CIB") {
+    return toPriceNumber(game.cibPrice);
+  }
+
+  if (condition === "Mint") {
+    return toPriceNumber(game.mintPrice);
+  }
+
+  return toPriceNumber(game.loosePrice);
+}
+
 // --- Mount routes ---
 app.use(gamesRoutes);
 app.get("/api/items", handleAsync(async (req, res) => {
@@ -435,6 +466,83 @@ app.get("/api/collection/public", handleAsync(async (_req, res) => {
   });
 }));
 app.use(collectionRoutes);
+app.get("/api/collection/stats", handleAsync(async (_req, res) => {
+  const items = await CollectionItem.findAll({
+    where: {
+      list_type: "owned",
+    },
+    include: [{
+      model: Game,
+      as: "game",
+      attributes: ["id", "title", "console", "rarity", "loosePrice", "cibPrice", "mintPrice"],
+    }],
+    order: [["gameId", "ASC"]],
+  });
+
+  const ownedItems = items.filter((item) => item.game);
+  const byPlatformMap = new Map();
+
+  let totalLoose = 0;
+  let totalCib = 0;
+  let totalMint = 0;
+
+  for (const item of ownedItems) {
+    const platform = item.game.console || "Unknown";
+    const condition = normalizeOwnedCondition(item.condition);
+    const resolvedValue = getItemConditionValue(item);
+
+    if (condition === "CIB") {
+      totalCib += resolvedValue;
+    } else if (condition === "Mint") {
+      totalMint += resolvedValue;
+    } else {
+      totalLoose += resolvedValue;
+    }
+
+    if (!byPlatformMap.has(platform)) {
+      byPlatformMap.set(platform, {
+        platform,
+        count: 0,
+        total_loose: 0,
+      });
+    }
+
+    const bucket = byPlatformMap.get(platform);
+    bucket.count += 1;
+    bucket.total_loose += resolvedValue;
+  }
+
+  const by_platform = Array.from(byPlatformMap.values())
+    .map((entry) => ({
+      platform: entry.platform,
+      count: entry.count,
+      total_loose: Math.round(entry.total_loose * 100) / 100,
+    }))
+    .sort((left, right) => left.platform.localeCompare(right.platform));
+
+  const top5 = ownedItems
+    .slice()
+    .sort((left, right) => toPriceNumber(right.game?.loosePrice) - toPriceNumber(left.game?.loosePrice))
+    .slice(0, 5)
+    .map((item) => ({
+      id: item.game.id,
+      title: item.game.title,
+      platform: item.game.console,
+      loosePrice: toPriceNumber(item.game.loosePrice),
+      rarity: item.game.rarity,
+    }));
+
+  res.json({
+    ok: true,
+    count: ownedItems.length,
+    total_loose: Math.round(totalLoose * 100) / 100,
+    total_cib: Math.round(totalCib * 100) / 100,
+    total_mint: Math.round(totalMint * 100) / 100,
+    confidence: "mixed",
+    by_platform,
+    top5,
+  });
+}));
 app.use(consolesRoutes);
 app.use(statsRoutes);
 app.use(syncRoutes);

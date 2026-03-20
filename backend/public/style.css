@@ -1173,9 +1173,53 @@ a { color: #9bbc0f; }
         line-height: 1.6;
       }
 
-      .collection-paid-line strong {
-        color: var(--text-alert);
-      }
+.collection-paid-line strong {
+  color: var(--text-alert);
+}
+
+.collection-value {
+  border: 1px solid var(--border);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.value-header {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.value-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.value-col {
+  text-align: center;
+}
+
+.value-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.value-amount {
+  font-size: 1.4rem;
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+}
+
+.value-count {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  margin-top: 8px;
+  text-align: center;
+}
 
       @media (max-width: 768px) {
         .bloomberg-layout {

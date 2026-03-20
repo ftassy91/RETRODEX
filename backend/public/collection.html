@@ -172,6 +172,10 @@
         min-height: 16px;
       }
 
+      .collection-value[hidden] {
+        display: none;
+      }
+
       .collection-paid-line strong {
         color: var(--text-alert);
       }
@@ -226,6 +230,25 @@
 
       <div id="status-text" class="status-text">Chargement...</div>
 
+      <section id="collection-value" class="collection-value" hidden>
+        <div class="value-header">VALEUR DE MA COLLECTION</div>
+        <div class="value-grid">
+          <div class="value-col">
+            <div class="value-label">LOOSE</div>
+            <div class="value-amount" id="val-loose">$&mdash;</div>
+          </div>
+          <div class="value-col">
+            <div class="value-label">CIB</div>
+            <div class="value-amount" id="val-cib">$&mdash;</div>
+          </div>
+          <div class="value-col">
+            <div class="value-label">MINT</div>
+            <div class="value-amount" id="val-mint">$&mdash;</div>
+          </div>
+        </div>
+        <div class="value-count" id="val-count">&mdash; jeux</div>
+      </section>
+
       <section id="collection-content"></section>
     </main>
 
@@ -233,6 +256,11 @@
       const totalItemsEl = document.getElementById("total-items");
       const totalLooseEl = document.getElementById("total-loose");
       const totalMintEl = document.getElementById("total-mint");
+      const collectionValueEl = document.getElementById("collection-value");
+      const valLooseEl = document.getElementById("val-loose");
+      const valCibEl = document.getElementById("val-cib");
+      const valMintEl = document.getElementById("val-mint");
+      const valCountEl = document.getElementById("val-count");
       const statusTextEl = document.getElementById("status-text");
       const collectionContentEl = document.getElementById("collection-content");
       const publicBannerEl = document.getElementById("public-banner");
@@ -254,7 +282,7 @@
 
       function formatCurrency(value) {
         const number = Number(value);
-        return Number.isFinite(number) && number > 0 ? `$${number}` : "$—";
+        return Number.isFinite(number) && number > 0 ? `$${number.toFixed(2)}` : "$—";
       }
 
       function rarityClass(value) {
@@ -316,6 +344,38 @@
         totalItemsEl.textContent = String(totals.count);
         totalLooseEl.textContent = formatCurrency(totals.loose);
         totalMintEl.textContent = formatCurrency(totals.mint);
+      }
+
+      function resetCollectionValue() {
+        collectionValueEl.hidden = activeTab !== "owned";
+        valLooseEl.textContent = "$—";
+        valCibEl.textContent = "$—";
+        valMintEl.textContent = "$—";
+        valCountEl.textContent = "— jeux";
+      }
+
+      async function loadCollectionStats() {
+        if (activeTab !== "owned") {
+          resetCollectionValue();
+          return;
+        }
+
+        try {
+          const stats = await fetchJson("/api/collection/stats");
+
+          if (!stats.count) {
+            resetCollectionValue();
+            return;
+          }
+
+          collectionValueEl.hidden = false;
+          valLooseEl.textContent = formatCurrency(stats.total_loose);
+          valCibEl.textContent = formatCurrency(stats.total_cib);
+          valMintEl.textContent = formatCurrency(stats.total_mint);
+          valCountEl.textContent = `${stats.count} jeu(x)`;
+        } catch (_error) {
+          resetCollectionValue();
+        }
       }
 
       function setCopyFeedback(message) {
@@ -514,6 +574,7 @@
       async function loadCollection() {
         statusTextEl.textContent = "Chargement...";
         collectionContentEl.innerHTML = "";
+        await loadCollectionStats();
 
         try {
           const payload = await fetchJson(getCollectionApiUrl(activeTab));
@@ -527,6 +588,9 @@
           statusTextEl.textContent = `Erreur collection : ${error.message}`;
           enrichedItems = [];
           updateSummary(enrichedItems);
+          if (activeTab !== "owned") {
+            resetCollectionValue();
+          }
           renderEmptyState(activeTab);
         }
       }
@@ -581,6 +645,7 @@
       });
 
       syncActiveTabButton();
+      resetCollectionValue();
       loadCollection();
     </script>
   </body>
