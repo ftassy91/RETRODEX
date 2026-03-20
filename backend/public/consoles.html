@@ -40,7 +40,8 @@
       }
 
       .console-card:hover,
-      .console-card.active {
+      .console-card.active,
+      .console-card.selected {
         border-color: var(--accent);
         background: rgba(61, 220, 61, 0.06);
       }
@@ -192,6 +193,10 @@
       const detailEl = document.getElementById('console-detail');
       let selectedId = null;
 
+      function getRequestedPlatform() {
+        return new URLSearchParams(window.location.search).get('platform') || '';
+      }
+
       function escapeHtml(value) {
         return String(value ?? '')
           .replaceAll('&', '&amp;')
@@ -213,7 +218,7 @@
       function renderCard(item) {
         const manufacturer = getManufacturer(item.title || item.platform);
         return `
-          <article class="console-card${item.id === selectedId ? ' active' : ''}" data-id="${escapeHtml(item.id)}">
+          <article class="console-card${item.id === selectedId ? ' active selected' : ''}" data-id="${escapeHtml(item.id)}" data-platform="${escapeHtml(item.platform || '')}">
             <div class="console-card-head">
               <div class="console-name">${escapeHtml(item.title)}</div>
               <div class="console-year">${escapeHtml(item.year || '—')}</div>
@@ -277,20 +282,26 @@
         }
 
         const consoles = payload.consoles || [];
+        const requestedPlatform = getRequestedPlatform().toLowerCase();
         countEl.textContent = `${payload.count || consoles.length} systemes retro`;
         gridEl.innerHTML = consoles.map(renderCard).join('');
 
         gridEl.querySelectorAll('.console-card').forEach((card) => {
           card.addEventListener('click', async () => {
             selectedId = card.dataset.id;
-            gridEl.querySelectorAll('.console-card').forEach((node) => node.classList.toggle('active', node.dataset.id === selectedId));
+            gridEl.querySelectorAll('.console-card').forEach((node) => {
+              const isSelected = node.dataset.id === selectedId;
+              node.classList.toggle('active', isSelected);
+              node.classList.toggle('selected', isSelected);
+            });
             await loadDetail(selectedId);
           });
         });
 
         if (consoles.length > 0) {
-          selectedId = consoles[0].id;
-          gridEl.querySelector(`.console-card[data-id="${CSS.escape(selectedId)}"]`)?.classList.add('active');
+          const initialConsole = consoles.find((item) => String(item.platform || '').toLowerCase() === requestedPlatform) || consoles[0];
+          selectedId = initialConsole.id;
+          gridEl.querySelector(`.console-card[data-id="${CSS.escape(selectedId)}"]`)?.classList.add('active', 'selected');
           await loadDetail(selectedId);
         }
       }

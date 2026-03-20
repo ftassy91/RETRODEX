@@ -183,6 +183,10 @@
                 <span class="pill">${escapeHtml(game.genre || "Genre inconnu")}</span>
                 <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || "COMMON")}</span>
               </div>
+              <div class="game-console-link">
+                Console :
+                <a class="console-link" href="/consoles.html?platform=${encodeURIComponent(game.console || "")}">${escapeHtml(game.console || "Console inconnue")} &rarr;</a>
+              </div>
               <div class="developer-line">Développé par ${escapeHtml(game.developer || "studio inconnu")}</div>
             </div>
             <aside class="price-panel">

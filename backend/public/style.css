@@ -1218,3 +1218,20 @@ a:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+.game-console-link {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+.console-link {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.console-link:hover {
+  text-decoration: underline;
+}
