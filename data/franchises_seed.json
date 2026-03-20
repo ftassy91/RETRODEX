@@ -176,5 +176,294 @@
       { "title": "EVO Moment 37", "text": "En 2004, lors du tournoi EVO, Daigo Umehara a repoussé 15 coups consécutifs de Ken en Parry parfait pour une victoire miraculeuse. Cette vidéo est considérée comme le moment le plus célèbre de l'e-sport fighting game." }
     ],
     "legacy": "Street Fighter a défini le versus fighting comme genre et comme culture. Les tournois EVO et le circuit de compétition mondiale descendent directement de SF2. Des franchises comme Mortal Kombat, King of Fighters et Guilty Gear existent en réaction directe à Street Fighter."
+  },
+  {
+    "id": "zelda",
+    "name": "The Legend of Zelda",
+    "slug": "zelda",
+    "description": "The Legend of Zelda est l'une des franchises les plus emblématiques de Nintendo, créée par Shigeru Miyamoto et Takashi Tezuka en 1986. La série a défini l'aventure-action en monde ouvert avec son premier épisode et a continué d'innover à chaque décennie — Ocarina of Time a révolutionné la 3D, Wind Waker a divisé puis conquis, Breath of the Wild a redéfini l'open world. Le héros Link, la princesse Zelda et le méchant Ganon forment l'une des trilogies de personnages les plus reconnaissables du jeu vidéo.",
+    "first_game": 1986,
+    "last_game": 2023,
+    "developer": "Nintendo EAD / Nintendo EPD",
+    "publisher": "Nintendo",
+    "genres": ["Action-Adventure", "RPG léger", "Puzzle-Adventure"],
+    "platforms": ["NES", "Game Boy", "Super Nintendo", "Nintendo 64", "GameCube", "Wii", "Nintendo DS", "Nintendo 3DS", "Wii U", "Nintendo Switch"],
+    "timeline": [
+      {"year": 1986, "title": "The Legend of Zelda", "platform": "NES", "event_type": "release", "description": "Fondation du genre. Monde ouvert non-linéaire, exploration libre, système de sauvegarde sur cartouche. Révolutionnaire pour l'époque."},
+      {"year": 1991, "title": "A Link to the Past", "platform": "Super Nintendo", "event_type": "release", "description": "Sommet absolu de la série 2D. Monde de la lumière et monde des ténèbres. Définit la structure narrative de la franchise."},
+      {"year": 1993, "title": "Link's Awakening", "platform": "Game Boy", "event_type": "release", "description": "Première aventure portable. Étonnamment sombre et méta pour un jeu Nintendo. Koholint Island reste l'un des environnements les plus mémorables de la série."},
+      {"year": 1998, "title": "Ocarina of Time", "platform": "Nintendo 64", "event_type": "pivot_majeur", "description": "Transition 3D. Z-targeting, cycles jour/nuit, voyage temporel. Régulièrement cité comme le meilleur jeu de tous les temps. Note parfaite sur Metacritic."},
+      {"year": 2002, "title": "The Wind Waker", "platform": "GameCube", "event_type": "pivot_majeur", "description": "Direction artistique cell-shading controversée à l'annonce. Monde océanique à explorer en bateau. Réévalué comme chef-d'œuvre après sa sortie."},
+      {"year": 2006, "title": "Twilight Princess", "platform": "Wii / GameCube", "event_type": "release", "description": "Retour au réalisme sombre demandé par les fans après Wind Waker. Lien transformable en loup. Majestueux mais parfois considéré comme trop conventionnel."},
+      {"year": 2011, "title": "Skyward Sword", "platform": "Wii", "event_type": "release", "description": "Première histoire de la chronologie Zelda. Contrôles Motion Plus innovants mais divisifs. Prologues trop lents critiqués."},
+      {"year": 2017, "title": "Breath of the Wild", "platform": "Nintendo Switch", "event_type": "pivot_majeur", "description": "Révolution open world totale. Physique avancée, escalade libre, cuisine, aucun ordre imposé. GOTY quasi-universel. Redéfinit les standards du genre."},
+      {"year": 2023, "title": "Tears of the Kingdom", "platform": "Nintendo Switch", "event_type": "release", "description": "Suite directe de BotW. Ultra-hand et Ascension comme mécaniques centrales. Construction d'engins illimitée. Accueil unanime."}
+    ],
+    "team_changes": [
+      {"year": 1986, "name": "Shigeru Miyamoto", "role": "Creator / Producer", "event": "joined", "note": "Co-crée Zelda avec Takashi Tezuka. Supervise la série jusqu'aux années 2010."},
+      {"year": 1986, "name": "Takashi Tezuka", "role": "Co-creator / Director", "event": "joined", "note": "Co-directeur du premier épisode. Développe l'univers et les personnages fondamentaux."},
+      {"year": 1998, "name": "Eiji Aonuma", "role": "Director → Series Producer", "event": "joined", "note": "Dirige Ocarina of Time. Devient le gardien créatif de la franchise pour 25 ans."},
+      {"year": 2017, "name": "Hidemaro Fujibayashi", "role": "Director (BotW / TotK)", "event": "joined", "note": "Dirige Breath of the Wild et Tears of the Kingdom. Architecte de la révolution open world de la série."}
+    ],
+    "trivia": [
+      {"title": "Hyrule inspiré du Japon rural", "text": "Shigeru Miyamoto a déclaré que l'exploration dans Zelda était inspirée de son enfance au Japon, où il explorait les champs et les grottes autour de sa ville natale de Sonobe. Cette liberté d'exploration est devenue l'ADN de la série."},
+      {"title": "La chronologie officielle", "text": "Nintendo a publié une chronologie officielle en 2011 dans Hyrule Historia. Elle révèle une structure en trois branches divergentes selon le résultat du combat final d'Ocarina of Time — une théorie que les fans débattaient depuis des années."},
+      {"title": "BotW développé en LEGO", "text": "Pour tester les mécaniques de Breath of the Wild, l'équipe a d'abord créé un prototype 2D en style Atari. Aonuma a ensuite dit que le jeu a été conçu pour 'casser les conventions Zelda' — y compris les donjons traditionnels et l'ordre imposé."}
+    ],
+    "legacy": "Zelda a défini l'aventure-action et influencé des centaines de jeux. Dark Souls, Hollow Knight, Genshin Impact et des dizaines d'autres citent la série comme référence. Breath of the Wild a déclenché une vague de jeux open world physiques qui continue aujourd'hui."
+  },
+  {
+    "id": "metal-gear",
+    "name": "Metal Gear",
+    "slug": "metal-gear",
+    "description": "Metal Gear est la franchise de jeux d'infiltration créée par Hideo Kojima chez Konami en 1987. La série a inventé le genre stealth et l'a constamment réinventé. Metal Gear Solid en 1998 a introduit des cinématiques cinématographiques longues et une narration méta-textuelle qui brisait régulièrement le quatrième mur. Solid Snake puis Big Boss sont devenus des icônes culturelles dépassant largement le cadre du jeu vidéo.",
+    "first_game": 1987,
+    "last_game": 2015,
+    "developer": "Konami / Kojima Productions",
+    "publisher": "Konami",
+    "genres": ["Stealth", "Action-Adventure"],
+    "platforms": ["MSX2", "NES", "PlayStation", "PlayStation 2", "Xbox 360", "PlayStation 3", "PlayStation 4"],
+    "timeline": [
+      {"year": 1987, "title": "Metal Gear", "platform": "MSX2", "event_type": "release", "description": "Invention du genre stealth. Éviter les ennemis plutôt que les combattre. Révolutionnaire sur MSX2."},
+      {"year": 1998, "title": "Metal Gear Solid", "platform": "PlayStation", "event_type": "pivot_majeur", "description": "Explosion culturelle. Cinématiques longues, codec, Psycho Mantis lit la mémoire PS1. Définit le jeu cinématographique."},
+      {"year": 2001, "title": "Metal Gear Solid 2: Sons of Liberty", "platform": "PlayStation 2", "event_type": "pivot_majeur", "description": "Raiden remplace Snake — accueil choqué. Narration sur la manipulation de l'information. Prophétique sur les fake news et les algorithmes."},
+      {"year": 2004, "title": "Metal Gear Solid 3: Snake Eater", "platform": "PlayStation 2", "event_type": "release", "description": "Préquelle années 60. Survie en jungle, camouflage contextuel. Fin émotionnellement dévastratrice. Considéré par beaucoup comme le sommet de la série."},
+      {"year": 2008, "title": "Metal Gear Solid 4: Guns of the Patriots", "platform": "PlayStation 3", "event_type": "release", "description": "Conclusion de la saga Solid Snake. Cinématiques totalisant plus de 8 heures. Controversé pour son ratio gameplay/cinéma."},
+      {"year": 2015, "title": "Metal Gear Solid V: The Phantom Pain", "platform": "Multi", "event_type": "release", "description": "Open world stealth. Dernier jeu de Kojima chez Konami. Fin inexistante, contenu manquant — rupture traumatisante entre Kojima et Konami."}
+    ],
+    "team_changes": [
+      {"year": 1987, "name": "Hideo Kojima", "role": "Creator / Director", "event": "joined", "note": "Crée Metal Gear comme son premier projet professionnel. Dirige la quasi-totalité des épisodes principaux pendant 28 ans."},
+      {"year": 2015, "name": "Hideo Kojima", "role": "Director", "event": "left", "note": "Rupture publique et douloureuse avec Konami. Fonde Kojima Productions indépendant. La franchise est gelée depuis."}
+    ],
+    "trivia": [
+      {"title": "Psycho Mantis lit la mémoire PS1", "text": "Dans Metal Gear Solid, le boss Psycho Mantis lit la carte mémoire PlayStation et commente les jeux Konami sauvegardés dessus. Il force aussi le joueur à brancher sa manette dans le port 2 pour ne plus pouvoir lire ses pensées. Moment de rupture du quatrième mur légendaire."},
+      {"title": "MGS2 prophétique sur les fakes news", "text": "La narration de Metal Gear Solid 2, sortie en 2001, décrivait déjà un système de manipulation de l'information par des IA choisissant les données auxquelles les humains accèdent. Des journalistes et chercheurs ont comparé ce scénario aux algorithmes de réseaux sociaux deux décennies plus tard."}
+    ],
+    "legacy": "Metal Gear Solid a défini le jeu cinématographique et le stealth moderne. Splinter Cell, Hitman et toute une génération de jeux d'infiltration descendent directement de la série. L'impact narratif de MGS2 sur la réflexion autour des médias et de la vérité est étudié dans des cours universitaires."
+  },
+  {
+    "id": "resident-evil",
+    "name": "Resident Evil",
+    "slug": "resident-evil",
+    "description": "Resident Evil est la franchise de survival horror créée par Shinji Mikami chez Capcom en 1996. La série a fondé le genre, défini ses codes — ressources limitées, puzzles, ambiance claustrophobique — puis les a abandonnés avec RE4 pour réinventer le TPS action. La franchise a connu deux renaissances majeures : RE4 en 2005 et le retour aux origines avec RE7 et les remakes.",
+    "first_game": 1996,
+    "last_game": 2023,
+    "developer": "Capcom",
+    "publisher": "Capcom",
+    "genres": ["Survival Horror", "Action-Horror", "TPS"],
+    "platforms": ["PlayStation", "Nintendo 64", "GameCube", "PlayStation 2", "Xbox 360", "PlayStation 3", "Multi"],
+    "timeline": [
+      {"year": 1996, "title": "Resident Evil", "platform": "PlayStation", "event_type": "release", "description": "Fondation du survival horror. Manoir Spencer, zombies, puzzles, ressources limitées. Angles de caméra fixes cinématographiques."},
+      {"year": 1998, "title": "Resident Evil 2", "platform": "PlayStation", "event_type": "release", "description": "Expansion du genre. Leon et Claire, scénarios croisés. Raccoon City dévastée. Vendu à 5 millions de copies."},
+      {"year": 2002, "title": "Resident Evil (GameCube remake)", "platform": "GameCube", "event_type": "release", "description": "Remake total du premier épisode. Graphismes photoréalistes précalculés. Crispy Crimson Heads — zombies qui ressuscitent. Considered le meilleur remake de l'histoire."},
+      {"year": 2005, "title": "Resident Evil 4", "platform": "GameCube", "event_type": "pivot_majeur", "description": "Révolution totale. TPS over-the-shoulder, action intense, Ashley à protéger. Abandonne l'horreur pour l'action. Influence quasi-totale sur le TPS moderne."},
+      {"year": 2017, "title": "Resident Evil 7: Biohazard", "platform": "Multi", "event_type": "renaissance", "description": "Retour à l'horreur en vue FPS. Famille Baker en Louisiane. Compatible PSVR. Accueil enthousiaste après RE5 et RE6 décevants."},
+      {"year": 2019, "title": "Resident Evil 2 Remake", "platform": "Multi", "event_type": "release", "description": "Remake RE2 en TPS moderne. Mr X traqueur. Accueil unanime. Relance massive la franchise classique."}
+    ],
+    "team_changes": [
+      {"year": 1996, "name": "Shinji Mikami", "role": "Creator / Director", "event": "joined", "note": "Crée et dirige RE1. Revient diriger RE4, le pivot majeur. Quitte Capcom après RE4 pour fonder Tango Gameworks."},
+      {"year": 2005, "name": "Shinji Mikami", "role": "Director (RE4)", "event": "left", "note": "Dernier jeu de Mikami chez Capcom. Son départ ouvre la période RE5/RE6 moins bien reçue."}
+    ],
+    "trivia": [
+      {"title": "RE4 a été développé 4 fois", "text": "Resident Evil 4 a eu au moins 4 versions complètement différentes avant sa version finale. Une version avec un château hanté a donné naissance à Devil May Cry. Une version avec un protagoniste possédé a été abandonnée. La version finale a été développée en 18 mois."},
+      {"title": "Le nom original : Biohazard", "text": "La franchise s'intitule Biohazard au Japon. Le nom Resident Evil a été choisi pour les marchés occidentaux car Biohazard était déjà une marque déposée aux États-Unis par un groupe de musique."}
+    ],
+    "legacy": "Resident Evil a créé le survival horror et RE4 a influencé pratiquement tous les TPS modernes — Gears of War, The Last of Us, Uncharted citent RE4 comme référence directe. Les remakes RE2 et RE3 ont établi un standard pour la modernisation de jeux classiques."
+  },
+  {
+    "id": "super-mario",
+    "name": "Super Mario",
+    "slug": "super-mario",
+    "description": "Super Mario est la franchise de jeux de plateforme la plus vendue de l'histoire, créée par Shigeru Miyamoto chez Nintendo. Née avec Donkey Kong en 1981 et formalisée avec Super Mario Bros en 1985, la série a sauvé l'industrie du jeu vidéo après le crash de 1983 et n'a jamais cessé d'innover. Mario est devenu la mascotte culturelle de Nintendo et l'un des personnages de fiction les plus reconnus au monde.",
+    "first_game": 1985,
+    "last_game": 2023,
+    "developer": "Nintendo EAD / Nintendo EPD",
+    "publisher": "Nintendo",
+    "genres": ["Platformer", "3D Platformer", "Party"],
+    "platforms": ["NES", "Super Nintendo", "Nintendo 64", "GameCube", "Wii", "Nintendo DS", "Nintendo 3DS", "Wii U", "Nintendo Switch"],
+    "timeline": [
+      {"year": 1985, "title": "Super Mario Bros.", "platform": "NES", "event_type": "release", "description": "Renaissance de l'industrie après le crash de 1983. 40 millions de copies vendues avec la NES. Définit le platformer moderne."},
+      {"year": 1990, "title": "Super Mario Bros. 3", "platform": "NES", "event_type": "release", "description": "Sommet du 2D Mario. Worlds thématiques, 11 power-ups, Tanooki suit. Vendu à 17 millions. Considéré parmi les meilleurs jeux jamais créés."},
+      {"year": 1990, "title": "Super Mario World", "platform": "Super Nintendo", "event_type": "release", "description": "Launch title du SNES. Introduction de Yoshi. Cape power-up. Vendu en bundle — plus de 20 millions de copies."},
+      {"year": 1996, "title": "Super Mario 64", "platform": "Nintendo 64", "event_type": "pivot_majeur", "description": "Invention du platformer 3D. Camera 3D, mouvement analogique, 120 étoiles. Blue print de tout platformer 3D depuis."},
+      {"year": 2007, "title": "Super Mario Galaxy", "platform": "Wii", "event_type": "release", "description": "Gravity gameplay sur planètes sphériques. Orchestration musicale complète. Double accueil critique parfait. Chef-d'œuvre absolu."},
+      {"year": 2017, "title": "Super Mario Odyssey", "platform": "Nintendo Switch", "event_type": "release", "description": "Cappy comme mécanique de possession. Monde réaliste (New Donk City). 800+ Lunes à collecter. GOTY 2017."}
+    ],
+    "team_changes": [
+      {"year": 1985, "name": "Shigeru Miyamoto", "role": "Creator / Director", "event": "joined", "note": "Crée Mario depuis Donkey Kong. Supervise la franchise pendant 40 ans."},
+      {"year": 1996, "name": "Yoshiaki Koizumi", "role": "Director (Galaxy, Odyssey)", "event": "joined", "note": "Architecte du Mario 3D moderne. Dirige Galaxy et co-dirige Odyssey. Actuellement Director général Nintendo."}
+    ],
+    "trivia": [
+      {"title": "Mario a un nom avant Super Mario Bros.", "text": "Mario apparaît d'abord dans Donkey Kong (1981) sous le nom Jumpman, puis dans Mario Bros (1983). Son nom complet est Mario Mario — révélé dans le film 1993 et confirmé par Miyamoto en 2015 lors du 30e anniversaire de SMB."},
+      {"title": "SMB3 annoncé dans un film", "text": "Super Mario Bros. 3 a été présenté au public mondial dans le film The Wizard (1989), un film américain dont la trame entière tourne autour de Nintendo. La scène de présentation de SMB3 a créé une hystérie chez les jeunes spectateurs."}
+    ],
+    "legacy": "Super Mario est la franchise la plus vendue de l'histoire avec plus de 800 millions de jeux vendus. Mario 64 a défini le platformer 3D pour 30 ans. L'influence de Nintendo sur l'industrie entière est indissociable de Mario."
+  },
+  {
+    "id": "king-of-fighters",
+    "name": "The King of Fighters",
+    "slug": "king-of-fighters",
+    "description": "The King of Fighters est une franchise de jeux de combat créée par SNK en 1994, née d'un crossover entre les séries Fatal Fury et Art of Fighting. La série se distingue par son système d'équipes de 3 personnages, son énorme roster, et sa mythologie arc narratif complexe autour d'Orochi et de NESTS. KOF est particulièrement populaire en Asie et en Amérique Latine, où il rivalise directement avec Street Fighter.",
+    "first_game": 1994,
+    "last_game": 2021,
+    "developer": "SNK",
+    "publisher": "SNK",
+    "genres": ["Versus Fighting"],
+    "platforms": ["Neo Geo", "Arcade", "PlayStation", "PlayStation 2", "Xbox 360", "Multi"],
+    "timeline": [
+      {"year": 1994, "title": "The King of Fighters '94", "platform": "Neo Geo", "event_type": "release", "description": "Naissance de la franchise. Crossover Fatal Fury / Art of Fighting. Système d'équipes de 3. Equipes nationales — concept original."},
+      {"year": 1997, "title": "The King of Fighters '97", "platform": "Neo Geo", "event_type": "release", "description": "Conclusion de l'arc Orochi. Narration sur 3 ans. Peak critique de la série classique."},
+      {"year": 1998, "title": "The King of Fighters '98", "platform": "Neo Geo", "event_type": "release", "description": "Aucune narration — 100% gameplay. Dream Match avec tout le roster. Considéré comme le meilleur épisode compétitif de la série."},
+      {"year": 2002, "title": "The King of Fighters 2002", "platform": "Neo Geo", "event_type": "release", "description": "Deuxième Dream Match. Sans histoire, pur compétitif. Toujours joué en tournoi mondial. KOF 2002 UM est une référence."},
+      {"year": 2016, "title": "The King of Fighters XIV", "platform": "PlayStation 4", "event_type": "renaissance", "description": "Transition 3D après des années de disette. 50 personnages au lancement. Relance la franchise sur le circuit compétitif moderne."}
+    ],
+    "team_changes": [
+      {"year": 1994, "name": "SNK Design Team", "role": "Core Team", "event": "joined", "note": "KOF est un projet collectif SNK sans figure unique identifiée publiquement, contrairement à SF (Capcom) ou Tekken (Namco)."},
+      {"year": 2001, "name": "SNK", "role": "Studio", "event": "left", "note": "SNK dépose le bilan en 2001. La franchise est rachetée par Playmore qui devient SNK Playmore puis SNK Corporation en 2016."}
+    ],
+    "trivia": [
+      {"title": "KOF domine l'Amérique Latine", "text": "Alors que Street Fighter domine le marché nord-américain et japonais, KOF est la franchise fighting game dominante en Amérique du Sud, particulièrement au Brésil, au Mexique et au Venezuela. Ce phénomène est lié aux arcades bon marché qui distribuaient les jeux Neo Geo."},
+      {"title": "Plus de 50 épisodes en comptant les spin-offs", "text": "La franchise KOF compte plus de 50 titres en incluant les versions spéciales, remixes et spin-offs. KOF '98 et KOF 2002 ont chacun des versions Ultimate Match qui améliorent graphismes et rosters et restent des références compétitives."}
+    ],
+    "legacy": "KOF a maintenu le versus fighting vivant pendant les années sombres du genre (2000-2010) et prouvé qu'un public passionate et international peut soutenir une franchise malgré une présence occidentale limitée. SNK a influencé Samurai Shodown, Fatal Fury, et une génération de designers fighting game."
+  },
+  {
+    "id": "contra",
+    "name": "Contra",
+    "slug": "contra",
+    "description": "Contra est une franchise de run-and-gun créée par Konami en 1987, connue pour sa difficulté légendaire et son gameplay coopératif à deux joueurs. La série a défini le genre avec ses niveaux horizontaux intenses, ses patterns de boss complexes, et son système de power-ups en cascade. Le code Konami (haut haut bas bas gauche droite gauche droite B A) est devenu l'un des easter eggs les plus célèbres de l'histoire du jeu vidéo.",
+    "first_game": 1987,
+    "last_game": 2019,
+    "developer": "Konami",
+    "publisher": "Konami",
+    "genres": ["Run-and-Gun", "Action"],
+    "platforms": ["Arcade", "NES", "Super Nintendo", "Game Boy", "PlayStation"],
+    "timeline": [
+      {"year": 1987, "title": "Contra", "platform": "Arcade / NES", "event_type": "release", "description": "Fondation du genre run-and-gun. Deux joueurs simultanés. Power-ups dévastateurs. Alien aliens — inspiré d'Aliens et Predator."},
+      {"year": 1990, "title": "Super Contra", "platform": "NES", "event_type": "release", "description": "Ajout de vues overhead et améliorations graphiques. Maintient la difficulté légendaire."},
+      {"year": 1992, "title": "Contra III: The Alien Wars", "platform": "Super Nintendo", "event_type": "release", "description": "Showcase SNES. Effets Mode 7 spectaculaires, boss colossaux. Considéré comme le sommet de la série classique."},
+      {"year": 1994, "title": "Contra: Hard Corps", "platform": "Sega Genesis", "event_type": "release", "description": "Version Genesis. 4 personnages jouables, fins multiples. Direction artistique cyberpunk originale. Très apprécié des collectionneurs."}
+    ],
+    "team_changes": [
+      {"year": 1987, "name": "Konami R&D Team", "role": "Core Team", "event": "joined", "note": "Projet collectif Konami sans figure créatrice unique documentée."}
+    ],
+    "trivia": [
+      {"title": "Le Code Konami", "text": "Haut haut bas bas gauche droite gauche droite B A Start — ce code donnait 30 vies dans Contra NES. Créé par Kazuhisa Hashimoto pour tester le jeu plus facilement, il a été accidentellement laissé dans la version finale. Il est depuis devenu le code cheat le plus célèbre de l'histoire et apparaît dans des dizaines de jeux, films et publicités."},
+      {"title": "Inspiré d'Aliens et Predator", "text": "Le character design de Contra s'inspire directement des films Aliens (1986) et Predator (1987) — les deux protagonistes ressemblent à Arnold Schwarzenegger et Sylvester Stallone, et les ennemis aliens imitent les Xenomorphs. Konami ne disposait d'aucune licence officielle."}
+    ],
+    "legacy": "Contra a défini le run-and-gun et le co-op couch gaming. Le Code Konami est devenu un artefact culturel qui dépasse le jeu vidéo. La franchise a directement inspiré Metal Slug, Gunstar Heroes et des dizaines d'autres run-and-gun."
+  },
+  {
+    "id": "tekken",
+    "name": "Tekken",
+    "slug": "tekken",
+    "description": "Tekken est la franchise de jeux de combat 3D créée par Namco en 1994. La série a établi le versus fighting en 3D aux côtés de Virtua Fighter et Soul Edge. Reconnue pour sa profondeur technique, son roster de personnages emblématiques — notamment la saga familiale Mishima — et sa mécanique de sidestep, Tekken est la franchise fighting game la plus vendue de l'histoire avec plus de 55 millions de copies.",
+    "first_game": 1994,
+    "last_game": 2023,
+    "developer": "Namco / Bandai Namco",
+    "publisher": "Namco / Bandai Namco",
+    "genres": ["Versus Fighting 3D"],
+    "platforms": ["Arcade", "PlayStation", "PlayStation 2", "PlayStation 3", "PlayStation 4", "Multi"],
+    "timeline": [
+      {"year": 1994, "title": "Tekken", "platform": "Arcade / PlayStation", "event_type": "release", "description": "Naissance du versus fighting 3D polygon sur console. Loi du plus fort — Heihachi Mishima jette son fils d'une falaise."},
+      {"year": 1995, "title": "Tekken 2", "platform": "PlayStation", "event_type": "release", "description": "Système amélioré, plus de personnages. Kazuya revient. Textures plus détaillées."},
+      {"year": 1997, "title": "Tekken 3", "platform": "Arcade / PlayStation", "event_type": "pivot_majeur", "description": "Révolution graphique et gameplay. Jin Kazama nouveau protagoniste. Vendu à 8,5 millions. Souvent cité comme meilleur Tekken."},
+      {"year": 2007, "title": "Tekken 6", "platform": "Arcade / Multi", "event_type": "release", "description": "Rage system introduit. Lars Alexandersson. Complexification narrative de la saga Mishima."},
+      {"year": 2023, "title": "Tekken 8", "platform": "Multi", "event_type": "release", "description": "Moteur graphique Unreal 5. Heat system. Accueil unanime. Considéré comme un renouveau majeur de la franchise."}
+    ],
+    "team_changes": [
+      {"year": 1994, "name": "Katsuhiro Harada", "role": "Director → Series Producer", "event": "joined", "note": "Rejoint l'équipe Tekken dès les débuts. Devient le visage public de la franchise pendant 25 ans. Connu pour son engagement direct avec la communauté."}
+    ],
+    "trivia": [
+      {"title": "La saga Mishima — une des plus complexes du jeu vidéo", "text": "La saga familiale Mishima s'étend sur 8 épisodes : Heihachi jette Kazuya d'une falaise, Kazuya revient et jette Heihachi dans un volcan, Jin combat les deux. Cette structure œdipienne grotesque est devenue un running gag affectueux dans la communauté fighting game."},
+      {"title": "Harada et son interaction communautaire", "text": "Katsuhiro Harada est célèbre pour interagir directement avec les fans sur les réseaux sociaux, répondant personnellement aux demandes et critiques. Sa phrase 'Nobody asked for this' est devenue un mème dans la communauté quand il répond aux demandes de personnages DLC."}
+    ],
+    "legacy": "Tekken est la franchise fighting game la plus vendue de l'histoire. Elle a normalisé le versus fighting 3D et influencé Soul Calibur, Virtua Fighter et Dead or Alive. La communauté compétitive Tekken est l'une des plus techniques et actives du circuit EVO."
+  },
+  {
+    "id": "metroid",
+    "name": "Metroid",
+    "slug": "metroid",
+    "description": "Metroid est une franchise d'action-adventure de Nintendo créée en 1986, qui a codéfini le sous-genre Metroidvania avec Castlevania. La série est reconnue pour son atmosphère solitaire et oppressante, son exploration non-linéaire, et son héroïne Samus Aran — l'une des premières protagonistes féminines de l'histoire du jeu vidéo. La franchise a connu une résurrection majeure avec Metroid Prime en 2002 et Metroid Dread en 2021.",
+    "first_game": 1986,
+    "last_game": 2021,
+    "developer": "Nintendo R&D1 / Retro Studios / MercurySteam",
+    "publisher": "Nintendo",
+    "genres": ["Action-Adventure", "Metroidvania", "FPS"],
+    "platforms": ["NES", "Game Boy", "Super Nintendo", "Nintendo 64", "GameCube", "Wii", "Nintendo DS", "Nintendo 3DS", "Nintendo Switch"],
+    "timeline": [
+      {"year": 1986, "title": "Metroid", "platform": "NES", "event_type": "release", "description": "Fondation du Metroidvania. Planète Zebes, isolation totale, Samus seule contre les Space Pirates. Twist final — Samus est une femme."},
+      {"year": 1994, "title": "Super Metroid", "platform": "Super Nintendo", "event_type": "release", "description": "Sommet absolu de la série 2D. Atmosphère de SF alien parfaite. Fin avec Ridley. Régulièrement cité comme meilleur jeu SNES."},
+      {"year": 2002, "title": "Metroid Prime", "platform": "GameCube", "event_type": "pivot_majeur", "description": "Transition FPS — pari risqué totalement réussi. Visor modes, scan log pour approfondir la lore. Retro Studios valide un chef-d'œuvre."},
+      {"year": 2021, "title": "Metroid Dread", "platform": "Nintendo Switch", "event_type": "renaissance", "description": "Retour au 2D après 19 ans. EMMI comme adversaires traqueurs. Accueil parfait. GOTY discussions. Conclut l'arc Metroid original."}
+    ],
+    "team_changes": [
+      {"year": 1986, "name": "Yoshio Sakamoto", "role": "Director → Series Producer", "event": "joined", "note": "Co-crée Metroid. Produit la majorité des épisodes. Reste le gardien créatif de la série."},
+      {"year": 2002, "name": "Retro Studios", "role": "Developer (Prime trilogy)", "event": "joined", "note": "Studio américain confié à la franchise pour la transition 3D. Crée Metroid Prime — considéré comme l'un des meilleurs jeux GameCube."}
+    ],
+    "trivia": [
+      {"title": "Le twist de Samus", "text": "Dans le premier Metroid (1986), la révélation finale que Samus est une femme n'est déclenchée que si le joueur finit le jeu assez vite. Sinon, Samus garde son armure. À une époque où les protagonistes féminines de jeux d'action étaient rarissimes, ce twist est resté emblématique."},
+      {"title": "Metroid Dread conceptualisé en 2005", "text": "Metroid Dread était conceptualisé par Nintendo dès 2005 pour la DS, mais le projet a été annulé faute de puissance hardware suffisante. Le jeu est finalement sorti 16 ans plus tard sur Switch, avec MercurySteam comme développeur."}
+    ],
+    "legacy": "Super Metroid a co-fondé le Metroidvania avec Symphony of the Night — les deux jeux sortis à un an d'intervalle définissent ensemble un genre entier. Hollow Knight, Ori, Axiom Verge et des centaines d'indépendants citent directement la série."
+  },
+  {
+    "id": "snk-classics",
+    "name": "SNK Classics",
+    "slug": "snk-classics",
+    "description": "SNK est un éditeur japonais fondé en 1978, devenu emblématique grâce à ses jeux d'arcade et à la console Neo Geo. L'écosystème SNK comprend plusieurs franchises majeures — Metal Slug, King of Fighters, Fatal Fury, Samurai Shodown, Art of Fighting — toutes interconnectées dans un univers partagé. SNK est devenu le symbole de l'arcade japonaise haut de gamme des années 90 et a forgé une communauté de collectionneurs parmi les plus passionnés au monde.",
+    "first_game": 1981,
+    "last_game": 2022,
+    "developer": "SNK Corporation",
+    "publisher": "SNK Corporation",
+    "genres": ["Versus Fighting", "Run-and-Gun", "Action"],
+    "platforms": ["Arcade", "Neo Geo AES", "Neo Geo MVS", "Neo Geo CD", "Neo Geo Pocket", "PlayStation", "Multi"],
+    "timeline": [
+      {"year": 1990, "title": "Lancement Neo Geo AES", "platform": "Neo Geo", "event_type": "pivot_majeur", "description": "Console arcade à domicile au prix prohibitif ($650). Qualité arcade pure à la maison. Public ultra-niche, hardware légendaire."},
+      {"year": 1992, "title": "Fatal Fury Special", "platform": "Neo Geo", "event_type": "release", "description": "Sommet de la série Fatal Fury. Geese Howard, Terry Bogard. Rivalise avec SF2 sur Neo Geo."},
+      {"year": 1993, "title": "Samurai Shodown", "platform": "Neo Geo", "event_type": "release", "description": "Versus fighting aux armes blanches. Ambiance Japon féodal. Rage meter révolutionnaire. Série emblématique SNK."},
+      {"year": 1994, "title": "The King of Fighters '94", "platform": "Neo Geo", "event_type": "release", "description": "Crossover SNK universel. KOF devient la franchise principale."},
+      {"year": 1996, "title": "Metal Slug", "platform": "Neo Geo", "event_type": "release", "description": "Run-and-gun ultra-détaillé. Animation sprite extraordinaire. Devient la vitrine technique du Neo Geo."},
+      {"year": 2001, "title": "Faillite SNK", "platform": "—", "event_type": "catastrophe", "description": "SNK dépose le bilan. Rachat par Aruze. Franchise KOF vendue temporairement. Période de transition traumatisante pour les fans."},
+      {"year": 2016, "title": "Renaissance SNK Corporation", "platform": "Multi", "event_type": "renaissance", "description": "Restructuration complète sous SNK Corporation. Investissement saoudien. KOF XIV, SNK Heroines, Samurai Shodown reboot. Retour sur la scène mondiale."}
+    ],
+    "team_changes": [
+      {"year": 2001, "name": "SNK", "role": "Studio", "event": "left", "note": "Faillite et dissolution. Les équipes originales se dispersent. Une partie rejoint des studios tiers."},
+      {"year": 2016, "name": "Yasuyuki Oda", "role": "KOF Series Producer", "event": "joined", "note": "Produit KOF XIV et XV. Restaure la crédibilité compétitive de la franchise."}
+    ],
+    "trivia": [
+      {"title": "Neo Geo — la console la plus chère de l'histoire", "text": "La Neo Geo AES était vendue entre $650 et $700 à son lancement en 1990, soit environ $1400 en valeur 2024. Les cartouches coûtaient entre $200 et $300 chacune. Malgré ces prix prohibitifs, SNK a vendu suffisamment de consoles pour maintenir le hardware pendant 14 ans."},
+      {"title": "MVS vs AES — même jeu, deux prix", "text": "Le Neo Geo existait en deux versions identiques : MVS pour les arcades (vendu aux exploitants de salles) et AES pour les particuliers. Les jeux MVS étaient beaucoup moins chers car destinés aux professionnels. Les collectionneurs achetaient parfois des MVS et les adaptaient pour jouer sur AES."}
+    ],
+    "legacy": "SNK a défini l'arcade japonaise haut de gamme des années 90. Metal Slug, Samurai Shodown et KOF restent des références compétitives décennies après leur sortie. La communauté de collectionneurs Neo Geo est l'une des plus actives et des plus soudées du rétro-gaming."
+  },
+  {
+    "id": "atari-classics",
+    "name": "Atari Classics",
+    "slug": "atari-classics",
+    "description": "Atari est la société qui a fondé l'industrie du jeu vidéo moderne. De Pong (1972) à la 2600 (1977), Atari a introduit le jeu vidéo dans les foyers du monde entier. La collection Atari 2600 représente les racines absolues du gaming — des concepts purs réduits à leur essence par les contraintes hardware extrêmes de l'époque. Le crash de 1983 est directement lié aux erreurs stratégiques d'Atari, qui a failli tuer l'industrie entière.",
+    "first_game": 1972,
+    "last_game": 1992,
+    "developer": "Atari Inc. / Atari Corporation",
+    "publisher": "Atari",
+    "genres": ["Action", "Arcade", "Puzzle", "Sport"],
+    "platforms": ["Arcade", "Atari 2600", "Atari 5200", "Atari 7800", "Atari Lynx"],
+    "timeline": [
+      {"year": 1972, "title": "Pong", "platform": "Arcade", "event_type": "release", "description": "Invention de l'industrie. Tennis électronique dans les bars. Nolan Bushnell fonde Atari. L'industrie du jeu vidéo naît ici."},
+      {"year": 1977, "title": "Atari 2600", "platform": "Atari 2600", "event_type": "pivot_majeur", "description": "Première console à cartouches à succès mondial. Space Invaders, Pitfall, Pac-Man. Jeu vidéo entre dans chaque foyer américain."},
+      {"year": 1980, "title": "Space Invaders", "platform": "Atari 2600", "event_type": "release", "description": "Premier killer app de l'histoire. Quadruple les ventes de l'Atari 2600. Concept simple, addictif, universel."},
+      {"year": 1982, "title": "E.T. the Extra-Terrestrial", "platform": "Atari 2600", "event_type": "catastrophe", "description": "Développé en 5 semaines pour les fêtes. Considéré comme le pire jeu de l'histoire. Contribue directement au crash de 1983."},
+      {"year": 1983, "title": "Crash du jeu vidéo", "platform": "—", "event_type": "catastrophe", "description": "L'industrie nord-américaine s'effondre. Chiffre d'affaires passe de $3.2Md à $100M en 2 ans. Nintendo sauve l'industrie en 1985."},
+      {"year": 1989, "title": "Atari Lynx", "platform": "Atari Lynx", "event_type": "release", "description": "Première console portable couleur. Graphismes supérieurs à la Game Boy. Batterie catastrophique — 6 heures. Écrasée par la Game Boy."}
+    ],
+    "team_changes": [
+      {"year": 1972, "name": "Nolan Bushnell", "role": "Founder / CEO", "event": "joined", "note": "Fondateur d'Atari et père du jeu vidéo commercial. Vend Atari à Warner Communications en 1976 pour $28M."},
+      {"year": 1978, "name": "Nolan Bushnell", "role": "CEO", "event": "left", "note": "Poussé vers la sortie par Warner. Fonde ensuite Chuck E. Cheese's. Sans lui, Atari perd sa vision créative originale."}
+    ],
+    "trivia": [
+      {"title": "L'enterrement des cartouches E.T.", "text": "En 1983, Atari a enterré des millions de cartouches E.T. invendues dans une décharge au Nouveau-Mexique à Alamogordo. Longtemps considéré comme une légende urbaine, l'enterrement a été confirmé lors d'une excavation documentée en 2014. Environ 1300 cartouches ont été retrouvées."},
+      {"title": "Pong développé en une nuit", "text": "Al Alcorn, l'ingénieur qui a créé Pong, a développé le premier prototype en une seule nuit en 1972. Bushnell lui avait donné cette mission comme exercice de formation. Le prototype est devenu directement le produit commercial qui a lancé l'industrie."}
+    ],
+    "legacy": "Atari a inventé l'industrie du jeu vidéo commercial. Pong est le Big Bang du gaming moderne. La 2600 a établi le modèle console+cartouches qui régit l'industrie depuis 45 ans. Le crash de 1983 a paradoxalement conduit à Nintendo et à toute l'industrie moderne."
   }
 ]
