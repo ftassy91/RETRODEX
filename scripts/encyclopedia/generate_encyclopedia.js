@@ -1,16 +1,16 @@
+require('dotenv').config({
+  path: require('path').join(__dirname, '../../backend/.env')
+})
+
 'use strict'
 
 const path = require('path')
 const https = require('https')
 
 const ROOT = path.join(__dirname, '../..')
-const dotenv = require(path.join(ROOT, 'backend', 'node_modules', 'dotenv'))
 const { Op, DataTypes } = require(path.join(ROOT, 'backend', 'node_modules', 'sequelize'))
 const sequelize = require(path.join(ROOT, 'backend', 'config', 'database'))
 const Game = require(path.join(ROOT, 'backend', 'src', 'models', 'Game'))
-
-dotenv.config({ path: path.join(ROOT, 'backend', '.env') })
-dotenv.config()
 
 function callClaude(prompt) {
   return new Promise((resolve, reject) => {
