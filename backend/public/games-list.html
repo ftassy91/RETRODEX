@@ -647,6 +647,17 @@
         });
       }
 
+      function renderLoadingSkeletons() {
+        resultsEl.innerHTML = `
+          <div class="skeleton skeleton-title"></div>
+          <div class="skeleton skeleton-line-full"></div>
+          <div class="skeleton skeleton-line-full"></div>
+          <div class="skeleton skeleton-line-medium"></div>
+          <div class="skeleton skeleton-line-full"></div>
+          <div class="skeleton skeleton-line-short"></div>
+        `;
+      }
+
       async function loadConsoles() {
         const payload = await fetchJson("/api/consoles");
         const consoles = Array.isArray(payload.consoles)
@@ -700,7 +711,7 @@
         const currentState = state();
         updateUrl(currentState);
         loadingIndicatorEl.textContent = "Chargement...";
-        resultsEl.innerHTML = '<div class="loading-state">Chargement...</div>';
+        renderLoadingSkeletons();
 
         const params = new URLSearchParams();
         if (currentState.q) params.set("q", currentState.q);

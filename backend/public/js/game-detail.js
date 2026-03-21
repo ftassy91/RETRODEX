@@ -94,6 +94,35 @@ const heroEl = document.getElementById("hero");
         return response.json();
       }
 
+      function showSkeleton() {
+        heroEl.innerHTML = `
+          <div class="hero-grid">
+            <div>
+              <div class="skeleton skeleton-title"></div>
+              <div class="skeleton skeleton-line-medium"></div>
+              <div class="skeleton skeleton-line-short"></div>
+              <div class="skeleton skeleton-line-full"></div>
+            </div>
+            <div>
+              <div class="skeleton skeleton-title"></div>
+              <div class="skeleton skeleton-line-full"></div>
+              <div class="skeleton skeleton-line-medium"></div>
+            </div>
+          </div>
+        `;
+        summaryEl.innerHTML = `
+          <div class="skeleton skeleton-line-full"></div>
+          <div class="skeleton skeleton-line-full"></div>
+          <div class="skeleton skeleton-line-medium"></div>
+        `;
+        statsRowEl.innerHTML = `
+          <div class="skeleton skeleton-line-full"></div>
+          <div class="skeleton skeleton-line-full"></div>
+          <div class="skeleton skeleton-line-full"></div>
+          <div class="skeleton skeleton-line-full"></div>
+        `;
+      }
+
       function renderHeroSection(game) {
         heroEl.innerHTML = `
           <div class="hero-grid">
@@ -833,6 +862,7 @@ const heroEl = document.getElementById("hero");
       async function loadPage() {
         const gameId = getGameId();
         buildCatalogueBackLink();
+        showSkeleton();
 
         if (!gameId) {
           heroEl.innerHTML = '<div class="loading-card">Aucun identifiant de jeu fourni.</div>';
