@@ -3139,3 +3139,748 @@ body.experience-canon .terminal-preview-label {
   }
 }
 
+/* ========================================
+   FRANCHISES - HIERARCHY REFINEMENT
+   ======================================== */
+
+.franchises-page {
+  width: min(1360px, calc(100% - 48px));
+  margin: 0 auto 40px;
+}
+
+.franchises-header-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.franchises-system-nav {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 6px 0 10px;
+  border-bottom: 1px solid rgba(67, 95, 60, 0.55);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.franchises-system-nav a,
+.franchises-system-nav .is-current {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.franchises-system-nav a:hover {
+  color: var(--text-secondary);
+}
+
+.franchises-system-nav .is-current {
+  color: var(--text-primary);
+}
+
+.franchises-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.franchises-title-block .page-title {
+  margin-bottom: 0;
+}
+
+.franchises-title-block .page-subtitle {
+  margin: 0;
+}
+
+.franchises-search-shell {
+  display: grid;
+  grid-template-columns: 112px 1fr auto;
+  gap: 0;
+  align-items: center;
+  border: 1px solid rgba(67, 95, 60, 0.72);
+  background: rgba(8, 12, 8, 0.92);
+  min-height: 48px;
+}
+
+.franchises-search-label {
+  padding: 0 14px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.franchises-search-input {
+  width: 100%;
+  min-width: 0;
+  padding: 0 14px;
+  border: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  outline: none;
+  caret-color: var(--accent);
+}
+
+.franchises-search-input::placeholder {
+  color: rgba(116, 142, 110, 0.82);
+}
+
+.franchises-search-shell:focus-within {
+  border-color: rgba(155, 188, 15, 0.65);
+  box-shadow: inset 0 0 0 1px rgba(155, 188, 15, 0.15);
+}
+
+.franchises-search-link {
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 16px;
+  border-left: 1px solid rgba(67, 95, 60, 0.72);
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.franchises-search-link:hover {
+  background: rgba(17, 24, 17, 0.98);
+  color: #f1c45c;
+}
+
+.franchises-layout {
+  display: grid;
+  grid-template-columns: 312px minmax(0, 1fr);
+  gap: 0;
+  min-height: 700px;
+  border: 1px solid rgba(67, 95, 60, 0.68);
+  background: rgba(5, 8, 5, 0.94);
+}
+
+.franchises-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid rgba(67, 95, 60, 0.55);
+  background: linear-gradient(180deg, rgba(8, 11, 8, 0.98), rgba(6, 9, 6, 0.98));
+}
+
+.franchises-sidebar-head {
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid rgba(67, 95, 60, 0.52);
+}
+
+.franchises-sidebar-kicker,
+.franchises-sidebar-meta {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.franchises-sidebar-kicker {
+  color: var(--text-secondary);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+
+.franchises-sidebar-meta {
+  color: var(--text-muted);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.franchise-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.franchise-list-item {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 9px 14px 10px;
+  border: 0;
+  border-left: 2px solid transparent;
+  border-bottom: 1px solid rgba(45, 61, 41, 0.46);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.franchise-list-item:hover {
+  background: rgba(17, 24, 17, 0.92);
+}
+
+.franchise-list-item.selected {
+  background: linear-gradient(90deg, rgba(155, 188, 15, 0.08), rgba(11, 15, 11, 0.96) 72%);
+  border-left-color: var(--accent);
+}
+
+.franchise-list-item.selected .franchise-name {
+  color: var(--text-primary);
+}
+
+.franchise-item-marker {
+  color: rgba(110, 141, 103, 0.7);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.franchise-list-item.selected .franchise-item-marker {
+  color: var(--text-alert);
+}
+
+.franchise-item-copy {
+  min-width: 0;
+}
+
+.franchise-name {
+  margin-bottom: 2px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  line-height: 1.45;
+}
+
+.franchise-years,
+.franchise-list-developer {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.franchise-list-empty {
+  padding: 20px 16px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.franchises-detail {
+  overflow-y: auto;
+  background:
+    linear-gradient(180deg, rgba(9, 12, 9, 0.98), rgba(5, 8, 5, 0.98)),
+    radial-gradient(circle at top right, rgba(155, 188, 15, 0.04), transparent 30%);
+}
+
+.franchise-panel {
+  min-height: 100%;
+  padding: 18px 20px 22px;
+}
+
+.franchise-panel-header {
+  display: grid;
+  grid-template-columns: 108px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(67, 95, 60, 0.58);
+}
+
+.franchise-archive-slot {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 108px;
+  padding: 14px 12px;
+  border: 1px solid rgba(72, 90, 69, 0.72);
+  background:
+    linear-gradient(180deg, rgba(20, 28, 20, 0.96), rgba(10, 15, 10, 0.96)),
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  box-shadow: inset 0 0 0 1px rgba(8, 12, 8, 0.92);
+}
+
+.franchise-archive-code {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 29px;
+  letter-spacing: 0.14em;
+  line-height: 1;
+}
+
+.franchise-archive-caption {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.franchise-panel-main {
+  min-width: 0;
+}
+
+.franchise-panel-kicker {
+  margin-bottom: 6px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.detail-title {
+  margin: 0 0 6px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: clamp(20px, 2.4vw, 29px);
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+}
+
+.franchise-years-line {
+  margin-bottom: 10px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.07em;
+}
+
+.franchise-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.detail-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 10px;
+  border: 1px solid rgba(67, 95, 60, 0.65);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.detail-pill-quiet {
+  color: var(--text-muted);
+}
+
+.detail-pill-accent {
+  border-color: rgba(228, 136, 85, 0.42);
+  color: var(--text-alert);
+}
+
+.franchise-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.franchise-action-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.franchise-action-link:hover {
+  color: #f1c45c;
+  text-decoration: underline;
+}
+
+.franchise-action-link.button-link {
+  appearance: none;
+}
+
+.franchise-detail-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(67, 95, 60, 0.55);
+}
+
+.franchise-detail-tab {
+  padding: 9px 14px 8px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.franchise-detail-tab:hover {
+  color: var(--text-secondary);
+}
+
+.franchise-detail-tab.active {
+  color: var(--text-alert);
+  border-bottom-color: var(--text-alert);
+}
+
+.franchise-detail-body {
+  min-height: 360px;
+}
+
+.franchise-tab-panel[hidden] {
+  display: none !important;
+}
+
+.franchise-section {
+  margin-bottom: 18px;
+  padding: 0;
+  border: 0;
+}
+
+.franchise-section:last-child {
+  margin-bottom: 0;
+}
+
+.franchise-description,
+.franchise-legacy,
+.anecdote-text {
+  max-width: 78ch;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.85;
+}
+
+.franchise-description-lead {
+  color: var(--text-primary);
+}
+
+.franchise-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0 10px;
+}
+
+.franchise-platforms {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
+  letter-spacing: 0.04em;
+}
+
+.timeline-list,
+.team-table,
+.franchise-games-list {
+  width: 100%;
+}
+
+.timeline-row {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: start;
+  padding: 10px 0;
+  border-top: 1px solid rgba(45, 61, 41, 0.42);
+}
+
+.timeline-row:first-child {
+  border-top: 0;
+}
+
+.timeline-year {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.timeline-main {
+  min-width: 0;
+}
+
+.timeline-title {
+  margin-bottom: 2px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.timeline-platform,
+.timeline-description {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.timeline-badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: start;
+  padding: 2px 8px;
+  border: 1px solid rgba(67, 95, 60, 0.62);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.timeline-badge-release,
+.timeline-badge-launch,
+.timeline-badge-debut {
+  border-color: rgba(155, 188, 15, 0.36);
+  color: var(--text-primary);
+}
+
+.timeline-badge-acquisition,
+.timeline-badge-revival,
+.timeline-badge-milestone {
+  border-color: rgba(228, 136, 85, 0.36);
+  color: var(--text-alert);
+}
+
+.team-table {
+  border-top: 1px solid rgba(45, 61, 41, 0.42);
+}
+
+.team-row {
+  display: grid;
+  grid-template-columns: 80px 1.1fr 1fr 110px 1.4fr;
+  gap: 12px;
+  align-items: start;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(45, 61, 41, 0.42);
+}
+
+.team-row-head {
+  padding-top: 0;
+}
+
+.team-row-head .team-cell {
+  color: var(--text-muted);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.team-cell {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.team-name {
+  color: var(--text-primary);
+}
+
+.team-event {
+  color: var(--text-muted);
+}
+
+.team-event-joined {
+  color: var(--confidence-high);
+}
+
+.team-event-left {
+  color: #d97c7c;
+}
+
+.team-event-changed {
+  color: var(--text-alert);
+}
+
+.encyclo-anecdote {
+  padding: 12px 0;
+  border-top: 1px solid rgba(45, 61, 41, 0.42);
+}
+
+.encyclo-anecdote:first-of-type {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.anecdote-title {
+  margin-bottom: 6px;
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.franchise-games-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.franchise-game-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 9px 0;
+  border-top: 1px solid rgba(45, 61, 41, 0.42);
+  color: inherit;
+  text-decoration: none;
+}
+
+.franchise-game-row:first-child {
+  border-top: 0;
+}
+
+.franchise-game-row:hover .franchise-game-title {
+  color: var(--text-primary);
+}
+
+.franchise-game-title {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.franchise-game-meta {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.franchise-detail-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 14px;
+  min-height: 100%;
+  padding: 26px 22px;
+}
+
+.franchise-empty-copy {
+  max-width: 52ch;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.franchise-list::-webkit-scrollbar,
+.franchises-detail::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.franchise-list::-webkit-scrollbar-track,
+.franchises-detail::-webkit-scrollbar-track {
+  background: rgba(8, 11, 8, 0.96);
+}
+
+.franchise-list::-webkit-scrollbar-thumb,
+.franchises-detail::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(8, 11, 8, 0.96);
+  background: rgba(80, 111, 74, 0.9);
+}
+
+.franchise-list,
+.franchises-detail {
+  scrollbar-color: rgba(80, 111, 74, 0.9) rgba(8, 11, 8, 0.96);
+  scrollbar-width: thin;
+}
+
+@media (max-width: 980px) {
+  .franchises-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .franchises-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid rgba(67, 95, 60, 0.55);
+    max-height: 320px;
+  }
+
+  .franchise-panel-header {
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .franchises-page {
+    width: min(100%, calc(100% - 24px));
+  }
+
+  .franchises-system-nav {
+    flex-wrap: wrap;
+    gap: 10px 14px;
+  }
+
+  .franchises-search-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .franchises-search-label,
+  .franchises-search-input,
+  .franchises-search-link {
+    padding: 10px 12px;
+  }
+
+  .franchises-search-link {
+    border-left: 0;
+    border-top: 1px solid rgba(67, 95, 60, 0.72);
+  }
+
+  .franchise-panel {
+    padding: 16px 14px 18px;
+  }
+
+  .franchise-panel-header {
+    grid-template-columns: 1fr;
+  }
+
+  .franchise-archive-slot {
+    min-height: 90px;
+  }
+
+  .timeline-row,
+  .franchise-game-row,
+  .team-row {
+    grid-template-columns: 1fr;
+  }
+
+  .franchise-game-meta {
+    text-align: left;
+    white-space: normal;
+  }
+}
+
