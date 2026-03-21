@@ -106,14 +106,17 @@ app.use((error, req, res, _next) => {
 })
 
 async function startServer(portOverride) {
+  const shouldAlterSchema = process.env.NODE_ENV === 'development'
+
+  await sequelize.sync({ alter: shouldAlterSchema })
   await ensureGameEncyclopediaColumns()
-  await Franchise.sync()
+  await Franchise.sync({ alter: shouldAlterSchema })
   let shouldBootstrap = true
 
   try {
-    shouldBootstrap = (await Game.count()) === 0
+    shouldBootstrap = databaseMode === 'sqlite' && (await Game.count()) === 0
   } catch (_error) {
-    shouldBootstrap = true
+    shouldBootstrap = databaseMode === 'sqlite'
   }
 
   if (shouldBootstrap) {
