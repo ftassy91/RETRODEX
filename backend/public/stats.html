@@ -34,9 +34,7 @@
         margin-bottom: 14px;
       }
 
-      .overview-cards,
-      .market-cards,
-      .encyclopedia-cards {
+      .stats-cards {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 12px;
@@ -49,7 +47,8 @@
         padding: 14px;
       }
 
-      .stats-card-label {
+      .stats-card-label,
+      .subsection-title {
         display: block;
         font-size: 10px;
         color: var(--text-muted);
@@ -66,21 +65,13 @@
         font-family: var(--font-mono);
       }
 
-      .stats-card-sub {
+      .stats-card-sub,
+      .section-note {
         display: block;
         font-size: 10px;
         color: var(--text-secondary);
         font-family: var(--font-mono);
         margin-top: 6px;
-      }
-
-      .subsection-title {
-        font-size: 10px;
-        color: var(--text-muted);
-        font-family: var(--font-mono);
-        letter-spacing: 0.08em;
-        margin-bottom: 10px;
-        text-transform: uppercase;
       }
 
       .rarity-grid {
@@ -96,26 +87,32 @@
         padding: 12px;
       }
 
-      .rarity-name {
-        display: block;
-        font-size: 10px;
+      .rarity-name,
+      .rarity-count,
+      .rarity-pct,
+      .platform-name,
+      .platform-ascii,
+      .platform-count,
+      .game-spot-title,
+      .game-spot-meta,
+      .game-spot-price,
+      .stats-error,
+      .encyclopedia-link {
         font-family: var(--font-mono);
-        letter-spacing: 0.08em;
-        margin-bottom: 6px;
+      }
+
+      .rarity-name,
+      .rarity-pct,
+      .platform-name,
+      .platform-count,
+      .game-spot-meta {
+        font-size: 10px;
+        color: var(--text-secondary);
       }
 
       .rarity-count {
-        display: block;
         font-size: 1.2rem;
-        font-family: var(--font-mono);
-      }
-
-      .rarity-pct {
-        display: block;
-        font-size: 10px;
-        color: var(--text-secondary);
-        font-family: var(--font-mono);
-        margin-top: 4px;
+        color: var(--text-primary);
       }
 
       .platform-bars {
@@ -125,28 +122,16 @@
 
       .platform-row {
         display: grid;
-        grid-template-columns: 180px 52px 1fr;
+        grid-template-columns: 180px 1fr 56px;
         gap: 12px;
         align-items: center;
       }
 
-      .platform-name,
-      .platform-count {
+      .platform-ascii {
+        color: var(--accent);
         font-size: 11px;
-        color: var(--text-secondary);
-        font-family: var(--font-mono);
-      }
-
-      .platform-track {
-        height: 12px;
-        border: 1px solid var(--border);
-        background: rgba(155, 188, 15, 0.08);
-        overflow: hidden;
-      }
-
-      .platform-fill {
-        height: 100%;
-        background: linear-gradient(90deg, rgba(0, 255, 102, 0.35), rgba(0, 255, 102, 0.9));
+        letter-spacing: 0.04em;
+        white-space: pre;
       }
 
       .market-grid {
@@ -164,7 +149,8 @@
         display: block;
       }
 
-      .game-spot:hover {
+      .game-spot:hover,
+      .encyclopedia-link:hover {
         border-color: var(--accent);
       }
 
@@ -172,19 +158,12 @@
         display: block;
         font-size: 13px;
         color: var(--text-primary);
-        font-family: var(--font-mono);
         margin-bottom: 6px;
       }
 
-      .game-spot-meta,
       .game-spot-price {
         display: block;
         font-size: 11px;
-        color: var(--text-secondary);
-        font-family: var(--font-mono);
-      }
-
-      .game-spot-price {
         color: var(--text-alert);
         margin-top: 6px;
       }
@@ -194,22 +173,9 @@
         align-items: center;
         border: 1px solid var(--border);
         color: var(--text-alert);
-        font-family: var(--font-mono);
         font-size: 11px;
         padding: 8px 12px;
         text-decoration: none;
-      }
-
-      .encyclopedia-link:hover {
-        border-color: var(--accent);
-        color: var(--accent);
-      }
-
-      .section-note {
-        font-size: 10px;
-        color: var(--text-muted);
-        font-family: var(--font-mono);
-        margin-top: 10px;
       }
 
       .stats-error {
@@ -217,14 +183,11 @@
         color: var(--confidence-low);
         background: rgba(224, 82, 82, 0.08);
         padding: 12px;
-        font-family: var(--font-mono);
         font-size: 11px;
       }
 
       @media (max-width: 900px) {
-        .overview-cards,
-        .market-cards,
-        .encyclopedia-cards,
+        .stats-cards,
         .rarity-grid,
         .market-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -237,9 +200,7 @@
       }
 
       @media (max-width: 640px) {
-        .overview-cards,
-        .market-cards,
-        .encyclopedia-cards,
+        .stats-cards,
         .rarity-grid,
         .market-grid {
           grid-template-columns: 1fr;
@@ -257,81 +218,81 @@
 
       <header class="page-header">
         <h1 class="page-title">STATISTIQUES</h1>
-        <p class="page-subtitle">Vue d'ensemble du catalogue, du marche et de l'encyclopedie</p>
+        <p class="page-subtitle">Vue complete du catalogue, du marche et de l'encyclopedie</p>
       </header>
 
       <div id="stats-error" class="stats-error" hidden></div>
 
       <section class="stats-panel">
         <h2>VUE D'ENSEMBLE</h2>
-        <div class="overview-cards">
+        <div class="stats-cards">
           <article class="stats-card">
             <span class="stats-card-label">Total jeux en base</span>
             <span id="overview-total-games" class="stats-card-value">&mdash;</span>
             <span class="stats-card-sub">Catalogue jouable indexe</span>
           </article>
           <article class="stats-card">
-            <span class="stats-card-label">Plateformes uniques</span>
+            <span class="stats-card-label">Plateformes affichees</span>
             <span id="overview-platform-total" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Supports representes</span>
+            <span class="stats-card-sub">Top plateformes dans l'API stats</span>
           </article>
           <article class="stats-card">
-            <span class="stats-card-label">Prix loose renseignes</span>
+            <span class="stats-card-label">Top 5 prix charges</span>
             <span id="overview-priced-total" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Jeux avec valeur marche</span>
+            <span class="stats-card-sub">Jeux les plus chers en base</span>
           </article>
         </div>
 
         <div class="subsection-title">Repartition par rarete</div>
         <div id="rarity-grid" class="rarity-grid"></div>
 
-        <div class="subsection-title">Top 5 plateformes</div>
+        <div class="subsection-title">Top plateformes</div>
         <div id="platform-bars" class="platform-bars"></div>
       </section>
 
       <section class="stats-panel">
         <h2>INDICE MARCHE</h2>
-        <div class="market-cards">
+        <div class="stats-cards">
           <article class="stats-card">
             <span class="stats-card-label">T1 verifies</span>
             <span id="market-t1-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Jeux avec confiance >= 60</span>
+            <span class="stats-card-sub">Entrees confiance >= 60</span>
           </article>
           <article class="stats-card">
             <span class="stats-card-label">T3 indicatifs</span>
             <span id="market-t3-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Jeux avec confiance 25-59</span>
+            <span class="stats-card-sub">Entrees confiance 25-59</span>
           </article>
           <article class="stats-card">
             <span class="stats-card-label">T4 estimatifs</span>
             <span id="market-t4-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Jeux avec confiance &lt; 25</span>
+            <span class="stats-card-sub">Entrees confiance < 25</span>
           </article>
         </div>
 
         <div class="market-grid">
           <a id="market-most-expensive" class="game-spot" href="/games-list.html">
             <span class="game-spot-title">Chargement...</span>
-            <span class="game-spot-meta">Jeu le plus cher en base</span>
+            <span class="game-spot-meta">Jeu le plus cher</span>
             <span class="game-spot-price">&mdash;</span>
           </a>
           <a id="market-least-expensive" class="game-spot" href="/games-list.html">
             <span class="game-spot-title">Chargement...</span>
-            <span class="game-spot-meta">Jeu le moins cher en base</span>
+            <span class="game-spot-meta">Jeu le moins cher</span>
             <span class="game-spot-price">&mdash;</span>
           </a>
         </div>
 
-        <div id="market-note" class="section-note">Analyse des niveaux de confiance en cours...</div>
+        <div id="market-note" class="section-note">Analyse du marche en cours...</div>
       </section>
 
       <section class="stats-panel">
         <h2>ENCYCLOPEDIE</h2>
-        <div class="encyclopedia-cards">
+        <div class="stats-cards">
           <article class="stats-card">
             <span class="stats-card-label">Jeux avec synopsis</span>
             <span id="encyclo-synopsis-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Progression des fiches narratives</span>
+            <span class="stats-card-sub">Progression narrative</span>
           </article>
           <article class="stats-card">
             <span class="stats-card-label">Franchises indexees</span>
@@ -339,9 +300,9 @@
             <span class="stats-card-sub">Licences disponibles</span>
           </article>
           <article class="stats-card">
-            <span class="stats-card-label">Navigation</span>
-            <span class="stats-card-value" style="font-size:1rem">/franchises.html</span>
-            <span class="stats-card-sub">Explorer la timeline des licences</span>
+            <span class="stats-card-label">Prix median loose</span>
+            <span id="price-median-loose" class="stats-card-value">&mdash;</span>
+            <span class="stats-card-sub">Tendance centrale du catalogue</span>
           </article>
         </div>
 
@@ -366,6 +327,7 @@
       const marketNoteEl = document.getElementById("market-note");
       const encycloSynopsisEl = document.getElementById("encyclo-synopsis-count");
       const encycloFranchiseEl = document.getElementById("encyclo-franchise-count");
+      const priceMedianLooseEl = document.getElementById("price-median-loose");
       const statsErrorEl = document.getElementById("stats-error");
 
       function escapeHtml(value) {
@@ -377,13 +339,9 @@
           .replaceAll("'", "&#039;");
       }
 
-      function rarityClass(value) {
-        return String(value || "COMMON").toLowerCase();
-      }
-
       function formatCurrency(value) {
         const number = Number(value);
-        return Number.isFinite(number) ? `$${number.toFixed(2).replace(/\.00$/, "")}` : "$0";
+        return Number.isFinite(number) ? `$${number.toFixed(2).replace(/\\.00$/, "")}` : "$0";
       }
 
       async function fetchJson(url) {
@@ -394,20 +352,12 @@
         return response.json();
       }
 
-      function renderRarityDistribution(games) {
-        const counts = new Map(rarityOrder.map((rarity) => [rarity, 0]));
-
-        games.forEach((game) => {
-          const rarity = counts.has(game.rarity) ? game.rarity : "COMMON";
-          counts.set(rarity, counts.get(rarity) + 1);
-        });
-
+      function renderRarityDistribution(byRarity, totalGames) {
         rarityGridEl.innerHTML = rarityOrder.map((rarity) => {
-          const count = counts.get(rarity) || 0;
-          const pct = games.length ? ((count / games.length) * 100).toFixed(1) : "0.0";
-
+          const count = Number(byRarity?.[rarity] || 0);
+          const pct = totalGames ? ((count / totalGames) * 100).toFixed(1) : "0.0";
           return `
-            <article class="rarity-item rarity-${escapeHtml(rarityClass(rarity))}">
+            <article class="rarity-item rarity-${escapeHtml(String(rarity).toLowerCase())}">
               <span class="rarity-name">${escapeHtml(rarity)}</span>
               <span class="rarity-count">${escapeHtml(count)}</span>
               <span class="rarity-pct">${escapeHtml(pct)}%</span>
@@ -416,139 +366,63 @@
         }).join("");
       }
 
-      function renderTopPlatforms(games) {
-        const byPlatform = new Map();
-
-        games.forEach((game) => {
-          const platform = String(game.console || "Unknown").trim() || "Unknown";
-          byPlatform.set(platform, (byPlatform.get(platform) || 0) + 1);
-        });
-
-        const topPlatforms = Array.from(byPlatform.entries())
-          .map(([name, count]) => ({ name, count }))
-          .sort((left, right) => right.count - left.count || left.name.localeCompare(right.name))
-          .slice(0, 5);
-
-        const max = Math.max(...topPlatforms.map((item) => item.count), 1);
-
-        platformBarsEl.innerHTML = topPlatforms.map((item) => `
-          <div class="platform-row">
-            <div class="platform-name">${escapeHtml(item.name)}</div>
-            <div class="platform-count">${escapeHtml(item.count)}</div>
-            <div class="platform-track">
-              <div class="platform-fill" style="width:${((item.count / max) * 100).toFixed(2)}%"></div>
+      function renderTopPlatforms(platforms) {
+        const max = Math.max(...platforms.map((item) => Number(item.count) || 0), 1);
+        platformBarsEl.innerHTML = platforms.map((item) => {
+          const count = Number(item.count) || 0;
+          const bar = "█".repeat(Math.max(1, Math.round((count / max) * 22)));
+          return `
+            <div class="platform-row">
+              <div class="platform-name">${escapeHtml(item.platform)}</div>
+              <div class="platform-ascii">${bar}</div>
+              <div class="platform-count">${escapeHtml(count)}</div>
             </div>
-          </div>
-        `).join("");
-
-        overviewPlatformTotalEl.textContent = String(byPlatform.size);
+          `;
+        }).join("");
       }
 
-      function renderGameSpot(element, title, meta, price, href) {
-        element.href = href || "/games-list.html";
-        element.innerHTML = `
-          <span class="game-spot-title">${escapeHtml(title)}</span>
-          <span class="game-spot-meta">${escapeHtml(meta)}</span>
-          <span class="game-spot-price">${escapeHtml(price)}</span>
-        `;
-      }
-
-      async function fetchMarketBuckets(games) {
-        const summary = { t1: 0, t3: 0, t4: 0, indexed: 0 };
-        const chunkSize = 24;
-
-        for (let index = 0; index < games.length; index += chunkSize) {
-          const chunk = games.slice(index, index + chunkSize);
-          const settled = await Promise.allSettled(chunk.map(async (game) => {
-            const payload = await fetchJson(`/api/index/${encodeURIComponent(game.id)}`);
-            const entries = Array.isArray(payload.index) ? payload.index : [];
-            if (!entries.length) {
-              return null;
-            }
-
-            return Math.max(...entries.map((entry) => Number(entry.confidence_pct) || 0));
-          }));
-
-          settled.forEach((result) => {
-            if (result.status !== "fulfilled" || result.value == null) {
-              return;
-            }
-
-            summary.indexed += 1;
-            if (result.value >= 60) {
-              summary.t1 += 1;
-            } else if (result.value >= 25) {
-              summary.t3 += 1;
-            } else {
-              summary.t4 += 1;
-            }
-          });
-
-          marketNoteEl.textContent = `Analyse de confiance: ${Math.min(index + chunk.length, games.length)} / ${games.length}`;
+      function renderGameSpot(element, game, fallbackTitle, fallbackMeta) {
+        if (!game) {
+          element.href = "/games-list.html";
+          element.innerHTML = `
+            <span class="game-spot-title">${escapeHtml(fallbackTitle)}</span>
+            <span class="game-spot-meta">${escapeHtml(fallbackMeta)}</span>
+            <span class="game-spot-price">—</span>
+          `;
+          return;
         }
 
-        marketNoteEl.textContent = `Jeux indexes analyses: ${summary.indexed} / ${games.length}`;
-        return summary;
+        element.href = `/game-detail.html?id=${encodeURIComponent(game.id)}`;
+        element.innerHTML = `
+          <span class="game-spot-title">${escapeHtml(game.title)}</span>
+          <span class="game-spot-meta">${escapeHtml(game.platform || "Console inconnue")} · ${escapeHtml(game.year || "—")}</span>
+          <span class="game-spot-price">${escapeHtml(formatCurrency(game.loosePrice))}</span>
+        `;
       }
 
       async function loadStats() {
         try {
-          const [allItems, franchisesPayload] = await Promise.all([
-            fetchJson("/games"),
-            fetchJson("/api/franchises"),
-          ]);
+          const payload = await fetchJson("/api/stats");
 
-          const games = (Array.isArray(allItems) ? allItems : [])
-            .filter((item) => String(item.type || "game") === "game");
+          overviewTotalGamesEl.textContent = String(payload.total_games || 0);
+          overviewPlatformTotalEl.textContent = String((payload.by_platform || []).length);
+          overviewPricedTotalEl.textContent = String((payload.top5_expensive || []).length);
+          encycloSynopsisEl.textContent = `${payload.encyclopedia_stats?.with_synopsis || 0} / ${Math.max(payload.total_games || 0, TOTAL_SYNOPSIS_TARGET)}`;
+          encycloFranchiseEl.textContent = String(payload.encyclopedia_stats?.total_franchises || 0);
+          priceMedianLooseEl.textContent = formatCurrency(payload.price_stats?.median_loose || 0);
 
-          const pricedGames = games.filter((game) => Number(game.loosePrice) > 0);
-          const synopsisCount = games.filter((game) => String(game.synopsis || "").trim()).length;
-          const franchiseCount = Number(franchisesPayload.count) || (franchisesPayload.franchises || []).length || 0;
+          renderRarityDistribution(payload.by_rarity || {}, Number(payload.total_games || 0));
+          renderTopPlatforms((payload.by_platform || []).slice(0, 10));
 
-          const mostExpensive = [...pricedGames]
-            .sort((left, right) => Number(right.loosePrice) - Number(left.loosePrice))
-            .at(0);
+          marketT1El.textContent = String(payload.trust_stats?.t1 || 0);
+          marketT3El.textContent = String(payload.trust_stats?.t3 || 0);
+          marketT4El.textContent = String(payload.trust_stats?.t4 || 0);
 
-          const leastExpensive = [...pricedGames]
-            .sort((left, right) => Number(left.loosePrice) - Number(right.loosePrice))
-            .at(0);
+          renderGameSpot(marketMostExpensiveEl, payload.expensive_game, "Aucune donnee", "Jeu le plus cher");
+          renderGameSpot(marketLeastExpensiveEl, payload.cheapest_game, "Aucune donnee", "Jeu le moins cher");
 
-          overviewTotalGamesEl.textContent = String(games.length);
-          overviewPricedTotalEl.textContent = String(pricedGames.length);
-          encycloSynopsisEl.textContent = `${synopsisCount} / ${Math.max(games.length, TOTAL_SYNOPSIS_TARGET)}`;
-          encycloFranchiseEl.textContent = String(franchiseCount);
-
-          renderRarityDistribution(games);
-          renderTopPlatforms(games);
-
-          if (mostExpensive) {
-            renderGameSpot(
-              marketMostExpensiveEl,
-              mostExpensive.title,
-              `${mostExpensive.console || "Console inconnue"} · ${mostExpensive.year || "—"}`,
-              formatCurrency(mostExpensive.loosePrice),
-              `/game-detail.html?id=${encodeURIComponent(mostExpensive.id)}`
-            );
-          } else {
-            renderGameSpot(marketMostExpensiveEl, "Aucune donnee", "Jeu le plus cher en base", "—", "/games-list.html");
-          }
-
-          if (leastExpensive) {
-            renderGameSpot(
-              marketLeastExpensiveEl,
-              leastExpensive.title,
-              `${leastExpensive.console || "Console inconnue"} · ${leastExpensive.year || "—"}`,
-              formatCurrency(leastExpensive.loosePrice),
-              `/game-detail.html?id=${encodeURIComponent(leastExpensive.id)}`
-            );
-          } else {
-            renderGameSpot(marketLeastExpensiveEl, "Aucune donnee", "Jeu le moins cher en base", "—", "/games-list.html");
-          }
-
-          const marketSummary = await fetchMarketBuckets(games);
-          marketT1El.textContent = String(marketSummary.t1);
-          marketT3El.textContent = String(marketSummary.t3);
-          marketT4El.textContent = String(marketSummary.t4);
+          marketNoteEl.textContent =
+            `Moyenne loose: ${formatCurrency(payload.price_stats?.avg_loose || 0)} · Min: ${formatCurrency(payload.price_stats?.min_loose || 0)} · Max: ${formatCurrency(payload.price_stats?.max_loose || 0)}`;
         } catch (error) {
           statsErrorEl.hidden = false;
           statsErrorEl.textContent = `Impossible de charger les statistiques (${error.message}).`;

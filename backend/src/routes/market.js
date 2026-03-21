@@ -82,6 +82,130 @@ function toConsolePayload(game, gamesCount = 0) {
   }
 }
 
+function median(values) {
+  if (!values.length) {
+    return 0
+  }
+
+  const sorted = [...values].sort((left, right) => left - right)
+  const middle = Math.floor(sorted.length / 2)
+
+  if (sorted.length % 2 === 0) {
+    return (sorted[middle - 1] + sorted[middle]) / 2
+  }
+
+  return sorted[middle]
+}
+
+router.get('/api/stats', handleAsync(async (_req, res) => {
+  const games = await Game.findAll({
+    where: { type: 'game' },
+    attributes: ['id', 'title', 'console', 'year', 'rarity', 'loosePrice', 'synopsis'],
+    order: [['title', 'ASC']],
+  })
+
+  const byRarity = {
+    LEGENDARY: 0,
+    EPIC: 0,
+    RARE: 0,
+    UNCOMMON: 0,
+    COMMON: 0,
+  }
+
+  const byPlatformMap = new Map()
+  const looseValues = []
+  let withSynopsis = 0
+
+  for (const game of games) {
+    const rarity = Object.prototype.hasOwnProperty.call(byRarity, game.rarity) ? game.rarity : 'COMMON'
+    byRarity[rarity] += 1
+
+    const platform = String(game.console || 'Unknown').trim() || 'Unknown'
+    byPlatformMap.set(platform, (byPlatformMap.get(platform) || 0) + 1)
+
+    if (String(game.synopsis || '').trim()) {
+      withSynopsis += 1
+    }
+
+    const loose = Number(game.loosePrice)
+    if (Number.isFinite(loose) && loose > 0) {
+      looseValues.push(loose)
+    }
+  }
+
+  const byPlatform = Array.from(byPlatformMap.entries())
+    .map(([platform, count]) => ({ platform, count }))
+    .sort((left, right) => right.count - left.count || left.platform.localeCompare(right.platform))
+    .slice(0, 10)
+
+  const pricedGames = games
+    .filter((game) => Number.isFinite(Number(game.loosePrice)) && Number(game.loosePrice) > 0)
+    .sort((left, right) => Number(right.loosePrice) - Number(left.loosePrice))
+
+  const top5Expensive = pricedGames.slice(0, 5).map((game) => ({
+    id: game.id,
+    title: game.title,
+    platform: game.console,
+    loosePrice: Number(game.loosePrice),
+  }))
+
+  const expensiveGame = pricedGames[0] || null
+  const cheapestGame = [...pricedGames].sort((left, right) => Number(left.loosePrice) - Number(right.loosePrice))[0] || null
+
+  const trustEntries = await RetrodexIndex.findAll({
+    attributes: ['confidence_pct'],
+  })
+
+  const trustStats = { t1: 0, t3: 0, t4: 0 }
+  trustEntries.forEach((entry) => {
+    const confidence = Number(entry.confidence_pct) || 0
+    if (confidence >= 60) {
+      trustStats.t1 += 1
+    } else if (confidence >= 25) {
+      trustStats.t3 += 1
+    } else {
+      trustStats.t4 += 1
+    }
+  })
+
+  const avgLoose = looseValues.length
+    ? looseValues.reduce((sum, value) => sum + value, 0) / looseValues.length
+    : 0
+
+  res.json({
+    ok: true,
+    total_games: games.length,
+    by_rarity: byRarity,
+    by_platform: byPlatform,
+    price_stats: {
+      avg_loose: Math.round(avgLoose * 100) / 100,
+      max_loose: expensiveGame ? Number(expensiveGame.loosePrice) : 0,
+      min_loose: cheapestGame ? Number(cheapestGame.loosePrice) : 0,
+      median_loose: Math.round(median(looseValues) * 100) / 100,
+    },
+    trust_stats: trustStats,
+    encyclopedia_stats: {
+      with_synopsis: withSynopsis,
+      total_franchises: await Franchise.count(),
+    },
+    top5_expensive: top5Expensive,
+    expensive_game: expensiveGame ? {
+      id: expensiveGame.id,
+      title: expensiveGame.title,
+      platform: expensiveGame.console,
+      loosePrice: Number(expensiveGame.loosePrice),
+      year: expensiveGame.year,
+    } : null,
+    cheapest_game: cheapestGame ? {
+      id: cheapestGame.id,
+      title: cheapestGame.title,
+      platform: cheapestGame.console,
+      loosePrice: Number(cheapestGame.loosePrice),
+      year: cheapestGame.year,
+    } : null,
+  })
+}))
+
 router.get('/api/search', handleAsync(async (req, res) => {
   const q = String(req.query.q || '').trim()
   const type = ['all', 'game', 'franchise'].includes(String(req.query.type || 'all'))
