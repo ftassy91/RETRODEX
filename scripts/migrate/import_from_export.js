@@ -26,17 +26,27 @@ function stringifyIfNeeded(value) {
   return typeof value === 'string' ? value : JSON.stringify(value)
 }
 
+function summarizeByType(items) {
+  return items.reduce((summary, item) => {
+    const type = item.type || 'unknown'
+    summary[type] = (summary[type] || 0) + 1
+    return summary
+  }, {})
+}
+
 async function main() {
   await sequelize.sync({ alter: false })
 
   const games = readExport('games_export.json')
   const franchises = readExport('franchises_export.json')
   const indexEntries = readExport('index_export.json')
+  const gamesByType = summarizeByType(games)
 
   for (const game of games) {
     await Game.upsert(game)
   }
-  console.log(`[OK] ${games.length} jeux importes`)
+  console.log(`[OK] ${games.length} lignes Game importees`)
+  console.log(`[OK] Detail Game: ${Object.entries(gamesByType).map(([type, count]) => `${type}=${count}`).join(', ')}`)
 
   for (const franchise of franchises) {
     await Franchise.upsert({
