@@ -97,6 +97,23 @@ function median(values) {
   return sorted[middle]
 }
 
+function getFreshnessInfo(lastDate) {
+  if (!lastDate) {
+    return 'outdated'
+  }
+
+  const parsed = new Date(lastDate)
+  if (Number.isNaN(parsed.getTime())) {
+    return 'outdated'
+  }
+
+  const days = (Date.now() - parsed.getTime()) / (1000 * 60 * 60 * 24)
+  if (days < 30) return 'recent'
+  if (days < 90) return 'aging'
+  if (days < 180) return 'stale'
+  return 'outdated'
+}
+
 router.get('/api/stats', handleAsync(async (_req, res) => {
   const games = await Game.findAll({
     where: { type: 'game' },
@@ -461,6 +478,7 @@ router.get('/api/index/:id', handleAsync(async (req, res) => {
       trend: entry.trend,
       sources_editorial: entry.sources_editorial,
       last_sale_date: entry.last_sale_date,
+      freshness: getFreshnessInfo(entry.last_sale_date || entry.last_computed_at),
     })),
   })
 }))

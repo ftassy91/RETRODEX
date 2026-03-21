@@ -8,6 +8,20 @@ const sequelize = require(path.join(ROOT, 'backend', 'config', 'database'))
 const RetrodexIndex = require(path.join(ROOT, 'backend', 'models', 'RetrodexIndex'))
 const { Op } = require(path.join(ROOT, 'backend', 'node_modules', 'sequelize'))
 
+function getFreshnessMultiplier(lastDate) {
+  if (!lastDate) return 0.5
+
+  const parsed = new Date(lastDate)
+  if (Number.isNaN(parsed.getTime())) return 0.5
+
+  const days = (Date.now() - parsed.getTime()) / (1000 * 60 * 60 * 24)
+  if (days < 30) return 1.0
+  if (days < 90) return 0.85
+  if (days < 180) return 0.7
+  if (days < 365) return 0.5
+  return 0.3
+}
+
 async function main() {
   await RetrodexIndex.sync({ alter: false })
 
@@ -44,13 +58,32 @@ async function main() {
 
         if (!condition || !condData.median) continue
 
+        const existing = await RetrodexIndex.findOne({
+          where: {
+            item_id: item.id,
+            condition,
+          }
+        })
+
+        const latestSaleDate = Array.isArray(condData.sales) && condData.sales.length
+          ? condData.sales
+            .map((sale) => sale.date)
+            .filter(Boolean)
+            .sort()
+            .at(-1)
+          : null
+
+        const freshnessDate = latestSaleDate || existing?.last_sale_date || existing?.last_computed_at || null
+        const adjustedConfidence = Math.round(85 * getFreshnessMultiplier(freshnessDate))
+
         const updated = await RetrodexIndex.update({
-          confidence_pct: 85,
+          confidence_pct: adjustedConfidence,
           index_value: condData.median,
           range_low: Math.round(condData.median * 0.8 * 100) / 100,
           range_high: Math.round(condData.median * 1.25 * 100) / 100,
           sources_editorial: condData.sampleCount || 5,
           sample_count: condData.sampleCount || 5,
+          last_sale_date: latestSaleDate || existing?.last_sale_date || null,
           last_computed_at: new Date()
         }, {
           where: {
