@@ -1,958 +1,141 @@
-const path = require("path");
-require("dotenv").config();
+'use strict'
 
-const express = require("express");
-const cors = require("cors");
-const { Op, DataTypes } = require("sequelize");
+const path = require('path')
+require('dotenv').config()
 
-const { sequelize, storagePath, databaseMode, databaseTarget } = require("./database");
-const Game = require("./models/Game");
-const CollectionItem = require("./models/CollectionItem");
-const Accessory = require("./models/Accessory");
-const Franchise = require("./models/Franchise");
-const CommunityReport = require("../models/CommunityReport");
-const RetrodexIndex = require("../models/RetrodexIndex");
-const { syncGamesFromPrototype } = require("./syncGames");
-const { handleAsync } = require("./helpers/query");
+const express = require('express')
+const cors = require('cors')
+const { DataTypes } = require('sequelize')
 
-const baseRetrodexIndexSync = RetrodexIndex.sync.bind(RetrodexIndex);
+const { sequelize, storagePath, databaseMode, databaseTarget } = require('./database')
+const Game = require('./models/Game')
+const Franchise = require('./models/Franchise')
+const RetrodexIndex = require('../models/RetrodexIndex')
+const { syncGamesFromPrototype } = require('./syncGames')
+const { handleAsync } = require('./helpers/query')
+
+const gamesRoutes = require('./routes/games')
+const collectionRoutes = require('./routes/collection')
+const franchisesRoutes = require('./routes/franchises')
+const marketRoutes = require('./routes/market')
+const statsRoutes = require('./routes/stats')
+const syncRoutes = require('./routes/sync')
+
+const baseRetrodexIndexSync = RetrodexIndex.sync.bind(RetrodexIndex)
 RetrodexIndex.sync = (options = {}) => baseRetrodexIndexSync({
   ...options,
   alter: false,
-}).catch(() => {});
+}).catch(() => {})
 
-// --- Model associations ---
-CollectionItem.belongsTo(Game, {
-  foreignKey: "gameId",
-  targetKey: "id",
-  as: "game",
-});
-
-Game.hasMany(CollectionItem, {
-  foreignKey: "gameId",
-  sourceKey: "id",
-  as: "collectionItems",
-});
-
-// --- Route modules ---
-const gamesRoutes = require("./routes/games");
-const collectionRoutes = require("./routes/collection");
-const consolesRoutes = require("./routes/consoles");
-const statsRoutes = require("./routes/stats");
-const syncRoutes = require("./routes/sync");
-
-// --- App setup ---
-const app = express();
+const app = express()
 
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS
-    ? process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim())
-    : "*",
-}));
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "..", "public")));
+    ? process.env.ALLOWED_ORIGINS.split(',').map((origin) => origin.trim())
+    : '*',
+}))
+app.use(express.json())
+app.use(express.static(path.join(__dirname, '..', 'public')))
 
-// --- Root / health ---
-app.get("/", (_req, res) => {
+app.get('/', (_req, res) => {
   res.json({
     ok: true,
-    message: "RetroDex backend is running.",
-    docs: "/home.html",
-    consoles: "/consoles.html",
-    gamesList: "/games-list.html",
-    gameDetailExample: "/game-detail.html?id=tetris-game-boy",
-    collection: "/collection.html",
-    stats: "/stats.html",
-    debug: "/debug.html",
-    health: "/api/health",
-  });
-});
+    message: 'RetroDex backend is running.',
+    docs: '/home.html',
+    consoles: '/consoles.html',
+    gamesList: '/games-list.html',
+    gameDetailExample: '/game-detail.html?id=tetris-game-boy',
+    collection: '/collection.html',
+    stats: '/stats.html',
+    debug: '/debug.html',
+    health: '/api/health',
+  })
+})
 
-app.get("/api/health", handleAsync(async (_req, res) => {
-  const games = await Game.count();
+app.get('/api/health', handleAsync(async (_req, res) => {
+  const games = await Game.count()
   res.json({
     ok: true,
-    backend: "retrodex-express-sequelize",
+    backend: 'retrodex-express-sequelize',
     database: databaseMode,
     storage: databaseTarget || storagePath,
     games,
-  });
-}));
-
-function parseItemsLimit(value, defaultValue = 20, maxValue = 100) {
-  const parsed = Number.parseInt(value, 10);
-  if (!Number.isFinite(parsed) || parsed <= 0) {
-    return defaultValue;
-  }
-  return Math.min(parsed, maxValue);
-}
-
-function parseItemsOffset(value, defaultValue = 0) {
-  const parsed = Number.parseInt(value, 10);
-  if (!Number.isFinite(parsed) || parsed < 0) {
-    return defaultValue;
-  }
-  return parsed;
-}
-
-function buildItemsWhere(query = {}) {
-  const where = {};
-  const titleQuery = String(query.q || "").trim();
-  const platform = String(query.platform || "").trim();
-  const rarity = String(query.rarity || "").trim();
-  const type = String(query.type || "").trim();
-
-  if (titleQuery) {
-    where.title = {
-      [Op.like]: `%${titleQuery}%`,
-    };
-  }
-
-  if (platform) {
-    where.console = platform;
-  }
-
-  if (rarity) {
-    where.rarity = rarity;
-  }
-
-  if (type) {
-    where.type = type;
-  }
-
-  return where;
-}
-
-function toItemPayload(game) {
-  return {
-    id: game.id,
-    title: game.title,
-    platform: game.console,
-    year: game.year,
-    genre: game.genre,
-    rarity: game.rarity,
-    type: game.type || "game",
-    slug: game.slug || null,
-    loosePrice: game.loosePrice,
-    cibPrice: game.cibPrice,
-    mintPrice: game.mintPrice,
-  };
-}
-
-function toConsolePayload(game, gamesCount = 0) {
-  return {
-    id: game.id,
-    title: game.title,
-    platform: game.console,
-    year: game.year,
-    slug: game.slug || null,
-    gamesCount,
-  };
-}
-
-function normalizeOwnedCondition(value) {
-  const raw = String(value || "").trim().toLowerCase();
-  if (raw === "cib") return "CIB";
-  if (raw === "mint") return "Mint";
-  return "Loose";
-}
-
-function toPriceNumber(value) {
-  const numeric = Number(value);
-  return Number.isFinite(numeric) ? numeric : 0;
-}
-
-function getItemConditionValue(item) {
-  const condition = normalizeOwnedCondition(item?.condition);
-  const game = item?.game;
-
-  if (!game) {
-    return 0;
-  }
-
-  if (condition === "CIB") {
-    return toPriceNumber(game.cibPrice);
-  }
-
-  if (condition === "Mint") {
-    return toPriceNumber(game.mintPrice);
-  }
-
-  return toPriceNumber(game.loosePrice);
-}
-
-function parseStoredJson(value) {
-  if (value == null || value === "") {
-    return null;
-  }
-
-  if (Array.isArray(value) || typeof value === "object") {
-    return value;
-  }
-
-  if (typeof value !== "string") {
-    return null;
-  }
-
-  try {
-    return JSON.parse(value);
-  } catch (_error) {
-    return null;
-  }
-}
-
-function normalizeFranchiseMatchValue(value) {
-  return String(value || "")
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function buildTitleKeywords(title) {
-  const normalized = normalizeFranchiseMatchValue(title);
-  if (!normalized) {
-    return [];
-  }
-
-  const romanNumeralPattern = /^(?:i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii)$/i;
-  const tokens = normalized
-    .split(" ")
-    .filter((token) => token && !romanNumeralPattern.test(token) && !/^\d+$/.test(token));
-
-  const keywords = [];
-  for (let size = 3; size >= 1; size -= 1) {
-    if (tokens.length >= size) {
-      keywords.push(tokens.slice(0, size).join(" "));
-    }
-  }
-
-  return Array.from(new Set(keywords.filter((keyword) => keyword.length >= 3)));
-}
-
-function scoreFranchiseMatch(title, franchiseName) {
-  const normalizedTitle = normalizeFranchiseMatchValue(title);
-  const normalizedName = normalizeFranchiseMatchValue(franchiseName);
-
-  if (!normalizedTitle || !normalizedName) {
-    return 0;
-  }
-
-  let score = 0;
-
-  if (normalizedTitle.includes(normalizedName)) {
-    score += 100 + normalizedName.length;
-  }
-
-  if (normalizedName.includes(normalizedTitle)) {
-    score += 80 + normalizedTitle.length;
-  }
-
-  for (const keyword of buildTitleKeywords(title)) {
-    const allowKeywordMatch = keyword.includes(" ") || !normalizedName.includes(" ");
-    if (allowKeywordMatch && normalizedName.includes(keyword)) {
-      score += 40 + keyword.length;
-    }
-  }
-
-  return score;
-}
-
-function toFranchisePayload(franchise) {
-  return {
-    id: franchise.id,
-    name: franchise.name,
-    slug: franchise.slug,
-    description: franchise.description || null,
-    first_game: franchise.first_game ?? null,
-    last_game: franchise.last_game ?? null,
-    developer: franchise.developer || null,
-    publisher: franchise.publisher || null,
-    genres: parseStoredJson(franchise.genres),
-    platforms: parseStoredJson(franchise.platforms),
-    timeline: parseStoredJson(franchise.timeline),
-    team_changes: parseStoredJson(franchise.team_changes),
-    trivia: parseStoredJson(franchise.trivia),
-    legacy: franchise.legacy || null,
-  };
-}
+  })
+}))
 
 async function ensureGameEncyclopediaColumns() {
-  const queryInterface = sequelize.getQueryInterface();
-  const columns = await queryInterface.describeTable("games").catch(() => null);
+  const queryInterface = sequelize.getQueryInterface()
+  const columns = await queryInterface.describeTable('games').catch(() => null)
 
   if (!columns) {
-    return;
+    return
   }
 
   const missingColumns = [
-    ["tagline", { type: DataTypes.TEXT, allowNull: true }],
-    ["cover_url", { type: DataTypes.TEXT, allowNull: true }],
-    ["synopsis", { type: DataTypes.TEXT, allowNull: true }],
-    ["dev_anecdotes", { type: DataTypes.TEXT, allowNull: true }],
-    ["dev_team", { type: DataTypes.TEXT, allowNull: true }],
-    ["cheat_codes", { type: DataTypes.TEXT, allowNull: true }],
-  ].filter(([name]) => !columns[name]);
+    ['tagline', { type: DataTypes.TEXT, allowNull: true }],
+    ['cover_url', { type: DataTypes.TEXT, allowNull: true }],
+    ['synopsis', { type: DataTypes.TEXT, allowNull: true }],
+    ['dev_anecdotes', { type: DataTypes.TEXT, allowNull: true }],
+    ['dev_team', { type: DataTypes.TEXT, allowNull: true }],
+    ['cheat_codes', { type: DataTypes.TEXT, allowNull: true }],
+  ].filter(([name]) => !columns[name])
 
   for (const [name, definition] of missingColumns) {
-    await queryInterface.addColumn("games", name, definition);
+    await queryInterface.addColumn('games', name, definition)
   }
 }
 
-// --- Mount routes ---
-app.use(gamesRoutes);
-app.get("/api/games/:id/encyclopedia", handleAsync(async (req, res) => {
-  const game = await Game.findByPk(req.params.id, {
-    attributes: ["id", "synopsis", "dev_anecdotes", "dev_team", "cheat_codes"],
-  });
+app.use(gamesRoutes)
+app.use(collectionRoutes)
+app.use(franchisesRoutes)
+app.use(marketRoutes)
+app.use(statsRoutes)
+app.use(syncRoutes)
 
-  if (!game) {
-    return res.status(404).json({ ok: false, error: "Game not found" });
-  }
-
-  return res.json({
-    ok: true,
-    synopsis: game.synopsis ?? null,
-    dev_anecdotes: parseStoredJson(game.dev_anecdotes),
-    dev_team: parseStoredJson(game.dev_team),
-    cheat_codes: parseStoredJson(game.cheat_codes),
-  });
-}));
-app.get("/api/games/:id/similar", handleAsync(async (req, res) => {
-  const currentGame = await Game.findByPk(req.params.id, {
-    attributes: ["id", "console", "rarity"],
-  });
-
-  if (!currentGame) {
-    return res.status(404).json({ ok: false, error: "Game not found" });
-  }
-
-  const sameConsoleSameRarity = await Game.findAll({
-    where: {
-      type: "game",
-      id: { [Op.ne]: currentGame.id },
-      console: currentGame.console,
-      rarity: currentGame.rarity,
-    },
-    attributes: ["id", "title", "console", "year", "rarity", "loosePrice"],
-    order: [["loosePrice", "DESC"], ["title", "ASC"]],
-    limit: 6,
-  });
-
-  const selectedGames = [...sameConsoleSameRarity];
-
-  if (selectedGames.length < 6) {
-    const fallbackGames = await Game.findAll({
-      where: {
-        type: "game",
-        id: { [Op.notIn]: [currentGame.id, ...selectedGames.map((game) => game.id)] },
-        console: currentGame.console,
-        rarity: { [Op.ne]: currentGame.rarity },
-      },
-      attributes: ["id", "title", "console", "year", "rarity", "loosePrice"],
-      order: [["loosePrice", "DESC"], ["title", "ASC"]],
-      limit: 6 - selectedGames.length,
-    });
-
-    selectedGames.push(...fallbackGames);
-  }
-
-  return res.json({
-    ok: true,
-    games: selectedGames.map((game) => ({
-      id: game.id,
-      title: game.title,
-      console: game.console,
-      year: game.year,
-      rarity: game.rarity,
-      loosePrice: game.loosePrice,
-    })),
-    count: selectedGames.length,
-  });
-}));
-app.get("/api/games/:id/franchise", handleAsync(async (req, res) => {
-  const game = await Game.findByPk(req.params.id, {
-    attributes: ["id", "title"],
-  });
-
-  if (!game) {
-    return res.status(404).json({ ok: false, error: "Game not found" });
-  }
-
-  const franchises = await Franchise.findAll({
-    attributes: ["id", "name", "slug", "first_game", "last_game"],
-    order: [["name", "ASC"]],
-  });
-
-  let bestMatch = null;
-  let bestScore = 0;
-
-  for (const franchise of franchises) {
-    const score = scoreFranchiseMatch(game.title, franchise.name);
-    if (score > bestScore) {
-      bestScore = score;
-      bestMatch = franchise;
-    }
-  }
-
-  return res.json({
-    ok: true,
-    franchise: bestMatch ? {
-      id: bestMatch.id,
-      name: bestMatch.name,
-      slug: bestMatch.slug,
-      first_game: bestMatch.first_game ?? null,
-      last_game: bestMatch.last_game ?? null,
-    } : null,
-  });
-}));
-app.get("/api/franchises", handleAsync(async (_req, res) => {
-  const franchises = await Franchise.findAll({
-    order: [["name", "ASC"]],
-  });
-
-  res.json({
-    ok: true,
-    franchises: franchises.map(toFranchisePayload),
-    count: franchises.length,
-  });
-}));
-app.get("/api/franchises/:slug", handleAsync(async (req, res) => {
-  const franchise = await Franchise.findOne({
-    where: {
-      slug: String(req.params.slug || "").trim(),
-    },
-  });
-
-  if (!franchise) {
-    return res.status(404).json({ ok: false, error: "Franchise not found" });
-  }
-
-  return res.json({
-    ok: true,
-    franchise: toFranchisePayload(franchise),
-  });
-}));
-app.get("/api/franchises/:slug/games", handleAsync(async (req, res) => {
-  const franchise = await Franchise.findOne({
-    where: {
-      slug: String(req.params.slug || "").trim(),
-    },
-  });
-
-  if (!franchise) {
-    return res.status(404).json({ ok: false, error: "Franchise not found" });
-  }
-
-  const searchTerms = Array.from(new Set(
-    [
-      franchise.name,
-      franchise.name?.split(":")[0]?.trim(),
-      franchise.name?.replace(/\bthe Hedgehog\b/gi, "").trim(),
-      franchise.slug?.replace(/-/g, " ").trim(),
-      franchise.name?.split(" ")[0]?.trim(),
-    ].filter((term) => term && term.length >= 3)
-  ));
-
-  const games = await Game.findAll({
-    where: {
-      type: "game",
-      [Op.or]: searchTerms.map((term) => ({
-        title: {
-          [Op.like]: `%${term}%`,
-        },
-      })),
-    },
-    attributes: ["id", "title", "console", "year", "genre", "rarity", "slug", "loosePrice", "cibPrice", "mintPrice"],
-    order: [["title", "ASC"]],
-  });
-
-  return res.json({
-    ok: true,
-    games: games.map((game) => ({
-      id: game.id,
-      title: game.title,
-      platform: game.console,
-      year: game.year,
-      genre: game.genre,
-      rarity: game.rarity,
-      slug: game.slug || null,
-      loosePrice: game.loosePrice,
-      cibPrice: game.cibPrice,
-      mintPrice: game.mintPrice,
-    })),
-    count: games.length,
-  });
-}));
-app.get("/api/search", handleAsync(async (req, res) => {
-  const q = String(req.query.q || "").trim();
-  const type = ["all", "game", "franchise"].includes(String(req.query.type || "all"))
-    ? String(req.query.type || "all")
-    : "all";
-  const limit = parseItemsLimit(req.query.limit, 20, 100);
-
-  if (!q || q.length < 2) {
-    return res.json({ ok: true, results: [], query: q });
-  }
-
-  const like = { [Op.like]: `%${q}%` };
-
-  let games = [];
-  let franchises = [];
-
-  if (type === "all" || type === "game") {
-    games = await Game.findAll({
-      where: {
-        type: "game",
-        [Op.or]: [
-          { title: like },
-          { console: like },
-          { genre: like },
-        ],
-      },
-      attributes: ["id", "title", "console", "year", "rarity", "loosePrice", "slug"],
-      order: [["rarity", "ASC"], ["title", "ASC"]],
-      limit: type === "all" ? Math.ceil(limit * 0.7) : limit,
-    });
-  }
-
-  if (type === "all" || type === "franchise") {
-    franchises = await Franchise.findAll({
-      where: {
-        [Op.or]: [
-          { name: like },
-          { description: like },
-        ],
-      },
-      attributes: ["id", "name", "slug", "first_game", "last_game", "developer"],
-      order: [["name", "ASC"]],
-      limit: type === "all" ? Math.ceil(limit * 0.3) : limit,
-    });
-  }
-
-  const results = [
-    ...franchises.map((franchise) => ({ ...franchise.toJSON(), _type: "franchise" })),
-    ...games.map((game) => ({ ...game.toJSON(), _type: "game" })),
-  ];
-
-  return res.json({
-    ok: true,
-    results,
-    count: results.length,
-    query: q,
-  });
-}));
-app.get("/api/items", handleAsync(async (req, res) => {
-  const where = buildItemsWhere(req.query);
-  const limit = parseItemsLimit(req.query.limit, 20, 100);
-  const offset = parseItemsOffset(req.query.offset, 0);
-
-  const total = await Game.count({ where });
-  const items = await Game.findAll({
-    where,
-    order: [["title", "ASC"]],
-    limit,
-    offset,
-  });
-
-  res.json({
-    ok: true,
-    items: items.map(toItemPayload),
-    total,
-    limit,
-    offset,
-  });
-}));
-app.get("/api/items/:id", handleAsync(async (req, res) => {
-  const lookup = String(req.params.id || "").trim();
-  const item = await Game.findOne({
-    where: {
-      [Op.or]: [
-        { id: lookup },
-        { slug: lookup },
-      ],
-    },
-  });
-
-  if (!item) {
-    return res.status(404).json({ ok: false, error: "Not found" });
-  }
-
-  return res.json({
-    ok: true,
-    item: toItemPayload(item),
-  });
-}));
-app.get("/api/consoles", handleAsync(async (_req, res) => {
-  const consoles = await Game.findAll({
-    where: { type: "console" },
-    order: [["year", "ASC"], ["title", "ASC"]],
-  });
-
-  const counts = await Game.findAll({
-    attributes: ["console"],
-    where: {
-      type: "game",
-      console: {
-        [Op.in]: consoles.map((item) => item.console),
-      },
-    },
-  });
-
-  const gamesByPlatform = new Map();
-  for (const game of counts) {
-    gamesByPlatform.set(game.console, (gamesByPlatform.get(game.console) || 0) + 1);
-  }
-
-  res.json({
-    ok: true,
-    consoles: consoles.map((item) => toConsolePayload(item, gamesByPlatform.get(item.console) || 0)),
-    count: consoles.length,
-  });
-}));
-app.get("/api/consoles/:id", handleAsync(async (req, res) => {
-  const lookup = String(req.params.id || "").trim();
-  const consoleItem = await Game.findOne({
-    where: {
-      type: "console",
-      [Op.or]: [
-        { id: lookup },
-        { slug: lookup },
-      ],
-    },
-  });
-
-  if (!consoleItem) {
-    return res.status(404).json({ ok: false, error: "Not found" });
-  }
-
-  const games = await Game.findAll({
-    where: {
-      type: "game",
-      console: consoleItem.console,
-    },
-    order: [["title", "ASC"]],
-    limit: 20,
-  });
-
-  const accessories = await Accessory.findAll({
-    where: {
-      console_id: consoleItem.id,
-    },
-    order: [["name", "ASC"]],
-    limit: 10,
-  });
-
-  return res.json({
-    ok: true,
-    console: toConsolePayload(consoleItem, games.length),
-    games: games.map(toItemPayload),
-    accessories: accessories.map((item) => ({
-      id: item.id,
-      name: item.name,
-      accessory_type: item.accessory_type || null,
-      slug: item.slug || null,
-    })),
-  });
-}));
-app.get("/api/accessories/types", handleAsync(async (_req, res) => {
-  const accessories = await Accessory.findAll({
-    attributes: ["accessory_type"],
-    order: [["accessory_type", "ASC"]],
-  });
-
-  const types = Array.from(new Set(
-    accessories
-      .map((item) => item.accessory_type)
-      .filter(Boolean)
-  ));
-
-  res.json({
-    ok: true,
-    types,
-  });
-}));
-app.get("/api/accessories", handleAsync(async (_req, res) => {
-  const accessories = await Accessory.findAll({
-    order: [["name", "ASC"]],
-  });
-
-  const consoleIds = Array.from(new Set(
-    accessories
-      .map((item) => item.console_id)
-      .filter(Boolean)
-  ));
-
-  const consoles = consoleIds.length
-    ? await Game.findAll({
-      attributes: ["id", "title"],
-      where: {
-        id: {
-          [Op.in]: consoleIds,
-        },
-      },
-    })
-    : [];
-
-  const consoleTitles = new Map(consoles.map((item) => [item.id, item.title]));
-
-  res.json({
-    ok: true,
-    accessories: accessories.map((item) => ({
-      id: item.id,
-      name: item.name,
-      console_id: item.console_id || null,
-      console_title: item.console_id ? consoleTitles.get(item.console_id) || null : null,
-      accessory_type: item.accessory_type || null,
-      release_year: item.release_year || null,
-      slug: item.slug || null,
-    })),
-    count: accessories.length,
-  });
-}));
-app.get("/api/index/:id", handleAsync(async (req, res) => {
-  const indexEntries = await RetrodexIndex.findAll({
-    where: {
-      item_id: req.params.id,
-    },
-    order: [["condition", "ASC"]],
-  });
-
-  res.json({
-    ok: true,
-    item_id: req.params.id,
-    index: indexEntries.map((entry) => ({
-      condition: entry.condition,
-      index_value: entry.index_value,
-      range_low: entry.range_low,
-      range_high: entry.range_high,
-      confidence_pct: entry.confidence_pct,
-      trend: entry.trend,
-      sources_editorial: entry.sources_editorial,
-      last_sale_date: entry.last_sale_date,
-    })),
-  });
-}));
-app.post("/api/reports", handleAsync(async (req, res) => {
-  const { item_id, condition, reported_price, context, date_estimated, text_raw } = req.body || {};
-  const normalizedItemId = String(item_id || "").trim();
-  const allowedConditions = ["Loose", "CIB", "Mint"];
-  const normalizedPrice = Number(reported_price);
-  const normalizedDate = date_estimated == null || date_estimated === "" ? null : String(date_estimated).trim();
-
-  if (!normalizedItemId) {
-    return res.status(400).json({
-      ok: false,
-      error: "item_id requis",
-    });
-  }
-
-  if (!allowedConditions.includes(condition)) {
-    return res.status(400).json({
-      ok: false,
-      error: "condition invalide: Loose, CIB ou Mint attendu",
-    });
-  }
-
-  if (!Number.isFinite(normalizedPrice) || normalizedPrice <= 0) {
-    return res.status(400).json({
-      ok: false,
-      error: "reported_price doit être supérieur à 0",
-    });
-  }
-
-  if (normalizedDate && !/^\d{4}-\d{2}-\d{2}$/.test(normalizedDate)) {
-    return res.status(400).json({
-      ok: false,
-      error: "date_estimated doit être au format YYYY-MM-DD ou null",
-    });
-  }
-
-  const newReport = await CommunityReport.create({
-    item_id: normalizedItemId,
-    condition,
-    reported_price: normalizedPrice,
-    context: context || "autre",
-    date_estimated: normalizedDate,
-    sale_title: text_raw || null,
-    user_id: "anonymous",
-    user_trust_score: 0.40,
-    is_editorial: false,
-    report_confidence_score: 0.50,
-  });
-
-  return res.json({
-    ok: true,
-    id: newReport.id,
-  });
-}));
-app.get("/api/collection/public", handleAsync(async (_req, res) => {
-  const items = await CollectionItem.findAll({
-    where: {
-      list_type: "for_sale",
-    },
-    include: [{
-      model: Game,
-      as: "game",
-      attributes: ["id", "title", "console", "year", "rarity"],
-    }],
-    order: [["gameId", "ASC"]],
-  });
-
-  const serializedItems = items
-    .map((item) => ({
-      id: item.gameId,
-      gameId: item.gameId,
-      condition: item.condition || "Loose",
-      notes: item.notes || null,
-      list_type: item.list_type || "for_sale",
-      price_paid: item.price_paid ?? null,
-      addedAt: item.addedAt || null,
-      game: item.game ? {
-        id: item.game.id,
-        title: item.game.title,
-        platform: item.game.console,
-        console: item.game.console,
-        year: item.game.year,
-        rarity: item.game.rarity,
-      } : null,
-    }))
-    .sort((left, right) => String(left.game?.title || left.gameId || "").localeCompare(String(right.game?.title || right.gameId || "")));
-
-  res.json({
-    ok: true,
-    items: serializedItems,
-    count: serializedItems.length,
-  });
-}));
-app.use(collectionRoutes);
-app.get("/api/collection/stats", handleAsync(async (_req, res) => {
-  const items = await CollectionItem.findAll({
-    where: {
-      list_type: "owned",
-    },
-    include: [{
-      model: Game,
-      as: "game",
-      attributes: ["id", "title", "console", "rarity", "loosePrice", "cibPrice", "mintPrice"],
-    }],
-    order: [["gameId", "ASC"]],
-  });
-
-  const ownedItems = items.filter((item) => item.game);
-  const byPlatformMap = new Map();
-
-  let totalLoose = 0;
-  let totalCib = 0;
-  let totalMint = 0;
-
-  for (const item of ownedItems) {
-    const platform = item.game.console || "Unknown";
-    const condition = normalizeOwnedCondition(item.condition);
-    const resolvedValue = getItemConditionValue(item);
-
-    if (condition === "CIB") {
-      totalCib += resolvedValue;
-    } else if (condition === "Mint") {
-      totalMint += resolvedValue;
-    } else {
-      totalLoose += resolvedValue;
-    }
-
-    if (!byPlatformMap.has(platform)) {
-      byPlatformMap.set(platform, {
-        platform,
-        count: 0,
-        total_loose: 0,
-      });
-    }
-
-    const bucket = byPlatformMap.get(platform);
-    bucket.count += 1;
-    bucket.total_loose += resolvedValue;
-  }
-
-  const by_platform = Array.from(byPlatformMap.values())
-    .map((entry) => ({
-      platform: entry.platform,
-      count: entry.count,
-      total_loose: Math.round(entry.total_loose * 100) / 100,
-    }))
-    .sort((left, right) => left.platform.localeCompare(right.platform));
-
-  const top5 = ownedItems
-    .slice()
-    .sort((left, right) => toPriceNumber(right.game?.loosePrice) - toPriceNumber(left.game?.loosePrice))
-    .slice(0, 5)
-    .map((item) => ({
-      id: item.game.id,
-      title: item.game.title,
-      platform: item.game.console,
-      loosePrice: toPriceNumber(item.game.loosePrice),
-      rarity: item.game.rarity,
-    }));
-
-  res.json({
-    ok: true,
-    count: ownedItems.length,
-    total_loose: Math.round(totalLoose * 100) / 100,
-    total_cib: Math.round(totalCib * 100) / 100,
-    total_mint: Math.round(totalMint * 100) / 100,
-    confidence: "mixed",
-    by_platform,
-    top5,
-  });
-}));
-app.use(consolesRoutes);
-app.use(statsRoutes);
-app.use(syncRoutes);
-
-// --- Error handler ---
 app.use((error, req, res, _next) => {
-  console.error(`RetroDex backend request failed: ${req.method} ${req.originalUrl}`, error);
+  console.error(`RetroDex backend request failed: ${req.method} ${req.originalUrl}`, error)
 
   if (res.headersSent) {
-    return;
+    return
   }
 
   res.status(500).json({
     ok: false,
-    error: "Internal server error",
-  });
-});
+    error: 'Internal server error',
+  })
+})
 
-// --- Startup ---
 async function startServer(portOverride) {
-  await ensureGameEncyclopediaColumns();
-  await Franchise.sync();
-  let shouldBootstrap = true;
+  await ensureGameEncyclopediaColumns()
+  await Franchise.sync()
+  let shouldBootstrap = true
 
   try {
-    shouldBootstrap = (await Game.count()) === 0;
+    shouldBootstrap = (await Game.count()) === 0
   } catch (_error) {
-    shouldBootstrap = true;
+    shouldBootstrap = true
   }
 
   if (shouldBootstrap) {
-    await syncGamesFromPrototype();
+    await syncGamesFromPrototype()
   }
 
-  const PORT = Number(portOverride || process.env.PORT || 3000);
+  const PORT = Number(portOverride || process.env.PORT || 3000)
 
   return app.listen(PORT, () => {
-    console.log(`RetroDex backend running on http://localhost:${PORT}`);
-  });
+    console.log(`RetroDex backend running on http://localhost:${PORT}`)
+  })
 }
 
 if (require.main === module) {
   startServer().catch(async (error) => {
-    console.error("Unable to start RetroDex backend:", error);
-    await sequelize.close();
-    process.exit(1);
-  });
+    console.error('Unable to start RetroDex backend:', error)
+    await sequelize.close()
+    process.exit(1)
+  })
 }
 
 module.exports = {
   app,
   startServer,
-};
+}
