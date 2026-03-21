@@ -23,6 +23,8 @@ backend/node_modules/
 data/raw/
 data/exports/
 data/screenshots/
+data/prices_t1_auto_latest.json
+.codex_tmp_stage/
 orchestration.zip
 files.zip
 CODEX_PROMPT_MARKET_PIPELINE.md
