@@ -405,8 +405,8 @@
           const payload = await fetchJson("/api/stats");
 
           overviewTotalGamesEl.textContent = String(payload.total_games || 0);
-          overviewPlatformTotalEl.textContent = String((payload.by_platform || []).length);
-          overviewPricedTotalEl.textContent = String((payload.top5_expensive || []).length);
+          overviewPlatformTotalEl.textContent = String(payload.total_platforms || 0);
+          overviewPricedTotalEl.textContent = String(payload.priced_games || 0);
           encycloSynopsisEl.textContent = `${payload.encyclopedia_stats?.with_synopsis || 0} / ${Math.max(payload.total_games || 0, TOTAL_SYNOPSIS_TARGET)}`;
           encycloFranchiseEl.textContent = String(payload.encyclopedia_stats?.total_franchises || 0);
           priceMedianLooseEl.textContent = formatCurrency(payload.price_stats?.median_loose || 0);

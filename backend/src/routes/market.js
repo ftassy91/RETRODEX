@@ -192,6 +192,8 @@ router.get('/api/stats', handleAsync(async (_req, res) => {
   res.json({
     ok: true,
     total_games: games.length,
+    total_platforms: byPlatformMap.size,
+    priced_games: pricedGames.length,
     by_rarity: byRarity,
     by_platform: byPlatform,
     price_stats: {
