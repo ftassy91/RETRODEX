@@ -31,4 +31,47 @@ describe('API RetroDex', () => {
     expect(res.status).toBe(200)
     expect(Array.isArray(res.body.results)).toBe(true)
   })
+
+  test('GET /api/search supporte la recherche par annee', async () => {
+    const res = await request(app).get('/api/search?q=1998&type=game&limit=5')
+    expect(res.status).toBe(200)
+    expect(Array.isArray(res.body.results)).toBe(true)
+    expect(res.body.results.length).toBeGreaterThan(0)
+    expect(res.body.results.some((item) => String(item.year) === '1998')).toBe(true)
+  })
+
+  test('GET /api/stats retourne les metriques enrichies', async () => {
+    const res = await request(app).get('/api/stats')
+    expect(res.status).toBe(200)
+    expect(typeof res.body.total_games).toBe('number')
+    expect(res.body.trust_stats).toBeDefined()
+    expect(typeof res.body.trust_stats.t1).toBe('number')
+    expect(Array.isArray(res.body.by_platform)).toBe(true)
+  })
+
+  test('PATCH /api/collection/:id met a jour les metadonnees d achat', async () => {
+    const list = await request(app).get('/api/collection')
+    expect(list.status).toBe(200)
+    expect(Array.isArray(list.body.items)).toBe(true)
+    expect(list.body.items.length).toBeGreaterThan(0)
+
+    const first = list.body.items[0]
+    const res = await request(app)
+      .patch('/api/collection/' + first.gameId)
+      .send({
+        price_threshold: 111,
+        price_paid: 44,
+        purchase_date: '2025-01-15',
+        personal_note: 'jest note',
+        notes: 'jest patch',
+      })
+
+    expect(res.status).toBe(200)
+    expect(res.body.ok).toBe(true)
+    expect(res.body.item.price_threshold).toBe(111)
+    expect(res.body.item.price_paid).toBe(44)
+    expect(res.body.item.purchase_date).toBe('2025-01-15')
+    expect(res.body.item.personal_note).toBe('jest note')
+    expect(res.body.item.notes).toBe('jest patch')
+  })
 })
