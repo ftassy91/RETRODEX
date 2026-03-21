@@ -11,6 +11,7 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <title>RetroDex - Catalogue</title>
     <link rel="stylesheet" href="/style.css" />
+    <script src="/js/renderGameRow.js"></script>
     <style>
       :root { --panel-bg: rgba(15,56,15,.2); --panel-line: rgba(155,188,15,.18); --panel-strong: rgba(155,188,15,.42); --text-strong: #cfe66f; --text-soft: rgba(155,188,15,.62); --text-faint: rgba(155,188,15,.4); --text-active: #d8f08f; --legendary: #ddc420; --epic: #c48be8; --rare: #e88855; --uncommon: #44aadd; --common: #5a9a3a; }
       .catalog-shell { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
@@ -523,22 +524,6 @@
         }
       }
 
-      function row(game) {
-        const initial = ((game.title || "").trim().charAt(0) || "?").toUpperCase();
-
-        return `
-          <div class="result-row" role="link" tabindex="0" data-game-id="${esc(game.id)}" onclick="navigateTo('${esc(game.id)}')">
-            <div class="result-initial">${esc(initial)}</div>
-            <div class="result-info">
-              <span class="result-title" title="${esc(game.title)}">${esc(game.title)}</span>
-              <span class="result-meta">${esc(game.console || "Console inconnue")} &middot; ${esc(game.year || "n/a")}</span>
-            </div>
-            <div class="result-price">${esc(price(game.mintPrice))}</div>
-            <div class="result-badge rarity-badge rarity-${esc(rClass(game.rarity))}">${esc(game.rarity || "COMMON")}</div>
-          </div>
-        `;
-      }
-
       function renderSummary(currentState, total) {
         const pills = [
           `<span class="summary-pill active">${total} jeux</span>`,
@@ -636,7 +621,16 @@
           return;
         }
 
-        resultsEl.innerHTML = pageItems.map((game) => row(game)).join("");
+        resultsEl.innerHTML = "";
+        pageItems.forEach((game) => {
+          const rowEl = renderGameRow(game, {
+            onClick: () => navigateTo(game.id),
+          });
+          rowEl.setAttribute("role", "link");
+          rowEl.setAttribute("tabindex", "0");
+          resultsEl.appendChild(rowEl);
+        });
+
         resultsEl.querySelectorAll(".result-row").forEach((rowEl) => {
           rowEl.addEventListener("keydown", (event) => {
             if (event.key === "Enter" || event.key === " ") {
