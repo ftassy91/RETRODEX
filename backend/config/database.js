@@ -1,17 +1,9 @@
 const { Sequelize } = require("sequelize");
-const path = require("path");
 const pg = require("pg");
+const { DB_PATH } = require("../src/config/paths");
 
 function resolveSqlitePath() {
-  const configuredPath = process.env.RETRODEX_SQLITE_PATH;
-
-  if (!configuredPath) {
-    return path.resolve(__dirname, "../storage/retrodex.sqlite");
-  }
-
-  return path.isAbsolute(configuredPath)
-    ? configuredPath
-    : path.resolve(__dirname, "../..", configuredPath);
+  return DB_PATH;
 }
 
 function createSequelize() {
