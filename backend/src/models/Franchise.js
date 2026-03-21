@@ -18,6 +18,6 @@ const Franchise = sequelize.define('Franchise', {
   team_changes: { type: DataTypes.TEXT },
   trivia:       { type: DataTypes.TEXT },
   legacy:       { type: DataTypes.TEXT },
-}, { tableName: 'franchises', timestamps: true })
+}, { tableName: 'franchises', timestamps: false })
 
 module.exports = Franchise
