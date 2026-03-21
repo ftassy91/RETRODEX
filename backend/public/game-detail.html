@@ -3,19 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#9bbc0f">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RetroDex">
-    <link rel="apple-touch-icon" href="/icons/icon-192.png">
-    <title>RetroDex — Fiche jeu</title>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#9bbc0f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="RetroDex" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <title>RetroDex &mdash; Fiche jeu</title>
     <link rel="stylesheet" href="/style.css" />
-    <style>
-      .trend-badge.up::before { content: "\2191 "; }
-      .trend-badge.down::before { content: "\2193 "; }
-      .trend-badge.stable::before { content: "= "; }
-    </style>
   </head>
   <body>
     <main class="detail-shell">
@@ -24,7 +19,7 @@
         <span class="sep">&rsaquo;</span>
         <a id="catalog-back-link" href="/games-list.html">CATALOGUE</a>
         <span class="sep">&rsaquo;</span>
-        <span class="current" id="breadcrumb-title">—</span>
+        <span class="current" id="breadcrumb-title">&mdash;</span>
       </nav>
 
       <section id="hero" class="hero-card">
@@ -32,7 +27,7 @@
       </section>
 
       <section class="summary-card">
-        <h2>Résumé</h2>
+        <h2>Resume</h2>
         <div id="summary" class="summary-text">Chargement...</div>
       </section>
 
@@ -52,7 +47,7 @@
         </div>
         <div id="collection-form" class="collection-form">
           <div class="collection-controls">
-            <select id="collection-condition" class="collection-condition-select" aria-label="État du jeu">
+            <select id="collection-condition" class="collection-condition-select" aria-label="Etat du jeu">
               <option value="Loose">Loose</option>
               <option value="CIB">CIB</option>
               <option value="Mint">Mint</option>
@@ -69,10 +64,36 @@
         <div id="collection-status" class="status-text"></div>
       </section>
 
+      <section id="editorial-shell" class="editorial-card" hidden>
+        <div class="detail-section-head">
+          <div>
+            <div class="detail-kicker">EDITORIAL ARCHIVE</div>
+            <h2>Encyclopedie</h2>
+          </div>
+          <p class="detail-section-copy">
+            Synopsis, equipe, anecdotes et codes archives pour cette fiche.
+          </p>
+        </div>
+        <div id="editorial-content"></div>
+      </section>
+
+      <section id="related-shell" class="related-card" hidden>
+        <div class="detail-section-head">
+          <div>
+            <div class="detail-kicker">NEXT EXPLORATION</div>
+            <h2>Autres pistes</h2>
+          </div>
+          <p class="detail-section-copy">
+            Versions proches, jeux similaires et passerelles de collection.
+          </p>
+        </div>
+        <div id="related-content"></div>
+      </section>
+
       <section class="contribute-section">
         <h3>CONTRIBUER UN PRIX</h3>
         <p class="contribute-desc">
-          Vous avez acheté ou vendu ce jeu ? Partagez le prix.
+          Vous avez achete ou vendu ce jeu ? Partagez le prix.
         </p>
         <div class="contribute-form">
           <select id="contrib-condition">
@@ -80,8 +101,7 @@
             <option value="CIB">CIB</option>
             <option value="Mint">Mint</option>
           </select>
-          <input type="number" id="contrib-price"
-            placeholder="Prix en $ (ex: 45)" min="1" step="0.01" />
+          <input type="number" id="contrib-price" placeholder="Prix en $ (ex: 45)" min="1" step="0.01" />
           <select id="contrib-context">
             <option value="ebay">eBay</option>
             <option value="vinted">Vinted</option>
@@ -90,13 +110,11 @@
             <option value="autre">Autre</option>
           </select>
           <input type="date" id="contrib-date" />
-          <textarea id="contrib-note"
-            placeholder="Note optionnelle..." rows="2"></textarea>
+          <textarea id="contrib-note" placeholder="Note optionnelle..." rows="2"></textarea>
           <button id="contrib-submit" type="button">SOUMETTRE</button>
         </div>
         <div id="contrib-feedback" class="hidden"></div>
       </section>
-
     </main>
 
     <script src="/js/core/config.js"></script>
@@ -106,9 +124,9 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/pages/game-detail.js"></script>
     <script src="/js/features/experience-layer.js"></script>
-<div class="footer-attribution">
-  Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
-</div>
-</body>
+    <div class="footer-attribution">
+      Covers :
+      <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
+    </div>
+  </body>
 </html>
-
