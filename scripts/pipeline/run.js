@@ -98,7 +98,10 @@ async function main() {
           year:      record.release_year,
           developer: record.developer,
           genre:     record.genre,
-          summary:   record.description
+          summary:   record.description,
+          type:      'game',
+          slug:      record.slug,
+          source_confidence: 0.5
         })
         console.log(`  [OK] ${record.name}`)
         stats.ok++
