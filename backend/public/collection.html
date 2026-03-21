@@ -180,6 +180,22 @@
         color: var(--text-alert);
       }
 
+      .value-summary {
+        margin-top: 14px;
+        display: grid;
+        gap: 6px;
+      }
+
+      .value-summary-line {
+        font-size: 11px;
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
+      }
+
+      .value-summary-line strong {
+        color: var(--text-primary);
+      }
+
       .tab-btn:disabled {
         opacity: 0.45;
         cursor: default;
@@ -246,6 +262,11 @@
             <div class="value-amount" id="val-mint">$&mdash;</div>
           </div>
         </div>
+        <div class="value-summary">
+          <div class="value-summary-line">Paye : <strong id="val-paid">$&mdash;</strong></div>
+          <div class="value-summary-line">Valeur actuelle : <strong id="val-current">$&mdash;</strong></div>
+          <div class="value-summary-line">Plus-value estimee : <strong id="val-profit">$&mdash;</strong></div>
+        </div>
         <div class="value-count" id="val-count">&mdash; jeux</div>
       </section>
 
@@ -260,6 +281,9 @@
       const valLooseEl = document.getElementById("val-loose");
       const valCibEl = document.getElementById("val-cib");
       const valMintEl = document.getElementById("val-mint");
+      const valPaidEl = document.getElementById("val-paid");
+      const valCurrentEl = document.getElementById("val-current");
+      const valProfitEl = document.getElementById("val-profit");
       const valCountEl = document.getElementById("val-count");
       const statusTextEl = document.getElementById("status-text");
       const collectionContentEl = document.getElementById("collection-content");
@@ -351,6 +375,9 @@
         valLooseEl.textContent = "$—";
         valCibEl.textContent = "$—";
         valMintEl.textContent = "$—";
+        valPaidEl.textContent = "$—";
+        valCurrentEl.textContent = "$—";
+        valProfitEl.textContent = "$—";
         valCountEl.textContent = "— jeux";
       }
 
@@ -372,6 +399,9 @@
           valLooseEl.textContent = formatCurrency(stats.total_loose);
           valCibEl.textContent = formatCurrency(stats.total_cib);
           valMintEl.textContent = formatCurrency(stats.total_mint);
+          valPaidEl.textContent = formatCurrency(stats.total_paid);
+          valCurrentEl.textContent = formatCurrency(stats.total_loose);
+          valProfitEl.textContent = formatCurrency(stats.profit_estimate);
           valCountEl.textContent = `${stats.count} jeu(x)`;
         } catch (_error) {
           resetCollectionValue();

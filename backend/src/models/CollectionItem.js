@@ -42,6 +42,16 @@ const CollectionItem = sequelize.define(
       allowNull: true,
       field: "price_paid",
     },
+    purchase_date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true,
+      field: "purchase_date",
+    },
+    personal_note: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      field: "personal_note",
+    },
   },
   {
     tableName: "collection_items",

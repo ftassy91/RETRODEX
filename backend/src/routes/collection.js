@@ -1,6 +1,7 @@
 'use strict'
 
 const { Router } = require('express')
+const { DataTypes } = require('sequelize')
 const Game = require('../models/Game')
 const CollectionItem = require('../models/CollectionItem')
 const { handleAsync } = require('../helpers/query')
@@ -21,6 +22,31 @@ Game.hasMany(CollectionItem, {
 
 const VALID_COLLECTION_CONDITIONS = new Set(['Loose', 'CIB', 'Mint'])
 const VALID_COLLECTION_LIST_TYPES = new Set(['owned', 'wanted', 'for_sale'])
+let collectionSchemaReady = false
+
+async function ensureCollectionColumns() {
+  if (collectionSchemaReady) {
+    return
+  }
+
+  const queryInterface = CollectionItem.sequelize.getQueryInterface()
+  const columns = await queryInterface.describeTable('collection_items').catch(() => null)
+  if (!columns) {
+    collectionSchemaReady = true
+    return
+  }
+
+  const missingColumns = [
+    ['purchase_date', { type: DataTypes.DATEONLY, allowNull: true }],
+    ['personal_note', { type: DataTypes.TEXT, allowNull: true }],
+  ].filter(([name]) => !columns[name])
+
+  for (const [name, definition] of missingColumns) {
+    await queryInterface.addColumn('collection_items', name, definition)
+  }
+
+  collectionSchemaReady = true
+}
 
 function normalizeCollectionCondition(value) {
   const raw = String(value ?? '').trim()
@@ -59,6 +85,8 @@ function normalizeCollectionPayload(body) {
   const notes = String(body?.notes ?? '').trim()
   const list_type = normalizeCollectionListType(body?.list_type)
   const price_paid = normalizePricePaid(body?.price_paid)
+  const purchase_date = body?.purchase_date ? String(body.purchase_date).trim() : null
+  const personal_note = String(body?.personal_note ?? '').trim()
 
   return {
     gameId,
@@ -66,6 +94,8 @@ function normalizeCollectionPayload(body) {
     notes: notes || null,
     list_type,
     price_paid,
+    purchase_date: purchase_date || null,
+    personal_note: personal_note || null,
   }
 }
 
@@ -103,6 +133,8 @@ function serializeCollectionItem(item) {
     notes: item?.notes || null,
     list_type: normalizeCollectionListType(item?.list_type) || 'owned',
     price_paid: item?.price_paid ?? null,
+    purchase_date: item?.purchase_date || null,
+    personal_note: item?.personal_note || null,
     addedAt: item?.addedAt || null,
     game: item?.game ? {
       id: item.game.id,
@@ -126,6 +158,7 @@ const GAME_INCLUDE = [{
 }]
 
 async function listCollectionItems(listType) {
+  await ensureCollectionColumns()
   const where = listType ? { list_type: listType } : undefined
 
   const items = await CollectionItem.findAll({
@@ -150,6 +183,7 @@ router.get('/collection', handleAsync(async (req, res) => {
 }))
 
 router.post('/collection', handleAsync(async (req, res) => {
+  await ensureCollectionColumns()
   const payload = normalizeCollectionPayload(req.body)
 
   if (!payload.gameId) {
@@ -166,6 +200,10 @@ router.post('/collection', handleAsync(async (req, res) => {
 
   if (payload.price_paid !== null && (!Number.isFinite(payload.price_paid) || payload.price_paid <= 0)) {
     return res.status(400).json({ ok: false, error: 'price_paid must be a positive number' })
+  }
+
+  if (payload.purchase_date && !/^\d{4}-\d{2}-\d{2}$/.test(payload.purchase_date)) {
+    return res.status(400).json({ ok: false, error: 'purchase_date must use YYYY-MM-DD' })
   }
 
   const game = await Game.findByPk(payload.gameId)
@@ -185,6 +223,7 @@ router.post('/collection', handleAsync(async (req, res) => {
 }))
 
 router.delete('/collection/:id', handleAsync(async (req, res) => {
+  await ensureCollectionColumns()
   const item = await CollectionItem.findByPk(req.params.id)
 
   if (!item) {
@@ -196,6 +235,7 @@ router.delete('/collection/:id', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/collection', handleAsync(async (req, res) => {
+  await ensureCollectionColumns()
   const listType = req.query?.list_type ? normalizeCollectionListType(req.query.list_type) : null
   if (req.query?.list_type && !listType) {
     return res.status(400).json({ ok: false, error: 'list_type must be one of owned, wanted or for_sale' })
@@ -210,6 +250,7 @@ router.get('/api/collection', handleAsync(async (req, res) => {
 }))
 
 router.post('/api/collection', handleAsync(async (req, res) => {
+  await ensureCollectionColumns()
   const payload = normalizeCollectionPayload(req.body)
 
   if (!payload.gameId) {
@@ -226,6 +267,10 @@ router.post('/api/collection', handleAsync(async (req, res) => {
 
   if (payload.price_paid !== null && (!Number.isFinite(payload.price_paid) || payload.price_paid <= 0)) {
     return res.status(400).json({ ok: false, error: 'price_paid must be a positive number' })
+  }
+
+  if (payload.purchase_date && !/^\d{4}-\d{2}-\d{2}$/.test(payload.purchase_date)) {
+    return res.status(400).json({ ok: false, error: 'purchase_date must use YYYY-MM-DD' })
   }
 
   const game = await Game.findByPk(payload.gameId)
@@ -249,6 +294,7 @@ router.post('/api/collection', handleAsync(async (req, res) => {
 }))
 
 router.delete('/api/collection/:id', handleAsync(async (req, res) => {
+  await ensureCollectionColumns()
   const item = await CollectionItem.findByPk(req.params.id)
 
   if (!item) {
@@ -261,6 +307,7 @@ router.delete('/api/collection/:id', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/collection/public', handleAsync(async (_req, res) => {
+  await ensureCollectionColumns()
   const items = await CollectionItem.findAll({
     where: {
       list_type: 'for_sale',
@@ -281,6 +328,8 @@ router.get('/api/collection/public', handleAsync(async (_req, res) => {
       notes: item.notes || null,
       list_type: item.list_type || 'for_sale',
       price_paid: item.price_paid ?? null,
+      purchase_date: item.purchase_date || null,
+      personal_note: item.personal_note || null,
       addedAt: item.addedAt || null,
       game: item.game ? {
         id: item.game.id,
@@ -301,6 +350,7 @@ router.get('/api/collection/public', handleAsync(async (_req, res) => {
 }))
 
 router.get('/api/collection/stats', handleAsync(async (_req, res) => {
+  await ensureCollectionColumns()
   const items = await CollectionItem.findAll({
     where: {
       list_type: 'owned',
@@ -319,6 +369,7 @@ router.get('/api/collection/stats', handleAsync(async (_req, res) => {
   let totalLoose = 0
   let totalCib = 0
   let totalMint = 0
+  let totalPaid = 0
 
   for (const item of ownedItems) {
     const platform = item.game.console || 'Unknown'
@@ -332,6 +383,8 @@ router.get('/api/collection/stats', handleAsync(async (_req, res) => {
     } else {
       totalLoose += resolvedValue
     }
+
+    totalPaid += Number(item.price_paid) || 0
 
     if (!byPlatformMap.has(platform)) {
       byPlatformMap.set(platform, {
@@ -372,6 +425,8 @@ router.get('/api/collection/stats', handleAsync(async (_req, res) => {
     total_loose: Math.round(totalLoose * 100) / 100,
     total_cib: Math.round(totalCib * 100) / 100,
     total_mint: Math.round(totalMint * 100) / 100,
+    total_paid: Math.round(totalPaid * 100) / 100,
+    profit_estimate: Math.round((totalLoose - totalPaid) * 100) / 100,
     confidence: 'mixed',
     by_platform,
     top5,
