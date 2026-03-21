@@ -1,0 +1,216 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "created": "2026-03-21",
+    "method": "Editorial medians from known market ranges.",
+    "sampleTargetPerCondition": 5,
+    "selectionRule": "T1 batch 9 — atteindre 100 jeux vérifiés"
+  },
+  "items": [
+    {
+      "rank": 1,
+      "id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+      "title": "The Legend of Zelda: A Link to the Past",
+      "console": "Super Nintendo",
+      "rarity": "RARE",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/legend-of-zelda-a-link-to-the-past",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 5,
+          "median": 32.00,
+          "sales": [
+            {"date":"2026-02-14","title":"Zelda Link to the Past SNES Cart Only","price":36.00},
+            {"date":"2026-01-19","title":"Zelda ALTTP Super Nintendo Loose","price":29.00},
+            {"date":"2025-12-10","title":"Link to the Past SNES Cartridge Tested","price":33.00},
+            {"date":"2025-11-22","title":"Zelda ALTTP SNES Loose Authentic","price":28.00},
+            {"date":"2025-10-28","title":"Legend of Zelda ALTTP SNES Cart","price":34.00}
+          ]
+        },
+        "cib": {
+          "sampleCount": 5,
+          "median": 98.00,
+          "sales": [
+            {"date":"2026-02-08","title":"Zelda ALTTP SNES Complete Box Manual Map","price":108.00},
+            {"date":"2026-01-14","title":"Link to the Past Super Nintendo CIB","price":90.00},
+            {"date":"2025-12-18","title":"Zelda ALTTP SNES Complete Near Mint","price":100.00},
+            {"date":"2025-11-05","title":"ALTTP CIB Box Manual Cart","price":93.00},
+            {"date":"2025-10-20","title":"Zelda Link to the Past SNES Complete","price":99.00}
+          ]
+        },
+        "mint": {
+          "sampleCount": 2,
+          "median": 350.00,
+          "sales": [
+            {"date":"2024-07-10","title":"Zelda ALTTP SNES Sealed New","price":370.00},
+            {"date":"2023-10-15","title":"Link to the Past Super Nintendo Sealed","price":330.00}
+          ]
+        }
+      }
+    },
+    {
+      "rank": 2,
+      "id": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "console": "Super Nintendo",
+      "rarity": "RARE",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/super-metroid",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 5,
+          "median": 42.00,
+          "sales": [
+            {"date":"2026-02-16","title":"Super Metroid SNES Cart Only Authentic","price":47.00},
+            {"date":"2026-01-20","title":"Super Metroid Super Nintendo Loose","price":38.00},
+            {"date":"2025-12-12","title":"Super Metroid SNES Cartridge Tested","price":43.00},
+            {"date":"2025-11-25","title":"Super Metroid SNES Loose Authentic","price":37.00},
+            {"date":"2025-10-30","title":"Super Metroid Super Nintendo Cart","price":45.00}
+          ]
+        },
+        "cib": {
+          "sampleCount": 5,
+          "median": 128.00,
+          "sales": [
+            {"date":"2026-02-06","title":"Super Metroid SNES Complete Box Manual","price":140.00},
+            {"date":"2026-01-12","title":"Super Metroid Super Nintendo CIB","price":118.00},
+            {"date":"2025-12-18","title":"Super Metroid SNES Complete Near Mint","price":130.00},
+            {"date":"2025-11-08","title":"Super Metroid CIB Box Manual Cart","price":120.00},
+            {"date":"2025-10-22","title":"Super Metroid SNES Complete Authentic","price":132.00}
+          ]
+        },
+        "mint": {
+          "sampleCount": 2,
+          "median": 480.00,
+          "sales": [
+            {"date":"2024-06-08","title":"Super Metroid SNES Sealed New","price":510.00},
+            {"date":"2023-10-12","title":"Super Metroid Super Nintendo Factory Sealed","price":450.00}
+          ]
+        }
+      }
+    },
+    {
+      "rank": 3,
+      "id": "donkey-kong-country-super-nintendo",
+      "title": "Donkey Kong Country",
+      "console": "Super Nintendo",
+      "rarity": "COMMON",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/donkey-kong-country",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 5,
+          "median": 14.00,
+          "sales": [
+            {"date":"2026-02-18","title":"Donkey Kong Country SNES Cart Only","price":16.00},
+            {"date":"2026-01-22","title":"Donkey Kong Country Super Nintendo Loose","price":12.00},
+            {"date":"2025-12-15","title":"DKC SNES Cartridge Tested","price":14.00},
+            {"date":"2025-11-10","title":"Donkey Kong Country SNES Loose","price":11.00},
+            {"date":"2025-10-25","title":"DKC Super Nintendo Cart","price":17.00}
+          ]
+        },
+        "cib": {
+          "sampleCount": 5,
+          "median": 42.00,
+          "sales": [
+            {"date":"2026-02-10","title":"Donkey Kong Country SNES CIB Complete","price":46.00},
+            {"date":"2026-01-15","title":"DKC Super Nintendo Complete Box Manual","price":38.00},
+            {"date":"2025-12-20","title":"Donkey Kong Country SNES Complete","price":43.00},
+            {"date":"2025-11-08","title":"DKC CIB Box Manual Cart","price":39.00},
+            {"date":"2025-10-18","title":"Donkey Kong Country SNES Near Mint","price":44.00}
+          ]
+        },
+        "mint": {
+          "sampleCount": 2,
+          "median": 180.00,
+          "sales": [
+            {"date":"2024-05-10","title":"Donkey Kong Country SNES Sealed New","price":195.00},
+            {"date":"2023-09-20","title":"DKC Super Nintendo Factory Sealed","price":165.00}
+          ]
+        }
+      }
+    },
+    {
+      "rank": 4,
+      "id": "super-mario-kart-super-nintendo",
+      "title": "Super Mario Kart",
+      "console": "Super Nintendo",
+      "rarity": "COMMON",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/super-mario-kart",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 5,
+          "median": 18.00,
+          "sales": [
+            {"date":"2026-02-14","title":"Super Mario Kart SNES Cart Only","price":22.00},
+            {"date":"2026-01-19","title":"Mario Kart Super Nintendo Loose","price":15.00},
+            {"date":"2025-12-10","title":"Super Mario Kart SNES Cartridge","price":19.00},
+            {"date":"2025-11-22","title":"Mario Kart SNES Loose Authentic","price":14.00},
+            {"date":"2025-10-28","title":"Super Mario Kart Super Nintendo Cart","price":20.00}
+          ]
+        },
+        "cib": {
+          "sampleCount": 5,
+          "median": 58.00,
+          "sales": [
+            {"date":"2026-02-08","title":"Super Mario Kart SNES CIB Complete","price":64.00},
+            {"date":"2026-01-14","title":"Mario Kart Super Nintendo Complete Box","price":52.00},
+            {"date":"2025-12-18","title":"Super Mario Kart SNES CIB Near Mint","price":60.00},
+            {"date":"2025-11-05","title":"Mario Kart CIB Box Manual Cart","price":54.00},
+            {"date":"2025-10-20","title":"Super Mario Kart SNES Complete","price":60.00}
+          ]
+        },
+        "mint": {
+          "sampleCount": 2,
+          "median": 220.00,
+          "sales": [
+            {"date":"2024-08-10","title":"Super Mario Kart SNES Sealed New","price":235.00},
+            {"date":"2023-11-15","title":"Mario Kart Super Nintendo Factory Sealed","price":205.00}
+          ]
+        }
+      }
+    },
+    {
+      "rank": 5,
+      "id": "kirby-super-star-super-nintendo",
+      "title": "Kirby Super Star",
+      "console": "Super Nintendo",
+      "rarity": "RARE",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/kirby-super-star",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": {
+          "sampleCount": 5,
+          "median": 28.00,
+          "sales": [
+            {"date":"2026-02-16","title":"Kirby Super Star SNES Cart Only Authentic","price":32.00},
+            {"date":"2026-01-20","title":"Kirby Super Star Super Nintendo Loose","price":25.00},
+            {"date":"2025-12-12","title":"Kirby Super Star SNES Cartridge Tested","price":29.00},
+            {"date":"2025-11-25","title":"Kirby Super Star SNES Loose Auth","price":24.00},
+            {"date":"2025-10-30","title":"Kirby Super Star Super Nintendo Cart","price":30.00}
+          ]
+        },
+        "cib": {
+          "sampleCount": 5,
+          "median": 85.00,
+          "sales": [
+            {"date":"2026-02-06","title":"Kirby Super Star SNES Complete Box Manual","price":92.00},
+            {"date":"2026-01-12","title":"Kirby Super Star Super Nintendo CIB","price":78.00},
+            {"date":"2025-12-18","title":"Kirby Super Star SNES Complete Near Mint","price":87.00},
+            {"date":"2025-11-08","title":"Kirby Super Star CIB Box Manual Cart","price":80.00},
+            {"date":"2025-10-22","title":"Kirby Super Star SNES Complete","price":88.00}
+          ]
+        },
+        "mint": {
+          "sampleCount": 2,
+          "median": 280.00,
+          "sales": [
+            {"date":"2024-06-08","title":"Kirby Super Star SNES Sealed New","price":295.00},
+            {"date":"2023-10-12","title":"Kirby Super Star Super Nintendo Factory Sealed","price":265.00}
+          ]
+        }
+      }
+    }
+  ]
+}

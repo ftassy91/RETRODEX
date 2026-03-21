@@ -1,114 +1,143 @@
-const path = require("path");
-require("dotenv").config();
+'use strict'
 
-const express = require("express");
-const cors = require("cors");
+const path = require('path')
+require('dotenv').config({
+  path: path.join(__dirname, '..', '.env'),
+})
 
-const { sequelize, storagePath, databaseMode, databaseTarget } = require("./database");
-const Game = require("./models/Game");
-const CollectionItem = require("./models/CollectionItem");
-const { syncGamesFromPrototype } = require("./syncGames");
-const { handleAsync } = require("./helpers/query");
+const express = require('express')
+const cors = require('cors')
+const { DataTypes } = require('sequelize')
 
-// --- Model associations ---
-CollectionItem.belongsTo(Game, {
-  foreignKey: "gameId",
-  targetKey: "id",
-  as: "game",
-});
+const { sequelize, storagePath, databaseMode, databaseTarget } = require('./database')
+const Game = require('./models/Game')
+const Franchise = require('./models/Franchise')
+const RetrodexIndex = require('../models/RetrodexIndex')
+const { syncGamesFromPrototype } = require('./syncGames')
+const { handleAsync } = require('./helpers/query')
 
-Game.hasMany(CollectionItem, {
-  foreignKey: "gameId",
-  sourceKey: "id",
-  as: "collectionItems",
-});
+const gamesRoutes = require('./routes/games')
+const collectionRoutes = require('./routes/collection')
+const franchisesRoutes = require('./routes/franchises')
+const marketRoutes = require('./routes/market')
+const syncRoutes = require('./routes/sync')
 
-// --- Route modules ---
-const gamesRoutes = require("./routes/games");
-const collectionRoutes = require("./routes/collection");
-const consolesRoutes = require("./routes/consoles");
-const statsRoutes = require("./routes/stats");
-const syncRoutes = require("./routes/sync");
+const baseRetrodexIndexSync = RetrodexIndex.sync.bind(RetrodexIndex)
+RetrodexIndex.sync = (options = {}) => baseRetrodexIndexSync({
+  ...options,
+  alter: false,
+}).catch(() => {})
 
-// --- App setup ---
-const app = express();
+const app = express()
 
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS
-    ? process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim())
-    : "*",
-}));
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "..", "public")));
+    ? process.env.ALLOWED_ORIGINS.split(',').map((origin) => origin.trim())
+    : '*',
+}))
+app.use(express.json())
+app.use(express.static(path.join(__dirname, '..', 'public')))
 
-// --- Root / health ---
-app.get("/", (_req, res) => {
+app.get('/', (_req, res) => {
   res.json({
     ok: true,
-    message: "RetroDex backend is running.",
-    docs: "/home.html",
-    consoles: "/consoles.html",
-    gamesList: "/games-list.html",
-    gameDetailExample: "/game-detail.html?id=tetris-game-boy",
-    collection: "/collection.html",
-    stats: "/stats.html",
-    debug: "/debug.html",
-    health: "/api/health",
-  });
-});
+    message: 'RetroDex backend is running.',
+    docs: '/home.html',
+    consoles: '/consoles.html',
+    gamesList: '/games-list.html',
+    gameDetailExample: '/game-detail.html?id=tetris-game-boy',
+    collection: '/collection.html',
+    stats: '/stats.html',
+    debug: '/debug.html',
+    health: '/api/health',
+  })
+})
 
-app.get("/api/health", handleAsync(async (_req, res) => {
-  const games = await Game.count();
+app.get('/api/health', handleAsync(async (_req, res) => {
+  const games = await Game.count()
   res.json({
     ok: true,
-    backend: "retrodex-express-sequelize",
+    backend: 'retrodex-express-sequelize',
     database: databaseMode,
     storage: databaseTarget || storagePath,
     games,
-  });
-}));
+  })
+}))
 
-// --- Mount routes ---
-app.use(gamesRoutes);
-app.use(collectionRoutes);
-app.use(consolesRoutes);
-app.use(statsRoutes);
-app.use(syncRoutes);
+async function ensureGameEncyclopediaColumns() {
+  const queryInterface = sequelize.getQueryInterface()
+  const columns = await queryInterface.describeTable('games').catch(() => null)
 
-// --- Error handler ---
+  if (!columns) {
+    return
+  }
+
+  const missingColumns = [
+    ['tagline', { type: DataTypes.TEXT, allowNull: true }],
+    ['cover_url', { type: DataTypes.TEXT, allowNull: true }],
+    ['synopsis', { type: DataTypes.TEXT, allowNull: true }],
+    ['dev_anecdotes', { type: DataTypes.TEXT, allowNull: true }],
+    ['dev_team', { type: DataTypes.TEXT, allowNull: true }],
+    ['cheat_codes', { type: DataTypes.TEXT, allowNull: true }],
+  ].filter(([name]) => !columns[name])
+
+  for (const [name, definition] of missingColumns) {
+    await queryInterface.addColumn('games', name, definition)
+  }
+}
+
+app.use(gamesRoutes)
+app.use(collectionRoutes)
+app.use(franchisesRoutes)
+app.use(marketRoutes)
+app.use(syncRoutes)
+
 app.use((error, req, res, _next) => {
-  console.error(`RetroDex backend request failed: ${req.method} ${req.originalUrl}`, error);
+  console.error(`RetroDex backend request failed: ${req.method} ${req.originalUrl}`, error)
 
   if (res.headersSent) {
-    return;
+    return
   }
 
   res.status(500).json({
     ok: false,
-    error: "Internal server error",
-  });
-});
+    error: 'Internal server error',
+  })
+})
 
-// --- Startup ---
 async function startServer(portOverride) {
-  await syncGamesFromPrototype();
+  const shouldAlterSchema = process.env.NODE_ENV === 'development'
 
-  const port = Number(portOverride || process.env.PORT || 3000);
+  await sequelize.sync({ alter: shouldAlterSchema })
+  await ensureGameEncyclopediaColumns()
+  await Franchise.sync({ alter: shouldAlterSchema })
+  let shouldBootstrap = true
 
-  return app.listen(port, () => {
-    console.log(`RetroDex backend running on http://localhost:${port}`);
-  });
+  try {
+    shouldBootstrap = databaseMode === 'sqlite' && (await Game.count()) === 0
+  } catch (_error) {
+    shouldBootstrap = databaseMode === 'sqlite'
+  }
+
+  if (shouldBootstrap) {
+    await syncGamesFromPrototype()
+  }
+
+  const PORT = Number(portOverride || process.env.PORT || 3000)
+
+  return app.listen(PORT, () => {
+    console.log(`RetroDex backend running on http://localhost:${PORT}`)
+  })
 }
 
 if (require.main === module) {
   startServer().catch(async (error) => {
-    console.error("Unable to start RetroDex backend:", error);
-    await sequelize.close();
-    process.exit(1);
-  });
+    console.error('Unable to start RetroDex backend:', error)
+    await sequelize.close()
+    process.exit(1)
+  })
 }
 
-module.exports = {
-  app,
-  startServer,
-};
+module.exports = app
+module.exports.app = app
+module.exports.startServer = startServer

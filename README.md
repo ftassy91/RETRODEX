@@ -1,31 +1,38 @@
 # RetroDex
 
-Hub centralise pour collectionneurs de jeux video retro.
+Terminal de référence pour les collectionneurs de jeux rétro.
 
-## Lancement rapide
+## Ce que c'est
 
-Backend (port 3000):
-  run_backend.bat  ou  cd backend && node src/server.js
+RetroDex est un outil pour explorer, collecter et comprendre
+les jeux vidéo rétro. Interface Bloomberg terminale, données
+de marché avec niveau de confiance, encyclopédie de franchises
+et gestion de collection personnelle.
 
-Frontend (port 8080):
-  run_frontend.bat  ou  npx http-server frontend -p 8080
+## Fonctionnalités
 
-URLs:
-  Hub         : http://localhost:3000/hub.html
-  Catalogue   : http://localhost:3000/games-list.html
-  RetroMarket : http://localhost:8080/modules/retromarket/market.html
-  3DS Proto   : http://localhost:8080/modules/retrodex/index.html
+- Catalogue de 1296 jeux rétro (NES, SNES, Sega, Neo Geo, PS1...)
+- Recherche universelle jeux + franchises
+- Fiches jeu avec synopsis, équipe de développement, anecdotes
+- 15 encyclopédies de franchises (Castlevania, Zelda, Final Fantasy...)
+- Prix avec niveau de confiance (T1 vérifié / T3 indicatif / T4 estimé)
+- Gestion de collection avec valeur totale estimée
+- Interface terminale phosphore Bloomberg
 
 ## Stack
-- Backend  : Node.js 24 + Express + SQLite
-- Frontend : Vanilla JS + Canvas (Game Boy renderer)
-- Sync     : Notion API (scripts/sync/)
-- Data     : 507 jeux, 16 consoles, prix Loose/CIB/Mint
 
-## Structure
-backend/     → API REST port 3000
-frontend/    → prototype 3DS + RetroMarket port 8080
-scripts/     → audit, import, sync
-docs/        → runbooks et documentation
-logs/        → audit trail et checkpoints
-data/        → market_candidates.json
+- Backend : Node.js + Express + Sequelize + SQLite
+- Frontend : HTML/CSS/JS vanilla — design système Bloomberg
+- Pipeline données : Wikidata + seed éditorial
+
+## Lancer en local
+
+```bash
+cd backend
+npm install
+node src/server.js
+```
+
+Ouvre : http://localhost:3000/hub.html
+
+## Variables d'environnement

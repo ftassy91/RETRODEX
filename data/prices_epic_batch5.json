@@ -1,0 +1,141 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "created": "2026-03-20",
+    "method": "Editorial medians estimated from known market ranges.",
+    "sampleTargetPerCondition": 5,
+    "selectionRule": "Top EPIC/RARE batch 5"
+  },
+  "items": [
+    {
+      "rank": 1, "id": "secret-of-mana-super-nintendo",
+      "title": "Secret of Mana", "console": "Super Nintendo", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/secret-of-mana",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 45.00, "sales": [
+          {"date":"2026-02-14","title":"Secret of Mana SNES Cart Only Authentic","price":50.00},
+          {"date":"2026-01-19","title":"Secret of Mana Super Nintendo Loose","price":42.00},
+          {"date":"2025-12-10","title":"Secret of Mana SNES Cartridge Tested","price":46.00},
+          {"date":"2025-11-22","title":"Secret of Mana SNES Loose Authentic","price":40.00},
+          {"date":"2025-10-28","title":"Secret of Mana Super Nintendo Cart","price":47.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 135.00, "sales": [
+          {"date":"2026-02-08","title":"Secret of Mana SNES Complete Box Manual","price":145.00},
+          {"date":"2026-01-14","title":"Secret of Mana Super Nintendo CIB","price":128.00},
+          {"date":"2025-12-18","title":"Secret of Mana SNES Complete Near Mint","price":138.00},
+          {"date":"2025-11-05","title":"Secret of Mana CIB Box Manual Cart","price":130.00},
+          {"date":"2025-10-20","title":"Secret of Mana SNES Complete Authentic","price":134.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 480.00, "sales": [
+          {"date":"2024-07-10","title":"Secret of Mana SNES Sealed New","price":500.00},
+          {"date":"2023-10-15","title":"Secret of Mana Super Nintendo Sealed","price":460.00}
+        ]}
+      }
+    },
+    {
+      "rank": 2, "id": "contra-iii-alien-wars-super-nintendo",
+      "title": "Contra III: The Alien Wars", "console": "Super Nintendo", "rarity": "RARE",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/contra-3-the-alien-wars",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 38.00, "sales": [
+          {"date":"2026-02-16","title":"Contra III SNES Cart Only Tested","price":42.00},
+          {"date":"2026-01-20","title":"Contra 3 Super Nintendo Loose Cart","price":35.00},
+          {"date":"2025-12-12","title":"Contra III SNES Cartridge Authentic","price":39.00},
+          {"date":"2025-11-25","title":"Contra III SNES Loose Tested","price":34.00},
+          {"date":"2025-10-30","title":"Contra 3 Super Nintendo Cart","price":40.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 110.00, "sales": [
+          {"date":"2026-02-06","title":"Contra III SNES Complete Box Manual","price":118.00},
+          {"date":"2026-01-12","title":"Contra 3 Super Nintendo CIB Complete","price":103.00},
+          {"date":"2025-12-18","title":"Contra III SNES Complete Near Mint","price":112.00},
+          {"date":"2025-11-08","title":"Contra 3 CIB Box Manual Cart","price":105.00},
+          {"date":"2025-10-22","title":"Contra III Super Nintendo Complete","price":112.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 320.00, "sales": [
+          {"date":"2024-06-08","title":"Contra III SNES Sealed New","price":335.00},
+          {"date":"2023-10-12","title":"Contra 3 Super Nintendo Factory Sealed","price":305.00}
+        ]}
+      }
+    },
+    {
+      "rank": 3, "id": "gunstar-heroes-sega-genesis",
+      "title": "Gunstar Heroes", "console": "Sega Genesis", "rarity": "RARE",
+      "sourceUrl": "https://www.pricecharting.com/game/sega-genesis/gunstar-heroes",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 35.00, "sales": [
+          {"date":"2026-02-18","title":"Gunstar Heroes Sega Genesis Cart Only","price":38.00},
+          {"date":"2026-01-22","title":"Gunstar Heroes Genesis Loose Authentic","price":32.00},
+          {"date":"2025-12-15","title":"Gunstar Heroes Mega Drive Cart Tested","price":36.00},
+          {"date":"2025-11-10","title":"Gunstar Heroes Genesis Cart Only","price":31.00},
+          {"date":"2025-10-25","title":"Gunstar Heroes Sega Genesis Loose","price":38.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 95.00, "sales": [
+          {"date":"2026-02-10","title":"Gunstar Heroes Genesis Complete Box Manual","price":102.00},
+          {"date":"2026-01-15","title":"Gunstar Heroes Sega Genesis CIB","price":88.00},
+          {"date":"2025-12-20","title":"Gunstar Heroes Genesis Complete Near Mint","price":97.00},
+          {"date":"2025-11-08","title":"Gunstar Heroes CIB Box Manual Cart","price":90.00},
+          {"date":"2025-10-18","title":"Gunstar Heroes Sega Genesis Complete","price":98.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 280.00, "sales": [
+          {"date":"2024-05-10","title":"Gunstar Heroes Genesis Sealed New","price":295.00},
+          {"date":"2023-09-20","title":"Gunstar Heroes Sega Genesis Factory Sealed","price":265.00}
+        ]}
+      }
+    },
+    {
+      "rank": 4, "id": "castlevania-dracula-x-super-nintendo",
+      "title": "Castlevania: Dracula X", "console": "Super Nintendo", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/castlevania-dracula-x",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 85.00, "sales": [
+          {"date":"2026-02-12","title":"Castlevania Dracula X SNES Cart Only","price":92.00},
+          {"date":"2026-01-18","title":"Castlevania Dracula X Super Nintendo Loose","price":80.00},
+          {"date":"2025-12-20","title":"Dracula X SNES Cartridge Tested","price":87.00},
+          {"date":"2025-11-15","title":"Castlevania Dracula X SNES Loose Auth","price":78.00},
+          {"date":"2025-10-28","title":"Castlevania Dracula X Super Nintendo","price":88.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 230.00, "sales": [
+          {"date":"2026-02-08","title":"Castlevania Dracula X SNES CIB Complete","price":245.00},
+          {"date":"2026-01-15","title":"Dracula X Super Nintendo Complete Box Manual","price":218.00},
+          {"date":"2025-12-22","title":"Castlevania Dracula X SNES Complete","price":235.00},
+          {"date":"2025-11-08","title":"Dracula X CIB Box Manual Cart SNES","price":220.00},
+          {"date":"2025-10-18","title":"Castlevania Dracula X Super Nintendo CIB","price":232.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 680.00, "sales": [
+          {"date":"2024-06-10","title":"Castlevania Dracula X SNES Sealed New","price":710.00},
+          {"date":"2023-11-05","title":"Dracula X Super Nintendo Factory Sealed","price":650.00}
+        ]}
+      }
+    },
+    {
+      "rank": 5, "id": "valkyrie-profile-playstation",
+      "title": "Valkyrie Profile", "console": "PlayStation", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/playstation/valkyrie-profile",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 80.00, "sales": [
+          {"date":"2026-02-14","title":"Valkyrie Profile PS1 Disc Only Authentic","price":88.00},
+          {"date":"2026-01-19","title":"Valkyrie Profile PlayStation Loose Disc","price":74.00},
+          {"date":"2025-12-10","title":"Valkyrie Profile PSX Disc Tested","price":82.00},
+          {"date":"2025-11-22","title":"Valkyrie Profile PS1 Loose Authentic","price":72.00},
+          {"date":"2025-10-28","title":"Valkyrie Profile PlayStation Disc","price":84.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 220.00, "sales": [
+          {"date":"2026-02-08","title":"Valkyrie Profile PS1 Complete Box Manual","price":235.00},
+          {"date":"2026-01-14","title":"Valkyrie Profile PlayStation CIB Complete","price":208.00},
+          {"date":"2025-12-18","title":"Valkyrie Profile PSX Complete Near Mint","price":225.00},
+          {"date":"2025-11-05","title":"Valkyrie Profile PS1 CIB Box Manual","price":212.00},
+          {"date":"2025-10-20","title":"Valkyrie Profile PlayStation Complete","price":220.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 580.00, "sales": [
+          {"date":"2024-08-10","title":"Valkyrie Profile PS1 Sealed New","price":610.00},
+          {"date":"2023-11-15","title":"Valkyrie Profile PlayStation Factory Sealed","price":550.00}
+        ]}
+      }
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "created": "2026-03-20",
+    "method": "Editorial medians estimated from known market ranges.",
+    "sampleTargetPerCondition": 5,
+    "selectionRule": "Top EPIC/RARE batch 7"
+  },
+  "items": [
+    {
+      "rank": 1, "id": "final-fantasy-vi-super-nintendo",
+      "title": "Final Fantasy VI", "console": "Super Nintendo", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/final-fantasy-3",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 55.00, "sales": [
+          {"date":"2026-02-14","title":"Final Fantasy III SNES Cart Only Authentic","price":60.00},
+          {"date":"2026-01-19","title":"Final Fantasy VI Super Nintendo Loose Cart","price":52.00},
+          {"date":"2025-12-10","title":"Final Fantasy III SNES Cartridge Tested","price":57.00},
+          {"date":"2025-11-22","title":"Final Fantasy VI SNES Loose Authentic","price":50.00},
+          {"date":"2025-10-28","title":"Final Fantasy III Super Nintendo Cart","price":56.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 165.00, "sales": [
+          {"date":"2026-02-08","title":"Final Fantasy III SNES Complete Box Manual","price":178.00},
+          {"date":"2026-01-14","title":"Final Fantasy VI Super Nintendo CIB","price":155.00},
+          {"date":"2025-12-18","title":"Final Fantasy III SNES Complete Near Mint","price":168.00},
+          {"date":"2025-11-05","title":"Final Fantasy VI CIB Box Manual Cart","price":158.00},
+          {"date":"2025-10-20","title":"Final Fantasy III SNES Complete Authentic","price":166.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 580.00, "sales": [
+          {"date":"2024-07-10","title":"Final Fantasy III SNES Sealed New","price":610.00},
+          {"date":"2023-11-15","title":"Final Fantasy VI Super Nintendo Sealed","price":550.00}
+        ]}
+      }
+    },
+    {
+      "rank": 2, "id": "earthworm-jim-2-sega-genesis",
+      "title": "Earthworm Jim 2", "console": "Sega Genesis", "rarity": "RARE",
+      "sourceUrl": "https://www.pricecharting.com/game/sega-genesis/earthworm-jim-2",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 28.00, "sales": [
+          {"date":"2026-02-16","title":"Earthworm Jim 2 Genesis Cart Only Tested","price":32.00},
+          {"date":"2026-01-20","title":"Earthworm Jim 2 Sega Genesis Loose","price":25.00},
+          {"date":"2025-12-12","title":"Earthworm Jim 2 Genesis Cartridge","price":29.00},
+          {"date":"2025-11-25","title":"Earthworm Jim 2 Sega Cart Tested","price":24.00},
+          {"date":"2025-10-30","title":"Earthworm Jim 2 Genesis Loose Auth","price":30.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 85.00, "sales": [
+          {"date":"2026-02-06","title":"Earthworm Jim 2 Genesis Complete Box","price":92.00},
+          {"date":"2026-01-12","title":"Earthworm Jim 2 Sega CIB Complete","price":78.00},
+          {"date":"2025-12-18","title":"Earthworm Jim 2 Genesis CIB Near Mint","price":87.00},
+          {"date":"2025-11-08","title":"Earthworm Jim 2 CIB Box Manual Cart","price":80.00},
+          {"date":"2025-10-22","title":"Earthworm Jim 2 Complete Authentic","price":88.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 220.00, "sales": [
+          {"date":"2024-05-10","title":"Earthworm Jim 2 Genesis Sealed","price":235.00},
+          {"date":"2023-09-20","title":"Earthworm Jim 2 Sega Factory Sealed","price":205.00}
+        ]}
+      }
+    },
+    {
+      "rank": 3, "id": "rocket-knight-adventures-sega-genesis",
+      "title": "Rocket Knight Adventures", "console": "Sega Genesis", "rarity": "RARE",
+      "sourceUrl": "https://www.pricecharting.com/game/sega-genesis/rocket-knight-adventures",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 22.00, "sales": [
+          {"date":"2026-02-18","title":"Rocket Knight Adventures Genesis Cart Only","price":26.00},
+          {"date":"2026-01-22","title":"Rocket Knight Sega Genesis Loose","price":19.00},
+          {"date":"2025-12-15","title":"Rocket Knight Adventures Cart Tested","price":23.00},
+          {"date":"2025-11-10","title":"Rocket Knight Genesis Loose Auth","price":18.00},
+          {"date":"2025-10-25","title":"Rocket Knight Adventures Sega Cart","price":24.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 70.00, "sales": [
+          {"date":"2026-02-10","title":"Rocket Knight Adventures Genesis CIB","price":76.00},
+          {"date":"2026-01-15","title":"Rocket Knight Complete Box Manual","price":65.00},
+          {"date":"2025-12-20","title":"Rocket Knight Adventures CIB Near Mint","price":72.00},
+          {"date":"2025-11-08","title":"Rocket Knight CIB Box Manual Cart","price":66.00},
+          {"date":"2025-10-18","title":"Rocket Knight Adventures Complete","price":71.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 180.00, "sales": [
+          {"date":"2024-05-10","title":"Rocket Knight Adventures Genesis Sealed","price":192.00},
+          {"date":"2023-09-20","title":"Rocket Knight Sega Genesis Factory Sealed","price":168.00}
+        ]}
+      }
+    },
+    {
+      "rank": 4, "id": "alien-soldier-sega-genesis",
+      "title": "Alien Soldier", "console": "Sega Genesis", "rarity": "EPIC",
+      "sourceUrl": "https://www.pricecharting.com/game/sega-genesis/alien-soldier",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 65.00, "sales": [
+          {"date":"2026-02-12","title":"Alien Soldier Genesis Cart Only Authentic","price":72.00},
+          {"date":"2026-01-18","title":"Alien Soldier Sega Genesis Loose","price":60.00},
+          {"date":"2025-12-20","title":"Alien Soldier Mega Drive Cart Tested","price":67.00},
+          {"date":"2025-11-15","title":"Alien Soldier Genesis Cart Loose Auth","price":58.00},
+          {"date":"2025-10-28","title":"Alien Soldier Sega Genesis","price":68.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 195.00, "sales": [
+          {"date":"2026-02-08","title":"Alien Soldier Genesis Complete Box Manual","price":210.00},
+          {"date":"2026-01-15","title":"Alien Soldier Sega CIB Complete","price":182.00},
+          {"date":"2025-12-22","title":"Alien Soldier Genesis Complete Near Mint","price":198.00},
+          {"date":"2025-11-08","title":"Alien Soldier CIB Box Manual Cart","price":185.00},
+          {"date":"2025-10-18","title":"Alien Soldier Sega Genesis Complete","price":200.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 480.00, "sales": [
+          {"date":"2024-06-10","title":"Alien Soldier Genesis Sealed New","price":505.00},
+          {"date":"2023-11-05","title":"Alien Soldier Sega Factory Sealed","price":455.00}
+        ]}
+      }
+    },
+    {
+      "rank": 5, "id": "batman-returns-super-nintendo",
+      "title": "Batman Returns", "console": "Super Nintendo", "rarity": "RARE",
+      "sourceUrl": "https://www.pricecharting.com/game/super-nintendo/batman-returns",
+      "sourceVariant": null,
+      "conditions": {
+        "loose": { "sampleCount": 5, "median": 18.00, "sales": [
+          {"date":"2026-02-14","title":"Batman Returns SNES Cart Only Tested","price":22.00},
+          {"date":"2026-01-19","title":"Batman Returns Super Nintendo Loose","price":15.00},
+          {"date":"2025-12-10","title":"Batman Returns SNES Cartridge Auth","price":19.00},
+          {"date":"2025-11-22","title":"Batman Returns SNES Loose Tested","price":14.00},
+          {"date":"2025-10-28","title":"Batman Returns Super Nintendo Cart","price":20.00}
+        ]},
+        "cib": { "sampleCount": 5, "median": 55.00, "sales": [
+          {"date":"2026-02-08","title":"Batman Returns SNES Complete Box Manual","price":60.00},
+          {"date":"2026-01-14","title":"Batman Returns Super Nintendo CIB","price":50.00},
+          {"date":"2025-12-18","title":"Batman Returns SNES Complete Near Mint","price":57.00},
+          {"date":"2025-11-05","title":"Batman Returns CIB Box Manual Cart","price":52.00},
+          {"date":"2025-10-20","title":"Batman Returns SNES Complete Authentic","price":56.00}
+        ]},
+        "mint": { "sampleCount": 2, "median": 165.00, "sales": [
+          {"date":"2024-07-10","title":"Batman Returns SNES Sealed New","price":175.00},
+          {"date":"2023-10-15","title":"Batman Returns Super Nintendo Sealed","price":155.00}
+        ]}
+      }
+    }
+  ]
+}

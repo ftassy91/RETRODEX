@@ -6,6 +6,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
+    "test": "jest",
     "sync": "node src/sync.js",
     "smoke": "node src/smoke-test.js"
   },
@@ -17,5 +18,12 @@
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.7",
     "sqlite3": "^6.0.1"
+  },
+  "devDependencies": {
+    "jest": "^30.3.0",
+    "supertest": "^7.2.2"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

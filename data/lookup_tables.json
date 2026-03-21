@@ -1,0 +1,78 @@
+{
+  "platforms": [
+    "NES", "Super Nintendo", "Nintendo 64", "GameCube", "Wii",
+    "Game Boy", "Game Boy Color", "Game Boy Advance",
+    "Nintendo DS", "Nintendo 3DS",
+    "Sega Genesis", "Sega Saturn", "Sega CD", "Dreamcast",
+    "PlayStation", "PlayStation 2", "PlayStation 3",
+    "TurboGrafx-16", "Neo Geo", "Atari 2600", "WonderSwan"
+  ],
+  "platform_aliases": {
+    "Nintendo Entertainment System": "NES",
+    "Super Nintendo Entertainment System": "Super Nintendo",
+    "Super Famicom": "Super Nintendo",
+    "N64": "Nintendo 64",
+    "Mega Drive": "Sega Genesis",
+    "Mega-CD": "Sega CD",
+    "Saturn": "Sega Saturn",
+    "PSX": "PlayStation",
+    "PS1": "PlayStation",
+    "PS2": "PlayStation 2",
+    "GBA": "Game Boy Advance",
+    "GBC": "Game Boy Color",
+    "PC-Engine": "TurboGrafx-16"
+  },
+  "genres": [
+    "Action", "Action-RPG", "Adventure", "Beat-em-up", "Fighting",
+    "Platformer", "Puzzle", "Racing", "RPG", "Shoot-em-up",
+    "Simulation", "Sports", "Strategy", "Visual Novel", "Other"
+  ],
+  "genre_aliases": {
+    "role-playing game": "RPG",
+    "action game": "Action",
+    "platform game": "Platformer",
+    "shoot em up": "Shoot-em-up",
+    "fighting game": "Fighting",
+    "racing game": "Racing",
+    "puzzle game": "Puzzle",
+    "sports game": "Sports",
+    "adventure game": "Adventure"
+  },
+  "regions": ["JP", "US", "EU", "WW", "AU"],
+  "conditions": ["Loose", "CIB", "Mint"],
+  "accessory_types": [
+    "controller", "lightgun", "memory_card", "peripheral",
+    "cable", "power_supply", "display", "storage", "audio", "other"
+  ],
+  "rarity_levels": ["COMMON", "UNCOMMON", "RARE", "EPIC", "LEGENDARY"],
+  "wikidata_platform_ids": {
+    "NES": "Q172742",
+    "Super Nintendo": "Q183259",
+    "Nintendo 64": "Q184839",
+    "Game Boy": "Q186437",
+    "Game Boy Color": "Q203992",
+    "Game Boy Advance": "Q188642",
+    "Sega Genesis": "Q10676",
+    "Sega Saturn": "Q200912",
+    "Dreamcast": "Q184581",
+    "PlayStation": "Q10677",
+    "PlayStation 2": "Q10680",
+    "Nintendo DS": "Q170323",
+    "Atari 2600": "Q206835"
+  },
+  "igdb_platform_ids": {
+    "NES": 18,
+    "Super Nintendo": 19,
+    "Nintendo 64": 4,
+    "Game Boy": 33,
+    "Game Boy Color": 22,
+    "Game Boy Advance": 24,
+    "Nintendo DS": 20,
+    "Sega Genesis": 29,
+    "Sega Saturn": 32,
+    "Dreamcast": 23,
+    "Atari 2600": 59,
+    "PlayStation": 7,
+    "PlayStation 2": 8
+  }
+}

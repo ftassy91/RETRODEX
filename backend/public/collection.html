@@ -15,7 +15,6 @@
       :root {
         --panel-bg: rgba(15, 56, 15, 0.2);
         --panel-line: rgba(155, 188, 15, 0.18);
-        --panel-line-strong: rgba(155, 188, 15, 0.42);
         --text-strong: #cfe66f;
         --text-soft: rgba(155, 188, 15, 0.62);
         --text-faint: rgba(155, 188, 15, 0.4);
@@ -100,21 +99,26 @@
         text-decoration: underline;
       }
 
-      .card-subtitle {
-        font-size: 11px;
+      .card-subtitle,
+      .note-row,
+      .price-row,
+      .status-text,
+      .collection-market-line,
+      .collection-paid-line {
         color: var(--text-soft);
+      }
+
+      .card-subtitle,
+      .price-row,
+      .collection-market-line,
+      .collection-paid-line {
+        font-size: 11px;
+        line-height: 1.6;
       }
 
       .note-row {
         font-size: 12px;
-        color: var(--text-soft);
         line-height: 1.5;
-      }
-
-      .price-row {
-        font-size: 11px;
-        color: var(--text-soft);
-        line-height: 1.6;
       }
 
       .danger-btn {
@@ -142,8 +146,77 @@
 
       .status-text {
         font-size: 11px;
-        color: var(--text-faint);
         min-height: 16px;
+      }
+
+      .public-banner {
+        border: 1px solid rgba(78, 205, 196, 0.3);
+        background: rgba(78, 205, 196, 0.08);
+        color: #8fe7df;
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 12px;
+      }
+
+      .sale-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+      }
+
+      .copy-feedback {
+        font-size: 11px;
+        color: var(--text-strong);
+        min-height: 16px;
+      }
+
+      .collection-value[hidden] {
+        display: none;
+      }
+
+      .collection-paid-line strong {
+        color: var(--text-alert);
+      }
+
+      .threshold-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 8px;
+        border: 1px solid currentColor;
+        font-size: 10px;
+        font-family: var(--font-mono);
+        margin-top: 8px;
+      }
+
+      .threshold-badge.ok {
+        color: var(--confidence-high);
+      }
+
+      .threshold-badge.over {
+        color: var(--confidence-low);
+      }
+
+      .value-summary {
+        margin-top: 14px;
+        display: grid;
+        gap: 6px;
+      }
+
+      .value-summary-line {
+        font-size: 11px;
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
+      }
+
+      .value-summary-line strong {
+        color: var(--text-primary);
+      }
+
+      .tab-btn:disabled {
+        opacity: 0.45;
+        cursor: default;
       }
 
       @media (max-width: 800px) {
@@ -166,22 +239,54 @@
         <h1 class="page-title">MA COLLECTION</h1>
       </header>
 
+      <nav class="tabs" aria-label="Vues de collection">
+        <button type="button" class="tab-btn active" data-tab="owned">MA COLLECTION</button>
+        <button type="button" class="tab-btn" data-tab="wanted">WISHLIST</button>
+        <button type="button" class="tab-btn" data-tab="for_sale">&Agrave; VENDRE</button>
+      </nav>
+
+      <div id="public-banner" class="public-banner" hidden>Liste publique - consultation uniquement</div>
+
       <section class="summary-bar">
         <article class="summary-card">
           <span class="label">Total items</span>
-          <span class="value" id="total-items">—</span>
+          <span class="value" id="total-items">&mdash;</span>
         </article>
         <article class="summary-card">
           <span class="label">Valeur Loose</span>
-          <span class="value" id="total-loose">—</span>
+          <span class="value" id="total-loose">&mdash;</span>
         </article>
         <article class="summary-card">
           <span class="label">Valeur Mint</span>
-          <span class="value" id="total-mint">—</span>
+          <span class="value" id="total-mint">&mdash;</span>
         </article>
       </section>
 
       <div id="status-text" class="status-text">Chargement...</div>
+
+      <section id="collection-value" class="collection-value" hidden>
+        <div class="value-header">VALEUR DE MA COLLECTION</div>
+        <div class="value-grid">
+          <div class="value-col">
+            <div class="value-label">LOOSE</div>
+            <div class="value-amount" id="val-loose">$&mdash;</div>
+          </div>
+          <div class="value-col">
+            <div class="value-label">CIB</div>
+            <div class="value-amount" id="val-cib">$&mdash;</div>
+          </div>
+          <div class="value-col">
+            <div class="value-label">MINT</div>
+            <div class="value-amount" id="val-mint">$&mdash;</div>
+          </div>
+        </div>
+        <div class="value-summary">
+          <div class="value-summary-line">Paye : <strong id="val-paid">$&mdash;</strong></div>
+          <div class="value-summary-line">Valeur actuelle : <strong id="val-current">$&mdash;</strong></div>
+          <div class="value-summary-line">Plus-value estimee : <strong id="val-profit">$&mdash;</strong></div>
+        </div>
+        <div class="value-count" id="val-count">&mdash; jeux</div>
+      </section>
 
       <section id="collection-content"></section>
     </main>
@@ -190,9 +295,23 @@
       const totalItemsEl = document.getElementById("total-items");
       const totalLooseEl = document.getElementById("total-loose");
       const totalMintEl = document.getElementById("total-mint");
+      const collectionValueEl = document.getElementById("collection-value");
+      const valLooseEl = document.getElementById("val-loose");
+      const valCibEl = document.getElementById("val-cib");
+      const valMintEl = document.getElementById("val-mint");
+      const valPaidEl = document.getElementById("val-paid");
+      const valCurrentEl = document.getElementById("val-current");
+      const valProfitEl = document.getElementById("val-profit");
+      const valCountEl = document.getElementById("val-count");
       const statusTextEl = document.getElementById("status-text");
       const collectionContentEl = document.getElementById("collection-content");
+      const publicBannerEl = document.getElementById("public-banner");
+      const tabButtons = Array.from(document.querySelectorAll("[data-tab]"));
+      const isPublicForSaleView = new URLSearchParams(window.location.search).get("view") === "for_sale";
+
       let enrichedItems = [];
+      let activeTab = isPublicForSaleView ? "for_sale" : "owned";
+      let copyFeedbackTimer = null;
 
       function escapeHtml(value) {
         return String(value ?? "")
@@ -205,7 +324,7 @@
 
       function formatCurrency(value) {
         const number = Number(value);
-        return Number.isFinite(number) ? `$${number}` : "$0";
+        return Number.isFinite(number) && number > 0 ? `$${number.toFixed(2)}` : "$—";
       }
 
       function rarityClass(value) {
@@ -215,6 +334,48 @@
       function conditionClass(value) {
         const normalized = String(value || "Loose").toLowerCase();
         return normalized === "mint" ? "mint" : normalized === "cib" ? "cib" : "loose";
+      }
+
+      function getTabLabel(tab) {
+        if (tab === "wanted") return "la wishlist";
+        if (tab === "for_sale") return "la liste a vendre";
+        return "votre collection";
+      }
+
+      function getCollectionApiUrl(tab) {
+        if (isPublicForSaleView && tab === "for_sale") {
+          return "/api/collection/public";
+        }
+
+        const params = new URLSearchParams();
+        params.set("list_type", tab);
+        return `/api/collection?${params.toString()}`;
+      }
+
+      function getCurrentConditionPrice(item) {
+        if (!item?.game) {
+          return null;
+        }
+
+        const condition = String(item.condition || "Loose").toLowerCase();
+        if (condition === "mint") return item.game.mintPrice;
+        if (condition === "cib") return item.game.cibPrice;
+        return item.game.loosePrice;
+      }
+
+      function getThresholdState(item) {
+        const current = Number(getCurrentConditionPrice(item));
+        const threshold = Number(item?.price_threshold);
+
+        if (!Number.isFinite(current) || !Number.isFinite(threshold) || threshold <= 0) {
+          return null;
+        }
+
+        const under = current <= threshold;
+        return {
+          label: under ? "SOUS SEUIL" : "AU-DESSUS",
+          className: under ? "ok" : "over",
+        };
       }
 
       async function fetchJson(url, options) {
@@ -242,7 +403,89 @@
         totalMintEl.textContent = formatCurrency(totals.mint);
       }
 
-      function renderEmptyState() {
+      function resetCollectionValue() {
+        collectionValueEl.hidden = activeTab !== "owned";
+        valLooseEl.textContent = "$—";
+        valCibEl.textContent = "$—";
+        valMintEl.textContent = "$—";
+        valPaidEl.textContent = "$—";
+        valCurrentEl.textContent = "$—";
+        valProfitEl.textContent = "$—";
+        valCountEl.textContent = "— jeux";
+      }
+
+      async function loadCollectionStats() {
+        if (activeTab !== "owned") {
+          resetCollectionValue();
+          return;
+        }
+
+        try {
+          const stats = await fetchJson("/api/collection/stats");
+
+          if (!stats.count) {
+            resetCollectionValue();
+            return;
+          }
+
+          collectionValueEl.hidden = false;
+          valLooseEl.textContent = formatCurrency(stats.total_loose);
+          valCibEl.textContent = formatCurrency(stats.total_cib);
+          valMintEl.textContent = formatCurrency(stats.total_mint);
+          valPaidEl.textContent = formatCurrency(stats.total_paid);
+          valCurrentEl.textContent = formatCurrency(stats.total_loose);
+          valProfitEl.textContent = formatCurrency(stats.profit_estimate);
+          valCountEl.textContent = `${stats.count} jeu(x)`;
+        } catch (_error) {
+          resetCollectionValue();
+        }
+      }
+
+      function setCopyFeedback(message) {
+        const feedbackEl = collectionContentEl.querySelector("[data-copy-feedback]");
+        if (!feedbackEl) {
+          return;
+        }
+
+        feedbackEl.textContent = message;
+
+        if (copyFeedbackTimer) {
+          window.clearTimeout(copyFeedbackTimer);
+        }
+
+        if (message) {
+          copyFeedbackTimer = window.setTimeout(() => {
+            const currentFeedbackEl = collectionContentEl.querySelector("[data-copy-feedback]");
+            if (currentFeedbackEl) {
+              currentFeedbackEl.textContent = "";
+            }
+          }, 2000);
+        }
+      }
+
+      function renderEmptyState(tab) {
+        if (tab === "wanted") {
+          collectionContentEl.innerHTML = `
+            <div class="empty-state">
+              <p>Aucun jeu dans la wishlist</p>
+            </div>
+          `;
+          return;
+        }
+
+        if (tab === "for_sale") {
+          collectionContentEl.innerHTML = `
+            <div class="sale-actions">
+              <button type="button" class="btn" data-copy-sale-link>Copier le lien de vente</button>
+              <span class="copy-feedback" data-copy-feedback></span>
+            </div>
+            <div class="empty-state">
+              <p>Aucun jeu a vendre</p>
+            </div>
+          `;
+          return;
+        }
+
         collectionContentEl.innerHTML = `
           <div class="empty-state">
             <p>Aucun jeu &mdash; ajoutez-en depuis une fiche</p>
@@ -251,9 +494,9 @@
         `;
       }
 
-      function renderCollection(items) {
+      function renderOwnedCollection(items) {
         if (!items.length) {
-          renderEmptyState();
+          renderEmptyState("owned");
           return;
         }
 
@@ -267,13 +510,13 @@
                       <a class="card-title" href="/game-detail.html?id=${encodeURIComponent(item.game.id)}">${escapeHtml(item.game.title)}</a>
                       <span class="condition-badge condition-${escapeHtml(conditionClass(item.condition))}">${escapeHtml(item.condition || "Loose")}</span>
                     </div>
-                    <div class="card-subtitle">${escapeHtml(item.game.platform || item.game.console || "Console inconnue")} · ${escapeHtml(item.game.year || "n/a")}</div>
+                    <div class="card-subtitle">${escapeHtml(item.game.platform || item.game.console || "Console inconnue")} &middot; ${escapeHtml(item.game.year || "n/a")}</div>
                     ${item.notes ? `<div class="note-row">${escapeHtml(item.notes)}</div>` : ""}
                   </div>
                   <span class="rarity-badge rarity-${escapeHtml(rarityClass(item.game.rarity))}">${escapeHtml(item.game.rarity || "COMMON")}</span>
                 </div>
                 <div class="price-row">
-                  Loose ${escapeHtml(formatCurrency(item.game.loosePrice))} · CIB ${escapeHtml(formatCurrency(item.game.cibPrice))} · Mint ${escapeHtml(formatCurrency(item.game.mintPrice))}
+                  Loose ${escapeHtml(formatCurrency(item.game.loosePrice))} &middot; CIB ${escapeHtml(formatCurrency(item.game.cibPrice))} &middot; Mint ${escapeHtml(formatCurrency(item.game.mintPrice))}
                 </div>
                 <div>
                   <button type="button" class="btn danger-btn" data-delete-id="${escapeHtml(item.id)}">Retirer</button>
@@ -284,35 +527,173 @@
         `;
       }
 
-      async function loadCollection() {
-        statusTextEl.textContent = "Chargement...";
-        collectionContentEl.innerHTML = "";
+      function renderWishlist(items) {
+        if (!items.length) {
+          renderEmptyState("wanted");
+          return;
+        }
 
-        try {
-          const payload = await fetchJson("/api/collection");
-          const items = payload.items || [];
+        collectionContentEl.innerHTML = `
+          <div class="collection-grid">
+            ${items.map((item) => `
+              <article class="collection-card" data-item-id="${escapeHtml(item.id)}">
+                <div class="card-head">
+                  <div>
+                    <div class="title-row">
+                      <a class="card-title" href="/game-detail.html?id=${encodeURIComponent(item.game.id)}">${escapeHtml(item.game.title)}</a>
+                      <span class="condition-badge condition-${escapeHtml(conditionClass(item.condition))}">${escapeHtml(item.condition || "Loose")}</span>
+                    </div>
+                    <div class="card-subtitle">${escapeHtml(item.game.platform || item.game.console || "Console inconnue")} &middot; ${escapeHtml(item.game.year || "n/a")}</div>
+                    <div class="collection-market-line">
+                      Prix actuel ${escapeHtml(String(item.condition || "Loose").toUpperCase())} : ${escapeHtml(formatCurrency(getCurrentConditionPrice(item)))}
+                    </div>
+                    <div class="collection-market-line">
+                      Seuil defini : ${escapeHtml(formatCurrency(item.price_threshold))}
+                    </div>
+                    ${(() => {
+                      const thresholdState = getThresholdState(item);
+                      if (!thresholdState) return "";
+                      return `<div class="threshold-badge ${escapeHtml(thresholdState.className)}">${escapeHtml(thresholdState.label)}</div>`;
+                    })()}
+                    ${item.notes ? `<div class="note-row">${escapeHtml(item.notes)}</div>` : ""}
+                  </div>
+                  <span class="rarity-badge rarity-${escapeHtml(rarityClass(item.game.rarity))}">${escapeHtml(item.game.rarity || "COMMON")}</span>
+                </div>
+                <div class="price-row">
+                  Loose ${escapeHtml(formatCurrency(item.game.loosePrice))} &middot; CIB ${escapeHtml(formatCurrency(item.game.cibPrice))} &middot; Mint ${escapeHtml(formatCurrency(item.game.mintPrice))}
+                </div>
+                <div>
+                  <button type="button" class="btn danger-btn" data-delete-id="${escapeHtml(item.id)}">Retirer</button>
+                </div>
+              </article>
+            `).join("")}
+          </div>
+        `;
+      }
 
-          if (!items.length) {
-            enrichedItems = [];
-            updateSummary(enrichedItems);
-            renderEmptyState();
-            statusTextEl.textContent = "";
-            return;
-          }
+      function renderForSale(items) {
+        if (!items.length) {
+          renderEmptyState("for_sale");
+          return;
+        }
 
-          enrichedItems = items.filter((item) => item.game);
-          updateSummary(enrichedItems);
-          renderCollection(enrichedItems);
-          statusTextEl.textContent = `${enrichedItems.length} jeu(x) dans votre collection.`;
-        } catch (error) {
-          statusTextEl.textContent = `Erreur collection : ${error.message}`;
-          renderEmptyState();
+        collectionContentEl.innerHTML = `
+          <div class="sale-actions">
+            <button type="button" class="btn" data-copy-sale-link>Copier le lien de vente</button>
+            <span class="copy-feedback" data-copy-feedback></span>
+          </div>
+          <div class="collection-grid">
+            ${items.map((item) => `
+              <article class="collection-card" data-item-id="${escapeHtml(item.id)}">
+                <div class="card-head">
+                  <div>
+                    <div class="title-row">
+                      <a class="card-title" href="/game-detail.html?id=${encodeURIComponent(item.game.id)}">${escapeHtml(item.game.title)}</a>
+                      <span class="condition-badge condition-${escapeHtml(conditionClass(item.condition))}">${escapeHtml(item.condition || "Loose")}</span>
+                    </div>
+                    <div class="card-subtitle">${escapeHtml(item.game.platform || item.game.console || "Console inconnue")} &middot; ${escapeHtml(item.game.year || "n/a")}</div>
+                    <div class="collection-paid-line">
+                      Prix paye : <strong>${escapeHtml(formatCurrency(item.price_paid))}</strong>
+                    </div>
+                    ${item.notes ? `<div class="note-row">${escapeHtml(item.notes)}</div>` : ""}
+                  </div>
+                  <span class="rarity-badge rarity-${escapeHtml(rarityClass(item.game.rarity))}">${escapeHtml(item.game.rarity || "COMMON")}</span>
+                </div>
+                ${isPublicForSaleView ? "" : `<div><button type="button" class="btn danger-btn" data-delete-id="${escapeHtml(item.id)}">Retirer</button></div>`}
+              </article>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function renderActiveTab(items) {
+        if (activeTab === "wanted") {
+          renderWishlist(items);
+          return;
+        }
+
+        if (activeTab === "for_sale") {
+          renderForSale(items);
+          return;
+        }
+
+        renderOwnedCollection(items);
+      }
+
+      function syncActiveTabButton() {
+        tabButtons.forEach((button) => {
+          const tab = button.getAttribute("data-tab");
+          button.classList.toggle("active", tab === activeTab);
+          button.disabled = isPublicForSaleView && tab !== "for_sale";
+        });
+
+        if (publicBannerEl) {
+          publicBannerEl.hidden = !(isPublicForSaleView && activeTab === "for_sale");
         }
       }
 
+      function setActiveTab(tab) {
+        if (isPublicForSaleView && tab !== "for_sale") {
+          return;
+        }
+
+        activeTab = tab;
+        syncActiveTabButton();
+        loadCollection();
+      }
+
+      async function loadCollection() {
+        statusTextEl.textContent = "Chargement...";
+        collectionContentEl.innerHTML = "";
+        await loadCollectionStats();
+
+        try {
+          const payload = await fetchJson(getCollectionApiUrl(activeTab));
+          const items = (payload.items || []).filter((item) => item.game);
+
+          enrichedItems = items;
+          updateSummary(enrichedItems);
+          renderActiveTab(enrichedItems);
+          statusTextEl.textContent = items.length ? `${items.length} jeu(x) dans ${getTabLabel(activeTab)}.` : "";
+        } catch (error) {
+          statusTextEl.textContent = `Erreur collection : ${error.message}`;
+          enrichedItems = [];
+          updateSummary(enrichedItems);
+          if (activeTab !== "owned") {
+            resetCollectionValue();
+          }
+          renderEmptyState(activeTab);
+        }
+      }
+
+      tabButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const nextTab = button.getAttribute("data-tab") || "owned";
+          if (nextTab === activeTab) {
+            return;
+          }
+          setActiveTab(nextTab);
+        });
+      });
+
       collectionContentEl.addEventListener("click", async (event) => {
+        const copyButton = event.target.closest("[data-copy-sale-link]");
+        if (copyButton) {
+          try {
+            await navigator.clipboard.writeText(`${window.location.origin}/collection.html?view=for_sale`);
+            setCopyFeedback("Lien copie !");
+          } catch (_error) {
+            setCopyFeedback("Copie impossible");
+          }
+          return;
+        }
+
         const button = event.target.closest("[data-delete-id]");
         if (!button) {
+          return;
+        }
+
+        if (isPublicForSaleView && activeTab === "for_sale") {
           return;
         }
 
@@ -326,14 +707,16 @@
           });
           enrichedItems = enrichedItems.filter((item) => String(item.id) !== String(collectionItemId));
           updateSummary(enrichedItems);
-          renderCollection(enrichedItems);
-          statusTextEl.textContent = "Jeu retiré de la collection.";
+          renderActiveTab(enrichedItems);
+          statusTextEl.textContent = "Jeu retire.";
         } catch (error) {
           statusTextEl.textContent = `Erreur suppression : ${error.message}`;
           button.disabled = false;
         }
       });
 
+      syncActiveTabButton();
+      resetCollectionValue();
       loadCollection();
     </script>
   </body>

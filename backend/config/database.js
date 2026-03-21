@@ -1,28 +1,24 @@
-const { Sequelize } = require("sequelize");
-const path = require("path");
-const pg = require("pg");
+'use strict'
+
+const { Sequelize } = require('sequelize')
+const pg = require('pg')
+const { DB_PATH } = require('../src/config/paths')
 
 function resolveSqlitePath() {
-  const configuredPath = process.env.RETRODEX_SQLITE_PATH;
-
-  if (!configuredPath) {
-    return path.resolve(__dirname, "../storage/retrodex.sqlite");
-  }
-
-  return path.isAbsolute(configuredPath)
-    ? configuredPath
-    : path.resolve(__dirname, "../..", configuredPath);
+  return DB_PATH
 }
 
 function createSequelize() {
-  const isProduction = !!process.env.DATABASE_URL;
-  const dbUrl = process.env.DATABASE_URL;
+  const isProduction = process.env.NODE_ENV === 'production'
+  const hasDatabaseUrl = Boolean(process.env.DATABASE_URL)
+  const dbUrl = process.env.DATABASE_URL
+  const usePostgres = isProduction && hasDatabaseUrl
 
-  if (isProduction) {
-    const target = dbUrl.includes("@") ? dbUrl.split("@")[1] : dbUrl;
-    console.log("[DB] Using PostgreSQL:", target);
+  if (usePostgres) {
+    const target = dbUrl.includes('@') ? dbUrl.split('@')[1] : dbUrl
+    console.log('[DB] Using PostgreSQL:', target)
     return new Sequelize(dbUrl, {
-      dialect: "postgres",
+      dialect: 'postgres',
       dialectModule: pg,
       dialectOptions: {
         ssl: {
@@ -34,23 +30,23 @@ function createSequelize() {
       define: {
         underscored: true,
       },
-    });
+    })
   }
 
-  const sqlitePath = resolveSqlitePath();
-  console.log("[DB] Using SQLite:", sqlitePath);
+  const sqlitePath = resolveSqlitePath()
+  console.log('[DB] Using SQLite:', sqlitePath)
   return new Sequelize({
-    dialect: "sqlite",
+    dialect: 'sqlite',
     storage: sqlitePath,
     logging: false,
     define: {
       underscored: true,
     },
-  });
+  })
 }
 
-const sequelize = createSequelize();
+const sequelize = createSequelize()
 
-module.exports = sequelize;
-module.exports.createSequelize = createSequelize;
-module.exports.resolveSqlitePath = resolveSqlitePath;
+module.exports = sequelize
+module.exports.createSequelize = createSequelize
+module.exports.resolveSqlitePath = resolveSqlitePath

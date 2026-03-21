@@ -11,21 +11,24 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <title>RetroDex - Catalogue</title>
     <link rel="stylesheet" href="/style.css" />
+    <script src="/js/renderGameRow.js"></script>
     <style>
       :root { --panel-bg: rgba(15,56,15,.2); --panel-line: rgba(155,188,15,.18); --panel-strong: rgba(155,188,15,.42); --text-strong: #cfe66f; --text-soft: rgba(155,188,15,.62); --text-faint: rgba(155,188,15,.4); --text-active: #d8f08f; --legendary: #ddc420; --epic: #c48be8; --rare: #e88855; --uncommon: #44aadd; --common: #5a9a3a; }
-      .catalog-shell { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+      .catalog-shell { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
       .catalog-header { display: flex; justify-content: space-between; gap: 12px; align-items: end; flex-wrap: wrap; padding: 10px 0 18px; border-bottom: 1px solid rgba(155,188,15,.16); }
       .catalog-header h1 { font-size: 26px; color: var(--text-strong); letter-spacing: .12em; margin: 10px 0 6px; }
       .catalog-header p { font-size: 11px; color: var(--text-faint); }
       .search-panel { background: var(--panel-bg); border: 1px solid var(--panel-line); border-radius: 6px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
       .search-grid, .filter-grid { display: grid; gap: 12px; }
-      .search-grid { grid-template-columns: minmax(0,2fr) repeat(3,minmax(150px,1fr)); }
-      .filter-grid { grid-template-columns: minmax(150px,1.1fr) minmax(150px,1.1fr) repeat(2,minmax(110px,.85fr)) minmax(180px,1.2fr); }
+      .search-grid { grid-template-columns: 1fr; }
+      .filter-grid { grid-template-columns: 1fr; }
       .field { display: flex; flex-direction: column; gap: 6px; }
       .field label { font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: .08em; }
       .field input, .field select { width: 100%; padding: 10px 12px; border: 1px solid var(--panel-line); border-radius: 4px; background: rgba(10,10,10,.85); color: #9bbc0f; font: inherit; }
       .field input:focus, .field select:focus { outline: none; border-color: var(--panel-strong); }
       .search-actions, .results-bar, .pagination-bar { display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; }
+      .search-actions { flex-direction: column; align-items: stretch; }
+      .search-actions .btn { width: 100%; text-align: center; }
       .reset-link { color: var(--text-active); font-size: 11px; text-decoration: none; border-bottom: 1px dashed rgba(216,240,143,.45); }
       .reset-link:hover { border-bottom-color: var(--text-active); }
       .results-bar { font-size: 11px; color: var(--text-faint); }
@@ -39,7 +42,6 @@
       .game-card.rarity-rare { border-color: var(--rare); }
       .game-card.rarity-uncommon { border-color: var(--uncommon); }
       .game-card.rarity-common { border-color: var(--common); }
-      .game-thumb { width: 100%; height: 68px; display: block; border-radius: 4px; border: 1px solid rgba(155,188,15,.16); background: #0a0a0a; image-rendering: pixelated; }
       .game-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
       .game-title { font-size: 14px; color: var(--text-strong); font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .game-subtitle { font-size: 11px; color: var(--text-soft); }
@@ -57,8 +59,8 @@
       .suggestion-btn:hover { border-color: rgba(216,240,143,.7); background: rgba(216,240,143,.08); }
       .pagination-bar { padding-bottom: 20px; }
       .page-indicator { font-size: 11px; color: var(--text-faint); }
-      @media (max-width: 980px) { .search-grid, .filter-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .results-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
-      @media (max-width: 640px) { .search-grid, .filter-grid, .results-grid { grid-template-columns: 1fr; } .catalog-header { align-items: flex-start; } .results-bar, .pagination-bar, .search-actions { flex-direction: column; align-items: stretch; } .search-actions .btn, .pagination-bar .btn { width: 100%; text-align: center; } }
+      @media (max-width: 980px) { .results-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+      @media (max-width: 640px) { .results-grid { grid-template-columns: 1fr; } .catalog-header { align-items: flex-start; } .results-bar, .pagination-bar, .search-actions { flex-direction: column; align-items: stretch; } .search-actions .btn, .pagination-bar .btn { width: 100%; text-align: center; } }
     </style>
   </head>
   <body>
@@ -72,111 +74,135 @@
           </nav>
           <h1 class="page-title">CATALOGUE</h1>
           <p id="catalog-subtitle" class="page-subtitle">507 jeux retro</p>
+          <div class="global-search-bar">
+            <input
+              type="text"
+              id="global-search"
+              placeholder="/ Rechercher..."
+              readonly
+              onclick="location.href='/search.html'"
+              style="cursor:pointer"
+            />
+          </div>
         </div>
       </header>
 
-      <section class="search-panel">
-        <div class="search-grid">
-          <div class="field">
-            <label for="query">Recherche</label>
-            <input id="query" type="text" placeholder="Zelda, Mario, Metroid..." autocomplete="off" />
-          </div>
-          <div class="field">
-            <label for="console">Console</label>
-            <select id="console"><option value="">Toutes</option></select>
-          </div>
-          <div class="field">
-            <label for="rarity">Rarete</label>
-            <select id="rarity">
-              <option value="">Toutes</option>
-              <option value="LEGENDARY">LEGENDARY</option>
-              <option value="EPIC">EPIC</option>
-              <option value="RARE">RARE</option>
-              <option value="UNCOMMON">UNCOMMON</option>
-              <option value="COMMON">COMMON</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="limit">Par page</label>
-            <select id="limit">
-              <option value="20" selected>20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-          </div>
-        </div>
+      <section class="bloomberg-layout">
+        <aside class="bloomberg-sidebar">
+          <button id="filters-mobile-toggle" class="filters-mobile-toggle" type="button" aria-expanded="false">+ FILTRES</button>
+          <div id="filters-sidebar-content" class="filters-sidebar-content">
+            <section class="search-panel">
+              <div class="section-title filters-sidebar-title">FILTRES</div>
 
-        <button id="toggle-advanced"
-          type="button"
-          onclick="toggleAdvanced()"
-          style="background:none;border:1px solid #306230;color:#5a9a3a;padding:0.3rem 0.75rem;font-size:0.7rem;cursor:pointer;margin-top:0.5rem;align-self:flex-start;">
-          + Filtres avancés
-        </button>
+              <div class="search-grid">
+                <div class="field">
+                  <label for="query">Recherche</label>
+                  <input id="query" type="text" placeholder="Rechercher un jeu, une console..." autocomplete="off" />
+                </div>
+                <div class="field">
+                  <label for="console">Console</label>
+                  <select id="console"><option value="">Toutes</option></select>
+                </div>
+                <div class="field">
+                  <label for="rarity">Rarete</label>
+                  <select id="rarity">
+                    <option value="">Toutes</option>
+                    <option value="LEGENDARY">LEGENDARY</option>
+                    <option value="EPIC">EPIC</option>
+                    <option value="RARE">RARE</option>
+                    <option value="UNCOMMON">UNCOMMON</option>
+                    <option value="COMMON">COMMON</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="limit">Par page</label>
+                  <select id="limit">
+                    <option value="20" selected>20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </div>
+              </div>
 
-        <div id="advanced-filters" style="display:none;">
-        <div class="filter-grid">
-          <div class="field">
-            <label for="genre">Genre</label>
-            <select id="genre"><option value="">Tous</option></select>
+              <button id="toggle-advanced"
+                type="button"
+                onclick="toggleAdvanced()"
+                style="background:none;border:1px solid #306230;color:#5a9a3a;padding:0.3rem 0.75rem;font-size:0.7rem;cursor:pointer;align-self:flex-start;">
+                + Filtres avances
+              </button>
+
+              <div id="advanced-filters" style="display:none;">
+                <div class="filter-grid">
+                  <div class="field">
+                    <label for="genre">Genre</label>
+                    <select id="genre"><option value="">Tous</option></select>
+                  </div>
+                  <div class="field">
+                    <label for="filter-trend">Tendance</label>
+                    <select id="filter-trend">
+                      <option value="">Tendance: Toutes</option>
+                      <option value="up">&#8593; En hausse</option>
+                      <option value="down">&#8595; En baisse</option>
+                      <option value="stable">= Stable</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="year-min">Annee min</label>
+                    <input id="year-min" type="number" min="1970" max="2012" placeholder="1970" />
+                  </div>
+                  <div class="field">
+                    <label for="year-max">Annee max</label>
+                    <input id="year-max" type="number" min="1970" max="2012" placeholder="2012" />
+                  </div>
+                  <div class="field">
+                    <label for="sort-by">Trier par</label>
+                    <select id="sort-by">
+                      <option value="title_asc" selected>Title A-Z</option>
+                      <option value="title_desc">Title Z-A</option>
+                      <option value="loose_asc">Price Loose &#8593;</option>
+                      <option value="loose_desc">Price Loose &#8595;</option>
+                      <option value="mint_asc">Price Mint &#8593;</option>
+                      <option value="mint_desc">Price Mint &#8595;</option>
+                      <option value="meta_asc">Metascore &#8593;</option>
+                      <option value="meta_desc">Metascore &#8595;</option>
+                      <option value="year_asc">Year &#8593;</option>
+                      <option value="year_desc">Year &#8595;</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="search-actions">
+                <a id="reset-filters" href="#" class="reset-link">Reinitialiser</a>
+                <button id="search-button" type="button" class="btn">Rechercher</button>
+              </div>
+            </section>
           </div>
-          <div class="field">
-            <label for="filter-trend">Tendance</label>
-            <select id="filter-trend">
-              <option value="">Tendance: Toutes</option>
-              <option value="up">&#8593; En hausse</option>
-              <option value="down">&#8595; En baisse</option>
-              <option value="stable">= Stable</option>
-            </select>
+        </aside>
+
+        <section class="bloomberg-center">
+          <section class="results-bar">
+            <div id="results-summary" class="results-summary-line">Chargement...</div>
+            <div id="loading-indicator" class="status-bar"></div>
+          </section>
+
+          <section id="results" class="results-list"></section>
+
+          <div id="page-numbers" style="display:flex;flex-wrap:wrap;gap:0.25rem;justify-content:center;margin:1rem 0;"></div>
+
+          <section class="pagination-bar">
+            <button id="prev-button" type="button" class="btn">Previous</button>
+            <div id="page-indicator" class="page-indicator">Page 1 of 1</div>
+            <button id="next-button" type="button" class="btn">Next</button>
+          </section>
+        </section>
+
+        <aside class="bloomberg-detail">
+          <div class="quick-detail-panel">
+            <div class="quick-detail-head">Detail rapide</div>
+            <div id="quick-detail" class="quick-detail-placeholder">&larr; Selectionner un jeu</div>
           </div>
-          <div class="field">
-            <label for="year-min">Annee min</label>
-            <input id="year-min" type="number" min="1970" max="2012" placeholder="1970" />
-          </div>
-          <div class="field">
-            <label for="year-max">Annee max</label>
-            <input id="year-max" type="number" min="1970" max="2012" placeholder="2012" />
-          </div>
-          <div class="field">
-            <label for="sort-by">Trier par</label>
-            <select id="sort-by">
-              <option value="title_asc" selected>Title A-Z</option>
-              <option value="title_desc">Title Z-A</option>
-              <option value="loose_asc">Price Loose &#8593;</option>
-              <option value="loose_desc">Price Loose &#8595;</option>
-              <option value="mint_asc">Price Mint &#8593;</option>
-              <option value="mint_desc">Price Mint &#8595;</option>
-              <option value="meta_asc">Metascore &#8593;</option>
-              <option value="meta_desc">Metascore &#8595;</option>
-              <option value="year_asc">Year &#8593;</option>
-              <option value="year_desc">Year &#8595;</option>
-            </select>
-          </div>
-        </div>
-
-        </div>
-
-        <div class="search-actions">
-          <a id="reset-filters" href="#" class="reset-link">Reinitialiser</a>
-          <button id="search-button" type="button" class="btn">Rechercher</button>
-        </div>
-      </section>
-
-      <section class="results-bar">
-        <div id="results-summary" class="results-summary-line">Chargement...</div>
-        <div id="loading-indicator" class="status-bar"></div>
-      </section>
-
-      <section id="results" class="results-grid"></section>
-
-      <div id="page-numbers" style="
-        display:flex;flex-wrap:wrap;gap:0.25rem;
-        justify-content:center;margin:1rem 0;
-      "></div>
-
-      <section class="pagination-bar">
-        <button id="prev-button" type="button" class="btn">Previous</button>
-        <div id="page-indicator" class="page-indicator">Page 1 of 1</div>
-        <button id="next-button" type="button" class="btn">Next</button>
+        </aside>
       </section>
     </main>
 
@@ -202,6 +228,9 @@
       const subtitleEl = document.getElementById("catalog-subtitle");
       const advancedFiltersEl = document.getElementById("advanced-filters");
       const toggleAdvancedEl = document.getElementById("toggle-advanced");
+      const filtersMobileToggleEl = document.getElementById("filters-mobile-toggle");
+      const filtersSidebarContentEl = document.getElementById("filters-sidebar-content");
+      const quickDetailEl = document.getElementById("quick-detail");
 
       let debounceTimer;
       let currentOffset = 0;
@@ -209,6 +238,7 @@
       let masterGames = [];
       let fetchedGames = [];
       let filteredGames = [];
+      let selectedGameId = "";
 
       const esc = (value) => String(value ?? "")
         .replaceAll("&", "&amp;")
@@ -222,85 +252,6 @@
       const rClass = (value) => String(value || "COMMON").toLowerCase();
       const textCmp = (left, right) => String(left || "").localeCompare(String(right || ""), "fr", { sensitivity: "base" });
 
-      function renderCardThumb(canvas, game) {
-        const w = 120;
-        const h = 68;
-        canvas.width = w;
-        canvas.height = h;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
-
-        let seed = 0;
-        const str = game.id || game.title || "";
-        for (let i = 0; i < str.length; i++) {
-          seed = (seed * 31 + str.charCodeAt(i)) | 0;
-        }
-        seed = Math.abs(seed);
-
-        const palettes = {
-          "PlayStation": ["#050520", "#0f0f45", "#1a1a8b", "#4444dd"],
-          "Super Nintendo": ["#0d0d0d", "#1a3a1a", "#2d6a2d", "#7abf7a"],
-          "Sega Genesis": ["#1a0a2e", "#2d1654", "#6a3fa0", "#c48be8"],
-          "Sega Saturn": ["#1a0505", "#3d0f0f", "#8b1a1a", "#e85555"],
-          "Nintendo 64": ["#1a1a05", "#3d3d0f", "#8b7a00", "#ddc420"],
-          "Game Boy": ["#0f380f", "#306230", "#8bac0f", "#9bbc0f"],
-          "Game Boy Advance": ["#05051a", "#0f1a3d", "#1a3d8b", "#44aadd"],
-          "Nintendo DS": ["#05051a", "#0f1a3d", "#2a5a9b", "#7ab4e8"],
-          "Dreamcast": ["#05101a", "#0f2535", "#1a558b", "#55aae8"],
-          "Nintendo Entertainment System": ["#1a1a2e", "#16213e", "#0f3460", "#e94560"],
-        };
-        const p = palettes[game.console] || ["#0f380f", "#306230", "#8bac0f", "#9bbc0f"];
-
-        const style = seed % 4;
-        ctx.fillStyle = p[0];
-        ctx.fillRect(0, 0, w, h);
-
-        if (style === 0) {
-          ctx.fillStyle = p[1];
-          ctx.fillRect(8, 8, w - 16, h - 24);
-          ctx.fillStyle = p[2];
-          for (let i = 0; i < 3; i++) {
-            ctx.fillRect(16, 14 + i * 8, w - 32, 4);
-          }
-        } else if (style === 1) {
-          for (let y = 0; y < h; y += 4) {
-            ctx.fillStyle = p[1];
-            ctx.globalAlpha = 0.4;
-            ctx.fillRect(0, y, w, 2);
-          }
-          ctx.globalAlpha = 1;
-          ctx.fillStyle = p[2];
-          ctx.beginPath();
-          ctx.arc(w / 2, h / 2 - 8, 20, 0, Math.PI * 2);
-          ctx.fill();
-        } else if (style === 2) {
-          ctx.fillStyle = p[1];
-          ctx.fillRect(0, 0, w, h * 0.4);
-          ctx.fillStyle = p[3];
-          ctx.fillRect(w - 14, 4, 10, 10);
-          for (let i = 0; i < 5; i++) {
-            const bx = (seed * 7 + i * 23) % (w - 20) + 4;
-            const bh = (seed * 3 + i * 17) % 16 + 6;
-            ctx.fillStyle = p[2];
-            ctx.fillRect(bx, h * 0.4 - bh, 12, bh);
-          }
-        } else {
-          ctx.fillStyle = p[1];
-          ctx.fillRect(w * 0.15, h * 0.1, w * 0.7, h * 0.7);
-          ctx.fillStyle = p[0];
-          ctx.fillRect(w * 0.15 + 2, h * 0.1 + 2, w * 0.7 - 4, h * 0.7 - 4);
-          ctx.fillStyle = p[3];
-          ctx.fillRect(w * 0.35, h * 0.25, w * 0.3, 6);
-          ctx.fillRect(w * 0.35, h * 0.45, w * 0.3, 6);
-        }
-
-        ctx.fillStyle = "rgba(0,0,0,0.6)";
-        ctx.fillRect(0, h - 14, w, 14);
-        ctx.fillStyle = p[3];
-        ctx.font = "7px monospace";
-        ctx.fillText((game.title || "").substring(0, 18), 3, h - 4);
-      }
-
       function yearVal(value) {
         const year = Number.parseInt(String(value || ""), 10);
         return Number.isFinite(year) ? Math.max(1970, Math.min(2012, year)) : "";
@@ -312,7 +263,17 @@
           : advancedFiltersEl.style.display === "none";
 
         advancedFiltersEl.style.display = open ? "block" : "none";
-        toggleAdvancedEl.textContent = open ? "− Filtres avancés" : "+ Filtres avancés";
+        toggleAdvancedEl.textContent = open ? "- Filtres avances" : "+ Filtres avances";
+      }
+
+      function toggleFiltersPanel(forceOpen) {
+        const open = typeof forceOpen === "boolean"
+          ? forceOpen
+          : !filtersSidebarContentEl.classList.contains("is-open");
+
+        filtersSidebarContentEl.classList.toggle("is-open", open);
+        filtersMobileToggleEl.setAttribute("aria-expanded", String(open));
+        filtersMobileToggleEl.textContent = open ? "- FILTRES" : "+ FILTRES";
       }
 
       function goToPage(page) {
@@ -387,6 +348,7 @@
         sortEl.value = params.get("sort") || "title_asc";
         yearMinEl.value = yearVal(params.get("yearMin"));
         yearMaxEl.value = yearVal(params.get("yearMax"));
+        selectedGameId = params.get("selected") || "";
         currentOffset = Math.max(0, Number.parseInt(params.get("offset") || "0", 10) || 0);
       }
 
@@ -427,6 +389,7 @@
           ["limit", String(currentState.limit)],
           ["sort", currentState.sort],
           ["offset", String(currentState.offset)],
+          ["selected", selectedGameId],
         ];
 
         entries.forEach(([key, value]) => {
@@ -464,7 +427,7 @@
         });
       }
 
-      function detailUrl(game, currentState) {
+      function detailUrl(gameId, currentState) {
         const params = new URLSearchParams();
         [
           ["q", currentState.q],
@@ -480,33 +443,85 @@
         params.set("limit", String(currentState.limit));
         params.set("sort", currentState.sort);
         params.set("offset", String(currentState.offset));
-        params.set("id", game.id);
+        params.set("id", gameId);
 
         return `/game-detail.html?${params.toString()}`;
       }
 
-      function card(game, currentState) {
-        const trendValue = game.trend?.mint || "";
-        const trendSymbol = { up: "\u2191", down: "\u2193", stable: "=" }[trendValue] || "";
+      function navigateTo(gameId) {
+        window.location.href = detailUrl(gameId, state());
+      }
 
-        return `<article class="game-card rarity-${esc(rClass(game.rarity))}">
-          <canvas class="game-thumb"></canvas>
-          <div class="game-head">
-            <div style="min-width:0;">
-              <h3 class="game-title" title="${esc(game.title)}">${esc(game.title)}</h3>
-              <div class="game-subtitle">${esc(game.console || "Console inconnue")} · ${esc(game.year || "n/a")}</div>
+      function renderQuickDetailEmpty(message = "&larr; Selectionner un jeu") {
+        quickDetailEl.className = "quick-detail-placeholder";
+        quickDetailEl.innerHTML = message;
+      }
+
+      function detailPrice(value) {
+        const amount = Number(value);
+        if (!Number.isFinite(amount) || amount <= 0) {
+          return '<div class="price-value empty">$—</div>';
+        }
+        return `<div class="price-value">$${Math.round(amount)}</div>`;
+      }
+
+      function shortSummary(game) {
+        const text = String(game.summary || game.description || "").trim();
+        if (!text) return "";
+        return text.length > 220 ? `${esc(text.slice(0, 217))}...` : esc(text);
+      }
+
+      function quickDetailMarkup(game, currentState) {
+        const description = shortSummary(game);
+        return `
+          <div class="detail-content">
+            <div class="detail-title">${esc(game.title || "Sans titre")}</div>
+            <div class="detail-badges">
+              <span class="badge-platform">${esc(game.console || "Console inconnue")}</span>
+              <span class="badge-year">${esc(game.year || "n/a")}</span>
+              <span class="result-badge rarity-badge rarity-${esc(rClass(game.rarity))}">${esc(game.rarity || "COMMON")}</span>
             </div>
-            <span class="rarity-badge rarity-${esc(rClass(game.rarity))}">${esc(game.rarity || "COMMON")}</span>
+            <div class="detail-prices">
+              <div class="detail-price-col">
+                <div class="price-label">LOOSE</div>
+                ${detailPrice(game.loosePrice)}
+              </div>
+              <div class="detail-price-col">
+                <div class="price-label">CIB</div>
+                ${detailPrice(game.cibPrice)}
+              </div>
+              <div class="detail-price-col">
+                <div class="price-label">MINT</div>
+                ${detailPrice(game.mintPrice)}
+              </div>
+            </div>
+            ${description ? `<div class="detail-description">${description}</div>` : ""}
+            <a class="detail-link" href="${detailUrl(game.id, currentState)}">Voir fiche complete &rarr;</a>
           </div>
-          <div class="pill-row">
-            <span class="genre-pill">${esc(game.genre || "Genre inconnu")}</span>
-          </div>
-          <div class="price-row">
-            Loose ${esc(price(game.loosePrice))} · CIB ${esc(price(game.cibPrice))} · Mint ${esc(price(game.mintPrice))}
-            ${trendSymbol ? `<span class="trend-mini ${esc(trendValue)}">${esc(trendSymbol)}</span>` : ""}
-          </div>
-          <div><a href="${detailUrl(game, currentState)}" class="btn">Voir fiche</a></div>
-        </article>`;
+        `;
+      }
+
+      function markSelectedRow() {
+        resultsEl.querySelectorAll(".result-row").forEach((rowEl) => {
+          rowEl.classList.toggle("is-selected", rowEl.dataset.gameId === selectedGameId);
+        });
+      }
+
+      async function loadQuickDetail(gameId) {
+        selectedGameId = gameId;
+        markSelectedRow();
+        updateUrl(state());
+        quickDetailEl.className = "quick-detail-loading";
+        quickDetailEl.innerHTML = "Chargement...";
+
+        try {
+          const game = await fetchJson(`/api/games/${encodeURIComponent(gameId)}`);
+          quickDetailEl.className = "";
+          quickDetailEl.innerHTML = quickDetailMarkup(game, state());
+        } catch (error) {
+          quickDetailEl.className = "quick-detail-placeholder";
+          quickDetailEl.innerHTML = `Impossible de charger le detail (${esc(error.message)})`;
+        }
       }
 
       function renderSummary(currentState, total) {
@@ -606,19 +621,53 @@
           return;
         }
 
-        resultsEl.innerHTML = pageItems.map((game) => card(game, currentState)).join("");
-        resultsEl.querySelectorAll(".game-thumb").forEach((canvas, index) => {
-          renderCardThumb(canvas, pageItems[index]);
+        resultsEl.innerHTML = "";
+        pageItems.forEach((game) => {
+          const rowEl = renderGameRow(game, {
+            onClick: () => navigateTo(game.id),
+          });
+          rowEl.setAttribute("role", "link");
+          rowEl.setAttribute("tabindex", "0");
+          resultsEl.appendChild(rowEl);
         });
+
+        resultsEl.querySelectorAll(".result-row").forEach((rowEl) => {
+          rowEl.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              navigateTo(rowEl.dataset.gameId);
+            }
+          });
+        });
+      }
+
+      function renderLoadingSkeletons() {
+        resultsEl.innerHTML = `
+          <div class="skeleton skeleton-title"></div>
+          <div class="skeleton skeleton-line-full"></div>
+          <div class="skeleton skeleton-line-full"></div>
+          <div class="skeleton skeleton-line-medium"></div>
+          <div class="skeleton skeleton-line-full"></div>
+          <div class="skeleton skeleton-line-short"></div>
+        `;
       }
 
       async function loadConsoles() {
         const payload = await fetchJson("/api/consoles");
-        payload.items.forEach((item) => {
+        const consoles = Array.isArray(payload.consoles)
+          ? payload.consoles
+          : Array.isArray(payload.items)
+            ? payload.items
+            : [];
+
+        consoles.forEach((item) => {
+          const consoleName = item.platform || item.name || item.title || "";
+          if (!consoleName) return;
+
           const option = document.createElement("option");
-          option.value = item.name;
-          option.textContent = `${item.name} (${item.gamesCount})`;
-          if (consoleEl.dataset.pending === item.name) option.selected = true;
+          option.value = consoleName;
+          option.textContent = `${consoleName} (${Number(item.gamesCount) || 0})`;
+          if (consoleEl.dataset.pending === consoleName) option.selected = true;
           consoleEl.appendChild(option);
         });
       }
@@ -656,7 +705,7 @@
         const currentState = state();
         updateUrl(currentState);
         loadingIndicatorEl.textContent = "Chargement...";
-        resultsEl.innerHTML = '<div class="loading-state">Chargement...</div>';
+        renderLoadingSkeletons();
 
         const params = new URLSearchParams();
         if (currentState.q) params.set("q", currentState.q);
@@ -700,11 +749,14 @@
         sortEl.value = "title_asc";
         limitEl.value = "20";
         currentOffset = 0;
+        selectedGameId = "";
+        renderQuickDetailEmpty();
         toggleAdvanced(false);
         loadGames();
       }
 
       searchButtonEl.addEventListener("click", searchNow);
+      filtersMobileToggleEl.addEventListener("click", () => toggleFiltersPanel());
       resetFiltersEl.addEventListener("click", (event) => {
         event.preventDefault();
         resetFilters();
@@ -802,9 +854,23 @@
           || params.get("trend")
           || (params.get("sort") && params.get("sort") !== "title_asc");
         if (hasAdv) toggleAdvanced(true);
+
+        const hasFilters = !!(
+          queryEl.value.trim()
+          || consoleEl.dataset.pending
+          || rarityEl.value
+          || genreEl.dataset.pending
+          || trendEl.value
+          || yearMinEl.value
+          || yearMaxEl.value
+        );
+        toggleFiltersPanel(window.innerWidth >= 768 || hasFilters || hasAdv);
       });
       Promise.all([loadConsoles(), loadMeta()])
         .then(() => loadGames())
+        .then(() => {
+          if (selectedGameId) loadQuickDetail(selectedGameId);
+        })
         .catch((error) => {
           loadingIndicatorEl.textContent = `Erreur initiale: ${error.message}`;
           resultsEl.innerHTML = '<div class="empty-state">Chargement impossible.</div>';

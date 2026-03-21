@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RetroDex - Recherche</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/js/renderGameRow.js"></script>
+  </head>
+  <body>
+    <main class="search-page">
+      <nav class="breadcrumb">
+        <a href="/hub.html">HUB</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="current">RECHERCHE</span>
+      </nav>
+
+      <h1 class="page-title">RECHERCHE</h1>
+      <p class="page-subtitle">Jeux + franchises</p>
+
+      <section class="search-panel-shell">
+        <input
+          id="search-input"
+          type="text"
+          placeholder="Titre, console, franchise..."
+          autocomplete="off"
+          autofocus
+        />
+        <span id="search-count"></span>
+
+        <div class="search-filter-row">
+          <button class="filter-btn active" data-type="all" type="button">TOUT</button>
+          <button class="filter-btn" data-type="game" type="button">JEUX</button>
+          <button class="filter-btn" data-type="franchise" type="button">FRANCHISES</button>
+        </div>
+
+        <div class="search-filter-row">
+          <button class="filter-btn active" data-sort="relevance" type="button">PERTINENCE</button>
+          <button class="filter-btn" data-sort="price_asc" type="button">PRIX ↑</button>
+          <button class="filter-btn" data-sort="price_desc" type="button">PRIX ↓</button>
+          <button class="filter-btn" data-sort="year_desc" type="button">ANNÉE</button>
+        </div>
+
+        <div id="search-results"></div>
+      </section>
+    </main>
+
+    <script>
+      const searchInputEl = document.getElementById('search-input');
+      const searchCountEl = document.getElementById('search-count');
+      const searchResultsEl = document.getElementById('search-results');
+      const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
+      const sortButtons = Array.from(document.querySelectorAll('[data-sort]'));
+      const params = new URLSearchParams(window.location.search);
+
+      let activeType = ['all', 'game', 'franchise'].includes(params.get('type'))
+        ? params.get('type')
+        : 'all';
+      let activeSort = ['relevance', 'price_asc', 'price_desc', 'year_desc'].includes(params.get('sort'))
+        ? params.get('sort')
+        : 'relevance';
+      let debounceTimer;
+      let lastResults = [];
+
+      function escapeHtml(value) {
+        return String(value ?? '')
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#039;');
+      }
+
+      function updateActiveFilter() {
+        filterButtons.forEach((button) => {
+          button.classList.toggle('active', button.dataset.type === activeType);
+        });
+      }
+
+      function updateActiveSort() {
+        sortButtons.forEach((button) => {
+          button.classList.toggle('active', button.dataset.sort === activeSort);
+        });
+      }
+
+      function updateUrl(query) {
+        const nextParams = new URLSearchParams();
+        if (query) nextParams.set('q', query);
+        if (activeType !== 'all') nextParams.set('type', activeType);
+        if (activeSort !== 'relevance') nextParams.set('sort', activeSort);
+        const nextUrl = nextParams.toString() ? `/search.html?${nextParams.toString()}` : '/search.html';
+        window.history.replaceState({}, '', nextUrl);
+      }
+
+      function sortResults(results) {
+        const games = results.filter((item) => item._type === 'game');
+        const franchises = results.filter((item) => item._type === 'franchise');
+
+        if (activeSort === 'price_asc') {
+          games.sort((left, right) => {
+            const a = Number.isFinite(Number(left.loosePrice)) ? Number(left.loosePrice) : Number.POSITIVE_INFINITY;
+            const b = Number.isFinite(Number(right.loosePrice)) ? Number(right.loosePrice) : Number.POSITIVE_INFINITY;
+            return a - b || String(left.title || '').localeCompare(String(right.title || ''), 'fr', { sensitivity: 'base' });
+          });
+        } else if (activeSort === 'price_desc') {
+          games.sort((left, right) => {
+            const a = Number.isFinite(Number(left.loosePrice)) ? Number(left.loosePrice) : Number.NEGATIVE_INFINITY;
+            const b = Number.isFinite(Number(right.loosePrice)) ? Number(right.loosePrice) : Number.NEGATIVE_INFINITY;
+            return b - a || String(left.title || '').localeCompare(String(right.title || ''), 'fr', { sensitivity: 'base' });
+          });
+        } else if (activeSort === 'year_desc') {
+          games.sort((left, right) => {
+            const a = Number.isFinite(Number(left.year)) ? Number(left.year) : Number.NEGATIVE_INFINITY;
+            const b = Number.isFinite(Number(right.year)) ? Number(right.year) : Number.NEGATIVE_INFINITY;
+            return b - a || String(left.title || '').localeCompare(String(right.title || ''), 'fr', { sensitivity: 'base' });
+          });
+        }
+
+        return activeType === 'game' ? games : [...franchises, ...games];
+      }
+
+      function renderMessage(message) {
+        searchCountEl.textContent = '';
+        searchResultsEl.innerHTML = `<div class="search-empty">${escapeHtml(message)}</div>`;
+      }
+
+      function renderResults(results, query) {
+        searchCountEl.textContent = `${results.length} resultat${results.length > 1 ? 's' : ''}`;
+
+        if (!results.length) {
+          searchResultsEl.innerHTML = `<div class="search-empty">Aucun resultat pour "${escapeHtml(query)}"</div>`;
+          return;
+        }
+
+        const orderedResults = sortResults(results);
+
+        searchResultsEl.innerHTML = orderedResults.map((item) => {
+          if (item._type === 'franchise') {
+            return `
+              <div class="result-row result-franchise" onclick="location.href='/franchises.html?slug=${encodeURIComponent(item.slug)}'">
+                <span class="result-type-badge badge-franchise">FRANCHISE</span>
+                <span class="result-title">${escapeHtml(item.name)}</span>
+                <span class="result-meta">${escapeHtml(item.first_game || '—')} → ${escapeHtml(item.last_game || '—')}</span>
+                <span class="result-sub">${escapeHtml(item.developer || '—')}</span>
+              </div>
+            `;
+          }
+
+          const loosePrice = Number(item.loosePrice);
+          const priceLabel = Number.isFinite(loosePrice) ? `$${loosePrice.toFixed(0)}` : '—';
+          const rarity = String(item.rarity || '').toLowerCase();
+
+          return `
+            <div class="result-row result-game" onclick="location.href='/game-detail.html?id=${encodeURIComponent(item.id)}'">
+              <span class="result-type-badge badge-game">JEU</span>
+              <span class="result-title">${escapeHtml(item.title)}</span>
+              <span class="result-meta">${escapeHtml(item.console || '—')} · ${escapeHtml(item.year || '—')}</span>
+              <span class="result-price">${priceLabel}</span>
+              <span class="result-rarity rarity-${escapeHtml(rarity)}">${escapeHtml(item.rarity || '')}</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      async function performSearch() {
+        const q = searchInputEl.value.trim();
+        updateUrl(q);
+
+        if (q.length < 2) {
+          renderMessage('Tapez au moins 2 caracteres');
+          return;
+        }
+
+        searchCountEl.textContent = 'Recherche...';
+
+        try {
+          const response = await fetch(`/api/search?q=${encodeURIComponent(q)}&type=${encodeURIComponent(activeType)}&limit=30`);
+          const payload = await response.json();
+
+          if (!response.ok || !payload.ok) {
+            renderMessage('Erreur de recherche');
+            return;
+          }
+
+          lastResults = Array.isArray(payload.results) ? payload.results : [];
+          renderResults(lastResults, q);
+        } catch (error) {
+          console.warn('Universal search failed:', error.message);
+          renderMessage('Erreur de recherche');
+        }
+      }
+
+      function scheduleSearch() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          performSearch();
+        }, 250);
+      }
+
+      filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          activeType = button.dataset.type || 'all';
+          updateActiveFilter();
+          performSearch();
+        });
+      });
+
+      sortButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          activeSort = button.dataset.sort || 'relevance';
+          updateActiveSort();
+          const query = searchInputEl.value.trim();
+          updateUrl(query);
+
+          if (lastResults.length) {
+            renderResults(lastResults, query);
+          }
+        });
+      });
+
+      searchInputEl.addEventListener('input', scheduleSearch);
+      searchInputEl.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          clearTimeout(debounceTimer);
+          performSearch();
+        }
+
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          searchInputEl.value = '';
+          updateUrl('');
+          renderMessage('Tapez au moins 2 caracteres');
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        const tag = event.target?.tagName;
+        const inField = tag === 'INPUT' || tag === 'TEXTAREA' || event.target?.isContentEditable;
+
+        if (event.key === '/' && !inField) {
+          event.preventDefault();
+          searchInputEl.focus();
+          searchInputEl.select();
+        }
+      });
+
+      searchInputEl.value = params.get('q') || '';
+      updateActiveFilter();
+      updateActiveSort();
+
+      if (searchInputEl.value.trim().length >= 2) {
+        performSearch();
+      } else {
+        renderMessage('Tapez au moins 2 caracteres');
+        requestAnimationFrame(() => searchInputEl.focus());
+      }
+    </script>
+  </body>
+</html>

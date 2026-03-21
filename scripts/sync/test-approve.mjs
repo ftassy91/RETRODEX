@@ -1,8 +1,13 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
-const ROOT = path.resolve("C:/Users/ftass/OneDrive/Bureau/RETRODEXseed");
-const ENV_PATH = path.join(ROOT, ".env");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const ROOT = path.resolve(__dirname, "../..");
+const ENV_PATH = fs.existsSync(path.join(ROOT, "backend", ".env"))
+  ? path.join(ROOT, "backend", ".env")
+  : path.join(ROOT, ".env");
 const PENDING_FILE = path.join(
   ROOT,
   "logs",

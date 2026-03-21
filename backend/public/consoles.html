@@ -3,351 +3,337 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#9bbc0f" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="RetroDex" />
-    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <title>RetroDex - Consoles</title>
     <link rel="stylesheet" href="/style.css" />
+    <script src="/js/renderGameRow.js"></script>
     <style>
-      :root {
-        --panel-bg: rgba(15, 56, 15, 0.2);
-        --panel-line: rgba(155, 188, 15, 0.18);
-        --panel-line-strong: rgba(155, 188, 15, 0.42);
-        --text-strong: #cfe66f;
-        --text-soft: rgba(155, 188, 15, 0.62);
-        --text-faint: rgba(155, 188, 15, 0.4);
-      }
-
-      .console-shell {
-        max-width: 1100px;
+      .consoles-page {
+        max-width: 1180px;
         margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
+        padding: 24px 16px 48px;
       }
 
-      .console-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: end;
-        gap: 12px;
-        flex-wrap: wrap;
-        padding: 10px 0 18px;
-        border-bottom: 1px solid rgba(155, 188, 15, 0.16);
+      .consoles-layout {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 0;
+        border: 1px solid var(--border);
+        background: var(--bg-surface);
       }
 
-      .console-header h1 {
-        font-size: 26px;
-        color: var(--text-strong);
-        letter-spacing: 0.12em;
-        margin: 10px 0 6px;
-      }
-
-      .console-header p {
-        margin: 0;
-        font-size: 11px;
-        color: var(--text-faint);
-      }
-
-      .status-strip,
-      .summary-panel {
-        background: var(--panel-bg);
-        border: 1px solid var(--panel-line);
-        border-radius: 6px;
-        padding: 14px 16px;
-      }
-
-      .status-strip {
-        font-size: 11px;
-        color: var(--text-faint);
-      }
-
-      .status-strip strong,
-      .summary-panel strong {
-        color: var(--text-strong);
+      .consoles-main {
+        padding: 16px;
+        border-right: 1px solid var(--border);
       }
 
       .consoles-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
+        gap: 12px;
       }
 
       .console-card {
-        background: rgba(15, 56, 15, 0.16);
-        border: 1px solid var(--panel-line);
-        border-radius: 6px;
-        padding: 18px;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
+        border: 1px solid var(--border);
+        background: var(--bg-card);
+        padding: 14px;
+        cursor: pointer;
+        transition: border-color 120ms ease, background 120ms ease;
       }
 
-      .console-card h3 {
-        margin: 0;
-        font-size: 18px;
-        color: var(--text-strong);
+      .console-card:hover,
+      .console-card.active,
+      .console-card.selected {
+        border-color: var(--accent);
+        background: rgba(0, 255, 102, 0.06);
       }
 
-      .card-head {
+      .console-card-head {
         display: flex;
         justify-content: space-between;
-        gap: 12px;
         align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 10px;
       }
 
-      .badge-row {
+      .console-name {
+        color: var(--text-value);
+        font-family: var(--font-mono);
+        font-size: 1rem;
+      }
+
+      .console-year {
+        color: var(--text-alert);
+        font-family: var(--font-mono);
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+
+      .console-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+      }
+
+      .manufacturer-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 8px;
+        border: 1px solid var(--border);
+        color: var(--text-primary);
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+      }
+
+      .detail-panel {
+        padding: 16px;
+        background: #0b110b;
+        min-height: 520px;
+      }
+
+      .detail-empty {
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
+        font-size: 0.9rem;
+      }
+
+      .detail-title {
+        color: var(--text-value);
+        font-family: var(--font-mono);
+        font-size: 1.15rem;
+        margin-bottom: 10px;
+      }
+
+      .detail-meta {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
+        margin-bottom: 14px;
       }
 
-      .meta-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 10px;
-        border-radius: 999px;
-        border: 1px solid rgba(155, 188, 15, 0.24);
-        background: rgba(10, 10, 10, 0.38);
-        color: rgba(155, 188, 15, 0.78);
-        font-size: 10px;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
+      .detail-pill {
+        padding: 3px 8px;
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
       }
 
-      .games-count {
-        text-align: right;
-        min-width: 110px;
-      }
-
-      .games-count .value {
-        display: block;
-        font-size: 30px;
-        line-height: 1;
-        color: var(--text-strong);
-      }
-
-      .games-count .label {
-        display: block;
-        margin-top: 4px;
-        font-size: 10px;
-        color: var(--text-faint);
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      .maker-line {
-        font-size: 11px;
-        color: var(--text-soft);
-      }
-
-      .bar-track {
-        width: 100%;
-        height: 10px;
-        background: rgba(10, 10, 10, 0.4);
-        border: 1px solid rgba(155, 188, 15, 0.12);
-        border-radius: 999px;
-        overflow: hidden;
-      }
-
-      .bar-fill {
-        height: 100%;
-        background: linear-gradient(90deg, rgba(139, 172, 15, 0.7), #9bbc0f);
-      }
-
-      .summary-panel {
+      .detail-games {
+        list-style: none;
+        margin: 0;
+        padding: 0;
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        font-size: 11px;
-        color: var(--text-soft);
-        padding-bottom: 24px;
+        gap: 8px;
       }
 
-      .empty-state {
-        padding: 32px 20px;
-        text-align: center;
-        border: 1px dashed rgba(155, 188, 15, 0.18);
-        border-radius: 6px;
-        color: var(--text-faint);
-        background: rgba(15, 56, 15, 0.08);
+      .detail-games a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-size: 0.82rem;
       }
 
-      @media (max-width: 760px) {
-        .consoles-grid {
+      .detail-games a:hover {
+        color: var(--accent);
+      }
+
+      .detail-games small {
+        color: var(--text-secondary);
+      }
+
+      .detail-count {
+        color: var(--text-secondary);
+        font-size: 0.78rem;
+        margin-bottom: 12px;
+      }
+
+      @media (max-width: 768px) {
+        .consoles-layout {
           grid-template-columns: 1fr;
         }
 
-        .card-head {
-          flex-direction: column;
+        .consoles-main {
+          border-right: none;
+          border-bottom: 1px solid var(--border);
         }
 
-        .games-count {
-          text-align: left;
+        .consoles-grid {
+          grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
   <body>
-    <main class="console-shell">
-      <header class="console-header">
-        <div>
-          <nav class="breadcrumb">
-            <a href="/hub.html">HUB</a>
-            <span class="sep">&rsaquo;</span>
-            <span class="current">CONSOLES</span>
-          </nav>
-          <h1 class="page-title">CONSOLES</h1>
-          <p id="page-subtitle" class="page-subtitle">16 systemes retro</p>
+    <main class="consoles-page">
+      <nav class="breadcrumb">
+        <a href="/hub.html">HUB</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="current">CONSOLES</span>
+      </nav>
+
+      <h1 class="page-title">CONSOLES</h1>
+      <p id="console-count" class="page-subtitle">Chargement...</p>
+      <div class="global-search-bar">
+        <input
+          type="text"
+          id="global-search"
+          placeholder="/ Rechercher..."
+          readonly
+          onclick="location.href='/search.html'"
+          style="cursor:pointer"
+        />
+      </div>
+
+      <section class="consoles-layout">
+        <div class="consoles-main">
+          <div id="consoles-grid" class="consoles-grid"></div>
         </div>
-      </header>
-
-      <section id="status-bar" class="status-strip">Chargement des consoles...</section>
-
-      <section id="results" class="consoles-grid"></section>
-
-      <section id="summary" class="summary-panel"></section>
+        <aside id="console-detail" class="detail-panel">
+          <div class="detail-empty">&larr; Selectionner une console</div>
+        </aside>
+      </section>
     </main>
 
     <script>
-      const subtitleEl = document.getElementById("page-subtitle");
-      const statusEl = document.getElementById("status-bar");
-      const resultsEl = document.getElementById("results");
-      const summaryEl = document.getElementById("summary");
+      const countEl = document.getElementById('console-count');
+      const gridEl = document.getElementById('consoles-grid');
+      const detailEl = document.getElementById('console-detail');
+      let selectedId = null;
 
-      const GENERATIONS = {
-        "Nintendo Entertainment System": "3eme",
-        "Sega Master System": "3eme",
-        "Atari Lynx": "3eme",
-        "Super Nintendo": "4eme",
-        "Sega Genesis": "4eme",
-        "Game Gear": "4eme",
-        "Neo Geo": "4eme",
-        "TurboGrafx-16": "4eme",
-        "WonderSwan": "4eme",
-        "Nintendo 64": "5eme",
-        "Sega Saturn": "5eme",
-        "PlayStation": "5eme",
-        Dreamcast: "6eme",
-        "Game Boy": "Portable",
-        "Game Boy Advance": "Portable",
-        "Nintendo DS": "Portable",
-      };
-
-      const MAKERS = {
-        "Nintendo Entertainment System": "Nintendo",
-        "Super Nintendo": "Nintendo",
-        "Nintendo 64": "Nintendo",
-        "Game Boy": "Nintendo",
-        "Game Boy Advance": "Nintendo",
-        "Nintendo DS": "Nintendo",
-        "Sega Genesis": "Sega",
-        "Sega Saturn": "Sega",
-        Dreamcast: "Sega",
-        "Game Gear": "Sega",
-        "Sega Master System": "Sega",
-        PlayStation: "Sony",
-        "Neo Geo": "SNK",
-        "TurboGrafx-16": "NEC",
-        "Atari Lynx": "Atari",
-        WonderSwan: "Bandai",
-      };
+      function getRequestedPlatform() {
+        return new URLSearchParams(window.location.search).get('platform') || '';
+      }
 
       function escapeHtml(value) {
-        return String(value ?? "")
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#039;");
+        return String(value ?? '')
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#039;');
       }
 
-      async function fetchJson(url) {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`${response.status} ${response.statusText}`);
-        }
-        return response.json();
+      function getManufacturer(label) {
+        const text = String(label || '').toLowerCase();
+        if (text.includes('nintendo') || text.includes('game boy')) return 'Nintendo';
+        if (text.includes('sega') || text.includes('dreamcast') || text.includes('saturn') || text.includes('genesis')) return 'Sega';
+        if (text.includes('playstation')) return 'Sony';
+        if (text.includes('neo geo')) return 'SNK';
+        return 'Autre';
       }
 
-      function getGeneration(name) {
-        return GENERATIONS[name] || "Portable";
-      }
-
-      function getMaker(name) {
-        return MAKERS[name] || "Indetermine";
-      }
-
-      function gamesUrl(name) {
-        const params = new URLSearchParams();
-        params.set("console", name);
-        params.set("limit", "20");
-        return `/games-list.html?${params.toString()}`;
-      }
-
-      function consoleCard(item, maxCount) {
-        const width = maxCount ? Math.max(10, Math.round((Number(item.gamesCount) / maxCount) * 100)) : 10;
-
+      function renderCard(item) {
+        const manufacturer = getManufacturer(item.title || item.platform);
         return `
-          <article class="console-card">
-            <div class="card-head">
-              <div>
-                <h3>${escapeHtml(item.name)}</h3>
-                <div class="badge-row">
-                  <span class="meta-badge">${escapeHtml(getGeneration(item.name))}</span>
-                  <span class="meta-badge">${escapeHtml(getMaker(item.name))}</span>
-                </div>
-              </div>
-              <div class="games-count">
-                <span class="value">${escapeHtml(item.gamesCount)}</span>
-                <span class="label">jeux</span>
-              </div>
+          <article class="console-card${item.id === selectedId ? ' active selected' : ''}" data-id="${escapeHtml(item.id)}" data-platform="${escapeHtml(item.platform || '')}">
+            <div class="console-card-head">
+              <div class="console-name">${escapeHtml(item.title)}</div>
+              <div class="console-year">${item.year ? escapeHtml(item.year) : '&mdash;'}</div>
             </div>
-            <div class="maker-line">Fabricant : ${escapeHtml(getMaker(item.name))}</div>
-            <div class="bar-track">
-              <div class="bar-fill" style="width:${width}%"></div>
-            </div>
-            <div>
-              <a href="${gamesUrl(item.name)}" class="btn">Voir les jeux &rarr;</a>
+            <div class="console-meta">
+              <span>${escapeHtml(item.gamesCount || 0)} jeux associes</span>
+              <span class="manufacturer-badge">${escapeHtml(manufacturer)}</span>
             </div>
           </article>
         `;
       }
 
-      function renderSummary(items) {
-        const sorted = [...items].sort((left, right) => Number(right.gamesCount) - Number(left.gamesCount));
-        const max = sorted[0];
-        const minCount = Number(sorted[sorted.length - 1]?.gamesCount || 0);
-        const mins = sorted.filter((item) => Number(item.gamesCount) === minCount).map((item) => item.name);
+      function renderDetail(payload) {
+        const manufacturer = getManufacturer(payload.console.title || payload.console.platform);
+        const games = payload.games || [];
+        const accessories = payload.accessories || [];
+        const list = games.length
+          ? `
+            <ul class="detail-games">
+              ${games.map((game) => `
+                <li>
+                  <a href="/game-detail.html?id=${encodeURIComponent(game.id)}">${escapeHtml(game.title)}</a>
+                  <small>${game.year ? escapeHtml(game.year) : '&mdash;'}</small>
+                </li>
+              `).join('')}
+            </ul>
+          `
+          : '<div class="detail-empty">Aucun jeu associe pour le moment.</div>';
+        const accessoriesList = accessories.length
+          ? accessories.map((item) => `
+              <div class="accessory-line">
+                <a href="/accessories.html">${escapeHtml(item.name)}</a>
+                <span class="accessory-type">${escapeHtml(item.accessory_type || 'other')}</span>
+              </div>
+            `).join('')
+          : '<div class="detail-empty">&mdash;</div>';
 
-        summaryEl.innerHTML = `
-          <div><strong>Console la plus representee :</strong> ${escapeHtml(max.name)} (${escapeHtml(max.gamesCount)} jeux)</div>
-          <div><strong>Console la moins representee :</strong> ${escapeHtml(mins.join(" / "))} (${escapeHtml(minCount)} jeux)</div>
+        detailEl.innerHTML = `
+          <div class="detail-title">${escapeHtml(payload.console.title)}</div>
+          <div class="detail-meta">
+            <span class="detail-pill">${payload.console.year ? escapeHtml(payload.console.year) : '&mdash;'}</span>
+            <span class="detail-pill">${escapeHtml(manufacturer)}</span>
+            <span class="detail-pill">${escapeHtml(payload.console.platform)}</span>
+          </div>
+          <div class="detail-count">${games.length} jeux affiches</div>
+          ${list}
+          <div class="console-accessories">
+            <div class="section-label">ACCESSOIRES</div>
+            <div id="accessories-list">${accessoriesList}</div>
+          </div>
         `;
       }
 
-      async function loadConsoles() {
-        try {
-          const payload = await fetchJson("/api/consoles");
-          const items = [...(payload.items || [])].sort((a, b) => Number(b.gamesCount || 0) - Number(a.gamesCount || 0));
-          const totalGames = items.reduce((sum, item) => sum + Number(item.gamesCount || 0), 0);
-          const maxCount = Math.max(...items.map((item) => Number(item.gamesCount || 0)), 1);
+      async function loadDetail(id) {
+        selectedId = id;
+        detailEl.innerHTML = '<div class="detail-empty">Chargement...</div>';
+        const response = await fetch(`/api/consoles/${encodeURIComponent(id)}`);
+        const payload = await response.json();
+        if (!response.ok || !payload.ok) {
+          detailEl.innerHTML = '<div class="detail-empty">Console introuvable.</div>';
+          return;
+        }
+        renderDetail(payload);
+      }
 
-          subtitleEl.textContent = `${items.length} systemes retro`;
-          statusEl.innerHTML = `<strong>${items.length} consoles</strong> · <strong>${totalGames} jeux</strong> au total`;
-          resultsEl.innerHTML = items.map((item) => consoleCard(item, maxCount)).join("");
-          renderSummary(items);
-        } catch (error) {
-          statusEl.textContent = `Erreur consoles - ${error.message}`;
-          resultsEl.innerHTML = '<div class="empty-state">Impossible de charger les consoles.</div>';
-          summaryEl.innerHTML = "";
+      async function loadConsoles() {
+        const response = await fetch('/api/consoles');
+        const payload = await response.json();
+        if (!response.ok || !payload.ok) {
+          countEl.textContent = 'Impossible de charger les consoles';
+          gridEl.innerHTML = '';
+          detailEl.innerHTML = '<div class="detail-empty">Erreur de chargement.</div>';
+          return;
+        }
+
+        const consoles = payload.consoles || [];
+        const requestedPlatform = getRequestedPlatform().toLowerCase();
+        countEl.textContent = `${payload.count || consoles.length} systemes retro`;
+        gridEl.innerHTML = consoles.map(renderCard).join('');
+
+        gridEl.querySelectorAll('.console-card').forEach((card) => {
+          card.addEventListener('click', async () => {
+            selectedId = card.dataset.id;
+            gridEl.querySelectorAll('.console-card').forEach((node) => {
+              const isSelected = node.dataset.id === selectedId;
+              node.classList.toggle('active', isSelected);
+              node.classList.toggle('selected', isSelected);
+            });
+            await loadDetail(selectedId);
+          });
+        });
+
+        if (consoles.length > 0) {
+          const initialConsole = consoles.find((item) => String(item.platform || '').toLowerCase() === requestedPlatform) || consoles[0];
+          selectedId = initialConsole.id;
+          gridEl.querySelector(`.console-card[data-id="${CSS.escape(selectedId)}"]`)?.classList.add('active', 'selected');
+          await loadDetail(selectedId);
         }
       }
 
-      loadConsoles();
+      loadConsoles().catch(() => {
+        countEl.textContent = 'Impossible de charger les consoles';
+        detailEl.innerHTML = '<div class="detail-empty">Erreur de chargement.</div>';
+      });
     </script>
   </body>
 </html>
