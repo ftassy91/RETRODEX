@@ -2,13 +2,29 @@ assets/generated_gb/*.png
 
 Retrodex/
 
+# Environment files
 .env
+.env.local
+.env.*.local
+backend/.env
+backend/.env.local
+
+# Local databases and storage
+db/
+*.db
+*.sqlite
+backend/storage/
+
+# Dependencies
+node_modules/
+backend/node_modules/
+
+# Generated data and archives
 data/raw/
 data/exports/
+data/screenshots/
 orchestration.zip
 files.zip
 CODEX_PROMPT_MARKET_PIPELINE.md
 CODEX_PROMPT_PIPELINE.md
 CODEX_PROMPT_PIPELINE_V3.md
-
-backend/.env
