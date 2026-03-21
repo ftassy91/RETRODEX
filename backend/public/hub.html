@@ -301,8 +301,9 @@
 
       if (event.key === '/' && !inField && hubSearchInput) {
         event.preventDefault();
-        hubSearchInput.focus();
-        hubSearchInput.select();
+        const query = hubSearchInput.value.trim();
+        const target = query ? `/search.html?q=${encodeURIComponent(query)}` : '/search.html';
+        window.location.href = target;
       }
     });
 

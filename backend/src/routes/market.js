@@ -88,6 +88,7 @@ router.get('/api/search', handleAsync(async (req, res) => {
     ? String(req.query.type || 'all')
     : 'all'
   const limit = parseItemsLimit(req.query.limit, 20, 100)
+  const numericYear = /^\d{4}$/.test(q) ? Number.parseInt(q, 10) : null
 
   if (!q || q.length < 2) {
     return res.json({ ok: true, results: [], query: q })
@@ -106,6 +107,7 @@ router.get('/api/search', handleAsync(async (req, res) => {
           { title: like },
           { console: like },
           { genre: like },
+          ...(numericYear ? [{ year: numericYear }] : []),
         ],
       },
       attributes: ['id', 'title', 'console', 'year', 'rarity', 'loosePrice', 'slug'],
