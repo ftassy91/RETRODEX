@@ -649,11 +649,20 @@
 
       async function loadConsoles() {
         const payload = await fetchJson("/api/consoles");
-        payload.items.forEach((item) => {
+        const consoles = Array.isArray(payload.consoles)
+          ? payload.consoles
+          : Array.isArray(payload.items)
+            ? payload.items
+            : [];
+
+        consoles.forEach((item) => {
+          const consoleName = item.platform || item.name || item.title || "";
+          if (!consoleName) return;
+
           const option = document.createElement("option");
-          option.value = item.name;
-          option.textContent = `${item.name} (${item.gamesCount})`;
-          if (consoleEl.dataset.pending === item.name) option.selected = true;
+          option.value = consoleName;
+          option.textContent = `${consoleName} (${Number(item.gamesCount) || 0})`;
+          if (consoleEl.dataset.pending === consoleName) option.selected = true;
           consoleEl.appendChild(option);
         });
       }

@@ -9,45 +9,45 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="RetroDex">
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
-  <title>RetroDex — Hub</title>
+  <title>RetroDex - Hub</title>
   <link rel="stylesheet" href="/style.css">
   <style>
-    body { padding-bottom:24px; }
-    .hub-hero { max-width:900px; margin:0 auto 32px; text-align:center; padding:32px 0 24px; border-bottom:1px solid rgba(155,188,15,0.15); }
-    .hub-hero h1 { font-size:28px; color:#cfe66f; letter-spacing:0.12em; margin-bottom:8px; }
-    .hub-hero .tagline { font-size:11px; color:rgba(155,188,15,0.5); margin-bottom:20px; }
-    .hub-stats { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-top:16px; }
-    .hub-stat { text-align:center; }
-    .hub-stat .val { font-size:22px; color:#cfe66f; display:block; }
-    .hub-stat .lbl { font-size:10px; color:rgba(155,188,15,0.45); letter-spacing:0.06em; }
-    .hub-search { max-width:900px; margin:0 auto 32px; text-align:center; }
-    .hub-search-form { display:flex; gap:10px; align-items:center; margin:0 auto 12px; }
-    .hub-search-input { flex:1; min-width:0; height:52px; padding:0 16px; border:1px solid #3ddc3d; background:#131a13; color:#a8d8a8; font:16px monospace; }
-    .hub-search-input::placeholder { color:rgba(168,216,168,0.55); }
-    .hub-search-button { height:52px; padding:0 18px; border:1px solid #3ddc3d; background:#131a13; color:#a8d8a8; font:14px monospace; cursor:pointer; }
-    .hub-search-button:hover { background:rgba(61,220,61,0.08); }
-    .hub-quick-links { font-size:12px; color:rgba(168,216,168,0.7); }
-    .hub-quick-links a { color:#a8d8a8; text-decoration:none; }
-    .hub-quick-links a:hover { color:#cfe66f; }
-    .section-title { max-width:900px; margin:0 auto 14px; font-size:11px; color:rgba(155,188,15,0.4); letter-spacing:0.08em; text-transform:uppercase; }
-    .collection-preview { max-width:900px; margin:0 auto 32px; background:rgba(15,56,15,0.15); border:1px solid rgba(155,188,15,0.15); border-radius:6px; padding:16px 20px; }
-    .collection-preview h3 { font-size:12px; color:#cfe66f; margin-bottom:12px; }
-    .coll-items { display:flex; gap:10px; flex-wrap:wrap; }
-    .coll-pill { font-size:11px; padding:4px 10px; border:1px solid rgba(155,188,15,0.25); border-radius:3px; color:rgba(155,188,15,0.7); text-decoration:none; }
-    .coll-empty { font-size:11px; color:rgba(155,188,15,0.3); }
-    .legendary-section { max-width:900px; margin:2rem auto 32px; }
-    .legendary-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; }
-    .legendary-card { border:1px solid #ddc420; background:#050505; padding:0; overflow:hidden; cursor:pointer; border-radius:6px; }
-    .legendary-card:hover { border-color:#9bbc0f; }
-    .legendary-card canvas { width:100%; height:80px; display:block; }
-    .legendary-card-info { padding:0.4rem 0.5rem; }
-    .legendary-card-title { font-size:0.7rem; color:#ddc420; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .legendary-card-meta { font-size:0.6rem; color:#5a9a3a; margin-top:0.15rem; }
-    .legendary-card-price { font-size:0.75rem; color:#9bbc0f; margin-top:0.15rem; }
-    @media (max-width:768px) {
-      .legendary-grid { grid-template-columns:1fr; }
-      .hub-search-form { flex-direction:column; }
-      .hub-search-button { width:100%; }
+    body { padding-bottom: 24px; }
+    .hub-hero { max-width: 900px; margin: 0 auto 32px; text-align: center; padding: 32px 0 24px; border-bottom: 1px solid rgba(155, 188, 15, 0.15); }
+    .hub-hero h1 { font-size: 28px; color: #cfe66f; letter-spacing: 0.12em; margin-bottom: 8px; }
+    .hub-hero .tagline { font-size: 11px; color: rgba(155, 188, 15, 0.5); margin-bottom: 20px; }
+    .hub-stats { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+    .hub-stat { text-align: center; }
+    .hub-stat .val { font-size: 22px; color: #cfe66f; display: block; }
+    .hub-stat .lbl { font-size: 10px; color: rgba(155, 188, 15, 0.45); letter-spacing: 0.06em; }
+    .hub-search { max-width: 900px; margin: 0 auto 32px; text-align: center; }
+    .hub-search-form { display: flex; gap: 10px; align-items: center; margin: 0 auto 12px; }
+    .hub-search-input { flex: 1; min-width: 0; height: 52px; padding: 0 16px; border: 1px solid #3ddc3d; background: #131a13; color: #a8d8a8; font: 16px monospace; }
+    .hub-search-input::placeholder { color: rgba(168, 216, 168, 0.55); }
+    .hub-search-button { height: 52px; padding: 0 18px; border: 1px solid #3ddc3d; background: #131a13; color: #a8d8a8; font: 14px monospace; cursor: pointer; }
+    .hub-search-button:hover { background: rgba(61, 220, 61, 0.08); }
+    .hub-quick-links { font-size: 12px; color: rgba(168, 216, 168, 0.7); }
+    .hub-quick-links a { color: #a8d8a8; text-decoration: none; }
+    .hub-quick-links a:hover { color: #cfe66f; }
+    .section-title { max-width: 900px; margin: 0 auto 14px; font-size: 11px; color: rgba(155, 188, 15, 0.4); letter-spacing: 0.08em; text-transform: uppercase; }
+    .collection-preview { max-width: 900px; margin: 0 auto 32px; background: rgba(15, 56, 15, 0.15); border: 1px solid rgba(155, 188, 15, 0.15); border-radius: 6px; padding: 16px 20px; }
+    .collection-preview h3 { font-size: 12px; color: #cfe66f; margin-bottom: 12px; }
+    .coll-items { display: flex; gap: 10px; flex-wrap: wrap; }
+    .coll-pill { font-size: 11px; padding: 4px 10px; border: 1px solid rgba(155, 188, 15, 0.25); border-radius: 3px; color: rgba(155, 188, 15, 0.7); text-decoration: none; }
+    .coll-empty { font-size: 11px; color: rgba(155, 188, 15, 0.3); }
+    .legendary-section { max-width: 900px; margin: 2rem auto 32px; }
+    .legendary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+    .legendary-card { border: 1px solid #ddc420; background: #050505; padding: 0; overflow: hidden; cursor: pointer; border-radius: 6px; }
+    .legendary-card:hover { border-color: #9bbc0f; }
+    .legendary-card canvas { width: 100%; height: 80px; display: block; }
+    .legendary-card-info { padding: 0.4rem 0.5rem; }
+    .legendary-card-title { font-size: 0.7rem; color: #ddc420; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .legendary-card-meta { font-size: 0.6rem; color: #5a9a3a; margin-top: 0.15rem; }
+    .legendary-card-price { font-size: 0.75rem; color: #9bbc0f; margin-top: 0.15rem; }
+    @media (max-width: 768px) {
+      .legendary-grid { grid-template-columns: 1fr; }
+      .hub-search-form { flex-direction: column; }
+      .hub-search-button { width: 100%; }
     }
   </style>
 </head>
@@ -55,16 +55,18 @@
   <nav class="breadcrumb" style="max-width:900px;margin:0 auto 1.25rem;">
     <span class="current">HUB</span>
   </nav>
+
   <div class="hub-hero">
     <h1 class="page-title">RETRODEX</h1>
-    <div class="tagline page-subtitle">Base de données retrogaming</div>
+    <div class="tagline page-subtitle">Base de donnees retrogaming</div>
     <div class="hub-stats">
-      <div class="hub-stat"><span class="val" id="stat-games">—</span><span class="lbl">JEUX</span></div>
-      <div class="hub-stat"><span class="val" id="stat-consoles">—</span><span class="lbl">CONSOLES</span></div>
-      <div class="hub-stat"><span class="val" id="stat-collection">—</span><span class="lbl">MA COLLECTION</span></div>
-      <div class="hub-stat"><span class="val" id="stat-meta">—</span><span class="lbl">METASCORE MOY.</span></div>
+      <div class="hub-stat"><span class="val" id="stat-games">-</span><span class="lbl">JEUX</span></div>
+      <div class="hub-stat"><span class="val" id="stat-consoles">-</span><span class="lbl">CONSOLES</span></div>
+      <div class="hub-stat"><span class="val" id="stat-collection">-</span><span class="lbl">MA COLLECTION</span></div>
+      <div class="hub-stat"><span class="val" id="stat-meta">-</span><span class="lbl">METASCORE MOY.</span></div>
     </div>
   </div>
+
   <section class="hub-search">
     <form class="hub-search-form" action="/search.html" method="get">
       <input id="hub-search-input" class="hub-search-input" type="search" name="q" placeholder="Rechercher un jeu, une console..." aria-label="Rechercher un jeu, une console...">
@@ -80,19 +82,23 @@
       <a href="/accessories.html">Accessoires</a>
     </div>
   </section>
+
   <section class="legendary-section">
-    <h2 class="section-title">&#11035; TOP LEGENDARY</h2>
+    <h2 class="section-title">TOP LEGENDARY</h2>
     <p class="page-subtitle">Les 6 jeux les plus rares du catalogue</p>
     <div id="legendary-grid" class="legendary-grid"></div>
   </section>
+
   <div class="collection-preview">
     <h3>Collection actuelle</h3>
     <div class="coll-items" id="coll-items"><span class="coll-empty">Chargement...</span></div>
   </div>
+
   <div style="max-width:900px;margin:0 auto 32px;">
     <a href="/about.html" class="btn">A propos</a>
     <a href="/api/health" class="btn" style="margin-left:8px">API health</a>
   </div>
+
   <footer style="
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -109,6 +115,7 @@
     <span id="footer-status">RetroDex</span>
     <span id="footer-db"></span>
   </footer>
+
   <script>
     function renderCardThumb(canvas, game) {
       const w = 120;
@@ -135,7 +142,7 @@
         'Game Boy Advance': ['#05051a', '#0f1a3d', '#1a3d8b', '#44aadd'],
         'Nintendo DS': ['#05051a', '#0f1a3d', '#2a5a9b', '#7ab4e8'],
         'Dreamcast': ['#05101a', '#0f2535', '#1a558b', '#55aae8'],
-        'Nintendo Entertainment System': ['#1a1a2e', '#16213e', '#0f3460', '#e94560'],
+        'Nintendo Entertainment System': ['#1a1a2e', '#16213e', '#0f3460', '#e94560']
       };
       const p = palettes[game.console] || ['#0f380f', '#306230', '#8bac0f', '#9bbc0f'];
 
@@ -190,16 +197,34 @@
     }
 
     async function loadLegendary() {
-      const res = await fetch('/api/games?limit=507');
+      const res = await fetch('/api/games?limit=1000');
       if (!res.ok) return;
+
       const data = await res.json();
       const grid = document.getElementById('legendary-grid');
       if (!grid) return;
 
-      const items = [...(data.items || [])]
+      let allGames = Array.isArray(data.items) ? data.items : [];
+      if (!allGames.some(game => game.rarity === 'LEGENDARY')) {
+        const fallbackRes = await fetch('/games');
+        if (fallbackRes.ok) {
+          const fallbackData = await fallbackRes.json();
+          if (Array.isArray(fallbackData)) {
+            allGames = fallbackData;
+          }
+        }
+      }
+
+      const items = [...allGames]
         .filter(game => game.rarity === 'LEGENDARY')
         .sort((a, b) => (Number(b.mintPrice) || 0) - (Number(a.mintPrice) || 0))
         .slice(0, 6);
+
+      grid.innerHTML = '';
+      if (!items.length) {
+        grid.innerHTML = '<span class="coll-empty">Aucun jeu LEGENDARY trouve.</span>';
+        return;
+      }
 
       items.forEach(game => {
         const card = document.createElement('div');
@@ -222,7 +247,9 @@
 
         const price = document.createElement('div');
         price.className = 'legendary-card-price';
-        price.textContent = `Mint $${game.mintPrice || '—'}`;
+        price.textContent = Number.isFinite(Number(game.mintPrice))
+          ? `Mint $${Math.round(Number(game.mintPrice))}`
+          : 'Mint —';
 
         info.appendChild(title);
         info.appendChild(meta);
@@ -238,6 +265,7 @@
       document.getElementById('stat-consoles').textContent = d.totals.consoles;
       document.getElementById('stat-meta').textContent = d.totals.averageMetascore;
     }).catch(() => {});
+
     fetch('/api/health').then(r => r.json()).then(data => {
       document.getElementById('footer-status').textContent =
         data.ok ? 'Backend OK' : 'Backend offline';
@@ -247,18 +275,25 @@
       document.getElementById('footer-status').textContent = 'Backend offline';
       document.getElementById('footer-db').textContent = '';
     });
+
     fetch('/api/collection').then(r => r.json()).then(d => {
       const items = d.items || [];
       document.getElementById('stat-collection').textContent = items.length;
-      const c = document.getElementById('coll-items');
+      const container = document.getElementById('coll-items');
+
       if (items.length === 0) {
-        c.innerHTML = '<span class="coll-empty">Aucun jeu — ajoutez-en depuis une fiche</span>';
+        container.innerHTML = '<span class="coll-empty">Aucun jeu - ajoutez-en depuis une fiche</span>';
       } else {
-        c.innerHTML = items.map(i => '<a href="/game-detail.html?id=' + i.id + '" class="coll-pill">' + i.title + '</a>').join('');
+        container.innerHTML = items.map(item => {
+          const gameId = item.game?.id || item.gameId || item.id;
+          const title = item.game?.title || item.title || item.gameId || 'Jeu';
+          return `<a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="coll-pill">${title}</a>`;
+        }).join('');
       }
     }).catch(() => {
-      document.getElementById('stat-collection').textContent = '—';
+      document.getElementById('stat-collection').textContent = '-';
     });
+
     document.addEventListener('keydown', (event) => {
       const tag = event.target?.tagName;
       const inField = tag === 'INPUT' || tag === 'TEXTAREA' || event.target?.isContentEditable;
@@ -270,13 +305,15 @@
         hubSearchInput.select();
       }
     });
+
     loadLegendary().catch(() => {});
   </script>
+
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js')
         .then(() => console.log('[RetroDex] Service worker registered'))
-        .catch(e => console.warn('[RetroDex] SW registration failed:', e));
+        .catch(error => console.warn('[RetroDex] SW registration failed:', error));
     }
   </script>
 </body>
