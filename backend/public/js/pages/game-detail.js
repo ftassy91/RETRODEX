@@ -85,9 +85,9 @@ function generateCoverPlaceholder(title, rarity, consoleName) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
     <rect width="160" height="160" fill="${bg}"/>
     <rect x="1" y="1" width="158" height="158" fill="none" stroke="#1e2e1e" stroke-width="1"/>
-    <text x="80" y="76" text-anchor="middle" font-family="monospace" font-size="42" font-weight="bold" fill="#00ff66" opacity="0.82">${initials || '?'}</text>
-    <text x="80" y="100" text-anchor="middle" font-family="monospace" font-size="9" fill="#486648">${platformLabel}</text>
-    <text x="80" y="122" text-anchor="middle" font-family="monospace" font-size="7" fill="#365136">ARCHIVE SLOT</text>
+    <text x="80" y="76" text-anchor="middle" font-family="BigBlueTerminal" font-size="42" font-weight="normal" fill="#00ff66" opacity="0.82">${initials || '?'}</text>
+    <text x="80" y="100" text-anchor="middle" font-family="BigBlueTerminal" font-size="9" fill="#486648">${platformLabel}</text>
+    <text x="80" y="122" text-anchor="middle" font-family="BigBlueTerminal" font-size="7" fill="#365136">ARCHIVE SLOT</text>
   </svg>`
 
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`

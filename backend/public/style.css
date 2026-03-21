@@ -1,3 +1,21 @@
+@font-face {
+  font-family: 'BigBlueTerminal';
+  src: url('/fonts/BigBlueTerminal-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DepartureMono';
+  src:
+    url('/fonts/DepartureMono-Regular.woff2') format('woff2'),
+    url('/fonts/DepartureMono-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 html, body {
   background-color: #000000;
   margin: 0;
@@ -23,14 +41,37 @@ html, body {
   --confidence-low:  #e05252;
   --confidence-mid:  #e0b352;
   --confidence-high: #52e052;
-  --font-mono: 'IBM Plex Mono', 'JetBrains Mono', 'Courier New', monospace;
+  --font-ui: 'BigBlueTerminal', 'Courier New', monospace;
+  --font-display: 'DepartureMono', 'BigBlueTerminal', 'Courier New', monospace;
+  --font-mono: var(--font-ui);
   --font-size-base:  12px;
   --line-height:     1.4;
   --radius:          0px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-mono); font-size: var(--font-size-base); line-height: var(--line-height); background: var(--bg); color: #9bbc0f; min-height: 100vh; padding: 20px 16px; }
+body { font-family: var(--font-ui); font-size: var(--font-size-base); line-height: var(--line-height); background: var(--bg); color: #9bbc0f; min-height: 100vh; padding: 20px 16px; }
 a { color: #9bbc0f; }
+.btn,
+button,
+input,
+select,
+textarea,
+label {
+  font-family: var(--font-ui);
+}
+
+.wordmark,
+.page-title,
+.page-title-display,
+.hub-page-title,
+.hub-universe-title,
+.product-universe-title,
+.universe-hero {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: 0.08em;
+}
 .footer-attribution {
   max-width: 1180px;
   margin: 24px auto 0;
@@ -7477,5 +7518,68 @@ body {
   .random-card-shell .meta {
     grid-template-columns: 1fr;
   }
+}
+
+/* ========================================
+   TYPOGRAPHY SYSTEM - BIGBLUETERMINAL / DEPARTUREMONO
+   ======================================== */
+
+body,
+p,
+li,
+input,
+select,
+textarea,
+button,
+label,
+small,
+code,
+pre,
+table,
+th,
+td {
+  font-family: var(--font-ui);
+}
+
+.wordmark,
+.page-title,
+.page-title-display,
+.hub-page-title,
+.hub-universe-title,
+.product-universe-title,
+.universe-hero {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: 0.08em;
+}
+
+.page-title {
+  font-weight: 400;
+}
+
+.page-subtitle,
+.detail-kicker,
+.secondary-page-kicker,
+.secondary-panel-kicker,
+.terminal-query-label,
+.terminal-summary-label,
+.terminal-preview-label,
+.breadcrumb,
+.product-universe-copy,
+.product-universe-overlap {
+  font-family: var(--font-ui);
+}
+
+.detail-shell .hero-title,
+.detail-shell .hero-title.page-title,
+.debug-shell h1,
+.debug-shell h2,
+.debug-shell .page-title,
+.debug-shell .product-universe-title,
+.debug-shell .secondary-panel-title {
+  font-family: var(--font-ui);
+  letter-spacing: 0.02em;
+  line-height: 1.18;
 }
 
