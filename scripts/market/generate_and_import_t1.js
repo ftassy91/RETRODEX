@@ -103,7 +103,7 @@ async function main() {
   const candidates = await Game.findAll({
     where: {
       type: 'game',
-      rarity: { [Op.in]: ['LEGENDARY', 'EPIC', 'RARE'] }
+      rarity: { [Op.in]: ['LEGENDARY', 'EPIC', 'RARE', 'UNCOMMON'] }
     },
     order: [['rarity', 'ASC'], ['mintPrice', 'DESC']],
     limit: limit * 3
