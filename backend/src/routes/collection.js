@@ -340,7 +340,28 @@ router.patch('/api/collection/:id', handleAsync(async (req, res) => {
     return res.status(400).json({ ok: false, error: 'price_threshold must be a positive number' })
   }
 
+  const price_paid = normalizePricePaid(req.body?.price_paid)
+  if (price_paid !== null && (!Number.isFinite(price_paid) || price_paid <= 0)) {
+    return res.status(400).json({ ok: false, error: 'price_paid must be a positive number' })
+  }
+
+  const purchase_date = req.body?.purchase_date ? String(req.body.purchase_date).trim() : null
+  if (purchase_date && !/^\d{4}-\d{2}-\d{2}$/.test(purchase_date)) {
+    return res.status(400).json({ ok: false, error: 'purchase_date must use YYYY-MM-DD' })
+  }
+
+  const personal_note = req.body?.personal_note === undefined
+    ? item.personal_note
+    : (String(req.body.personal_note ?? '').trim() || null)
+  const notes = req.body?.notes === undefined
+    ? item.notes
+    : (String(req.body.notes ?? '').trim() || null)
+
   item.price_threshold = price_threshold
+  item.price_paid = price_paid
+  item.purchase_date = purchase_date
+  item.personal_note = personal_note
+  item.notes = notes
   await item.save()
 
   return res.json({
