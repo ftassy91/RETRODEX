@@ -52,6 +52,10 @@ const Game = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    franch_id: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     dev_anecdotes: {
       type: DataTypes.TEXT,
       allowNull: true,
