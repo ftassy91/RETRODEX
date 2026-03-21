@@ -74,6 +74,7 @@
     </form>
     <div class="hub-quick-links">
       <a href="/games-list.html">Catalogue complet</a> &middot;
+      <a href="/encyclopedia.html">Encyclopédie</a> &middot;
       <a href="/search.html">Recherche</a> &middot;
       <a href="/collection.html">Ma collection</a> &middot;
       <a href="/stats.html">Statistiques</a> &middot;
@@ -88,6 +89,17 @@
     <p class="page-subtitle">Les 6 jeux les plus rares du catalogue</p>
     <div id="legendary-grid" class="legendary-grid"></div>
   </section>
+
+  <div class="hub-section">
+    <div class="hub-section-header">
+      <span class="section-label">ENCYCLOPÉDIE RETRODEX</span>
+      <a href="/encyclopedia.html" class="hub-section-link">TOUT VOIR →</a>
+    </div>
+    <div class="hub-section-desc">
+      Synopsis · Équipes de développement · Anecdotes · Codes secrets · 15 franchises indexées
+    </div>
+    <div class="hub-encyclo-grid" id="hub-encyclo-preview"></div>
+  </div>
 
   <div class="collection-preview">
     <h3>Collection actuelle</h3>
@@ -260,6 +272,43 @@
       });
     }
 
+    async function loadEncyclopediaPreview() {
+      try {
+        const res = await fetch('/api/games?limit=1000');
+        if (!res.ok) return;
+
+        const data = await res.json();
+        let enriched = (data.items || [])
+          .filter((game) => game.synopsis || game.dev_team || game.dev_anecdotes || game.cheat_codes);
+
+        if (enriched.length < 6) {
+          const fallbackRes = await fetch('/games');
+          if (fallbackRes.ok) {
+            const fallbackGames = await fallbackRes.json();
+            enriched = (Array.isArray(fallbackGames) ? fallbackGames : [])
+              .filter((game) => game.synopsis || game.dev_team || game.dev_anecdotes || game.cheat_codes);
+          }
+        }
+
+        enriched = enriched.slice(0, 6);
+
+        const grid = document.getElementById('hub-encyclo-preview');
+        if (!grid) return;
+
+        grid.innerHTML = '';
+        enriched.forEach((game) => {
+          const card = document.createElement('div');
+          card.className = 'hub-encyclo-card';
+          card.onclick = () => { window.location.href = '/encyclopedia.html?game=' + encodeURIComponent(game.id); };
+          card.innerHTML = `
+            <div class="hub-encyclo-card-title">${game.title || 'Sans titre'}</div>
+            <div class="hub-encyclo-card-meta">${game.console || ''} · ${game.year || ''}</div>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (_error) {}
+    }
+
     fetch('/api/stats').then(r => r.json()).then(d => {
       document.getElementById('stat-games').textContent = d.totals.games;
       document.getElementById('stat-consoles').textContent = d.totals.consoles;
@@ -308,6 +357,7 @@
     });
 
     loadLegendary().catch(() => {});
+    loadEncyclopediaPreview().catch(() => {});
   </script>
 
   <script>

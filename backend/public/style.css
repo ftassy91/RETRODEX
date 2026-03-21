@@ -2047,3 +2047,379 @@ a:hover {
 .skeleton-line-medium { width: 70%; }
 .skeleton-line-full { width: 100%; }
 .skeleton-title { height: 20px; width: 60%; margin-bottom: 12px; }
+
+/* ========================================
+   ENCYCLOPÉDIE — Page + Onglets
+   ======================================== */
+.page-wrapper {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.page-nav-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+}
+
+.page-nav-inline a {
+  color: var(--text-alert);
+  text-decoration: none;
+}
+
+.page-nav-inline a:hover {
+  text-decoration: underline;
+}
+
+/* LAYOUT */
+.encyclo-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  min-height: 600px;
+}
+
+.encyclo-list {
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  max-height: 75vh;
+  padding: 12px 0;
+}
+
+.encyclo-detail-panel {
+  padding: 16px;
+  overflow-y: auto;
+  max-height: 75vh;
+}
+
+/* FILTRES */
+.encyclo-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+/* LISTE ITEMS */
+.encyclo-list-row {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.encyclo-list-row:hover { background: var(--bg-card); }
+
+.encyclo-list-row.active {
+  background: var(--bg-card);
+  border-left: 2px solid var(--accent);
+}
+
+.encyclo-row-title {
+  font-size: 11px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  margin-bottom: 3px;
+}
+
+.encyclo-row-meta {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin-bottom: 4px;
+}
+
+.encyclo-row-badges {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+/* BADGES CONTENU */
+.encyclo-badge {
+  font-size: 9px;
+  padding: 1px 5px;
+  border: 1px solid var(--text-muted);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+}
+
+.encyclo-badge-franchise {
+  border-color: var(--text-alert);
+  color: var(--text-alert);
+}
+
+/* PANNEAU DÉTAIL — EN-TÊTE */
+.encyclo-panel-header {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.encyclo-panel-cover {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.encyclo-panel-cover img {
+  border: 1px solid var(--border);
+  object-fit: cover;
+}
+
+.encyclo-cover-placeholder {
+  width: 80px;
+  height: 80px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.encyclo-panel-info {
+  min-width: 0;
+}
+
+.encyclo-panel-title {
+  font-size: 16px;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  font-weight: bold;
+  margin-bottom: 4px;
+  letter-spacing: 0.06em;
+}
+
+.encyclo-panel-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin-bottom: 6px;
+}
+
+.encyclo-panel-rarity {
+  display: inline-block;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  margin-bottom: 4px;
+}
+
+.encyclo-panel-tagline {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-style: italic;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.encyclo-panel-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 10px;
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  text-decoration: none;
+}
+
+.encyclo-panel-link:hover { text-decoration: underline; }
+
+/* ONGLETS */
+.encyclo-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.encyclo-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 8px 16px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: all 0.1s;
+}
+
+.encyclo-tab:hover { color: var(--text-primary); }
+
+.encyclo-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* CONTENU ONGLETS */
+.encyclo-synopsis-text {
+  font-size: 12px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  line-height: 1.8;
+  margin: 0;
+}
+
+.encyclo-anecdote-block {
+  border: 1px solid var(--border);
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+
+.encyclo-anecdote-title {
+  font-size: 11px;
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  font-weight: bold;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.encyclo-anecdote-text {
+  font-size: 11px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  line-height: 1.7;
+}
+
+.encyclo-code-block {
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  margin-bottom: 8px;
+}
+
+.encyclo-code-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.encyclo-code-value {
+  font-size: 13px;
+  color: var(--confidence-high);
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  font-weight: bold;
+}
+
+.encyclo-code-effect {
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.team-note,
+.timeline-desc {
+  color: var(--text-secondary);
+}
+
+.encyclo-empty {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  padding: 24px;
+  text-align: center;
+}
+
+.encyclo-placeholder {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.encyclo-loading {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  padding: 24px;
+  text-align: center;
+}
+
+.hub-section {
+  border: 1px solid var(--border);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.hub-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.hub-section-link {
+  font-size: 10px;
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+.hub-section-link:hover { text-decoration: underline; }
+
+.hub-section-desc {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin-bottom: 12px;
+}
+
+.hub-encyclo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.hub-encyclo-card {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+}
+
+.hub-encyclo-card:hover { background: var(--bg-card); border-color: var(--accent); }
+
+.hub-encyclo-card-title {
+  font-size: 10px;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hub-encyclo-card-meta {
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .encyclo-layout { grid-template-columns: 1fr; }
+  .encyclo-list { max-height: 240px; border-right: none; border-bottom: 1px solid var(--border); }
+  .hub-encyclo-grid { grid-template-columns: 1fr; }
+}
