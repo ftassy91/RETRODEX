@@ -11,265 +11,100 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <title>RetroDex - Statistiques</title>
     <link rel="stylesheet" href="/style.css" />
-    <style>
-      .stats-shell {
-        max-width: 1100px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-
-      .stats-panel {
-        border: 1px solid var(--border);
-        background: var(--bg-surface);
-        padding: 16px;
-      }
-
-      .stats-panel h2 {
-        font-size: 11px;
-        color: var(--text-muted);
-        font-family: var(--font-mono);
-        letter-spacing: 0.1em;
-        margin-bottom: 14px;
-      }
-
-      .stats-cards {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-        margin-bottom: 16px;
-      }
-
-      .stats-card {
-        border: 1px solid var(--border);
-        background: var(--bg-card);
-        padding: 14px;
-      }
-
-      .stats-card-label,
-      .subsection-title {
-        display: block;
-        font-size: 10px;
-        color: var(--text-muted);
-        font-family: var(--font-mono);
-        letter-spacing: 0.08em;
-        margin-bottom: 8px;
-        text-transform: uppercase;
-      }
-
-      .stats-card-value {
-        display: block;
-        font-size: 1.5rem;
-        color: var(--text-value);
-        font-family: var(--font-mono);
-      }
-
-      .stats-card-sub,
-      .section-note {
-        display: block;
-        font-size: 10px;
-        color: var(--text-secondary);
-        font-family: var(--font-mono);
-        margin-top: 6px;
-      }
-
-      .rarity-grid {
-        display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 10px;
-        margin-bottom: 16px;
-      }
-
-      .rarity-item {
-        border: 1px solid currentColor;
-        background: rgba(10, 10, 10, 0.36);
-        padding: 12px;
-      }
-
-      .rarity-name,
-      .rarity-count,
-      .rarity-pct,
-      .platform-name,
-      .platform-ascii,
-      .platform-count,
-      .game-spot-title,
-      .game-spot-meta,
-      .game-spot-price,
-      .stats-error,
-      .encyclopedia-link {
-        font-family: var(--font-mono);
-      }
-
-      .rarity-name,
-      .rarity-pct,
-      .platform-name,
-      .platform-count,
-      .game-spot-meta {
-        font-size: 10px;
-        color: var(--text-secondary);
-      }
-
-      .rarity-count {
-        font-size: 1.2rem;
-        color: var(--text-primary);
-      }
-
-      .platform-bars {
-        display: grid;
-        gap: 10px;
-      }
-
-      .platform-row {
-        display: grid;
-        grid-template-columns: 180px 1fr 56px;
-        gap: 12px;
-        align-items: center;
-      }
-
-      .platform-ascii {
-        color: var(--accent);
-        font-size: 11px;
-        letter-spacing: 0.04em;
-        white-space: pre;
-      }
-
-      .market-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .game-spot {
-        border: 1px solid var(--border);
-        background: var(--bg-card);
-        padding: 14px;
-        text-decoration: none;
-        color: inherit;
-        display: block;
-      }
-
-      .game-spot:hover,
-      .encyclopedia-link:hover {
-        border-color: var(--accent);
-      }
-
-      .game-spot-title {
-        display: block;
-        font-size: 13px;
-        color: var(--text-primary);
-        margin-bottom: 6px;
-      }
-
-      .game-spot-price {
-        display: block;
-        font-size: 11px;
-        color: var(--text-alert);
-        margin-top: 6px;
-      }
-
-      .encyclopedia-link {
-        display: inline-flex;
-        align-items: center;
-        border: 1px solid var(--border);
-        color: var(--text-alert);
-        font-size: 11px;
-        padding: 8px 12px;
-        text-decoration: none;
-      }
-
-      .stats-error {
-        border: 1px solid var(--confidence-low);
-        color: var(--confidence-low);
-        background: rgba(224, 82, 82, 0.08);
-        padding: 12px;
-        font-size: 11px;
-      }
-
-      @media (max-width: 900px) {
-        .stats-cards,
-        .rarity-grid,
-        .market-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .platform-row {
-          grid-template-columns: 1fr;
-          gap: 6px;
-        }
-      }
-
-      @media (max-width: 640px) {
-        .stats-cards,
-        .rarity-grid,
-        .market-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
   </head>
   <body>
-    <main class="stats-shell">
-      <nav class="breadcrumb">
-        <a href="/hub.html">HUB</a>
-        <span class="sep">&rsaquo;</span>
-        <span class="current">STATISTIQUES</span>
-      </nav>
+    <main class="stats-shell stats-shell-refined">
+      <header class="stats-page-head">
+        <div class="stats-head-copy">
+          <nav class="breadcrumb">
+            <a href="/hub.html">HUB</a>
+            <span class="sep">&rsaquo;</span>
+            <span class="current">STATISTIQUES</span>
+          </nav>
+          <div class="detail-kicker">SYSTEM INTELLIGENCE</div>
+          <h1 class="page-title">STATISTIQUES</h1>
+          <p class="page-subtitle">Lecture consolidee du catalogue, du marche et de la couverture editoriale.</p>
+          <p class="stats-intro">
+            Tableau d'analyse RetroDex. Lire les volumes, la repartition, la confiance marche
+            et la couverture encyclopedique comme des signaux systeme.
+          </p>
+        </div>
 
-      <header class="page-header">
-        <h1 class="page-title">STATISTIQUES</h1>
-        <p class="page-subtitle">Vue complete du catalogue, du marche et de l'encyclopedie</p>
-        <div class="page-nav-inline">
-          <a href="/encyclopedia.html">Encyclopédie</a>
+        <div class="stats-head-tools">
+          <div class="page-nav-inline">
+            <a href="/games-list.html">Catalogue</a>
+            <span>&middot;</span>
+            <a href="/encyclopedia.html">Encyclopedie</a>
+            <span>&middot;</span>
+            <a href="/collection.html">Collection</a>
+          </div>
         </div>
       </header>
 
       <div id="stats-error" class="stats-error" hidden></div>
 
-      <section class="stats-panel">
-        <h2>VUE D'ENSEMBLE</h2>
-        <div class="stats-cards">
+      <section class="stats-panel stats-panel-primary">
+        <div class="stats-section-head">
+          <div>
+            <div class="detail-kicker">GLOBAL READOUT</div>
+            <h2 class="stats-section-title">Vue d'ensemble</h2>
+          </div>
+          <div class="stats-section-copy">Signaux principaux du catalogue et de la base active.</div>
+        </div>
+
+        <div class="stats-cards stats-cards-primary">
           <article class="stats-card">
             <span class="stats-card-label">Total jeux en base</span>
             <span id="overview-total-games" class="stats-card-value">&mdash;</span>
             <span class="stats-card-sub">Catalogue jouable indexe</span>
           </article>
           <article class="stats-card">
-            <span class="stats-card-label">Plateformes affichees</span>
+            <span class="stats-card-label">Plateformes exposees</span>
             <span id="overview-platform-total" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Top plateformes dans l'API stats</span>
+            <span class="stats-card-sub">Comptees dans l'API stats</span>
           </article>
           <article class="stats-card">
-            <span class="stats-card-label">Top 5 prix charges</span>
+            <span class="stats-card-label">Jeux prices</span>
             <span id="overview-priced-total" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Jeux les plus chers en base</span>
+            <span class="stats-card-sub">Entrees avec donnees marche</span>
           </article>
         </div>
 
-        <div class="subsection-title">Repartition par rarete</div>
-        <div id="rarity-grid" class="rarity-grid"></div>
+        <div class="stats-subsection">
+          <div class="subsection-title">Repartition par rarete</div>
+          <div id="rarity-grid" class="rarity-grid"></div>
+        </div>
 
-        <div class="subsection-title">Top plateformes</div>
-        <div id="platform-bars" class="platform-bars"></div>
+        <div class="stats-subsection">
+          <div class="subsection-title">Top plateformes</div>
+          <div id="platform-bars" class="platform-bars"></div>
+        </div>
       </section>
 
       <section class="stats-panel">
-        <h2>INDICE MARCHE</h2>
-        <div class="stats-cards">
+        <div class="stats-section-head">
+          <div>
+            <div class="detail-kicker">MARKET INTELLIGENCE</div>
+            <h2 class="stats-section-title">Indice marche</h2>
+          </div>
+          <div class="stats-section-copy">Confiance des tiers et reperes de valeur utiles a la lecture collector.</div>
+        </div>
+
+        <div class="stats-cards stats-cards-secondary">
           <article class="stats-card">
             <span class="stats-card-label">T1 verifies</span>
             <span id="market-t1-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Entrees confiance >= 60</span>
+            <span class="stats-card-sub">Entrees les plus solides</span>
           </article>
           <article class="stats-card">
             <span class="stats-card-label">T3 indicatifs</span>
             <span id="market-t3-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Entrees confiance 25-59</span>
+            <span class="stats-card-sub">Fourchettes encore utiles</span>
           </article>
           <article class="stats-card">
-            <span class="stats-card-label">T4 estimatifs</span>
+            <span class="stats-card-label">T4 estimes</span>
             <span id="market-t4-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Entrees confiance < 25</span>
+            <span class="stats-card-sub">A lire avec prudence</span>
           </article>
         </div>
 
@@ -290,154 +125,39 @@
       </section>
 
       <section class="stats-panel">
-        <h2>ENCYCLOPEDIE</h2>
-        <div class="stats-cards">
+        <div class="stats-section-head">
+          <div>
+            <div class="detail-kicker">EDITORIAL COVERAGE</div>
+            <h2 class="stats-section-title">Encyclopedie</h2>
+          </div>
+          <div class="stats-section-copy">Mesure de la couche memoire : synopsis, franchises et repere median.</div>
+        </div>
+
+        <div class="stats-cards stats-cards-secondary">
           <article class="stats-card">
             <span class="stats-card-label">Jeux avec synopsis</span>
             <span id="encyclo-synopsis-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Progression narrative</span>
+            <span class="stats-card-sub">Couverture narrative</span>
           </article>
           <article class="stats-card">
             <span class="stats-card-label">Franchises indexees</span>
             <span id="encyclo-franchise-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Licences disponibles</span>
+            <span class="stats-card-sub">Licences documentees</span>
           </article>
           <article class="stats-card">
-            <span class="stats-card-label">Prix median loose</span>
+            <span class="stats-card-label">Median loose</span>
             <span id="price-median-loose" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Tendance centrale du catalogue</span>
+            <span class="stats-card-sub">Point d'equilibre du catalogue</span>
           </article>
         </div>
 
-        <a class="encyclopedia-link" href="/franchises.html">Ouvrir les franchises &rarr;</a>
+        <a class="encyclopedia-link terminal-action-link" href="/franchises.html">Ouvrir les franchises &rarr;</a>
       </section>
     </main>
 
-    <script>
-      const TOTAL_SYNOPSIS_TARGET = 1296;
-      const rarityOrder = ["LEGENDARY", "EPIC", "RARE", "UNCOMMON", "COMMON"];
-
-      const overviewTotalGamesEl = document.getElementById("overview-total-games");
-      const overviewPlatformTotalEl = document.getElementById("overview-platform-total");
-      const overviewPricedTotalEl = document.getElementById("overview-priced-total");
-      const rarityGridEl = document.getElementById("rarity-grid");
-      const platformBarsEl = document.getElementById("platform-bars");
-      const marketT1El = document.getElementById("market-t1-count");
-      const marketT3El = document.getElementById("market-t3-count");
-      const marketT4El = document.getElementById("market-t4-count");
-      const marketMostExpensiveEl = document.getElementById("market-most-expensive");
-      const marketLeastExpensiveEl = document.getElementById("market-least-expensive");
-      const marketNoteEl = document.getElementById("market-note");
-      const encycloSynopsisEl = document.getElementById("encyclo-synopsis-count");
-      const encycloFranchiseEl = document.getElementById("encyclo-franchise-count");
-      const priceMedianLooseEl = document.getElementById("price-median-loose");
-      const statsErrorEl = document.getElementById("stats-error");
-
-      function escapeHtml(value) {
-        return String(value ?? "")
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#039;");
-      }
-
-      function formatCurrency(value) {
-        const number = Number(value);
-        return Number.isFinite(number) ? `$${number.toFixed(2).replace(/\\.00$/, "")}` : "$0";
-      }
-
-      async function fetchJson(url) {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`${response.status} ${response.statusText}`);
-        }
-        return response.json();
-      }
-
-      function renderRarityDistribution(byRarity, totalGames) {
-        rarityGridEl.innerHTML = rarityOrder.map((rarity) => {
-          const count = Number(byRarity?.[rarity] || 0);
-          const pct = totalGames ? ((count / totalGames) * 100).toFixed(1) : "0.0";
-          return `
-            <article class="rarity-item rarity-${escapeHtml(String(rarity).toLowerCase())}">
-              <span class="rarity-name">${escapeHtml(rarity)}</span>
-              <span class="rarity-count">${escapeHtml(count)}</span>
-              <span class="rarity-pct">${escapeHtml(pct)}%</span>
-            </article>
-          `;
-        }).join("");
-      }
-
-      function renderTopPlatforms(platforms) {
-        const max = Math.max(...platforms.map((item) => Number(item.count) || 0), 1);
-        platformBarsEl.innerHTML = platforms.map((item) => {
-          const count = Number(item.count) || 0;
-          const bar = "█".repeat(Math.max(1, Math.round((count / max) * 22)));
-          return `
-            <div class="platform-row">
-              <div class="platform-name">${escapeHtml(item.platform)}</div>
-              <div class="platform-ascii">${bar}</div>
-              <div class="platform-count">${escapeHtml(count)}</div>
-            </div>
-          `;
-        }).join("");
-      }
-
-      function renderGameSpot(element, game, fallbackTitle, fallbackMeta) {
-        if (!game) {
-          element.href = "/games-list.html";
-          element.innerHTML = `
-            <span class="game-spot-title">${escapeHtml(fallbackTitle)}</span>
-            <span class="game-spot-meta">${escapeHtml(fallbackMeta)}</span>
-            <span class="game-spot-price">—</span>
-          `;
-          return;
-        }
-
-        element.href = `/game-detail.html?id=${encodeURIComponent(game.id)}`;
-        element.innerHTML = `
-          <span class="game-spot-title">${escapeHtml(game.title)}</span>
-          <span class="game-spot-meta">${escapeHtml(game.platform || "Console inconnue")} · ${escapeHtml(game.year || "—")}</span>
-          <span class="game-spot-price">${escapeHtml(formatCurrency(game.loosePrice))}</span>
-        `;
-      }
-
-      async function loadStats() {
-        try {
-          const payload = await fetchJson("/api/stats");
-
-          overviewTotalGamesEl.textContent = String(payload.total_games || 0);
-          overviewPlatformTotalEl.textContent = String(payload.total_platforms || 0);
-          overviewPricedTotalEl.textContent = String(payload.priced_games || 0);
-          encycloSynopsisEl.textContent = `${payload.encyclopedia_stats?.with_synopsis || 0} / ${Math.max(payload.total_games || 0, TOTAL_SYNOPSIS_TARGET)}`;
-          encycloFranchiseEl.textContent = String(payload.encyclopedia_stats?.total_franchises || 0);
-          priceMedianLooseEl.textContent = formatCurrency(payload.price_stats?.median_loose || 0);
-
-          renderRarityDistribution(payload.by_rarity || {}, Number(payload.total_games || 0));
-          renderTopPlatforms((payload.by_platform || []).slice(0, 10));
-
-          marketT1El.textContent = String(payload.trust_stats?.t1 || 0);
-          marketT3El.textContent = String(payload.trust_stats?.t3 || 0);
-          marketT4El.textContent = String(payload.trust_stats?.t4 || 0);
-
-          renderGameSpot(marketMostExpensiveEl, payload.expensive_game, "Aucune donnee", "Jeu le plus cher");
-          renderGameSpot(marketLeastExpensiveEl, payload.cheapest_game, "Aucune donnee", "Jeu le moins cher");
-
-          marketNoteEl.textContent =
-            `Moyenne loose: ${formatCurrency(payload.price_stats?.avg_loose || 0)} · Min: ${formatCurrency(payload.price_stats?.min_loose || 0)} · Max: ${formatCurrency(payload.price_stats?.max_loose || 0)}`;
-        } catch (error) {
-          statsErrorEl.hidden = false;
-          statsErrorEl.textContent = `Impossible de charger les statistiques (${error.message}).`;
-          marketNoteEl.textContent = "Analyse indisponible.";
-          console.error("Stats page failed:", error);
-        }
-      }
-
-      loadStats();
-    </script>
-<div class="footer-attribution">
-  Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
-</div>
-</body>
+    <script src="/js/pages/stats.js"></script>
+    <div class="footer-attribution">
+      Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
+    </div>
+  </body>
 </html>

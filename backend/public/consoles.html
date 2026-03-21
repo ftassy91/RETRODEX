@@ -5,341 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>RetroDex - Consoles</title>
     <link rel="stylesheet" href="/style.css" />
-    <script src="/js/renderGameRow.js"></script>
-    <style>
-      .consoles-page {
-        max-width: 1180px;
-        margin: 0 auto;
-        padding: 24px 16px 48px;
-      }
-
-      .consoles-layout {
-        display: grid;
-        grid-template-columns: 1fr 320px;
-        gap: 0;
-        border: 1px solid var(--border);
-        background: var(--bg-surface);
-      }
-
-      .consoles-main {
-        padding: 16px;
-        border-right: 1px solid var(--border);
-      }
-
-      .consoles-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .console-card {
-        border: 1px solid var(--border);
-        background: var(--bg-card);
-        padding: 14px;
-        cursor: pointer;
-        transition: border-color 120ms ease, background 120ms ease;
-      }
-
-      .console-card:hover,
-      .console-card.active,
-      .console-card.selected {
-        border-color: var(--accent);
-        background: rgba(0, 255, 102, 0.06);
-      }
-
-      .console-card-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 12px;
-        margin-bottom: 10px;
-      }
-
-      .console-name {
-        color: var(--text-value);
-        font-family: var(--font-mono);
-        font-size: 1rem;
-      }
-
-      .console-year {
-        color: var(--text-alert);
-        font-family: var(--font-mono);
-        font-size: 0.9rem;
-        white-space: nowrap;
-      }
-
-      .console-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-        color: var(--text-secondary);
-        font-size: 0.8rem;
-      }
-
-      .manufacturer-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 3px 8px;
-        border: 1px solid var(--border);
-        color: var(--text-primary);
-        font-family: var(--font-mono);
-        font-size: 0.7rem;
-        text-transform: uppercase;
-      }
-
-      .detail-panel {
-        padding: 16px;
-        background: #0b110b;
-        min-height: 520px;
-      }
-
-      .detail-empty {
-        color: var(--text-secondary);
-        font-family: var(--font-mono);
-        font-size: 0.9rem;
-      }
-
-      .detail-title {
-        color: var(--text-value);
-        font-family: var(--font-mono);
-        font-size: 1.15rem;
-        margin-bottom: 10px;
-      }
-
-      .detail-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 14px;
-      }
-
-      .detail-pill {
-        padding: 3px 8px;
-        border: 1px solid var(--border);
-        color: var(--text-secondary);
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-      }
-
-      .detail-games {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .detail-games a {
-        color: var(--text-primary);
-        text-decoration: none;
-        font-size: 0.82rem;
-      }
-
-      .detail-games a:hover {
-        color: var(--accent);
-      }
-
-      .detail-games small {
-        color: var(--text-secondary);
-      }
-
-      .detail-count {
-        color: var(--text-secondary);
-        font-size: 0.78rem;
-        margin-bottom: 12px;
-      }
-
-      @media (max-width: 768px) {
-        .consoles-layout {
-          grid-template-columns: 1fr;
-        }
-
-        .consoles-main {
-          border-right: none;
-          border-bottom: 1px solid var(--border);
-        }
-
-        .consoles-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
   </head>
   <body>
-    <main class="consoles-page">
-      <nav class="breadcrumb">
-        <a href="/hub.html">HUB</a>
-        <span class="sep">&rsaquo;</span>
-        <span class="current">CONSOLES</span>
-      </nav>
-
-      <h1 class="page-title">CONSOLES</h1>
-      <p id="console-count" class="page-subtitle">Chargement...</p>
-      <div class="global-search-bar">
-        <input
-          type="text"
-          id="global-search"
-          placeholder="/ Rechercher..."
-          readonly
-          onclick="location.href='/search.html'"
-          style="cursor:pointer"
-        />
-      </div>
-      <div class="page-nav-inline">
-        <a href="/encyclopedia.html">Encyclopédie</a>
-      </div>
-
-      <section class="consoles-layout">
-        <div class="consoles-main">
-          <div id="consoles-grid" class="consoles-grid"></div>
+    <main class="console-shell">
+      <header class="console-page-head">
+        <div class="console-head-copy">
+          <nav class="breadcrumb">
+            <a href="/hub.html">HUB</a>
+            <span class="sep">&rsaquo;</span>
+            <span class="current">CONSOLES</span>
+          </nav>
+          <div class="detail-kicker">SYSTEM INDEX</div>
+          <h1 class="page-title">CONSOLES</h1>
+          <p id="console-count" class="page-subtitle">Chargement...</p>
+          <p class="console-intro">
+            Index archive des systemes RetroDex. Lire un materiel, ses reperes, puis sa
+            passerelle vers le catalogue et les accessoires lies.
+          </p>
         </div>
-        <aside id="console-detail" class="detail-panel">
-          <div class="detail-empty">&larr; Selectionner une console</div>
+
+        <div class="console-head-tools">
+          <div class="global-search-bar">
+            <input
+              type="text"
+              id="global-search"
+              placeholder="/ Rechercher..."
+              readonly
+              onclick="location.href='/search.html'"
+              style="cursor:pointer"
+            />
+          </div>
+          <div class="page-nav-inline">
+            <a href="/games-list.html">Catalogue</a>
+            <span>&middot;</span>
+            <a href="/encyclopedia.html">Encyclopedie</a>
+            <span>&middot;</span>
+            <a href="/accessories.html">Accessoires</a>
+          </div>
+        </div>
+      </header>
+
+      <section class="console-layout">
+        <aside class="console-index-panel">
+          <div class="console-index-head">
+            <div class="detail-kicker">ARCHIVE SYSTEMS</div>
+            <div class="console-index-copy">
+              Selectionner un systeme pour ouvrir ses reperes, ses jeux et ses extensions.
+            </div>
+          </div>
+
+          <div id="consoles-grid" class="console-index-list"></div>
         </aside>
+
+        <section class="console-reading-shell">
+          <div class="console-reading-head">
+            <div>
+              <div class="detail-kicker">SYSTEM PROFILE</div>
+              <h2 class="console-reading-title">Memoire hardware</h2>
+            </div>
+            <div class="console-reading-copy">
+              Identite de la machine, volume catalogue et liens vers les modules adjacents.
+            </div>
+          </div>
+
+          <div id="console-detail" class="console-detail-panel">
+            <div class="console-detail-empty">Selectionner une console dans l'index.</div>
+          </div>
+        </section>
       </section>
     </main>
 
-    <script>
-      const countEl = document.getElementById('console-count');
-      const gridEl = document.getElementById('consoles-grid');
-      const detailEl = document.getElementById('console-detail');
-      let selectedId = null;
-
-      function getRequestedPlatform() {
-        return new URLSearchParams(window.location.search).get('platform') || '';
-      }
-
-      function escapeHtml(value) {
-        return String(value ?? '')
-          .replaceAll('&', '&amp;')
-          .replaceAll('<', '&lt;')
-          .replaceAll('>', '&gt;')
-          .replaceAll('"', '&quot;')
-          .replaceAll("'", '&#039;');
-      }
-
-      function getManufacturer(label) {
-        const text = String(label || '').toLowerCase();
-        if (text.includes('nintendo') || text.includes('game boy')) return 'Nintendo';
-        if (text.includes('sega') || text.includes('dreamcast') || text.includes('saturn') || text.includes('genesis')) return 'Sega';
-        if (text.includes('playstation')) return 'Sony';
-        if (text.includes('neo geo')) return 'SNK';
-        return 'Autre';
-      }
-
-      function renderCard(item) {
-        const manufacturer = getManufacturer(item.title || item.platform);
-        return `
-          <article class="console-card${item.id === selectedId ? ' active selected' : ''}" data-id="${escapeHtml(item.id)}" data-platform="${escapeHtml(item.platform || '')}">
-            <div class="console-card-head">
-              <div class="console-name">${escapeHtml(item.title)}</div>
-              <div class="console-year">${item.year ? escapeHtml(item.year) : '&mdash;'}</div>
-            </div>
-            <div class="console-meta">
-              <span>${escapeHtml(item.gamesCount || 0)} jeux associes</span>
-              <span class="manufacturer-badge">${escapeHtml(manufacturer)}</span>
-            </div>
-          </article>
-        `;
-      }
-
-      function renderDetail(payload) {
-        const manufacturer = getManufacturer(payload.console.title || payload.console.platform);
-        const games = payload.games || [];
-        const accessories = payload.accessories || [];
-        const list = games.length
-          ? `
-            <ul class="detail-games">
-              ${games.map((game) => `
-                <li>
-                  <a href="/game-detail.html?id=${encodeURIComponent(game.id)}">${escapeHtml(game.title)}</a>
-                  <small>${game.year ? escapeHtml(game.year) : '&mdash;'}</small>
-                </li>
-              `).join('')}
-            </ul>
-          `
-          : '<div class="detail-empty">Aucun jeu associe pour le moment.</div>';
-        const accessoriesList = accessories.length
-          ? accessories.map((item) => `
-              <div class="accessory-line">
-                <a href="/accessories.html">${escapeHtml(item.name)}</a>
-                <span class="accessory-type">${escapeHtml(item.accessory_type || 'other')}</span>
-              </div>
-            `).join('')
-          : '<div class="detail-empty">&mdash;</div>';
-
-        detailEl.innerHTML = `
-          <div class="detail-title">${escapeHtml(payload.console.title)}</div>
-          <div class="detail-meta">
-            <span class="detail-pill">${payload.console.year ? escapeHtml(payload.console.year) : '&mdash;'}</span>
-            <span class="detail-pill">${escapeHtml(manufacturer)}</span>
-            <span class="detail-pill">${escapeHtml(payload.console.platform)}</span>
-          </div>
-          <div class="detail-count">${games.length} jeux affiches</div>
-          ${list}
-          <div class="console-accessories">
-            <div class="section-label">ACCESSOIRES</div>
-            <div id="accessories-list">${accessoriesList}</div>
-          </div>
-        `;
-      }
-
-      async function loadDetail(id) {
-        selectedId = id;
-        detailEl.innerHTML = '<div class="detail-empty">Chargement...</div>';
-        const response = await fetch(`/api/consoles/${encodeURIComponent(id)}`);
-        const payload = await response.json();
-        if (!response.ok || !payload.ok) {
-          detailEl.innerHTML = '<div class="detail-empty">Console introuvable.</div>';
-          return;
-        }
-        renderDetail(payload);
-      }
-
-      async function loadConsoles() {
-        const response = await fetch('/api/consoles');
-        const payload = await response.json();
-        if (!response.ok || !payload.ok) {
-          countEl.textContent = 'Impossible de charger les consoles';
-          gridEl.innerHTML = '';
-          detailEl.innerHTML = '<div class="detail-empty">Erreur de chargement.</div>';
-          return;
-        }
-
-        const consoles = payload.consoles || [];
-        const requestedPlatform = getRequestedPlatform().toLowerCase();
-        countEl.textContent = `${payload.count || consoles.length} systemes retro`;
-        gridEl.innerHTML = consoles.map(renderCard).join('');
-
-        gridEl.querySelectorAll('.console-card').forEach((card) => {
-          card.addEventListener('click', async () => {
-            selectedId = card.dataset.id;
-            gridEl.querySelectorAll('.console-card').forEach((node) => {
-              const isSelected = node.dataset.id === selectedId;
-              node.classList.toggle('active', isSelected);
-              node.classList.toggle('selected', isSelected);
-            });
-            await loadDetail(selectedId);
-          });
-        });
-
-        if (consoles.length > 0) {
-          const initialConsole = consoles.find((item) => String(item.platform || '').toLowerCase() === requestedPlatform) || consoles[0];
-          selectedId = initialConsole.id;
-          gridEl.querySelector(`.console-card[data-id="${CSS.escape(selectedId)}"]`)?.classList.add('active', 'selected');
-          await loadDetail(selectedId);
-        }
-      }
-
-      loadConsoles().catch(() => {
-        countEl.textContent = 'Impossible de charger les consoles';
-        detailEl.innerHTML = '<div class="detail-empty">Erreur de chargement.</div>';
-      });
-    </script>
-<div class="footer-attribution">
-  Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
-</div>
-</body>
+    <script src="/js/pages/consoles.js"></script>
+    <div class="footer-attribution">
+      Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
+    </div>
+  </body>
 </html>
