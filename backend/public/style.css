@@ -4419,6 +4419,289 @@ body {
 }
 
 /* ========================================
+   HUB - 4 ENTRY POINT REFRAME
+   ======================================== */
+
+.hub-page.hub-orientation-page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.hub-orientation-head {
+  border: 1px solid rgba(67, 95, 60, 0.7);
+  background:
+    linear-gradient(180deg, rgba(8, 12, 8, 0.98), rgba(5, 8, 5, 0.98)),
+    radial-gradient(circle at top right, rgba(155, 188, 15, 0.04), transparent 28%);
+}
+
+.hub-orientation-head .hub-identity-panel {
+  padding: 22px 24px;
+}
+
+.hub-system-line {
+  min-height: 0;
+}
+
+.hub-universe-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.hub-universe-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+  padding: 18px 20px;
+  border: 1px solid rgba(67, 95, 60, 0.58);
+  background:
+    linear-gradient(180deg, rgba(8, 12, 8, 0.98), rgba(5, 8, 5, 0.98)),
+    radial-gradient(circle at top right, rgba(155, 188, 15, 0.03), transparent 30%);
+}
+
+.hub-universe-card:hover {
+  border-color: rgba(155, 188, 15, 0.38);
+  background:
+    linear-gradient(180deg, rgba(11, 16, 11, 0.99), rgba(6, 10, 6, 0.99)),
+    radial-gradient(circle at top right, rgba(155, 188, 15, 0.05), transparent 34%);
+}
+
+.hub-universe-market {
+  border-top: 2px solid rgba(228, 136, 85, 0.58);
+}
+
+.hub-universe-dex,
+.hub-universe-collections,
+.hub-universe-search {
+  border-top: 2px solid rgba(67, 95, 60, 0.72);
+}
+
+.hub-universe-search {
+  border-top-color: rgba(155, 188, 15, 0.58);
+}
+
+.hub-universe-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.hub-universe-kicker {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.hub-universe-title {
+  margin: 0;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 22px;
+  letter-spacing: 0.06em;
+}
+
+.hub-universe-signal {
+  min-width: 126px;
+  padding: 4px 8px;
+  border: 1px solid rgba(67, 95, 60, 0.52);
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.hub-universe-copy {
+  margin: 0 0 12px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.hub-universe-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0 0 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(67, 95, 60, 0.42);
+}
+
+.hub-universe-list span {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.hub-universe-list.is-search {
+  margin-top: 2px;
+}
+
+.hub-universe-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(67, 95, 60, 0.42);
+}
+
+.hub-inline-link {
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.hub-inline-link:hover {
+  color: #f1c45c;
+  text-decoration: underline;
+}
+
+.hub-intent-panel {
+  padding: 16px 18px;
+  border: 1px solid rgba(67, 95, 60, 0.58);
+  background: rgba(7, 11, 7, 0.95);
+}
+
+.hub-intent-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.hub-intent-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hub-intent-card {
+  padding: 11px 12px;
+  border: 1px solid rgba(67, 95, 60, 0.42);
+  background: rgba(8, 12, 8, 0.78);
+}
+
+.hub-intent-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.hub-intent-copy {
+  margin: 0 0 10px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.hub-intent-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hub-intent-links a {
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+
+.hub-intent-links a:hover {
+  color: #f1c45c;
+  text-decoration: underline;
+}
+
+.hub-secondary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) 340px;
+  gap: 18px;
+  align-items: start;
+}
+
+.hub-secondary-main,
+.hub-secondary-side {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.hub-signals-panel .hub-stats.hub-stats-secondary {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 14px;
+  border: 1px solid rgba(67, 95, 60, 0.42);
+}
+
+.hub-signals-panel .hub-stat {
+  min-height: 84px;
+}
+
+.hub-signals-panel .hub-system-grid {
+  margin-top: 2px;
+}
+
+.hub-signals-panel .hub-module-head,
+.hub-intent-head,
+.hub-module-head {
+  align-items: flex-start;
+}
+
+@media (max-width: 1100px) {
+  .hub-universe-grid,
+  .hub-secondary-grid,
+  .hub-intent-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 780px) {
+  .hub-universe-head,
+  .hub-intent-head,
+  .hub-module-head,
+  .hub-system-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hub-universe-signal {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .hub-search-form {
+    grid-template-columns: 1fr;
+  }
+
+  .hub-search-button {
+    border-left: 0;
+    border-top: 1px solid rgba(67, 95, 60, 0.72);
+  }
+
+  .hub-signals-panel .hub-stats.hub-stats-secondary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ========================================
    GAME DETAIL - HIERARCHY REFINEMENT
    ======================================== */
 

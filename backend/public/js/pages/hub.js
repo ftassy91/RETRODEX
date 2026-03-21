@@ -29,14 +29,14 @@
     const palettes = {
       PlayStation: ['#050520', '#0f0f45', '#1a1a8b', '#4444dd'],
       'Super Nintendo': ['#0d0d0d', '#1a3a1a', '#2d6a2d', '#7abf7a'],
-      'Sega Genesis': ['#1a0a2e', '#2d1654', '#6a3fa0', '#c48be8'],
-      'Sega Saturn': ['#1a0505', '#3d0f0f', '#8b1a1a', '#e85555'],
-      'Nintendo 64': ['#1a1a05', '#3d3d0f', '#8b7a00', '#ddc420'],
+      'Sega Genesis': ['#101006', '#3a320a', '#72610f', '#d4b54d'],
+      'Sega Saturn': ['#0b120b', '#163316', '#245824', '#5db35d'],
+      'Nintendo 64': ['#08120b', '#12321a', '#1d6a32', '#57b26f'],
       'Game Boy': ['#0f380f', '#306230', '#8bac0f', '#9bbc0f'],
-      'Game Boy Advance': ['#05051a', '#0f1a3d', '#1a3d8b', '#44aadd'],
-      'Nintendo DS': ['#05051a', '#0f1a3d', '#2a5a9b', '#7ab4e8'],
-      Dreamcast: ['#05101a', '#0f2535', '#1a558b', '#55aae8'],
-      'Nintendo Entertainment System': ['#1a1a2e', '#16213e', '#0f3460', '#e94560'],
+      'Game Boy Advance': ['#05101a', '#0f2535', '#1a558b', '#55aae8'],
+      'Nintendo DS': ['#05101a', '#17343a', '#2d666d', '#67bec7'],
+      Dreamcast: ['#1a1205', '#3f220c', '#8c4a18', '#e59b45'],
+      'Nintendo Entertainment System': ['#0f1410', '#263329', '#4a6b52', '#9dc2a5'],
     }
     const palette = palettes[game.console || game.platform] || ['#0f380f', '#306230', '#8bac0f', '#9bbc0f']
     const style = seed % 4
@@ -127,18 +127,18 @@
         card.appendChild(info)
         grid.appendChild(card)
       })
-    } catch (_error) {}
+    } catch (_) {}
   }
 
   async function loadEncyclopediaPreview() {
     try {
-      const payload = await fetchJson('/api/games?limit=1000')
+      const payload = await fetchJson('/api/games?limit=1000&type=game')
       let items = getItems(payload).filter((game) =>
         game.synopsis || game.dev_team || game.dev_anecdotes || game.cheat_codes
       )
 
       if (items.length < 6) {
-        const response = await fetch('/games')
+        const response = await fetch('/games?type=game')
         if (response.ok) {
           const fallback = await response.json()
           items = getItems(fallback).filter((game) =>
@@ -163,39 +163,64 @@
         `
         grid.appendChild(card)
       })
-    } catch (_error) {}
+    } catch (_) {}
+  }
+
+  function setUniverseSignals({ stats, collectionItems, health, totalGames }) {
+    const avgLoose = Number(stats?.price_stats?.avg_loose || 0)
+    const collectionLoose = collectionItems.reduce((sum, item) => {
+      const loose = Number(item.game?.loosePrice || item.Game?.loosePrice || item.loosePrice || 0)
+      return sum + (Number.isFinite(loose) ? loose : 0)
+    }, 0)
+
+    setText(
+      byId('universe-market-signal'),
+      `${stats?.trust_stats?.t1 || 0} T1 | ${formatCurrency(avgLoose || 0)} avg loose`
+    )
+    setText(
+      byId('universe-dex-signal'),
+      `${stats?.encyclopedia_stats?.with_synopsis || 0} synopsis | ${stats?.encyclopedia_stats?.total_franchises || 0} franchises`
+    )
+    setText(
+      byId('universe-collection-signal'),
+      `${collectionItems.length} entrees | ${collectionItems.length ? formatCurrency(collectionLoose) : '$0'} loose`
+    )
+    setText(
+      byId('universe-search-signal'),
+      `${totalGames || health?.games || 0} jeux | ${stats?.total_platforms || 0} plateformes`
+    )
   }
 
   async function loadTopStats() {
     let totalGames = null
+    let statsPayload = null
+    let healthPayload = null
+    let collectionItems = []
 
     try {
-      const games = await fetchJson('/api/games?limit=1&type=game')
-      totalGames = games.total || null
-      setText(byId('stat-games'), games.total || '-')
-      if (games.total) {
-        setText(byId('hub-tagline'), `${games.total} jeux - prix de marche - encyclopedie - 15 franchises`)
+      const gamesPayload = await fetchJson('/api/games?limit=1&type=game')
+      totalGames = gamesPayload.total || null
+      setText(byId('stat-games'), gamesPayload.total || '-')
+      if (gamesPayload.total) {
+        setText(byId('hub-tagline'), `${gamesPayload.total} jeux - prix de marche - encyclopedie - 15 franchises`)
       }
-    } catch (_error) {}
-
-    try {
-      const consoles = await fetchJson('/api/consoles')
-      const count = getItems(consoles).length || consoles.total || 0
-      setText(byId('stat-consoles'), count || '-')
-    } catch (_error) {}
+    } catch (_) {}
 
     try {
       const stats = await fetchJson('/api/stats')
+      statsPayload = stats
+      setText(byId('stat-consoles'), stats.total_platforms || '-')
       setText(
         byId('stat-meta'),
         Number.isFinite(Number(stats.price_stats?.avg_loose))
           ? formatCurrency(stats.price_stats.avg_loose)
           : '-'
       )
-    } catch (_error) {}
+    } catch (_) {}
 
     try {
       const health = await fetchJson('/api/health')
+      healthPayload = health
       setText(byId('footer-status'), health.ok ? 'Backend OK' : 'Backend offline')
       setText(
         byId('footer-db'),
@@ -207,7 +232,7 @@
           ? `${String(health.database || 'sqlite').toUpperCase()} / ${health.status || 'running'} / ${totalGames || health.games || '-'} jeux`
           : 'OFFLINE'
       )
-    } catch (_error) {
+    } catch (_) {
       setText(byId('footer-status'), 'Backend offline')
       setText(byId('footer-db'), '')
       setText(byId('hub-runtime-line'), 'OFFLINE')
@@ -215,29 +240,36 @@
 
     try {
       const collection = await fetchJson('/api/collection')
-      const items = getItems(collection)
+      collectionItems = getItems(collection)
+      setText(byId('stat-collection'), collectionItems.length)
+
       const container = byId('coll-items')
-      setText(byId('stat-collection'), items.length)
-
       if (!container) return
-      if (!items.length) {
-        setHtml(container, '<span class="coll-empty">Aucun jeu - ajoutez-en depuis une fiche</span>')
-        return
-      }
 
-      setHtml(
-        container,
-        items
-          .map((item) => {
-            const gameId = item.game?.id || item.gameId || item.id
-            const title = item.game?.title || item.title || item.gameId || 'Jeu'
-            return `<a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="coll-pill">${escapeHtml(title)}</a>`
-          })
-          .join('')
-      )
-    } catch (_error) {
+      if (!collectionItems.length) {
+        setHtml(container, '<span class="coll-empty">Aucun jeu suivi pour le moment.</span>')
+      } else {
+        setHtml(
+          container,
+          collectionItems
+            .map((item) => {
+              const gameId = item.game?.id || item.Game?.id || item.gameId || item.id
+              const title = item.game?.title || item.Game?.title || item.title || item.gameId || 'Jeu'
+              return `<a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="coll-pill">${escapeHtml(title)}</a>`
+            })
+            .join('')
+        )
+      }
+    } catch (_) {
       setText(byId('stat-collection'), '-')
     }
+
+    setUniverseSignals({
+      stats: statsPayload,
+      collectionItems,
+      health: healthPayload,
+      totalGames,
+    })
   }
 
   function bindKeyboardShortcut() {
