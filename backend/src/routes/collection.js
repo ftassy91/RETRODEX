@@ -24,6 +24,15 @@ const VALID_COLLECTION_CONDITIONS = new Set(['Loose', 'CIB', 'Mint'])
 const VALID_COLLECTION_LIST_TYPES = new Set(['owned', 'wanted', 'for_sale'])
 let collectionSchemaReady = false
 
+function normalizePriceThreshold(value) {
+  if (value === undefined || value === null || value === '') {
+    return null
+  }
+
+  const numeric = Number(value)
+  return Number.isFinite(numeric) ? numeric : Number.NaN
+}
+
 async function ensureCollectionColumns() {
   if (collectionSchemaReady) {
     return
@@ -39,6 +48,7 @@ async function ensureCollectionColumns() {
   const missingColumns = [
     ['purchase_date', { type: DataTypes.DATEONLY, allowNull: true }],
     ['personal_note', { type: DataTypes.TEXT, allowNull: true }],
+    ['price_threshold', { type: DataTypes.FLOAT, allowNull: true }],
   ].filter(([name]) => !columns[name])
 
   for (const [name, definition] of missingColumns) {
@@ -85,6 +95,7 @@ function normalizeCollectionPayload(body) {
   const notes = String(body?.notes ?? '').trim()
   const list_type = normalizeCollectionListType(body?.list_type)
   const price_paid = normalizePricePaid(body?.price_paid)
+  const price_threshold = normalizePriceThreshold(body?.price_threshold)
   const purchase_date = body?.purchase_date ? String(body.purchase_date).trim() : null
   const personal_note = String(body?.personal_note ?? '').trim()
 
@@ -94,6 +105,7 @@ function normalizeCollectionPayload(body) {
     notes: notes || null,
     list_type,
     price_paid,
+    price_threshold,
     purchase_date: purchase_date || null,
     personal_note: personal_note || null,
   }
@@ -133,6 +145,7 @@ function serializeCollectionItem(item) {
     notes: item?.notes || null,
     list_type: normalizeCollectionListType(item?.list_type) || 'owned',
     price_paid: item?.price_paid ?? null,
+    price_threshold: item?.price_threshold ?? null,
     purchase_date: item?.purchase_date || null,
     personal_note: item?.personal_note || null,
     addedAt: item?.addedAt || null,
@@ -202,6 +215,10 @@ router.post('/collection', handleAsync(async (req, res) => {
     return res.status(400).json({ ok: false, error: 'price_paid must be a positive number' })
   }
 
+  if (payload.price_threshold !== null && (!Number.isFinite(payload.price_threshold) || payload.price_threshold <= 0)) {
+    return res.status(400).json({ ok: false, error: 'price_threshold must be a positive number' })
+  }
+
   if (payload.purchase_date && !/^\d{4}-\d{2}-\d{2}$/.test(payload.purchase_date)) {
     return res.status(400).json({ ok: false, error: 'purchase_date must use YYYY-MM-DD' })
   }
@@ -269,6 +286,10 @@ router.post('/api/collection', handleAsync(async (req, res) => {
     return res.status(400).json({ ok: false, error: 'price_paid must be a positive number' })
   }
 
+  if (payload.price_threshold !== null && (!Number.isFinite(payload.price_threshold) || payload.price_threshold <= 0)) {
+    return res.status(400).json({ ok: false, error: 'price_threshold must be a positive number' })
+  }
+
   if (payload.purchase_date && !/^\d{4}-\d{2}-\d{2}$/.test(payload.purchase_date)) {
     return res.status(400).json({ ok: false, error: 'purchase_date must use YYYY-MM-DD' })
   }
@@ -306,6 +327,28 @@ router.delete('/api/collection/:id', handleAsync(async (req, res) => {
   return res.json({ ok: true, deletedId: item.gameId })
 }))
 
+router.patch('/api/collection/:id', handleAsync(async (req, res) => {
+  await ensureCollectionColumns()
+
+  const item = await CollectionItem.findByPk(req.params.id, { include: GAME_INCLUDE })
+  if (!item) {
+    return res.status(404).json({ ok: false, error: 'Collection item not found' })
+  }
+
+  const price_threshold = normalizePriceThreshold(req.body?.price_threshold)
+  if (price_threshold !== null && (!Number.isFinite(price_threshold) || price_threshold <= 0)) {
+    return res.status(400).json({ ok: false, error: 'price_threshold must be a positive number' })
+  }
+
+  item.price_threshold = price_threshold
+  await item.save()
+
+  return res.json({
+    ok: true,
+    item: serializeCollectionItem(item),
+  })
+}))
+
 router.get('/api/collection/public', handleAsync(async (_req, res) => {
   await ensureCollectionColumns()
   const items = await CollectionItem.findAll({
@@ -328,6 +371,7 @@ router.get('/api/collection/public', handleAsync(async (_req, res) => {
       notes: item.notes || null,
       list_type: item.list_type || 'for_sale',
       price_paid: item.price_paid ?? null,
+      price_threshold: item.price_threshold ?? null,
       purchase_date: item.purchase_date || null,
       personal_note: item.personal_note || null,
       addedAt: item.addedAt || null,

@@ -52,6 +52,11 @@ const CollectionItem = sequelize.define(
       allowNull: true,
       field: "personal_note",
     },
+    price_threshold: {
+      type: DataTypes.FLOAT,
+      allowNull: true,
+      field: "price_threshold",
+    },
   },
   {
     tableName: "collection_items",

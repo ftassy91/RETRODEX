@@ -180,6 +180,24 @@
         color: var(--text-alert);
       }
 
+      .threshold-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 8px;
+        border: 1px solid currentColor;
+        font-size: 10px;
+        font-family: var(--font-mono);
+        margin-top: 8px;
+      }
+
+      .threshold-badge.ok {
+        color: var(--confidence-high);
+      }
+
+      .threshold-badge.over {
+        color: var(--confidence-low);
+      }
+
       .value-summary {
         margin-top: 14px;
         display: grid;
@@ -343,6 +361,21 @@
         if (condition === "mint") return item.game.mintPrice;
         if (condition === "cib") return item.game.cibPrice;
         return item.game.loosePrice;
+      }
+
+      function getThresholdState(item) {
+        const current = Number(getCurrentConditionPrice(item));
+        const threshold = Number(item?.price_threshold);
+
+        if (!Number.isFinite(current) || !Number.isFinite(threshold) || threshold <= 0) {
+          return null;
+        }
+
+        const under = current <= threshold;
+        return {
+          label: under ? "SOUS SEUIL" : "AU-DESSUS",
+          className: under ? "ok" : "over",
+        };
       }
 
       async function fetchJson(url, options) {
@@ -514,6 +547,14 @@
                     <div class="collection-market-line">
                       Prix actuel ${escapeHtml(String(item.condition || "Loose").toUpperCase())} : ${escapeHtml(formatCurrency(getCurrentConditionPrice(item)))}
                     </div>
+                    <div class="collection-market-line">
+                      Seuil defini : ${escapeHtml(formatCurrency(item.price_threshold))}
+                    </div>
+                    ${(() => {
+                      const thresholdState = getThresholdState(item);
+                      if (!thresholdState) return "";
+                      return `<div class="threshold-badge ${escapeHtml(thresholdState.className)}">${escapeHtml(thresholdState.label)}</div>`;
+                    })()}
                     ${item.notes ? `<div class="note-row">${escapeHtml(item.notes)}</div>` : ""}
                   </div>
                   <span class="rarity-badge rarity-${escapeHtml(rarityClass(item.game.rarity))}">${escapeHtml(item.game.rarity || "COMMON")}</span>
