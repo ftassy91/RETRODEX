@@ -91,7 +91,7 @@ function renderList(items) {
   if (!items.length) {
     listEl.innerHTML = `
       <div class="franchise-list-empty">
-        Aucun dossier ne correspond a cette recherche.
+        Aucun dossier ne correspond a cette requete.
       </div>
     `
     setListMeta('Aucun resultat')
@@ -148,7 +148,7 @@ function filterFranchises() {
           <span class="franchise-archive-code">ERR</span>
           <span class="franchise-archive-caption">INDEX FILTER</span>
         </div>
-        <div class="franchise-empty-copy">Aucun dossier ne correspond a cette recherche.</div>
+        <div class="franchise-empty-copy">Aucun dossier ne correspond a cette requete. Affinez l'index query.</div>
       </div>
     `
     return
@@ -356,7 +356,7 @@ async function loadFranchise(slug) {
   const gamesData = await gamesRes.json()
 
   if (!detailRes.ok || !detailData.ok) {
-    detailEl.innerHTML = '<div class="franchise-detail-empty">Franchise introuvable.</div>'
+    detailEl.innerHTML = '<div class="franchise-detail-empty">Ce dossier n\'est pas disponible dans l\'archive.</div>'
     return
   }
 
@@ -418,5 +418,5 @@ document.addEventListener('keydown', (event) => {
 
 loadFranchises().catch(() => {
   countEl.textContent = 'Impossible de charger les franchises'
-  detailEl.innerHTML = '<div class="franchise-detail-empty">Erreur de chargement.</div>'
+  detailEl.innerHTML = '<div class="franchise-detail-empty">Le dossier n\'a pas pu etre charge.</div>'
 })

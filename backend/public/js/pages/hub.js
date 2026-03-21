@@ -101,7 +101,7 @@
 
       setHtml(grid, '')
       if (!items.length) {
-        setHtml(grid, '<span class="coll-empty">Aucun jeu LEGENDARY trouve.</span>')
+        setHtml(grid, '<span class="coll-empty">Aucune entree LEGENDARY disponible dans la selection active.</span>')
         return
       }
 
@@ -247,7 +247,7 @@
       if (!container) return
 
       if (!collectionItems.length) {
-        setHtml(container, '<span class="coll-empty">Aucun jeu suivi pour le moment.</span>')
+        setHtml(container, '<span class="coll-empty">Aucune entree suivie pour le moment. Ouvrir Recherche pour alimenter l\'etagere.</span>')
       } else {
         setHtml(
           container,

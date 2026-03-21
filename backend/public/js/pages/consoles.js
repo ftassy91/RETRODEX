@@ -45,7 +45,7 @@ function consoleRowMarkup(item) {
 
 function accessoryMarkup(accessories) {
   if (!accessories.length) {
-    return '<div class="console-detail-empty">Aucun accessoire indexe pour ce systeme.</div>'
+    return '<div class="console-detail-empty">Aucun accessoire archive pour ce systeme dans la base active.</div>'
   }
 
   return accessories.map((item) => `
@@ -58,7 +58,7 @@ function accessoryMarkup(accessories) {
 
 function gamesMarkup(consoleInfo, games) {
   if (!games.length) {
-    return '<div class="console-detail-empty">Aucun jeu relie a ce systeme pour le moment.</div>'
+    return '<div class="console-detail-empty">Aucun jeu relie a ce systeme dans la base active.</div>'
   }
 
   return `
@@ -141,7 +141,7 @@ async function loadDetail(id) {
   const payload = await response.json()
 
   if (!response.ok || !payload.ok) {
-    detailEl.innerHTML = '<div class="console-detail-empty">Console introuvable.</div>'
+    detailEl.innerHTML = '<div class="console-detail-empty">Ce systeme n\'est pas disponible dans l\'archive.</div>'
     return
   }
 
@@ -185,5 +185,5 @@ async function loadConsoles() {
 
 loadConsoles().catch(() => {
   countEl.textContent = 'Impossible de charger les consoles'
-  detailEl.innerHTML = '<div class="console-detail-empty">Erreur de chargement.</div>'
+  detailEl.innerHTML = '<div class="console-detail-empty">Le systeme n\'a pas pu etre charge.</div>'
 })

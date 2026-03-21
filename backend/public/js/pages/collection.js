@@ -58,6 +58,29 @@
     return 'votre collection'
   }
 
+  function emptyListMessage() {
+    if (activeTab === 'wanted') {
+      return {
+        title: 'Wishlist vide',
+        copy: 'Ouvrez Recherche pour ajouter un jeu a surveiller.'
+      }
+    }
+
+    if (activeTab === 'for_sale') {
+      return {
+        title: 'Liste a vendre vide',
+        copy: isPublicForSaleView
+          ? 'Aucune entree n\'est actuellement proposee.'
+          : 'Ajoutez un jeu a vendre depuis votre collection.'
+      }
+    }
+
+    return {
+      title: 'Collection vide',
+      copy: 'Ouvrez Recherche pour ajouter une premiere entree a l\'etagere.'
+    }
+  }
+
   function updateSummaryFromItems(items) {
     const totals = items.reduce(
       (acc, item) => {
@@ -221,12 +244,22 @@
     if (items.length >= 6) return
 
     const spacer = document.createElement('div')
-    spacer.style.cssText = 'border:1px solid var(--border);border-top:none;padding:16px;font-family:var(--font-mono);font-size:10px;color:var(--text-muted);text-align:center'
+    spacer.style.cssText = 'border:1px solid var(--border);border-top:none;background:rgba(6,10,6,0.88)'
 
     if (!items.length) {
-      spacer.innerHTML = 'Collection vide. Utilisez [/] pour rechercher un jeu a ajouter.'
+      const message = emptyListMessage()
+      spacer.innerHTML = `
+        <div class="terminal-empty-state">
+          <div class="terminal-empty-title">${escapeHtml(message.title)}</div>
+          <div class="terminal-empty-copy">${escapeHtml(message.copy)}</div>
+        </div>
+      `
     } else {
-      spacer.innerHTML = `${items.length} jeu(x) dans cette liste. <a href="/search.html" class="terminal-action-link">-> Ajouter un jeu</a>`
+      spacer.innerHTML = `
+        <div class="terminal-quiet-note">
+          ${items.length} entree(s) visibles. <a href="/search.html" class="terminal-action-link">-> Ajouter un jeu</a>
+        </div>
+      `
     }
 
     collectionListContainerEl.appendChild(spacer)
@@ -249,6 +282,11 @@
       collectionListContainerEl.appendChild(renderCollectionRow(item, index))
     })
     appendCollectionSpacer(items)
+
+    const firstRow = collectionListContainerEl.querySelector('.terminal-row')
+    if (firstRow) {
+      selectCollectionItem(items[0], firstRow)
+    }
   }
 
   async function copySaleLink() {
@@ -296,7 +334,7 @@
       }
 
       renderCollection(items)
-      setStatus(items.length ? `${items.length} item(s) dans ${getTabLabel(activeTab)}.` : '')
+      setStatus(items.length ? `${items.length} entree(s) dans ${getTabLabel(activeTab)}.` : emptyListMessage().title)
     } catch (error) {
       enrichedItems = []
       updateSummaryFromItems([])

@@ -7583,3 +7583,537 @@ td {
   line-height: 1.18;
 }
 
+/* ========================================
+   FINAL SURFACE POLISH
+   ======================================== */
+
+html {
+  scrollbar-gutter: stable both-edges;
+}
+
+body,
+.franchise-list,
+.franchises-detail,
+.encyclo-list,
+.encyclo-detail-panel,
+.console-index-list,
+.console-detail-panel {
+  scrollbar-color: rgba(80, 111, 74, 0.92) rgba(5, 8, 5, 0.98);
+  scrollbar-width: thin;
+}
+
+body::-webkit-scrollbar,
+.franchise-list::-webkit-scrollbar,
+.franchises-detail::-webkit-scrollbar,
+.encyclo-list::-webkit-scrollbar,
+.encyclo-detail-panel::-webkit-scrollbar,
+.console-index-list::-webkit-scrollbar,
+.console-detail-panel::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+body::-webkit-scrollbar-track,
+.franchise-list::-webkit-scrollbar-track,
+.franchises-detail::-webkit-scrollbar-track,
+.encyclo-list::-webkit-scrollbar-track,
+.encyclo-detail-panel::-webkit-scrollbar-track,
+.console-index-list::-webkit-scrollbar-track,
+.console-detail-panel::-webkit-scrollbar-track {
+  background: rgba(5, 8, 5, 0.98);
+}
+
+body::-webkit-scrollbar-thumb,
+.franchise-list::-webkit-scrollbar-thumb,
+.franchises-detail::-webkit-scrollbar-thumb,
+.encyclo-list::-webkit-scrollbar-thumb,
+.encyclo-detail-panel::-webkit-scrollbar-thumb,
+.console-index-list::-webkit-scrollbar-thumb,
+.console-detail-panel::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(5, 8, 5, 0.98);
+  background: linear-gradient(180deg, rgba(96, 132, 88, 0.96), rgba(56, 78, 52, 0.96));
+}
+
+.global-product-home,
+.global-product-link,
+.terminal-filter-btn,
+.terminal-action-link,
+.terminal-inline-btn,
+.hub-search-button,
+.hub-inline-link,
+.hub-action-inline,
+.page-nav-inline a,
+.product-universe-links a,
+.franchise-search-link,
+.franchise-action-link,
+.console-inline-link,
+.console-game-row,
+.franchise-game-row,
+.coll-pill,
+.btn,
+#collection-button,
+#contrib-submit,
+.chart-btn,
+.period-btn,
+.detail-editorial-tab,
+.franchise-detail-tab,
+.encyclo-tab {
+  transition:
+    color 140ms ease,
+    background-color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.global-product-home:hover,
+.global-product-link:hover,
+.global-product-home:focus-visible,
+.global-product-link:focus-visible {
+  border-color: rgba(155, 188, 15, 0.38);
+  background: rgba(10, 14, 10, 0.94);
+  box-shadow: inset 0 1px 0 rgba(155, 188, 15, 0.05);
+}
+
+.global-product-link.is-active {
+  border-color: rgba(155, 188, 15, 0.42);
+  box-shadow: inset 0 1px 0 rgba(155, 188, 15, 0.04);
+}
+
+.global-product-home:focus-visible,
+.global-product-link:focus-visible,
+.terminal-filter-btn:focus-visible,
+.hub-search-button:focus-visible,
+.terminal-action-link:focus-visible,
+.terminal-inline-btn:focus-visible,
+.hub-inline-link:focus-visible,
+.hub-action-inline:focus-visible,
+.page-nav-inline a:focus-visible,
+.product-universe-links a:focus-visible,
+.franchise-search-link:focus-visible,
+.franchise-action-link:focus-visible,
+.console-inline-link:focus-visible,
+.console-game-row:focus-visible,
+.franchise-game-row:focus-visible,
+.coll-pill:focus-visible,
+.btn:focus-visible,
+#collection-button:focus-visible,
+#contrib-submit:focus-visible,
+.chart-btn:focus-visible,
+.period-btn:focus-visible,
+.detail-editorial-tab:focus-visible,
+.franchise-detail-tab:focus-visible,
+.encyclo-tab:focus-visible,
+.hub-search-input:focus-visible,
+.terminal-query-input:focus-visible,
+.franchises-search-input:focus-visible,
+#global-search:focus-visible,
+#type-filter:focus-visible,
+.collection-condition-select:focus-visible,
+.collection-note-input:focus-visible,
+.contribute-form select:focus-visible,
+.contribute-form input:focus-visible,
+.contribute-form textarea:focus-visible {
+  outline: 1px solid rgba(155, 188, 15, 0.62);
+  outline-offset: 2px;
+}
+
+.terminal-query-line,
+.terminal-filter-group,
+.terminal-summary-bar,
+.terminal-preview-panel,
+.terminal-status-line,
+.hub-search-form,
+.franchises-search-shell,
+.global-search-bar,
+.accessories-filter {
+  box-shadow: inset 0 1px 0 rgba(155, 188, 15, 0.04);
+}
+
+.terminal-query-line {
+  background: linear-gradient(180deg, rgba(8, 12, 8, 0.97), rgba(5, 8, 5, 0.97));
+  transition: border-color 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
+}
+
+.terminal-query-line:focus-within,
+.franchises-search-shell:focus-within,
+.global-search-bar:focus-within,
+.accessories-filter:focus-within,
+.hub-search-form:focus-within {
+  border-color: rgba(155, 188, 15, 0.62);
+  box-shadow:
+    inset 0 0 0 1px rgba(155, 188, 15, 0.14),
+    inset 0 1px 0 rgba(155, 188, 15, 0.04);
+}
+
+.terminal-query-input::placeholder,
+.hub-search-input::placeholder,
+.franchises-search-input::placeholder,
+.collection-note-input::placeholder,
+.contribute-form input::placeholder,
+.contribute-form textarea::placeholder {
+  color: rgba(110, 141, 103, 0.86);
+}
+
+.terminal-query-count {
+  min-width: 88px;
+  text-align: right;
+}
+
+.terminal-filter-group {
+  background: rgba(7, 11, 7, 0.92);
+}
+
+.terminal-filter-btn {
+  min-height: 30px;
+}
+
+.terminal-filter-btn:hover {
+  color: var(--text-primary);
+  background: rgba(12, 16, 12, 0.92);
+}
+
+.terminal-filter-btn.active {
+  color: var(--text-primary);
+  background: linear-gradient(180deg, rgba(155, 188, 15, 0.08), rgba(12, 16, 12, 0.96));
+  box-shadow: inset 0 -1px 0 rgba(155, 188, 15, 0.26);
+}
+
+.terminal-filter-btn:disabled {
+  cursor: default;
+  opacity: 0.42;
+  background: transparent;
+}
+
+.terminal-summary-bar {
+  background: linear-gradient(180deg, rgba(8, 12, 8, 0.98), rgba(5, 8, 5, 0.98));
+}
+
+.terminal-summary-cell {
+  padding: 10px 14px 12px;
+}
+
+.terminal-summary-value {
+  line-height: 1.15;
+}
+
+.terminal-status-line {
+  min-height: 31px;
+  display: flex;
+  align-items: center;
+  background: rgba(7, 10, 7, 0.9);
+}
+
+.terminal-preview-panel {
+  background: linear-gradient(180deg, rgba(9, 13, 9, 0.98), rgba(6, 10, 6, 0.98));
+  min-height: 78px;
+}
+
+.terminal-preview-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 6px;
+}
+
+.terminal-row {
+  position: relative;
+  border-left: 1px solid rgba(45, 61, 41, 0.62);
+  background: rgba(7, 10, 7, 0.88);
+  transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, color 140ms ease;
+}
+
+.terminal-row:hover {
+  background: linear-gradient(90deg, rgba(155, 188, 15, 0.05), rgba(10, 14, 10, 0.96) 66%);
+}
+
+.terminal-row.selected {
+  border-left-color: rgba(155, 188, 15, 0.78);
+  background: linear-gradient(90deg, rgba(155, 188, 15, 0.08), rgba(10, 14, 10, 0.98) 70%);
+  box-shadow: inset 0 1px 0 rgba(155, 188, 15, 0.06);
+}
+
+.terminal-row.selected .terminal-row-indicator {
+  color: var(--text-alert);
+}
+
+.terminal-row.selected .result-title {
+  color: var(--text-primary);
+}
+
+.franchise-list-item,
+.encyclo-list-row,
+.console-row {
+  transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, color 140ms ease;
+}
+
+.franchise-list-item:hover,
+.franchise-list-item:focus-visible,
+.encyclo-list-row:hover,
+.encyclo-list-row:focus-visible,
+.console-row:hover,
+.console-row:focus-visible {
+  background: linear-gradient(90deg, rgba(155, 188, 15, 0.05), rgba(12, 16, 12, 0.95) 72%);
+}
+
+.franchise-list-item.selected,
+.encyclo-list-row.active,
+.console-row.active {
+  box-shadow: inset 0 1px 0 rgba(155, 188, 15, 0.05);
+}
+
+.hub-universe-card,
+.hub-intent-card,
+.hub-module,
+.product-universe-frame,
+.stats-panel,
+.summary-card,
+.collection-card,
+.editorial-card,
+.related-card,
+.contribute-section,
+.price-history {
+  box-shadow: inset 0 1px 0 rgba(155, 188, 15, 0.04);
+}
+
+.hub-universe-card,
+.hub-intent-card,
+.legendary-card,
+.hub-encyclo-card,
+.game-spot {
+  transition:
+    border-color 140ms ease,
+    background-color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.hub-universe-card:hover,
+.hub-universe-card:focus-within,
+.hub-intent-card:hover,
+.hub-intent-card:focus-within {
+  border-color: rgba(155, 188, 15, 0.42);
+  box-shadow:
+    inset 0 1px 0 rgba(155, 188, 15, 0.06),
+    0 0 0 1px rgba(155, 188, 15, 0.08);
+}
+
+.legendary-card:hover,
+.legendary-card:focus-within,
+.hub-encyclo-card:hover,
+.hub-encyclo-card:focus-within,
+.game-spot:hover,
+.game-spot:focus-visible {
+  border-color: rgba(155, 188, 15, 0.42);
+  box-shadow: inset 0 1px 0 rgba(155, 188, 15, 0.05);
+}
+
+.hub-system-row:last-child {
+  border-bottom: 0;
+}
+
+.hub-intent-links a {
+  color: var(--text-alert);
+  text-decoration: none;
+  transition: color 140ms ease, text-decoration-color 140ms ease;
+}
+
+.hub-intent-links a:hover,
+.hub-intent-links a:focus-visible {
+  color: #f1c45c;
+}
+
+.hub-search-form:hover {
+  border-color: rgba(96, 130, 88, 0.82);
+}
+
+.hub-search-button:hover,
+.hub-search-button:focus-visible {
+  background: rgba(19, 24, 19, 0.98);
+  box-shadow: inset 0 1px 0 rgba(155, 188, 15, 0.05);
+}
+
+.product-universe-links a,
+.page-nav-inline a,
+.terminal-action-link,
+.hub-inline-link,
+.hub-action-inline,
+.franchise-search-link,
+.franchise-action-link,
+.console-inline-link,
+.console-game-row,
+.franchise-game-row,
+.coll-pill {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.product-universe-links a.is-active {
+  color: var(--text-alert);
+  text-shadow: 0 0 10px rgba(228, 136, 85, 0.14);
+}
+
+.chart-btn:hover,
+.period-btn:hover,
+.detail-editorial-tab:hover,
+.franchise-detail-tab:hover,
+.encyclo-tab:hover {
+  color: var(--text-primary);
+  background: rgba(12, 16, 12, 0.82);
+}
+
+.chart-btn.active,
+.period-btn.active,
+.detail-editorial-tab.active,
+.franchise-detail-tab.active,
+.encyclo-tab.active {
+  background: linear-gradient(180deg, rgba(228, 136, 85, 0.08), rgba(12, 16, 12, 0.94));
+  box-shadow: inset 0 -1px 0 rgba(228, 136, 85, 0.55);
+}
+
+.collection-form {
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.collection-controls {
+  gap: 10px;
+}
+
+.collection-current-meta {
+  gap: 8px;
+}
+
+.status-text {
+  min-height: 18px;
+  line-height: 1.6;
+}
+
+.collection-condition-select,
+.collection-note-input,
+.contribute-form select,
+.contribute-form input,
+.contribute-form textarea,
+#type-filter {
+  transition:
+    border-color 140ms ease,
+    background-color 140ms ease,
+    box-shadow 140ms ease,
+    color 140ms ease;
+}
+
+.collection-condition-select:focus,
+.collection-note-input:focus,
+.contribute-form select:focus,
+.contribute-form input:focus,
+.contribute-form textarea:focus,
+#type-filter:focus {
+  outline: none;
+  border-color: rgba(155, 188, 15, 0.58);
+  background: rgba(12, 16, 12, 0.94);
+  box-shadow: inset 0 0 0 1px rgba(155, 188, 15, 0.12);
+}
+
+.btn:hover,
+#collection-button:hover,
+#contrib-submit:hover {
+  box-shadow: inset 0 1px 0 rgba(155, 188, 15, 0.05);
+}
+
+.btn:disabled,
+#collection-button:disabled,
+#contrib-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  box-shadow: none;
+}
+
+.stats-card {
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: space-between;
+}
+
+.section-note {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(67, 95, 60, 0.48);
+}
+
+.terminal-empty-state,
+.search-empty,
+.franchise-list-empty,
+.franchise-detail-empty,
+.encyclo-placeholder,
+.encyclo-loading,
+.encyclo-empty,
+.console-detail-empty,
+.index-insufficient,
+.stats-error {
+  border: 1px dashed rgba(67, 95, 60, 0.58);
+  background: rgba(8, 12, 8, 0.68);
+}
+
+.terminal-empty-state {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+}
+
+.terminal-empty-title {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.terminal-empty-copy {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.terminal-quiet-note {
+  padding: 10px 14px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.search-empty,
+.franchise-list-empty,
+.encyclo-placeholder,
+.encyclo-loading,
+.encyclo-empty,
+.console-detail-empty,
+.index-insufficient,
+.stats-error {
+  padding: 14px 16px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.franchise-detail-empty {
+  padding: 18px 20px;
+}
+
+@media (max-width: 900px) {
+  .terminal-summary-bar {
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .terminal-summary-cell {
+    min-width: 50%;
+    border-bottom: 1px solid rgba(45, 61, 41, 0.52);
+  }
+
+  .terminal-summary-cell:nth-child(2n) {
+    border-right: 0;
+  }
+}
+

@@ -119,8 +119,8 @@ async function loadStats() {
       `Moyenne loose: ${formatCurrency(payload.price_stats?.avg_loose || 0)} | Min: ${formatCurrency(payload.price_stats?.min_loose || 0)} | Max: ${formatCurrency(payload.price_stats?.max_loose || 0)}`
   } catch (error) {
     statsErrorEl.hidden = false
-    statsErrorEl.textContent = `Impossible de charger les statistiques (${error.message}).`
-    marketNoteEl.textContent = 'Analyse indisponible.'
+    statsErrorEl.textContent = `Lecture stats indisponible (${error.message}).`
+    marketNoteEl.textContent = 'Analyse RetroMarket indisponible.'
     console.error('Stats page failed:', error)
   }
 }

@@ -52,6 +52,20 @@
     setText(ctxQueryDisplayEl, query ? ` - "${query}"` : '')
   }
 
+  function renderEmptyState(title, copy, countLabel = '') {
+    clearSelection()
+    setText(searchCountEl, countLabel)
+    setHtml(
+      searchResultsEl,
+      `
+        <div class="terminal-empty-state search-empty">
+          <div class="terminal-empty-title">${escapeHtml(title)}</div>
+          <div class="terminal-empty-copy">${escapeHtml(copy)}</div>
+        </div>
+      `
+    )
+  }
+
   function updateUrl(query) {
     const nextParams = new URLSearchParams()
     if (query) nextParams.set('q', query)
@@ -164,9 +178,7 @@
   }
 
   function renderMessage(message) {
-    clearSelection()
-    setText(searchCountEl, '')
-    setHtml(searchResultsEl, `<div class="search-empty">${escapeHtml(message)}</div>`)
+    renderEmptyState('Recherche en attente', message)
   }
 
   function createGameRow(item, index) {
@@ -207,11 +219,14 @@
 
   function renderResults(results, query) {
     updateContextQuery(query)
-    setText(searchCountEl, `${results.length} resultat${results.length > 1 ? 's' : ''}`)
+    setText(searchCountEl, `${results.length} entree${results.length > 1 ? 's' : ''}`)
 
     if (!results.length) {
-      clearSelection()
-      setHtml(searchResultsEl, `<div class="search-empty">Aucun resultat pour "${escapeHtml(query)}"</div>`)
+      renderEmptyState(
+        'Aucun resultat archive',
+        `Aucune entree ne correspond a "${query}". Affinez la requete ou changez le filtre actif.`,
+        '0 entree'
+      )
       return
     }
 
@@ -224,6 +239,11 @@
     orderedResults.forEach((item, index) => {
       searchResultsEl.appendChild(item._type === 'franchise' ? createFranchiseRow(item, index) : createGameRow(item, index))
     })
+
+    const firstRow = searchResultsEl.querySelector('.terminal-row')
+    if (firstRow) {
+      selectResult(orderedResults[0], firstRow)
+    }
   }
 
   async function performSearch() {
@@ -232,7 +252,7 @@
     updateContextQuery(query)
 
     if (query.length < 2) {
-      renderMessage('Tapez au moins 2 caracteres')
+      renderMessage('Saisissez au moins 2 caracteres pour interroger l\'archive.')
       return
     }
 
@@ -240,14 +260,14 @@
     try {
       const payload = await fetchSearch(query, activeType, 30)
       if (!payload.ok) {
-        renderMessage('Erreur de recherche')
+        renderEmptyState('Recherche indisponible', 'Le terminal ne peut pas interroger l\'archive pour le moment.')
         return
       }
 
       lastResults = payload.items
       renderResults(lastResults, query)
     } catch (_error) {
-      renderMessage('Erreur de recherche')
+      renderEmptyState('Recherche indisponible', 'Le terminal ne peut pas interroger l\'archive pour le moment.')
     }
   }
 
@@ -358,7 +378,7 @@
     if (searchInputEl.value.trim().length >= 2) {
       performSearch()
     } else {
-      renderMessage('Tapez au moins 2 caracteres')
+      renderMessage('Saisissez au moins 2 caracteres pour interroger l\'archive.')
       requestAnimationFrame(() => searchInputEl.focus())
     }
   }

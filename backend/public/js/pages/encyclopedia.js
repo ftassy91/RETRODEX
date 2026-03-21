@@ -71,7 +71,7 @@ function renderGamesList(games) {
   gamesContainerEl.innerHTML = ''
 
   if (!games.length) {
-    gamesContainerEl.innerHTML = '<div class="encyclo-empty">Aucun jeu pour ce filtre.</div>'
+    gamesContainerEl.innerHTML = '<div class="encyclo-empty">Aucune entree jeu pour ce filtre actif.</div>'
     return
   }
 
@@ -295,7 +295,7 @@ async function loadGameDetail(gameId, rowEl) {
     detailPanelEl.innerHTML = gamePanelMarkup(game, encyclopedia)
     window.switchEncycloTab('synopsis')
   } catch (_) {
-    detailPanelEl.innerHTML = '<div class="encyclo-loading">Lecture impossible pour cette entree.</div>'
+    detailPanelEl.innerHTML = '<div class="encyclo-loading">Lecture indisponible pour cette entree.</div>'
   }
 }
 
@@ -310,7 +310,7 @@ async function loadFranchiseDetail(slug, rowEl) {
     detailPanelEl.innerHTML = franchisePanelMarkup(franchise)
     window.switchEncycloTab('synopsis')
   } catch (_) {
-    detailPanelEl.innerHTML = '<div class="encyclo-loading">Lecture impossible pour cette franchise.</div>'
+    detailPanelEl.innerHTML = '<div class="encyclo-loading">Lecture indisponible pour cette franchise.</div>'
   }
 }
 
@@ -351,7 +351,7 @@ function restoreSelection(filteredGames, filteredFranchises) {
     return
   }
 
-  detailPanelEl.innerHTML = '<div class="encyclo-placeholder">Aucune entree disponible pour ce filtre.</div>'
+  detailPanelEl.innerHTML = '<div class="encyclo-placeholder">Aucune entree disponible pour ce filtre actif.</div>'
 }
 
 function applyFilter(filter) {
