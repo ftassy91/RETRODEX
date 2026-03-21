@@ -5,62 +5,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>RetroDex - Recherche</title>
     <link rel="stylesheet" href="/style.css" />
-    <script src="/js/renderGameRow.js"></script>
   </head>
   <body>
-    <main class="search-page">
-      <nav class="breadcrumb">
-        <a href="/hub.html">HUB</a>
-        <span class="sep">&rsaquo;</span>
-        <span class="current">RECHERCHE</span>
-      </nav>
+    <div class="page-wrapper">
+      <div class="terminal-context">
+        RETRODEX › <a href="/hub.html">HUB</a> › <span class="ctx-active">SEARCH</span>
+        <span id="ctx-query-display"></span>
+      </div>
 
-      <h1 class="page-title">RECHERCHE</h1>
-      <p class="page-subtitle">Jeux + franchises</p>
-
-      <section class="search-panel-shell">
+      <div class="terminal-query-line">
+        <span class="terminal-query-label">QUERY :</span>
         <input
-          id="search-input"
           type="text"
-          placeholder="Titre, console, franchise..."
+          id="search-input"
+          class="terminal-query-input"
+          placeholder="titre, console, franchise, année..."
           autocomplete="off"
           autofocus
         />
-        <span id="search-count"></span>
+        <span class="terminal-query-count" id="search-count"></span>
+      </div>
 
-        <div class="search-filter-row">
-          <button class="filter-btn active" data-type="all" type="button">TOUT</button>
-          <button class="filter-btn" data-type="game" type="button">JEUX</button>
-          <button class="filter-btn" data-type="franchise" type="button">FRANCHISES</button>
+      <div class="terminal-filter-bar">
+        <div class="terminal-filter-group">
+          <button class="terminal-filter-btn active" data-type="all" type="button">TOUT</button>
+          <button class="terminal-filter-btn" data-type="game" type="button">JEUX</button>
+          <button class="terminal-filter-btn" data-type="franchise" type="button">FRANCHISES</button>
         </div>
-
-        <div class="search-filter-row">
-          <button class="filter-btn active" data-sort="relevance" type="button">PERTINENCE</button>
-          <button class="filter-btn" data-sort="price_asc" type="button">PRIX ↑</button>
-          <button class="filter-btn" data-sort="price_desc" type="button">PRIX ↓</button>
-          <button class="filter-btn" data-sort="year_desc" type="button">ANNÉE</button>
+        <div class="terminal-filter-group" style="margin-left:auto">
+          <button class="terminal-filter-btn active" data-sort="relevance" type="button">PERTINENCE</button>
+          <button class="terminal-filter-btn" data-sort="price_asc" type="button">PRIX ↑</button>
+          <button class="terminal-filter-btn" data-sort="price_desc" type="button">PRIX ↓</button>
+          <button class="terminal-filter-btn" data-sort="year" type="button">ANNÉE</button>
         </div>
+      </div>
 
-        <div id="search-results"></div>
-      </section>
-    </main>
+      <div
+        class="terminal-table-header"
+        id="search-table-header"
+        style="grid-template-columns: 12px 1fr 120px 70px 80px 60px"
+      >
+        <span></span>
+        <span>TITRE</span>
+        <span>CONSOLE / DATES</span>
+        <span style="text-align:right">PRIX</span>
+        <span style="text-align:center">RARETÉ</span>
+        <span style="text-align:center">SIGNAL</span>
+      </div>
+
+      <div id="search-results"></div>
+
+      <div class="terminal-preview-panel" id="search-preview" style="display:none">
+        <div class="terminal-preview-label">APERÇU</div>
+        <div class="terminal-preview-title" id="preview-title">—</div>
+        <div class="terminal-preview-row" id="preview-meta"></div>
+        <div class="terminal-preview-row" id="preview-price"></div>
+      </div>
+
+      <div class="terminal-footer">
+        <span><kbd>[↑↓]</kbd> Naviguer</span>
+        <span><kbd>[Enter]</kbd> Ouvrir la fiche</span>
+        <span><kbd>[/]</kbd> Nouvelle recherche</span>
+        <span><kbd>[Esc]</kbd> Effacer</span>
+      </div>
+
+      <div class="footer-igdb" style="margin-top:8px">
+        Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
+      </div>
+    </div>
 
     <script>
-      const searchInputEl = document.getElementById('search-input');
-      const searchCountEl = document.getElementById('search-count');
-      const searchResultsEl = document.getElementById('search-results');
-      const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
-      const sortButtons = Array.from(document.querySelectorAll('[data-sort]'));
-      const params = new URLSearchParams(window.location.search);
+      const searchInputEl = document.getElementById('search-input')
+      const searchCountEl = document.getElementById('search-count')
+      const searchResultsEl = document.getElementById('search-results')
+      const ctxQueryDisplayEl = document.getElementById('ctx-query-display')
+      const searchPreviewEl = document.getElementById('search-preview')
+      const previewTitleEl = document.getElementById('preview-title')
+      const previewMetaEl = document.getElementById('preview-meta')
+      const previewPriceEl = document.getElementById('preview-price')
+      const typeButtons = Array.from(document.querySelectorAll('[data-type]'))
+      const sortButtons = Array.from(document.querySelectorAll('[data-sort]'))
+      const params = new URLSearchParams(window.location.search)
 
+      const requestedSort = params.get('sort')
       let activeType = ['all', 'game', 'franchise'].includes(params.get('type'))
         ? params.get('type')
-        : 'all';
-      let activeSort = ['relevance', 'price_asc', 'price_desc', 'year_desc'].includes(params.get('sort'))
-        ? params.get('sort')
-        : 'relevance';
-      let debounceTimer;
-      let lastResults = [];
+        : 'all'
+      let activeSort = ['relevance', 'price_asc', 'price_desc', 'year'].includes(requestedSort)
+        ? requestedSort
+        : requestedSort === 'year_desc'
+          ? 'year'
+          : 'relevance'
+      let debounceTimer
+      let lastResults = []
+      let orderedResults = []
+      let selectedIndex = -1
+      let selectedItem = null
 
       function escapeHtml(value) {
         return String(value ?? '')
@@ -68,196 +108,330 @@
           .replaceAll('<', '&lt;')
           .replaceAll('>', '&gt;')
           .replaceAll('"', '&quot;')
-          .replaceAll("'", '&#039;');
+          .replaceAll("'", '&#039;')
       }
 
       function updateActiveFilter() {
-        filterButtons.forEach((button) => {
-          button.classList.toggle('active', button.dataset.type === activeType);
-        });
+        typeButtons.forEach((button) => {
+          button.classList.toggle('active', button.dataset.type === activeType)
+        })
       }
 
       function updateActiveSort() {
         sortButtons.forEach((button) => {
-          button.classList.toggle('active', button.dataset.sort === activeSort);
-        });
+          button.classList.toggle('active', button.dataset.sort === activeSort)
+        })
+      }
+
+      function updateContextQuery(query) {
+        ctxQueryDisplayEl.textContent = query ? ` · "${query}"` : ''
       }
 
       function updateUrl(query) {
-        const nextParams = new URLSearchParams();
-        if (query) nextParams.set('q', query);
-        if (activeType !== 'all') nextParams.set('type', activeType);
-        if (activeSort !== 'relevance') nextParams.set('sort', activeSort);
-        const nextUrl = nextParams.toString() ? `/search.html?${nextParams.toString()}` : '/search.html';
-        window.history.replaceState({}, '', nextUrl);
+        const nextParams = new URLSearchParams()
+        if (query) nextParams.set('q', query)
+        if (activeType !== 'all') nextParams.set('type', activeType)
+        if (activeSort !== 'relevance') nextParams.set('sort', activeSort)
+        const nextUrl = nextParams.toString() ? `/search.html?${nextParams.toString()}` : '/search.html'
+        window.history.replaceState({}, '', nextUrl)
+      }
+
+      function rarityColor(rarity) {
+        const map = {
+          LEGENDARY: 'var(--confidence-high)',
+          EPIC: 'var(--text-alert)',
+          RARE: 'var(--confidence-mid)',
+          UNCOMMON: 'var(--text-muted)',
+          COMMON: 'var(--text-muted)',
+        }
+        return map[rarity] || 'var(--text-muted)'
+      }
+
+      function trendSign(item) {
+        if (!item.loosePrice || Number(item.loosePrice) <= 0) return '—'
+        const rarity = item.rarity
+        if (rarity === 'LEGENDARY' || rarity === 'EPIC') return '↑'
+        if (rarity === 'COMMON') return '='
+        return '~'
+      }
+
+      function trendClass(item) {
+        const sign = trendSign(item)
+        if (sign === '↑') return 'trend-up'
+        if (sign === '=') return 'trend-flat'
+        if (sign === '↓') return 'trend-down'
+        return ''
       }
 
       function sortResults(results) {
-        const games = results.filter((item) => item._type === 'game');
-        const franchises = results.filter((item) => item._type === 'franchise');
+        const games = results.filter((item) => item._type === 'game')
+        const franchises = results.filter((item) => item._type === 'franchise')
 
         if (activeSort === 'price_asc') {
           games.sort((left, right) => {
-            const a = Number.isFinite(Number(left.loosePrice)) ? Number(left.loosePrice) : Number.POSITIVE_INFINITY;
-            const b = Number.isFinite(Number(right.loosePrice)) ? Number(right.loosePrice) : Number.POSITIVE_INFINITY;
-            return a - b || String(left.title || '').localeCompare(String(right.title || ''), 'fr', { sensitivity: 'base' });
-          });
+            const a = Number.isFinite(Number(left.loosePrice)) ? Number(left.loosePrice) : Number.POSITIVE_INFINITY
+            const b = Number.isFinite(Number(right.loosePrice)) ? Number(right.loosePrice) : Number.POSITIVE_INFINITY
+            return a - b || String(left.title || '').localeCompare(String(right.title || ''), 'fr', { sensitivity: 'base' })
+          })
         } else if (activeSort === 'price_desc') {
           games.sort((left, right) => {
-            const a = Number.isFinite(Number(left.loosePrice)) ? Number(left.loosePrice) : Number.NEGATIVE_INFINITY;
-            const b = Number.isFinite(Number(right.loosePrice)) ? Number(right.loosePrice) : Number.NEGATIVE_INFINITY;
-            return b - a || String(left.title || '').localeCompare(String(right.title || ''), 'fr', { sensitivity: 'base' });
-          });
-        } else if (activeSort === 'year_desc') {
+            const a = Number.isFinite(Number(left.loosePrice)) ? Number(left.loosePrice) : Number.NEGATIVE_INFINITY
+            const b = Number.isFinite(Number(right.loosePrice)) ? Number(right.loosePrice) : Number.NEGATIVE_INFINITY
+            return b - a || String(left.title || '').localeCompare(String(right.title || ''), 'fr', { sensitivity: 'base' })
+          })
+        } else if (activeSort === 'year') {
           games.sort((left, right) => {
-            const a = Number.isFinite(Number(left.year)) ? Number(left.year) : Number.NEGATIVE_INFINITY;
-            const b = Number.isFinite(Number(right.year)) ? Number(right.year) : Number.NEGATIVE_INFINITY;
-            return b - a || String(left.title || '').localeCompare(String(right.title || ''), 'fr', { sensitivity: 'base' });
-          });
+            const a = Number.isFinite(Number(left.year)) ? Number(left.year) : Number.NEGATIVE_INFINITY
+            const b = Number.isFinite(Number(right.year)) ? Number(right.year) : Number.NEGATIVE_INFINITY
+            return b - a || String(left.title || '').localeCompare(String(right.title || ''), 'fr', { sensitivity: 'base' })
+          })
         }
 
-        return activeType === 'game' ? games : [...franchises, ...games];
+        if (activeType === 'game') return games
+        if (activeType === 'franchise') return franchises
+        return [...franchises, ...games]
+      }
+
+      function clearSelection() {
+        selectedIndex = -1
+        selectedItem = null
+        searchResultsEl.querySelectorAll('.terminal-row').forEach((row) => row.classList.remove('selected'))
+        searchPreviewEl.style.display = 'none'
+      }
+
+      function openResult(item) {
+        if (!item) return
+        if (item._type === 'franchise') {
+          window.location.href = `/franchises.html?slug=${encodeURIComponent(item.slug)}`
+          return
+        }
+        window.location.href = `/game-detail.html?id=${encodeURIComponent(item.id)}`
+      }
+
+      function showPreview(item) {
+        searchPreviewEl.style.display = 'block'
+        previewTitleEl.textContent = item.title || item.name || '—'
+        previewMetaEl.innerHTML = `
+          <span><span class="pv-label">Console </span><span class="pv-val">${escapeHtml(item.console || item.developer || '—')}</span></span>
+          <span><span class="pv-label">Année </span><span class="pv-val">${escapeHtml(item.year || (item.first_game ? `${item.first_game}→${item.last_game}` : '—'))}</span></span>
+          <span><span class="pv-label">Rareté </span><span class="pv-val">${escapeHtml(item.rarity || '—')}</span></span>
+        `
+        previewPriceEl.innerHTML = item.loosePrice ? `
+          <span><span class="pv-label">Loose </span><span class="pv-val" style="color:var(--text-alert)">$${Math.round(item.loosePrice)}</span></span>
+          <span><span class="pv-label">CIB </span><span class="pv-val">$${item.cibPrice ? Math.round(item.cibPrice) : '—'}</span></span>
+        ` : ''
+      }
+
+      function selectResult(item, el) {
+        searchResultsEl.querySelectorAll('.terminal-row').forEach((row) => row.classList.remove('selected'))
+        el.classList.add('selected')
+        selectedIndex = Number(el.dataset.index || '-1')
+        selectedItem = item
+        showPreview(item)
+      }
+
+      function setSelectedIndex(nextIndex) {
+        const rows = Array.from(searchResultsEl.querySelectorAll('.terminal-row'))
+        if (!rows.length || nextIndex < 0 || nextIndex >= orderedResults.length) return
+        const row = rows.find((node) => Number(node.dataset.index) === nextIndex)
+        if (!row) return
+        selectResult(orderedResults[nextIndex], row)
+        row.scrollIntoView({ block: 'nearest' })
       }
 
       function renderMessage(message) {
-        searchCountEl.textContent = '';
-        searchResultsEl.innerHTML = `<div class="search-empty">${escapeHtml(message)}</div>`;
+        clearSelection()
+        searchCountEl.textContent = ''
+        searchResultsEl.innerHTML = `<div class="search-empty">${escapeHtml(message)}</div>`
+      }
+
+      function createGameRow(item, index) {
+        const row = document.createElement('div')
+        row.className = 'terminal-row'
+        row.style.gridTemplateColumns = '12px 1fr 120px 70px 80px 60px'
+        row.dataset.index = String(index)
+        row.dataset.id = item.id
+        row.innerHTML = `
+          <span class="terminal-row-indicator">›</span>
+          <span class="result-title" style="color:var(--text-primary)">${escapeHtml(item.title)}</span>
+          <span class="result-meta">${escapeHtml(item.console || '')} · ${escapeHtml(item.year || '—')}</span>
+          <span style="text-align:right;color:var(--text-alert)">${item.loosePrice ? '$' + Math.round(item.loosePrice) : '—'}</span>
+          <span style="text-align:center;font-size:9px;color:${rarityColor(item.rarity)}">${escapeHtml(item.rarity || '—')}</span>
+          <span style="text-align:center" class="${trendClass(item)}">${trendSign(item)}</span>
+        `
+        row.addEventListener('click', () => selectResult(item, row))
+        row.addEventListener('dblclick', () => openResult(item))
+        return row
+      }
+
+      function createFranchiseRow(item, index) {
+        const row = document.createElement('div')
+        row.className = 'terminal-row row-franchise'
+        row.style.gridTemplateColumns = '12px 80px 1fr 1fr'
+        row.dataset.index = String(index)
+        row.dataset.slug = item.slug
+        row.innerHTML = `
+          <span class="terminal-row-indicator">›</span>
+          <span class="encyclo-badge encyclo-badge-franchise">FRANCHISE</span>
+          <span style="color:var(--text-primary)">${escapeHtml(item.name)}</span>
+          <span style="color:var(--text-muted);font-size:10px">${escapeHtml(item.first_game || '—')}→${escapeHtml(item.last_game || '—')} · ${escapeHtml(item.developer || '')}</span>
+        `
+        row.addEventListener('click', () => selectResult(item, row))
+        row.addEventListener('dblclick', () => openResult(item))
+        return row
       }
 
       function renderResults(results, query) {
-        searchCountEl.textContent = `${results.length} resultat${results.length > 1 ? 's' : ''}`;
-
+        updateContextQuery(query)
+        searchCountEl.textContent = `${results.length} résultat${results.length > 1 ? 's' : ''}`
         if (!results.length) {
-          searchResultsEl.innerHTML = `<div class="search-empty">Aucun resultat pour "${escapeHtml(query)}"</div>`;
-          return;
+          clearSelection()
+          searchResultsEl.innerHTML = `<div class="search-empty">Aucun résultat pour "${escapeHtml(query)}"</div>`
+          return
         }
 
-        const orderedResults = sortResults(results);
+        orderedResults = sortResults(results)
+        selectedIndex = -1
+        selectedItem = null
+        searchResultsEl.innerHTML = ''
+        searchPreviewEl.style.display = 'none'
 
-        searchResultsEl.innerHTML = orderedResults.map((item) => {
-          if (item._type === 'franchise') {
-            return `
-              <div class="result-row result-franchise" onclick="location.href='/franchises.html?slug=${encodeURIComponent(item.slug)}'">
-                <span class="result-type-badge badge-franchise">FRANCHISE</span>
-                <span class="result-title">${escapeHtml(item.name)}</span>
-                <span class="result-meta">${escapeHtml(item.first_game || '—')} → ${escapeHtml(item.last_game || '—')}</span>
-                <span class="result-sub">${escapeHtml(item.developer || '—')}</span>
-              </div>
-            `;
-          }
-
-          const loosePrice = Number(item.loosePrice);
-          const priceLabel = Number.isFinite(loosePrice) ? `$${loosePrice.toFixed(0)}` : '—';
-          const rarity = String(item.rarity || '').toLowerCase();
-
-          return `
-            <div class="result-row result-game" onclick="location.href='/game-detail.html?id=${encodeURIComponent(item.id)}'">
-              <span class="result-type-badge badge-game">JEU</span>
-              <span class="result-title">${escapeHtml(item.title)}</span>
-              <span class="result-meta">${escapeHtml(item.console || '—')} · ${escapeHtml(item.year || '—')}</span>
-              <span class="result-price">${priceLabel}</span>
-              <span class="result-rarity rarity-${escapeHtml(rarity)}">${escapeHtml(item.rarity || '')}</span>
-            </div>
-          `;
-        }).join('');
+        orderedResults.forEach((item, index) => {
+          const row = item._type === 'franchise'
+            ? createFranchiseRow(item, index)
+            : createGameRow(item, index)
+          searchResultsEl.appendChild(row)
+        })
       }
 
       async function performSearch() {
-        const q = searchInputEl.value.trim();
-        updateUrl(q);
-
-        if (q.length < 2) {
-          renderMessage('Tapez au moins 2 caracteres');
-          return;
+        const query = searchInputEl.value.trim()
+        updateUrl(query)
+        updateContextQuery(query)
+        if (query.length < 2) {
+          renderMessage('Tapez au moins 2 caractères')
+          return
         }
 
-        searchCountEl.textContent = 'Recherche...';
-
+        searchCountEl.textContent = 'Recherche...'
         try {
-          const response = await fetch(`/api/search?q=${encodeURIComponent(q)}&type=${encodeURIComponent(activeType)}&limit=30`);
-          const payload = await response.json();
-
+          const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&type=${encodeURIComponent(activeType)}&limit=30`)
+          const payload = await response.json()
           if (!response.ok || !payload.ok) {
-            renderMessage('Erreur de recherche');
-            return;
+            renderMessage('Erreur de recherche')
+            return
           }
 
-          lastResults = Array.isArray(payload.results) ? payload.results : [];
-          renderResults(lastResults, q);
+          lastResults = Array.isArray(payload.results) ? payload.results : []
+          renderResults(lastResults, query)
         } catch (error) {
-          console.warn('Universal search failed:', error.message);
-          renderMessage('Erreur de recherche');
+          console.warn('Universal search failed:', error.message)
+          renderMessage('Erreur de recherche')
         }
       }
 
       function scheduleSearch() {
-        clearTimeout(debounceTimer);
+        clearTimeout(debounceTimer)
         debounceTimer = setTimeout(() => {
-          performSearch();
-        }, 250);
+          performSearch()
+        }, 250)
       }
 
-      filterButtons.forEach((button) => {
+      typeButtons.forEach((button) => {
         button.addEventListener('click', () => {
-          activeType = button.dataset.type || 'all';
-          updateActiveFilter();
-          performSearch();
-        });
-      });
+          activeType = button.dataset.type || 'all'
+          updateActiveFilter()
+          performSearch()
+        })
+      })
 
       sortButtons.forEach((button) => {
         button.addEventListener('click', () => {
-          activeSort = button.dataset.sort || 'relevance';
-          updateActiveSort();
-          const query = searchInputEl.value.trim();
-          updateUrl(query);
-
+          activeSort = button.dataset.sort || 'relevance'
+          updateActiveSort()
+          const query = searchInputEl.value.trim()
+          updateUrl(query)
           if (lastResults.length) {
-            renderResults(lastResults, query);
+            renderResults(lastResults, query)
           }
-        });
-      });
+        })
+      })
 
-      searchInputEl.addEventListener('input', scheduleSearch);
+      searchInputEl.addEventListener('input', scheduleSearch)
       searchInputEl.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
-          event.preventDefault();
-          clearTimeout(debounceTimer);
-          performSearch();
+          event.preventDefault()
+          clearTimeout(debounceTimer)
+          if (selectedItem) {
+            openResult(selectedItem)
+          } else {
+            performSearch()
+          }
+        }
+
+        if (event.key === 'ArrowDown' && orderedResults.length) {
+          event.preventDefault()
+          setSelectedIndex(selectedIndex < orderedResults.length - 1 ? selectedIndex + 1 : 0)
+        }
+
+        if (event.key === 'ArrowUp' && orderedResults.length) {
+          event.preventDefault()
+          setSelectedIndex(selectedIndex > 0 ? selectedIndex - 1 : orderedResults.length - 1)
+        }
+      })
+
+      document.addEventListener('keydown', (event) => {
+        const tag = event.target?.tagName
+        const inField = tag === 'INPUT' || tag === 'TEXTAREA' || event.target?.isContentEditable
+
+        if (event.key === '/' && !inField) {
+          event.preventDefault()
+          searchInputEl.focus()
+          searchInputEl.select()
         }
 
         if (event.key === 'Escape') {
-          event.preventDefault();
-          searchInputEl.value = '';
-          updateUrl('');
-          renderMessage('Tapez au moins 2 caracteres');
+          event.preventDefault()
+          searchInputEl.value = ''
+          searchResultsEl.innerHTML = ''
+          searchCountEl.textContent = ''
+          searchPreviewEl.style.display = 'none'
+          updateUrl('')
+          updateContextQuery('')
+          lastResults = []
+          orderedResults = []
+          selectedIndex = -1
+          selectedItem = null
+          searchInputEl.focus()
         }
-      });
 
-      document.addEventListener('keydown', (event) => {
-        const tag = event.target?.tagName;
-        const inField = tag === 'INPUT' || tag === 'TEXTAREA' || event.target?.isContentEditable;
-
-        if (event.key === '/' && !inField) {
-          event.preventDefault();
-          searchInputEl.focus();
-          searchInputEl.select();
+        if (!inField && event.key === 'ArrowDown' && orderedResults.length) {
+          event.preventDefault()
+          setSelectedIndex(selectedIndex < orderedResults.length - 1 ? selectedIndex + 1 : 0)
         }
-      });
 
-      searchInputEl.value = params.get('q') || '';
-      updateActiveFilter();
-      updateActiveSort();
+        if (!inField && event.key === 'ArrowUp' && orderedResults.length) {
+          event.preventDefault()
+          setSelectedIndex(selectedIndex > 0 ? selectedIndex - 1 : orderedResults.length - 1)
+        }
+
+        if (!inField && event.key === 'Enter' && selectedItem) {
+          event.preventDefault()
+          openResult(selectedItem)
+        }
+      })
+
+      searchInputEl.value = params.get('q') || ''
+      updateActiveFilter()
+      updateActiveSort()
+      updateContextQuery(searchInputEl.value.trim())
 
       if (searchInputEl.value.trim().length >= 2) {
-        performSearch();
+        performSearch()
       } else {
-        renderMessage('Tapez au moins 2 caracteres');
-        requestAnimationFrame(() => searchInputEl.focus());
+        renderMessage('Tapez au moins 2 caractères')
+        requestAnimationFrame(() => searchInputEl.focus())
       }
     </script>
-<div class="footer-attribution">
-  Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
-</div>
-</body>
+  </body>
 </html>
