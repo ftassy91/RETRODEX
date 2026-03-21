@@ -1,0 +1,257 @@
+'use strict'
+
+;(() => {
+  const { byId, setHtml, setText } = window.RetroDexDom || {}
+  const { escapeHtml, formatCurrency } = window.RetroDexFormat || {}
+  const { fetchJson, getItems } = window.RetroDexApi || {}
+
+  if (!byId || !setHtml || !setText || !escapeHtml || !formatCurrency || !fetchJson || !getItems) {
+    console.warn('[RetroDex] Hub bootstrap skipped: core helpers missing')
+    return
+  }
+
+  function renderCardThumb(canvas, game) {
+    const width = 120
+    const height = 68
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    canvas.width = width
+    canvas.height = height
+
+    let seed = 0
+    const source = game.id || game.title || ''
+    for (let index = 0; index < source.length; index += 1) {
+      seed = (seed * 31 + source.charCodeAt(index)) | 0
+    }
+    seed = Math.abs(seed)
+
+    const palettes = {
+      PlayStation: ['#050520', '#0f0f45', '#1a1a8b', '#4444dd'],
+      'Super Nintendo': ['#0d0d0d', '#1a3a1a', '#2d6a2d', '#7abf7a'],
+      'Sega Genesis': ['#1a0a2e', '#2d1654', '#6a3fa0', '#c48be8'],
+      'Sega Saturn': ['#1a0505', '#3d0f0f', '#8b1a1a', '#e85555'],
+      'Nintendo 64': ['#1a1a05', '#3d3d0f', '#8b7a00', '#ddc420'],
+      'Game Boy': ['#0f380f', '#306230', '#8bac0f', '#9bbc0f'],
+      'Game Boy Advance': ['#05051a', '#0f1a3d', '#1a3d8b', '#44aadd'],
+      'Nintendo DS': ['#05051a', '#0f1a3d', '#2a5a9b', '#7ab4e8'],
+      Dreamcast: ['#05101a', '#0f2535', '#1a558b', '#55aae8'],
+      'Nintendo Entertainment System': ['#1a1a2e', '#16213e', '#0f3460', '#e94560'],
+    }
+    const palette = palettes[game.console || game.platform] || ['#0f380f', '#306230', '#8bac0f', '#9bbc0f']
+    const style = seed % 4
+
+    ctx.fillStyle = palette[0]
+    ctx.fillRect(0, 0, width, height)
+
+    if (style === 0) {
+      ctx.fillStyle = palette[1]
+      ctx.fillRect(8, 8, width - 16, height - 24)
+      ctx.fillStyle = palette[2]
+      for (let index = 0; index < 3; index += 1) {
+        ctx.fillRect(16, 14 + index * 8, width - 32, 4)
+      }
+    } else if (style === 1) {
+      for (let y = 0; y < height; y += 4) {
+        ctx.fillStyle = palette[1]
+        ctx.globalAlpha = 0.4
+        ctx.fillRect(0, y, width, 2)
+      }
+      ctx.globalAlpha = 1
+      ctx.fillStyle = palette[2]
+      ctx.beginPath()
+      ctx.arc(width / 2, height / 2 - 8, 20, 0, Math.PI * 2)
+      ctx.fill()
+    } else if (style === 2) {
+      ctx.fillStyle = palette[1]
+      ctx.fillRect(0, 0, width, height * 0.4)
+      ctx.fillStyle = palette[3]
+      ctx.fillRect(width - 14, 4, 10, 10)
+      for (let index = 0; index < 5; index += 1) {
+        const barX = (seed * 7 + index * 23) % (width - 20) + 4
+        const barHeight = (seed * 3 + index * 17) % 16 + 6
+        ctx.fillStyle = palette[2]
+        ctx.fillRect(barX, height * 0.4 - barHeight, 12, barHeight)
+      }
+    } else {
+      ctx.fillStyle = palette[1]
+      ctx.fillRect(width * 0.15, height * 0.1, width * 0.7, height * 0.7)
+      ctx.fillStyle = palette[0]
+      ctx.fillRect(width * 0.15 + 2, height * 0.1 + 2, width * 0.7 - 4, height * 0.7 - 4)
+      ctx.fillStyle = palette[3]
+      ctx.fillRect(width * 0.35, height * 0.25, width * 0.3, 6)
+      ctx.fillRect(width * 0.35, height * 0.45, width * 0.3, 6)
+    }
+
+    ctx.fillStyle = 'rgba(0,0,0,0.6)'
+    ctx.fillRect(0, height - 14, width, 14)
+    ctx.fillStyle = palette[3]
+    ctx.font = '7px monospace'
+    ctx.fillText((game.title || '').substring(0, 18), 3, height - 4)
+  }
+
+  async function loadLegendary() {
+    try {
+      const payload = await fetchJson('/api/items?rarity=LEGENDARY&limit=6')
+      const items = getItems(payload)
+        .sort((left, right) => (Number(right.mintPrice) || 0) - (Number(left.mintPrice) || 0))
+        .slice(0, 6)
+      const grid = byId('legendary-grid')
+      if (!grid) return
+
+      setHtml(grid, '')
+      if (!items.length) {
+        setHtml(grid, '<span class="coll-empty">Aucun jeu LEGENDARY trouve.</span>')
+        return
+      }
+
+      items.forEach((game) => {
+        const card = document.createElement('div')
+        card.className = 'legendary-card'
+        card.addEventListener('click', () => {
+          window.location.href = `/game-detail.html?id=${encodeURIComponent(game.id)}`
+        })
+
+        const canvas = document.createElement('canvas')
+        renderCardThumb(canvas, game)
+
+        const info = document.createElement('div')
+        info.className = 'legendary-card-info'
+        info.innerHTML = `
+          <div class="legendary-card-title">${escapeHtml(game.title || 'Sans titre')}</div>
+          <div class="legendary-card-meta">${escapeHtml(game.console || game.platform || 'Console inconnue')} - ${escapeHtml(game.year || '-')}</div>
+          <div class="legendary-card-price">${Number.isFinite(Number(game.mintPrice)) ? `Mint ${formatCurrency(game.mintPrice)}` : 'Mint -'}</div>
+        `
+
+        card.appendChild(canvas)
+        card.appendChild(info)
+        grid.appendChild(card)
+      })
+    } catch (_error) {}
+  }
+
+  async function loadEncyclopediaPreview() {
+    try {
+      const payload = await fetchJson('/api/games?limit=1000')
+      let items = getItems(payload).filter((game) =>
+        game.synopsis || game.dev_team || game.dev_anecdotes || game.cheat_codes
+      )
+
+      if (items.length < 6) {
+        const response = await fetch('/games')
+        if (response.ok) {
+          const fallback = await response.json()
+          items = getItems(fallback).filter((game) =>
+            game.synopsis || game.dev_team || game.dev_anecdotes || game.cheat_codes
+          )
+        }
+      }
+
+      const grid = byId('hub-encyclo-preview')
+      if (!grid) return
+
+      setHtml(grid, '')
+      items.slice(0, 6).forEach((game) => {
+        const card = document.createElement('div')
+        card.className = 'hub-encyclo-card'
+        card.addEventListener('click', () => {
+          window.location.href = `/encyclopedia.html?game=${encodeURIComponent(game.id)}`
+        })
+        card.innerHTML = `
+          <div class="hub-encyclo-card-title">${escapeHtml(game.title || 'Sans titre')}</div>
+          <div class="hub-encyclo-card-meta">${escapeHtml(game.console || '')} - ${escapeHtml(game.year || '')}</div>
+        `
+        grid.appendChild(card)
+      })
+    } catch (_error) {}
+  }
+
+  async function loadTopStats() {
+    try {
+      const games = await fetchJson('/api/games?limit=1&type=game')
+      setText(byId('stat-games'), games.total || '-')
+      if (games.total) {
+        setText(byId('hub-tagline'), `${games.total} jeux - prix de marche - encyclopedie - 15 franchises`)
+      }
+    } catch (_error) {}
+
+    try {
+      const consoles = await fetchJson('/api/consoles')
+      const count = getItems(consoles).length || consoles.total || 0
+      setText(byId('stat-consoles'), count || '-')
+    } catch (_error) {}
+
+    try {
+      const stats = await fetchJson('/api/stats')
+      setText(byId('stat-meta'), stats.totals?.averageMetascore || '-')
+    } catch (_error) {}
+
+    try {
+      const health = await fetchJson('/api/health')
+      setText(byId('footer-status'), health.ok ? 'Backend OK' : 'Backend offline')
+      setText(byId('footer-db'), `${String(health.database || 'sqlite').toUpperCase()} - ${health.games || 0} jeux`)
+    } catch (_error) {
+      setText(byId('footer-status'), 'Backend offline')
+      setText(byId('footer-db'), '')
+    }
+
+    try {
+      const collection = await fetchJson('/api/collection')
+      const items = getItems(collection)
+      const container = byId('coll-items')
+      setText(byId('stat-collection'), items.length)
+
+      if (!container) return
+      if (!items.length) {
+        setHtml(container, '<span class="coll-empty">Aucun jeu - ajoutez-en depuis une fiche</span>')
+        return
+      }
+
+      setHtml(
+        container,
+        items
+          .map((item) => {
+            const gameId = item.game?.id || item.gameId || item.id
+            const title = item.game?.title || item.title || item.gameId || 'Jeu'
+            return `<a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="coll-pill">${escapeHtml(title)}</a>`
+          })
+          .join('')
+      )
+    } catch (_error) {
+      setText(byId('stat-collection'), '-')
+    }
+  }
+
+  function bindKeyboardShortcut() {
+    document.addEventListener('keydown', (event) => {
+      const tagName = event.target?.tagName
+      const inField = tagName === 'INPUT' || tagName === 'TEXTAREA' || event.target?.isContentEditable
+      const input = byId('hub-search-input')
+
+      if (event.key === '/' && !inField && input) {
+        event.preventDefault()
+        const query = input.value.trim()
+        window.location.href = query ? `/search.html?q=${encodeURIComponent(query)}` : '/search.html'
+      }
+    })
+  }
+
+  function registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) return
+
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then(() => console.log('[RetroDex] Service worker registered'))
+      .catch((error) => console.warn('[RetroDex] SW registration failed:', error))
+  }
+
+  function init() {
+    bindKeyboardShortcut()
+    registerServiceWorker()
+    loadTopStats()
+    loadLegendary()
+    loadEncyclopediaPreview()
+  }
+
+  init()
+})()

@@ -1,3 +1,9 @@
+'use strict'
+
+const CoreFormat = window.RetroDexFormat || {};
+const CoreApi = window.RetroDexApi || {};
+const CoreState = window.RetroDexState || {};
+
 const heroEl = document.getElementById("hero");
       const summaryEl = document.getElementById("summary");
       const statsRowEl = document.getElementById("stats-row");
@@ -23,6 +29,9 @@ const heroEl = document.getElementById("hero");
       let currentCollectionItem = null;
 
       function escapeHtml(value) {
+        if (typeof CoreFormat.escapeHtml === "function") {
+          return CoreFormat.escapeHtml(value);
+        }
         return String(value ?? "")
           .replaceAll("&", "&amp;")
           .replaceAll("<", "&lt;")
@@ -75,6 +84,9 @@ const heroEl = document.getElementById("hero");
       }
 
       function getGameId() {
+        if (typeof CoreState.getParam === "function") {
+          return CoreState.getParam("id");
+        }
         return new URLSearchParams(window.location.search).get("id") || "";
       }
 
@@ -86,6 +98,9 @@ const heroEl = document.getElementById("hero");
       }
 
       async function fetchJson(url, options) {
+        if (typeof CoreApi.fetchJson === "function") {
+          return CoreApi.fetchJson(url, options);
+        }
         const response = await fetch(url, options);
         if (!response.ok) {
           const body = await response.json().catch(() => ({}));

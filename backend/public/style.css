@@ -93,7 +93,7 @@ a { color: #9bbc0f; }
 .rarity-uncommon { color: #44aadd; border-color: #44aadd; }
 .rarity-common { color: #5a9a3a; border-color: #5a9a3a; }
 /* =============================================
-   game-detail — Sprint 5 additions
+   game-detail â€” Sprint 5 additions
    price-history + price-compare sections
    ============================================= */
 
@@ -521,7 +521,7 @@ a { color: #9bbc0f; }
       }
 
       .trend-badge.up::before {
-        content: "â†‘ ";
+        content: "\2191 ";
       }
 
       .trend-badge.down {
@@ -530,7 +530,7 @@ a { color: #9bbc0f; }
       }
 
       .trend-badge.down::before {
-        content: "â†“ ";
+        content: "\2193 ";
       }
 
       .trend-badge.stable {
@@ -868,10 +868,10 @@ a { color: #9bbc0f; }
         }
       }
 
-      /* === RESPONSIVE — mobile 768px === */
+      /* === RESPONSIVE â€” mobile 768px === */
       @media (max-width: 768px) {
 
-        /* Grid: 2 columns → 1 column */
+        /* Grid: 2 columns â†’ 1 column */
         .games-grid,
         .cards-grid,
         .console-grid,
@@ -942,7 +942,7 @@ a { color: #9bbc0f; }
       }
 
       /* =============================================
-         games-list — Bloomberg 3-column layout
+         games-list â€” Bloomberg 3-column layout
          ============================================= */
       .bloomberg-layout {
         display: grid;
@@ -1302,7 +1302,7 @@ a { color: #9bbc0f; }
         }
       }
 
-/* Phosphore — valeurs importantes uniquement */
+/* Phosphore â€” valeurs importantes uniquement */
 .text-value, .index-value, .result-price,
 .price-value, .detail-price-value {
   text-shadow: 0 0 6px currentColor;
@@ -1311,16 +1311,16 @@ a { color: #9bbc0f; }
 *, *::before, *::after {
   border-radius: 0 !important;
 }
-/* Titre principal — accent phosphore */
+/* Titre principal â€” accent phosphore */
 h1, .page-title {
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
-/* Lignes résultats — plus compactes */
+/* Lignes rÃ©sultats â€” plus compactes */
 .result-row {
   height: 44px;
 }
-/* Liens navigation — style terminal */
+/* Liens navigation â€” style terminal */
 a {
   color: var(--text-primary);
   text-decoration: none;
@@ -1979,12 +1979,12 @@ a:hover {
 .franchise-link:hover { text-decoration: underline; }
 
 /* ========================================
-   RESPONSIVE — MOBILE BREAKPOINTS
+   RESPONSIVE â€” MOBILE BREAKPOINTS
    ======================================== */
 
 @media (max-width: 768px) {
 
-  /* Layouts 2-3 colonnes → 1 colonne */
+  /* Layouts 2-3 colonnes â†’ 1 colonne */
   .results-layout,
   .consoles-layout,
   .franchise-layout,
@@ -1992,46 +1992,46 @@ a:hover {
     grid-template-columns: 1fr;
   }
 
-  /* Panneau détail visible seulement si sélection active */
+  /* Panneau dÃ©tail visible seulement si sÃ©lection active */
   .detail-panel {
     border-left: none;
     border-top: 1px solid var(--border);
   }
 
-  /* Grille jeux similaires → 2 colonnes */
+  /* Grille jeux similaires â†’ 2 colonnes */
   #similar-grid {
     grid-template-columns: 1fr 1fr;
   }
 
-  /* Cheats → 1 colonne */
+  /* Cheats â†’ 1 colonne */
   .encyclo-cheat-row {
     grid-template-columns: 1fr;
     gap: 4px;
   }
 
-  /* Cover art → centré */
+  /* Cover art â†’ centrÃ© */
   .game-cover-container {
     margin: 0 auto 12px auto;
   }
 
-  /* Recherche plein écran */
+  /* Recherche plein Ã©cran */
   #search-input {
     font-size: 14px;
   }
 
-  /* Résultats search → moins de colonnes */
+  /* RÃ©sultats search â†’ moins de colonnes */
   .result-row {
     grid-template-columns: 60px 1fr 80px;
   }
 
-  /* Team row → 1 colonne */
+  /* Team row â†’ 1 colonne */
   .encyclo-team-row {
     flex-direction: column;
     gap: 4px;
   }
   .team-role { width: auto; }
 
-  /* Timeline → simplifiée */
+  /* Timeline â†’ simplifiÃ©e */
   .timeline-row {
     grid-template-columns: 40px 1fr;
   }
@@ -2069,7 +2069,7 @@ a:hover {
 .skeleton-title { height: 20px; width: 60%; margin-bottom: 12px; }
 
 /* ========================================
-   ENCYCLOPÉDIE — Page + Onglets
+   ENCYCLOPÃ‰DIE â€” Page + Onglets
    ======================================== */
 .page-wrapper {
   max-width: 1180px;
@@ -2177,7 +2177,7 @@ a:hover {
   color: var(--text-alert);
 }
 
-/* PANNEAU DÉTAIL — EN-TÊTE */
+/* PANNEAU DÃ‰TAIL â€” EN-TÃŠTE */
 .encyclo-panel-header {
   display: flex;
   gap: 16px;
@@ -2445,7 +2445,7 @@ a:hover {
 }
 
 /* ========================================
-   TERMINAL LAYOUT — Shared
+   TERMINAL LAYOUT â€” Shared
    ======================================== */
 
 .terminal-context {
@@ -2689,6 +2689,7 @@ a:hover {
 }
 
 .footer-igdb {
+  margin-top: 8px;
   color: var(--text-muted);
   font-family: var(--font-mono);
   font-size: 10px;
@@ -2702,3 +2703,439 @@ a:hover {
 .footer-igdb a:hover {
   text-decoration: underline;
 }
+
+.terminal-action-link {
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-decoration: none;
+}
+
+.terminal-action-link:hover {
+  text-decoration: underline;
+}
+
+.terminal-inline-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 2px 8px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.terminal-inline-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+/* ========================================
+   HUB PAGE
+   ======================================== */
+
+body { padding-bottom: 24px; }
+
+.hub-hero {
+  max-width: 900px;
+  margin: 0 auto 32px;
+  text-align: center;
+  padding: 32px 0 24px;
+  border-bottom: 1px solid rgba(155, 188, 15, 0.15);
+}
+
+.hub-hero h1 {
+  font-size: 28px;
+  color: #cfe66f;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+}
+
+.hub-hero .tagline {
+  font-size: 11px;
+  color: rgba(155, 188, 15, 0.5);
+  margin-bottom: 20px;
+}
+
+.hub-stats {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.hub-stat {
+  text-align: center;
+}
+
+.hub-stat .val {
+  font-size: 22px;
+  color: #cfe66f;
+  display: block;
+}
+
+.hub-stat .lbl {
+  font-size: 10px;
+  color: rgba(155, 188, 15, 0.45);
+  letter-spacing: 0.06em;
+}
+
+.hub-search {
+  max-width: 900px;
+  margin: 0 auto 32px;
+  text-align: center;
+}
+
+.hub-search-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 0 auto 12px;
+}
+
+.hub-search-input {
+  flex: 1;
+  min-width: 0;
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid #3ddc3d;
+  background: #131a13;
+  color: #a8d8a8;
+  font: 16px monospace;
+}
+
+.hub-search-input::placeholder {
+  color: rgba(168, 216, 168, 0.55);
+}
+
+.hub-search-button {
+  height: 52px;
+  padding: 0 18px;
+  border: 1px solid #3ddc3d;
+  background: #131a13;
+  color: #a8d8a8;
+  font: 14px monospace;
+  cursor: pointer;
+}
+
+.hub-search-button:hover {
+  background: rgba(61, 220, 61, 0.08);
+}
+
+.hub-quick-links {
+  font-size: 12px;
+  color: rgba(168, 216, 168, 0.7);
+}
+
+.hub-quick-links a {
+  color: #a8d8a8;
+  text-decoration: none;
+}
+
+.hub-quick-links a:hover {
+  color: #cfe66f;
+}
+
+.section-title {
+  max-width: 900px;
+  margin: 0 auto 14px;
+  font-size: 11px;
+  color: rgba(155, 188, 15, 0.4);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.collection-preview {
+  max-width: 900px;
+  margin: 0 auto 32px;
+  background: rgba(15, 56, 15, 0.15);
+  border: 1px solid rgba(155, 188, 15, 0.15);
+  border-radius: 6px;
+  padding: 16px 20px;
+}
+
+.collection-preview h3 {
+  font-size: 12px;
+  color: #cfe66f;
+  margin-bottom: 12px;
+}
+
+.coll-items {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.coll-pill {
+  font-size: 11px;
+  padding: 4px 10px;
+  border: 1px solid rgba(155, 188, 15, 0.25);
+  border-radius: 3px;
+  color: rgba(155, 188, 15, 0.7);
+  text-decoration: none;
+}
+
+.coll-empty {
+  font-size: 11px;
+  color: rgba(155, 188, 15, 0.3);
+}
+
+.legendary-section {
+  max-width: 900px;
+  margin: 2rem auto 32px;
+}
+
+.legendary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.legendary-card {
+  border: 1px solid #ddc420;
+  background: #050505;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.legendary-card:hover {
+  border-color: #9bbc0f;
+}
+
+.legendary-card canvas {
+  width: 100%;
+  height: 80px;
+  display: block;
+}
+
+.legendary-card-info {
+  padding: 0.4rem 0.5rem;
+}
+
+.legendary-card-title {
+  font-size: 0.7rem;
+  color: #ddc420;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.legendary-card-meta {
+  font-size: 0.6rem;
+  color: #5a9a3a;
+  margin-top: 0.15rem;
+}
+
+.legendary-card-price {
+  font-size: 0.75rem;
+  color: #9bbc0f;
+  margin-top: 0.15rem;
+}
+
+.hub-footer-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 4px 16px;
+  background: #050505;
+  border-top: 1px solid #1a3a1a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.65rem;
+  color: #306230;
+  z-index: 100;
+}
+
+.hub-footer-attribution {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 0.65rem;
+}
+
+/* ========================================
+   EXPERIENCE LAYER - COLLECTOR TERMINAL
+   ======================================== */
+
+.experience-status {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 240;
+  max-width: 340px;
+  padding: 8px 12px;
+  border: 1px solid rgba(155, 188, 15, 0.22);
+  background: rgba(5, 10, 5, 0.94);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  pointer-events: none;
+  box-shadow: 0 0 18px rgba(0, 255, 102, 0.08);
+}
+
+.experience-status::before {
+  content: "SYS";
+  display: inline-block;
+  margin-right: 8px;
+  color: var(--text-muted);
+}
+
+.experience-status.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.experience-collector-flag {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 235;
+  padding: 5px 9px;
+  border: 1px solid rgba(155, 188, 15, 0.2);
+  background: rgba(5, 10, 5, 0.92);
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.experience-tooltip {
+  position: fixed;
+  z-index: 245;
+  padding: 5px 8px;
+  border: 1px solid rgba(155, 188, 15, 0.22);
+  background: rgba(5, 10, 5, 0.96);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+  pointer-events: none;
+}
+
+.experience-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.experience-micro-tag {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 6px;
+  padding: 2px 7px;
+  border: 1px solid rgba(155, 188, 15, 0.16);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.experience-row-monochrome {
+  background-image: linear-gradient(90deg, rgba(139, 172, 15, 0.05), transparent 38%);
+}
+
+.experience-row-archive {
+  box-shadow: inset 1px 0 0 rgba(221, 196, 32, 0.24);
+}
+
+.experience-row-canon .result-title,
+.experience-row-canon .franchise-game-title,
+.experience-row-canon .encyclo-row-title {
+  color: var(--text-primary);
+  text-shadow: 0 0 8px rgba(155, 188, 15, 0.08);
+}
+
+.experience-empty {
+  color: var(--text-muted);
+}
+
+body.collector-mode::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 255, 102, 0.02), transparent 42%),
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.025) 0,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  opacity: 0.14;
+}
+
+body.collector-mode .page-title,
+body.collector-mode .hero-title,
+body.collector-mode .terminal-preview-title {
+  text-shadow: 0 0 7px rgba(0, 255, 102, 0.16);
+}
+
+body.collector-mode .terminal-row:hover,
+body.collector-mode .legendary-card:hover,
+body.collector-mode .encyclo-list-row:hover {
+  box-shadow: inset 0 0 0 1px rgba(0, 255, 102, 0.1);
+}
+
+body.experience-gameboy .experience-micro-tag,
+body.experience-gameboy .terminal-preview-label {
+  color: #8bac0f;
+  border-color: rgba(139, 172, 15, 0.26);
+}
+
+body.experience-archive .experience-micro-tag,
+body.experience-archive .terminal-preview-label {
+  color: var(--text-alert);
+  border-color: rgba(228, 136, 85, 0.28);
+}
+
+body.experience-canon .experience-micro-tag,
+body.experience-canon .terminal-preview-label {
+  color: var(--confidence-high);
+  border-color: rgba(0, 255, 102, 0.2);
+}
+
+@media (max-width: 768px) {
+  .legendary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hub-search-form {
+    flex-direction: column;
+  }
+
+  .hub-search-button {
+    width: 100%;
+  }
+
+  .experience-status {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    max-width: none;
+  }
+
+  .experience-collector-flag {
+    right: 12px;
+    bottom: 56px;
+  }
+}
+

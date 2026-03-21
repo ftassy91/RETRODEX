@@ -15,49 +15,49 @@
   <body>
     <div class="page-wrapper">
       <div class="terminal-context">
-        RETRODEX › <a href="/hub.html">HUB</a> › <span class="ctx-active">COLLECTION</span>
+        RETRODEX > <a href="/hub.html">HUB</a> > <span class="ctx-active">COLLECTION</span>
       </div>
 
       <div id="public-banner" class="terminal-context" style="display:none;border-top:none;padding-top:6px;padding-bottom:6px;">
-        Liste publique — consultation uniquement
+        Liste publique - consultation uniquement
       </div>
 
       <div class="terminal-summary-bar" id="collection-summary-bar">
         <div class="terminal-summary-cell">
           <div class="terminal-summary-label">ITEMS</div>
-          <div class="terminal-summary-value" id="stat-total">—</div>
+          <div class="terminal-summary-value" id="stat-total">-</div>
         </div>
         <div class="terminal-summary-cell">
           <div class="terminal-summary-label">VALEUR LOOSE</div>
-          <div class="terminal-summary-value neutral" id="stat-value-loose">—</div>
+          <div class="terminal-summary-value neutral" id="stat-value-loose">-</div>
         </div>
         <div class="terminal-summary-cell">
-          <div class="terminal-summary-label">PAYÉ</div>
-          <div class="terminal-summary-value" id="stat-paid">—</div>
+          <div class="terminal-summary-label">PAYE</div>
+          <div class="terminal-summary-value" id="stat-paid">-</div>
         </div>
         <div class="terminal-summary-cell">
-          <div class="terminal-summary-label">+/− ESTIMÉ</div>
-          <div class="terminal-summary-value" id="stat-gain">—</div>
+          <div class="terminal-summary-label">+/- ESTIME</div>
+          <div class="terminal-summary-value" id="stat-gain">-</div>
         </div>
         <div class="terminal-summary-cell">
           <div class="terminal-summary-label">VALEUR CIB</div>
-          <div class="terminal-summary-value" id="stat-value-cib">—</div>
+          <div class="terminal-summary-value" id="stat-value-cib">-</div>
         </div>
         <div class="terminal-summary-cell">
           <div class="terminal-summary-label">VALEUR MINT</div>
-          <div class="terminal-summary-value" id="stat-value-mint">—</div>
+          <div class="terminal-summary-value" id="stat-value-mint">-</div>
         </div>
       </div>
 
       <div class="terminal-filter-bar" style="margin-top:0">
         <div class="terminal-filter-group">
-          <button class="terminal-filter-btn active" data-list="owned" type="button" onclick="switchCollectionTab('owned', this)">MA COLLECTION</button>
-          <button class="terminal-filter-btn" data-list="wanted" type="button" onclick="switchCollectionTab('wanted', this)">WISHLIST</button>
-          <button class="terminal-filter-btn" data-list="for_sale" type="button" onclick="switchCollectionTab('for_sale', this)">À VENDRE</button>
+          <button class="terminal-filter-btn active" data-list="owned" type="button">MA COLLECTION</button>
+          <button class="terminal-filter-btn" data-list="wanted" type="button">WISHLIST</button>
+          <button class="terminal-filter-btn" data-list="for_sale" type="button">A VENDRE</button>
         </div>
         <div class="terminal-filter-group" style="margin-left:auto">
-          <button class="terminal-filter-btn" id="copy-sale-link-btn" type="button" onclick="copySaleLink()" style="display:none">COPIER LIEN</button>
-          <button class="terminal-filter-btn" type="button" onclick="location.href='/search.html'">[/] AJOUTER</button>
+          <button class="terminal-filter-btn" id="copy-sale-link-btn" type="button" style="display:none">COPIER LIEN</button>
+          <button class="terminal-filter-btn" id="collection-add-btn" type="button">[/] AJOUTER</button>
         </div>
       </div>
 
@@ -74,405 +74,37 @@
         <span>CONSOLE</span>
         <span>COND.</span>
         <span style="text-align:right">PRIX</span>
-        <span style="text-align:right">PAYÉ</span>
+        <span style="text-align:right">PAYE</span>
         <span style="text-align:right">GAIN</span>
       </div>
 
       <div id="collection-list-container"></div>
 
       <div class="terminal-preview-panel" id="collection-detail" style="display:none">
-        <div class="terminal-preview-label">SÉLECTION</div>
-        <div class="terminal-preview-title" id="detail-title">—</div>
+        <div class="terminal-preview-label">SELECTION</div>
+        <div class="terminal-preview-title" id="detail-title">-</div>
         <div class="terminal-preview-row" id="detail-row1"></div>
         <div class="terminal-preview-row" id="detail-row2"></div>
       </div>
 
       <div class="terminal-footer">
-        <span><kbd>[↑↓]</kbd> Naviguer</span>
+        <span><kbd>[UP/DN]</kbd> Naviguer</span>
         <span><kbd>[Enter]</kbd> Ouvrir la fiche</span>
         <span><kbd>[Del]</kbd> Retirer</span>
         <span><kbd>[/]</kbd> Rechercher pour ajouter</span>
       </div>
 
-      <div class="footer-igdb" style="margin-top:8px">
+      <div class="footer-igdb">
         Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
       </div>
     </div>
 
-    <script>
-      const statTotalEl = document.getElementById('stat-total')
-      const statValueLooseEl = document.getElementById('stat-value-loose')
-      const statPaidEl = document.getElementById('stat-paid')
-      const statGainEl = document.getElementById('stat-gain')
-      const statValueCibEl = document.getElementById('stat-value-cib')
-      const statValueMintEl = document.getElementById('stat-value-mint')
-      const statusTextEl = document.getElementById('status-text')
-      const collectionListContainerEl = document.getElementById('collection-list-container')
-      const collectionDetailEl = document.getElementById('collection-detail')
-      const detailTitleEl = document.getElementById('detail-title')
-      const detailRow1El = document.getElementById('detail-row1')
-      const detailRow2El = document.getElementById('detail-row2')
-      const publicBannerEl = document.getElementById('public-banner')
-      const tabButtons = Array.from(document.querySelectorAll('[data-list]'))
-      const copySaleLinkButtonEl = document.getElementById('copy-sale-link-btn')
-      const isPublicForSaleView = new URLSearchParams(window.location.search).get('view') === 'for_sale'
-
-      let enrichedItems = []
-      let activeTab = isPublicForSaleView ? 'for_sale' : 'owned'
-      let selectedIndex = -1
-      let selectedCollectionItem = null
-      let copyFeedbackTimer = null
-
-      function escapeHtml(value) {
-        return String(value ?? '')
-          .replaceAll('&', '&amp;')
-          .replaceAll('<', '&lt;')
-          .replaceAll('>', '&gt;')
-          .replaceAll('"', '&quot;')
-          .replaceAll("'", '&#039;')
-      }
-
-      function getGame(item) {
-        return item?.Game || item?.game || {}
-      }
-
-      function setGainValue(el, gain) {
-        el.textContent = gain != null
-          ? gain >= 0
-            ? `+$${Math.round(gain)}`
-            : `-$${Math.round(Math.abs(gain))}`
-          : '—'
-        el.className = 'terminal-summary-value' + (gain > 0 ? ' positive' : gain < 0 ? ' negative' : '')
-      }
-
-      function setStatus(message) {
-        statusTextEl.textContent = message || ''
-      }
-
-      function getTabLabel(tab) {
-        if (tab === 'wanted') return 'la wishlist'
-        if (tab === 'for_sale') return 'la liste à vendre'
-        return 'votre collection'
-      }
-
-      function getCollectionApiUrl(tab) {
-        if (isPublicForSaleView && tab === 'for_sale') {
-          return '/api/collection/public'
-        }
-        const params = new URLSearchParams()
-        params.set('list_type', tab)
-        return `/api/collection?${params.toString()}`
-      }
-
-      function fetchJson(url, options) {
-        return fetch(url, options).then(async (response) => {
-          const payload = await response.json().catch(() => ({}))
-          if (!response.ok) {
-            throw new Error(payload.error || `${response.status} ${response.statusText}`)
-          }
-          return payload
-        })
-      }
-
-      function updateSummaryFromItems(items) {
-        const totals = items.reduce((acc, item) => {
-          const game = getGame(item)
-          const loose = Number(game.loosePrice || 0)
-          const paid = Number(item.price_paid || 0)
-          acc.total += 1
-          acc.loose += loose
-          acc.cib += Number(game.cibPrice || 0)
-          acc.mint += Number(game.mintPrice || 0)
-          acc.paid += paid
-          if (paid > 0) {
-            acc.gain += loose - paid
-            acc.hasGain = true
-          }
-          return acc
-        }, { total: 0, loose: 0, cib: 0, mint: 0, paid: 0, gain: 0, hasGain: false })
-
-        statTotalEl.textContent = String(totals.total || 0)
-        statValueLooseEl.textContent = totals.loose ? `$${Math.round(totals.loose)}` : '$0'
-        statPaidEl.textContent = totals.paid ? `$${Math.round(totals.paid)}` : '—'
-        setGainValue(statGainEl, totals.hasGain ? totals.gain : null)
-        statValueCibEl.textContent = totals.cib ? `$${Math.round(totals.cib)}` : '—'
-        statValueMintEl.textContent = totals.mint ? `$${Math.round(totals.mint)}` : '—'
-      }
-
-      async function updateOwnedSummaryFromStats(fallbackItems) {
-        try {
-          const stats = await fetchJson('/api/collection/stats')
-          statTotalEl.textContent = String(stats.total || stats.count || 0)
-          statValueLooseEl.textContent = stats.total_loose ? `$${Math.round(stats.total_loose)}` : '$0'
-          statPaidEl.textContent = stats.total_paid ? `$${Math.round(stats.total_paid)}` : '—'
-          setGainValue(statGainEl, stats.profit_estimate != null ? Number(stats.profit_estimate) : null)
-          statValueCibEl.textContent = stats.total_cib ? `$${Math.round(stats.total_cib)}` : '—'
-          statValueMintEl.textContent = stats.total_mint ? `$${Math.round(stats.total_mint)}` : '—'
-        } catch (_error) {
-          updateSummaryFromItems(fallbackItems)
-        }
-      }
-
-      function syncTabUi(activeButton) {
-        tabButtons.forEach((button) => {
-          const isActive = button.dataset.list === activeTab
-          button.classList.toggle('active', isActive)
-          if (button !== activeButton && activeButton) {
-            button.classList.remove('active')
-          }
-          button.disabled = isPublicForSaleView && button.dataset.list !== 'for_sale'
-        })
-
-        publicBannerEl.style.display = isPublicForSaleView && activeTab === 'for_sale' ? 'block' : 'none'
-        copySaleLinkButtonEl.style.display = activeTab === 'for_sale' ? 'inline-block' : 'none'
-      }
-
-      function clearSelection() {
-        selectedIndex = -1
-        selectedCollectionItem = null
-        collectionListContainerEl.querySelectorAll('.terminal-row').forEach((row) => row.classList.remove('selected'))
-        collectionDetailEl.style.display = 'none'
-      }
-
-      function openSelectedItem() {
-        if (!selectedCollectionItem) return
-        const game = getGame(selectedCollectionItem)
-        const gameId = game.id || selectedCollectionItem.gameId || selectedCollectionItem.id
-        if (gameId) {
-          window.location.href = `/game-detail.html?id=${encodeURIComponent(gameId)}`
-        }
-      }
-
-      function selectCollectionItem(item, el) {
-        collectionListContainerEl.querySelectorAll('.terminal-row').forEach((row) => row.classList.remove('selected'))
-        el.classList.add('selected')
-        selectedIndex = Number(el.dataset.index || '-1')
-        selectedCollectionItem = item
-
-        const game = getGame(item)
-        const note = item.notes || item.personal_note || ''
-        const gameId = game.id || item.gameId || item.id || ''
-
-        collectionDetailEl.style.display = 'block'
-        detailTitleEl.textContent = game.title || '?'
-        detailRow1El.innerHTML = `
-          <span><span class="pv-label">Console </span><span class="pv-val">${escapeHtml(game.console || game.platform || '—')}</span></span>
-          <span><span class="pv-label">Condition </span><span class="pv-val">${escapeHtml(item.condition || '—')}</span></span>
-          <span><span class="pv-label">Acheté le </span><span class="pv-val">${escapeHtml(item.purchase_date || '—')}</span></span>
-          <span><span class="pv-label">Prix d'achat </span><span class="pv-val">${item.price_paid ? '$' + item.price_paid : '—'}</span></span>
-        `
-
-        const extraMeta = []
-        if (note) {
-          extraMeta.push(`<span><span class="pv-label">Note </span><span class="pv-val">${escapeHtml(note)}</span></span>`)
-        }
-        if (item.price_threshold) {
-          extraMeta.push(`<span><span class="pv-label">Seuil </span><span class="pv-val">$${Math.round(item.price_threshold)}</span></span>`)
-        }
-
-        detailRow2El.innerHTML = `
-          ${extraMeta.join('')}
-          <span>
-            <a href="/game-detail.html?id=${encodeURIComponent(gameId)}"
-              style="color:var(--text-alert);font-family:var(--font-mono);font-size:10px">
-              → Voir la fiche
-            </a>
-          </span>
-          ${isPublicForSaleView && activeTab === 'for_sale' ? '' : `
-            <button id="collection-remove-btn"
-              style="background:none;border:1px solid var(--border);color:var(--text-muted);
-              font-family:var(--font-mono);font-size:9px;padding:2px 8px;cursor:pointer;
-              margin-left:8px">
-              RETIRER
-            </button>
-          `}
-        `
-
-        const removeBtn = document.getElementById('collection-remove-btn')
-        if (removeBtn) {
-          removeBtn.onclick = () => removeFromCollection(item.id || item.gameId)
-        }
-      }
-
-      function setSelectedIndex(nextIndex) {
-        const rows = Array.from(collectionListContainerEl.querySelectorAll('.terminal-row'))
-        if (!rows.length || nextIndex < 0 || nextIndex >= enrichedItems.length) return
-        const row = rows.find((node) => Number(node.dataset.index) === nextIndex)
-        if (!row) return
-        selectCollectionItem(enrichedItems[nextIndex], row)
-        row.scrollIntoView({ block: 'nearest' })
-      }
-
-      function renderCollectionRow(item, index) {
-        const game = getGame(item)
-        const loosePrice = Number(game.loosePrice || 0)
-        const paid = Number(item.price_paid || 0)
-        const gain = paid > 0 ? loosePrice - paid : null
-        const gainStr = gain !== null
-          ? gain >= 0 ? `+$${Math.round(gain)}` : `-$${Math.round(Math.abs(gain))}`
-          : '—'
-        const gainClass = gain === null ? '' : gain >= 0 ? 'positive' : 'negative'
-
-        const el = document.createElement('div')
-        el.className = 'terminal-row'
-        el.style.gridTemplateColumns = '12px 1fr 90px 60px 70px 70px 70px'
-        el.dataset.itemId = String(item.id || item.gameId || '')
-        el.dataset.index = String(index)
-        el.innerHTML = `
-          <span class="terminal-row-indicator">›</span>
-          <span style="color:var(--text-primary)">${escapeHtml(game.title || '?')}</span>
-          <span style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '—')}</span>
-          <span style="font-size:9px;border:1px solid var(--border);padding:1px 4px;text-align:center">${escapeHtml(item.condition || '—')}</span>
-          <span style="text-align:right;color:var(--text-alert)">${loosePrice ? '$' + Math.round(loosePrice) : '—'}</span>
-          <span style="text-align:right;color:var(--text-muted)">${paid ? '$' + Math.round(paid) : '—'}</span>
-          <span style="text-align:right" class="${gainClass}">${gainStr}</span>
-        `
-        el.onclick = () => selectCollectionItem(item, el)
-        el.ondblclick = () => openSelectedItem()
-        return el
-      }
-
-      function renderEmptyState() {
-        clearSelection()
-        collectionListContainerEl.innerHTML = ''
-        appendCollectionSpacer([])
-      }
-
-      function appendCollectionSpacer(items) {
-        if (items.length >= 6) return
-
-        const spacer = document.createElement('div')
-        spacer.style.cssText = 'border:1px solid var(--border);border-top:none;' +
-          'padding:16px;font-family:var(--font-mono);font-size:10px;' +
-          'color:var(--text-muted);text-align:center'
-
-        if (items.length === 0) {
-          spacer.innerHTML = 'Collection vide. Utilisez [/] pour rechercher un jeu à ajouter.'
-        } else {
-          spacer.innerHTML = items.length + ' jeu(x) dans cette liste. ' +
-            '<a href="/search.html" style="color:var(--text-alert)">→ Ajouter un jeu</a>'
-        }
-
-        collectionListContainerEl.appendChild(spacer)
-      }
-
-      function renderCollection(items) {
-        if (!items.length) {
-          renderEmptyState()
-          return
-        }
-
-        collectionListContainerEl.innerHTML = ''
-        items.forEach((item, index) => {
-          collectionListContainerEl.appendChild(renderCollectionRow(item, index))
-        })
-        appendCollectionSpacer(items)
-      }
-
-      async function copySaleLink() {
-        try {
-          await navigator.clipboard.writeText(`${window.location.origin}/collection.html?view=for_sale`)
-          setStatus('Lien de vente copié.')
-          if (copyFeedbackTimer) {
-            window.clearTimeout(copyFeedbackTimer)
-          }
-          copyFeedbackTimer = window.setTimeout(() => {
-            setStatus(`${enrichedItems.length} item(s) dans ${getTabLabel(activeTab)}.`)
-          }, 1800)
-        } catch (_error) {
-          setStatus('Copie impossible.')
-        }
-      }
-
-      async function removeFromCollection(itemId) {
-        if (!itemId || (isPublicForSaleView && activeTab === 'for_sale')) {
-          return
-        }
-
-        setStatus('Suppression...')
-        try {
-          await fetchJson(`/api/collection/${encodeURIComponent(itemId)}`, {
-            method: 'DELETE',
-          })
-          await loadCollection()
-          setStatus('Jeu retiré.')
-        } catch (error) {
-          setStatus(`Erreur suppression : ${error.message}`)
-        }
-      }
-
-      async function loadCollection() {
-        clearSelection()
-        setStatus('Chargement...')
-        collectionListContainerEl.innerHTML = ''
-
-        try {
-          const payload = await fetchJson(getCollectionApiUrl(activeTab))
-          const items = (payload.items || []).filter((item) => Object.keys(getGame(item)).length > 0)
-          enrichedItems = items
-
-          if (activeTab === 'owned') {
-            await updateOwnedSummaryFromStats(items)
-          } else {
-            updateSummaryFromItems(items)
-          }
-
-          renderCollection(items)
-          setStatus(items.length ? `${items.length} item(s) dans ${getTabLabel(activeTab)}.` : '')
-        } catch (error) {
-          enrichedItems = []
-          updateSummaryFromItems([])
-          renderEmptyState()
-          setStatus(`Erreur collection : ${error.message}`)
-        }
-      }
-
-      function switchCollectionTab(list, button) {
-        if (isPublicForSaleView && list !== 'for_sale') {
-          return
-        }
-        activeTab = list
-        syncTabUi(button)
-        loadCollection()
-      }
-
-      document.addEventListener('keydown', (event) => {
-        const tag = event.target?.tagName
-        const inField = tag === 'INPUT' || tag === 'TEXTAREA' || event.target?.isContentEditable
-
-        if (event.key === '/' && !inField) {
-          event.preventDefault()
-          window.location.href = '/search.html'
-        }
-
-        if (inField || !enrichedItems.length) {
-          return
-        }
-
-        if (event.key === 'ArrowDown') {
-          event.preventDefault()
-          setSelectedIndex(selectedIndex < enrichedItems.length - 1 ? selectedIndex + 1 : 0)
-        }
-
-        if (event.key === 'ArrowUp') {
-          event.preventDefault()
-          setSelectedIndex(selectedIndex > 0 ? selectedIndex - 1 : enrichedItems.length - 1)
-        }
-
-        if (event.key === 'Enter' && selectedCollectionItem) {
-          event.preventDefault()
-          openSelectedItem()
-        }
-
-        if ((event.key === 'Delete' || event.key === 'Backspace') && selectedCollectionItem) {
-          event.preventDefault()
-          removeFromCollection(selectedCollectionItem.id || selectedCollectionItem.gameId)
-        }
-      })
-
-      syncTabUi()
-      updateSummaryFromItems([])
-      loadCollection()
-    </script>
+    <script src="/js/core/config.js"></script>
+    <script src="/js/core/dom.js"></script>
+    <script src="/js/core/format.js"></script>
+    <script src="/js/core/api.js"></script>
+    <script src="/js/core/state.js"></script>
+    <script src="/js/pages/collection.js"></script>
+    <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>
