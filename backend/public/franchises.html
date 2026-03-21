@@ -237,7 +237,7 @@
           return;
         }
 
-        const franchises = toArray(data.franchises);
+        const franchises = toArray(data.items || data.franchises);
         countEl.textContent = `${data.count || franchises.length} licences indexées`;
         listEl.innerHTML = franchises.map(renderListItem).join('');
 
@@ -250,8 +250,15 @@
         });
 
         if (franchises.length > 0) {
-          const initialFranchise = franchises.find((item) => item.slug === requestedSlug) || franchises[0];
-          await loadFranchise(initialFranchise.slug);
+          const preselected = requestedSlug;
+          if (preselected) {
+            const initialFranchise = franchises.find((item) => item.slug === preselected) || franchises[0];
+            await loadFranchise(initialFranchise.slug);
+          } else {
+            const firstRow = document.querySelector('.franchise-list-item') || document.querySelector('[data-slug]');
+            await loadFranchise(franchises[0].slug);
+            if (firstRow) firstRow.classList.add('selected');
+          }
         } else {
           detailEl.innerHTML = '<div class="franchise-detail-empty">Aucune franchise indexée.</div>';
         }

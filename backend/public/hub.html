@@ -58,7 +58,9 @@
 
   <div class="hub-hero">
     <h1 class="page-title">RETRODEX</h1>
-    <div class="tagline page-subtitle">Base de donnees retrogaming</div>
+    <div class="tagline page-subtitle">
+      <span id="hub-tagline">1317 jeux · prix de marché · encyclopédie · 15 franchises</span>
+    </div>
     <div class="hub-stats">
       <div class="hub-stat"><span class="val" id="stat-games">-</span><span class="lbl">JEUX</span></div>
       <div class="hub-stat"><span class="val" id="stat-consoles">-</span><span class="lbl">CONSOLES</span></div>
@@ -159,7 +161,7 @@
         'Dreamcast': ['#05101a', '#0f2535', '#1a558b', '#55aae8'],
         'Nintendo Entertainment System': ['#1a1a2e', '#16213e', '#0f3460', '#e94560']
       };
-      const p = palettes[game.console] || ['#0f380f', '#306230', '#8bac0f', '#9bbc0f'];
+      const p = palettes[game.console || game.platform] || ['#0f380f', '#306230', '#8bac0f', '#9bbc0f'];
 
       const style = seed % 4;
       ctx.fillStyle = p[0];
@@ -212,26 +214,14 @@
     }
 
     async function loadLegendary() {
-      const res = await fetch('/api/games?limit=1000');
+      const res = await fetch('/api/items?rarity=LEGENDARY&limit=6');
       if (!res.ok) return;
 
       const data = await res.json();
       const grid = document.getElementById('legendary-grid');
       if (!grid) return;
 
-      let allGames = Array.isArray(data.items) ? data.items : [];
-      if (!allGames.some(game => game.rarity === 'LEGENDARY')) {
-        const fallbackRes = await fetch('/games');
-        if (fallbackRes.ok) {
-          const fallbackData = await fallbackRes.json();
-          if (Array.isArray(fallbackData)) {
-            allGames = fallbackData;
-          }
-        }
-      }
-
-      const items = [...allGames]
-        .filter(game => game.rarity === 'LEGENDARY')
+      const items = [...(Array.isArray(data.items) ? data.items : [])]
         .sort((a, b) => (Number(b.mintPrice) || 0) - (Number(a.mintPrice) || 0))
         .slice(0, 6);
 
@@ -258,7 +248,7 @@
 
         const meta = document.createElement('div');
         meta.className = 'legendary-card-meta';
-        meta.textContent = `${game.console || 'Console inconnue'} · ${game.year || '—'}`;
+        meta.textContent = `${game.console || game.platform || 'Console inconnue'} · ${game.year || '—'}`;
 
         const price = document.createElement('div');
         price.className = 'legendary-card-price';
@@ -312,9 +302,21 @@
       } catch (_error) {}
     }
 
+    fetch('/api/games?limit=1&type=game').then(r => r.json()).then(d => {
+      const totalGames = d.total || '—';
+      document.getElementById('stat-games').textContent = totalGames;
+      if (d.total) {
+        document.getElementById('hub-tagline').textContent =
+          `${d.total} jeux · prix de marché · encyclopédie · 15 franchises`;
+      }
+    }).catch(() => {});
+
+    fetch('/api/consoles').then(r => r.json()).then(d => {
+      const count = d.items?.length || d.consoles?.length || d.total || 0;
+      document.getElementById('stat-consoles').textContent = count || '—';
+    }).catch(() => {});
+
     fetch('/api/stats').then(r => r.json()).then(d => {
-      document.getElementById('stat-games').textContent = d.totals.games;
-      document.getElementById('stat-consoles').textContent = d.totals.consoles;
       document.getElementById('stat-meta').textContent = d.totals.averageMetascore;
     }).catch(() => {});
 
