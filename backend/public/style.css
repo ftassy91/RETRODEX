@@ -31,6 +31,25 @@ html, body {
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: var(--font-mono); font-size: var(--font-size-base); line-height: var(--line-height); background: var(--bg); color: #9bbc0f; min-height: 100vh; padding: 20px 16px; }
 a { color: #9bbc0f; }
+.footer-attribution {
+  max-width: 1180px;
+  margin: 24px auto 0;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.footer-attribution a {
+  color: var(--text-alert);
+  text-decoration: none;
+}
+
+.footer-attribution a:hover {
+  text-decoration: underline;
+}
 .page-header { max-width: 900px; margin: 0 auto 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(155,188,15,0.2); }
 .page-header h1 { font-size: 18px; color: #cfe66f; letter-spacing: 0.05em; margin-bottom: 4px; }
 .page-title, h1.title, .section-title { text-align: left; }
