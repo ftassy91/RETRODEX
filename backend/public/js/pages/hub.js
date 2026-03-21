@@ -167,8 +167,11 @@
   }
 
   async function loadTopStats() {
+    let totalGames = null
+
     try {
       const games = await fetchJson('/api/games?limit=1&type=game')
+      totalGames = games.total || null
       setText(byId('stat-games'), games.total || '-')
       if (games.total) {
         setText(byId('hub-tagline'), `${games.total} jeux - prix de marche - encyclopedie - 15 franchises`)
@@ -183,16 +186,31 @@
 
     try {
       const stats = await fetchJson('/api/stats')
-      setText(byId('stat-meta'), stats.totals?.averageMetascore || '-')
+      setText(
+        byId('stat-meta'),
+        Number.isFinite(Number(stats.price_stats?.avg_loose))
+          ? formatCurrency(stats.price_stats.avg_loose)
+          : '-'
+      )
     } catch (_error) {}
 
     try {
       const health = await fetchJson('/api/health')
       setText(byId('footer-status'), health.ok ? 'Backend OK' : 'Backend offline')
-      setText(byId('footer-db'), `${String(health.database || 'sqlite').toUpperCase()} - ${health.games || 0} jeux`)
+      setText(
+        byId('footer-db'),
+        `${String(health.database || 'sqlite').toUpperCase()} - ${totalGames || health.games || 0} jeux`
+      )
+      setText(
+        byId('hub-runtime-line'),
+        health.ok
+          ? `${String(health.database || 'sqlite').toUpperCase()} / ${health.status || 'running'} / ${totalGames || health.games || '-'} jeux`
+          : 'OFFLINE'
+      )
     } catch (_error) {
       setText(byId('footer-status'), 'Backend offline')
       setText(byId('footer-db'), '')
+      setText(byId('hub-runtime-line'), 'OFFLINE')
     }
 
     try {
@@ -230,8 +248,12 @@
 
       if (event.key === '/' && !inField && input) {
         event.preventDefault()
-        const query = input.value.trim()
-        window.location.href = query ? `/search.html?q=${encodeURIComponent(query)}` : '/search.html'
+        input.focus()
+        input.select()
+      }
+
+      if (event.key === 'Escape' && input && document.activeElement === input) {
+        input.value = ''
       }
     })
   }

@@ -13,66 +13,156 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <nav class="breadcrumb" style="max-width:900px;margin:0 auto 1.25rem;">
+  <nav class="breadcrumb hub-breadcrumb">
     <span class="current">HUB</span>
   </nav>
 
-  <div class="hub-hero">
-    <h1 class="page-title">RETRODEX</h1>
-    <div class="tagline page-subtitle">
-      <span id="hub-tagline">1317 jeux - prix de marche - encyclopedie - 15 franchises</span>
-    </div>
-    <div class="hub-stats">
-      <div class="hub-stat"><span class="val" id="stat-games">-</span><span class="lbl">JEUX</span></div>
-      <div class="hub-stat"><span class="val" id="stat-consoles">-</span><span class="lbl">CONSOLES</span></div>
-      <div class="hub-stat"><span class="val" id="stat-collection">-</span><span class="lbl">MA COLLECTION</span></div>
-      <div class="hub-stat"><span class="val" id="stat-meta">-</span><span class="lbl">METASCORE MOY.</span></div>
-    </div>
-  </div>
+  <main class="hub-page">
+    <section class="hub-cockpit">
+      <div class="hub-cockpit-grid">
+        <div class="hub-identity-panel">
+          <div class="hub-kicker">COLLECTOR COCKPIT</div>
+          <h1 class="page-title hub-page-title">RETRODEX</h1>
+          <p class="hub-intro">
+            Le terminal du collectionneur pour rechercher, suivre et contextualiser la memoire retrogaming.
+          </p>
+          <div class="hub-system-line">
+            <span class="hub-system-label">ARCHIVE STATUS</span>
+            <span id="hub-tagline">1317 jeux - prix de marche - encyclopedie - 15 franchises</span>
+          </div>
+        </div>
 
-  <section class="hub-search">
-    <form class="hub-search-form" action="/search.html" method="get">
-      <input id="hub-search-input" class="hub-search-input" type="search" name="q" placeholder="Rechercher un jeu, une console..." aria-label="Rechercher un jeu, une console...">
-      <button class="hub-search-button" type="submit">RECHERCHER</button>
-    </form>
-    <div class="hub-quick-links">
-      <a href="/games-list.html">Catalogue complet</a> &middot;
-      <a href="/encyclopedia.html">Encyclopedie</a> &middot;
-      <a href="/search.html">Recherche</a> &middot;
-      <a href="/collection.html">Ma collection</a> &middot;
-      <a href="/stats.html">Statistiques</a> &middot;
-      <a href="/consoles.html">Consoles</a> &middot;
-      <a href="/franchises.html">Franchises</a> &middot;
-      <a href="/accessories.html">Accessoires</a>
-    </div>
-  </section>
+        <aside class="hub-actions-panel" aria-label="Acces rapides">
+          <div class="hub-panel-label">COMMAND DECK</div>
+          <form class="hub-search-form" action="/search.html" method="get">
+            <input id="hub-search-input" class="hub-search-input" type="search" name="q" placeholder="titre, console, franchise, annee..." aria-label="Rechercher un jeu, une console..." autocomplete="off" spellcheck="false">
+            <button class="hub-search-button" type="submit">RECHERCHER</button>
+          </form>
 
-  <section class="legendary-section">
-    <h2 class="section-title">TOP LEGENDARY</h2>
-    <p class="page-subtitle">Les 6 jeux les plus rares du catalogue</p>
-    <div id="legendary-grid" class="legendary-grid"></div>
-  </section>
+          <div class="hub-action-grid">
+            <a class="hub-action-card is-primary" href="/search.html">
+              <span class="hub-action-code">/FIND</span>
+              <span class="hub-action-title">Recherche</span>
+              <span class="hub-action-copy">Trouver un jeu, une franchise ou une console.</span>
+            </a>
+            <a class="hub-action-card is-primary" href="/games-list.html">
+              <span class="hub-action-code">/INDEX</span>
+              <span class="hub-action-title">Catalogue</span>
+              <span class="hub-action-copy">Explorer l'archive complete des jeux indexés.</span>
+            </a>
+            <a class="hub-action-card is-primary" href="/collection.html">
+              <span class="hub-action-code">/SHELF</span>
+              <span class="hub-action-title">Collection</span>
+              <span class="hub-action-copy">Suivre votre collection, wishlist et valeur.</span>
+            </a>
+            <a class="hub-action-card is-primary" href="/encyclopedia.html">
+              <span class="hub-action-code">/MEM</span>
+              <span class="hub-action-title">Encyclopedie</span>
+              <span class="hub-action-copy">Ouvrir les dossiers narratifs et trivia RetroDex.</span>
+            </a>
+            <a class="hub-action-card" href="/franchises.html">
+              <span class="hub-action-code">/FRAN</span>
+              <span class="hub-action-title">Franchises</span>
+              <span class="hub-action-copy">Parcourir les lignées et univers majeurs.</span>
+            </a>
+            <a class="hub-action-card" href="/stats.html">
+              <span class="hub-action-code">/STAT</span>
+              <span class="hub-action-title">Statistiques</span>
+              <span class="hub-action-copy">Lire les signaux marché et couverture de base.</span>
+            </a>
+            <a class="hub-action-card" href="/consoles.html">
+              <span class="hub-action-code">/SYS</span>
+              <span class="hub-action-title">Consoles</span>
+              <span class="hub-action-copy">Basculer par systeme et bibliotheque.</span>
+            </a>
+            <a class="hub-action-card" href="/accessories.html">
+              <span class="hub-action-code">/AUX</span>
+              <span class="hub-action-title">Accessoires</span>
+              <span class="hub-action-copy">Consulter les pieces complementaires de collection.</span>
+            </a>
+          </div>
+        </aside>
+      </div>
 
-  <div class="hub-section">
-    <div class="hub-section-header">
-      <span class="section-label">ENCYCLOPEDIE RETRODEX</span>
-      <a href="/encyclopedia.html" class="hub-section-link">TOUT VOIR -></a>
-    </div>
-    <div class="hub-section-desc">
-      Synopsis - Equipes de developpement - Anecdotes - Codes secrets - 15 franchises indexees
-    </div>
-    <div class="hub-encyclo-grid" id="hub-encyclo-preview"></div>
-  </div>
+      <div class="hub-stats">
+        <div class="hub-stat is-primary"><span class="val" id="stat-games">-</span><span class="lbl">JEUX INDEXES</span></div>
+        <div class="hub-stat is-primary"><span class="val" id="stat-collection">-</span><span class="lbl">ENTREES COLLECTION</span></div>
+        <div class="hub-stat"><span class="val" id="stat-consoles">-</span><span class="lbl">CONSOLES</span></div>
+        <div class="hub-stat"><span class="val" id="stat-meta">-</span><span class="lbl">AVG LOOSE</span></div>
+      </div>
+    </section>
 
-  <div class="collection-preview">
-    <h3>Collection actuelle</h3>
-    <div class="coll-items" id="coll-items"><span class="coll-empty">Chargement...</span></div>
-  </div>
+    <section class="hub-content-grid">
+      <div class="hub-content-main">
+        <section class="hub-module legendary-section">
+          <div class="hub-module-head">
+            <div>
+              <div class="hub-module-kicker">SPOTLIGHT</div>
+              <h2 class="hub-module-title">TOP LEGENDARY</h2>
+            </div>
+            <a href="/games-list.html" class="hub-module-link">CATALOGUE -></a>
+          </div>
+          <p class="hub-module-copy">Les 6 jeux les plus rares du catalogue, affiches comme vitrine editoriale.</p>
+          <div id="legendary-grid" class="legendary-grid"></div>
+        </section>
 
-  <div style="max-width:900px;margin:0 auto 32px;">
-    <a href="/about.html" class="btn">A propos</a>
-    <a href="/api/health" class="btn" style="margin-left:8px">API health</a>
-  </div>
+        <section class="hub-module hub-section">
+          <div class="hub-module-head">
+            <div>
+              <div class="hub-module-kicker">MEMORY INDEX</div>
+              <h2 class="hub-module-title">ENCYCLOPEDIE RETRODEX</h2>
+            </div>
+            <a href="/encyclopedia.html" class="hub-module-link">TOUT VOIR -></a>
+          </div>
+          <p class="hub-module-copy">
+            Synopsis, equipes de developpement, anecdotes, codes secrets et 15 franchises deja indexees.
+          </p>
+          <div class="hub-encyclo-grid" id="hub-encyclo-preview"></div>
+        </section>
+      </div>
+
+      <aside class="hub-content-side">
+        <section class="hub-module collection-preview">
+          <div class="hub-module-head">
+            <div>
+              <div class="hub-module-kicker">SHELF STATE</div>
+              <h2 class="hub-module-title">Collection actuelle</h2>
+            </div>
+            <a href="/collection.html" class="hub-module-link">OUVRIR -></a>
+          </div>
+          <p class="hub-module-copy">Jeux actuellement suivis dans votre espace collection RetroDex.</p>
+          <div class="coll-items" id="coll-items"><span class="coll-empty">Chargement...</span></div>
+        </section>
+
+        <section class="hub-module hub-system-module">
+          <div class="hub-module-head">
+            <div>
+              <div class="hub-module-kicker">SYSTEM</div>
+              <h2 class="hub-module-title">Etat de session</h2>
+            </div>
+          </div>
+          <div class="hub-system-grid">
+            <div class="hub-system-row">
+              <span class="hub-system-key">Runtime</span>
+              <span class="hub-system-value" id="hub-runtime-line">Chargement...</span>
+            </div>
+            <div class="hub-system-row">
+              <span class="hub-system-key">Raccourci</span>
+              <span class="hub-system-value">[/] focus search</span>
+            </div>
+            <div class="hub-system-row">
+              <span class="hub-system-key">Usage</span>
+              <span class="hub-system-value">Index -> Shelf -> Encyclopedia</span>
+            </div>
+          </div>
+          <div class="hub-system-actions">
+            <a href="/about.html" class="hub-action-inline">A PROPOS</a>
+            <a href="/api/health" class="hub-action-inline">API HEALTH</a>
+          </div>
+        </section>
+      </aside>
+    </section>
+  </main>
 
   <footer class="hub-footer-bar">
     <span id="footer-status">RetroDex</span>
