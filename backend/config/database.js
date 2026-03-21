@@ -1,52 +1,36 @@
 'use strict'
 
+require('dotenv').config({ path: require('path').join(__dirname, '../.env') })
+
 const { Sequelize } = require('sequelize')
-const pg = require('pg')
 const { DB_PATH } = require('../src/config/paths')
+
+const isProduction = process.env.NODE_ENV === 'production'
+const hasDatabaseUrl = !!process.env.DATABASE_URL
+
+let sequelize
+
+if (isProduction && hasDatabaseUrl) {
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: { require: true, rejectUnauthorized: false },
+    },
+    logging: false,
+  })
+} else {
+  sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: DB_PATH,
+    logging: false,
+  })
+}
 
 function resolveSqlitePath() {
   return DB_PATH
 }
 
-function createSequelize() {
-  const isProduction = process.env.NODE_ENV === 'production'
-  const hasDatabaseUrl = Boolean(process.env.DATABASE_URL)
-  const dbUrl = process.env.DATABASE_URL
-  const usePostgres = isProduction && hasDatabaseUrl
-
-  if (usePostgres) {
-    const target = dbUrl.includes('@') ? dbUrl.split('@')[1] : dbUrl
-    console.log('[DB] Using PostgreSQL:', target)
-    return new Sequelize(dbUrl, {
-      dialect: 'postgres',
-      dialectModule: pg,
-      dialectOptions: {
-        ssl: {
-          require: true,
-          rejectUnauthorized: false,
-        },
-      },
-      logging: false,
-      define: {
-        underscored: true,
-      },
-    })
-  }
-
-  const sqlitePath = resolveSqlitePath()
-  console.log('[DB] Using SQLite:', sqlitePath)
-  return new Sequelize({
-    dialect: 'sqlite',
-    storage: sqlitePath,
-    logging: false,
-    define: {
-      underscored: true,
-    },
-  })
-}
-
-const sequelize = createSequelize()
-
 module.exports = sequelize
-module.exports.createSequelize = createSequelize
+module.exports.sequelize = sequelize
+module.exports.Sequelize = Sequelize
 module.exports.resolveSqlitePath = resolveSqlitePath

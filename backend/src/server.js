@@ -57,10 +57,12 @@ app.get('/api/health', handleAsync(async (_req, res) => {
   const games = await Game.count()
   res.json({
     ok: true,
+    status: 'running',
     backend: 'retrodex-express-sequelize',
     database: databaseMode,
     storage: databaseTarget || storagePath,
     games,
+    timestamp: new Date().toISOString(),
   })
 }))
 
@@ -106,11 +108,22 @@ app.use((error, req, res, _next) => {
 })
 
 async function startServer(portOverride) {
-  const shouldAlterSchema = process.env.NODE_ENV === 'development'
+  const shouldAlterSchema = process.env.NODE_ENV !== 'production'
+  let effectiveAlter = shouldAlterSchema
 
-  await sequelize.sync({ alter: shouldAlterSchema })
+  try {
+    await sequelize.sync({ alter: effectiveAlter })
+  } catch (error) {
+    if (effectiveAlter && databaseMode === 'sqlite') {
+      console.warn('[DB] alter sync failed on SQLite, retrying with alter:false')
+      effectiveAlter = false
+      await sequelize.sync({ alter: false })
+    } else {
+      throw error
+    }
+  }
   await ensureGameEncyclopediaColumns()
-  await Franchise.sync({ alter: shouldAlterSchema })
+  await Franchise.sync({ alter: effectiveAlter })
   let shouldBootstrap = true
 
   try {
