@@ -4752,6 +4752,100 @@ body {
   color: var(--text-muted);
 }
 
+.breadcrumb .section {
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+}
+
+/* ========================================
+   PRODUCT UNIVERSE FRAMING
+   ======================================== */
+
+.product-universe-frame {
+  margin: 0 0 18px;
+  padding: 14px 16px 15px;
+  border: 1px solid rgba(67, 95, 60, 0.58);
+  border-top: 2px solid rgba(67, 95, 60, 0.72);
+  background:
+    linear-gradient(180deg, rgba(8, 12, 8, 0.98), rgba(5, 8, 5, 0.98)),
+    radial-gradient(circle at top right, rgba(155, 188, 15, 0.03), transparent 30%);
+}
+
+.product-universe-frame.is-market {
+  border-top-color: rgba(228, 136, 85, 0.62);
+}
+
+.product-universe-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.product-universe-title {
+  margin: 2px 0 0;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  letter-spacing: 0.05em;
+}
+
+.product-universe-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 8px;
+  border: 1px solid rgba(67, 95, 60, 0.52);
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.product-universe-copy {
+  max-width: 76ch;
+  margin: 0 0 12px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.product-universe-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(67, 95, 60, 0.4);
+}
+
+.product-universe-links a {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+
+.product-universe-links a:hover {
+  color: var(--text-primary);
+}
+
+.product-universe-links a.is-active {
+  color: var(--text-alert);
+}
+
+.product-universe-overlap {
+  margin-top: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1.7;
+}
+
 .detail-inline-label {
   margin-bottom: 6px;
 }
@@ -5209,6 +5303,10 @@ body {
 
   .detail-section-head,
   .related-module-head {
+    flex-direction: column;
+  }
+
+  .product-universe-head {
     flex-direction: column;
   }
 }
