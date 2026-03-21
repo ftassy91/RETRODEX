@@ -1951,3 +1951,71 @@ a:hover {
 }
 
 .franchise-link:hover { text-decoration: underline; }
+
+/* ========================================
+   RESPONSIVE — MOBILE BREAKPOINTS
+   ======================================== */
+
+@media (max-width: 768px) {
+
+  /* Layouts 2-3 colonnes → 1 colonne */
+  .results-layout,
+  .consoles-layout,
+  .franchise-layout,
+  .detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* Panneau détail visible seulement si sélection active */
+  .detail-panel {
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Grille jeux similaires → 2 colonnes */
+  #similar-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Cheats → 1 colonne */
+  .encyclo-cheat-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  /* Cover art → centré */
+  .game-cover-container {
+    margin: 0 auto 12px auto;
+  }
+
+  /* Recherche plein écran */
+  #search-input {
+    font-size: 14px;
+  }
+
+  /* Résultats search → moins de colonnes */
+  .result-row {
+    grid-template-columns: 60px 1fr 80px;
+  }
+
+  /* Team row → 1 colonne */
+  .encyclo-team-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .team-role { width: auto; }
+
+  /* Timeline → simplifiée */
+  .timeline-row {
+    grid-template-columns: 40px 1fr;
+  }
+  .timeline-badge { display: none; }
+}
+
+@media (max-width: 480px) {
+  :root { --font-size-base: 11px; }
+
+  #similar-grid { grid-template-columns: 1fr; }
+
+  .value-grid { grid-template-columns: 1fr 1fr; }
+}
