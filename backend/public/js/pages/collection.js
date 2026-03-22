@@ -18,11 +18,22 @@
   const statValueCibEl = byId('stat-value-cib')
   const statValueMintEl = byId('stat-value-mint')
   const statusTextEl = byId('status-text')
+  const collectionSearchInputEl = byId('collection-search-input')
+  const collectionConsoleFilterEl = byId('collection-console-filter')
+  const collectionSortSelectEl = byId('collection-sort-select')
+  const collectionExportButtonEl = byId('collection-export-btn')
   const collectionListContainerEl = byId('collection-list-container')
   const collectionDetailEl = byId('collection-detail')
   const detailTitleEl = byId('detail-title')
   const detailRow1El = byId('detail-row1')
   const detailRow2El = byId('detail-row2')
+  const editFormEl = byId('collection-edit-form')
+  const editConditionEl = byId('edit-condition')
+  const editPricePaidEl = byId('edit-price-paid')
+  const editPurchaseDateEl = byId('edit-purchase-date')
+  const editNotesEl = byId('edit-notes')
+  const editSaveButtonEl = byId('collection-edit-save-btn')
+  const editCancelButtonEl = byId('collection-edit-cancel-btn')
   const publicBannerEl = byId('public-banner')
   const addButtonEl = byId('collection-add-btn')
   const tabButtons = qsa('[data-list]')
@@ -30,13 +41,157 @@
   const isPublicForSaleView = getParams().get('view') === 'for_sale'
 
   let enrichedItems = []
+  let allCollectionItems = []
   let activeTab = isPublicForSaleView ? 'for_sale' : 'owned'
   let selectedIndex = -1
   let selectedCollectionItem = null
+  let editingItemId = null
   let copyFeedbackTimer = null
 
   function getGame(item) {
     return item?.Game || item?.game || {}
+  }
+
+  function getCollectionNote(item) {
+    return String(item?.notes || item?.personal_note || '').trim()
+  }
+
+  function normalizeText(value) {
+    return String(value || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim()
+  }
+
+  function hasActiveCollectionFilters() {
+    return Boolean(
+      collectionSearchInputEl?.value?.trim()
+      || collectionConsoleFilterEl?.value
+      || (collectionSortSelectEl?.value && collectionSortSelectEl.value !== 'title_asc')
+    )
+  }
+
+  function populateConsoleFilter(items) {
+    if (!collectionConsoleFilterEl) {
+      return
+    }
+
+    const currentValue = collectionConsoleFilterEl.value
+    const consoles = [...new Set(items.map((item) => getGame(item).console || getGame(item).platform).filter(Boolean))]
+      .sort((left, right) => String(left).localeCompare(String(right), 'fr', { sensitivity: 'base' }))
+
+    collectionConsoleFilterEl.innerHTML = '<option value=\"\">Toutes les consoles</option>'
+      + consoles.map((consoleName) => `<option value=\"${escapeHtml(consoleName)}\">${escapeHtml(consoleName)}</option>`).join('')
+
+    if (currentValue && consoles.includes(currentValue)) {
+      collectionConsoleFilterEl.value = currentValue
+    }
+  }
+
+  function sortCollectionItems(items) {
+    const sortKey = collectionSortSelectEl?.value || 'title_asc'
+    const sorted = [...items]
+
+    sorted.sort((left, right) => {
+      const leftGame = getGame(left)
+      const rightGame = getGame(right)
+      const leftPaid = Number(left.price_paid || 0)
+      const rightPaid = Number(right.price_paid || 0)
+      const leftLoose = Number(leftGame.loosePrice || 0)
+      const rightLoose = Number(rightGame.loosePrice || 0)
+      const titleCompare = String(leftGame.title || '').localeCompare(String(rightGame.title || ''), 'fr', { sensitivity: 'base' })
+
+      switch (sortKey) {
+        case 'title_desc':
+          return String(rightGame.title || '').localeCompare(String(leftGame.title || ''), 'fr', { sensitivity: 'base' })
+        case 'paid_desc':
+          return rightPaid - leftPaid || titleCompare
+        case 'paid_asc':
+          return leftPaid - rightPaid || titleCompare
+        case 'value_desc':
+          return rightLoose - leftLoose || titleCompare
+        default:
+          return titleCompare
+      }
+    })
+
+    return sorted
+  }
+
+  function applyCollectionFilters(items) {
+    const query = normalizeText(collectionSearchInputEl?.value)
+    const platform = collectionConsoleFilterEl?.value || ''
+
+    return sortCollectionItems(items.filter((item) => {
+      const game = getGame(item)
+      const haystack = normalizeText([
+        game.title,
+        game.console,
+        game.platform,
+        item.condition,
+        getCollectionNote(item),
+      ].filter(Boolean).join(' '))
+
+      if (query && !haystack.includes(query)) {
+        return false
+      }
+
+      if (platform && (game.console || game.platform) !== platform) {
+        return false
+      }
+
+      return true
+    }))
+  }
+
+  function hideEditForm() {
+    editingItemId = null
+    if (editFormEl) {
+      editFormEl.hidden = true
+    }
+  }
+
+  function populateEditForm(item) {
+    if (!editFormEl) return
+    editConditionEl.value = item?.condition || 'Loose'
+    editPricePaidEl.value = item?.price_paid != null ? String(item.price_paid) : ''
+    editPurchaseDateEl.value = item?.purchase_date || ''
+    editNotesEl.value = getCollectionNote(item)
+  }
+
+  function startEdit(item) {
+    if (!editFormEl || !item || (isPublicForSaleView && activeTab === 'for_sale')) {
+      return
+    }
+
+    editingItemId = item.id || item.gameId || null
+    populateEditForm(item)
+    editFormEl.hidden = false
+    editConditionEl?.focus()
+  }
+
+  function readEditFormValues() {
+    const rawPrice = String(editPricePaidEl?.value || '').trim()
+    const price_paid = rawPrice ? Number(rawPrice) : null
+    const purchase_date = String(editPurchaseDateEl?.value || '').trim() || null
+    const notes = String(editNotesEl?.value || '').trim() || null
+
+    if (rawPrice && (!Number.isFinite(price_paid) || price_paid <= 0)) {
+      throw new Error('Prix d achat invalide.')
+    }
+
+    if (purchase_date && !/^\d{4}-\d{2}-\d{2}$/.test(purchase_date)) {
+      throw new Error('Date d achat invalide.')
+    }
+
+    return {
+      condition: editConditionEl?.value || 'Loose',
+      price_paid,
+      purchase_date,
+      notes,
+      personal_note: notes,
+    }
   }
 
   function setGainValue(node, gain) {
@@ -140,6 +295,7 @@
   function clearSelection() {
     selectedIndex = -1
     selectedCollectionItem = null
+    hideEditForm()
     qsa('.terminal-row', collectionListContainerEl).forEach((row) => row.classList.remove('selected'))
     collectionDetailEl.style.display = 'none'
   }
@@ -160,8 +316,9 @@
     selectedCollectionItem = item
 
     const game = getGame(item)
-    const note = item.notes || item.personal_note || ''
+    const note = getCollectionNote(item)
     const gameId = game.id || item.gameId || item.id || ''
+    hideEditForm()
 
     collectionDetailEl.style.display = 'block'
     setText(detailTitleEl, game.title || '?')
@@ -188,12 +345,19 @@
         </a>
       </span>
       ${isPublicForSaleView && activeTab === 'for_sale' ? '' : `
+        <button id="collection-edit-btn" class="terminal-inline-btn">
+          MODIFIER
+        </button>
         <button id="collection-remove-btn" class="terminal-inline-btn">
           RETIRER
         </button>
       `}
     `
 
+    const editBtn = byId('collection-edit-btn')
+    if (editBtn) {
+      editBtn.onclick = () => startEdit(item)
+    }
     const removeBtn = byId('collection-remove-btn')
     if (removeBtn) {
       removeBtn.onclick = () => removeFromCollection(item.id || item.gameId)
@@ -271,7 +435,20 @@
     appendCollectionSpacer([])
   }
 
-  function renderCollection(items) {
+  function renderFilteredEmptyState() {
+    clearSelection()
+    setHtml(
+      collectionListContainerEl,
+      `
+        <div class="terminal-empty-state">
+          <div class="terminal-empty-title">Aucun resultat visible</div>
+          <div class="terminal-empty-copy">Aucun item ne correspond aux filtres actifs. Ajustez la recherche ou la console.</div>
+        </div>
+      `
+    )
+  }
+
+  function renderCollection(items, preferredItemId = null) {
     if (!items.length) {
       renderEmptyState()
       return
@@ -283,10 +460,38 @@
     })
     appendCollectionSpacer(items)
 
-    const firstRow = collectionListContainerEl.querySelector('.terminal-row')
-    if (firstRow) {
-      selectCollectionItem(items[0], firstRow)
+    const targetItemId = preferredItemId ? String(preferredItemId) : ''
+    const nextRow = targetItemId
+      ? qsa('.terminal-row', collectionListContainerEl).find((row) => row.dataset.itemId === targetItemId)
+      : collectionListContainerEl.querySelector('.terminal-row')
+
+    if (nextRow) {
+      const nextItem = items.find((item) => String(item.id || item.gameId || '') === nextRow.dataset.itemId) || items[0]
+      selectCollectionItem(nextItem, nextRow)
     }
+  }
+
+  async function refreshCollectionView(preferredItemId = null) {
+    const visibleItems = applyCollectionFilters(allCollectionItems)
+    enrichedItems = visibleItems
+
+    if (activeTab === 'owned' && !hasActiveCollectionFilters()) {
+      await updateOwnedSummaryFromStats(allCollectionItems)
+    } else {
+      updateSummaryFromItems(visibleItems)
+    }
+
+    if (!visibleItems.length && allCollectionItems.length > 0) {
+      renderFilteredEmptyState()
+      setStatus('Aucun item ne correspond aux filtres actifs.')
+      return
+    }
+
+    renderCollection(visibleItems, preferredItemId)
+    const baseLabel = `${visibleItems.length} entree(s)`
+    setStatus(visibleItems.length === allCollectionItems.length
+      ? `${baseLabel} dans ${getTabLabel(activeTab)}.`
+      : `${baseLabel} visible(s) sur ${allCollectionItems.length} dans ${getTabLabel(activeTab)}.`)
   }
 
   async function copySaleLink() {
@@ -307,6 +512,12 @@
   async function removeFromCollection(itemId) {
     if (!itemId || (isPublicForSaleView && activeTab === 'for_sale')) return
 
+    const item = enrichedItems.find((entry) => String(entry.id || entry.gameId || '') === String(itemId))
+    const title = getGame(item).title || 'ce jeu'
+    if (!window.confirm(`Retirer "${title}" ${activeTab === 'wanted' ? 'de votre wishlist' : 'de cette liste'} ?`)) {
+      return
+    }
+
     setStatus('Suppression...')
     try {
       await fetchJson(`/api/collection/${encodeURIComponent(itemId)}`, { method: 'DELETE' })
@@ -317,7 +528,72 @@
     }
   }
 
-  async function loadCollection() {
+  async function saveCollectionItemEdits() {
+    if (!editingItemId || !selectedCollectionItem) {
+      return
+    }
+
+    setStatus('Enregistrement...')
+    editSaveButtonEl.disabled = true
+
+    try {
+      const payload = readEditFormValues()
+      await fetchJson(`/api/collection/${encodeURIComponent(editingItemId)}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      })
+      hideEditForm()
+      await loadCollection(editingItemId)
+      setStatus('Fiche collection mise a jour.')
+    } catch (error) {
+      setStatus(`Erreur mise a jour : ${error.message}`)
+    } finally {
+      editSaveButtonEl.disabled = false
+    }
+  }
+
+  function exportCollectionCsv() {
+    if (!enrichedItems.length) {
+      setStatus('Aucun item a exporter.')
+      return
+    }
+
+    const rows = [
+      ['title', 'console', 'list_type', 'condition', 'purchase_price', 'purchase_date', 'notes'],
+      ...enrichedItems.map((item) => {
+        const game = getGame(item)
+        return [
+          game.title || '',
+          game.console || game.platform || '',
+          item.list_type || activeTab,
+          item.condition || '',
+          item.price_paid ?? '',
+          item.purchase_date || '',
+          getCollectionNote(item),
+        ]
+      }),
+    ]
+
+    const csv = rows
+      .map((columns) => columns.map((value) => `"${String(value ?? '').replaceAll('"', '""')}"`).join(','))
+      .join('\n')
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `retrodex-${activeTab}-${new Date().toISOString().slice(0, 10)}.csv`
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    window.URL.revokeObjectURL(url)
+    setStatus(`Export CSV genere pour ${enrichedItems.length} item(s).`)
+  }
+
+  async function loadCollection(preferredItemId = null) {
     clearSelection()
     setStatus('Chargement...')
     setHtml(collectionListContainerEl, '')
@@ -325,17 +601,20 @@
     try {
       const payload = await fetchCollection(activeTab, isPublicForSaleView)
       const items = payload.items.filter((item) => Object.keys(getGame(item)).length > 0)
-      enrichedItems = items
+      allCollectionItems = items
+      populateConsoleFilter(items)
 
-      if (activeTab === 'owned') {
-        await updateOwnedSummaryFromStats(items)
-      } else {
-        updateSummaryFromItems(items)
+      if (!items.length) {
+        enrichedItems = []
+        updateSummaryFromItems([])
+        renderEmptyState()
+        setStatus(emptyListMessage().title)
+        return
       }
 
-      renderCollection(items)
-      setStatus(items.length ? `${items.length} entree(s) dans ${getTabLabel(activeTab)}.` : emptyListMessage().title)
+      await refreshCollectionView(preferredItemId)
     } catch (error) {
+      allCollectionItems = []
       enrichedItems = []
       updateSummaryFromItems([])
       renderEmptyState()
@@ -362,6 +641,27 @@
     if (copySaleLinkButtonEl) {
       copySaleLinkButtonEl.addEventListener('click', copySaleLink)
     }
+    collectionSearchInputEl?.addEventListener('input', () => {
+      refreshCollectionView(selectedCollectionItem?.id || selectedCollectionItem?.gameId || null)
+    })
+    collectionConsoleFilterEl?.addEventListener('change', () => {
+      refreshCollectionView(selectedCollectionItem?.id || selectedCollectionItem?.gameId || null)
+    })
+    collectionSortSelectEl?.addEventListener('change', () => {
+      refreshCollectionView(selectedCollectionItem?.id || selectedCollectionItem?.gameId || null)
+    })
+    collectionExportButtonEl?.addEventListener('click', exportCollectionCsv)
+    editFormEl?.addEventListener('submit', (event) => {
+      event.preventDefault()
+      saveCollectionItemEdits()
+    })
+    editCancelButtonEl?.addEventListener('click', () => {
+      if (selectedCollectionItem) {
+        populateEditForm(selectedCollectionItem)
+      }
+      hideEditForm()
+      setStatus(`${enrichedItems.length} item(s) dans ${getTabLabel(activeTab)}.`)
+    })
   }
 
   function bindKeyboard() {

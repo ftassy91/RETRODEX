@@ -1,6 +1,8 @@
 'use strict'
 
 ;(() => {
+  let collectionIndexPromise = null
+
   async function fetchJson(url, options) {
     const response = await fetch(url, options)
     const payload = await response.json().catch(() => ({}))
@@ -54,10 +56,60 @@
     }
   }
 
+  function buildCollectionIndex(items) {
+    const safeItems = Array.isArray(items) ? items : []
+    const byGameId = new Map()
+    const ownedIds = new Set()
+    const wantedIds = new Set()
+    const forSaleIds = new Set()
+
+    safeItems.forEach((item) => {
+      const gameId = item?.gameId || item?.game?.id || item?.id
+      const listType = String(item?.list_type || 'owned').toLowerCase()
+      if (!gameId) {
+        return
+      }
+
+      byGameId.set(gameId, item)
+      if (listType === 'wanted') {
+        wantedIds.add(gameId)
+      } else if (listType === 'for_sale') {
+        forSaleIds.add(gameId)
+      } else {
+        ownedIds.add(gameId)
+      }
+    })
+
+    return {
+      items: safeItems,
+      byGameId,
+      ownedIds,
+      wantedIds,
+      forSaleIds,
+    }
+  }
+
+  async function fetchCollectionIndex(forceRefresh = false) {
+    if (!forceRefresh && collectionIndexPromise) {
+      return collectionIndexPromise
+    }
+
+    collectionIndexPromise = fetchCollection()
+      .then((payload) => buildCollectionIndex(payload.items))
+      .catch((error) => {
+        collectionIndexPromise = null
+        throw error
+      })
+
+    return collectionIndexPromise
+  }
+
   window.RetroDexApi = {
     fetchJson,
     fetchCollection,
+    fetchCollectionIndex,
     fetchSearch,
+    buildCollectionIndex,
     getItems,
     getTotal,
   }

@@ -1,4 +1,4 @@
-'use strict'
+﻿'use strict'
 
 const CoreFormat = window.RetroDexFormat || {}
 const CoreApi = window.RetroDexApi || {}
@@ -10,8 +10,12 @@ const statsRowEl = document.getElementById('stats-row')
 const collectionStateEl = document.getElementById('collection-state')
 const collectionCurrentMetaEl = document.getElementById('collection-current-meta')
 const collectionButtonEl = document.getElementById('collection-button')
+const wishlistButtonEl = document.getElementById('wishlist-button')
+const collectionRemoveButtonEl = document.getElementById('collection-remove-button')
 const collectionFormEl = document.getElementById('collection-form')
 const collectionConditionEl = document.getElementById('collection-condition')
+const collectionPricePaidEl = document.getElementById('collection-price-paid')
+const collectionPurchaseDateEl = document.getElementById('collection-purchase-date')
 const collectionNotesEl = document.getElementById('collection-notes')
 const collectionStatusEl = document.getElementById('collection-status')
 const contribConditionEl = document.getElementById('contrib-condition')
@@ -57,12 +61,12 @@ function safeArray(value) {
   return Array.isArray(value) ? value : []
 }
 
-function formatPrice(value, fallback = '—') {
+function formatPrice(value, fallback = 'â€”') {
   const number = Number(value)
   return Number.isFinite(number) && number > 0 ? `$${Math.round(number)}` : fallback
 }
 
-function formatMultilineHtml(value, fallback = '—') {
+function formatMultilineHtml(value, fallback = 'â€”') {
   const text = String(value || '').trim()
   if (!text) {
     return escapeHtml(fallback)
@@ -110,6 +114,18 @@ function conditionClass(value) {
   return normalized === 'mint' ? 'mint' : normalized === 'cib' ? 'cib' : 'loose'
 }
 
+function normalizeCollectionListType(value) {
+  const normalized = String(value || 'owned').trim().toLowerCase()
+  if (normalized === 'wanted' || normalized === 'for_sale') {
+    return normalized
+  }
+  return 'owned'
+}
+
+function getCollectionNote(item) {
+  return String(item?.personal_note || item?.notes || '').trim()
+}
+
 function getGameId() {
   if (typeof CoreState.getParam === 'function') {
     return CoreState.getParam('id')
@@ -120,9 +136,19 @@ function getGameId() {
 
 function buildCatalogueBackLink() {
   const params = new URLSearchParams(window.location.search)
+  const source = params.get('source')
   params.delete('id')
+  params.delete('source')
   const query = params.toString()
+
+  if (source === 'search') {
+    catalogBackLinkEl.href = query ? `/search.html?${query}` : '/search.html'
+    catalogBackLinkEl.textContent = 'RECHERCHE'
+    return
+  }
+
   catalogBackLinkEl.href = query ? `/games-list.html?${query}` : '/games-list.html'
+  catalogBackLinkEl.textContent = 'CATALOGUE'
 }
 
 async function fetchJson(url, options) {
@@ -181,7 +207,7 @@ function renderHeroSection(game) {
     <div class="detail-hero-shell">
       <div class="detail-hero-status">
         <span class="detail-kicker">ARCHIVE ENTRY</span>
-        <span class="detail-status-copy">collector record · market signal · editorial memory</span>
+        <span class="detail-status-copy">collector record Â· market signal Â· editorial memory</span>
       </div>
 
       <div class="hero-grid detail-hero-grid">
@@ -191,7 +217,7 @@ function renderHeroSection(game) {
               <div class="game-cover-container">
                 <img id="game-cover-img" src="" alt="${escapeHtml(game.title || '')}" width="160" height="160" />
               </div>
-              <div class="game-cover-caption">ARCHIVE SLOT · COVER ART</div>
+              <div class="game-cover-caption">ARCHIVE SLOT Â· COVER ART</div>
             </div>
 
             <div class="game-header-copy">
@@ -249,13 +275,13 @@ function renderHeroSection(game) {
         <div class="detail-section-head compact">
           <div>
             <div class="detail-kicker">PRICE TRACE</div>
-            <h3>Historique des prix · 12 mois</h3>
+            <h3>Historique des prix Â· 12 mois</h3>
           </div>
         </div>
         <div class="trend-row">
-          <span class="trend-badge" id="trend-loose">Loose —</span>
-          <span class="trend-badge" id="trend-cib">CIB —</span>
-          <span class="trend-badge" id="trend-mint">Mint —</span>
+          <span class="trend-badge" id="trend-loose">Loose â€”</span>
+          <span class="trend-badge" id="trend-cib">CIB â€”</span>
+          <span class="trend-badge" id="trend-mint">Mint â€”</span>
         </div>
         <div class="chart-toggle">
           <button class="chart-btn active" data-type="mint">Mint</button>
@@ -275,15 +301,15 @@ function renderHeroSection(game) {
         <div class="price-stats-row">
           <div class="price-stat">
             <span class="stat-label">12M MIN</span>
-            <span class="stat-value" id="stat-min">—</span>
+            <span class="stat-value" id="stat-min">â€”</span>
           </div>
           <div class="price-stat">
             <span class="stat-label">12M MAX</span>
-            <span class="stat-value" id="stat-max">—</span>
+            <span class="stat-value" id="stat-max">â€”</span>
           </div>
           <div class="price-stat">
             <span class="stat-label">VARIATION</span>
-            <span class="stat-value" id="stat-variation">—</span>
+            <span class="stat-value" id="stat-variation">â€”</span>
           </div>
         </div>
       </section>
@@ -348,7 +374,7 @@ function buildTrustSource(entries, confidence) {
   if (sourcesEditorial > 0) {
     const formattedDate = formatTrustDate(latestSaleDate)
     return formattedDate
-      ? `${sourcesEditorial} ventes reelles · derniere : ${formattedDate}`
+      ? `${sourcesEditorial} ventes reelles Â· derniere : ${formattedDate}`
       : `${sourcesEditorial} ventes reelles`
   }
 
@@ -363,7 +389,7 @@ function formatIndexRange(low, high) {
   const lowNumber = Number(low)
   const highNumber = Number(high)
   if (!Number.isFinite(lowNumber) || !Number.isFinite(highNumber) || lowNumber <= 0 || highNumber <= 0) {
-    return '—'
+    return 'â€”'
   }
 
   return `$${Math.round(lowNumber)} - $${Math.round(highNumber)}`
@@ -417,20 +443,20 @@ async function loadRetrodexIndex(gameId) {
       <div class="index-primary">
         <span class="index-primary-label">REFERENCE</span>
         <span class="index-primary-value">${escapeHtml(formatPrice(primaryEntry.index_value))}</span>
-        <span class="index-primary-meta">${escapeHtml(primaryEntry.condition || '—')} · ${escapeHtml(formatIndexRange(primaryEntry.range_low, primaryEntry.range_high))}</span>
+        <span class="index-primary-meta">${escapeHtml(primaryEntry.condition || 'â€”')} Â· ${escapeHtml(formatIndexRange(primaryEntry.range_low, primaryEntry.range_high))}</span>
       </div>
       <div class="trust-header">
-        <span class="trust-badge trust-${trustMeta.tier}">TIER ${trustMeta.tier} · ${trustMeta.label}</span>
+        <span class="trust-badge trust-${trustMeta.tier}">TIER ${trustMeta.tier} Â· ${trustMeta.label}</span>
         <span class="trust-source">${escapeHtml(trustSource)}</span>
       </div>
       <div class="trust-support-row">
         <span class="trust-freshness">${escapeHtml(getFreshnessLabel(freshest))}</span>
-        <span class="index-sources">${sourcesEditorial} ventes · 0 listings · ${sourcesCommunity} contributions</span>
+        <span class="index-sources">${sourcesEditorial} ventes Â· 0 listings Â· ${sourcesCommunity} contributions</span>
       </div>
       <div class="index-prices">
         ${orderedEntries.map((entry) => `
           <div class="index-condition ${entry.condition === primaryEntry.condition ? 'is-primary' : ''}">
-            <span class="label">${escapeHtml(entry.condition || '—')}</span>
+            <span class="label">${escapeHtml(entry.condition || 'â€”')}</span>
             <span class="value">${escapeHtml(formatPrice(entry.index_value))}</span>
             <span class="range">${escapeHtml(formatIndexRange(entry.range_low, entry.range_high))}</span>
           </div>
@@ -513,7 +539,7 @@ async function loadEncyclopedia(gameId) {
         html: cheatCodes.map((code) => `
           <div class="encyclo-cheat-row">
             <span class="cheat-name">${escapeHtml(code.label || code.name || 'Code')}</span>
-            <span class="cheat-code">${escapeHtml(code.code || code.value || '—')}</span>
+            <span class="cheat-code">${escapeHtml(code.code || code.value || 'â€”')}</span>
             <span class="cheat-effect">${escapeHtml(code.effect || 'Effet non documente')}</span>
           </div>
         `).join(''),
@@ -575,7 +601,7 @@ async function loadFranchise(gameId) {
     const franchise = data.franchise
     relationsEl.innerHTML = `
       <a class="terminal-action-link franchise-link" href="/franchises.html?slug=${encodeURIComponent(franchise.slug)}">
-        FRANCHISE · ${escapeHtml(franchise.name)} (${escapeHtml(franchise.first_game || '—')}→${escapeHtml(franchise.last_game || '—')}) →
+        FRANCHISE Â· ${escapeHtml(franchise.name)} (${escapeHtml(franchise.first_game || 'â€”')}â†’${escapeHtml(franchise.last_game || 'â€”')}) â†’
       </a>
     `
   } catch (_error) {}
@@ -608,6 +634,163 @@ function renderStats(game) {
   `).join('')
 }
 
+function populateCollectionForm(item) {
+  if (collectionConditionEl) {
+    collectionConditionEl.value = item?.condition || 'Loose'
+  }
+  if (collectionPricePaidEl) {
+    collectionPricePaidEl.value = item?.price_paid != null ? String(item.price_paid) : ''
+  }
+  if (collectionPurchaseDateEl) {
+    collectionPurchaseDateEl.value = item?.purchase_date || ''
+  }
+  if (collectionNotesEl) {
+    collectionNotesEl.value = getCollectionNote(item)
+  }
+}
+
+function readCollectionFormValues() {
+  const condition = collectionConditionEl?.value || 'Loose'
+  const rawPrice = String(collectionPricePaidEl?.value || '').trim()
+  const price_paid = rawPrice ? Number(rawPrice) : null
+  const purchase_date = String(collectionPurchaseDateEl?.value || '').trim() || null
+  const notes = String(collectionNotesEl?.value || '').trim() || null
+
+  if (rawPrice && (!Number.isFinite(price_paid) || price_paid <= 0)) {
+    throw new Error('Prix d achat invalide.')
+  }
+
+  if (purchase_date && !/^\d{4}-\d{2}-\d{2}$/.test(purchase_date)) {
+    throw new Error('Date d achat invalide.')
+  }
+
+  return {
+    condition,
+    price_paid,
+    purchase_date,
+    notes,
+    personal_note: notes,
+  }
+}
+
+function buildCollectionMeta(item, listType) {
+  if (!item) {
+    return ''
+  }
+
+  const fragments = [
+    `<span class="condition-badge condition-${escapeHtml(conditionClass(item.condition))}">${escapeHtml(item.condition || 'Loose')}</span>`,
+  ]
+
+  if (listType === 'wanted') {
+    fragments.push('<span class="collection-note-text">Wishlist</span>')
+  } else if (listType === 'for_sale') {
+    fragments.push('<span class="collection-note-text">Liste a vendre</span>')
+  }
+
+  if (item.price_paid != null) {
+    fragments.push(`<span class="collection-note-text">Paye ${escapeHtml(formatPrice(item.price_paid))}</span>`)
+  }
+
+  if (item.purchase_date) {
+    fragments.push(`<span class="collection-note-text">Achete le ${escapeHtml(item.purchase_date)}</span>`)
+  }
+
+  const note = getCollectionNote(item)
+  if (note) {
+    fragments.push(`<span class="collection-note-text">${escapeHtml(note)}</span>`)
+  }
+
+  return fragments.join('')
+}
+
+function applyCollectionUiState(item, options = {}) {
+  if (options.error) {
+    collectionStateEl.textContent = `Impossible de charger la collection (${options.error.message}).`
+    collectionCurrentMetaEl.innerHTML = ''
+    collectionFormEl.hidden = false
+    collectionButtonEl.disabled = true
+    if (wishlistButtonEl) {
+      wishlistButtonEl.disabled = true
+      wishlistButtonEl.textContent = 'Wishlist indisponible'
+    }
+    if (collectionRemoveButtonEl) {
+      collectionRemoveButtonEl.hidden = true
+      collectionRemoveButtonEl.disabled = true
+    }
+    populateCollectionForm(null)
+    return
+  }
+
+  collectionFormEl.hidden = false
+  populateCollectionForm(item)
+
+  if (!item) {
+    collectionStateEl.textContent = "Ce jeu n'est pas encore dans vos listes."
+    collectionCurrentMetaEl.innerHTML = ''
+    collectionButtonEl.textContent = 'Ajouter a ma collection'
+    collectionButtonEl.disabled = false
+    if (wishlistButtonEl) {
+      wishlistButtonEl.textContent = 'Ajouter a ma wishlist'
+      wishlistButtonEl.disabled = false
+    }
+    if (collectionRemoveButtonEl) {
+      collectionRemoveButtonEl.hidden = true
+      collectionRemoveButtonEl.disabled = true
+      collectionRemoveButtonEl.textContent = 'Retirer'
+    }
+    return
+  }
+
+  const listType = normalizeCollectionListType(item.list_type)
+  collectionCurrentMetaEl.innerHTML = buildCollectionMeta(item, listType)
+
+  if (listType === 'wanted') {
+    collectionStateEl.textContent = 'Dans votre wishlist'
+    collectionButtonEl.textContent = 'Ajouter a ma collection'
+    collectionButtonEl.disabled = false
+    if (wishlistButtonEl) {
+      wishlistButtonEl.textContent = 'Dans ma wishlist'
+      wishlistButtonEl.disabled = true
+    }
+    if (collectionRemoveButtonEl) {
+      collectionRemoveButtonEl.hidden = false
+      collectionRemoveButtonEl.disabled = false
+      collectionRemoveButtonEl.textContent = 'Retirer de ma wishlist'
+    }
+    return
+  }
+
+  if (listType === 'for_sale') {
+    collectionStateEl.textContent = 'Dans votre liste a vendre'
+    collectionButtonEl.textContent = 'Enregistrer les modifications'
+    collectionButtonEl.disabled = false
+    if (wishlistButtonEl) {
+      wishlistButtonEl.textContent = 'Deja suivi'
+      wishlistButtonEl.disabled = true
+    }
+    if (collectionRemoveButtonEl) {
+      collectionRemoveButtonEl.hidden = false
+      collectionRemoveButtonEl.disabled = false
+      collectionRemoveButtonEl.textContent = 'Retirer de ma liste'
+    }
+    return
+  }
+
+  collectionStateEl.textContent = 'Dans votre collection'
+  collectionButtonEl.textContent = 'Enregistrer les modifications'
+  collectionButtonEl.disabled = false
+  if (wishlistButtonEl) {
+    wishlistButtonEl.textContent = 'Deja en collection'
+    wishlistButtonEl.disabled = true
+  }
+  if (collectionRemoveButtonEl) {
+    collectionRemoveButtonEl.hidden = false
+    collectionRemoveButtonEl.disabled = false
+    collectionRemoveButtonEl.textContent = 'Retirer de ma collection'
+  }
+}
+
 async function refreshCollectionStatus() {
   if (!currentGame) {
     return
@@ -616,30 +799,9 @@ async function refreshCollectionStatus() {
   try {
     const payload = await fetchJson('/api/collection')
     currentCollectionItem = safeArray(payload.items).find((item) => item.gameId === currentGame.id) || null
-
-    if (currentCollectionItem) {
-      collectionStateEl.textContent = 'Dans votre collection ✓'
-      collectionCurrentMetaEl.innerHTML = `
-        <span class="condition-badge condition-${escapeHtml(conditionClass(currentCollectionItem.condition))}">
-          ${escapeHtml(currentCollectionItem.condition || 'Loose')}
-        </span>
-        ${currentCollectionItem.notes ? `<span class="collection-note-text">${escapeHtml(currentCollectionItem.notes)}</span>` : ''}
-      `
-      collectionFormEl.hidden = true
-      collectionButtonEl.textContent = 'Retirer'
-      collectionButtonEl.disabled = false
-    } else {
-      collectionStateEl.textContent = "Ce jeu n'est pas encore dans votre collection."
-      collectionCurrentMetaEl.innerHTML = ''
-      collectionFormEl.hidden = false
-      collectionButtonEl.textContent = 'Ajouter a ma collection'
-      collectionButtonEl.disabled = false
-    }
+    applyCollectionUiState(currentCollectionItem)
   } catch (error) {
-    collectionStateEl.textContent = `Impossible de charger la collection (${error.message}).`
-    collectionCurrentMetaEl.innerHTML = ''
-    collectionFormEl.hidden = false
-    collectionButtonEl.disabled = true
+    applyCollectionUiState(null, { error })
   }
 }
 
@@ -649,17 +811,33 @@ async function handleCollectionAction() {
   }
 
   collectionButtonEl.disabled = true
+  if (wishlistButtonEl) {
+    wishlistButtonEl.disabled = true
+  }
+  if (collectionRemoveButtonEl) {
+    collectionRemoveButtonEl.disabled = true
+  }
   collectionStatusEl.textContent = 'Mise a jour...'
 
   try {
+    const formValues = readCollectionFormValues()
+    const listType = currentCollectionItem ? normalizeCollectionListType(currentCollectionItem.list_type) : 'owned'
+
     if (currentCollectionItem) {
       await fetchJson(`/api/collection/${encodeURIComponent(currentCollectionItem.id)}`, {
-        method: 'DELETE',
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formValues,
+          list_type: listType === 'wanted' ? 'owned' : listType,
+        }),
       })
-      collectionStatusEl.textContent = 'Jeu retire de votre collection.'
+      collectionStatusEl.textContent = listType === 'wanted'
+        ? 'Jeu deplace dans votre collection.'
+        : 'Fiche collection mise a jour.'
     } else {
-      const condition = collectionConditionEl?.value || 'Loose'
-      const notes = collectionNotesEl?.value?.trim() || null
       await fetchJson('/api/collection', {
         method: 'POST',
         headers: {
@@ -667,8 +845,8 @@ async function handleCollectionAction() {
         },
         body: JSON.stringify({
           gameId: currentGame.id,
-          condition,
-          notes,
+          ...formValues,
+          list_type: 'owned',
         }),
       })
       collectionStatusEl.textContent = 'Jeu ajoute a votre collection.'
@@ -677,7 +855,90 @@ async function handleCollectionAction() {
     await refreshCollectionStatus()
   } catch (error) {
     collectionStatusEl.textContent = `Erreur collection: ${error.message}`
-    collectionButtonEl.disabled = false
+    applyCollectionUiState(currentCollectionItem)
+  }
+}
+
+async function handleWishlistAction() {
+  if (!currentGame || !wishlistButtonEl) {
+    return
+  }
+
+  const listType = currentCollectionItem ? normalizeCollectionListType(currentCollectionItem.list_type) : null
+  if (listType === 'wanted') {
+    collectionStatusEl.textContent = 'Ce jeu est deja dans votre wishlist.'
+    return
+  }
+  if (listType === 'owned' || listType === 'for_sale') {
+    collectionStatusEl.textContent = 'Ce jeu existe deja dans vos listes.'
+    return
+  }
+
+  collectionButtonEl.disabled = true
+  wishlistButtonEl.disabled = true
+  if (collectionRemoveButtonEl) {
+    collectionRemoveButtonEl.disabled = true
+  }
+  collectionStatusEl.textContent = 'Ajout a la wishlist...'
+
+  try {
+    const formValues = readCollectionFormValues()
+    await fetchJson('/api/collection', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        gameId: currentGame.id,
+        condition: formValues.condition,
+        notes: formValues.notes,
+        personal_note: formValues.personal_note,
+        list_type: 'wanted',
+      }),
+    })
+
+    collectionStatusEl.textContent = 'Jeu ajoute a votre wishlist.'
+    await refreshCollectionStatus()
+  } catch (error) {
+    collectionStatusEl.textContent = `Erreur wishlist: ${error.message}`
+    applyCollectionUiState(currentCollectionItem)
+  }
+}
+
+async function handleCollectionRemove() {
+  if (!currentCollectionItem) {
+    return
+  }
+
+  const listType = normalizeCollectionListType(currentCollectionItem.list_type)
+  const targetLabel = listType === 'wanted'
+    ? 'de votre wishlist'
+    : listType === 'for_sale'
+      ? 'de votre liste a vendre'
+      : 'de votre collection'
+
+  if (!window.confirm(`Retirer "${currentGame?.title || 'ce jeu'}" ${targetLabel} ?`)) {
+    return
+  }
+
+  collectionButtonEl.disabled = true
+  if (wishlistButtonEl) {
+    wishlistButtonEl.disabled = true
+  }
+  if (collectionRemoveButtonEl) {
+    collectionRemoveButtonEl.disabled = true
+  }
+  collectionStatusEl.textContent = 'Suppression...'
+
+  try {
+    await fetchJson(`/api/collection/${encodeURIComponent(currentCollectionItem.id)}`, {
+      method: 'DELETE',
+    })
+    collectionStatusEl.textContent = 'Jeu retire.'
+    await refreshCollectionStatus()
+  } catch (error) {
+    collectionStatusEl.textContent = `Erreur suppression: ${error.message}`
+    applyCollectionUiState(currentCollectionItem)
   }
 }
 
@@ -806,7 +1067,7 @@ function extractSeries(title) {
 function renderRelatedPrices(current, related) {
   upsertRelatedModule(
     'franchise-versions',
-    'Meme franchise · autres versions',
+    'Meme franchise Â· autres versions',
     'Comparaison rapide avec les variantes les plus proches.',
     `
       <div class="compare-table">
@@ -898,7 +1159,7 @@ async function loadSimilar(gameId) {
           ${safeArray(data.games).map((game) => `
             <div class="similar-item" onclick="window.location='/game-detail.html?id=${encodeURIComponent(game.id)}'">
               <div class="similar-title">${escapeHtml(game.title)}</div>
-              <div class="similar-meta">${escapeHtml(game.console || '—')} · ${escapeHtml(game.year || '—')}</div>
+              <div class="similar-meta">${escapeHtml(game.console || 'â€”')} Â· ${escapeHtml(game.year || 'â€”')}</div>
               <div class="similar-price">${escapeHtml(formatPrice(game.loosePrice))}</div>
             </div>
           `).join('')}
@@ -1589,7 +1850,7 @@ async function loadPage() {
     document.title = `RetroDex - ${currentGame.title}`
 
     if (breadcrumbTitleEl) {
-      breadcrumbTitleEl.textContent = (currentGame.title || '').toUpperCase().substring(0, 30) || '—'
+      breadcrumbTitleEl.textContent = (currentGame.title || '').toUpperCase().substring(0, 30) || 'â€”'
     }
 
     renderHeroSection(currentGame)
@@ -1619,6 +1880,8 @@ async function loadPage() {
     renderSummary(currentGame)
     renderStats(currentGame)
     collectionButtonEl.addEventListener('click', handleCollectionAction)
+    wishlistButtonEl?.addEventListener('click', handleWishlistAction)
+    collectionRemoveButtonEl?.addEventListener('click', handleCollectionRemove)
     await refreshCollectionStatus()
     await loadEncyclopedia(currentGame.id)
     await loadSimilar(currentGame.id)
@@ -1631,6 +1894,14 @@ async function loadPage() {
     collectionStateEl.textContent = 'Fiche indisponible.'
     collectionButtonEl.disabled = true
     collectionButtonEl.textContent = 'Indisponible'
+    if (wishlistButtonEl) {
+      wishlistButtonEl.disabled = true
+      wishlistButtonEl.textContent = 'Indisponible'
+    }
+    if (collectionRemoveButtonEl) {
+      collectionRemoveButtonEl.hidden = true
+      collectionRemoveButtonEl.disabled = true
+    }
     if (editorialShellEl) editorialShellEl.hidden = true
     if (relatedShellEl) relatedShellEl.hidden = true
   }

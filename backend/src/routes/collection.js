@@ -111,6 +111,10 @@ function normalizeCollectionPayload(body) {
   }
 }
 
+function hasOwnField(body, field) {
+  return Object.prototype.hasOwnProperty.call(body || {}, field)
+}
+
 function toPriceNumber(value) {
   const numeric = Number(value)
   return Number.isFinite(numeric) ? numeric : 0
@@ -335,33 +339,57 @@ router.patch('/api/collection/:id', handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: 'Collection item not found' })
   }
 
-  const price_threshold = normalizePriceThreshold(req.body?.price_threshold)
-  if (price_threshold !== null && (!Number.isFinite(price_threshold) || price_threshold <= 0)) {
-    return res.status(400).json({ ok: false, error: 'price_threshold must be a positive number' })
+  const nextValues = {}
+
+  if (hasOwnField(req.body, 'condition')) {
+    const condition = normalizeCollectionCondition(req.body?.condition)
+    if (!VALID_COLLECTION_CONDITIONS.has(condition)) {
+      return res.status(400).json({ ok: false, error: 'condition must be one of Loose, CIB or Mint' })
+    }
+    nextValues.condition = condition
   }
 
-  const price_paid = normalizePricePaid(req.body?.price_paid)
-  if (price_paid !== null && (!Number.isFinite(price_paid) || price_paid <= 0)) {
-    return res.status(400).json({ ok: false, error: 'price_paid must be a positive number' })
+  if (hasOwnField(req.body, 'list_type')) {
+    const listType = normalizeCollectionListType(req.body?.list_type)
+    if (!VALID_COLLECTION_LIST_TYPES.has(listType)) {
+      return res.status(400).json({ ok: false, error: 'list_type must be one of owned, wanted or for_sale' })
+    }
+    nextValues.list_type = listType
   }
 
-  const purchase_date = req.body?.purchase_date ? String(req.body.purchase_date).trim() : null
-  if (purchase_date && !/^\d{4}-\d{2}-\d{2}$/.test(purchase_date)) {
-    return res.status(400).json({ ok: false, error: 'purchase_date must use YYYY-MM-DD' })
+  if (hasOwnField(req.body, 'price_threshold')) {
+    const priceThreshold = normalizePriceThreshold(req.body?.price_threshold)
+    if (priceThreshold !== null && (!Number.isFinite(priceThreshold) || priceThreshold <= 0)) {
+      return res.status(400).json({ ok: false, error: 'price_threshold must be a positive number' })
+    }
+    nextValues.price_threshold = priceThreshold
   }
 
-  const personal_note = req.body?.personal_note === undefined
-    ? item.personal_note
-    : (String(req.body.personal_note ?? '').trim() || null)
-  const notes = req.body?.notes === undefined
-    ? item.notes
-    : (String(req.body.notes ?? '').trim() || null)
+  if (hasOwnField(req.body, 'price_paid')) {
+    const pricePaid = normalizePricePaid(req.body?.price_paid)
+    if (pricePaid !== null && (!Number.isFinite(pricePaid) || pricePaid <= 0)) {
+      return res.status(400).json({ ok: false, error: 'price_paid must be a positive number' })
+    }
+    nextValues.price_paid = pricePaid
+  }
 
-  item.price_threshold = price_threshold
-  item.price_paid = price_paid
-  item.purchase_date = purchase_date
-  item.personal_note = personal_note
-  item.notes = notes
+  if (hasOwnField(req.body, 'purchase_date')) {
+    const purchaseDate = req.body?.purchase_date ? String(req.body.purchase_date).trim() : null
+    if (purchaseDate && !/^\d{4}-\d{2}-\d{2}$/.test(purchaseDate)) {
+      return res.status(400).json({ ok: false, error: 'purchase_date must use YYYY-MM-DD' })
+    }
+    nextValues.purchase_date = purchaseDate
+  }
+
+  if (hasOwnField(req.body, 'personal_note')) {
+    nextValues.personal_note = String(req.body.personal_note ?? '').trim() || null
+  }
+
+  if (hasOwnField(req.body, 'notes')) {
+    nextValues.notes = String(req.body.notes ?? '').trim() || null
+  }
+
+  Object.assign(item, nextValues)
   await item.save()
 
   return res.json({

@@ -61,11 +61,15 @@
       <section class="collection-card">
         <h2>Collection</h2>
         <div class="collection-row">
-          <div>
+          <div class="collection-state-block">
             <div id="collection-state" class="collection-state">Chargement...</div>
             <div id="collection-current-meta" class="collection-current-meta"></div>
           </div>
-          <button id="collection-button" type="button" class="btn" disabled>Chargement...</button>
+          <div class="collection-action-group">
+            <button id="collection-button" type="button" class="btn" disabled>Chargement...</button>
+            <button id="wishlist-button" type="button" class="btn" disabled>Wishlist</button>
+            <button id="collection-remove-button" type="button" class="btn btn-danger" hidden>Retirer</button>
+          </div>
         </div>
         <div id="collection-form" class="collection-form">
           <div class="collection-controls">
@@ -74,14 +78,30 @@
               <option value="CIB">CIB</option>
               <option value="Mint">Mint</option>
             </select>
+            <input
+              id="collection-price-paid"
+              class="collection-condition-select"
+              type="number"
+              min="0"
+              step="0.01"
+              inputmode="decimal"
+              placeholder="Prix d'achat"
+              aria-label="Prix d'achat"
+            />
+            <input
+              id="collection-purchase-date"
+              class="collection-condition-select"
+              type="date"
+              aria-label="Date d'achat"
+            />
           </div>
-          <input
+          <textarea
             id="collection-notes"
             class="collection-note-input"
-            type="text"
-            maxlength="160"
-            placeholder="Notes optionnelles..."
-          />
+            maxlength="320"
+            rows="2"
+            placeholder="Notes personnelles ou contexte d'achat..."
+          ></textarea>
         </div>
         <div id="collection-status" class="status-text"></div>
       </section>

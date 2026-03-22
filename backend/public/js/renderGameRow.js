@@ -10,7 +10,12 @@ function escapeHtml(value) {
 }
 
 function renderGameRow(game, options = {}) {
-  const { linkTo = 'game-detail', showPrice = true, showRarity = true } = options
+  const {
+    linkTo = 'game-detail',
+    showPrice = true,
+    showRarity = true,
+    collectionState = null,
+  } = options
   const rarityColors = {
     LEGENDARY: 'var(--confidence-high)',
     EPIC: 'var(--text-alert)',
@@ -42,11 +47,12 @@ function renderGameRow(game, options = {}) {
   const loosePrice = showPrice
     ? (game.loosePrice ? `$${Math.round(game.loosePrice)}` : '&mdash;')
     : ''
+  const showOwnedBadge = String(collectionState || '').toLowerCase() === 'owned'
 
   el.innerHTML = `
     <span class="result-row-indicator">&rsaquo;</span>
     <div class="result-info">
-      <span class="result-title">${escapeHtml(game.title || '')}</span>
+      <span class="result-title" title="${escapeHtml(game.title || '')}">${escapeHtml(game.title || '')}${showOwnedBadge ? '<span class="result-owned-badge">OWNED</span>' : ''}</span>
       <span class="result-meta">${escapeHtml(consoleName)} &middot; ${escapeHtml(year)}${genre ? ` &middot; ${escapeHtml(genre)}` : ''}</span>
     </div>
     <div class="result-signal">

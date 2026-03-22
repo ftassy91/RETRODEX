@@ -95,7 +95,7 @@ describe('API RetroDex', () => {
     expect(Array.isArray(res.body.by_platform)).toBe(true)
   })
 
-  test('PATCH /api/collection/:id met a jour les metadonnees d achat', async () => {
+  test('PATCH /api/collection/:id met a jour les metadonnees et preserve les champs omis', async () => {
     const list = await request(app).get('/api/collection')
     expect(list.status).toBe(200)
     expect(Array.isArray(list.body.items)).toBe(true)
@@ -105,6 +105,8 @@ describe('API RetroDex', () => {
     const res = await request(app)
       .patch('/api/collection/' + first.gameId)
       .send({
+        condition: 'Mint',
+        list_type: 'wanted',
         price_threshold: 111,
         price_paid: 44,
         purchase_date: '2025-01-15',
@@ -114,10 +116,25 @@ describe('API RetroDex', () => {
 
     expect(res.status).toBe(200)
     expect(res.body.ok).toBe(true)
+    expect(res.body.item.condition).toBe('Mint')
+    expect(res.body.item.list_type).toBe('wanted')
     expect(res.body.item.price_threshold).toBe(111)
     expect(res.body.item.price_paid).toBe(44)
     expect(res.body.item.purchase_date).toBe('2025-01-15')
     expect(res.body.item.personal_note).toBe('jest note')
     expect(res.body.item.notes).toBe('jest patch')
+
+    const preserveRes = await request(app)
+      .patch('/api/collection/' + first.gameId)
+      .send({
+        list_type: 'owned',
+      })
+
+    expect(preserveRes.status).toBe(200)
+    expect(preserveRes.body.ok).toBe(true)
+    expect(preserveRes.body.item.list_type).toBe('owned')
+    expect(preserveRes.body.item.condition).toBe('Mint')
+    expect(preserveRes.body.item.price_paid).toBe(44)
+    expect(preserveRes.body.item.purchase_date).toBe('2025-01-15')
   })
 })

@@ -3,7 +3,7 @@
 ;(() => {
   const { byId, qsa, setHtml, setText } = window.RetroDexDom || {}
   const { escapeHtml } = window.RetroDexFormat || {}
-  const { fetchSearch } = window.RetroDexApi || {}
+  const { fetchSearch, fetchCollectionIndex } = window.RetroDexApi || {}
   const { getParams, replaceCurrentPath } = window.RetroDexState || {}
 
   if (!byId || !qsa || !setHtml || !setText || !escapeHtml || !fetchSearch || !getParams || !replaceCurrentPath) {
@@ -35,6 +35,15 @@
   let orderedResults = []
   let selectedIndex = -1
   let selectedItem = null
+  let collectionIndex = null
+
+  function isOwnedGame(item) {
+    return Boolean(item?._type === 'game' && collectionIndex?.ownedIds?.has(item.id))
+  }
+
+  function ownedBadgeMarkup(item) {
+    return isOwnedGame(item) ? '<span class="result-owned-badge">OWNED</span>' : ''
+  }
 
   function updateActiveFilter() {
     typeButtons.forEach((button) => {
@@ -135,13 +144,26 @@
     searchPreviewEl.style.display = 'none'
   }
 
+  function buildDetailUrl(itemId) {
+    const nextParams = new URLSearchParams()
+    const query = searchInputEl.value.trim()
+
+    if (query) nextParams.set('q', query)
+    if (activeType !== 'all') nextParams.set('type', activeType)
+    if (activeSort !== 'relevance') nextParams.set('sort', activeSort)
+    nextParams.set('source', 'search')
+    nextParams.set('id', itemId)
+
+    return `/game-detail.html?${nextParams.toString()}`
+  }
+
   function openResult(item) {
     if (!item) return
     if (item._type === 'franchise') {
       window.location.href = `/franchises.html?slug=${encodeURIComponent(item.slug)}`
       return
     }
-    window.location.href = `/game-detail.html?id=${encodeURIComponent(item.id)}`
+    window.location.href = buildDetailUrl(item.id)
   }
 
   function showPreview(item) {
@@ -151,6 +173,7 @@
       <span><span class="pv-label">Console </span><span class="pv-val">${escapeHtml(item.console || item.developer || '-')}</span></span>
       <span><span class="pv-label">Annee </span><span class="pv-val">${escapeHtml(item.year || (item.first_game ? `${item.first_game}->${item.last_game}` : '-'))}</span></span>
       <span><span class="pv-label">Rarete </span><span class="pv-val">${escapeHtml(item.rarity || '-')}</span></span>
+      ${isOwnedGame(item) ? '<span><span class="pv-label">Statut </span><span class="pv-val">Dans ma collection</span></span>' : ''}
     `
     previewPriceEl.innerHTML = item.loosePrice
       ? `
@@ -189,7 +212,7 @@
     row.dataset.id = item.id
     row.innerHTML = `
       <span class="terminal-row-indicator">></span>
-      <span class="result-title" style="color:var(--text-primary)">${escapeHtml(item.title)}</span>
+      <span class="result-title" style="color:var(--text-primary)">${escapeHtml(item.title)}${ownedBadgeMarkup(item)}</span>
       <span class="result-meta">${escapeHtml(item.console || '')} - ${escapeHtml(item.year || '-')}</span>
       <span style="text-align:right;color:var(--text-alert)">${item.loosePrice ? '$' + Math.round(item.loosePrice) : '-'}</span>
       <span style="text-align:center;font-size:9px;color:${rarityColor(item.rarity)}">${escapeHtml(item.rarity || '-')}</span>
@@ -268,6 +291,18 @@
       renderResults(lastResults, query)
     } catch (_error) {
       renderEmptyState('Recherche indisponible', 'Le terminal ne peut pas interroger l\'archive pour le moment.')
+    }
+  }
+
+  async function loadCollectionSignals() {
+    if (typeof fetchCollectionIndex !== 'function') {
+      return
+    }
+
+    try {
+      collectionIndex = await fetchCollectionIndex()
+    } catch (_error) {
+      collectionIndex = null
     }
   }
 
@@ -375,12 +410,14 @@
     bindInput()
     bindGlobalKeys()
 
-    if (searchInputEl.value.trim().length >= 2) {
-      performSearch()
-    } else {
-      renderMessage('Saisissez au moins 2 caracteres pour interroger l\'archive.')
-      requestAnimationFrame(() => searchInputEl.focus())
-    }
+    loadCollectionSignals().finally(() => {
+      if (searchInputEl.value.trim().length >= 2) {
+        performSearch()
+      } else {
+        renderMessage('Saisissez au moins 2 caracteres pour interroger l\'archive.')
+        requestAnimationFrame(() => searchInputEl.focus())
+      }
+    })
   }
 
   init()

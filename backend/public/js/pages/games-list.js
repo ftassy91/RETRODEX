@@ -24,6 +24,7 @@ const toggleAdvancedEl = document.getElementById('toggle-advanced')
 const filtersMobileToggleEl = document.getElementById('filters-mobile-toggle')
 const filtersSidebarContentEl = document.getElementById('filters-sidebar-content')
 const quickDetailEl = document.getElementById('quick-detail')
+const CoreApi = window.RetroDexApi || {}
 
 let debounceTimer
 let currentOffset = 0
@@ -32,6 +33,7 @@ let masterGames = []
 let fetchedGames = []
 let filteredGames = []
 let selectedGameId = ''
+let collectionIndex = null
 
 const esc = (value) => String(value ?? '')
   .replaceAll('&', '&amp;')
@@ -230,8 +232,20 @@ function detailUrl(gameId, currentState) {
   params.set('sort', currentState.sort)
   params.set('offset', String(currentState.offset))
   params.set('id', gameId)
+  params.set('source', 'catalog')
 
   return `/game-detail.html?${params.toString()}`
+}
+
+function getCollectionState(gameId) {
+  if (!collectionIndex || !gameId) {
+    return null
+  }
+
+  if (collectionIndex.ownedIds?.has(gameId)) return 'owned'
+  if (collectionIndex.wantedIds?.has(gameId)) return 'wanted'
+  if (collectionIndex.forSaleIds?.has(gameId)) return 'for_sale'
+  return null
 }
 
 function navigateTo(gameId) {
@@ -259,6 +273,7 @@ function shortSummary(game) {
 
 function quickDetailMarkup(game, currentState) {
   const description = shortSummary(game)
+  const collectionState = getCollectionState(game.id)
   return `
     <div class="detail-content">
       <div class="detail-title">${esc(game.title || 'Sans titre')}</div>
@@ -266,6 +281,7 @@ function quickDetailMarkup(game, currentState) {
         <span class="badge-platform">${esc(game.console || 'Console inconnue')}</span>
         <span class="badge-year">${esc(game.year || 'n/a')}</span>
         <span class="result-badge rarity-badge rarity-${esc(String(game.rarity || 'common').toLowerCase())}">${esc(game.rarity || 'COMMON')}</span>
+        ${collectionState === 'owned' ? '<span class="result-owned-badge">OWNED</span>' : ''}
       </div>
       <div class="detail-prices">
         <div class="detail-price-col">
@@ -408,7 +424,9 @@ function render(currentState) {
   const totalPages = Math.max(1, Math.ceil(total / currentState.limit))
 
   renderSummary(currentState, total)
-  pageIndicatorEl.textContent = `Page ${page} of ${totalPages}`
+  pageIndicatorEl.textContent = total
+    ? `Page ${page}/${totalPages} - ${start + 1}-${end} sur ${total}`
+    : 'Page 1/1 - 0 resultat'
   prevButtonEl.disabled = start <= 0
   nextButtonEl.disabled = end >= total
   renderPageNumbers(page, totalPages)
@@ -421,6 +439,7 @@ function render(currentState) {
   resultsEl.innerHTML = ''
   pageItems.forEach((game) => {
     const rowEl = renderGameRow(game, {
+      collectionState: getCollectionState(game.id),
       onClick: () => navigateTo(game.id),
     })
     rowEl.addEventListener('mouseenter', () => previewQuickDetail(game, currentState))
@@ -535,6 +554,18 @@ async function loadGames() {
   } catch (error) {
     loadingIndicatorEl.textContent = `Erreur: ${error.message}`
     resultsEl.innerHTML = '<div class="empty-state">Impossible de charger le catalogue.</div>'
+  }
+}
+
+async function loadCollectionSignals() {
+  if (typeof CoreApi.fetchCollectionIndex !== 'function') {
+    return
+  }
+
+  try {
+    collectionIndex = await CoreApi.fetchCollectionIndex()
+  } catch (_error) {
+    collectionIndex = null
   }
 }
 
@@ -676,7 +707,7 @@ window.addEventListener('DOMContentLoaded', () => {
   toggleFiltersPanel(window.innerWidth >= 768 || hasFilters || hasAdv)
 })
 
-Promise.all([loadConsoles(), loadMeta()])
+Promise.all([loadConsoles(), loadMeta(), loadCollectionSignals()])
   .then(() => loadGames())
   .then(() => {
     if (selectedGameId) loadQuickDetail(selectedGameId)

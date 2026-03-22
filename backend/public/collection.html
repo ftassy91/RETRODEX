@@ -83,6 +83,25 @@
         </div>
       </div>
 
+      <div class="terminal-filter-bar collection-toolbar">
+        <div class="terminal-filter-group collection-toolbar-group">
+          <input id="collection-search-input" class="collection-toolbar-input" type="search" placeholder="Filtrer par titre ou note..." />
+          <select id="collection-console-filter" class="collection-toolbar-select">
+            <option value="">Toutes les consoles</option>
+          </select>
+          <select id="collection-sort-select" class="collection-toolbar-select">
+            <option value="title_asc">Titre A-Z</option>
+            <option value="title_desc">Titre Z-A</option>
+            <option value="paid_desc">Prix d'achat decroissant</option>
+            <option value="paid_asc">Prix d'achat croissant</option>
+            <option value="value_desc">Valeur loose decroissante</option>
+          </select>
+        </div>
+        <div class="terminal-filter-group" style="margin-left:auto">
+          <button class="terminal-filter-btn" id="collection-export-btn" type="button">EXPORT CSV</button>
+        </div>
+      </div>
+
       <div id="status-text" class="terminal-context terminal-status-line">
         Chargement...
       </div>
@@ -107,12 +126,48 @@
         <div class="terminal-preview-title" id="detail-title">-</div>
         <div class="terminal-preview-row" id="detail-row1"></div>
         <div class="terminal-preview-row" id="detail-row2"></div>
+        <form id="collection-edit-form" class="collection-form collection-edit-form" hidden>
+          <div class="collection-controls">
+            <select id="edit-condition" class="collection-condition-select" aria-label="Etat du jeu">
+              <option value="Loose">Loose</option>
+              <option value="CIB">CIB</option>
+              <option value="Mint">Mint</option>
+            </select>
+            <input
+              id="edit-price-paid"
+              class="collection-condition-select"
+              type="number"
+              min="0"
+              step="0.01"
+              inputmode="decimal"
+              placeholder="Prix d'achat"
+              aria-label="Prix d'achat"
+            />
+            <input
+              id="edit-purchase-date"
+              class="collection-condition-select"
+              type="date"
+              aria-label="Date d'achat"
+            />
+          </div>
+          <textarea
+            id="edit-notes"
+            class="collection-note-input"
+            rows="2"
+            maxlength="320"
+            placeholder="Notes personnelles..."
+          ></textarea>
+          <div class="collection-edit-actions">
+            <button id="collection-edit-save-btn" class="terminal-inline-btn" type="submit">ENREGISTRER</button>
+            <button id="collection-edit-cancel-btn" class="terminal-inline-btn" type="button">ANNULER</button>
+          </div>
+        </form>
       </div>
 
       <div class="terminal-footer">
         <span><kbd>[UP/DN]</kbd> Naviguer</span>
         <span><kbd>[Enter]</kbd> Ouvrir la fiche</span>
-        <span><kbd>[Del]</kbd> Retirer</span>
+        <span><kbd>[Del]</kbd> Retirer avec confirmation</span>
         <span><kbd>[/]</kbd> Rechercher pour ajouter</span>
       </div>
 
