@@ -8,6 +8,7 @@ const RetrodexIndex = require('../../models/RetrodexIndex')
 const CommunityReport = require('../../models/CommunityReport')
 const Franchise = require('../models/Franchise')
 const { handleAsync } = require('../helpers/query')
+const { dedupeSearchResults } = require('../helpers/search')
 
 const router = Router()
 
@@ -25,6 +26,10 @@ function parseItemsOffset(value, defaultValue = 0) {
     return defaultValue
   }
   return parsed
+}
+
+function buildSearchFetchLimit(value, multiplier = 2, hardCap = 200) {
+  return Math.min(Math.max(value * multiplier, value), hardCap)
 }
 
 function buildItemsWhere(query = {}) {
@@ -241,6 +246,8 @@ router.get('/api/search', handleAsync(async (req, res) => {
 
   let games = []
   let franchises = []
+  const requestedGamesLimit = type === 'all' ? Math.ceil(limit * 0.7) : limit
+  const requestedFranchisesLimit = type === 'all' ? Math.ceil(limit * 0.3) : limit
 
   if (type === 'all' || type === 'game') {
     games = await Game.findAll({
@@ -253,10 +260,12 @@ router.get('/api/search', handleAsync(async (req, res) => {
           ...(numericYear ? [{ year: numericYear }] : []),
         ],
       },
-      attributes: ['id', 'title', 'console', 'year', 'rarity', 'loosePrice', 'slug'],
+      attributes: ['id', 'title', 'console', 'year', 'rarity', 'loosePrice', 'slug', 'franch_id', 'source_confidence'],
       order: [['rarity', 'ASC'], ['title', 'ASC']],
-      limit: type === 'all' ? Math.ceil(limit * 0.7) : limit,
+      limit: buildSearchFetchLimit(requestedGamesLimit),
     })
+
+    games = dedupeSearchResults(games.map((game) => ({ ...game.toJSON(), _type: 'game' }))).slice(0, requestedGamesLimit)
   }
 
   if (type === 'all' || type === 'franchise') {
@@ -269,13 +278,13 @@ router.get('/api/search', handleAsync(async (req, res) => {
       },
       attributes: ['id', 'name', 'slug', 'first_game', 'last_game', 'developer'],
       order: [['name', 'ASC']],
-      limit: type === 'all' ? Math.ceil(limit * 0.3) : limit,
+      limit: requestedFranchisesLimit,
     })
   }
 
   const results = [
     ...franchises.map((franchise) => ({ ...franchise.toJSON(), _type: 'franchise' })),
-    ...games.map((game) => ({ ...game.toJSON(), _type: 'game' })),
+    ...games,
   ]
 
   return res.json({

@@ -1,6 +1,7 @@
 const request = require('supertest')
 
 const app = require('../src/server')
+const { buildSearchResultDedupeKey } = require('../src/helpers/search')
 
 afterAll(async () => {
   const sequelize = require('../config/database')
@@ -38,6 +39,28 @@ describe('API RetroDex', () => {
     expect(Array.isArray(res.body.results)).toBe(true)
     expect(res.body.results.length).toBeGreaterThan(0)
     expect(res.body.results.some((item) => String(item.year) === '1998')).toBe(true)
+  })
+
+  test('GET /api/search retire les doublons stricts de jeux', async () => {
+    const res = await request(app).get('/api/search?q=zel&type=game&limit=20')
+    expect(res.status).toBe(200)
+    expect(Array.isArray(res.body.results)).toBe(true)
+
+    const keys = res.body.results.map((item) => buildSearchResultDedupeKey(item))
+    expect(new Set(keys).size).toBe(keys.length)
+
+    const majorasMask = res.body.results.filter((item) => item.title === "The Legend of Zelda: Majora's Mask")
+    expect(majorasMask).toHaveLength(1)
+  })
+
+  test('GET /api/search preserve les variantes multi-plateformes legitimes', async () => {
+    const res = await request(app).get('/api/search?q=fifa world cup&type=game&limit=20')
+    expect(res.status).toBe(200)
+    expect(Array.isArray(res.body.results)).toBe(true)
+
+    const worldCup2002 = res.body.results.filter((item) => item.title === '2002 FIFA World Cup')
+    expect(worldCup2002.length).toBeGreaterThan(1)
+    expect(new Set(worldCup2002.map((item) => item.console)).size).toBeGreaterThan(1)
   })
 
   test('GET /api/stats retourne les metriques enrichies', async () => {
