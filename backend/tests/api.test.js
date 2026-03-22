@@ -63,6 +63,29 @@ describe('API RetroDex', () => {
     expect(new Set(worldCup2002.map((item) => item.console)).size).toBeGreaterThan(1)
   })
 
+  test('GET /api/games/:id/price-history expose des series reelles par etat', async () => {
+    const res = await request(app).get('/api/games/alien-soldier-sega-genesis/price-history')
+    expect(res.status).toBe(200)
+    expect(res.body.gameId).toBe('alien-soldier-sega-genesis')
+    expect(res.body.series.loose.available).toBe(true)
+    expect(res.body.series.loose.points.length).toBeGreaterThanOrEqual(2)
+    expect(res.body.series.cib.available).toBe(false)
+    expect(res.body.series.mint.available).toBe(false)
+    expect(Array.isArray(res.body.availableSeries)).toBe(true)
+    expect(res.body.availableSeries).toContain('loose')
+    expect(res.body.missingSeries).toContain('cib')
+    expect(res.body.periods.map((period) => period.id)).toEqual(['1m', '6m', '1y', 'all'])
+  })
+
+  test('GET /api/games/:id/price-history ne fabrique pas de courbes pour les jeux sans observations', async () => {
+    const res = await request(app).get('/api/games/tetris-game-boy/price-history')
+    expect(res.status).toBe(200)
+    expect(res.body.hasAnyHistory).toBe(false)
+    expect(res.body.series.loose.points).toHaveLength(0)
+    expect(res.body.series.cib.points).toHaveLength(0)
+    expect(res.body.series.mint.points).toHaveLength(0)
+  })
+
   test('GET /api/stats retourne les metriques enrichies', async () => {
     const res = await request(app).get('/api/stats')
     expect(res.status).toBe(200)

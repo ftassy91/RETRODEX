@@ -8117,3 +8117,194 @@ body::-webkit-scrollbar-thumb,
   }
 }
 
+/* ========================================
+   GAME DETAIL - STATE COMPARISON
+======================================== */
+
+.price-history .chart-toggle,
+.price-history .period-selector {
+  align-items: center;
+}
+
+.compare-history-chart {
+  overflow: hidden;
+  min-height: 214px;
+}
+
+.compare-history-chart #price-chart {
+  height: 180px;
+}
+
+.history-legend-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.history-legend-btn.is-disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
+.history-legend-swatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--state-color, var(--text-primary));
+  box-shadow: 0 0 0 1px rgba(8, 12, 8, 0.96);
+  flex: 0 0 9px;
+}
+
+.price-history-note {
+  min-height: 20px;
+  margin-top: 10px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.price-history-tooltip {
+  position: absolute;
+  z-index: 2;
+  min-width: 150px;
+  max-width: 220px;
+  padding: 9px 10px;
+  border: 1px solid rgba(155, 188, 15, 0.28);
+  background: rgba(8, 12, 8, 0.98);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.6;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 10px));
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
+.price-history-tooltip-title {
+  margin-bottom: 4px;
+  color: var(--text-alert);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.price-history-tooltip-copy {
+  color: var(--text-secondary);
+}
+
+.trend-badge.is-muted {
+  border-color: rgba(65, 91, 58, 0.66);
+  color: var(--text-muted);
+}
+
+.price-history .price-stats-row.history-state-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.history-state-card {
+  padding: 12px;
+  border: 1px solid rgba(56, 79, 51, 0.7);
+  background: rgba(8, 12, 8, 0.78);
+}
+
+.history-state-card.is-visible {
+  border-color: rgba(155, 188, 15, 0.34);
+  box-shadow: inset 0 1px 0 rgba(155, 188, 15, 0.05);
+}
+
+.history-state-card.is-muted {
+  background: rgba(7, 10, 7, 0.66);
+}
+
+.history-state-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.history-state-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.history-state-status {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.history-state-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 12px;
+}
+
+.history-state-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.history-state-metric-wide {
+  grid-column: 1 / -1;
+}
+
+.history-state-note {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.history-state-footer {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(48, 68, 44, 0.62);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.history-variation.is-up {
+  color: var(--text-primary);
+}
+
+.history-variation.is-down {
+  color: #e85555;
+}
+
+.history-variation.is-neutral {
+  color: var(--text-muted);
+}
+
+.price-history-point {
+  cursor: pointer;
+}
+
+.price-history-point:hover,
+.price-history-point:focus {
+  stroke: rgba(241, 196, 92, 0.9);
+  stroke-width: 2.4;
+  outline: none;
+}
+
+@media (max-width: 900px) {
+  .price-history .price-stats-row.history-state-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

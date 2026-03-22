@@ -4,6 +4,8 @@ const { Router } = require('express')
 const { Op } = require('sequelize')
 const Game = require('../models/Game')
 const Franchise = require('../models/Franchise')
+const CommunityReport = require('../../models/CommunityReport')
+const RetrodexIndex = require('../../models/RetrodexIndex')
 const { handleAsync, parseLimit, buildGameWhere } = require('../helpers/query')
 const { withGameTrend, buildPriceHistoryPayload } = require('../helpers/priceHistory')
 
@@ -75,7 +77,7 @@ router.get('/games/:id', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games', handleAsync(async (req, res) => {
-  const limit = parseLimit(req.query.limit, 20, 1000)
+  const limit = parseLimit(req.query.limit, 20, 5000)
   const where = buildGameWhere(req.query)
   const includeTrend = String(req.query.include_trend || '') === '1'
 
@@ -118,13 +120,30 @@ router.get('/api/games/:id', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
-  const game = await findGameById(req.params.id)
+  const [game, reports, indexEntries] = await Promise.all([
+    findGameById(req.params.id),
+    CommunityReport.findAll({
+      where: {
+        item_id: req.params.id,
+        item_type: 'game',
+        editorial_excluded: false,
+      },
+      order: [['date_estimated', 'ASC'], ['created_at', 'ASC'], ['id', 'ASC']],
+    }),
+    RetrodexIndex.findAll({
+      where: {
+        item_id: req.params.id,
+        item_type: 'game',
+      },
+      order: [['condition', 'ASC']],
+    }),
+  ])
 
   if (!game) {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
 
-  return res.json(buildPriceHistoryPayload(game))
+  return res.json(buildPriceHistoryPayload(game, { reports, indexEntries }))
 }))
 
 router.get('/api/games/:id/summary', handleAsync(async (req, res) => {

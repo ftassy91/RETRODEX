@@ -32,6 +32,14 @@ const relatedContentEl = document.getElementById('related-content')
 let currentGame = null
 let currentCollectionItem = null
 
+const PRICE_HISTORY_STATES = [
+  { key: 'loose', label: 'Loose', condition: 'Loose', color: '#9bbc0f' },
+  { key: 'cib', label: 'CIB', condition: 'CIB', color: '#f1c45c' },
+  { key: 'mint', label: 'Mint', condition: 'Mint', color: '#7fb0ff' },
+]
+
+const DEFAULT_PRICE_HISTORY_PERIOD = '1y'
+
 function escapeHtml(value) {
   if (typeof CoreFormat.escapeHtml === 'function') {
     return CoreFormat.escapeHtml(value)
@@ -902,7 +910,7 @@ async function loadSimilar(gameId) {
   }
 }
 
-async function loadPriceHistory(gameId) {
+async function loadLegacyPriceHistory(gameId) {
   const response = await fetch(`/api/games/${encodeURIComponent(gameId)}/price-history`)
   if (!response.ok) {
     return
@@ -1043,6 +1051,507 @@ async function loadPriceHistory(gameId) {
       drawChart(activeType)
     })
   })
+}
+
+async function loadPriceHistory(gameId) {
+  const response = await fetch(`/api/games/${encodeURIComponent(gameId)}/price-history`)
+  if (!response.ok) {
+    return
+  }
+
+  const data = await response.json()
+  const sectionEl = detailShellEl?.querySelector('.price-history') || document.querySelector('.price-history')
+  const headingEl = sectionEl?.querySelector('h3')
+  const legendEl = sectionEl?.querySelector('.chart-toggle')
+  const periodsEl = sectionEl?.querySelector('.period-selector')
+  const chartContainerEl = sectionEl?.querySelector('.chart-container')
+  const metricsEl = sectionEl?.querySelector('.price-stats-row')
+  const svg = document.getElementById('price-chart')
+  const labelsEl = document.getElementById('chart-labels')
+
+  if (!sectionEl || !legendEl || !periodsEl || !chartContainerEl || !metricsEl || !svg || !labelsEl) {
+    return
+  }
+
+  if (headingEl) {
+    headingEl.textContent = 'Comparer les etats'
+  }
+
+  let noteEl = document.getElementById('price-history-note')
+  if (!noteEl) {
+    noteEl = document.createElement('div')
+    noteEl.id = 'price-history-note'
+    noteEl.className = 'price-history-note'
+    chartContainerEl.insertAdjacentElement('afterend', noteEl)
+  }
+
+  let tooltipEl = document.getElementById('price-history-tooltip')
+  if (!tooltipEl) {
+    tooltipEl = document.createElement('div')
+    tooltipEl.id = 'price-history-tooltip'
+    tooltipEl.className = 'price-history-tooltip'
+    tooltipEl.hidden = true
+    chartContainerEl.appendChild(tooltipEl)
+  }
+
+  const periods = safeArray(data.periods)
+  const periodMap = new Map(periods.map((period) => [period.id, period]))
+  let activePeriodId = periodMap.has(DEFAULT_PRICE_HISTORY_PERIOD) ? DEFAULT_PRICE_HISTORY_PERIOD : (periods[0]?.id || 'all')
+  const visibleSeries = new Set(safeArray(data.availableSeries))
+
+  function getSeries(stateKey) {
+    return data.series?.[stateKey] || {
+      key: stateKey,
+      label: stateKey.toUpperCase(),
+      available: false,
+      points: [],
+      periods: {},
+      current_price: null,
+      current_price_source: 'unavailable',
+      last_observation: null,
+      confidence_pct: null,
+      source_label: 'Sans historique',
+    }
+  }
+
+  function getPeriod(periodId = activePeriodId) {
+    return periodMap.get(periodId) || periods[0] || { id: 'all', label: 'ALL', days: null }
+  }
+
+  function parseObservationDate(value) {
+    if (!value) {
+      return null
+    }
+
+    const parsed = new Date(`${value}T00:00:00Z`)
+    return Number.isNaN(parsed.getTime()) ? null : parsed
+  }
+
+  function filterPoints(points, periodId = activePeriodId) {
+    const sourcePoints = safeArray(points)
+    const period = getPeriod(periodId)
+    if (!period.days || !sourcePoints.length) {
+      return sourcePoints
+    }
+
+    const latestDate = parseObservationDate(sourcePoints[sourcePoints.length - 1].date)
+    if (!latestDate) {
+      return sourcePoints
+    }
+
+    const cutoff = new Date(latestDate.getTime() - period.days * 24 * 60 * 60 * 1000)
+    return sourcePoints.filter((point) => {
+      const pointDate = parseObservationDate(point.date)
+      return pointDate ? pointDate >= cutoff : false
+    })
+  }
+
+  function formatHistoryDate(value, short = false) {
+    const parsed = parseObservationDate(value)
+    if (!parsed) {
+      return 'Date inconnue'
+    }
+
+    return new Intl.DateTimeFormat('fr-FR', short
+      ? { month: 'short', year: '2-digit', timeZone: 'UTC' }
+      : { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }
+    ).format(parsed)
+  }
+
+  function formatVariation(value) {
+    const number = Number(value)
+    if (!Number.isFinite(number)) {
+      return 'n/a'
+    }
+
+    return `${number > 0 ? '+' : ''}${number.toFixed(1)}%`
+  }
+
+  function formatObservationSummary(observation) {
+    if (observation?.value == null) {
+      return 'Aucune observation'
+    }
+
+    if (!observation.date) {
+      return `Reference courante | ${formatPrice(observation.value, 'n/a')}`
+    }
+
+    return `${formatHistoryDate(observation.date)} | ${formatPrice(observation.value, 'n/a')}`
+  }
+
+  function trendLabel(series, state) {
+    if (series.available) {
+      return {
+        text: state.label,
+        className: data.trend?.[state.key] || 'stable',
+      }
+    }
+
+    if (series.current_price != null) {
+      return {
+        text: `${state.label} REF`,
+        className: 'is-muted',
+      }
+    }
+
+    return {
+      text: `${state.label} N/A`,
+      className: 'is-muted',
+    }
+  }
+
+  function buildVisibleEntries() {
+    return PRICE_HISTORY_STATES
+      .filter((state) => visibleSeries.has(state.key))
+      .map((state) => {
+        const series = getSeries(state.key)
+        return {
+          ...state,
+          series,
+          points: filterPoints(series.points, activePeriodId),
+        }
+      })
+      .filter((entry) => entry.points.length)
+  }
+
+  function hideTooltip() {
+    tooltipEl.hidden = true
+  }
+
+  function showTooltip(target, event) {
+    const stateLabel = target.dataset.stateLabel || 'Etat'
+    const date = target.dataset.date || ''
+    const value = Number(target.dataset.value)
+    const source = target.dataset.source || ''
+    const confidence = Number(target.dataset.confidence)
+    const sourceLabel = source === 'editorial'
+      ? 'vente editoriale'
+      : source === 'community'
+        ? 'observation communautaire'
+        : source === 'retrodex_index'
+          ? 'indice RetroDex'
+          : source
+
+    tooltipEl.innerHTML = `
+      <div class="price-history-tooltip-title">${escapeHtml(stateLabel)}</div>
+      <div>${escapeHtml(formatHistoryDate(date))}</div>
+      <div>${escapeHtml(formatPrice(value, 'n/a'))}</div>
+      <div class="price-history-tooltip-copy">
+        ${escapeHtml(sourceLabel || 'source inconnue')}
+        ${Number.isFinite(confidence) && confidence > 0 ? ` | ${escapeHtml(`${Math.round(confidence)}% confiance`)}` : ''}
+      </div>
+    `
+
+    const rect = chartContainerEl.getBoundingClientRect()
+    const left = event?.clientX != null ? event.clientX - rect.left : Number(target.dataset.left || 0)
+    const top = event?.clientY != null ? event.clientY - rect.top : Number(target.dataset.top || 0)
+
+    tooltipEl.style.left = `${left}px`
+    tooltipEl.style.top = `${Math.max(18, top)}px`
+    tooltipEl.hidden = false
+  }
+
+  function syncTrendBadges() {
+    PRICE_HISTORY_STATES.forEach((state) => {
+      const badge = document.getElementById(`trend-${state.key}`)
+      if (!badge) {
+        return
+      }
+
+      const { text, className } = trendLabel(getSeries(state.key), state)
+      badge.textContent = text
+      badge.classList.remove('up', 'down', 'stable', 'is-muted')
+      if (className) {
+        badge.classList.add(className)
+      }
+    })
+  }
+
+  function renderLegend() {
+    legendEl.innerHTML = PRICE_HISTORY_STATES.map((state) => {
+      const series = getSeries(state.key)
+      return `
+        <button
+          type="button"
+          class="chart-btn history-legend-btn ${visibleSeries.has(state.key) ? 'active' : ''} ${series.available ? '' : 'is-disabled'}"
+          data-state-key="${escapeHtml(state.key)}"
+          ${series.available ? '' : 'disabled'}
+        >
+          <span class="history-legend-swatch" style="--state-color:${state.color}"></span>
+          ${escapeHtml(state.label)}
+        </button>
+      `
+    }).join('')
+
+    legendEl.querySelectorAll('[data-state-key]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const key = button.dataset.stateKey
+        if (!key) {
+          return
+        }
+
+        if (visibleSeries.has(key)) {
+          visibleSeries.delete(key)
+        } else {
+          visibleSeries.add(key)
+        }
+
+        refreshHistory()
+      })
+    })
+  }
+
+  function renderPeriods() {
+    periodsEl.innerHTML = periods.map((period) => `
+      <button
+        type="button"
+        class="period-btn ${period.id === activePeriodId ? 'active' : ''}"
+        data-period-id="${escapeHtml(period.id)}"
+      >
+        ${escapeHtml(period.label)}
+      </button>
+    `).join('')
+
+    periodsEl.querySelectorAll('[data-period-id]').forEach((button) => {
+      button.addEventListener('click', () => {
+        activePeriodId = button.dataset.periodId || DEFAULT_PRICE_HISTORY_PERIOD
+        refreshHistory()
+      })
+    })
+  }
+
+  function renderMetrics() {
+    const period = getPeriod(activePeriodId)
+    metricsEl.classList.add('history-state-grid')
+    metricsEl.innerHTML = PRICE_HISTORY_STATES.map((state) => {
+      const series = getSeries(state.key)
+      const stats = series.periods?.[activePeriodId] || {}
+      const status = series.available ? 'OBSERVED' : series.current_price != null ? 'REFERENCE' : 'NO DATA'
+      const variationClass = Number(stats.variation_pct) > 0
+        ? 'is-up'
+        : Number(stats.variation_pct) < 0
+          ? 'is-down'
+          : 'is-neutral'
+
+      return `
+        <article class="history-state-card ${series.available ? '' : 'is-muted'} ${visibleSeries.has(state.key) ? 'is-visible' : ''}">
+          <div class="history-state-head">
+            <span class="history-state-name">
+              <span class="history-legend-swatch" style="--state-color:${state.color}"></span>
+              ${escapeHtml(state.label)}
+            </span>
+            <span class="history-state-status">${escapeHtml(status)}</span>
+          </div>
+          <div class="history-state-metric-grid">
+            <div class="history-state-metric">
+              <span class="stat-label">Actuel</span>
+              <span class="stat-value">${escapeHtml(formatPrice(series.current_price, 'n/a'))}</span>
+            </div>
+            <div class="history-state-metric">
+              <span class="stat-label">Var. ${escapeHtml(period.label)}</span>
+              <span class="stat-value history-variation ${variationClass}">
+                ${escapeHtml(stats.has_variation ? formatVariation(stats.variation_pct) : 'n/a')}
+              </span>
+            </div>
+            <div class="history-state-metric history-state-metric-wide">
+              <span class="stat-label">Derniere obs.</span>
+              <span class="history-state-note">${escapeHtml(formatObservationSummary(series.last_observation))}</span>
+            </div>
+          </div>
+          <div class="history-state-footer">
+            ${escapeHtml(series.source_label || 'Sans historique')}
+            ${Number.isFinite(Number(series.confidence_pct)) && Number(series.confidence_pct) > 0
+              ? ` | ${escapeHtml(`${Math.round(Number(series.confidence_pct))}% confiance`)}`
+              : ''}
+          </div>
+        </article>
+      `
+    }).join('')
+  }
+
+  function renderNote(visibleEntries) {
+    if (!data.hasAnyHistory) {
+      noteEl.textContent = 'Historique observe indisponible pour ce jeu. Les references par etat restent affichees ci-dessous.'
+      return
+    }
+
+    if (!visibleSeries.size) {
+      noteEl.textContent = 'Activez au moins un etat pour comparer les observations disponibles.'
+      return
+    }
+
+    if (!visibleEntries.length) {
+      noteEl.textContent = `Aucune observation datee sur ${getPeriod(activePeriodId).label}.`
+      return
+    }
+
+    if (safeArray(data.missingSeries).length) {
+      const missingLabels = PRICE_HISTORY_STATES
+        .filter((state) => safeArray(data.missingSeries).includes(state.key))
+        .map((state) => state.label)
+        .join(', ')
+
+      noteEl.textContent = `Series indisponibles: ${missingLabels}. ${data.sourceNotice || ''}`.trim()
+      return
+    }
+
+    noteEl.textContent = data.sourceNotice || ''
+  }
+
+  function renderChart() {
+    const visibleEntries = buildVisibleEntries()
+    const width = 600
+    const height = 180
+    const padLeft = 38
+    const padRight = 14
+    const padTop = 16
+    const padBottom = 28
+
+    hideTooltip()
+    renderNote(visibleEntries)
+
+    if (!visibleEntries.length) {
+      svg.innerHTML = `
+        <text x="${width / 2}" y="${height / 2}" text-anchor="middle" fill="#5a8a5a" font-size="12">
+          ${escapeHtml(data.hasAnyHistory ? 'Aucune observation visible sur cette periode.' : 'Historique observe indisponible.')}
+        </text>
+      `
+      labelsEl.innerHTML = ''
+      return
+    }
+
+    const chartPoints = visibleEntries.flatMap((entry) => entry.points
+      .map((point) => {
+        const date = parseObservationDate(point.date)
+        return date ? {
+          ...point,
+          timestamp: date.getTime(),
+          stateKey: entry.key,
+          stateLabel: entry.label,
+          color: entry.color,
+        } : null
+      })
+      .filter(Boolean))
+
+    if (!chartPoints.length) {
+      svg.innerHTML = `
+        <text x="${width / 2}" y="${height / 2}" text-anchor="middle" fill="#5a8a5a" font-size="12">
+          Aucune observation exploitable pour cette periode.
+        </text>
+      `
+      labelsEl.innerHTML = ''
+      return
+    }
+
+    const timestamps = chartPoints.map((point) => point.timestamp)
+    const values = chartPoints.map((point) => point.value)
+    const minTimestamp = Math.min(...timestamps)
+    const maxTimestamp = Math.max(...timestamps)
+    const minValue = Math.min(...values)
+    const maxValue = Math.max(...values)
+    const valuePadding = Math.max((maxValue - minValue) * 0.14, 2)
+    const safeMinValue = Math.max(0, minValue - valuePadding)
+    const safeMaxValue = maxValue + valuePadding
+    const valueRange = safeMaxValue - safeMinValue || 1
+    const timeRange = maxTimestamp - minTimestamp || 1
+
+    const xFor = (timestamp) => (
+      maxTimestamp === minTimestamp
+        ? width / 2
+        : padLeft + ((timestamp - minTimestamp) / timeRange) * (width - padLeft - padRight)
+    )
+    const yFor = (value) => height - padBottom - ((value - safeMinValue) / valueRange) * (height - padTop - padBottom)
+
+    const guideValues = [safeMinValue, safeMinValue + valueRange / 2, safeMaxValue]
+    const guideMarkup = guideValues.map((value) => {
+      const y = yFor(value)
+      return `
+        <line x1="${padLeft}" y1="${y}" x2="${width - padRight}" y2="${y}" stroke="#142714" stroke-width="1" />
+        <text x="${padLeft - 6}" y="${y + 4}" text-anchor="end" fill="#3f6a3f" font-size="10">$${Math.round(value)}</text>
+      `
+    }).join('')
+
+    const seriesMarkup = visibleEntries.map((entry) => {
+      const linePoints = entry.points
+        .map((point) => {
+          const date = parseObservationDate(point.date)
+          return date ? `${xFor(date.getTime())},${yFor(point.value)}` : null
+        })
+        .filter(Boolean)
+        .join(' ')
+
+      const circles = entry.points.map((point) => {
+        const date = parseObservationDate(point.date)
+        if (!date) {
+          return ''
+        }
+
+        const cx = xFor(date.getTime())
+        const cy = yFor(point.value)
+        return `
+          <circle
+            class="price-history-point"
+            cx="${cx}"
+            cy="${cy}"
+            r="4"
+            fill="${entry.color}"
+            stroke="#091109"
+            stroke-width="1.5"
+            tabindex="0"
+            data-left="${cx}"
+            data-top="${cy}"
+            data-state-label="${escapeHtml(entry.label)}"
+            data-date="${escapeHtml(point.date)}"
+            data-value="${escapeHtml(String(point.value))}"
+            data-source="${escapeHtml(point.source || '')}"
+            data-confidence="${escapeHtml(String(point.confidence_pct ?? ''))}"
+          />
+        `
+      }).join('')
+
+      return `
+        ${entry.points.length > 1 ? `<polyline points="${linePoints}" fill="none" stroke="${entry.color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" />` : ''}
+        ${circles}
+      `
+    }).join('')
+
+    svg.innerHTML = `
+      <line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${height - padBottom}" stroke="#1a3a1a" stroke-width="1" />
+      <line x1="${padLeft}" y1="${height - padBottom}" x2="${width - padRight}" y2="${height - padBottom}" stroke="#1a3a1a" stroke-width="1" />
+      ${guideMarkup}
+      ${seriesMarkup}
+    `
+
+    const axisLabelDates = maxTimestamp === minTimestamp
+      ? [minTimestamp]
+      : [0, 0.33, 0.66, 1].map((ratio) => minTimestamp + Math.round(timeRange * ratio))
+
+    labelsEl.innerHTML = axisLabelDates
+      .map((timestamp) => {
+        const date = new Date(timestamp)
+        const iso = Number.isNaN(date.getTime()) ? null : date.toISOString().slice(0, 10)
+        return `<span class="chart-label">${escapeHtml(formatHistoryDate(iso, true))}</span>`
+      })
+      .join('')
+
+    svg.querySelectorAll('.price-history-point').forEach((pointEl) => {
+      pointEl.addEventListener('mouseenter', (event) => showTooltip(pointEl, event))
+      pointEl.addEventListener('mousemove', (event) => showTooltip(pointEl, event))
+      pointEl.addEventListener('mouseleave', hideTooltip)
+      pointEl.addEventListener('focus', () => showTooltip(pointEl))
+      pointEl.addEventListener('blur', hideTooltip)
+    })
+  }
+
+  function refreshHistory() {
+    renderLegend()
+    renderPeriods()
+    syncTrendBadges()
+    renderMetrics()
+    renderChart()
+  }
+
+  refreshHistory()
 }
 
 async function loadPage() {
