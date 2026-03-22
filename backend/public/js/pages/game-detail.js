@@ -910,147 +910,150 @@ async function loadSimilar(gameId) {
   }
 }
 
-async function loadLegacyPriceHistory(gameId) {
-  const response = await fetch(`/api/games/${encodeURIComponent(gameId)}/price-history`)
-  if (!response.ok) {
-    return
+function normalizeHistoryPayload(data) {
+  if (data?.series) {
+    return data
   }
 
-  const data = await response.json()
+  const periods = [
+    { id: '1m', label: '1M', days: 30 },
+    { id: '6m', label: '6M', days: 180 },
+    { id: '1y', label: '1Y', days: 365 },
+    { id: 'all', label: 'ALL', days: null },
+  ]
 
-  ;['loose', 'cib', 'mint'].forEach((type) => {
-    const badge = document.getElementById(`trend-${type}`)
-    if (!badge) {
-      return
-    }
-
-    const trend = data.trend?.[type] || 'stable'
-    badge.textContent = type.toUpperCase()
-    badge.classList.remove('up', 'down', 'stable')
-    badge.classList.add(trend)
-  })
-
-  let activeType = 'mint'
-  let activePeriodDays = 365
-
-  function monthToDate(value) {
-    const [year, month] = String(value || '').split('-').map((part) => Number.parseInt(part, 10))
-    if (!Number.isFinite(year) || !Number.isFinite(month)) {
+  function parseCompatDate(value) {
+    if (!value) {
       return null
     }
 
-    return new Date(Date.UTC(year, Math.max(0, month - 1), 1))
+    if (/^\d{4}-\d{2}$/.test(String(value))) {
+      return `${value}-01`
+    }
+
+    const parsed = new Date(value)
+    return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString().slice(0, 10)
   }
 
-  function filterHistory(periodDays) {
-    const history = safeArray(data.history)
-    if (!history.length) {
-      return []
+  function filterCompatPoints(points, days) {
+    if (!days || !points.length) {
+      return [...points]
     }
 
-    const latestDate = monthToDate(history[history.length - 1].month)
-    if (!latestDate) {
-      return history
+    const latestDate = new Date(`${points[points.length - 1].date}T00:00:00Z`)
+    if (Number.isNaN(latestDate.getTime())) {
+      return [...points]
     }
 
-    const cutoff = new Date(latestDate.getTime() - periodDays * 24 * 60 * 60 * 1000)
-    const filtered = history.filter((entry) => {
-      const entryDate = monthToDate(entry.month)
-      return entryDate ? entryDate >= cutoff : false
+    const cutoff = new Date(latestDate.getTime() - days * 24 * 60 * 60 * 1000)
+    return points.filter((point) => {
+      const pointDate = new Date(`${point.date}T00:00:00Z`)
+      return !Number.isNaN(pointDate.getTime()) && pointDate >= cutoff
     })
-
-    return filtered.length ? filtered : []
   }
 
-  function drawChart(type) {
-    const filteredHistory = filterHistory(activePeriodDays)
-    const prices = filteredHistory.map((entry) => Number(entry[type]) || 0)
-    const svg = document.getElementById('price-chart')
-    const labels = document.getElementById('chart-labels')
-    const statMinEl = document.getElementById('stat-min')
-    const statMaxEl = document.getElementById('stat-max')
-    const variationEl = document.getElementById('stat-variation')
+  function buildCompatPeriodStats(points) {
+    return periods.reduce((acc, period) => {
+      const scopedPoints = filterCompatPoints(points, period.days)
+      const values = scopedPoints.map((point) => point.value)
+      const firstPoint = scopedPoints[0] || null
+      const lastPoint = scopedPoints[scopedPoints.length - 1] || null
+      const variationValue = scopedPoints.length >= 2 ? lastPoint.value - firstPoint.value : null
+      const variationPct = scopedPoints.length >= 2 && firstPoint.value > 0
+        ? Math.round(((variationValue / firstPoint.value) * 100) * 10) / 10
+        : null
 
-    if (!svg || !labels || !statMinEl || !statMaxEl || !variationEl) {
-      return
-    }
+      acc[period.id] = {
+        points_count: scopedPoints.length,
+        has_history: scopedPoints.length > 0,
+        has_variation: scopedPoints.length >= 2,
+        min_value: values.length ? Math.min(...values) : null,
+        max_value: values.length ? Math.max(...values) : null,
+        first_date: firstPoint?.date || null,
+        last_date: lastPoint?.date || null,
+        first_value: firstPoint?.value ?? null,
+        last_value: lastPoint?.value ?? null,
+        variation_value: variationValue,
+        variation_pct: variationPct,
+      }
 
-    if (!prices.length) {
-      svg.innerHTML = `
-        <text x="300" y="84" text-anchor="middle" fill="#5a8a5a" font-size="13">
-          Aucune vente sur cette periode
-        </text>
-      `
-      labels.innerHTML = ''
-      statMinEl.textContent = '—'
-      statMaxEl.textContent = '—'
-      variationEl.textContent = '—'
-      variationEl.style.color = ''
-      return
-    }
-
-    const min = Math.min(...prices)
-    const max = Math.max(...prices)
-    const range = max - min || 1
-    const width = 600
-    const height = 160
-    const pad = 10
-    const denominator = Math.max(prices.length - 1, 1)
-
-    const points = prices.map((price, index) => {
-      const x = prices.length === 1 ? width / 2 : pad + (index / denominator) * (width - pad * 2)
-      const y = height - pad - ((price - min) / range) * (height - pad * 2)
-      return `${x},${y}`
-    }).join(' ')
-
-    svg.innerHTML = `
-      <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${height - pad}" stroke="#1a3a1a" stroke-width="1"/>
-      <line x1="${pad}" y1="${height - pad}" x2="${width - pad}" y2="${height - pad}" stroke="#1a3a1a" stroke-width="1"/>
-      <polygon points="${pad},${height - pad} ${points} ${width - pad},${height - pad}" fill="#0a1a0a" opacity="0.6"/>
-      <polyline points="${points}" fill="none" stroke="#9bbc0f" stroke-width="2" stroke-linejoin="round"/>
-      ${prices.map((price, index) => {
-        const x = prices.length === 1 ? width / 2 : pad + (index / denominator) * (width - pad * 2)
-        const y = height - pad - ((price - min) / range) * (height - pad * 2)
-        return `<circle cx="${x}" cy="${y}" r="3" fill="#9bbc0f"/>`
-      }).join('')}
-      <text x="${pad + 4}" y="${height - pad - 4}" fill="#306230" font-size="10">$${min}</text>
-      <text x="${pad + 4}" y="${pad + 12}" fill="#9bbc0f" font-size="10">$${max}</text>
-    `
-
-    const labelStep = filteredHistory.length > 6 ? Math.ceil(filteredHistory.length / 4) : 1
-    labels.innerHTML = filteredHistory
-      .filter((_, index) => index % labelStep === 0 || index === filteredHistory.length - 1)
-      .map((entry) => `<span class="chart-label">${entry.month}</span>`)
-      .join('')
-
-    const oldest = prices[0] || 1
-    const variation = oldest ? (((prices[prices.length - 1] - oldest) / oldest) * 100).toFixed(1) : '0.0'
-
-    statMinEl.textContent = `$${min}`
-    statMaxEl.textContent = `$${max}`
-    variationEl.textContent = `${variation > 0 ? '+' : ''}${variation}%`
-    variationEl.style.color = variation > 0 ? '#9bbc0f' : variation < 0 ? '#e85555' : '#8bac0f'
+      return acc
+    }, {})
   }
 
-  drawChart(activeType)
+  const historyRows = safeArray(data?.history)
+  const series = {}
+  const availableSeries = []
+  const missingSeries = []
 
-  document.querySelectorAll('.chart-btn').forEach((button) => {
-    button.addEventListener('click', () => {
-      document.querySelectorAll('.chart-btn').forEach((item) => item.classList.remove('active'))
-      button.classList.add('active')
-      activeType = button.dataset.type
-      drawChart(activeType)
-    })
+  PRICE_HISTORY_STATES.forEach((state) => {
+    const points = historyRows
+      .map((point) => {
+        const date = parseCompatDate(point?.month || point?.date)
+        const value = Number(point?.[state.key])
+        if (!date || !Number.isFinite(value) || value <= 0) {
+          return null
+        }
+
+        return {
+          date,
+          value,
+          source: null,
+          confidence_pct: null,
+          context: null,
+        }
+      })
+      .filter(Boolean)
+
+    const currentPrice = Number(data?.currentPrices?.[state.key])
+    const hasCurrentPrice = Number.isFinite(currentPrice) && currentPrice > 0
+
+    series[state.key] = {
+      key: state.key,
+      label: state.label,
+      condition: state.condition,
+      available: points.length > 0,
+      points,
+      periods: buildCompatPeriodStats(points),
+      current_price: hasCurrentPrice ? currentPrice : null,
+      current_price_source: hasCurrentPrice ? 'reference_fallback' : 'unavailable',
+      last_observation: points.length
+        ? {
+            date: points[points.length - 1].date,
+            value: points[points.length - 1].value,
+            source: points[points.length - 1].source,
+            confidence_pct: null,
+            context: null,
+          }
+        : hasCurrentPrice
+          ? {
+              date: null,
+              value: currentPrice,
+              source: 'reference_fallback',
+              confidence_pct: null,
+              context: null,
+            }
+          : null,
+      confidence_pct: null,
+      source_label: points.length ? 'Historique de compatibilite' : hasCurrentPrice ? 'Reference de compatibilite' : 'Sans historique',
+    }
+
+    if (points.length) {
+      availableSeries.push(state.key)
+    } else {
+      missingSeries.push(state.key)
+    }
   })
 
-  document.querySelectorAll('.period-btn').forEach((button) => {
-    button.addEventListener('click', () => {
-      document.querySelectorAll('.period-btn').forEach((item) => item.classList.remove('active'))
-      button.classList.add('active')
-      activePeriodDays = Number.parseInt(button.dataset.period || '365', 10) || 365
-      drawChart(activeType)
-    })
-  })
+  return {
+    ...data,
+    periods,
+    series,
+    availableSeries,
+    missingSeries,
+    hasAnyHistory: availableSeries.length > 0,
+    sourceNotice: data?.sourceNotice || 'Compatibilite historique activee pour les historiques de prix.',
+  }
 }
 
 async function loadPriceHistory(gameId) {
@@ -1059,7 +1062,7 @@ async function loadPriceHistory(gameId) {
     return
   }
 
-  const data = await response.json()
+  const data = normalizeHistoryPayload(await response.json())
   const sectionEl = detailShellEl?.querySelector('.price-history') || document.querySelector('.price-history')
   const headingEl = sectionEl?.querySelector('h3')
   const legendEl = sectionEl?.querySelector('.chart-toggle')
@@ -1268,6 +1271,14 @@ async function loadPriceHistory(gameId) {
   }
 
   function renderLegend() {
+    const hasAnyChartData = PRICE_HISTORY_STATES.some((state) => getSeries(state.key).points.length > 0)
+    legendEl.hidden = !hasAnyChartData
+
+    if (!hasAnyChartData) {
+      legendEl.innerHTML = ''
+      return
+    }
+
     legendEl.innerHTML = PRICE_HISTORY_STATES.map((state) => {
       const series = getSeries(state.key)
       return `
@@ -1302,6 +1313,14 @@ async function loadPriceHistory(gameId) {
   }
 
   function renderPeriods() {
+    const hasAnyChartData = PRICE_HISTORY_STATES.some((state) => getSeries(state.key).points.length > 0)
+    periodsEl.hidden = !hasAnyChartData
+
+    if (!hasAnyChartData) {
+      periodsEl.innerHTML = ''
+      return
+    }
+
     periodsEl.innerHTML = periods.map((period) => `
       <button
         type="button"
