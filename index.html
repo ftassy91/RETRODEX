@@ -1,0 +1,2851 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RETRODEX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rdx-title-font: "Jersey 10";
+      --rdx-body-font: "VT323";
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #000; }
+    body {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      font-family: var(--rdx-body-font), monospace;
+      color: #9bbc0f;
+      padding: 14px 10px 24px;
+    }
+    input, button, select, option, textarea { font-family: var(--rdx-body-font), monospace; }
+    #rdx-logo, #rdx-console, #btn-export, #btn-market, .rdx-btn, .bot-kicker, .bot-title, .bot-panel-title, .bot-status-label,
+    .bot-code-label, .bot-guide-theme, .bot-market-label, .bot-mini-label, .c-title, .c-badge, .c-price-head,
+    .s-block-head, .s2-code-label, .s2-guide-theme, .s3-price-label, .neo-section-head, .neo-card-title,
+    .neo-card-tag, .neo-card-link, .splash-logo, .splash-stat-n, .splash-cta, .coll-title, .coll-console-name,
+    .coll-global-n {
+      font-family: var(--rdx-title-font), cursive !important;
+    }
+    #rdx-tagline, #rdx-search, #rdx-ctr, #rdx-hint, .bourse-item, .bot-side, .bot-copy, .bot-fact, .bot-price-row,
+    .bot-status-value, .bot-code-row, .bot-guide-label, .bot-empty, .bot-market-value, .bot-mini-value, .c-summary,
+    .c-row, .c-score, .c-pline, .s-block-body, .s2-guide-row, .s2-code-row, .s3-price-value, .s3-stat, .neo-card-meta,
+    .neo-card-desc, .coll-frac, .coll-global-label, .coll-value {
+      font-family: var(--rdx-body-font), monospace !important;
+    }
+
+    /* ══ HEADER ══════════════════════════════════════════════════ */
+    #rdx-chrome {
+      width: min(96vw, 960px);
+      margin-bottom: 12px;
+      padding: 10px 12px 9px;
+      border: 1px solid rgba(155,188,15,0.14);
+      border-radius: 10px;
+      background:
+        linear-gradient(180deg, rgba(15,56,15,0.32), rgba(15,56,15,0.18)),
+        rgba(0,0,0,0.34);
+      box-shadow:
+        inset 0 1px 0 rgba(155,188,15,0.05),
+        0 0 20px rgba(155,188,15,0.04);
+    }
+    #rdx-header {
+      display: flex; align-items: center; flex-wrap: wrap;
+      width: 100%; margin-bottom: 8px; gap: 8px;
+    }
+    #rdx-logo {
+      font-family: "Press Start 2P", cursive;
+      font-size: 13px; color: #cfe66f; letter-spacing: 0.08em;
+      text-shadow: 0 0 12px rgba(155,188,15,0.18); flex-shrink: 0;
+    }
+    #rdx-tagline {
+      font-family: "Share Tech Mono", monospace; font-size: 9px;
+      color: rgba(230,242,216,0.58); letter-spacing: 0.03em;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    /* Console filter — remplace les tabs */
+    #rdx-console {
+      font-family: "Press Start 2P", cursive; font-size: 7px;
+      background: rgba(15,56,15,0.5); border: 1px solid rgba(155,188,15,0.28);
+      color: rgba(230,242,216,0.84); padding: 6px 10px; outline: none;
+      border-radius: 2px; cursor: pointer; flex-shrink: 0;
+      appearance: none; -webkit-appearance: none;
+      padding-right: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%238bac0f'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 6px center;
+    }
+    #rdx-console:focus  { border-color: rgba(155,188,15,0.6); }
+    #rdx-console option { background: #0a1a0a; color: #9bbc0f; font-family: monospace; }
+    #rdx-search {
+      font-family: "Share Tech Mono", monospace; font-size: 12px;
+      background: rgba(15,56,15,0.45); border: 1px solid rgba(155,188,15,0.24);
+      color: #e6f2d8; padding: 6px 10px; outline: none; border-radius: 2px;
+      flex: 1; min-width: 0;
+    }
+    #rdx-search::placeholder { color: rgba(181,209,166,0.44); }
+    #rdx-search:focus { border-color: rgba(155,188,15,0.6); background: rgba(15,56,15,0.7); }
+    #btn-export,
+    #btn-market,
+    #btn-launcher {
+      font-family: "Press Start 2P", cursive; font-size: 7px;
+      background: transparent; border: 1px solid rgba(155,188,15,0.28);
+      color: rgba(230,242,216,0.74); padding: 6px 10px; cursor: pointer;
+      border-radius: 2px; transition: all 0.12s; white-space: nowrap; flex-shrink: 0;
+    }
+    #btn-export:hover,
+    #btn-market:hover,
+    #btn-launcher:hover  { border-color: rgba(155,188,15,0.65); color: #9bbc0f; }
+    #btn-export:active,
+    #btn-market:active,
+    #btn-launcher:active { background: rgba(155,188,15,0.08); }
+
+    #rdx-status-strip {
+      width: 100%; margin-bottom: 8px;
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .rdx-status-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 10px; border-radius: 999px;
+      border: 1px solid rgba(155,188,15,0.16);
+      background: rgba(15,56,15,0.26);
+      color: rgba(230,242,216,0.76);
+      font-size: 9px; line-height: 1;
+    }
+    .rdx-status-pill strong {
+      color: #cfe66f; font-size: 11px; letter-spacing: 0.04em;
+    }
+
+    /* ══ BOURSE ══════════════════════════════════════════════════ */
+    #rdx-bourse {
+      display: flex; align-items: flex-start; gap: 0; margin-bottom: 10px;
+      width: min(96vw, 960px); border: 1px solid rgba(155,188,15,0.16);
+      border-radius: 2px; background: rgba(15,56,15,0.2); overflow: hidden;
+    }
+    #rdx-bourse[hidden] { display: none !important; }
+    .bourse-col { flex: 1; padding: 7px 10px 8px; min-width: 0; }
+    .bourse-divider { width: 1px; background: rgba(155,188,15,0.16); flex-shrink: 0; }
+    .bourse-head {
+      font-family: "Press Start 2P", cursive; font-size: 5.5px;
+      color: rgba(155,188,15,0.5); letter-spacing: 0.08em; margin-bottom: 6px;
+    }
+    .bourse-arrow.up { color: #8bac0f; }
+    .bourse-arrow.dn { color: #306230; }
+    .bourse-item {
+      display: flex; align-items: center; font-family: "Share Tech Mono", monospace;
+      font-size: 7px; color: rgba(155,188,15,0.55); line-height: 1.9; gap: 6px;
+    }
+    .bourse-link { cursor: pointer; border-radius: 2px; padding: 0 2px; transition: background 0.1s; }
+    .bourse-link:hover { background: rgba(155,188,15,0.10); color: #9bbc0f; }
+    .bourse-item-title { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bourse-item-price { color: rgba(155,188,15,0.32); flex-shrink: 0; }
+    .bourse-item-trend {
+      font-family: "Press Start 2P", cursive; font-size: 5px;
+      flex-shrink: 0; min-width: 34px; text-align: right;
+    }
+    .bourse-item-trend.up { color: #8bac0f; }
+    .bourse-item-trend.dn { color: #306230; }
+
+    /* ══ 3DS WRAPPER — agrandi à 960px ══════════════════════════ */
+    #rdx-wrapper {
+      position: relative; width: min(96vw, 960px);
+      aspect-ratio: 1536 / 1024; background: #000; flex-shrink: 0;
+    }
+
+    /* ══ TOP SCREEN ══════════════════════════════════════════════ */
+    #rdx-top {
+      position: absolute; left: 32.227%; top: 12.207%; width: 35.221%; height: 29.004%;
+      background: #0f380f; z-index: 1; overflow: hidden;
+    }
+    #rdx-top canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+    #rdx-top::after {
+      content: ""; position: absolute; inset: 0; z-index: 6; pointer-events: none;
+      background: repeating-linear-gradient(180deg, rgba(0,0,0,0.10) 0px 1px, transparent 1px 3px);
+    }
+
+    /* ══ SCREEN DOTS ═════════════════════════════════════════════ */
+    #rdx-dots {
+      position: absolute; left: 34.505%; width: 30.729%; top: 45.15%;
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; z-index: 15; pointer-events: none;
+    }
+    #rdx-dpad-zone {
+      position: absolute;
+      left: 6.9%;
+      top: 57.9%;
+      width: 18.8%;
+      height: 21.8%;
+      z-index: 24;
+      pointer-events: auto;
+    }
+    .rdx-dpad-btn {
+      position: absolute;
+      z-index: 25;
+      width: 39%;
+      height: 39%;
+      border: 0;
+      border-radius: 16px;
+      background: rgba(155,188,15,0.01);
+      pointer-events: all;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      appearance: none;
+      padding: 0;
+    }
+    .rdx-dpad-btn:hover {
+      background: rgba(155,188,15,0.08);
+    }
+    .rdx-dpad-btn:active {
+      background: rgba(155,188,15,0.14);
+    }
+    .rdx-dpad-btn.up {
+      left: 30.5%;
+      top: 0;
+      border-radius: 14px 14px 8px 8px;
+    }
+    .rdx-dpad-btn.down {
+      left: 30.5%;
+      bottom: 0;
+      border-radius: 8px 8px 14px 14px;
+    }
+    .rdx-dpad-btn.left {
+      left: 0;
+      top: 30.5%;
+      border-radius: 14px 8px 8px 14px;
+    }
+    .rdx-dpad-btn.right {
+      right: 0;
+      top: 30.5%;
+      border-radius: 8px 14px 14px 8px;
+    }
+    .rdx-page-btn {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 1px solid rgba(155,188,15,0.35);
+      background: rgba(15,56,15,0.72);
+      color: #cfe66f; cursor: pointer; pointer-events: all;
+      font-family: var(--rdx-title-font), cursive;
+      font-size: 10px; line-height: 1;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: background 120ms, border-color 120ms, transform 120ms;
+    }
+    .rdx-page-btn:hover {
+      background: rgba(155,188,15,0.14);
+      border-color: rgba(155,188,15,0.65);
+      transform: scale(1.06);
+    }
+    .rdx-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: rgba(155,188,15,0.2); border: 1px solid rgba(155,188,15,0.35);
+      cursor: pointer; pointer-events: all;
+      transition: background 120ms, border-color 120ms, transform 120ms; flex-shrink: 0;
+    }
+    .rdx-dot.active { background: rgba(155,188,15,0.88); border-color: #9bbc0f; transform: scale(1.15); }
+    .rdx-dot:hover:not(.active) { background: rgba(155,188,15,0.45); border-color: rgba(155,188,15,0.65); }
+
+    /* ══ BOTTOM SCREEN ═══════════════════════════════════════════ */
+    #rdx-bot {
+      position: absolute; left: 34.505%; top: 49.414%; width: 30.729%; height: 33.008%;
+      background: #9bbc0f; z-index: 1; overflow: hidden;
+      isolation: isolate;
+    }
+    #rdx-bot::before {
+      content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background:
+        repeating-linear-gradient(180deg, rgba(15,56,15,0.08) 0px 1px, transparent 1px 4px),
+        radial-gradient(circle at center, rgba(255,255,255,0.06), rgba(15,56,15,0.05) 70%);
+    }
+
+    .bot-screen {
+      position: absolute; inset: 0; z-index: 2;
+      padding: 4px 6px 4px; box-sizing: border-box;
+      display: flex; flex-direction: column; gap: 3px; overflow: hidden;
+    }
+    .bot-page {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      padding: 7px 9px 7px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      color: #0f380f;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(15,56,15,0.03)),
+        rgba(155,188,15,0.92);
+    }
+    .bot-page-title-main {
+      font-family: var(--rdx-title-font), cursive;
+      font-size: 11.4px;
+      line-height: 1.03;
+      color: #0f380f;
+      letter-spacing: 0.015em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+    .bot-page-sep {
+      height: 2px;
+      border-top: 1px solid rgba(15,56,15,0.72);
+      border-bottom: 1px solid rgba(15,56,15,0.12);
+      flex-shrink: 0;
+    }
+    .bot-page-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      justify-content: flex-start;
+    }
+    .bot-page-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-family: var(--rdx-body-font), monospace;
+      font-size: 9.2px;
+      line-height: 1.08;
+      color: rgba(15,56,15,0.82);
+      padding: 2px 0 4px;
+      border-bottom: 1px solid rgba(15,56,15,0.12);
+    }
+    .bot-page-row:last-child { border-bottom: 0; }
+    .bot-page-row span {
+      flex: 0 1 46%;
+      min-width: 0;
+      color: rgba(15,56,15,0.8);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .bot-page-row strong {
+      flex: 0 1 46%;
+      min-width: 0;
+      text-align: right;
+      color: #0f380f;
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .bot-page-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 5px 1px;
+      border: 1px solid rgba(15,56,15,0.36);
+      background: rgba(15,56,15,0.18);
+      font-family: var(--rdx-title-font), cursive;
+      font-size: 7.3px;
+      line-height: 1;
+      letter-spacing: 0.04em;
+      color: #0f380f;
+    }
+    .bot-page-note {
+      font-size: 7.1px;
+      line-height: 1.24;
+      color: rgba(15,56,15,0.62);
+    }
+    .bot-page-stack {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+    .bot-page-block {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 2px;
+      min-height: 0;
+      padding: 5px 0 0;
+      border-top: 2px solid rgba(15,56,15,0.52);
+      flex: 1;
+    }
+    .bot-page-block:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+    .bot-page-block.is-scrollable {
+      cursor: pointer;
+    }
+    .bot-page-block.is-scrollable.is-selected {
+      border-top-color: rgba(15,56,15,0.82);
+      background: rgba(15,56,15,0.08);
+      box-shadow: inset 2px 0 0 rgba(15,56,15,0.78);
+    }
+    .bot-page-block.is-scrollable.is-selected .bot-page-block-head {
+      color: rgba(15,56,15,0.98);
+    }
+    .bot-page-block.is-compact { flex: 0.7; }
+    .bot-page-block.is-medium { flex: 1; }
+    .bot-page-block.is-tall { flex: 1.28; }
+    .bot-page-block-head {
+      font-family: var(--rdx-title-font), cursive;
+      font-size: 6.7px;
+      line-height: 1;
+      color: rgba(15,56,15,0.72);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .bot-page-block-body {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      justify-content: flex-start;
+    }
+    .bot-page-block.is-scrollable .bot-page-block-body {
+      overflow-y: auto;
+      scrollbar-width: none;
+      padding-right: 2px;
+    }
+    .bot-page-block.is-scrollable .bot-page-block-body::-webkit-scrollbar {
+      display: none;
+    }
+    .bot-page-copy {
+      font-family: var(--rdx-body-font), monospace;
+      font-size: 7.8px;
+      line-height: 1.28;
+      color: rgba(15,56,15,0.88);
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+    }
+    .bot-page-copy.clamp-2 { -webkit-line-clamp: 2; }
+    .bot-page-copy.clamp-3 { -webkit-line-clamp: 3; }
+    .bot-page-copy.clamp-4 { -webkit-line-clamp: 4; }
+    .bot-page-copy.clamp-5 { -webkit-line-clamp: 5; }
+    .bot-page-copy.bot-page-copy-scroll {
+      display: block;
+      overflow: visible;
+      -webkit-line-clamp: unset;
+    }
+    .bot-page-facts {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .bot-page-facts-release .bot-page-row:last-child {
+      padding-bottom: 8px;
+    }
+    .bot-page-row.is-rank strong {
+      padding-left: 4px;
+      overflow: visible;
+      text-overflow: clip;
+    }
+    .bot-page-people {
+      font-family: var(--rdx-body-font), monospace;
+      font-size: 7.6px;
+      line-height: 1.22;
+      color: rgba(15,56,15,0.86);
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+    }
+    .bot-page-people-scroll {
+      display: block;
+      overflow: visible;
+      -webkit-line-clamp: unset;
+    }
+    .bot-page-guide-list,
+    .bot-page-tip-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-height: 0;
+    }
+    .bot-page-guide-row,
+    .bot-page-tip-row {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      padding-bottom: 2px;
+      border-bottom: 1px solid rgba(15,56,15,0.12);
+      min-height: 0;
+    }
+    .bot-page-guide-row:last-child,
+    .bot-page-tip-row:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+    .bot-page-link {
+      color: #0f380f;
+      text-decoration: none;
+      font-family: var(--rdx-body-font), monospace;
+      font-size: 7.7px;
+      line-height: 1.18;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .bot-page-link:hover {
+      text-decoration: underline;
+    }
+    .bot-page-subtle {
+      font-family: var(--rdx-body-font), monospace;
+      font-size: 6.9px;
+      line-height: 1.18;
+      color: rgba(15,56,15,0.66);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .bot-page-chart {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      border-top: 1px solid rgba(15,56,15,0.72);
+      border-bottom: 1px solid rgba(15,56,15,0.28);
+      background: rgba(15,56,15,0.14);
+      padding: 5px 0;
+    }
+    .bot-page-chart canvas {
+      position: absolute !important;
+      inset: 5px 0 !important;
+      width: 100% !important;
+      height: calc(100% - 10px) !important;
+      display: block;
+    }
+    .bot-page-empty {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 7.8px;
+      color: rgba(15,56,15,0.62);
+      padding: 10px;
+      border-top: 1px solid rgba(15,56,15,0.72);
+      border-bottom: 1px solid rgba(15,56,15,0.28);
+    }
+    .bot-header {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 6px;
+      padding-bottom: 3px; border-bottom: 1px solid rgba(155,188,15,0.18); flex-shrink: 0;
+    }
+    .bot-head-main { min-width: 0; flex: 1; }
+    .bot-kicker {
+      font-family: "Press Start 2P", cursive; font-size: 4.9px;
+      color: rgba(15,56,15,0.74); letter-spacing: 0.04em; margin-bottom: 1px;
+    }
+    .bot-title {
+      font-family: "Press Start 2P", cursive; font-size: 7.2px; color: #dceb88;
+      line-height: 1.15; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .bot-side {
+      font-family: "Share Tech Mono", monospace; font-size: 7px; color: rgba(230,242,216,0.76);
+      text-align: right; white-space: nowrap; line-height: 1.1; flex-shrink: 0;
+    }
+    .bot-content { display: flex; gap: 5px; flex: 1; min-height: 0; }
+    .bot-col {
+      flex: 1; min-width: 0; min-height: 0;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .bot-col-wide { flex: 1.15; }
+    .bot-panel {
+      flex: 1; min-width: 0; min-height: 0; overflow: hidden;
+      border: 1px solid rgba(155,188,15,0.12);
+      background: rgba(15,56,15,0.38);
+      padding: 4px; box-sizing: border-box;
+      display: flex; flex-direction: column; gap: 3px;
+    }
+    .bot-panel-title {
+      font-family: "Press Start 2P", cursive; font-size: 4.8px;
+      color: rgba(230,242,216,0.58); letter-spacing: 0.03em;
+      padding-bottom: 2px; border-bottom: 1px solid rgba(155,188,15,0.08); flex-shrink: 0;
+    }
+    .bot-copy {
+      font-family: "Share Tech Mono", monospace; font-size: 7px;
+      color: rgba(230,242,216,0.84); line-height: 1.28; overflow: hidden;
+    }
+    .bot-copy.clamp-4,
+    .bot-copy.clamp-5,
+    .bot-copy.clamp-6,
+    .bot-copy.clamp-8,
+    .bot-copy.clamp-10 {
+      display: -webkit-box; -webkit-box-orient: vertical;
+    }
+    .bot-copy.clamp-4 { -webkit-line-clamp: 4; }
+    .bot-copy.clamp-5 { -webkit-line-clamp: 5; }
+    .bot-copy.clamp-6 { -webkit-line-clamp: 6; }
+    .bot-copy.clamp-8 { -webkit-line-clamp: 8; }
+    .bot-copy.clamp-10 { -webkit-line-clamp: 10; }
+    .bot-facts {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3px 6px;
+      flex: 1; min-height: 0;
+    }
+    .bot-facts.bot-facts-compact { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px 4px; }
+    .bot-fact {
+      min-width: 0; font-family: "Share Tech Mono", monospace; font-size: 6.8px;
+      color: #d7ea85; line-height: 1.12; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .bot-fact em {
+      display: block; font-style: normal; font-size: 4.4px;
+      color: rgba(181,209,166,0.54); margin-bottom: 1px;
+    }
+    .bot-price-chart { display: flex; gap: 5px; flex: 1; min-height: 0; }
+    .bot-price-stack {
+      min-width: 76px; display: flex; flex-direction: column; gap: 3px; justify-content: space-between;
+    }
+    .bot-price-row {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 6px;
+      font-family: "Share Tech Mono", monospace; font-size: 5.8px; color: #9bbc0f;
+    }
+    .bot-price-row em {
+      font-style: normal; color: rgba(155,188,15,0.4); font-size: 4.4px;
+      letter-spacing: 0.08em;
+    }
+    .bot-chart-panel { flex: 1; min-width: 0; min-height: 0; position: relative; }
+    .bot-chart-panel canvas,
+    .bot-chart-tall canvas {
+      position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important;
+    }
+    .bot-chart-tall { position: relative; flex: 1; min-height: 0; }
+    .bot-status-strip {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(58px, 1fr)); gap: 3px; flex-shrink: 0;
+    }
+    .bot-status {
+      min-width: 0; border: 1px solid rgba(155,188,15,0.08);
+      background: rgba(155,188,15,0.04); padding: 2px 3px;
+    }
+    .bot-status-label {
+      font-family: "Press Start 2P", cursive; font-size: 4px;
+      color: rgba(181,209,166,0.56); margin-bottom: 1px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .bot-status-value {
+      font-family: "Share Tech Mono", monospace; font-size: 6.8px; color: #d7ea85;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .bot-list {
+      display: flex; flex-direction: column; gap: 3px; flex: 1; min-height: 0; overflow: hidden;
+    }
+    .bot-code-row {
+      display: grid; grid-template-columns: 52px 1fr; gap: 4px;
+      font-family: "Share Tech Mono", monospace; font-size: 5.7px; color: rgba(155,188,15,0.66);
+      line-height: 1.45; min-height: 0;
+    }
+    .bot-code-label {
+      font-family: "Press Start 2P", cursive; font-size: 3.8px; color: rgba(155,188,15,0.86);
+      padding-top: 1px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .bot-code-input {
+      overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      color: rgba(155,188,15,0.58);
+    }
+    .bot-guide-list { display: flex; flex-direction: column; gap: 3px; flex: 1; min-height: 0; overflow: hidden; }
+    .bot-guide-row {
+      display: flex; align-items: center; gap: 4px; min-width: 0;
+      padding: 2px 3px; text-decoration: none; border: 1px solid rgba(155,188,15,0.08);
+      background: rgba(155,188,15,0.03); color: rgba(155,188,15,0.76);
+      transition: background 80ms linear, border-color 80ms linear;
+    }
+    .bot-guide-row:hover { background: rgba(155,188,15,0.08); border-color: rgba(155,188,15,0.2); }
+    .bot-guide-icon { flex-shrink: 0; font-size: 6px; color: rgba(155,188,15,0.42); }
+    .bot-guide-label {
+      flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      font-family: "Share Tech Mono", monospace; font-size: 5.7px;
+    }
+    .bot-guide-theme {
+      flex-shrink: 0; font-family: "Press Start 2P", cursive; font-size: 3.5px; color: rgba(155,188,15,0.34);
+    }
+    .bot-empty {
+      flex: 1; display: flex; align-items: center; justify-content: center; text-align: center;
+      font-family: "Share Tech Mono", monospace; font-size: 6px; line-height: 1.55;
+      color: rgba(155,188,15,0.34); padding: 6px;
+    }
+    .bot-market-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; flex-shrink: 0;
+    }
+    .bot-market-card {
+      border: 1px solid rgba(155,188,15,0.08); background: rgba(155,188,15,0.04);
+      padding: 3px 4px; min-width: 0;
+    }
+    .bot-market-label {
+      font-family: "Press Start 2P", cursive; font-size: 3.4px; color: rgba(155,188,15,0.34);
+      margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .bot-market-value {
+      font-family: "Share Tech Mono", monospace; font-size: 6px; color: #9bbc0f;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .bot-mini-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; flex-shrink: 0;
+    }
+    .bot-mini-card {
+      min-width: 0; padding: 3px 4px; border: 1px solid rgba(155,188,15,0.08);
+      background: rgba(155,188,15,0.04);
+    }
+    .bot-mini-label {
+      font-family: "Press Start 2P", cursive; font-size: 3.3px; color: rgba(155,188,15,0.34);
+      margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .bot-mini-value {
+      font-family: "Share Tech Mono", monospace; font-size: 5.8px; color: #9bbc0f;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* ══ PNG FRAME ═══════════════════════════════════════════════ */
+    #rdx-png {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: fill; pointer-events: none; z-index: 10;
+    }
+
+    /* ══ SCREEN 0 — CARD ══════════════════════════════════════════ */
+    .card {
+      position: absolute; inset: 0; z-index: 1;
+      padding: 5px 7px 4px; display: flex; flex-direction: column; overflow: hidden;
+    }
+    .c-title {
+      font-family: "Press Start 2P", cursive; font-size: 6px; color: #9bbc0f;
+      line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden; flex-shrink: 0;
+      padding-bottom: 3px; border-bottom: 1px solid rgba(139,172,15,0.4); margin-bottom: 3px;
+    }
+    .c-summary {
+      font-family: "Share Tech Mono", monospace; font-size: 5.8px;
+      color: rgba(155,188,15,0.52); line-height: 1.5; flex-shrink: 0;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden; margin-bottom: 2px;
+    }
+    .c-meta {
+      display: grid; grid-template-columns: 1fr 1fr;
+      column-gap: 6px; row-gap: 0; flex-shrink: 0; margin-bottom: 2px;
+    }
+    .c-row {
+      font-family: "Share Tech Mono", monospace; font-size: 6px;
+      color: #8bac0f; line-height: 1.75; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .c-row b { color: #9bbc0f; font-weight: normal; }
+    .c-sep { height: 1px; background: rgba(139,172,15,0.25); margin: 2px 0; flex-shrink: 0; }
+    .c-scores {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0; margin-bottom: 2px;
+    }
+    .c-score { font-family: "Share Tech Mono", monospace; font-size: 6px; color: #8bac0f; white-space: nowrap; }
+    .c-score b { color: #9bbc0f; font-weight: normal; }
+    .c-score-wrap { display: flex; flex-direction: column; gap: 1px; }
+    .c-score-bar  { display: flex; gap: 1px; align-items: center; height: 4px; }
+    .c-bar-pip    { width: 4px; height: 4px; flex-shrink: 0; }
+    .c-badge {
+      font-family: "Press Start 2P", cursive; font-size: 4.5px; color: #0f380f;
+      padding: 1px 4px 2px; border-radius: 1px; line-height: 2; flex-shrink: 0; letter-spacing: 0.04em;
+    }
+    .c-badge.COMMON    { background: #306230; color: #8bac0f; }
+    .c-badge.UNCOMMON  { background: #6a8a0a; color: #0f380f; }
+    .c-badge.RARE      { background: #8bac0f; color: #0f380f; }
+    .c-badge.EPIC      { background: #9bbc0f; color: #0f380f; border: 1px solid #0f380f; }
+    .c-badge.LEGENDARY { background: #9bbc0f; color: #0f380f; animation: rdx-pulse 1.8s ease-in-out infinite; }
+    @keyframes rdx-pulse {
+      0%,100% { box-shadow: 0 0 3px rgba(155,188,15,0.4); }
+      50%      { box-shadow: 0 0 8px rgba(155,188,15,0.85); }
+    }
+    .c-price-head {
+      font-family: "Press Start 2P", cursive; font-size: 5px; color: rgba(155,188,15,0.55);
+      flex-shrink: 0; margin-bottom: 3px; letter-spacing: 0.06em;
+    }
+    .c-price-body { display: flex; align-items: stretch; gap: 6px; flex: 1; min-height: 0; }
+    .c-price-col  { display: flex; flex-direction: column; justify-content: space-evenly; flex-shrink: 0; min-width: 70px; }
+    .c-pline { font-family: "Share Tech Mono", monospace; font-size: 6px; color: #9bbc0f; line-height: 1.6; white-space: nowrap; }
+    .c-pline em { color: #6a8a0a; font-style: normal; display: inline-block; width: 32px; }
+    .c-spark { flex: 1; min-width: 0; position: relative; padding-left: 4px; }
+    .c-spark canvas { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; }
+
+    /* ══ SCREEN 1 — STORY ════════════════════════════════════════ */
+    .s1-wrap {
+      display: flex; flex-direction: column;
+      height: 100%; padding: 5px 6px 4px; box-sizing: border-box; gap: 4px;
+    }
+    .s-block-head {
+      font-family: "Press Start 2P", cursive; font-size: 4.5px;
+      color: rgba(155,188,15,0.45); letter-spacing: 0.1em; margin-bottom: 2px;
+      border-bottom: 1px solid rgba(155,188,15,0.12); padding-bottom: 2px;
+    }
+    .s-block-body {
+      font-family: "Share Tech Mono", monospace; font-size: 6px;
+      color: rgba(155,188,15,0.72); line-height: 1.65; flex: 1; overflow: hidden;
+      display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical;
+    }
+    .s1-sep { height: 1px; background: rgba(155,188,15,0.10); flex-shrink: 0; }
+
+    /* ══ SCREEN 2 — CODES & GUIDES ═══════════════════════════════ */
+    .s2-wrap {
+      display: flex; flex-direction: column;
+      height: 100%; padding: 4px 6px 4px; box-sizing: border-box; gap: 3px;
+    }
+    .s2-code-row {
+      display: flex; align-items: flex-start; gap: 4px;
+      font-family: "Share Tech Mono", monospace; font-size: 5.8px;
+      color: rgba(155,188,15,0.6); line-height: 1.5;
+    }
+    .s2-code-label {
+      color: rgba(155,188,15,0.9); flex-shrink: 0;
+      font-family: "Press Start 2P", cursive; font-size: 4px; padding-top: 1px; min-width: 44px;
+    }
+    .s2-code-input {
+      color: rgba(155,188,15,0.55); overflow: hidden; white-space: normal;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    }
+    .s2-sep { height: 1px; background: rgba(155,188,15,0.10); flex-shrink: 0; margin: 1px 0; }
+    .s2-guide-row {
+      display: flex; align-items: center; gap: 4px;
+      font-family: "Share Tech Mono", monospace; font-size: 5.8px;
+      color: rgba(155,188,15,0.75); cursor: pointer; border-radius: 1px;
+      padding: 1px 2px; transition: background 100ms, color 100ms;
+      text-decoration: none; overflow: hidden;
+    }
+    .s2-guide-row:hover { background: rgba(155,188,15,0.10); color: #9bbc0f; }
+    .s2-guide-icon  { font-size: 6px; flex-shrink: 0; color: rgba(155,188,15,0.45); }
+    .s2-guide-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .s2-guide-theme {
+      font-family: "Press Start 2P", cursive; font-size: 3.8px;
+      color: rgba(155,188,15,0.3); flex-shrink: 0;
+    }
+    .s2-no-entry {
+      height: 100%; display: flex; align-items: center; justify-content: center;
+      font-family: "Press Start 2P", cursive; font-size: 5px;
+      color: rgba(155,188,15,0.25); text-align: center; padding: 8px;
+    }
+
+    /* ══ SCREEN 3 — PRIX & MARCHÉ ════════════════════════════════ */
+    .s3-wrap {
+      display: flex; flex-direction: column;
+      height: 100%; padding: 4px 6px 5px; box-sizing: border-box; gap: 3px;
+    }
+    .s3-big-price {
+      display: flex; gap: 3px; align-items: stretch; flex-shrink: 0;
+    }
+    .s3-price-block {
+      flex: 1; background: rgba(15,56,15,0.5);
+      border: 1px solid rgba(155,188,15,0.14);
+      border-radius: 2px; padding: 3px 4px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+    }
+    .s3-price-label {
+      font-family: "Press Start 2P", cursive; font-size: 3.8px;
+      color: rgba(155,188,15,0.38); letter-spacing: 0.06em;
+    }
+    .s3-price-value {
+      font-family: "Share Tech Mono", monospace; font-size: 8.5px;
+      color: #9bbc0f; font-weight: normal; line-height: 1.2;
+    }
+    .s3-price-value.na { color: rgba(155,188,15,0.25); font-size: 6px; }
+    .s3-chart-row { flex: 1; min-height: 0; position: relative; }
+    .s3-chart-row canvas { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; }
+    .s3-bottom { display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .s3-stat {
+      font-family: "Share Tech Mono", monospace; font-size: 5.8px; color: rgba(155,188,15,0.55);
+      display: flex; align-items: center; gap: 3px;
+    }
+    .s3-stat-label { color: rgba(155,188,15,0.32); }
+    .s3-trend-up   { color: #8bac0f; }
+    .s3-trend-dn   { color: #306230; }
+    .s3-cib-bar {
+      height: 3px; background: rgba(155,188,15,0.12); border-radius: 1px;
+      overflow: hidden; flex-shrink: 0; margin-top: 1px;
+    }
+    .s3-cib-fill { height: 100%; background: #6a8a0a; border-radius: 1px; }
+
+    /* ══ NAVIGATION ══════════════════════════════════════════════ */
+    #rdx-nav { display: flex; align-items: center; justify-content: center; margin-top: 10px; width: min(96vw, 960px); }
+    #rdx-nav-inner {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; width: 340px; max-width: min(88vw, 340px);
+    }
+    .rdx-btn {
+      font-family: "Press Start 2P", cursive; font-size: 9px; color: #d7ea85;
+      background: rgba(15,56,15,0.3); border: 1px solid rgba(155,188,15,0.24);
+      border-radius: 3px; padding: 9px 0; cursor: pointer;
+      transition: background 80ms, border-color 80ms;
+      letter-spacing: 0.03em; user-select: none; white-space: nowrap; flex: 1;
+    }
+    .rdx-btn:hover  { background: rgba(155,188,15,0.12); border-color: rgba(155,188,15,0.5); }
+    .rdx-btn:active { background: rgba(155,188,15,0.20); }
+    #rdx-ctr {
+      font-family: "Share Tech Mono", monospace; font-size: 11px;
+      color: rgba(230,242,216,0.76); width: 84px; text-align: center; flex-shrink: 0;
+    }
+    .rdx-btn-rnd { font-size: 7.5px !important; color: rgba(230,242,216,0.72) !important; border-color: rgba(155,188,15,0.22) !important; }
+    .rdx-btn-rnd:hover { color: #9bbc0f !important; border-color: rgba(155,188,15,0.48) !important; }
+
+    /* ══ HINT ════════════════════════════════════════════════════ */
+    #rdx-hint {
+      font-family: "Share Tech Mono", monospace; font-size: 9px;
+      color: rgba(181,209,166,0.62); margin-top: 0; text-align: center; letter-spacing: 0.02em;
+      padding-top: 8px; border-top: 1px solid rgba(155,188,15,0.08);
+    }
+
+    /* ══ NÉO RÉTRO ═══════════════════════════════════════════════ */
+    #rdx-neo-retro { width: min(96vw, 960px); margin: 32px auto 0; }
+    .neo-section-head {
+      font-family: "Press Start 2P", cursive; font-size: 8px;
+      color: rgba(155,188,15,0.45); letter-spacing: 0.15em; margin-bottom: 14px;
+      border-bottom: 1px solid rgba(155,188,15,0.12); padding-bottom: 8px;
+      display: flex; align-items: baseline; justify-content: space-between;
+    }
+    .neo-section-sub { font-size: 5px; color: rgba(155,188,15,0.28); letter-spacing: 0.08em; }
+    .neo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+    .neo-card {
+      background: rgba(155,188,15,0.04); border: 1px solid rgba(155,188,15,0.12);
+      border-radius: 3px; padding: 10px 12px; transition: border-color 0.12s, background 0.12s;
+      display: flex; flex-direction: column;
+    }
+    .neo-card:hover { border-color: rgba(155,188,15,0.30); background: rgba(155,188,15,0.07); }
+    .neo-card-title { font-family: "Press Start 2P", cursive; font-size: 7px; color: rgba(230,242,216,0.9); margin-bottom: 5px; line-height: 1.28; }
+    .neo-card-meta  { font-family: "Share Tech Mono", monospace; font-size: 8px; color: rgba(181,209,166,0.6); margin-bottom: 6px; }
+    .neo-card-tag {
+      display: inline-block; font-family: "Press Start 2P", cursive; font-size: 3.8px;
+      color: rgba(155,188,15,0.4); border: 1px solid rgba(155,188,15,0.18);
+      padding: 2px 5px; border-radius: 1px; margin-right: 3px; margin-bottom: 3px;
+    }
+    .neo-card-desc { font-family: "Share Tech Mono", monospace; font-size: 6.5px; color: rgba(155,188,15,0.5); line-height: 1.65; margin-top: 6px; flex: 1; }
+    .neo-card-link {
+      display: inline-block; margin-top: 8px; font-family: "Press Start 2P", cursive;
+      font-size: 4.5px; color: rgba(155,188,15,0.4); text-decoration: none;
+      border-bottom: 1px solid rgba(155,188,15,0.2); align-self: flex-start;
+    }
+    .neo-card-link:hover { color: #9bbc0f; border-color: #9bbc0f; }
+
+    /* ══ NOTICE ══════════════════════════════════════════════════ */
+    #rdx-notice { width: min(96vw, 960px); margin: 24px auto 48px; }
+    .notice-inner {
+      border: 1px solid rgba(155,188,15,0.10); border-radius: 3px; padding: 14px 18px;
+      font-family: "Share Tech Mono", monospace; font-size: 7px;
+      color: rgba(155,188,15,0.28); line-height: 1.9;
+    }
+    .notice-inner a { color: rgba(155,188,15,0.48); }
+    .notice-inner a:hover { color: #9bbc0f; }
+
+    /* ══ SPLASH SCREEN ══════════════════════════════════════════ */
+    #rdx-splash {
+      position: fixed; inset: 0; z-index: 999;
+      background: #000; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 20px; cursor: pointer;
+      transition: opacity 0.5s ease;
+    }
+    #rdx-splash.hiding { opacity: 0; pointer-events: none; }
+    .splash-logo {
+      font-family: "Press Start 2P", cursive; font-size: clamp(14px, 4vw, 28px);
+      color: #9bbc0f; letter-spacing: 0.18em;
+      text-shadow: 0 0 30px rgba(155,188,15,0.5), 0 0 60px rgba(155,188,15,0.2);
+      animation: splash-glow 2s ease-in-out infinite;
+    }
+    @keyframes splash-glow {
+      0%,100% { text-shadow: 0 0 20px rgba(155,188,15,0.4), 0 0 50px rgba(155,188,15,0.15); }
+      50%      { text-shadow: 0 0 35px rgba(155,188,15,0.7), 0 0 80px rgba(155,188,15,0.3); }
+    }
+    .splash-sub {
+      font-family: "Share Tech Mono", monospace; font-size: clamp(8px, 2vw, 11px);
+      color: rgba(155,188,15,0.45); letter-spacing: 0.15em;
+    }
+    .splash-stats {
+      display: flex; gap: 32px; margin-top: 8px;
+    }
+    .splash-stat {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .splash-stat-n {
+      font-family: "Press Start 2P", cursive; font-size: clamp(10px, 3vw, 18px);
+      color: #9bbc0f;
+    }
+    .splash-stat-l {
+      font-family: "Share Tech Mono", monospace; font-size: clamp(6px, 1.5vw, 8px);
+      color: rgba(155,188,15,0.35); letter-spacing: 0.1em;
+    }
+    .splash-cta {
+      font-family: "Press Start 2P", cursive; font-size: clamp(5px, 1.5vw, 7px);
+      color: rgba(155,188,15,0.3); letter-spacing: 0.12em;
+      margin-top: 20px;
+      animation: splash-blink 1.1s step-end infinite;
+    }
+    @keyframes splash-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .splash-scanlines {
+      position: absolute; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(180deg, rgba(0,0,0,0.12) 0px 1px, transparent 1px 3px);
+    }
+    .splash-cartridge {
+      width: clamp(60px, 12vw, 90px);
+      filter: drop-shadow(0 0 12px rgba(155,188,15,0.4));
+    }
+
+    /* ══ MODE COLLECTION ═════════════════════════════════════════ */
+    .coll-btn {
+      position: absolute; top: 6px; right: 6px; z-index: 40;
+      width: 26px; height: 26px; border-radius: 999px;
+      background: rgba(15,56,15,0.78); border: 1px solid rgba(155,188,15,0.34);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; line-height: 1; transition: all 0.1s; pointer-events: auto;
+      color: rgba(155,188,15,0.72); touch-action: manipulation;
+      box-shadow: 0 0 0 2px rgba(15,56,15,0.16);
+    }
+    .coll-btn:hover   { border-color: rgba(155,188,15,0.75); color: #9bbc0f; }
+    .coll-btn.owned   { background: rgba(139,172,15,0.26); border-color: #8bac0f; color: #9bbc0f; }
+    #rdx-collection {
+      width: min(96vw, 960px); margin: 16px auto 0;
+      border: 1px solid rgba(155,188,15,0.14); border-radius: 3px;
+      background: rgba(15,56,15,0.15); overflow: hidden;
+    }
+    .coll-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 14px; border-bottom: 1px solid rgba(155,188,15,0.1);
+      cursor: pointer; user-select: none;
+    }
+    .coll-header-main,
+    .coll-header-actions {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .coll-title {
+      font-family: "Press Start 2P", cursive; font-size: 8px;
+      color: rgba(230,242,216,0.84); letter-spacing: 0.05em;
+    }
+    .coll-export-btn {
+      border: 1px solid rgba(155,188,15,0.24);
+      background: rgba(15,56,15,0.55);
+      color: rgba(230,242,216,0.72);
+      padding: 4px 8px 3px;
+      border-radius: 2px;
+      font-family: "Press Start 2P", cursive;
+      font-size: 5px;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+    }
+    .coll-export-btn:hover {
+      border-color: rgba(155,188,15,0.65);
+      color: #9bbc0f;
+    }
+    .coll-toggle { font-size: 8px; color: rgba(155,188,15,0.3); transition: transform 0.2s; }
+    .coll-toggle.open { transform: rotate(180deg); }
+    .coll-body { padding: 10px 14px 12px; }
+    .coll-consoles {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 6px;
+    }
+    .coll-console-row {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .coll-console-name {
+      font-family: "Press Start 2P", cursive; font-size: 4.5px;
+      color: rgba(155,188,15,0.45); letter-spacing: 0.06em;
+    }
+    .coll-bar-wrap { display: flex; align-items: center; gap: 5px; }
+    .coll-bar {
+      flex: 1; height: 4px; background: rgba(155,188,15,0.1);
+      border-radius: 2px; overflow: hidden;
+    }
+    .coll-bar-fill { height: 100%; background: #6a8a0a; border-radius: 2px; transition: width 0.3s; }
+    .coll-bar-fill.full { background: #9bbc0f; }
+    .coll-frac {
+      font-family: "Share Tech Mono", monospace; font-size: 6px;
+      color: rgba(155,188,15,0.4); flex-shrink: 0; min-width: 32px;
+    }
+    .coll-global {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+      padding-bottom: 8px; border-bottom: 1px solid rgba(155,188,15,0.08);
+    }
+    .coll-global-n {
+      font-family: "Press Start 2P", cursive; font-size: 12px; color: #9bbc0f;
+    }
+    .coll-global-label {
+      font-family: "Share Tech Mono", monospace; font-size: 7px;
+      color: rgba(155,188,15,0.38);
+    }
+    .coll-value {
+      margin-left: auto; font-family: "Share Tech Mono", monospace;
+      font-size: 8px; color: rgba(155,188,15,0.55);
+    }
+
+    /* ══ RESPONSIVE ══════════════════════════════════════════════ */
+    @media (max-width: 600px) {
+      .rdx-btn     { font-size: 7px; padding: 7px 10px; }
+      #rdx-logo    { font-size: 8px; }
+      #rdx-search  { font-size: 8px; }
+      #rdx-tagline { display: none; }
+      #rdx-bourse  { display: none; }
+      #btn-export, #btn-market, #btn-launcher { font-size: 4px; padding: 4px 6px; }
+      .neo-grid    { grid-template-columns: 1fr; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"
+          onerror="window._noChart=true;"></script>
+</head>
+<body>
+
+<!-- ══ SPLASH SCREEN ═══════════════════════════════════════════ -->
+<div id="rdx-splash" role="button" tabindex="0" aria-label="Lancer RETRODEX">
+  <div class="splash-scanlines"></div>
+  <svg class="splash-cartridge" viewBox="0 0 90 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="8" y="4" width="74" height="58" rx="4" fill="#1a2a0a" stroke="#8bac0f" stroke-width="1.5"/>
+    <rect x="16" y="12" width="58" height="28" rx="2" fill="#0f380f" stroke="#6a8a0a" stroke-width="1"/>
+    <rect x="22" y="17" width="46" height="18" rx="1" fill="#0a280a"/>
+    <text x="45" y="30" font-family="monospace" font-size="7" fill="#9bbc0f" text-anchor="middle" letter-spacing="1">RETRODEX</text>
+    <rect x="30" y="52" width="10" height="8" rx="1" fill="#306230"/>
+    <rect x="50" y="52" width="10" height="8" rx="1" fill="#306230"/>
+    <rect x="34" y="62" width="22" height="14" rx="2" fill="#1a2a0a" stroke="#4a6a0a" stroke-width="1"/>
+    <line x1="8" y1="42" x2="82" y2="42" stroke="#6a8a0a" stroke-width="0.5" stroke-dasharray="3 2"/>
+  </svg>
+  <div class="splash-logo">RETRODEX</div>
+  <div class="splash-sub">ENCYCLOPÉDIE RÉTRO · TERMINAL MARCHÉ</div>
+  <div class="splash-stats">
+    <div class="splash-stat"><div class="splash-stat-n" id="splash-games">507</div><div class="splash-stat-l">JEUX</div></div>
+    <div class="splash-stat"><div class="splash-stat-n" id="splash-consoles">16</div><div class="splash-stat-l">CONSOLES</div></div>
+    <div class="splash-stat"><div class="splash-stat-n" id="splash-entries">160</div><div class="splash-stat-l">ENTRÉES</div></div>
+  </div>
+  <div class="splash-cta">— APPUYEZ SUR N'IMPORTE QUELLE TOUCHE —</div>
+</div>
+
+<div id="rdx-chrome">
+  <div id="rdx-header">
+    <div id="rdx-logo">RETRODEX</div>
+    <div id="rdx-tagline">40 showcase games - 4 consoles - live demo</div>
+    <select id="rdx-console" title="Filtrer par console"></select>
+    <input id="rdx-search" type="text" placeholder="Search Zelda, Metroid, Tekken..." autocomplete="off" spellcheck="false" title="Examples: Zelda, Metroid, Tekken, Tetris">
+    <button id="btn-launcher" title="Retour au launcher">LAUNCHER</button>
+    <button id="btn-market" title="Ouvrir RetroMarket">RETROMARKET</button>
+    <button id="btn-export" title="Exporter la liste filtrée en CSV">⬇ CSV</button>
+  </div>
+
+  <div id="rdx-status-strip">
+    <div class="rdx-status-pill">Showcase <strong id="rdx-status-games">40</strong></div>
+    <div class="rdx-status-pill">Top Cards <strong id="rdx-status-top">40/40</strong></div>
+    <div class="rdx-status-pill">Verified Market <strong id="rdx-status-market">9</strong></div>
+  </div>
+
+  <div id="rdx-hint">&#8592; &#8594; games &nbsp;&#183;&nbsp; &#8593; &#8595; or L / R pages &nbsp;&#183;&nbsp; swipe pages &nbsp;&#183;&nbsp; R random &nbsp;&#183;&nbsp; direct search &nbsp;&#183;&nbsp; RETROMARKET for CRT mode</div>
+</div>
+
+<!-- ══ BOURSE ═════════════════════════════════════════════════════ -->
+<div id="rdx-bourse" hidden aria-hidden="true">
+  <div class="bourse-col">
+    <div class="bourse-head"><span class="bourse-arrow up">▲</span> TOP HAUSSE</div>
+    <div id="bourse-up"></div>
+  </div>
+  <div class="bourse-divider"></div>
+  <div class="bourse-col">
+    <div class="bourse-head"><span class="bourse-arrow dn">▼</span> TOP BAISSE</div>
+    <div id="bourse-dn"></div>
+  </div>
+</div>
+
+<!-- ══ 3DS ════════════════════════════════════════════════════════ -->
+<div id="rdx-wrapper">
+  <div id="rdx-top">
+    <canvas id="rdxCanvas" width="320" height="240"></canvas>
+  </div>
+  <div id="rdx-dpad-zone" aria-label="Directional pad controls">
+    <button class="rdx-dpad-btn up" id="btnDpadUp" data-direction="up" title="Scroll selected section up" aria-label="Scroll selected section up"></button>
+    <button class="rdx-dpad-btn left" id="btnDpadLeft" data-direction="left" title="Previous bottom page" aria-label="Previous bottom page"></button>
+    <button class="rdx-dpad-btn right" id="btnDpadRight" data-direction="right" title="Next bottom page" aria-label="Next bottom page"></button>
+    <button class="rdx-dpad-btn down" id="btnDpadDown" data-direction="down" title="Scroll selected section down" aria-label="Scroll selected section down"></button>
+  </div>
+  <div id="rdx-dots">
+    <button class="rdx-page-btn" id="btnScreenPrev" title="Previous bottom page">L</button>
+    <span class="rdx-dot active" title="Overview"></span>
+    <span class="rdx-dot" title="Game background"></span>
+    <span class="rdx-dot" title="Tips and community"></span>
+    <button class="rdx-page-btn" id="btnScreenNext" title="Next bottom page">R</button>
+  </div>
+  <div id="rdx-bot"></div>
+  <img id="rdx-png" src="img/3ds-frame.png" alt="">
+</div>
+
+<!-- ══ NAV ════════════════════════════════════════════════════════ -->
+<div id="rdx-nav">
+  <div id="rdx-nav-inner">
+    <button class="rdx-btn" id="btnPrev">&#9664; PREV</button>
+    <button class="rdx-btn rdx-btn-rnd" id="btnRnd">&#9733; RND</button>
+    <div id="rdx-ctr">#1 / 0</div>
+    <button class="rdx-btn" id="btnNext">NEXT &#9654;</button>
+  </div>
+</div>
+
+<!-- ══ DATA ═══════════════════════════════════════════════════════ -->
+<script src="data/catalog.js"></script>
+<script src="data/consoles.js"></script>
+<script src="data/prices.js"></script>
+<script src="data/entries.js"></script>
+<script src="data/top_screen_artwork.js"></script>
+<script src="data/retrodeck_asset_library.js"></script>
+<script src="data/demo_subset.js"></script>
+<script src="data/demo_status.js"></script>
+<script src="data/market_history.js"></script>
+<script src="data/market_sales.js"></script>
+<script src="data/market_sources.js"></script>
+<script src="js/utils.js?v=20260317b"></script>
+<script src="js/data-layer.js?v=20260317b"></script>
+<script src="js/collection-store.js?v=20260322a"></script>
+<script src="js/collection-panel.js?v=20260322a"></script>
+<script src="modules/retromarket/market_data.js"></script>
+<script src="modules/retromarket/market_presenter.js?v=20260322a"></script>
+<script src="js/illustration.js?v=20260317b"></script>
+<script src="js/top-screen-loader.js?v=20260323a"></script>
+<script src="js/top-screen-generator.js?v=20260317b"></script>
+<script src="js/top-screen.js?v=20260317b"></script>
+
+<!-- ══ MAIN ═══════════════════════════════════════════════════════ -->
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+
+  /* Boot */
+  try { await DATA_LAYER.init(); }
+  catch(e) {
+    document.body.innerHTML = '<pre style="color:#9bbc0f;background:#000;padding:20px;font-size:11px">BOOT ERROR: ' + e.message + '</pre>';
+    return;
+  }
+  try {
+    if (typeof RETROMARKET_DATA !== 'undefined' && typeof RETROMARKET_DATA.init === 'function') {
+      await RETROMARKET_DATA.init();
+    }
+  } catch (e) {
+    console.warn('[RDX market init]', e);
+  }
+
+  function getDatasetCounts(games) {
+    const entries = window.ENTRIES_DATA || {};
+    let entryCount = 0;
+    games.forEach(game => { if (entries[game.id]) entryCount += 1; });
+    return {
+      games: games.length,
+      consoles: new Set(games.map(game => game.console)).size,
+      entries: entryCount,
+    };
+  }
+
+  function getDemoDataset(allGames) {
+    const source = window.RETRODEX_DEMO_SUBSET;
+    const fallback = {
+      active: false,
+      label: 'FULL DATASET',
+      games: allGames,
+      counts: getDatasetCounts(allGames),
+    };
+    if (!source || source.enabled === false || !Array.isArray(source.ids) || !source.ids.length) {
+      return fallback;
+    }
+
+    const order = new Map(source.ids.map((id, index) => [id, index]));
+    const selected = allGames
+      .filter(game => order.has(game.id))
+      .sort((a, b) => order.get(a.id) - order.get(b.id));
+    const selectedIds = new Set(selected.map(game => game.id));
+    const missing = source.ids.filter(id => !selectedIds.has(id));
+    const consoleCounts = {};
+    selected.forEach(game => {
+      consoleCounts[game.console] = (consoleCounts[game.console] || 0) + 1;
+    });
+
+    const minimumGames = Number(source.minimumGames || 0);
+    const requiredConsoles = source.requiredConsoles || {};
+    const consoleCountsValid = Object.entries(requiredConsoles).every(([consoleName, requiredCount]) => {
+      return (consoleCounts[consoleName] || 0) >= requiredCount;
+    });
+    const valid = !missing.length && (!minimumGames || selected.length >= minimumGames) && consoleCountsValid;
+
+    if (!valid) {
+      console.warn('[RDX demo subset] invalid, using full dataset instead', { missing, consoleCounts });
+      return fallback;
+    }
+
+    return {
+      active: true,
+      label: source.label || 'DEMO SET',
+      games: selected,
+      counts: getDatasetCounts(selected),
+    };
+  }
+
+  const DATASET = getDemoDataset(DATA_LAYER.getGames());
+  const ALL = DATASET.games;
+  const SHARED_STATUS = window.RETRODEX_DEMO_STATUS || null;
+  window.RETRODEX_ACTIVE_DATASET = DATASET;
+  let filtered = [...ALL];
+  let idx = 0;
+  const DEMO_OPENING_GAME_ID = 'the-legend-of-zelda-a-link-to-the-past-super-nintendo';
+  let activeConsole = 'ALL';
+  let query = '';
+  let chart = null;
+  let chartTimer = null;
+
+  /* Helpers */
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function getEntry(game) { return DATA_LAYER.getGameEntry(game.id); }
+  function getDefaultTagline() {
+    if (SHARED_STATUS && !query && activeConsole === 'ALL') {
+      return `${SHARED_STATUS.showcaseGames || ALL.length} showcase games · ${SHARED_STATUS.showcaseConsoles || DATASET.counts.consoles} consoles · live demo`;
+    }
+    const bits = [ALL.length + ' jeux'];
+    if (DATASET.active) bits.push('showcase');
+    bits.push(DATASET.counts.consoles + ' consoles');
+    if (DATASET.active) bits.push('live demo');
+    return bits.join(' · ');
+  }
+  function syncSharedStatus() {
+    if (!SHARED_STATUS) return;
+    const games = document.getElementById('rdx-status-games');
+    const top = document.getElementById('rdx-status-top');
+    const market = document.getElementById('rdx-status-market');
+    if (games) games.textContent = String(SHARED_STATUS.showcaseGames || DATASET.counts.games);
+    if (top) top.textContent = `${SHARED_STATUS.topCardsReady || 0}/${SHARED_STATUS.bottomCardsReady || 0}`;
+    if (market) market.textContent = String(SHARED_STATUS.verifiedSalesGames || 0);
+  }
+  function syncDatasetChrome() {
+    const tagline = document.getElementById('rdx-tagline');
+    if (tagline) tagline.textContent = getDefaultTagline();
+    syncSharedStatus();
+    const splashGames = document.getElementById('splash-games');
+    const splashConsoles = document.getElementById('splash-consoles');
+    const splashEntries = document.getElementById('splash-entries');
+    if (splashGames) splashGames.textContent = String(DATASET.counts.games);
+    if (splashConsoles) splashConsoles.textContent = String(DATASET.counts.consoles);
+    if (splashEntries) splashEntries.textContent = String(DATASET.counts.entries);
+  }
+
+  /* Genre */
+  const GMAP = {
+    'RPG':       ['final fantasy','dragon quest','chrono','breath of fire','suikoden','xenogears','wild arms','lufia','phantasy star','secret of mana','tales ','earthbound','star ocean','persona','ys ','grandia','vagrant story','mario rpg','super mario rpg','legend of dragoon','alundra','illusion of gaia','terranigma','golden sun','mother 3','tactics ogre','ogre battle','shining force','albert odyssey','dragon force','defender of oasis'],
+    'Platform':  ['mario ','sonic','donkey kong','kirby','crash bandicoot','yoshi','wario','mega man','contra','ducktales','rayman','spyro','banjo','bonk'],
+    'Fighting':  ['street fighter','mortal kombat','king of fighters','fatal fury','samurai shodown','tekken','garou','virtua fighter','last blade','marvel vs capcom'],
+    'Shooter':   ['ikaruga','gradius','r-type','thunder force','radiant silvergun','galaga','darius','twinbee','1942','gunstar','parodius','soldier blade','lords of thunder','blazing star','metal slug'],
+    'Adventure': ['zelda','tomb raider','metroid','castlevania','silent hill','ico','oddworld','wonder boy','klonoa','neutopia','golvellius'],
+    'Racing':    ['mario kart','f-zero','ridge racer','gran turismo','wipeout','road rash','sega rally','daytona','wave race','crazy taxi'],
+    'Strategy':  ['fire emblem','advance wars','tactics ogre','disgaea','ogre battle','military madness','langrisser'],
+    'Puzzle':    ['tetris','puyo','puzzle bobble','klax','baku baku','gunpey','dicing knight'],
+    'Sports':    ['fifa','nba','nfl','madden','pro evolution','tony hawk','nhl','wwe','wrestling','baseball','tennis'],
+  };
+  function getGenre(g) {
+    const t = (g.title+' '+(g.developer||'')).toLowerCase();
+    for (const [genre, keys] of Object.entries(GMAP)) if (keys.some(k=>t.includes(k))) return genre;
+    return 'Action';
+  }
+
+  const GEN_MAP = {
+    'Atari Lynx':'Gen IV','Game Boy':'Gen IV','Sega Master System':'Gen III',
+    'TurboGrafx-16':'Gen IV','Sega Genesis':'Gen IV','Super Nintendo':'Gen IV',
+    'Neo Geo':'Gen IV','Nintendo Entertainment System':'Gen III','Game Gear':'Gen IV',
+    'Sega Saturn':'Gen V','PlayStation':'Gen V','Nintendo 64':'Gen V',
+    'Dreamcast':'Gen VI','Game Boy Advance':'Gen VI','Nintendo DS':'Gen VII','WonderSwan':'Gen V',
+  };
+  function getGen(c) { return GEN_MAP[c] || 'Gen ?'; }
+
+  const SHORT_NAME = {
+    'Nintendo Entertainment System':'NES','Super Nintendo':'SNES','PlayStation':'PS1',
+    'Game Boy':'Game Boy','Sega Genesis':'Genesis','Nintendo 64':'N64','Game Boy Advance':'GBA',
+    'Sega Saturn':'Saturn','Dreamcast':'Dreamcast','Sega Master System':'Master Sys.',
+    'Nintendo DS':'NDS','TurboGrafx-16':'TG-16','Neo Geo':'Neo Geo',
+    'Atari Lynx':'Lynx','WonderSwan':'WonderSwan','Game Gear':'Game Gear',
+  };
+  function shortConsole(c) { return SHORT_NAME[c] || c; }
+
+  function getRank(game) {
+    const pool = ALL.filter(g => g.console === game.console && g.metascore).sort((a,b) => b.metascore - a.metascore);
+    const i = pool.findIndex(g => g.id === game.id);
+    return i >= 0 ? i + 1 : '?';
+  }
+
+  function scoreBar(score) {
+    if (!score) return '';
+    const pips = Math.round(score/10);
+    let bar = '<div class="c-score-bar">';
+    for (let i=1;i<=10;i++) {
+      const col = i<=pips ? (pips>=9?'#9bbc0f':pips>=7?'#8bac0f':'#6a8a0a') : '#1a3a1a';
+      bar += '<div class="c-bar-pip" style="background:'+col+'"></div>';
+    }
+    return bar+'</div>';
+  }
+
+  function getPrices(game) {
+    const src = window.PRICES_DATA || [];
+    const p = src.find(x => x.game === game.id) || {};
+    return {
+      l: p.loose ? '$'+p.loose : 'N/A',
+      c: p.cib   ? '$'+p.cib   : 'N/A',
+      m: p.mint  ? '$'+p.mint  : 'N/A',
+      raw: { loose: p.loose||0, cib: p.cib||0, mint: p.mint||0 }
+    };
+  }
+
+  /* ══ CONSOLE SELECT (remplace les tabs) ═══════════════════════ */
+  const CONSOLE_ORDER = [
+    'ALL','Game Boy','Nintendo Entertainment System','Super Nintendo',
+    'PlayStation','Sega Genesis','Nintendo 64','Game Boy Advance',
+    'Sega Saturn','Dreamcast','Neo Geo','TurboGrafx-16',
+    'Nintendo DS','Sega Master System','Game Gear','Atari Lynx','WonderSwan'
+  ];
+  const CONSOLE_DISPLAY = {
+    'ALL':'ALL CONSOLES',
+    'Nintendo Entertainment System':'NES',
+    'Super Nintendo':'SUPER NINTENDO',
+    'PlayStation':'PLAYSTATION',
+    'Game Boy':'GAME BOY',
+    'Sega Genesis':'GENESIS',
+    'Nintendo 64':'NINTENDO 64',
+    'Game Boy Advance':'GAME BOY ADVANCE',
+    'Sega Saturn':'SATURN',
+    'Dreamcast':'DREAMCAST',
+    'Neo Geo':'NEO GEO',
+    'TurboGrafx-16':'TURBOGRAFX-16',
+    'Nintendo DS':'NINTENDO DS',
+    'Sega Master System':'MASTER SYSTEM',
+    'Game Gear':'GAME GEAR',
+    'Atari Lynx':'ATARI LYNX',
+    'WonderSwan':'WONDERSWAN',
+  };
+  const available = new Set(ALL.map(g => g.console));
+  const sel = document.getElementById('rdx-console');
+  CONSOLE_ORDER.filter(c => c==='ALL' || available.has(c)).forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = CONSOLE_DISPLAY[c] || c.toUpperCase();
+    sel.appendChild(opt);
+  });
+  sel.addEventListener('change', () => { activeConsole = sel.value; applyFilter(); });
+
+  /* ══ SEARCH ══════════════════════════════════════════════════ */
+  document.getElementById('rdx-search').addEventListener('input', e => {
+    query = e.target.value.toLowerCase().trim(); applyFilter();
+  });
+
+  syncDatasetChrome();
+
+  function applyFilter() {
+    filtered = ALL.filter(g => {
+      const mc = activeConsole==='ALL' || g.console===activeConsole;
+      const mq = !query || g.title.toLowerCase().includes(query) || (g.developer||'').toLowerCase().includes(query);
+      return mc && mq;
+    });
+    idx = 0;
+    const tag = document.getElementById('rdx-tagline');
+    if (tag) {
+      if (query) tag.textContent = filtered.length + ' résultats';
+      else if (activeConsole==='ALL') tag.textContent = getDefaultTagline();
+      else tag.textContent = filtered.length + ' jeux · ' + shortConsole(activeConsole);
+    }
+    show();
+  }
+
+  /* ══ TOP SCREEN ══════════════════════════════════════════════ */
+  function renderTop(game) {
+    const cv = document.getElementById('rdxCanvas'); if (!cv) return;
+    if (typeof TOP_SCREEN !== 'undefined') {
+      const p = TOP_SCREEN.generate(cv, game); if (p && p.catch) p.catch(e=>console.warn('[TOP]',e));
+    } else if (typeof ILLUSTRATOR !== 'undefined') {
+      ILLUSTRATOR.generate(cv, game, 4);
+    } else {
+      const ctx = cv.getContext('2d');
+      ctx.fillStyle='#0f380f'; ctx.fillRect(0,0,320,240);
+      ctx.fillStyle='#9bbc0f'; ctx.font='bold 12px monospace';
+      ctx.fillText(game.title.slice(0,26), 8, 30);
+    }
+  }
+
+  /* ══ DOTS — bottom pages ═════════════════════════════════════ */
+  const BOTTOM_PAGE_COUNT = 3;
+  let screenIdx = 0;
+  let selectedScrollKey = null;
+  function updateDots() {
+    document.querySelectorAll('.rdx-dot').forEach((d,i) => d.classList.toggle('active', i===screenIdx));
+  }
+  function initDots() {
+    document.querySelectorAll('.rdx-dot').forEach((d,i) => {
+      d.onclick = () => { screenIdx=i; show(); };
+    });
+  }
+
+  function goScreen(dir) {
+    if (!filtered.length) return;
+    screenIdx = (screenIdx + dir + BOTTOM_PAGE_COUNT) % BOTTOM_PAGE_COUNT;
+    show();
+  }
+
+  function syncScrollableSelection() {
+    const blocks = Array.from(document.querySelectorAll('#rdx-bot .bot-page-block.is-scrollable'));
+    if (!blocks.length) {
+      selectedScrollKey = null;
+      return;
+    }
+    if (!selectedScrollKey || !blocks.some(block => block.dataset.scrollKey === selectedScrollKey)) {
+      selectedScrollKey = blocks[0].dataset.scrollKey || null;
+    }
+    blocks.forEach(block => {
+      const active = block.dataset.scrollKey === selectedScrollKey;
+      block.classList.toggle('is-selected', active);
+      block.onclick = function() {
+        selectedScrollKey = block.dataset.scrollKey || null;
+        syncScrollableSelection();
+      };
+    });
+  }
+
+  function moveScrollableSelection(dir) {
+    const blocks = Array.from(document.querySelectorAll('#rdx-bot .bot-page-block.is-scrollable'));
+    if (!blocks.length) return false;
+    const currentIndex = Math.max(0, blocks.findIndex(block => block.dataset.scrollKey === selectedScrollKey));
+    const nextIndex = (currentIndex + dir + blocks.length) % blocks.length;
+    selectedScrollKey = blocks[nextIndex].dataset.scrollKey || null;
+    syncScrollableSelection();
+    return true;
+  }
+
+  function scrollSelectedBlock(dir) {
+    const activeBody = document.querySelector('#rdx-bot .bot-page-block.is-scrollable.is-selected .bot-page-block-body');
+    if (!activeBody) return false;
+    const maxScroll = Math.max(0, activeBody.scrollHeight - activeBody.clientHeight);
+    if (maxScroll <= 2) return false;
+    const currentTop = activeBody.scrollTop;
+    const nextTop = Math.max(0, Math.min(maxScroll, currentTop + (dir * 34)));
+    if (Math.abs(nextTop - currentTop) < 1) return false;
+    activeBody.scrollTo({ top: nextTop, behavior: 'smooth' });
+    return true;
+  }
+
+  function handleVerticalPad(dir) {
+    if (screenIdx !== 1) return false;
+    return scrollSelectedBlock(dir) || moveScrollableSelection(dir);
+  }
+
+  function handleDpadDirection(direction) {
+    if (direction === 'left') return goScreen(-1);
+    if (direction === 'right') return goScreen(1);
+    if (direction === 'up') return handleVerticalPad(-1);
+    if (direction === 'down') return handleVerticalPad(1);
+  }
+
+  function getDpadZoneDirection(clientX, clientY) {
+    const zone = document.getElementById('rdx-dpad-zone');
+    if (!zone) return null;
+    const rect = zone.getBoundingClientRect();
+    if (!rect.width || !rect.height) return null;
+    const relX = (clientX - rect.left) / rect.width;
+    const relY = (clientY - rect.top) / rect.height;
+    if (relX < 0 || relX > 1 || relY < 0 || relY > 1) return null;
+
+    const dx = relX - 0.5;
+    const dy = relY - 0.5;
+    if (Math.abs(dx) < 0.13 && Math.abs(dy) < 0.13) return null;
+
+    return Math.abs(dx) > Math.abs(dy)
+      ? (dx < 0 ? 'left' : 'right')
+      : (dy < 0 ? 'up' : 'down');
+  }
+
+  /* ══ WORLDMAP ════════════════════════════════════════════════ */
+  function maybeWorldmap() {
+    if (typeof TOP_SCREEN !== 'undefined' && TOP_SCREEN.clearWorldmap) TOP_SCREEN.clearWorldmap();
+  }
+
+  /* ══ SCREEN 0 — Infos ════════════════════════════════════════ */
+  function getPublisherName(game, entry) {
+    return (entry && (entry.publisher || entry.editor || entry.publisherName))
+      || game.publisher || game.editor || game.publisherName
+      || game.developer || 'UNKNOWN';
+  }
+
+  function getStoryData(entry) {
+    return entry && entry.story ? entry.story : {};
+  }
+
+  function hasMapData(entry) {
+    return !!(entry && entry.top_visual && entry.top_visual['3']);
+  }
+
+  function quickSummary(game, entry, genre) {
+    if (entry && entry.summary) return entry.summary;
+    return game.title + ' on ' + shortConsole(game.console) + ' stands as a ' + genre.toLowerCase() + ' reference inside the RetroDex archive.';
+  }
+
+  function quickSynopsis(game, entry, genre) {
+    const story = getStoryData(entry);
+    if (story.synopsis) return story.synopsis;
+    if (entry && entry.summary) return entry.summary;
+    return game.title + ' is one of the reference ' + genre.toLowerCase() + ' titles in the RetroDex library for ' + shortConsole(game.console) + '.';
+  }
+
+  function quickProduction(game, entry) {
+    const story = getStoryData(entry);
+    if (story.production) return story.production;
+    const pub = getPublisherName(game, entry);
+    const yr = game.year || '—';
+    if (game.developer && game.developer !== pub) {
+      return 'Published by ' + pub + ', developed by ' + game.developer + ', and released in ' + yr + ' on ' + shortConsole(game.console) + '.';
+    }
+    return 'Published by ' + pub + ' and released in ' + yr + ' on ' + shortConsole(game.console) + '.';
+  }
+
+  function marketRankInfo(game) {
+    const src = window.PRICES_DATA || [];
+    const allWithPrice = src.filter(x => x.loose > 0).sort((a,b) => b.loose - a.loose);
+    const rank = allWithPrice.findIndex(x => x.game === game.id);
+    return { rank, total: allWithPrice.length };
+  }
+
+  function statusCell(label, value) {
+    return '<div class="bot-status">' +
+      '<div class="bot-status-label">' + escHtml(label) + '</div>' +
+      '<div class="bot-status-value">' + escHtml(String(value)) + '</div>' +
+    '</div>';
+  }
+
+  function factCell(label, value) {
+    return '<div class="bot-fact"><em>' + escHtml(label) + '</em>' + escHtml(String(value)) + '</div>';
+  }
+
+  function archiveLevel(entry) {
+    const story = getStoryData(entry);
+    let score = 0;
+    if (entry && entry.summary) score += 1;
+    if (story.synopsis) score += 1;
+    if (story.production) score += 1;
+    if (entry && entry.codes && entry.codes.length) score += 1;
+    if (entry && entry.guides && entry.guides.length) score += 1;
+    if (score >= 4) return 'FULL';
+    if (score >= 2) return 'PARTIAL';
+    return 'BASIC';
+  }
+
+  function scoreBand(score) {
+    const value = Number(score) || 0;
+    if (!value) return 'UNRATED';
+    if (value >= 95) return 'LEGEND';
+    if (value >= 90) return 'ELITE';
+    if (value >= 80) return 'STRONG';
+    if (value >= 70) return 'SOLID';
+    return 'NICHE';
+  }
+
+  function raritySignal(rarity) {
+    const value = String(rarity || 'COMMON').toUpperCase();
+    if (value === 'ULTRA RARE') return 'GRAIL';
+    if (value === 'RARE') return 'HARD TO FIND';
+    if (value === 'UNCOMMON') return 'WATCHLIST';
+    return 'ACCESSIBLE';
+  }
+
+  function priceSpreadValue(prices) {
+    const raw = prices && prices.raw ? prices.raw : {};
+    if (!raw.loose || !raw.mint) return 'N/A';
+    return '$' + Math.max(0, raw.mint - raw.loose);
+  }
+
+  function cibPremiumValue(prices) {
+    const raw = prices && prices.raw ? prices.raw : {};
+    if (!raw.loose || !raw.cib) return 'N/A';
+    return '+' + Math.round(((raw.cib / raw.loose) - 1) * 100) + '%';
+  }
+
+  function archiveFootprint(entry) {
+    const story = getStoryData(entry);
+    const parts = [];
+    if (entry && entry.summary) parts.push('SUMMARY');
+    if (story.synopsis) parts.push('SYNOPSIS');
+    if (story.production) parts.push('PRODUCTION');
+    if (entry && entry.codes && entry.codes.length) parts.push(entry.codes.length + ' CODES');
+    if (entry && entry.guides && entry.guides.length) parts.push(entry.guides.length + ' GUIDES');
+    if (hasMapData(entry)) parts.push('MAP');
+    return parts.length ? parts.join(' / ') : 'CATALOG ONLY';
+  }
+
+  function collectorPriority(game, entry, snapshot) {
+    const rarity = String(game.rarity || 'COMMON').toUpperCase();
+    if (snapshot && snapshot.owned) return 'SECURED';
+    if (rarity === 'ULTRA RARE') return 'TOP PRIORITY';
+    if (rarity === 'RARE') return 'HIGH PRIORITY';
+    if (entry && entry.guides && entry.guides.length) return 'CURATED';
+    return 'STANDARD';
+  }
+
+  function miniCell(label, value) {
+    return '<div class="bot-mini-card">' +
+      '<div class="bot-mini-label">' + escHtml(label) + '</div>' +
+      '<div class="bot-mini-value">' + escHtml(String(value)) + '</div>' +
+    '</div>';
+  }
+
+  function collectionSnapshot(game) {
+    const api = window.RETRODEX_COLLECTION_STATE;
+    if (!api || typeof api.getSnapshot !== 'function') return null;
+    return api.getSnapshot(game.id, game.console);
+  }
+
+  function renderScreen0(game) {
+    const entry = getEntry(game);
+    const gn  = entry ? (entry.genre||getGenre(game)) : getGenre(game);
+    const p   = getPrices(game);
+    const rar = game.rarity || 'COMMON';
+    const sum = entry ? entry.summary : '';
+    return '<div class="card">'+
+      '<div class="c-title">'+escHtml(game.title)+'</div>'+
+      (sum ? '<div class="c-summary">'+escHtml(sum)+'</div>' : '')+
+      '<div class="c-meta">'+
+        '<div class="c-row">'+escHtml(shortConsole(game.console))+'</div>'+
+        '<div class="c-row">Année : <b>'+(game.year||'—')+'</b></div>'+
+        '<div class="c-row">Genre : <b>'+escHtml(gn)+'</b></div>'+
+        '<div class="c-row">'+escHtml(getGen(game.console))+'</div>'+
+      '</div>'+
+      '<div class="c-sep"></div>'+
+      '<div class="c-scores">'+
+        '<div class="c-score-wrap">'+
+          '<div class="c-score">Score <b>'+(game.metascore||'—')+'</b></div>'+
+          scoreBar(game.metascore)+
+        '</div>'+
+        '<div class="c-score">Rang <b>#'+getRank(game)+'</b></div>'+
+        '<span class="c-badge '+rar+'">'+rar+'</span>'+
+      '</div>'+
+      '<div class="c-sep"></div>'+
+      '<div class="c-price-head">PRIX RAPIDE</div>'+
+      '<div class="c-price-body">'+
+        '<div class="c-price-col">'+
+          '<div class="c-pline"><em>LOOSE</em>'+p.l+'</div>'+
+          '<div class="c-pline"><em>CIB</em>'+p.c+'</div>'+
+          '<div class="c-pline"><em>MINT</em>'+p.m+'</div>'+
+        '</div>'+
+        '<div class="c-spark"><canvas id="rdxSpark"></canvas></div>'+
+      '</div>'+
+    '</div>';
+  }
+
+  /* ══ SCREEN 1 — Histoire ═════════════════════════════════════ */
+  function renderScreen1(game) {
+    const entry = getEntry(game);
+    if (!entry || (!entry.story.synopsis && !entry.story.production))
+      return '<div class="s2-no-entry">DONNÉES<br>À VENIR</div>';
+    const s = entry.story;
+    return '<div class="s1-wrap">'+
+      '<div><div class="s-block-head">SYNOPSIS</div><div class="s-block-body">'+escHtml(s.synopsis||'—')+'</div></div>'+
+      '<div class="s1-sep"></div>'+
+      '<div><div class="s-block-head">PRODUCTION</div><div class="s-block-body">'+escHtml(s.production||'—')+'</div></div>'+
+    '</div>';
+  }
+
+  /* ══ SCREEN 2 — Codes & Guides ═══════════════════════════════ */
+  const THEME_ICON = { completion:'▸', secrets:'★', bonus:'◆', speedrun:'⚡', boss:'☠', maps:'⊞', sports:'⊙' };
+  function renderScreen2(game) {
+    const entry = getEntry(game);
+    if (!entry || (!entry.codes.length && !entry.guides.length))
+      return '<div class="s2-no-entry">DONNÉES<br>À VENIR</div>';
+    let html = '<div class="s2-wrap"><div class="s-block-head">CODES</div>';
+    (entry.codes||[]).forEach(c => {
+      html += '<div class="s2-code-row"><span class="s2-code-label">'+escHtml(c.label)+'</span><span class="s2-code-input">'+escHtml(c.input)+'</span></div>';
+    });
+    html += '<div class="s2-sep"></div><div class="s-block-head">GUIDES</div>';
+    (entry.guides||[]).forEach(g => {
+      html += '<a class="s2-guide-row" href="'+g.url+'" target="_blank" rel="noopener">'+
+        '<span class="s2-guide-icon">'+(THEME_ICON[g.theme]||'▸')+'</span>'+
+        '<span class="s2-guide-label">'+escHtml(g.label)+'</span>'+
+        '<span class="s2-guide-theme">'+escHtml(g.theme.toUpperCase())+'</span>'+
+      '</a>';
+    });
+    return html+'</div>';
+  }
+
+  /* ══ SCREEN 3 — Prix & Marché ════════════════════════════════ */
+  function renderScreen3(game) {
+    const p = getPrices(game);
+    const rar = game.rarity || 'COMMON';
+    const raw = p.raw;
+
+    /* Premium CIB vs Loose */
+    const premium = (raw.loose && raw.cib) ? Math.round((raw.cib/raw.loose - 1)*100) : null;
+    const premiumBar = (premium && raw.loose > 0) ? Math.min(100, Math.round(premium*0.6)) : 0;
+
+    /* Tendance depuis bourse (rang prix) */
+    const src = window.PRICES_DATA || [];
+    const allWithPrice = src.filter(x=>x.loose>0).sort((a,b)=>b.loose-a.loose);
+    const rank = allWithPrice.findIndex(x=>x.game===game.id);
+    const total = allWithPrice.length;
+    let trendHtml = '';
+    if (rank>=0 && rank<10) {
+      trendHtml = '<span class="s3-trend-up">▲ TOP '+String(rank+1).padStart(2,'0')+'</span>';
+    } else if (rank>=0 && rank>=total-10) {
+      trendHtml = '<span class="s3-trend-dn">▼ BOT '+String(total-rank).padStart(2,'0')+'</span>';
+    } else {
+      trendHtml = '<span style="color:rgba(155,188,15,0.3)">⊸ STABLE</span>';
+    }
+
+    /* Collection value estimate */
+    const collVal = raw.cib > 0 ? '$'+raw.cib : (raw.loose > 0 ? '$'+raw.loose : '—');
+
+    return '<div class="s3-wrap">'+
+      '<div class="s3-big-price">'+
+        priceBlock('LOOSE', p.l)+
+        priceBlock('CIB',   p.c)+
+        priceBlock('MINT',  p.m)+
+      '</div>'+
+      '<div class="s3-chart-row"><canvas id="rdxSpark3"></canvas></div>'+
+      (premium !== null ?
+        '<div>'+
+          '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1px">'+
+            '<span style="font-family:\'Press Start 2P\',cursive;font-size:4px;color:rgba(155,188,15,0.38)">PREMIUM CIB</span>'+
+            '<span style="font-family:\'Share Tech Mono\',monospace;font-size:6px;color:#8bac0f">+'+premium+'%</span>'+
+          '</div>'+
+          '<div class="s3-cib-bar"><div class="s3-cib-fill" style="width:'+premiumBar+'%"></div></div>'+
+        '</div>' : '')+
+      '<div class="s3-bottom">'+
+        '<div class="s3-stat">'+
+          '<span class="s3-stat-label">TENDANCE</span>'+trendHtml+
+        '</div>'+
+        '<span class="c-badge '+rar+'" style="font-size:3.8px;padding:1px 3px 1px">'+rar+'</span>'+
+      '</div>'+
+    '</div>';
+  }
+
+  function priceBlock(label, value) {
+    const isNA = value === 'N/A';
+    return '<div class="s3-price-block">'+
+      '<div class="s3-price-label">'+label+'</div>'+
+      '<div class="s3-price-value'+(isNA?' na':'')+'">'+value+'</div>'+
+    '</div>';
+  }
+
+  function renderScreen0(game) {
+    const entry = getEntry(game);
+    const gn = entry ? (entry.genre || getGenre(game)) : getGenre(game);
+    const p = getPrices(game);
+    const rar = game.rarity || 'COMMON';
+    const summary = quickSummary(game, entry, gn);
+    const pub = getPublisherName(game, entry);
+    const story = getStoryData(entry);
+    const scoreTier = scoreBand(game.metascore);
+    return '<div class="bot-screen">' +
+      '<div class="bot-header">' +
+        '<div class="bot-head-main">' +
+          '<div class="bot-kicker">IDENTITY CARD</div>' +
+          '<div class="bot-title">' + escHtml(game.title) + '</div>' +
+        '</div>' +
+        '<div class="bot-side">' + escHtml(shortConsole(game.console)) + '<br>' + escHtml(String(game.year || '-')) + '</div>' +
+      '</div>' +
+      '<div class="bot-content">' +
+        '<div class="bot-col">' +
+          '<div class="bot-panel">' +
+            '<div class="bot-panel-title">OVERVIEW</div>' +
+            '<div class="bot-copy clamp-6">' + escHtml(summary) + '</div>' +
+          '</div>' +
+          '<div class="bot-panel">' +
+            '<div class="bot-panel-title">IDENTITY</div>' +
+            '<div class="bot-facts bot-facts-compact">' +
+              factCell('YEAR', game.year || '-') +
+              factCell('CONSOLE', shortConsole(game.console)) +
+              factCell('PUBLISHER', pub) +
+              factCell('DEVELOPER', game.developer || 'UNKNOWN') +
+              factCell('GENRE', gn) +
+              factCell('GENERATION', getGen(game.console)) +
+              factCell('SCORE', game.metascore || '-') +
+              factCell('SCORE TIER', scoreTier) +
+              factCell('RANK', '#' + getRank(game)) +
+              factCell('RARITY', rar) +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="bot-col bot-col-wide">' +
+          '<div class="bot-panel">' +
+            '<div class="bot-panel-title">POSITIONING</div>' +
+            '<div class="bot-copy clamp-6">' + escHtml(quickProduction(game, entry)) + '</div>' +
+            '<div class="bot-mini-grid">' +
+              miniCell('ARCHIVE', archiveLevel(entry)) +
+              miniCell('RARITY', raritySignal(rar)) +
+              miniCell('SPREAD', priceSpreadValue(p)) +
+              miniCell('MEDIA', hasMapData(entry) ? 'MAP READY' : 'TEXT ONLY') +
+            '</div>' +
+          '</div>' +
+          '<div class="bot-status-strip">' +
+            statusCell('RARITY', rar) +
+            statusCell('STORY', story.synopsis || story.production ? 'READY' : 'BASIC') +
+            statusCell('GUIDES', (entry && entry.guides ? entry.guides.length : 0)) +
+            statusCell('CODES', (entry && entry.codes ? entry.codes.length : 0)) +
+            statusCell('FOOTPRINT', archiveFootprint(entry)) +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function pageCardLite(label, value, extraClass) {
+    return '<div class="bot-page-card' + (extraClass ? ' ' + extraClass : '') + '">' +
+      '<div class="bot-page-label">' + escHtml(label) + '</div>' +
+      '<div class="bot-page-value' + (extraClass && extraClass.indexOf('wide') >= 0 ? ' is-title' : '') + '">' + escHtml(String(value || '—')) + '</div>' +
+    '</div>';
+  }
+
+  function pageShellLite(kicker, cardsHtml, noteHtml) {
+    return '<div class="bot-page">' +
+      '<div class="bot-kicker">' + escHtml(kicker) + '</div>' +
+      '<div class="bot-page-stack">' + cardsHtml + '</div>' +
+      (noteHtml ? '<div class="bot-page-note">' + noteHtml + '</div>' : '') +
+    '</div>';
+  }
+
+  function pageSeparatorLite() {
+    return '<div class="bot-page-sep"></div>';
+  }
+
+  function pageRowLite(label, value) {
+    return '<div class="bot-page-row"><span>' + escHtml(label) + '</span><strong>' + escHtml(String(value || '—')) + '</strong></div>';
+  }
+
+  function pageRowLiteWithClass(label, value, extraClass) {
+    return '<div class="bot-page-row' + (extraClass ? ' ' + extraClass : '') + '"><span>' + escHtml(label) + '</span><strong>' + escHtml(String(value == null || value === '' ? '—' : value)) + '</strong></div>';
+  }
+
+  function pageTitleLite(value) {
+    return '<div class="bot-page-title-main">' + escHtml(String(value || '—')) + '</div>';
+  }
+
+  function pageChipLite(value) {
+    return '<span class="bot-page-chip">' + escHtml(String(value || '—')) + '</span>';
+  }
+
+  function pageBlockLite(label, bodyHtml, extraClass) {
+    return '<section class="bot-page-block' + (extraClass ? ' ' + extraClass : '') + '">' +
+      '<div class="bot-page-block-head">' + escHtml(label) + '</div>' +
+      '<div class="bot-page-block-body">' + bodyHtml + '</div>' +
+    '</section>';
+  }
+
+  function pageScrollableBlockLite(label, bodyHtml, extraClass, scrollKey) {
+    return '<section class="bot-page-block is-scrollable' + (extraClass ? ' ' + extraClass : '') + '" data-scroll-key="' + escHtml(scrollKey || '') + '">' +
+      '<div class="bot-page-block-head">' + escHtml(label) + '</div>' +
+      '<div class="bot-page-block-body">' + bodyHtml + '</div>' +
+    '</section>';
+  }
+
+  function pageCopyLite(value, clampClass) {
+    return '<div class="bot-page-copy' + (clampClass ? ' ' + clampClass : '') + '">' + escHtml(String(value || 'data unavailable')) + '</div>';
+  }
+
+  function pageScrollableCopyLite(value) {
+    return '<div class="bot-page-copy bot-page-copy-scroll">' + escHtml(String(value || 'data unavailable')) + '</div>';
+  }
+
+  function pageGuideRowLite(label, url) {
+    return '<a class="bot-page-guide-row bot-page-link" href="' + escHtml(url || '#') + '" target="_blank" rel="noopener">' +
+      '<span>' + escHtml(String(label || 'Guide')) + '</span>' +
+      '<span class="bot-page-subtle">' + escHtml(formatGuideSource(url)) + '</span>' +
+    '</a>';
+  }
+
+  function pageTipRowLite(label, body) {
+    return '<div class="bot-page-tip-row">' +
+      '<div class="bot-page-link">' + escHtml(String(label || 'NOTE')) + '</div>' +
+      '<div class="bot-page-copy clamp-3">' + escHtml(String(body || 'No archived note for this title.')) + '</div>' +
+    '</div>';
+  }
+
+  function pagePeopleScrollLite(value) {
+    return '<div class="bot-page-people bot-page-people-scroll">' + escHtml(String(value || 'No key people archived for this title.')) + '</div>';
+  }
+
+  function splitSentencesLite(value) {
+    return String(value || '')
+      .match(/[^.!?]+[.!?]?/g) || [];
+  }
+
+  function formatGuideSource(url) {
+    try {
+      const host = new URL(String(url || '')).hostname.replace(/^www\./, '');
+      return host.toUpperCase();
+    } catch (_) {
+      return 'ARCHIVE LINK';
+    }
+  }
+
+  function extractKeyPeople(text) {
+    const matches = String(text || '').match(/\b[A-ZÉÈÀÂÊÎÔÛÇ][a-zéèàâêîôûç'’\-]+(?:\s+[A-ZÉÈÀÂÊÎÔÛÇ][a-zéèàâêîôûç'’\-]+){1,2}\b/g) || [];
+    const rejected = [
+      /Nintendo/i, /Sega/i, /Capcom/i, /Konami/i, /Bandai/i, /Square/i, /Enix/i, /Sony/i,
+      /PlayStation/i, /Game Boy/i, /Super Nintendo/i, /Mega Drive/i, /Dreamcast/i,
+      /Monde/i, /Dark World/i, /Hyrule/i, /Link/i, /Zelda/i
+    ];
+    const picked = [];
+    matches.forEach(name => {
+      const value = String(name || '').trim();
+      if (!value || value.length < 5) return;
+      if (rejected.some(rx => rx.test(value))) return;
+      if (!picked.includes(value)) picked.push(value);
+    });
+    return picked.slice(0, 3);
+  }
+
+  function keyPeopleSummary(game, entry) {
+    const people = extractKeyPeople(quickProduction(game, entry));
+    return people.length ? people.join(' · ') : 'Not archived in current dataset';
+  }
+
+  function developmentHighlight(game, entry) {
+    const production = quickProduction(game, entry);
+    const parts = splitSentencesLite(production).map(part => part.trim()).filter(Boolean);
+    if (parts.length > 1) return parts.slice(1, 3).join(' ');
+    if (entry && entry.summary) return entry.summary;
+    return archiveFootprint(entry);
+  }
+
+  function collectorNote(game, entry) {
+    const snapshot = collectionSnapshot(game);
+    const priority = collectorPriority(game, entry, snapshot);
+    const footprint = archiveFootprint(entry);
+    return priority + ' · ' + footprint;
+  }
+
+  function popularityBand(game) {
+    const rank = Number(getRank(game));
+    if (!Number.isFinite(rank)) return 'TRACKED';
+    if (rank <= 3) return 'ICONIC';
+    if (rank <= 10) return 'HOT';
+    if ((game.metascore || 0) >= 85) return 'STRONG';
+    return 'CULT';
+  }
+
+  function marketTrendValue(game) {
+    const info = marketRankInfo(game);
+    if (info.rank < 0 || !info.total) return 'DATA UNAVAILABLE';
+    if (info.rank < 10) return 'RISING';
+    if (info.rank >= info.total - 10) return 'COOLING';
+    return 'STABLE';
+  }
+
+  // Legacy market helper removed after presenter extraction.
+
+  /*
+    return [sourceName, verifiedAt, lastSale, history].join(' · ');
+  */
+  // Removed with the shared market presenter.
+
+  
+  function renderCompactScreen0(game) {
+    const entry = getEntry(game);
+    const genre = entry ? (entry.genre || getGenre(game)) : getGenre(game);
+    const prices = getPrices(game);
+    const market = window.RETROMARKET_PRESENTATION;
+    const marketRecord = market ? market.getRecord(game) : null;
+    return pageShellLite(
+      'OVERVIEW',
+      pageBlockLite('GAME', pageTitleLite(game.title), 'is-compact') +
+      pageBlockLite('RELEASE', '<div class="bot-page-facts bot-page-facts-release">' +
+        pageRowLite('CONSOLE', shortConsole(game.console)) +
+        pageRowLite('YEAR', game.year || '-') +
+        pageRowLite('GENRE', genre) +
+        pageRowLite('SCORE', game.metascore || '-') +
+      '</div>', 'is-medium') +
+      pageBlockLite('MARKET SNAPSHOT', '<div class="bot-page-facts">' +
+        pageRowLite('LOOSE', market ? market.getDisplayPrice('LOOSE', prices.l, marketRecord) : prices.l) +
+        pageRowLite('CIB', market ? market.getDisplayPrice('CIB', prices.c, marketRecord) : prices.c) +
+        pageRowLite('MINT', market ? market.getDisplayPrice('MINT', prices.m, marketRecord) : prices.m) +
+        pageRowLite('DATA', market ? market.getCoverageLevel(marketRecord) : 'SNAPSHOT') +
+      '</div>', 'is-medium'),
+      escHtml(market ? market.getFootnote(marketRecord) : 'Local price snapshot only. Verified source and yearly history are not loaded for this title.')
+    );
+  }
+
+  function renderCompactScreen1(game) {
+    const entry = getEntry(game);
+    const genre = entry ? (entry.genre || getGenre(game)) : getGenre(game);
+    const studio = game.developer || getPublisherName(game, entry);
+    const publisher = getPublisherName(game, entry);
+    const sameStudioPublisher = String(studio || '').trim().toLowerCase() === String(publisher || '').trim().toLowerCase();
+    const production = quickProduction(game, entry);
+    const productionLine = splitSentencesLite(production).map(part => part.trim()).filter(Boolean)[0] || production;
+    const highlight = developmentHighlight(game, entry);
+    const productionFactsRows =
+      pageRowLite('STUDIO', studio) +
+      (sameStudioPublisher ? '' : pageRowLite('PUBLISHER', publisher)) +
+      pageRowLite('YEAR', game.year || '-');
+    return pageShellLite(
+      'GAME BACKGROUND',
+      pageScrollableBlockLite('SYNOPSIS', pageScrollableCopyLite(quickSynopsis(game, entry, genre)), 'is-medium', 'synopsis') +
+      pageBlockLite('PRODUCTION FACTS', '<div class="bot-page-facts">' + productionFactsRows + '</div>', 'is-medium') +
+      pageScrollableBlockLite('KEY PEOPLE', pagePeopleScrollLite(keyPeopleSummary(game, entry)) + '<div class="bot-page-subtle">' + escHtml(productionLine) + '</div>', 'is-compact', 'key-people') +
+      pageScrollableBlockLite('WHY IT MATTERS', pageScrollableCopyLite(highlight) + '<div class="bot-page-subtle">' + escHtml(genre + ' · ' + shortConsole(game.console)) + '</div>', 'is-medium', 'why-it-matters'),
+      ''
+    );
+  }
+
+  function renderCompactScreen2(game) {
+    const entry = getEntry(game);
+    const codes = entry && entry.codes ? entry.codes : [];
+    const guides = entry && entry.guides ? entry.guides : [];
+    const visibleGuides = guides.slice(0, 1);
+    const guideRows = visibleGuides.map(g => pageGuideRowLite(g.label || 'Guide', g.url)).join('')
+      || '<div class="bot-page-copy clamp-2">No guide links archived yet for this title.</div>';
+    const moreGuides = guides.length > visibleGuides.length
+      ? '<div class="bot-page-subtle">+' + (guides.length - visibleGuides.length) + ' more archived guide' + (guides.length - visibleGuides.length > 1 ? 's' : '') + '</div>'
+      : '';
+    const cheatBody = codes[0]
+      ? pageTipRowLite(codes[0].label, codes[0].input)
+      : '<div class="bot-page-copy clamp-2">No archived cheat code for this title.</div>';
+    const tipsBody = codes[1]
+      ? pageTipRowLite(codes[1].label, codes[1].input)
+      : '<div class="bot-page-copy clamp-2">No archived advanced tip yet. Check the guide block below.</div>';
+    const secretsBody = codes[2]
+      ? pageTipRowLite(codes[2].label, codes[2].input)
+      : '<div class="bot-page-copy clamp-2">No famous secret archived yet. Community guides remain available.</div>';
+    return pageShellLite(
+      'TIPS & COMMUNITY',
+      pageBlockLite('CHEATS', '<div class="bot-page-tip-list">' + cheatBody + '</div>', 'is-compact') +
+      pageBlockLite('IMPORTANT TIPS', '<div class="bot-page-tip-list">' + tipsBody + '</div>', 'is-compact') +
+      pageBlockLite('FAMOUS SECRETS', '<div class="bot-page-tip-list">' + secretsBody + '</div>', 'is-compact') +
+      pageBlockLite('GUIDES / COMMUNITY', '<div class="bot-page-guide-list">' + guideRows + '</div>' + moreGuides, 'is-compact'),
+      ''
+    );
+  }
+
+  function renderScreen1(game) {
+    const entry = getEntry(game);
+    const gn = entry ? (entry.genre || getGenre(game)) : getGenre(game);
+    const synopsis = quickSynopsis(game, entry, gn);
+    const production = quickProduction(game, entry);
+    const pub = getPublisherName(game, entry);
+    const story = getStoryData(entry);
+    return '<div class="bot-screen">' +
+      '<div class="bot-header">' +
+        '<div class="bot-head-main">' +
+          '<div class="bot-kicker">TECHNICAL DATA</div>' +
+          '<div class="bot-title">' + escHtml(game.title) + '</div>' +
+        '</div>' +
+        '<div class="bot-side">' + escHtml(pub) + '</div>' +
+      '</div>' +
+      '<div class="bot-content">' +
+        '<div class="bot-col">' +
+          '<div class="bot-panel">' +
+            '<div class="bot-panel-title">GAME DATA</div>' +
+            '<div class="bot-facts bot-facts-compact">' +
+              factCell('CONSOLE', shortConsole(game.console)) +
+              factCell('YEAR', game.year || '-') +
+              factCell('PUBLISHER', pub) +
+              factCell('DEVELOPER', game.developer || 'UNKNOWN') +
+              factCell('GENRE', gn) +
+              factCell('GENERATION', getGen(game.console)) +
+              factCell('SCORE', game.metascore || '-') +
+              factCell('RANK', '#' + getRank(game)) +
+            '</div>' +
+          '</div>' +
+          '<div class="bot-panel">' +
+            '<div class="bot-panel-title">COVERAGE</div>' +
+            '<div class="bot-facts bot-facts-compact">' +
+              factCell('ARCHIVE', archiveLevel(entry)) +
+              factCell('SUMMARY', entry && entry.summary ? 'YES' : 'NO') +
+              factCell('STORY', story.synopsis || story.production ? 'YES' : 'NO') +
+              factCell('GUIDES', entry && entry.guides ? entry.guides.length : 0) +
+              factCell('CODES', entry && entry.codes ? entry.codes.length : 0) +
+              factCell('MAP', hasMapData(entry) ? 'YES' : 'NO') +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="bot-col bot-col-wide">' +
+          '<div class="bot-panel">' +
+            '<div class="bot-panel-title">ARCHIVE NOTE</div>' +
+            '<div class="bot-copy clamp-8">' + escHtml(synopsis) + '</div>' +
+            '<div class="bot-mini-grid">' +
+              miniCell('SYNOPSIS', story.synopsis ? 'DIRECT' : 'FALLBACK') +
+              miniCell('PRODUCTION', story.production ? 'DIRECT' : 'FALLBACK') +
+              miniCell('MAP LAYER', hasMapData(entry) ? 'ACTIVE' : 'OFF') +
+              miniCell('ARCHIVE', archiveLevel(entry)) +
+            '</div>' +
+          '</div>' +
+          '<div class="bot-panel">' +
+            '<div class="bot-panel-title">PRODUCTION CONTEXT</div>' +
+            '<div class="bot-copy clamp-8">' + escHtml(production) + '</div>' +
+            '<div class="bot-facts">' +
+              factCell('EDITOR', pub) +
+              factCell('GENRE', gn) +
+              factCell('GEN', getGen(game.console)) +
+              factCell('SCORE TIER', scoreBand(game.metascore)) +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="bot-status-strip">' +
+        statusCell('EDITOR', pub) +
+        statusCell('GENRE', gn) +
+        statusCell('GEN', getGen(game.console)) +
+        statusCell('ARCHIVE', archiveLevel(entry)) +
+      '</div>' +
+    '</div>';
+  }
+
+  function renderScreen2(game) {
+    const entry = getEntry(game);
+    const p = getPrices(game);
+    const rar = game.rarity || 'COMMON';
+    const codes = entry && entry.codes ? entry.codes : [];
+    const guides = entry && entry.guides ? entry.guides : [];
+    const snapshot = collectionSnapshot(game);
+    const ownedLabel = snapshot ? (snapshot.owned ? 'OWNED' : 'MISSING') : 'TRACK';
+    const consoleProgress = snapshot ? (snapshot.consoleOwned + '/' + snapshot.consoleTotal) : '-';
+    const priority = collectorPriority(game, entry, snapshot);
+    const archiveCopy = entry && entry.summary
+      ? entry.summary
+      : quickSynopsis(game, entry, entry ? (entry.genre || getGenre(game)) : getGenre(game));
+    let codesHtml = '';
+    let guidesHtml = '';
+
+    codes.slice(0, 3).forEach(c => {
+      codesHtml += '<div class="bot-code-row">' +
+        '<div class="bot-code-label">' + escHtml(c.label) + '</div>' +
+        '<div class="bot-code-input">' + escHtml(c.input) + '</div>' +
+      '</div>';
+    });
+
+    guides.slice(0, 3).forEach(g => {
+      guidesHtml += '<a class="bot-guide-row" href="' + g.url + '" target="_blank" rel="noopener">' +
+        '<span class="bot-guide-icon">' + (THEME_ICON[g.theme] || '>') + '</span>' +
+        '<span class="bot-guide-label">' + escHtml(g.label) + '</span>' +
+        '<span class="bot-guide-theme">' + escHtml(String(g.theme || 'INFO').toUpperCase()) + '</span>' +
+      '</a>';
+    });
+
+    if (!codesHtml) codesHtml = '<div class="bot-empty">No gameplay codes archived yet for this title.</div>';
+    if (!guidesHtml) guidesHtml = '<div class="bot-empty">No guide links archived yet. Collector and archive data stay available.</div>';
+
+    return '<div class="bot-screen">' +
+      '<div class="bot-header">' +
+        '<div class="bot-head-main">' +
+          '<div class="bot-kicker">COLLECTION / ARCHIVE</div>' +
+          '<div class="bot-title">' + escHtml(game.title) + '</div>' +
+        '</div>' +
+        '<div class="bot-side">' + escHtml(ownedLabel) + '</div>' +
+      '</div>' +
+      '<div class="bot-content">' +
+        '<div class="bot-col">' +
+          '<div class="bot-panel">' +
+            '<div class="bot-panel-title">COLLECTOR PROFILE</div>' +
+            '<div class="bot-price-chart">' +
+              '<div class="bot-price-stack">' +
+                '<div class="bot-price-row"><em>LOOSE</em><span>' + p.l + '</span></div>' +
+                '<div class="bot-price-row"><em>CIB</em><span>' + p.c + '</span></div>' +
+                '<div class="bot-price-row"><em>MINT</em><span>' + p.m + '</span></div>' +
+              '</div>' +
+              '<div class="bot-chart-panel"><canvas id="rdxSpark"></canvas></div>' +
+            '</div>' +
+            '<div class="bot-facts bot-facts-compact">' +
+              factCell('RARITY', rar) +
+              factCell('OWNED', ownedLabel) +
+              factCell('CONSOLE SET', consoleProgress) +
+              factCell('ARCHIVE', archiveLevel(entry)) +
+              factCell('SPREAD', priceSpreadValue(p)) +
+              factCell('CIB+', cibPremiumValue(p)) +
+            '</div>' +
+          '</div>' +
+          '<div class="bot-panel">' +
+            '<div class="bot-panel-title">ARCHIVE EXCERPT</div>' +
+            '<div class="bot-copy clamp-8">' + escHtml(archiveCopy) + '</div>' +
+            '<div class="bot-mini-grid">' +
+              miniCell('PRIORITY', priority) +
+              miniCell('RARITY', raritySignal(rar)) +
+              miniCell('CODES', codes.length) +
+              miniCell('GUIDES', guides.length) +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="bot-col bot-col-wide">' +
+          '<div class="bot-panel">' +
+            '<div class="bot-panel-title">CODES</div>' +
+            '<div class="bot-list">' + codesHtml + '</div>' +
+          '</div>' +
+          '<div class="bot-panel">' +
+            '<div class="bot-panel-title">GUIDES</div>' +
+            '<div class="bot-guide-list">' + guidesHtml + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="bot-status-strip">' +
+        statusCell('COLLECTION', ownedLabel) +
+        statusCell('SET', consoleProgress) +
+        statusCell('CODES', codes.length) +
+        statusCell('GUIDES', guides.length) +
+        statusCell('MAP', hasMapData(entry) ? 'YES' : 'NO') +
+        statusCell('PRIORITY', priority) +
+      '</div>' +
+    '</div>';
+  }
+
+  function renderScreen3(game) {
+    const p = getPrices(game);
+    const rar = game.rarity || 'COMMON';
+    const raw = p.raw;
+    const premium = (raw.loose && raw.cib) ? Math.round((raw.cib / raw.loose - 1) * 100) : null;
+    const premiumBar = (premium && raw.loose > 0) ? Math.min(100, Math.round(premium * 0.6)) : 0;
+    const rankInfo = marketRankInfo(game);
+    const rankLabel = rankInfo.rank >= 0 ? '#' + (rankInfo.rank + 1) + '/' + rankInfo.total : 'N/A';
+    const spread = (raw.loose && raw.mint) ? '$' + (raw.mint - raw.loose) : 'N/A';
+    const collVal = raw.cib > 0 ? '$' + raw.cib : (raw.loose > 0 ? '$' + raw.loose : '-');
+    let trendHtml = '';
+    if (rankInfo.rank >= 0 && rankInfo.rank < 10) trendHtml = '<span class="s3-trend-up">TOP ' + String(rankInfo.rank + 1).padStart(2, '0') + '</span>';
+    else if (rankInfo.rank >= 0 && rankInfo.rank >= rankInfo.total - 10) trendHtml = '<span class="s3-trend-dn">BOT ' + String(rankInfo.total - rankInfo.rank).padStart(2, '0') + '</span>';
+    else trendHtml = '<span style="color:rgba(155,188,15,0.3)">STABLE</span>';
+
+    return '<div class="bot-screen">' +
+      '<div class="bot-header">' +
+        '<div class="bot-head-main">' +
+          '<div class="bot-kicker">MARKET VIEW</div>' +
+          '<div class="bot-title">' + escHtml(game.title) + '</div>' +
+        '</div>' +
+        '<div class="bot-side">' + trendHtml + '</div>' +
+      '</div>' +
+      '<div class="bot-content">' +
+        '<div class="bot-col">' +
+          '<div class="bot-panel">' +
+            '<div class="bot-panel-title">PRICE TIERS</div>' +
+            '<div class="s3-big-price">' +
+              priceBlock('LOOSE', p.l) +
+              priceBlock('CIB', p.c) +
+              priceBlock('MINT', p.m) +
+            '</div>' +
+            (premium !== null
+              ? '<div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1px"><span style="font-family:\'Press Start 2P\',cursive;font-size:4px;color:rgba(155,188,15,0.38)">PREMIUM CIB</span><span style="font-family:\'Share Tech Mono\',monospace;font-size:6px;color:#8bac0f">+' + premium + '%</span></div><div class="s3-cib-bar"><div class="s3-cib-fill" style="width:' + premiumBar + '%"></div></div></div>'
+              : '<div class="bot-empty" style="padding:2px 0 0;justify-content:flex-start">Not enough market data for a premium ratio.</div>') +
+          '</div>' +
+          '<div class="bot-market-grid">' +
+            '<div class="bot-market-card"><div class="bot-market-label">COLLECTION</div><div class="bot-market-value">' + collVal + '</div></div>' +
+            '<div class="bot-market-card"><div class="bot-market-label">MARKET RANK</div><div class="bot-market-value">' + rankLabel + '</div></div>' +
+            '<div class="bot-market-card"><div class="bot-market-label">SPREAD</div><div class="bot-market-value">' + spread + '</div></div>' +
+            '<div class="bot-market-card"><div class="bot-market-label">RARITY</div><div class="bot-market-value">' + rar + '</div></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="bot-panel bot-col-wide">' +
+          '<div class="bot-panel-title">PRICE CURVE</div>' +
+          '<div class="bot-chart-tall"><canvas id="rdxSpark3"></canvas></div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  /* ══ BOTTOM SCREEN — dispatcher ═════════════════════════════ */
+  function renderBot(game) {
+    const el = document.getElementById('rdx-bot'); if (!el) return;
+    if (chart) { try { chart.destroy(); } catch(_) {} chart = null; }
+    if      (screenIdx===1) el.innerHTML = renderCompactScreen1(game);
+    else if (screenIdx===2) el.innerHTML = renderCompactScreen2(game);
+    else                    el.innerHTML = renderCompactScreen0(game);
+    syncScrollableSelection();
+    updateDots();
+  }
+
+  /* ══ CHARTS ══════════════════════════════════════════════════ */
+  function makeChart(id, game, type) {
+    if (chart) { try { chart.destroy(); } catch(_){} chart = null; }
+    const cv = document.getElementById(id);
+    if (!cv || window._noChart || typeof Chart === 'undefined') return;
+    const raw = getPrices(game).raw;
+    if (!raw.loose && !raw.cib && !raw.mint) return;
+    chart = new Chart(cv, {
+      type: 'line',
+      data: { labels:['L','C','M'], datasets:[{
+        data:[raw.loose,raw.cib,raw.mint], borderColor:'#9bbc0f',
+        backgroundColor:'rgba(155,188,15,0.09)', borderWidth:1.5,
+        pointRadius: type==='big' ? 3 : 2.5, pointBackgroundColor:'#9bbc0f', tension:0.3, fill:true
+      }]},
+      plugins:[{id:'bg',beforeDraw(c){c.ctx.save();c.ctx.globalCompositeOperation='destination-over';c.ctx.clearRect(0,0,c.width,c.height);c.ctx.restore();}}],
+      options:{
+        responsive:true, maintainAspectRatio:false, animation:{duration:0},
+        plugins:{ legend:{display:false}, tooltip:{
+          displayColors:false, backgroundColor:'#0a280a', borderColor:'#306230', borderWidth:1,
+          titleColor:'#9bbc0f', bodyColor:'#8bac0f',
+          titleFont:{family:'"Courier New"',size:7}, bodyFont:{family:'"Courier New"',size:7},
+          padding:4, callbacks:{label:c=>'$'+c.parsed.y}
+        }},
+        scales:{ x:{display:false}, y:{display:false,beginAtZero:false} }
+      }
+    });
+  }
+
+  /* ══ BOURSE — calculé depuis prices.json ═════════════════════ */
+  (function buildBourse() {
+    const board = document.getElementById('rdx-bourse');
+    if (!board || board.hidden) return;
+    const src = window.PRICES_DATA || [];
+    const withPrice = (window.CATALOG_DATA || []).map(g => {
+      const p = src.find(x => x.game === g.id);
+      return p && p.loose ? {...g, loose:p.loose} : null;
+    }).filter(Boolean);
+    withPrice.sort((a,b) => b.loose - a.loose);
+    const top5 = withPrice.slice(0,5);
+    const low5 = withPrice.slice(-5).reverse();
+    const upPcts = [10.6,11.3,11.7,8.4,15.1];
+    const dnPcts = [3.5,3.5,3.5,3.4,3.4];
+    function shorten(t) { return t.replace('The Legend of Zelda: ','').replace('Castlevania: ','C:'); }
+    function row(g,dir,pct) {
+      return '<div class="bourse-item bourse-link" data-id="'+g.id+'">'+
+        '<span class="bourse-item-title">'+escHtml(shorten(g.title))+'</span>'+
+        '<span class="bourse-item-price">$'+g.loose+'</span>'+
+        '<span class="bourse-item-trend '+dir+'">'+(dir==='up'?'+':'−')+pct+'%</span>'+
+      '</div>';
+    }
+    const upEl = document.getElementById('bourse-up');
+    const dnEl = document.getElementById('bourse-dn');
+    if (upEl) upEl.innerHTML = top5.map((g,i)=>row(g,'up',upPcts[i]||9.0)).join('');
+    if (dnEl) dnEl.innerHTML = low5.map((g,i)=>row(g,'dn',dnPcts[i]||3.0)).join('');
+    document.querySelectorAll('.bourse-link').forEach(el => {
+      el.addEventListener('click', () => {
+        const gid = el.getAttribute('data-id');
+        activeConsole='ALL'; query='';
+        sel.value='ALL';
+        const s = document.getElementById('rdx-search'); if (s) s.value='';
+        filtered = [...ALL];
+        syncDatasetChrome();
+        const i = filtered.findIndex(g=>g.id===gid);
+        if (i>=0) { idx=i; screenIdx=0; show(); }
+        const wrapper = document.getElementById('rdx-wrapper');
+        if (wrapper) wrapper.scrollIntoView({behavior:'smooth',block:'center'});
+      });
+    });
+  })();
+
+  /* ══ SHOW ════════════════════════════════════════════════════ */
+  function show() {
+    if (!filtered.length) {
+      document.getElementById('rdx-bot').innerHTML = '<div class="card"><div class="c-title" style="margin-top:38%;text-align:center;font-size:5px;overflow:visible">AUCUN RÉSULTAT</div></div>';
+      document.getElementById('rdx-ctr').textContent = '0 / 0';
+      if (typeof TOP_SCREEN!=='undefined' && TOP_SCREEN.clearWorldmap) TOP_SCREEN.clearWorldmap();
+      window._rdxCurrentId = null;
+      return;
+    }
+    const game = filtered[idx];
+    window._rdxCurrentId = game.id;
+    maybeWorldmap(game);
+    renderTop(game);
+    renderBot(game);
+    document.getElementById('rdx-ctr').textContent = '#'+(idx+1)+' / '+filtered.length;
+    if (chartTimer) clearTimeout(chartTimer);
+    chartTimer = null;
+  }
+
+  function applyOpeningSelection() {
+    const preferredIndex = filtered.findIndex(g => g.id === DEMO_OPENING_GAME_ID);
+    if (preferredIndex >= 0) idx = preferredIndex;
+  }
+
+  function applyRequestedGameSelection() {
+    try {
+      const params = new URLSearchParams(location.search);
+      const requested = (params.get('game') || '').trim().toLowerCase();
+      if (!requested) return;
+
+      activeConsole = 'ALL';
+      query = '';
+      if (sel) sel.value = 'ALL';
+      const searchInput = document.getElementById('rdx-search');
+      if (searchInput) searchInput.value = '';
+      filtered = [...ALL];
+      syncDatasetChrome();
+
+      const matchesRequestedGame = (g) => {
+        const gameId = String(g.id || '').toLowerCase();
+        const gameTitle = String(g.title || '').toLowerCase();
+        return gameId === requested || gameTitle === requested || gameId.includes(requested) || gameTitle.includes(requested);
+      };
+
+      let matchIndex = filtered.findIndex(matchesRequestedGame);
+
+      if (matchIndex < 0) {
+        const fullCatalog = DATA_LAYER.getGames();
+        const fullMatchIndex = fullCatalog.findIndex(matchesRequestedGame);
+        if (fullMatchIndex >= 0) {
+          filtered = fullCatalog;
+          matchIndex = fullMatchIndex;
+        }
+      }
+
+      if (matchIndex >= 0) idx = matchIndex;
+    } catch (_error) {
+      // Keep the default opening behavior if the query string is malformed.
+    }
+  }
+
+  function go(dir) {
+    const n=filtered.length; if (!n) return;
+    idx=(idx+dir+n)%n; screenIdx=0; show();
+  }
+
+  /* Events */
+  document.getElementById('btnPrev').onclick = ()=>go(-1);
+  document.getElementById('btnNext').onclick = ()=>go(1);
+  document.getElementById('btnScreenPrev').onclick = ()=>handleDpadDirection('left');
+  document.getElementById('btnScreenNext').onclick = ()=>handleDpadDirection('right');
+  ['btnDpadLeft','btnDpadRight','btnDpadUp','btnDpadDown'].forEach((id) => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    const direction = btn.dataset.direction;
+    const trigger = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleDpadDirection(direction);
+    };
+    btn.addEventListener('click', trigger);
+    btn.addEventListener('pointerdown', trigger);
+  });
+  (function() {
+    const zone = document.getElementById('rdx-dpad-zone');
+    if (!zone) return;
+    zone.addEventListener('click', function(e) {
+      if (e.target && e.target.classList && e.target.classList.contains('rdx-dpad-btn')) return;
+      const direction = getDpadZoneDirection(e.clientX, e.clientY);
+      if (!direction) return;
+      e.preventDefault();
+      e.stopPropagation();
+      handleDpadDirection(direction);
+    });
+  })();
+  document.getElementById('btnRnd').onclick  = ()=>{ if (!filtered.length) return; idx=Math.floor(Math.random()*filtered.length); screenIdx=0; show(); };
+  document.addEventListener('keydown', e=>{
+    if (e.target.tagName==='INPUT' || e.target.tagName==='SELECT') return;
+    if (e.key==='ArrowLeft')  { e.preventDefault(); go(-1); }
+    if (e.key==='ArrowRight') { e.preventDefault(); go(1);  }
+    if (e.key==='ArrowUp')    { e.preventDefault(); goScreen(-1); }
+    if (e.key==='ArrowDown')  { e.preventDefault(); goScreen(1);  }
+    if (e.key==='PageUp')   { e.preventDefault(); goScreen(-1); }
+    if (e.key==='PageDown') { e.preventDefault(); goScreen(1); }
+    if (e.key==='r'||e.key==='R') { if (!filtered.length) return; idx=Math.floor(Math.random()*filtered.length); screenIdx=0; show(); }
+  });
+
+  /* Swipe — 4 screens */
+  (function() {
+    const bot=document.getElementById('rdx-bot'); if (!bot) return;
+    let sx=0,sy=0;
+    bot.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+    bot.addEventListener('touchend',e=>{
+      const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
+      if (Math.abs(dx)<28||Math.abs(dy)>Math.abs(dx)*0.7) return;
+      goScreen(dx<0 ? 1 : -1);
+    },{passive:true});
+  })();
+
+  /* Export CSV */
+  document.getElementById('btn-market').addEventListener('click',()=>{
+    location.href='modules/retromarket/market.html';
+  });
+  document.getElementById('btn-launcher').addEventListener('click',()=>{
+    location.href='launcher.html';
+  });
+  document.getElementById('btn-export').addEventListener('click',()=>{
+    if (!filtered.length) return;
+    const rows=[['ID','Titre','Console','Annee','Metascore','Genre','Loose','CIB','Mint','Rarete']];
+    filtered.forEach(g=>{
+      const p=getPrices(g).raw; const e=getEntry(g);
+      rows.push([g.id,'"'+(g.title||'').replace(/"/g,'""')+'"','"'+(g.console||'')+'"',g.year||'',g.metascore||'','"'+(e?e.genre:getGenre(g))+'"',p.loose||'',p.cib||'',p.mint||'',g.rarity||'COMMON']);
+    });
+    const csv=rows.map(r=>r.join(',')).join('\r\n');
+    const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download='retrodex-'+new Date().toISOString().slice(0,10)+'.csv';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+  });
+
+  /* Debug */
+  window.goToGame=q=>{
+    activeConsole='ALL'; query=''; sel.value='ALL';
+    const el=document.getElementById('rdx-search'); if(el) el.value='';
+    filtered=[...ALL];
+    syncDatasetChrome();
+    const i=filtered.findIndex(g=>g.id.includes(q)||g.title.toLowerCase().includes(q.toLowerCase()));
+    if(i>=0){idx=i;screenIdx=0;show();}else console.warn('[RDX] not found:',q);
+  };
+
+  initDots();
+  applyOpeningSelection();
+  applyRequestedGameSelection();
+  show();
+});
+</script>
+
+<!-- ══ COLLECTION ════════════════════════════════════════════════ -->
+<div id="rdx-collection">
+  <div class="coll-header" id="coll-toggle-btn">
+    <span class="coll-title">MA COLLECTION</span>
+    <button type="button" class="coll-export-btn" id="coll-export-btn">EXPORT CSV</button>
+    <span class="coll-toggle" id="coll-chevron">▼</span>
+  </div>
+  <div class="coll-body" id="coll-body" style="display:none">
+    <div class="coll-global">
+      <div>
+        <div class="coll-global-n" id="coll-count">0</div>
+        <div class="coll-global-label">jeux possédés</div>
+      </div>
+      <div class="coll-value" id="coll-value">Valeur : $0</div>
+    </div>
+    <div class="coll-consoles" id="coll-consoles"></div>
+  </div>
+</div>
+
+<!-- ══ NÉO RÉTRO ═══════════════════════════════════════════════ -->
+<section id="rdx-neo-retro">
+  <div class="neo-section-head">
+    NÉO RÉTRO
+    <span class="neo-section-sub">NOUVELLES SORTIES · ESPRIT RÉTRO</span>
+  </div>
+  <div class="neo-grid" id="neo-grid-inner"></div>
+</section>
+
+<!-- ══ NOTICE ════════════════════════════════════════════════════ -->
+<section id="rdx-notice">
+  <div class="notice-inner">
+    RETRODEX v2.0 · données prix : <a href="https://www.pricecharting.com" target="_blank" rel="noopener">PriceCharting.com</a> (usage personnel) ·
+    cartes : <a href="https://ian-albert.com" target="_blank" rel="noopener">ian-albert.com</a> ·
+    illustrations : canvas procédural JS · projet non-commercial · © 2026
+  </div>
+</section>
+
+<!-- ══ NÉO RÉTRO JS ═══════════════════════════════════════════════ -->
+<script type="text/plain" data-retired="legacy-collection-inline">
+(function(){
+  var el=document.getElementById('neo-grid-inner'); if(!el) return;
+  var GAMES=[
+    {title:'Shovel Knight',year:2014,platform:'Multi',genre:'Platformer',tags:['NES-inspired','Yacht Club','Treasure Trove'],desc:'Hommage aux platformers NES. Level design Mega Man, progression Duck Tales, OST chiptune Jake Kaufman. Devenu lui-même une référence.',url:'https://yachtclubgames.com/games/shovel-knight-treasure-trove/'},
+    {title:'Mega Man 11',year:2018,platform:'Multi',genre:'Platformer',tags:['Capcom','Double Gear','Classic Series'],desc:'Retour officiel après 8 ans. Système Double Gear inédit, 8 Robot Masters. Fidèle à l\'esprit NES.',url:'https://www.megaman.com/en-us/mega-man-11/'},
+    {title:'Streets of Rage 4',year:2020,platform:'Multi',genre:"Beat'em up",tags:['Dotemu','Lizardcube','Co-op'],desc:'Suite directe de SoR3 après 26 ans. Graphismes peints à la main, OST Olivier Derivière & Yuzo Koshiro.',url:'https://www.streets4.com/'},
+    {title:'Cuphead',year:2017,platform:'Multi',genre:'Run & Gun',tags:['Studio MDHR','Animation 1930s','Boss Rush'],desc:'Animation Fleischer 1930, gameplay Contra/Metal Slug. Chaque boss animé à la main. Difficulté authentique.',url:'https://cupheadgame.com/'},
+    {title:'Axiom Verge',year:2015,platform:'Multi',genre:'Metroidvania',tags:['Solo dev','NES aesthetic','Thomas Happ'],desc:'Développé seul en 5 ans. Esthétique NES, glitches comme mécanique de jeu. Le Metroidvania indé de référence.',url:'https://www.axiomverge.com/'},
+    {title:'Huntdown',year:2020,platform:'Multi',genre:'Run & Gun',tags:['Easy Trigger','Arcade','Co-op 2P'],desc:'Cyberpunk hommage à Contra et Sunset Riders. Pixel art parfait, voix digitalisées, 4 mondes × 3 niveaux.',url:'https://www.huntdowngame.com/'},
+    {title:"Wonder Boy: Dragon's Trap",year:2017,platform:'Multi',genre:'Action-Aventure',tags:['Lizardcube','Remake HD','SMS tribute'],desc:'Remake de Wonder Boy III SMS. Toggle instantané entre graphismes 1989 et HD 2017. Même code, nouvelle âme.',url:'https://www.dragonstrap.com/'},
+    {title:'Blazing Chrome',year:2019,platform:'Multi',genre:'Run & Gun',tags:['JoyMasher','Genesis tribute','Co-op'],desc:'Hommage à Contra: Hard Corps Megadrive. Graphismes 16-bit, OST métal, difficulté vétéran.',url:'https://joymashergames.com/games/blazingchrome'},
+  ];
+  el.innerHTML=GAMES.map(function(g){
+    return '<div class="neo-card">'+
+      '<div class="neo-card-title">'+g.title+'</div>'+
+      '<div class="neo-card-meta">'+g.year+' · '+g.platform+' · '+g.genre+'</div>'+
+      '<div>'+g.tags.map(function(t){return '<span class="neo-card-tag">'+t+'</span>';}).join('')+'</div>'+
+      '<div class="neo-card-desc">'+g.desc+'</div>'+
+      '<a class="neo-card-link" href="'+g.url+'" target="_blank" rel="noopener">SITE OFFICIEL &#9658;</a>'+
+    '</div>';
+  }).join('');
+})();
+</script>
+<!-- ══ SPLASH JS ════════════════════════════════════════════════ -->
+<script>
+(function() {
+  var splash = document.getElementById('rdx-splash');
+  if (!splash) return;
+  var params = new URLSearchParams(window.location.search);
+  var skipSplash = params.get('nosplash') === '1';
+
+  function dismiss() {
+    splash.classList.add('hiding');
+    setTimeout(function() { splash.style.display = 'none'; }, 500);
+  }
+
+  if (skipSplash) {
+    splash.style.display = 'none';
+    return;
+  }
+
+  // Clic / touche / touch → fermer
+  splash.addEventListener('click', dismiss);
+  splash.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') dismiss(); });
+  document.addEventListener('keydown', function handler(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+    dismiss();
+    document.removeEventListener('keydown', handler);
+  }, { once: false });
+  document.addEventListener('touchend', dismiss, { once: true });
+
+  // Auto-dismiss après 8s si pas d'action
+  setTimeout(dismiss, 8000);
+})();
+</script>
+
+<!-- ══ COLLECTION JS ════════════════════════════════════════════ -->
+<script>
+(function() {
+  var STORAGE_KEY = 'retrodex_owned_v1';
+  var owned = loadOwnedState();
+  var ALL_GAMES  = null;
+  var ALL_PRICES = null;
+
+  var CONSOLE_ORDER = [
+    'Nintendo Entertainment System','Super Nintendo','PlayStation','Sega Genesis',
+    'Nintendo 64','Game Boy','Game Boy Advance','Sega Saturn','Dreamcast',
+    'Neo Geo','TurboGrafx-16','Nintendo DS','Sega Master System','Game Gear',
+    'Atari Lynx','WonderSwan'
+  ];
+  var SHORT = {
+    'Nintendo Entertainment System':'NES','Super Nintendo':'SNES','PlayStation':'PS1',
+    'Game Boy':'GB','Sega Genesis':'GEN','Nintendo 64':'N64','Game Boy Advance':'GBA',
+    'Sega Saturn':'SAT','Dreamcast':'DC','Neo Geo':'NEO','TurboGrafx-16':'TG-16',
+    'Nintendo DS':'NDS','Sega Master System':'SMS','Game Gear':'GG',
+    'Atari Lynx':'LYNX','WonderSwan':'WS'
+  };
+
+  function loadOwnedState() {
+    try {
+      var raw = window.localStorage ? window.localStorage.getItem(STORAGE_KEY) : '';
+      if (!raw) return {};
+      var parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+      var next = {};
+      Object.keys(parsed).forEach(function(key) {
+        if (parsed[key]) next[key] = true;
+      });
+      return next;
+    } catch (_error) {
+      return {};
+    }
+  }
+
+  function saveOwnedState() {
+    try {
+      if (window.localStorage) {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(owned));
+      }
+    } catch (_error) {
+      // Ignore storage failures and keep the in-memory state.
+    }
+  }
+
+  function setOwned(gameId, nextValue) {
+    if (!gameId) return false;
+    if (nextValue) owned[gameId] = true;
+    else delete owned[gameId];
+    saveOwnedState();
+    return !!owned[gameId];
+  }
+
+  function getLoose(gameId) {
+    if (!ALL_PRICES) return 0;
+    var p = ALL_PRICES.find(function(x){return x.game===gameId;});
+    return p ? (p.loose||0) : 0;
+  }
+
+  function refreshStats() {
+    var ownedIds = Object.keys(owned).filter(function(k){return owned[k];});
+    var count = ownedIds.length;
+    var totalValue = ownedIds.reduce(function(acc,id){return acc+getLoose(id);}, 0);
+    var countEl = document.getElementById('coll-count');
+    var valueEl = document.getElementById('coll-value');
+    if (countEl) countEl.textContent = count;
+    if (valueEl) valueEl.textContent = 'Valeur loose : $' + totalValue.toLocaleString();
+
+    var grid = document.getElementById('coll-consoles');
+    if (!grid || !ALL_GAMES) return;
+    var rows = '';
+    CONSOLE_ORDER.forEach(function(con) {
+      var total = ALL_GAMES.filter(function(g){return g.console===con;}).length;
+      if (!total) return;
+      var have  = ALL_GAMES.filter(function(g){return g.console===con && owned[g.id];}).length;
+      var pct   = Math.round(have/total*100);
+      var isFull = have===total && total>0;
+      rows += '<div class="coll-console-row">' +
+        '<div class="coll-console-name">'+(SHORT[con]||con)+'</div>'+
+        '<div class="coll-bar-wrap">'+
+          '<div class="coll-bar"><div class="coll-bar-fill'+(isFull?' full':'')+'" style="width:'+pct+'%"></div></div>'+
+          '<div class="coll-frac">'+have+'/'+total+'</div>'+
+        '</div>'+
+      '</div>';
+    });
+    grid.innerHTML = rows;
+  }
+
+  window.RETRODEX_COLLECTION_STATE = {
+    isOwned: function(gameId) {
+      return !!owned[gameId];
+    },
+    getSnapshot: function(gameId, consoleName) {
+      var total = 0;
+      var have = 0;
+      var source = ALL_GAMES || window.CATALOG_DATA || [];
+      if (source.length && consoleName) {
+        total = source.filter(function(g){ return g.console === consoleName; }).length;
+        have = source.filter(function(g){ return g.console === consoleName && owned[g.id]; }).length;
+      }
+      return {
+        owned: !!owned[gameId],
+        totalOwned: Object.keys(owned).filter(function(k){ return owned[k]; }).length,
+        consoleOwned: have,
+        consoleTotal: total
+      };
+    }
+  };
+
+  /* Injecter le bouton +/✓ dans le bottom screen après chaque rendu */
+  function injectBtn() {
+    var gameId = window._rdxCurrentId;
+    var bot = document.getElementById('rdx-bot');
+    if (!gameId || !bot) return;
+    var existing = bot.querySelector('.coll-btn');
+    if (existing) existing.remove();
+    var btn = document.createElement('button');
+    btn.className = 'coll-btn' + (owned[gameId]?' owned':'');
+    btn.title     = owned[gameId] ? 'Retirer de la collection' : 'Ajouter à ma collection';
+    btn.textContent = owned[gameId] ? '✓' : '+';
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var nextOwned = setOwned(gameId, !owned[gameId]);
+      btn.className   = 'coll-btn' + (nextOwned?' owned':'');
+      btn.title       = owned[gameId] ? 'Retirer de la collection' : 'Ajouter à ma collection';
+      btn.textContent = owned[gameId] ? '✓' : '+';
+      refreshStats();
+    });
+    bot.appendChild(btn);
+  }
+
+  /* Observer le bot pour re-injecter le bouton à chaque changement d'écran */
+  document.addEventListener('DOMContentLoaded', function() {
+    var bot = document.getElementById('rdx-bot');
+    if (bot) {
+      new MutationObserver(function() {
+        setTimeout(injectBtn, 10);
+      }).observe(bot, {childList:true});
+      setTimeout(injectBtn, 30);
+    }
+
+    /* Attendre les données */
+    (function wait() {
+      if (window.CATALOG_DATA && window.PRICES_DATA) {
+        ALL_GAMES  = window.CATALOG_DATA;
+        ALL_PRICES = window.PRICES_DATA;
+        refreshStats();
+        setTimeout(injectBtn, 30);
+      } else { setTimeout(wait, 150); }
+    })();
+  });
+
+  /* Toggle section */
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn    = document.getElementById('coll-toggle-btn');
+    var body   = document.getElementById('coll-body');
+    var chev   = document.getElementById('coll-chevron');
+    var exportBtn = document.getElementById('coll-export-btn');
+    if (!btn||!body) return;
+    if (exportBtn) {
+      exportBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.exportCollection();
+      });
+    }
+    btn.addEventListener('click', function() {
+      var open = body.style.display !== 'none';
+      body.style.display = open ? 'none' : 'block';
+      if (chev) chev.classList.toggle('open', !open);
+      if (!open) refreshStats();
+    });
+  });
+
+  /* Export collection */
+  window.exportCollection = function() {
+    if (!ALL_GAMES) return;
+    var list = ALL_GAMES.filter(function(g){return owned[g.id];});
+    if (!list.length) { alert('Collection vide.'); return; }
+    var rows = [['ID','Titre','Console','Annee','Prix Loose']];
+    list.forEach(function(g) {
+      rows.push([g.id,'"'+g.title.replace(/"/g,'""')+'"','"'+g.console+'"',g.year||'',getLoose(g.id)||'']);
+    });
+    var csv  = rows.map(function(r){return r.join(',');}).join('\r\n');
+    var blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href=url; a.download='collection-'+new Date().toISOString().slice(0,10)+'.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+})();
+</script>
+
+</body>
+</html>
