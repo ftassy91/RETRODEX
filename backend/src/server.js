@@ -93,6 +93,38 @@ async function ensureGameEncyclopediaColumns() {
   }
 }
 
+async function ensurePriceHistoryTable() {
+  const { sequelize, databaseMode } = getLegacyRuntime()
+
+  if (databaseMode !== 'sqlite') {
+    return
+  }
+
+  await sequelize.query(`
+    CREATE TABLE IF NOT EXISTS price_history (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      game_id TEXT NOT NULL,
+      price REAL NOT NULL,
+      condition TEXT CHECK(condition IN ('loose','cib','mint')) DEFAULT 'loose',
+      sale_date TEXT,
+      source TEXT DEFAULT 'seed',
+      listing_title TEXT,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY(game_id) REFERENCES games(id) ON DELETE CASCADE
+    )
+  `)
+
+  await sequelize.query(`
+    CREATE INDEX IF NOT EXISTS idx_ph_game_id
+    ON price_history(game_id)
+  `)
+
+  await sequelize.query(`
+    CREATE INDEX IF NOT EXISTS idx_ph_sale_date
+    ON price_history(sale_date)
+  `)
+}
+
 const app = express()
 
 app.use(cors({
@@ -211,6 +243,7 @@ async function startServer(portOverride) {
   }
 
   await ensureGameEncyclopediaColumns()
+  await ensurePriceHistoryTable()
   await Franchise.sync({ alter: effectiveAlter })
 
   let shouldBootstrap = true
