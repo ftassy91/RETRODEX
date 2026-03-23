@@ -37,3 +37,5 @@ CODEX_PROMPT_PIPELINE_V3.md
 **/.codex*
 test-results/
 **/__pycache__/
+
+.vercel
