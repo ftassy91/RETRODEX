@@ -14,19 +14,7 @@
  * Aucune clé API requise.
  */
 
-require('dotenv').config({ path: './backend/.env' });
-const path = require('path');
-
-const USE_SUPABASE = !!(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY);
-let db, supabase;
-if (USE_SUPABASE) {
-  const { createClient } = require('@supabase/supabase-js');
-  supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
-} else {
-  const Database = require('better-sqlite3');
-  db = new Database(process.env.DATABASE_PATH || path.join(__dirname, '../../backend/storage/retrodex.sqlite'));
-  db.pragma('journal_mode = WAL');
-}
+const { db, supabase, USE_SUPABASE } = require('./bootstrap');
 
 const args       = process.argv.slice(2);
 const DRY_RUN    = args.includes('--dry-run');
