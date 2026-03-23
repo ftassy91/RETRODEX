@@ -197,18 +197,21 @@ scripts/
 
 ### B4 - Taglines Anthropic
 
-- Statut : partiellement prepare, validation bloquee
+- Statut : valide
 - Fichier principal :
   - `scripts/encyclopedia/generate_encyclopedia.js`
 - Decision technique :
   - ajout d'un mode `--taglines-only` sans casser le mode encyclopedie existant
   - argument `--limit` supporte
   - filtre cible : `type='game'`, `synopsis != null`, `tagline = null`
-- Blocage :
-  - l'appel Anthropic retourne `Your credit balance is too low to access the Anthropic API`
-- Validation partielle :
-  - `node scripts/encyclopedia/generate_encyclopedia.js --taglines-only --limit 5` s'execute
-  - aucun tagline genere tant que le billing Anthropic reste bloque
+- garde-fou qualite :
+  - les taglines > 120 caracteres sont rejetes si aucune phrase complete ne tient dans la limite
+  - plus de coupe automatique qui cree des phrases tronquees
+- Validation :
+  - `node scripts/encyclopedia/generate_encyclopedia.js --taglines-only --limit 5` -> execution OK
+  - `Secret of Mana`, `Chrono Trigger`, `Suikoden II`, `Castlevania: Symphony of the Night` ont des taglines ponctues et <= 120 caracteres
+- Note :
+  - les ecritures de taglines sont des donnees locales en base, pas des changements suivis par Git
 
 ---
 
@@ -224,4 +227,4 @@ scripts/
 
 ---
 
-*Derniere mise a jour operationnelle : 23 mars 2026 - B2 validee, B3/B4 bloques par prerequis externes*
+*Derniere mise a jour operationnelle : 23 mars 2026 - B2 et B4 valides, B3 bloque par prerequis externes*
