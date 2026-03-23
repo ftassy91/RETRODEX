@@ -167,9 +167,21 @@ function normalizeTagline(raw) {
     return null
   }
 
+  const firstSentence = tagline.match(/^(.{20,220}?[.!?])(?:\s|$)/)
+  if (firstSentence) {
+    tagline = firstSentence[1].trim()
+  }
+
   if (tagline.length > 120) {
-    const sentenceWithinLimit = tagline.slice(0, 120).match(/^(.{20,120}?[.!?])(?:\s|$)/)
-    tagline = sentenceWithinLimit ? sentenceWithinLimit[1] : tagline.slice(0, 119).trimEnd()
+    const sentenceWithinLimit = tagline
+      .slice(0, 120)
+      .match(/^(.{20,120}?[.!?])(?:\s|$)/)
+
+    if (!sentenceWithinLimit) {
+      return null
+    }
+
+    tagline = sentenceWithinLimit[1].trim()
   }
 
   if (!/[.!?]$/.test(tagline)) {
@@ -177,7 +189,7 @@ function normalizeTagline(raw) {
   }
 
   if (tagline.length > 120) {
-    tagline = `${tagline.slice(0, 119).replace(/[.!?]+$/g, '').trim()}.`
+    return null
   }
 
   return tagline.length >= 5 ? tagline : null
