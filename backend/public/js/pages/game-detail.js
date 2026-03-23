@@ -372,6 +372,16 @@ function renderHeroSection(game) {
       </section>
     </div>
   `
+
+  if (window.RetroDexAssets && game.console) {
+    const consoleEl = heroEl.querySelector(
+      '.game-console, .detail-console, [data-field="console"], .meta-console, .console-link.meta-value-link'
+    )
+    if (consoleEl) {
+      const img = window.RetroDexAssets.createSupportImg(game.console, 24)
+      consoleEl.insertBefore(img, consoleEl.firstChild)
+    }
+  }
 }
 
 function confidenceClass(value) {
