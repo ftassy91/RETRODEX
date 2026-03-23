@@ -6002,6 +6002,12 @@ body {
   background: rgba(5, 8, 5, 0.98);
 }
 
+.encyclo-panel-cover svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 .encyclo-cover-placeholder {
   display: flex;
   align-items: center;
@@ -6026,6 +6032,27 @@ body {
 }
 
 .encyclo-panel-info {
+  min-width: 0;
+}
+
+.encyclo-panel-header.is-console {
+  align-items: flex-start;
+}
+
+.encyclo-panel-cover--console {
+  width: 184px;
+  flex: 0 0 184px;
+  height: 176px;
+  overflow: visible;
+}
+
+.encyclo-panel-cover--console svg {
+  width: 156px;
+  margin: 4px auto 0;
+}
+
+.encyclo-panel-info--console {
+  flex: 1 1 auto;
   min-width: 0;
 }
 
@@ -6432,6 +6459,13 @@ body {
   padding-bottom: 16px;
   margin-bottom: 16px;
   border-bottom: 1px solid rgba(67, 95, 60, 0.42);
+}
+
+.console-detail-visuals {
+  width: 256px;
+  flex-shrink: 0;
+  display: grid;
+  gap: 12px;
 }
 
 .console-detail-slot {
@@ -8387,5 +8421,292 @@ body::-webkit-scrollbar-thumb,
   -webkit-line-clamp: 2;
   overflow: hidden;
   line-height: 1.35;
+}
+
+.legendary-card-media {
+  width: 100%;
+  height: 112px;
+  overflow: hidden;
+  background: #020402;
+  border-bottom: 1px solid rgba(155, 188, 15, 0.12);
+}
+
+.legendary-card-media img,
+.legendary-card-media canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.legendary-card-media img {
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.hub-encyclo-card-media {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(155, 188, 15, 0.12);
+  background: #020402;
+}
+
+.hub-encyclo-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  image-rendering: pixelated;
+}
+
+.console-detail-slot--hardware {
+  width: 100%;
+  align-items: center;
+  justify-items: center;
+  min-height: 272px;
+  overflow: hidden;
+}
+
+.console-detail-slot--hardware svg {
+  width: min(100%, 288px);
+  height: auto;
+  display: block;
+}
+
+.console-overview-copy {
+  color: var(--terminal-green-soft);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.console-media-card {
+  border: 1px solid rgba(0, 255, 102, 0.12);
+  background: rgba(5, 12, 5, 0.92);
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.console-media-asset {
+  width: 72px;
+  height: 72px;
+}
+
+.console-media-asset svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.console-encyclopedia-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 18px 0 0;
+}
+
+.console-encyclopedia-block {
+  border: 1px solid var(--terminal-border);
+  background: rgba(5, 12, 5, 0.92);
+}
+
+.console-encyclopedia-block summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  display: grid;
+  gap: 4px;
+}
+
+.console-encyclopedia-block summary::-webkit-details-marker {
+  display: none;
+}
+
+.console-encyclopedia-block[open] summary {
+  border-bottom: 1px solid rgba(0, 255, 102, 0.12);
+}
+
+.console-encyclopedia-title {
+  color: var(--terminal-green-bright);
+  font-size: 20px;
+  letter-spacing: 0.04em;
+}
+
+.console-encyclopedia-body {
+  padding: 14px 16px 18px;
+}
+
+.console-copy-stack {
+  display: grid;
+  gap: 10px;
+}
+
+.console-copy-stack p {
+  margin: 0;
+  color: var(--terminal-green-soft);
+  line-height: 1.7;
+}
+
+.console-copy-stack strong {
+  color: var(--terminal-green-bright);
+}
+
+.console-team-list {
+  display: grid;
+  gap: 12px;
+}
+
+.console-team-card,
+.console-spec-card {
+  border: 1px solid rgba(0, 255, 102, 0.12);
+  background: rgba(3, 10, 3, 0.96);
+  padding: 12px;
+}
+
+.console-team-name,
+.console-subsection-label {
+  color: var(--terminal-green-bright);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.console-team-role {
+  color: var(--terminal-green-mid);
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.console-team-card p {
+  margin: 8px 0 0;
+  color: var(--terminal-green-soft);
+  line-height: 1.6;
+}
+
+.console-spec-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.console-spec-card {
+  display: grid;
+  gap: 6px;
+}
+
+.console-spec-card span {
+  color: var(--terminal-green-mid);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.console-spec-card strong {
+  color: var(--terminal-green-bright);
+  line-height: 1.5;
+}
+
+.console-bullet-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--terminal-green-soft);
+  display: grid;
+  gap: 8px;
+  line-height: 1.6;
+}
+
+.console-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.console-chip-link {
+  display: inline-grid;
+  gap: 2px;
+  padding: 10px 12px;
+  border: 1px solid rgba(0, 255, 102, 0.16);
+  background: rgba(5, 15, 5, 0.96);
+  color: var(--terminal-green-bright);
+  text-decoration: none;
+  min-width: 148px;
+}
+
+.console-chip-link[data-console-jump] {
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.console-chip-link small {
+  color: var(--terminal-green-mid);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.console-chip-link.is-static {
+  cursor: default;
+}
+
+.console-section-footnote {
+  margin-top: 12px;
+  color: var(--terminal-green-mid);
+  font-size: 12px;
+}
+
+.console-game-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.console-game-media {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.console-game-media svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.encyclo-mode-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 980px) {
+  .console-encyclopedia-grid,
+  .console-spec-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .console-detail-visuals {
+    width: 100%;
+  }
+
+  .console-detail-slot--hardware {
+    min-height: 220px;
+  }
+}
+
+/* Masquer les blocs d'orientation sur les pages internes */
+.product-universe-frame {
+  display: none;
+}
+
+/* Les reafficher uniquement sur hub.html */
+body.hub-page .product-universe-frame {
+  display: block;
 }
 
