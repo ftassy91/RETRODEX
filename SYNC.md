@@ -145,6 +145,16 @@ scripts/enrich/generate_encyclopedia.js
     - `/api/games?sort=price_desc&limit=3` → `loosePrice > 500` en tête
   - commit : `56bf162`
 
+- `A3` — Route `backend/src/routes/market.js` migrée vers Supabase pour `/api/search`
+  - tentative prioritaire sur `retrodex_search_index`
+  - fallback direct sur `games` + `franchise_entries` si le view n'est pas disponible
+  - scoring de pertinence conservé
+  - ajustement du tie-break pour faire remonter la franchise quand le nom est identique à un jeu
+  - validations passées :
+    - `/api/search?q=mario&limit=5` → `Super Mario` dans les 2 premiers, `Sonic` absent des 3 premiers
+    - `/api/search?q=zelda&limit=5` → franchise `The Legend of Zelda` dans les 2 premiers
+  - commit : `a39bd0f`
+
 ---
 
 ## Protocole de mise à jour
