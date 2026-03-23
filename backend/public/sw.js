@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "retrodex-v1";
+const CACHE_NAME = "retrodex-v3";
 const CACHE_ASSETS = [
   "/hub.html",
   "/games-list.html",
@@ -16,6 +16,7 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(CACHE_ASSETS)),
   );
+  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
@@ -26,6 +27,7 @@ self.addEventListener("activate", (event) => {
         .map((key) => caches.delete(key)),
     )),
   );
+  self.clients.claim();
 });
 
 self.addEventListener("fetch", (event) => {
