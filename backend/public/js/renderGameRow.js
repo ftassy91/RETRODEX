@@ -61,6 +61,22 @@ function renderGameRow(game, options = {}) {
     </div>
   `
 
+  if (window.RetroDexAssets && game.console) {
+    const img = window.RetroDexAssets.createSupportImg(game.console, 16)
+    const infoEl = el.querySelector('.result-info')
+    if (infoEl) infoEl.insertBefore(img, infoEl.firstChild)
+  }
+
+  if (window.RetroDexAssets) {
+    const rarityImg = window.RetroDexAssets.createRarityImg(game.rarity, 14)
+    if (rarityImg) {
+      rarityImg.style.marginLeft = '0'
+      rarityImg.style.marginRight = '4px'
+      const rarityEl = el.querySelector('.result-rarity')
+      if (rarityEl) rarityEl.prepend(rarityImg)
+    }
+  }
+
   return el
 }
 
