@@ -1,5 +1,4 @@
 'use strict'
-
 const path = require('path')
 require('dotenv').config({
   path: path.join(__dirname, '..', '.env'),
@@ -20,6 +19,7 @@ const gamesRoutes = require('./routes/games')
 const collectionRoutes = require('./routes/collection')
 const franchisesRoutes = require('./routes/franchises')
 const marketRoutes = require('./routes/market')
+const pricesRouter = require('./routes/prices')
 const syncRoutes = require('./routes/sync')
 
 const baseRetrodexIndexSync = RetrodexIndex.sync.bind(RetrodexIndex)
@@ -92,6 +92,7 @@ app.use(gamesRoutes)
 app.use(collectionRoutes)
 app.use(franchisesRoutes)
 app.use(marketRoutes)
+app.use('/api/prices', pricesRouter)
 app.use(syncRoutes)
 
 app.use((req, res) => {
