@@ -14,6 +14,7 @@ const {
 } = require('../../db_supabase')
 const { handleAsync, parseLimit } = require('../helpers/query')
 const { dedupeSearchResults } = require('../helpers/search')
+const { buildPriceHistoryPayload } = require('../helpers/priceHistory')
 
 const router = Router()
 
@@ -165,6 +166,21 @@ async function fetchGamesMap(gameIds) {
   }
 
   return new Map((data || []).map((game) => [game.id, normalizeGameRecord(game)]))
+}
+
+async function fetchSeedPriceHistory(gameId) {
+  const { data, error } = await db
+    .from('price_history')
+    .select('price,condition,sale_date')
+    .eq('game_id', gameId)
+    .order('sale_date', { ascending: true })
+    .limit(2000)
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data || []
 }
 
 function toItemPayload(game) {
@@ -731,6 +747,22 @@ router.get('/api/games/:id', handleAsync(async (req, res) => {
   }
 
   return res.json(game)
+}))
+
+router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
+  const game = normalizeGameRecord(await getGameById(req.params.id))
+
+  if (!game) {
+    return res.status(404).json({ ok: false, error: 'Game not found' })
+  }
+
+  const seedHistory = await fetchSeedPriceHistory(req.params.id)
+
+  return res.json(buildPriceHistoryPayload(game, {
+    reports: [],
+    indexEntries: [],
+    seedHistory,
+  }))
 }))
 
 router.get('/api/items', handleAsync(async (req, res) => {
