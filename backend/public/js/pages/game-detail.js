@@ -332,13 +332,13 @@ function renderHeroSection(game) {
         <div class="detail-section-head compact">
           <div>
             <div class="detail-kicker">PRICE TRACE</div>
-            <h3>Historique des prix Â· 12 mois</h3>
+            <h3>Historique des prix &middot; 12 mois</h3>
           </div>
         </div>
         <div class="trend-row">
-          <span class="trend-badge" id="trend-loose">Loose â€”</span>
-          <span class="trend-badge" id="trend-cib">CIB â€”</span>
-          <span class="trend-badge" id="trend-mint">Mint â€”</span>
+          <span class="trend-badge" id="trend-loose">Loose &mdash;</span>
+          <span class="trend-badge" id="trend-cib">CIB &mdash;</span>
+          <span class="trend-badge" id="trend-mint">Mint &mdash;</span>
         </div>
         <div class="chart-toggle">
           <button class="chart-btn active" data-type="mint">Mint</button>
@@ -358,15 +358,15 @@ function renderHeroSection(game) {
         <div class="price-stats-row">
           <div class="price-stat">
             <span class="stat-label">12M MIN</span>
-            <span class="stat-value" id="stat-min">â€”</span>
+            <span class="stat-value" id="stat-min">&mdash;</span>
           </div>
           <div class="price-stat">
             <span class="stat-label">12M MAX</span>
-            <span class="stat-value" id="stat-max">â€”</span>
+            <span class="stat-value" id="stat-max">&mdash;</span>
           </div>
           <div class="price-stat">
             <span class="stat-label">VARIATION</span>
-            <span class="stat-value" id="stat-variation">â€”</span>
+            <span class="stat-value" id="stat-variation">&mdash;</span>
           </div>
         </div>
       </section>
