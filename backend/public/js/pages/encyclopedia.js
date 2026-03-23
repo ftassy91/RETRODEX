@@ -48,8 +48,11 @@ const hardwarePreferredPlatforms = new Set([
 const urlParams = new URLSearchParams(window.location.search)
 const preselectedGame = urlParams.get('game')
 const preselectedConsole = urlParams.get('console')
+const requestedDexQuery = urlParams.get('q') || ''
 
 const countEl = document.getElementById('encyclo-count')
+const dexSearchInputEl = document.getElementById('dex-search-input')
+const dexSearchCountEl = document.getElementById('dex-search-count')
 const filtersEl = document.getElementById('encyclo-filters')
 const modeTabsEl = document.getElementById('encyclo-mode-tabs')
 const gamesSectionEl = document.getElementById('encyclo-games-section')
@@ -60,6 +63,7 @@ const franchisesContainerEl = document.getElementById('franchises-list-container
 const consolesContainerEl = document.getElementById('consoles-list-container')
 const franchisesHeadingEl = document.querySelector('.encyclo-franchises-heading')
 const detailPanelEl = document.getElementById('encyclo-detail-panel')
+let dexSearchTimer = null
 
 function coverageBadges(game) {
   const badges = []
@@ -73,6 +77,34 @@ function coverageBadges(game) {
 function updateCount() {
   const total = allGames.length + allFranchises.length + allConsoles.length
   countEl.textContent = `${allGames.length} jeux | ${allFranchises.length} franchises | ${allConsoles.length} consoles | ${total} entrees`
+}
+
+function syncDexQueryToUrl(query) {
+  const nextParams = new URLSearchParams(window.location.search)
+  if (query) nextParams.set('q', query)
+  else nextParams.delete('q')
+  const nextUrl = `${window.location.pathname}${nextParams.toString() ? `?${nextParams.toString()}` : ''}`
+  window.history.replaceState({}, '', nextUrl)
+}
+
+async function loadDexIndex(query = '') {
+  const params = new URLSearchParams()
+  if (query) params.set('q', query)
+  params.set('limit', query ? '250' : '1000')
+
+  const response = await fetch(`/api/dex/search?${params.toString()}`)
+  const payload = await response.json()
+
+  if (!response.ok || !payload.ok) {
+    throw new Error('Dex search unavailable')
+  }
+
+  allGames = payload.items || []
+  if (dexSearchCountEl) {
+    dexSearchCountEl.textContent = query
+      ? `${allGames.length} entree(s) editoriales`
+      : `${allGames.length} jeux editoriaux`
+  }
 }
 
 function setActiveRow(rowEl) {
@@ -217,6 +249,7 @@ function gamePanelMarkup(game, encyclopedia) {
   const synopsis = encyclopedia.synopsis || game.synopsis || ''
   const tagline = game.tagline || ''
   const rarity = String(game.rarity || 'ARCHIVE')
+  const metascore = game.metascore || encyclopedia.metascore || null
 
   return `
     <div class="encyclo-panel-header">
@@ -236,9 +269,11 @@ function gamePanelMarkup(game, encyclopedia) {
         <div class="encyclo-panel-signals">
           <span class="encyclo-panel-rarity rarity-${escapeHtml(rarity.toLowerCase())}">${escapeHtml(rarity)}</span>
           <span class="encyclo-panel-signal">${coverageBadges(game).length} modules</span>
+          ${metascore ? `<span class="encyclo-panel-signal">META ${escapeHtml(metascore)}</span>` : ''}
         </div>
         ${tagline ? `<div class="encyclo-panel-tagline">${escapeHtml(tagline)}</div>` : ''}
         <a href="/game-detail.html?id=${encodeURIComponent(game.id)}" class="encyclo-panel-link terminal-action-link">Ouvrir la fiche complete &rarr;</a>
+        <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="encyclo-panel-link terminal-action-link">Voir la valeur RetroMarket &rarr;</a>
       </div>
     </div>
 
@@ -679,33 +714,44 @@ function bindModeTabs() {
   })
 }
 
+function bindDexSearch() {
+  if (!dexSearchInputEl) return
+
+  dexSearchInputEl.value = requestedDexQuery
+  dexSearchInputEl.addEventListener('input', () => {
+    window.clearTimeout(dexSearchTimer)
+    dexSearchTimer = window.setTimeout(async () => {
+      const query = String(dexSearchInputEl.value || '').trim()
+      syncDexQueryToUrl(query)
+
+      try {
+        await loadDexIndex(query)
+        if (activeMode === 'games') {
+          renderActiveMode()
+        } else {
+          updateCount()
+        }
+      } catch (_error) {
+        if (dexSearchCountEl) dexSearchCountEl.textContent = 'Recherche indisponible'
+      }
+    }, 200)
+  })
+}
+
 async function init() {
   try {
-    const [gamesPayload, franchisesPayload, consolesPayload] = await Promise.all([
-      fetch('/api/games?limit=1000&type=game').then((response) => response.json()),
+    const [franchisesPayload, consolesPayload] = await Promise.all([
       fetch('/api/franchises').then((response) => response.json()),
       fetch('/api/consoles').then((response) => response.json()),
     ])
-
-    allGames = (gamesPayload.items || []).filter((game) =>
-      game.synopsis || game.dev_anecdotes || game.dev_team || game.cheat_codes
-    )
-
-    if (allGames.length < 6) {
-      const fallbackResponse = await fetch('/games?type=game')
-      if (fallbackResponse.ok) {
-        const fallbackGames = await fallbackResponse.json()
-        allGames = (Array.isArray(fallbackGames) ? fallbackGames : []).filter((game) =>
-          game.synopsis || game.dev_anecdotes || game.dev_team || game.cheat_codes
-        )
-      }
-    }
+    await loadDexIndex(requestedDexQuery)
 
     allFranchises = franchisesPayload.items || franchisesPayload.franchises || []
     allConsoles = consolesPayload.consoles || []
 
     bindFilters()
     bindModeTabs()
+    bindDexSearch()
     updateCount()
 
     if (preselectedConsole) {

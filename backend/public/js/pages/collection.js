@@ -3,7 +3,7 @@
 ;(() => {
   const { byId, qsa, setHtml, setText } = window.RetroDexDom || {}
   const { escapeHtml, formatCurrency } = window.RetroDexFormat || {}
-  const { fetchJson, fetchCollection } = window.RetroDexApi || {}
+  const { fetchJson, fetchCollection, fetchCollectionSearch } = window.RetroDexApi || {}
   const { getParams } = window.RetroDexState || {}
 
   if (!byId || !qsa || !setHtml || !setText || !escapeHtml || !formatCurrency || !fetchJson || !fetchCollection || !getParams) {
@@ -39,6 +39,7 @@
   const tabButtons = qsa('[data-list]')
   const copySaleLinkButtonEl = byId('copy-sale-link-btn')
   const isPublicForSaleView = getParams().get('view') === 'for_sale'
+  const initialQuery = getParams().get('q') || ''
 
   let enrichedItems = []
   let allCollectionItems = []
@@ -143,6 +144,22 @@
 
       return true
     }))
+  }
+
+  async function loadCollectionSearchResults() {
+    if (typeof fetchCollectionSearch !== 'function') {
+      return applyCollectionFilters(allCollectionItems)
+    }
+
+    const payload = await fetchCollectionSearch({
+      query: String(collectionSearchInputEl?.value || '').trim(),
+      listType: activeTab,
+      consoleName: collectionConsoleFilterEl?.value || '',
+      sort: collectionSortSelectEl?.value || 'title_asc',
+      limit: 1000,
+    })
+
+    return (payload.items || []).filter((item) => Object.keys(getGame(item)).length > 0)
   }
 
   function hideEditForm() {
@@ -336,17 +353,18 @@
     if (note) {
       extraMeta.push(`<span><span class="pv-label">Note </span><span class="pv-val">${escapeHtml(note)}</span></span>`)
     }
+    if (game.metascore) {
+      extraMeta.push(`<span><span class="pv-label">Metascore </span><span class="pv-val">${escapeHtml(game.metascore)}</span></span>`)
+    }
     if (item.price_threshold) {
       extraMeta.push(`<span><span class="pv-label">Seuil </span><span class="pv-val">${formatCurrency(item.price_threshold)}</span></span>`)
     }
 
     detailRow2El.innerHTML = `
       ${extraMeta.join('')}
-      <span>
-        <a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="terminal-action-link">
-          -> Voir la fiche
-        </a>
-      </span>
+      <span><a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="terminal-action-link">-> Valeur RetroMarket</a></span>
+      <span><a href="/encyclopedia.html?game=${encodeURIComponent(gameId)}" class="terminal-action-link">-> Dossier RetroDex</a></span>
+      <span><a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="terminal-action-link">-> Voir la fiche</a></span>
       ${isPublicForSaleView && activeTab === 'for_sale' ? '' : `
         <button id="collection-edit-btn" class="terminal-inline-btn">
           MODIFIER
@@ -476,7 +494,9 @@
   }
 
   async function refreshCollectionView(preferredItemId = null) {
-    const visibleItems = applyCollectionFilters(allCollectionItems)
+    const visibleItems = hasActiveCollectionFilters()
+      ? await loadCollectionSearchResults()
+      : applyCollectionFilters(allCollectionItems)
     enrichedItems = visibleItems
 
     if (activeTab === 'owned' && !hasActiveCollectionFilters()) {
@@ -634,6 +654,10 @@
   }
 
   function bindTabs() {
+    if (collectionSearchInputEl && initialQuery) {
+      collectionSearchInputEl.value = initialQuery
+    }
+
     tabButtons.forEach((button) => {
       button.addEventListener('click', () => switchCollectionTab(button.dataset.list || 'owned', button))
     })
