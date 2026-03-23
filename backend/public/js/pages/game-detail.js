@@ -746,7 +746,7 @@ function buildCollectionMeta(item, listType) {
   }
 
   const fragments = [
-    `<span class="condition-badge condition-${escapeHtml(conditionClass(item.condition))}">${escapeHtml(item.condition || 'Loose')}</span>`,
+    `<span class="condition-badge condition-${escapeHtml(conditionClass(item.condition))}" data-condition="${escapeHtml(item.condition || 'Loose')}">${escapeHtml(item.condition || 'Loose')}</span>`,
   ]
 
   if (listType === 'wanted') {
@@ -811,6 +811,7 @@ function applyCollectionUiState(item, options = {}) {
 
   const listType = normalizeCollectionListType(item.list_type)
   collectionCurrentMetaEl.innerHTML = buildCollectionMeta(item, listType)
+  window.RetroDexAssets?.decorateConditionBadges?.(collectionCurrentMetaEl)
 
   if (listType === 'wanted') {
     collectionStateEl.textContent = 'Dans votre wishlist'
