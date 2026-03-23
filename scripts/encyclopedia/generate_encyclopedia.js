@@ -3,6 +3,8 @@ require('dotenv').config({
 })
 
 'use strict'
+// SYNC: B4 - migre le 2026-03-23 - mode --taglines-only ajoute sans casser le mode encyclopedie existant
+// Decision source : SYNC.md § B4
 
 const path = require('path')
 const https = require('https')
@@ -11,6 +13,40 @@ const ROOT = path.join(__dirname, '../..')
 const { Op, DataTypes } = require(path.join(ROOT, 'backend', 'node_modules', 'sequelize'))
 const sequelize = require(path.join(ROOT, 'backend', 'config', 'database'))
 const Game = require(path.join(ROOT, 'backend', 'src', 'models', 'Game'))
+
+function parseArgs(argv) {
+  const args = {
+    limit: 50,
+    taglinesOnly: false,
+  }
+
+  for (let index = 0; index < argv.length; index += 1) {
+    const token = argv[index]
+
+    if (token === '--taglines-only') {
+      args.taglinesOnly = true
+      continue
+    }
+
+    if (token === '--limit') {
+      const next = Number.parseInt(argv[index + 1], 10)
+      if (Number.isFinite(next) && next > 0) {
+        args.limit = next
+      }
+      index += 1
+      continue
+    }
+
+    if (/^\d+$/.test(token)) {
+      const next = Number.parseInt(token, 10)
+      if (Number.isFinite(next) && next > 0) {
+        args.limit = next
+      }
+    }
+  }
+
+  return args
+}
 
 function callClaude(prompt) {
   return new Promise((resolve, reject) => {
@@ -90,6 +126,25 @@ If you don't know specific cheat codes or team members, use empty arrays [].
 Always respond with valid JSON only.`
 }
 
+function buildTaglinePrompt(game) {
+  return `Ecris un tagline percutant en francais pour ce jeu retro.
+
+Contraintes strictes :
+- maximum 120 caracteres
+- une seule phrase
+- terminer par un signe de ponctuation (. ! ?)
+- ton collectionneur / editorial
+- ne pas utiliser de markdown
+- ne pas ajouter de guillemets
+
+Jeu : ${game.title}
+Console : ${game.console || 'console inconnue'}
+Annee : ${game.year || 'inconnue'}
+Synopsis : ${String(game.synopsis || '').trim()}
+
+Reponds uniquement par le tagline final.`
+}
+
 function cleanClaudeJson(raw) {
   return String(raw || '')
     .replace(/```json\s*/gi, '')
@@ -99,6 +154,33 @@ function cleanClaudeJson(raw) {
 
 function asJsonString(value) {
   return Array.isArray(value) ? JSON.stringify(value) : null
+}
+
+function normalizeTagline(raw) {
+  let tagline = String(raw || '')
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/^["'\s]+|["'\s]+$/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  if (!tagline) {
+    return null
+  }
+
+  if (tagline.length > 120) {
+    const sentenceWithinLimit = tagline.slice(0, 120).match(/^(.{20,120}?[.!?])(?:\s|$)/)
+    tagline = sentenceWithinLimit ? sentenceWithinLimit[1] : tagline.slice(0, 119).trimEnd()
+  }
+
+  if (!/[.!?]$/.test(tagline)) {
+    tagline = `${tagline.replace(/[.!?]+$/g, '').trim()}.`
+  }
+
+  if (tagline.length > 120) {
+    tagline = `${tagline.slice(0, 119).replace(/[.!?]+$/g, '').trim()}.`
+  }
+
+  return tagline.length >= 5 ? tagline : null
 }
 
 async function ensureEncyclopediaColumns() {
@@ -121,14 +203,7 @@ async function ensureEncyclopediaColumns() {
   }
 }
 
-async function main() {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('[FATAL] ANTHROPIC_API_KEY not set in environment')
-    process.exit(1)
-  }
-
-  const limit = parseInt(process.argv[2], 10) || 10
-
+async function runEncyclopediaMode(limit) {
   await ensureEncyclopediaColumns()
   await sequelize.sync({ alter: false })
 
@@ -175,6 +250,68 @@ async function main() {
   console.log('==========================')
   console.log(`  Enrichis  : ${ok}`)
   console.log(`  Erreurs   : ${errors}`)
+}
+
+async function runTaglinesMode(limit) {
+  const games = await Game.findAll({
+    where: {
+      type: 'game',
+      synopsis: { [Op.ne]: null },
+      tagline: null,
+    },
+    order: [['rarity', 'ASC'], ['mintPrice', 'DESC'], ['title', 'ASC']],
+    limit,
+  })
+
+  console.log(`[INFO] ${games.length} jeux a tagliner`)
+
+  let ok = 0
+  let errors = 0
+
+  for (const game of games) {
+    process.stdout.write(`  Tagline: ${game.title} (${game.console})...`)
+
+    try {
+      const raw = await callClaude(buildTaglinePrompt(game))
+      const tagline = normalizeTagline(raw)
+
+      if (!tagline) {
+        throw new Error('Tagline vide ou invalide')
+      }
+
+      await game.update({ tagline })
+      console.log(` [OK] ${tagline}`)
+      ok += 1
+      await new Promise((resolve) => setTimeout(resolve, 500))
+    } catch (error) {
+      console.log(` [ERR] (${error.message})`)
+      errors += 1
+    }
+  }
+
+  console.log('\n==========================')
+  console.log('RESUME TAGLINES')
+  console.log('==========================')
+  console.log(`  Enrichis  : ${ok}`)
+  console.log(`  Erreurs   : ${errors}`)
+}
+
+async function main() {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.error('[FATAL] ANTHROPIC_API_KEY not set in environment')
+    process.exit(1)
+  }
+
+  const args = parseArgs(process.argv.slice(2))
+
+  await ensureEncyclopediaColumns()
+  await sequelize.sync({ alter: false })
+
+  if (args.taglinesOnly) {
+    await runTaglinesMode(args.limit)
+  } else {
+    await runEncyclopediaMode(args.limit)
+  }
 
   await sequelize.close()
 }
