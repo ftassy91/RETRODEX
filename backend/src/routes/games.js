@@ -45,6 +45,26 @@ function buildGamesOrder(sort) {
       ['year', 'DESC'],
       ['title', 'ASC'],
     ],
+    meta_asc: [
+      [literal('CASE WHEN metascore IS NULL THEN 1 ELSE 0 END'), 'ASC'],
+      ['metascore', 'ASC'],
+      ['title', 'ASC'],
+    ],
+    meta_desc: [
+      [literal('CASE WHEN metascore IS NULL THEN 1 ELSE 0 END'), 'ASC'],
+      ['metascore', 'DESC'],
+      ['title', 'ASC'],
+    ],
+    metascore_asc: [
+      [literal('CASE WHEN metascore IS NULL THEN 1 ELSE 0 END'), 'ASC'],
+      ['metascore', 'ASC'],
+      ['title', 'ASC'],
+    ],
+    metascore_desc: [
+      [literal('CASE WHEN metascore IS NULL THEN 1 ELSE 0 END'), 'ASC'],
+      ['metascore', 'DESC'],
+      ['title', 'ASC'],
+    ],
     rarity_desc: [
       [literal(`CASE rarity
         WHEN 'LEGENDARY' THEN 0
@@ -185,6 +205,14 @@ function compareGamesForSort(leftGame, rightGame, sortKey) {
         || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
     case 'year_desc':
       return compareNullableNumbers(left.year, right.year, false)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'meta_asc':
+    case 'metascore_asc':
+      return compareNullableNumbers(left.metascore, right.metascore, true)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'meta_desc':
+    case 'metascore_desc':
+      return compareNullableNumbers(left.metascore, right.metascore, false)
         || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
     case 'rarity_desc':
       return rarityRankDescending(left.rarity) - rarityRankDescending(right.rarity)

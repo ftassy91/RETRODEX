@@ -241,6 +241,10 @@ async function queryGames({ sort, console: consoleName, rarity, limit = 20, offs
     price_desc: ['loose_price', { ascending: false }],
     year_asc: ['year', { ascending: true }],
     year_desc: ['year', { ascending: false }],
+    meta_asc: ['metascore', { ascending: true, nullsFirst: false }],
+    meta_desc: ['metascore', { ascending: false, nullsFirst: false }],
+    metascore_asc: ['metascore', { ascending: true, nullsFirst: false }],
+    metascore_desc: ['metascore', { ascending: false, nullsFirst: false }],
     rarity_desc: ['loose_price', { ascending: false }],
   };
 
