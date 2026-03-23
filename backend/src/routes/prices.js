@@ -3,7 +3,6 @@
 // Décision source : SYNC.md § A6
 
 const { Router } = require('express');
-const { QueryTypes } = require('sequelize');
 
 process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL;
 process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
@@ -12,10 +11,25 @@ process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
 process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key;
 
 const { db, mode } = require('../../db_supabase');
-const { sequelize, databaseMode } = require('../database');
-
 const router = Router();
 const USE_SUPABASE = mode === 'supabase';
+let legacyDatabase = null;
+
+function getLegacyDatabase() {
+  if (USE_SUPABASE) {
+    return null;
+  }
+
+  if (legacyDatabase) {
+    return legacyDatabase;
+  }
+
+  const { QueryTypes } = require('sequelize');
+  const { sequelize, databaseMode } = require('../database');
+
+  legacyDatabase = { QueryTypes, sequelize, databaseMode };
+  return legacyDatabase;
+}
 
 function isMissingPriceHistoryTable(error) {
   const message = String(error?.message || '').toLowerCase();
@@ -46,11 +60,13 @@ function getCutoffStr(months) {
 }
 
 async function ensureLocalPriceHistoryTable() {
-  if (databaseMode !== 'sqlite') {
+  const legacyDb = getLegacyDatabase();
+
+  if (!legacyDb || legacyDb.databaseMode !== 'sqlite') {
     return;
   }
 
-  await sequelize.query(`
+  await legacyDb.sequelize.query(`
     CREATE TABLE IF NOT EXISTS price_history (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       game_id TEXT NOT NULL,
@@ -66,9 +82,14 @@ async function ensureLocalPriceHistoryTable() {
 }
 
 async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {
+  const legacyDb = getLegacyDatabase();
+  if (!legacyDb) {
+    return [];
+  }
+
   await ensureLocalPriceHistoryTable();
 
-  return sequelize.query(
+  return legacyDb.sequelize.query(
     `SELECT price, condition, sale_date
      FROM price_history
      WHERE game_id = :gameId
@@ -77,7 +98,7 @@ async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {
      LIMIT :limit`,
     {
       replacements: { gameId, cutoffStr, limit },
-      type: QueryTypes.SELECT,
+      type: legacyDb.QueryTypes.SELECT,
     }
   );
 }
