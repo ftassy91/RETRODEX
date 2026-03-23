@@ -324,6 +324,7 @@ function renderHeroSection(game) {
         <aside class="price-panel detail-market-panel">
           <div class="detail-kicker">MARKET / TRUST</div>
           <p class="market-panel-copy">Valeur par condition, niveau de confiance et fraicheur des donnees.</p>
+          <div id="market-metascore" class="market-metascore"></div>
           <div id="retrodex-index" class="index-insufficient">Chargement de l'indice RetroDex...</div>
         </aside>
       </div>
@@ -380,6 +381,21 @@ function renderHeroSection(game) {
     if (consoleEl) {
       const img = window.RetroDexAssets.createSupportImg(game.console, 24)
       consoleEl.insertBefore(img, consoleEl.firstChild)
+    }
+  }
+
+  if (window.RetroDexMetascore) {
+    const metascoreContainer = heroEl.querySelector('#market-metascore, .market-metascore')
+    if (metascoreContainer) {
+      metascoreContainer.innerHTML = ''
+      metascoreContainer.appendChild(window.RetroDexMetascore.renderBlock(game.metascore))
+    }
+
+    const rarityBadge = heroEl.querySelector('.rarity-badge, [data-rarity]')
+    if (rarityBadge?.parentNode && game.metascore) {
+      const badge = window.RetroDexMetascore.renderBadge(game.metascore, 'normal')
+      badge.title = `Metascore : ${game.metascore}/100`
+      rarityBadge.parentNode.insertBefore(badge, rarityBadge)
     }
   }
 }
@@ -683,22 +699,35 @@ function renderSummary(game) {
 
 function renderStats(game) {
   const stats = [
-    ['Plateforme', game.console],
-    ['Annee', game.year],
-    ['Genre', game.genre && game.genre !== 'Other' ? game.genre : ''],
-    ['Rarete', game.rarity],
-    ['Developpeur', game.developer],
-    ['Editeur', game.publisher],
-    ['Metascore', game.metascore],
-    ['Slug', game.slug],
-  ].filter(([, value]) => value != null && String(value).trim() !== '')
+    { label: 'Plateforme', value: game.console },
+    { label: 'Annee', value: game.year },
+    { label: 'Genre', value: game.genre && game.genre !== 'Other' ? game.genre : '' },
+    { label: 'Rarete', value: game.rarity },
+    { label: 'Developpeur', value: game.developer },
+    { label: 'Editeur', value: game.publisher },
+    { label: 'Metascore', value: '__METASCORE__', id: 'stat-metascore' },
+    { label: 'Slug', value: game.slug },
+  ].filter((entry) => entry.value != null && String(entry.value).trim() !== '')
 
-  statsRowEl.innerHTML = stats.map(([label, value]) => `
+  statsRowEl.innerHTML = stats.map(({ label, value, id }) => `
     <div class="stat-cell">
       <span class="label">${escapeHtml(label)}</span>
-      <span class="value">${escapeHtml(value)}</span>
+      <span class="value"${id ? ` id="${id}"` : ''}>${value === '__METASCORE__' ? '—' : escapeHtml(value)}</span>
     </div>
   `).join('')
+
+  const statMeta = document.getElementById('stat-metascore')
+  if (statMeta && window.RetroDexMetascore) {
+    if (game.metascore) {
+      const color = window.RetroDexMetascore.getColor(game.metascore)
+      const label = window.RetroDexMetascore.getLabel(game.metascore)
+      statMeta.textContent = `${game.metascore} · ${label}`
+      statMeta.style.color = color
+    } else {
+      statMeta.textContent = 'N/A'
+      statMeta.style.color = '#333333'
+    }
+  }
 }
 
 function populateCollectionForm(item) {
