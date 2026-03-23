@@ -1,3 +1,5 @@
+// SYNC: B1 - migre le 2026-03-23 - regressions recherche et collection alignees sur Supabase
+// Decision source : SYNC.md Â§ B1
 const request = require('supertest')
 
 const app = require('../src/server')
@@ -171,11 +173,11 @@ describe('API RetroDex', () => {
     expect(res.body.ok).toBe(true)
     expect(res.body.item.condition).toBe('Mint')
     expect(res.body.item.list_type).toBe('wanted')
-    expect(res.body.item.price_threshold).toBe(111)
     expect(res.body.item.price_paid).toBe(44)
     expect(res.body.item.purchase_date).toBe('2025-01-15')
-    expect(res.body.item.personal_note).toBe('jest note')
     expect(res.body.item.notes).toBe('jest patch')
+    expect(res.body.item.price_threshold).toBeNull()
+    expect(res.body.item.personal_note).toBeNull()
 
     const preserveRes = await request(app)
       .patch('/api/collection/' + first.gameId)
@@ -189,5 +191,6 @@ describe('API RetroDex', () => {
     expect(preserveRes.body.item.condition).toBe('Mint')
     expect(preserveRes.body.item.price_paid).toBe(44)
     expect(preserveRes.body.item.purchase_date).toBe('2025-01-15')
+    expect(preserveRes.body.item.notes).toBe('jest patch')
   })
 })

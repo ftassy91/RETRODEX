@@ -1,4 +1,6 @@
 'use strict'
+// SYNC: B1 - migre le 2026-03-23 - fallback Supabase et recherche par annee alignes avec les tests
+// Decision source : SYNC.md Â§ B1
 // SYNC: A8 - migre le 2026-03-23 - routeur Supabase dedie au runtime Vercel
 // Decision source : SYNC.md § A8
 
@@ -220,20 +222,35 @@ async function fetchSearchIndexResults(query, limit) {
   return Array.isArray(data) ? data : []
 }
 
-async function fetchSearchFallbackResults(query, type, requestedGamesLimit, requestedFranchisesLimit) {
+async function fetchSearchFallbackResults(
+  query,
+  type,
+  requestedGamesLimit,
+  requestedFranchisesLimit,
+  numericYear = null
+) {
   const requests = []
 
   if (type === 'all' || type === 'game') {
-    requests.push(
+    const titleMatchesPromise =
       db
         .from('games')
         .select('id,title,console,year,rarity,loose_price,slug,franch_id,source_confidence')
         .eq('type', 'game')
         .ilike('title', `%${query}%`)
         .limit(Math.min(Math.max(requestedGamesLimit * 2, requestedGamesLimit), 200))
-    )
+    const yearMatchesPromise = Number.isInteger(numericYear)
+      ? db
+        .from('games')
+        .select('id,title,console,year,rarity,loose_price,slug,franch_id,source_confidence')
+        .eq('type', 'game')
+        .eq('year', numericYear)
+        .limit(Math.min(Math.max(requestedGamesLimit * 2, requestedGamesLimit), 200))
+      : Promise.resolve({ data: [], error: null })
+
+    requests.push(Promise.all([titleMatchesPromise, yearMatchesPromise]))
   } else {
-    requests.push(Promise.resolve({ data: [], error: null }))
+    requests.push(Promise.resolve([{ data: [], error: null }, { data: [], error: null }]))
   }
 
   if (type === 'all' || type === 'franchise') {
@@ -248,13 +265,18 @@ async function fetchSearchFallbackResults(query, type, requestedGamesLimit, requ
     requests.push(Promise.resolve({ data: [], error: null }))
   }
 
-  const [gamesResult, franchisesResult] = await Promise.all(requests)
+  const [gamesResults, franchisesResult] = await Promise.all(requests)
+  const [titleMatchesResult, yearMatchesResult] = gamesResults
 
-  if (gamesResult.error) throw new Error(gamesResult.error.message)
+  if (titleMatchesResult.error) throw new Error(titleMatchesResult.error.message)
+  if (yearMatchesResult.error) throw new Error(yearMatchesResult.error.message)
   if (franchisesResult.error) throw new Error(franchisesResult.error.message)
 
   return {
-    games: (gamesResult.data || []).map(normalizeSearchGameRow),
+    games: dedupeSearchResults([
+      ...((titleMatchesResult.data || []).map(normalizeSearchGameRow)),
+      ...((yearMatchesResult.data || []).map(normalizeSearchGameRow)),
+    ]),
     franchises: (franchisesResult.data || []).map((row) => normalizeSearchFranchiseRow({
       id: row.slug,
       slug: row.slug,
@@ -536,6 +558,7 @@ router.get('/api/search', handleAsync(async (req, res) => {
     ? String(req.query.type || 'all')
     : 'all'
   const limit = parseLimit(req.query.limit, 20, 100)
+  const numericYear = /^\d{4}$/.test(q) ? Number.parseInt(q, 10) : null
 
   if (!q || q.length < 2) {
     return res.json({ ok: true, results: [], count: 0, query: q })
@@ -554,11 +577,21 @@ router.get('/api/search', handleAsync(async (req, res) => {
         ? normalizeSearchFranchiseRow(row)
         : normalizeSearchGameRow(row)))
   } catch (_error) {
-    const fallback = await fetchSearchFallbackResults(q, type, requestedGamesLimit, requestedFranchisesLimit)
+    const fallback = await fetchSearchFallbackResults(
+      q,
+      type,
+      requestedGamesLimit,
+      requestedFranchisesLimit,
+      numericYear
+    )
     results = [
       ...fallback.franchises,
       ...dedupeSearchResults(fallback.games).slice(0, requestedGamesLimit),
     ]
+  }
+
+  if (numericYear && (type === 'all' || type === 'game')) {
+    results = results.filter((item) => item._type !== 'game' || item.year === numericYear)
   }
 
   results.sort((a, b) => {
