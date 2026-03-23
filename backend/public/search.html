@@ -36,63 +36,59 @@
     </nav>
     <div class="page-wrapper">
       <div class="terminal-context">
-        HUB > <span class="ctx-active">RECHERCHE</span> > <span>SEARCH</span>
-        <span id="ctx-query-display"></span>
+        HUB > <span class="ctx-active">RECHERCHE</span> > <span>ROUTAGE MODULE</span>
       </div>
 
       <div class="terminal-query-line">
         <span class="terminal-query-label">QUERY :</span>
         <input
           type="text"
-          id="search-input"
+          id="search-router-input"
           class="terminal-query-input"
-          placeholder="titre, console, franchise, annee..."
+          placeholder="titre, console, annee..."
           autocomplete="off"
           autofocus
         />
-        <span class="terminal-query-count" id="search-count"></span>
+        <span class="terminal-query-count" id="search-router-count"></span>
+      </div>
+
+      <div class="terminal-preview-panel" style="display:block">
+        <div class="terminal-preview-label">ROUTAGE CONTEXTUEL</div>
+        <div class="terminal-preview-title">Choisir un module de recherche</div>
+        <div class="terminal-preview-row">
+          La recherche globale est retiree. Chaque module expose maintenant son propre scope.
+        </div>
       </div>
 
       <div class="terminal-filter-bar">
         <div class="terminal-filter-group">
-          <button class="terminal-filter-btn active" data-type="all" type="button">TOUT</button>
-          <button class="terminal-filter-btn" data-type="game" type="button">JEUX</button>
-          <button class="terminal-filter-btn" data-type="franchise" type="button">FRANCHISES</button>
-        </div>
-        <div class="terminal-filter-group" style="margin-left:auto">
-          <button class="terminal-filter-btn active" data-sort="relevance" type="button">PERTINENCE</button>
-          <button class="terminal-filter-btn" data-sort="price_asc" type="button">PRIX ^</button>
-          <button class="terminal-filter-btn" data-sort="price_desc" type="button">PRIX v</button>
-          <button class="terminal-filter-btn" data-sort="year" type="button">ANNEE</button>
+          <button class="terminal-filter-btn active" data-module-route="market" type="button">RETROMARKET</button>
+          <button class="terminal-filter-btn" data-module-route="dex" type="button">RETRODEX</button>
+          <button class="terminal-filter-btn" data-module-route="collection" type="button">COLLECTION</button>
         </div>
       </div>
 
-      <div
-        class="terminal-table-header"
-        id="search-table-header"
-        style="grid-template-columns: 12px 1fr 120px 70px 80px 60px"
-      >
-        <span></span>
-        <span>TITRE</span>
-        <span>CONSOLE / DATES</span>
-        <span style="text-align:right">PRIX</span>
-        <span style="text-align:center">RARETE</span>
-        <span style="text-align:center">SIGNAL</span>
-      </div>
-
-      <div id="search-results"></div>
-
-      <div class="terminal-preview-panel" id="search-preview" style="display:none">
-        <div class="terminal-preview-label">APERCU</div>
-        <div class="terminal-preview-title" id="preview-title">-</div>
-        <div class="terminal-preview-row" id="preview-meta"></div>
-        <div class="terminal-preview-row" id="preview-price"></div>
+      <div id="search-router-results">
+        <div class="terminal-row" style="grid-template-columns: 160px 1fr 200px">
+          <span style="color:var(--text-primary)">RETROMARKET</span>
+          <span>Prix, historique, signaux de rarete, fourchettes de valeur.</span>
+          <span style="text-align:right"><a class="terminal-action-link" href="/stats.html">Ouvrir &rarr;</a></span>
+        </div>
+        <div class="terminal-row" style="grid-template-columns: 160px 1fr 200px">
+          <span style="color:var(--text-primary)">RETRODEX</span>
+          <span>Synopsis, equipe, anecdotes, codes et contexte editorial.</span>
+          <span style="text-align:right"><a class="terminal-action-link" href="/encyclopedia.html">Ouvrir &rarr;</a></span>
+        </div>
+        <div class="terminal-row" style="grid-template-columns: 160px 1fr 200px">
+          <span style="color:var(--text-primary)">COLLECTION</span>
+          <span>Fusion personnelle : valeur, rarete, metascore et notes utilisateur.</span>
+          <span style="text-align:right"><a class="terminal-action-link" href="/collection.html">Ouvrir &rarr;</a></span>
+        </div>
       </div>
 
       <div class="terminal-footer">
-        <span><kbd>[UP/DN]</kbd> Naviguer</span>
-        <span><kbd>[Enter]</kbd> Ouvrir la fiche selectionnee</span>
-        <span><kbd>[/]</kbd> Nouvelle recherche</span>
+        <span><kbd>[Enter]</kbd> Ouvrir le module actif</span>
+        <span><kbd>[/]</kbd> Rejouer la requete dans un module</span>
         <span><kbd>[Esc]</kbd> Effacer</span>
       </div>
 

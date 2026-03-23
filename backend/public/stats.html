@@ -70,6 +70,50 @@
         </div>
       </header>
 
+      <section class="stats-panel">
+        <div class="stats-section-head">
+          <div>
+            <div class="detail-kicker">RETROMARKET SEARCH</div>
+            <h2 class="stats-section-title">Recherche valeur</h2>
+          </div>
+          <div class="stats-section-copy">Prix, rarete, fourchettes et signaux de valorisation uniquement.</div>
+        </div>
+
+        <div class="terminal-query-line">
+          <span class="terminal-query-label">QUERY :</span>
+          <input
+            type="text"
+            id="market-search-input"
+            class="terminal-query-input"
+            placeholder="titre, console, annee..."
+            autocomplete="off"
+          />
+          <span class="terminal-query-count" id="market-search-count"></span>
+        </div>
+
+        <div
+          class="terminal-table-header"
+          style="grid-template-columns: 1fr 120px 80px 80px 80px 90px"
+        >
+          <span>JEU</span>
+          <span>CONSOLE</span>
+          <span style="text-align:right">LOOSE</span>
+          <span style="text-align:right">CIB</span>
+          <span style="text-align:right">MINT</span>
+          <span style="text-align:center">SIGNAL</span>
+        </div>
+
+        <div id="market-search-results"></div>
+
+        <div class="terminal-preview-panel" id="market-search-preview" style="display:none">
+          <div class="terminal-preview-label">RETROMARKET</div>
+          <div class="terminal-preview-title" id="market-preview-title">-</div>
+          <div class="terminal-preview-row" id="market-preview-meta"></div>
+          <div class="terminal-preview-row" id="market-preview-price"></div>
+          <div class="terminal-preview-row" id="market-preview-links"></div>
+        </div>
+      </section>
+
       <section class="product-universe-frame is-market" aria-label="Univers parent">
         <div class="product-universe-head">
           <div>

@@ -18,6 +18,17 @@ const encycloSynopsisEl = document.getElementById('encyclo-synopsis-count')
 const encycloFranchiseEl = document.getElementById('encyclo-franchise-count')
 const priceMedianLooseEl = document.getElementById('price-median-loose')
 const statsErrorEl = document.getElementById('stats-error')
+const marketSearchInputEl = document.getElementById('market-search-input')
+const marketSearchCountEl = document.getElementById('market-search-count')
+const marketSearchResultsEl = document.getElementById('market-search-results')
+const marketSearchPreviewEl = document.getElementById('market-search-preview')
+const marketPreviewTitleEl = document.getElementById('market-preview-title')
+const marketPreviewMetaEl = document.getElementById('market-preview-meta')
+const marketPreviewPriceEl = document.getElementById('market-preview-price')
+const marketPreviewLinksEl = document.getElementById('market-preview-links')
+
+const urlParams = new URLSearchParams(window.location.search)
+let marketSearchTimer = null
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -41,6 +52,145 @@ async function fetchJson(url) {
     throw new Error(`${response.status} ${response.statusText}`)
   }
   return response.json()
+}
+
+function marketSignalLabel(signal) {
+  if (signal === 'premium') return 'PREMIUM'
+  if (signal === 'watch') return 'WATCH'
+  return 'BASELINE'
+}
+
+function marketSignalClass(signal) {
+  if (signal === 'premium') return 'trend-up'
+  if (signal === 'watch') return 'trend-flat'
+  return ''
+}
+
+function renderMarketSearchEmpty(message) {
+  if (!marketSearchResultsEl) return
+
+  marketSearchResultsEl.innerHTML = `
+    <div class="terminal-empty-state search-empty">
+      <div class="terminal-empty-title">Recherche RetroMarket</div>
+      <div class="terminal-empty-copy">${escapeHtml(message)}</div>
+    </div>
+  `
+  if (marketSearchPreviewEl) {
+    marketSearchPreviewEl.style.display = 'none'
+  }
+}
+
+function showMarketSearchPreview(item) {
+  if (!marketSearchPreviewEl) return
+
+  marketSearchPreviewEl.style.display = 'block'
+  marketPreviewTitleEl.textContent = item.title || '-'
+  marketPreviewMetaEl.innerHTML = `
+    <span><span class="pv-label">Console </span><span class="pv-val">${escapeHtml(item.console || '-')}</span></span>
+    <span><span class="pv-label">Annee </span><span class="pv-val">${escapeHtml(item.year || '-')}</span></span>
+    <span><span class="pv-label">Rarete </span><span class="pv-val">${escapeHtml(item.rarity || '-')}</span></span>
+    <span><span class="pv-label">Signal </span><span class="pv-val">${escapeHtml(marketSignalLabel(item.signal))}</span></span>
+  `
+  marketPreviewPriceEl.innerHTML = `
+    <span><span class="pv-label">Loose </span><span class="pv-val">${escapeHtml(formatCurrency(item.loosePrice || 0))}</span></span>
+    <span><span class="pv-label">CIB </span><span class="pv-val">${escapeHtml(formatCurrency(item.cibPrice || 0))}</span></span>
+    <span><span class="pv-label">Mint </span><span class="pv-val">${escapeHtml(formatCurrency(item.mintPrice || 0))}</span></span>
+  `
+  marketPreviewLinksEl.innerHTML = `
+    <a class="terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(item.id)}">Voir plus dans RetroDex &rarr;</a>
+  `
+}
+
+function renderMarketSearchResults(items) {
+  if (!marketSearchResultsEl) return
+
+  if (!items.length) {
+    renderMarketSearchEmpty('Aucun signal marche pour cette requete.')
+    if (marketSearchCountEl) {
+      marketSearchCountEl.textContent = '0 resultat'
+    }
+    return
+  }
+
+  marketSearchResultsEl.innerHTML = ''
+  items.forEach((item, index) => {
+    const row = document.createElement('button')
+    row.type = 'button'
+    row.className = 'terminal-row'
+    row.style.gridTemplateColumns = '1fr 120px 80px 80px 80px 90px'
+    row.innerHTML = `
+      <span style="color:var(--text-primary)">${escapeHtml(item.title)}</span>
+      <span class="result-meta">${escapeHtml(item.console || '-')} &middot; ${escapeHtml(item.year || '-')}</span>
+      <span style="text-align:right;color:var(--text-alert)">${escapeHtml(formatCurrency(item.loosePrice || 0))}</span>
+      <span style="text-align:right">${escapeHtml(formatCurrency(item.cibPrice || 0))}</span>
+      <span style="text-align:right">${escapeHtml(formatCurrency(item.mintPrice || 0))}</span>
+      <span style="text-align:center" class="${marketSignalClass(item.signal)}">${escapeHtml(marketSignalLabel(item.signal))}</span>
+    `
+    row.addEventListener('click', () => {
+      marketSearchResultsEl.querySelectorAll('.terminal-row').forEach((node) => node.classList.remove('selected'))
+      row.classList.add('selected')
+      showMarketSearchPreview(item)
+    })
+    row.addEventListener('dblclick', () => {
+      window.location.href = `/encyclopedia.html?game=${encodeURIComponent(item.id)}`
+    })
+    marketSearchResultsEl.appendChild(row)
+
+    if (index === 0) {
+      row.classList.add('selected')
+      showMarketSearchPreview(item)
+    }
+  })
+
+  if (marketSearchCountEl) {
+    marketSearchCountEl.textContent = `${items.length} resultat(s)`
+  }
+}
+
+async function performMarketSearch() {
+  if (!marketSearchInputEl) return
+
+  const query = String(marketSearchInputEl.value || '').trim()
+  const nextParams = new URLSearchParams(window.location.search)
+  if (query) nextParams.set('q', query)
+  else nextParams.delete('q')
+  window.history.replaceState({}, '', `${window.location.pathname}${nextParams.toString() ? `?${nextParams.toString()}` : ''}`)
+
+  if (query.length < 2) {
+    if (marketSearchCountEl) {
+      marketSearchCountEl.textContent = ''
+    }
+    renderMarketSearchEmpty('Saisissez au moins 2 caracteres pour lire les signaux de valeur.')
+    return
+  }
+
+  if (marketSearchCountEl) {
+    marketSearchCountEl.textContent = 'Recherche...'
+  }
+
+  try {
+    const payload = await fetchJson(`/api/market/search?q=${encodeURIComponent(query)}&limit=12`)
+    renderMarketSearchResults(payload.items || [])
+  } catch (error) {
+    renderMarketSearchEmpty(`Recherche indisponible (${error.message}).`)
+  }
+}
+
+function bindMarketSearch() {
+  if (!marketSearchInputEl) return
+
+  const initialQuery = urlParams.get('q') || ''
+  marketSearchInputEl.value = initialQuery
+  marketSearchInputEl.addEventListener('input', () => {
+    window.clearTimeout(marketSearchTimer)
+    marketSearchTimer = window.setTimeout(performMarketSearch, 200)
+  })
+
+  if (initialQuery) {
+    performMarketSearch()
+  } else {
+    renderMarketSearchEmpty('Recherche contextuelle RetroMarket : prix, rarete et fourchettes uniquement.')
+  }
 }
 
 function renderRarityDistribution(byRarity, totalGames) {
@@ -126,3 +276,4 @@ async function loadStats() {
 }
 
 loadStats()
+bindMarketSearch()

@@ -18,6 +18,7 @@ const { mode: supabaseMode, db: supabaseDb } = require('../db_supabase')
 const { handleAsync } = require('./helpers/query')
 
 const pricesRouter = require('./routes/prices')
+const contextualSearchRouter = require('./routes/contextual-search')
 
 const hasServerlessSupabaseEnv = Boolean(process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL)
 const isServerlessSupabaseRuntime = Boolean(process.env.VERCEL && hasServerlessSupabaseEnv)
@@ -101,6 +102,7 @@ app.use(cors({
 }))
 app.use(express.json())
 app.use(express.static(path.join(__dirname, '..', 'public')))
+app.use(contextualSearchRouter)
 
 app.get('/', (_req, res) => {
   res.json({

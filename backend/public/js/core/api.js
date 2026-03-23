@@ -44,6 +44,32 @@
     }
   }
 
+  async function fetchMarketSearch(query, limit) {
+    const payload = await fetchJson(
+      `/api/market/search?q=${encodeURIComponent(query || '')}&limit=${encodeURIComponent(limit || 20)}`
+    )
+
+    return {
+      raw: payload,
+      ok: payload.ok !== false,
+      items: getItems(payload),
+      total: getTotal(payload),
+    }
+  }
+
+  async function fetchDexSearch(query, limit) {
+    const payload = await fetchJson(
+      `/api/dex/search?q=${encodeURIComponent(query || '')}&limit=${encodeURIComponent(limit || 120)}`
+    )
+
+    return {
+      raw: payload,
+      ok: payload.ok !== false,
+      items: getItems(payload),
+      total: getTotal(payload),
+    }
+  }
+
   async function fetchCollection(listType, isPublic) {
     const url = isPublic && listType === 'for_sale'
       ? '/api/collection/public'
@@ -51,6 +77,23 @@
     const payload = await fetchJson(url)
     return {
       raw: payload,
+      items: getItems(payload),
+      total: getTotal(payload),
+    }
+  }
+
+  async function fetchCollectionSearch({ query = '', listType = 'owned', consoleName = '', sort = 'title_asc', limit = 200 } = {}) {
+    const params = new URLSearchParams()
+    if (query) params.set('q', query)
+    if (listType) params.set('list_type', listType)
+    if (consoleName) params.set('console', consoleName)
+    if (sort) params.set('sort', sort)
+    if (limit) params.set('limit', String(limit))
+
+    const payload = await fetchJson(`/api/collection/search?${params.toString()}`)
+    return {
+      raw: payload,
+      ok: payload.ok !== false,
       items: getItems(payload),
       total: getTotal(payload),
     }
@@ -108,6 +151,9 @@
     fetchJson,
     fetchCollection,
     fetchCollectionIndex,
+    fetchCollectionSearch,
+    fetchDexSearch,
+    fetchMarketSearch,
     fetchSearch,
     buildCollectionIndex,
     getItems,
