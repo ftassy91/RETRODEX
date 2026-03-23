@@ -145,8 +145,101 @@ function transformFranchiseRow(row, gameIdsByFranchise) {
   };
 }
 
+function scoreGameRow(row) {
+  let score = 0;
+
+  if (row.id === row.slug) {
+    score += 5;
+  }
+
+  if (row.synopsis) {
+    score += 4;
+  }
+
+  if (row.tagline) {
+    score += 3;
+  }
+
+  if (row.cover_url) {
+    score += 2;
+  }
+
+  if (row.summary) {
+    score += 1;
+  }
+
+  score += Number(row.source_confidence || 0);
+
+  return score;
+}
+
+function dedupeRowsByKey(rows, key, scoreFn) {
+  const winners = new Map();
+
+  for (const row of rows) {
+    const mapKey = row[key];
+
+    if (!mapKey) {
+      winners.set(Symbol('row'), row);
+      continue;
+    }
+
+    const existing = winners.get(mapKey);
+    if (!existing || scoreFn(row) > scoreFn(existing)) {
+      winners.set(mapKey, row);
+    }
+  }
+
+  return Array.from(winners.values());
+}
+
+function normalizeCollectionCondition(condition) {
+  const value = String(condition || '').trim().toLowerCase();
+
+  if (value === 'cib') return 'cib';
+  if (value === 'mint') return 'mint';
+  if (value === 'loose') return 'loose';
+
+  return 'other';
+}
+
+function mergeCollectionNotes(row) {
+  const parts = [row.notes, row.personal_note]
+    .filter(Boolean)
+    .map((value) => String(value).trim())
+    .filter(Boolean);
+
+  if (parts.length === 0) {
+    return null;
+  }
+
+  return Array.from(new Set(parts)).join('\n\n');
+}
+
+function transformCollectionItemRow(row) {
+  return {
+    game_id: row.gameId,
+    user_session: 'local',
+    condition: normalizeCollectionCondition(row.condition),
+    price_paid: row.price_paid ?? null,
+    date_acquired: row.purchase_date || null,
+    notes: mergeCollectionNotes(row),
+    wishlist: row.list_type === 'wishlist',
+    created_at: row.addedAt || null,
+    updated_at: row.addedAt || null,
+  };
+}
+
 async function migrateTable(table, context = {}) {
-  const { name, query, target, onConflict = 'id', transform } = table;
+  const {
+    name,
+    query,
+    target,
+    onConflict = 'id',
+    transform,
+    prepareRows,
+    method = 'upsert',
+  } = table;
 
   console.log(`\n-- Migrating ${name} -> ${target} ----------------`);
 
@@ -157,9 +250,13 @@ async function migrateTable(table, context = {}) {
   }
 
   const sourceRows = await readSqliteRows(query);
-  const rows = transform
+  let rows = transform
     ? sourceRows.map((row) => transform(row, context))
     : sourceRows;
+
+  if (prepareRows) {
+    rows = prepareRows(rows, context);
+  }
 
   console.log(`  ${rows.length} rows a migrer`);
 
@@ -174,9 +271,10 @@ async function migrateTable(table, context = {}) {
   for (let i = 0; i < rows.length; i += BATCH_SIZE) {
     const batch = rows.slice(i, i + BATCH_SIZE).map(normalizeRow);
 
-    const { error } = await supabase
-      .from(target)
-      .upsert(batch, { onConflict, ignoreDuplicates: false });
+    const tableRef = supabase.from(target);
+    const { error } = method === 'insert'
+      ? await tableRef.insert(batch)
+      : await tableRef.upsert(batch, { onConflict, ignoreDuplicates: false });
 
     if (error) {
       console.error(`  Batch ${i}-${Math.min(i + BATCH_SIZE, rows.length)} erreur: ${error.message}`);
@@ -218,11 +316,14 @@ async function main() {
       name: 'games',
       query: 'SELECT * FROM games',
       target: 'games',
+      prepareRows: (rows) => dedupeRowsByKey(rows, 'slug', scoreGameRow),
     },
     {
       name: 'collection_items',
       query: 'SELECT * FROM collection_items',
       target: 'collection_items',
+      transform: (row) => transformCollectionItemRow(row),
+      method: 'insert',
     },
     {
       name: 'price_history',
