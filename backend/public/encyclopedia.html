@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="/icons/icon-192.png">
   <title>RetroDex - Encyclopedie</title>
+  <meta name="description" content="Encyclopédie rétro : franchises, synopsis, équipes de développement.">
+  <meta property="og:title" content="Encyclopédie | RetroDex">
+  <meta property="og:description" content="Encyclopédie rétro : franchises, synopsis, équipes de développement.">
+  <meta property="og:type" content="website">
+  <meta name="robots" content="index, follow">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -98,7 +103,13 @@
       <span class="encyclo-context-copy">Choisir un index, puis ouvrir le panneau de lecture.</span>
     </div>
 
-    <div class="encyclo-filters">
+    <div class="encyclo-mode-tabs" id="encyclo-mode-tabs">
+      <button class="filter-btn active" data-mode="games" type="button">JEUX</button>
+      <button class="filter-btn" data-mode="franchises" type="button">FRANCHISES</button>
+      <button class="filter-btn" data-mode="consoles" type="button">CONSOLES</button>
+    </div>
+
+    <div class="encyclo-filters" id="encyclo-filters">
       <button class="filter-btn active" data-filter="all" type="button">TOUT</button>
       <button class="filter-btn" data-filter="synopsis" type="button">SYNOPSIS</button>
       <button class="filter-btn" data-filter="anecdotes" type="button">ANECDOTES</button>
@@ -118,11 +129,20 @@
       </div>
 
       <div class="encyclo-list" id="encyclo-list">
-        <div class="section-label">JEUX ENCYCLOPEDIQUES</div>
-        <div id="games-list-container"></div>
+        <div id="encyclo-games-section">
+          <div class="section-label">JEUX ENCYCLOPEDIQUES</div>
+          <div id="games-list-container"></div>
+        </div>
 
-        <div class="section-label encyclo-franchises-heading">FRANCHISES</div>
-        <div id="franchises-list-container"></div>
+        <div id="encyclo-franchises-section">
+          <div class="section-label encyclo-franchises-heading">FRANCHISES</div>
+          <div id="franchises-list-container"></div>
+        </div>
+
+        <div id="encyclo-consoles-section" hidden>
+          <div class="section-label encyclo-consoles-heading">CONSOLES</div>
+          <div id="consoles-list-container"></div>
+        </div>
       </div>
     </aside>
 
@@ -139,14 +159,14 @@
 
       <div class="encyclo-detail-panel" id="encyclo-detail-panel">
         <div class="encyclo-placeholder">
-          Selectionner un jeu ou une franchise dans l'index pour ouvrir la lecture.
+          Selectionner un jeu, une franchise ou une console dans l'index pour ouvrir la lecture.
         </div>
       </div>
     </section>
   </section>
 </main>
 
-<script src="/js/pages/encyclopedia.js"></script>
+<script src="/js/pages/encyclopedia.js?v=20260323a"></script>
 <div class="footer-attribution">
   Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
 </div>

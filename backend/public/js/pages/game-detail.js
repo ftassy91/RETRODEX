@@ -136,6 +136,35 @@ function getGameId() {
   return new URLSearchParams(window.location.search).get('id') || ''
 }
 
+function truncateMetaDescription(value, maxLength = 160) {
+  const text = String(value || '').replace(/\s+/g, ' ').trim()
+  if (!text) return ''
+  if (text.length <= maxLength) return text
+
+  return `${text.slice(0, Math.max(0, maxLength - 1)).trimEnd()}…`
+}
+
+function setMetaContent(selector, content) {
+  const el = document.querySelector(selector)
+  if (el) {
+    el.setAttribute('content', content)
+  }
+}
+
+function updateSeoMeta(game) {
+  const title = `${game.title || 'Fiche jeu'} | RetroDex`
+  const description = truncateMetaDescription(
+    game.tagline
+    || game.summary
+    || `${game.title || 'Ce jeu rétro'} sur ${game.console || 'console inconnue'}${game.year ? ` (${game.year})` : ''}. Prix, rareté et encyclopédie RetroDex.`
+  )
+
+  document.title = title
+  setMetaContent('meta[name="description"]', description)
+  setMetaContent('meta[property="og:title"]', title)
+  setMetaContent('meta[property="og:description"]', description)
+}
+
 function loadHubImageManifest() {
   if (!hubImageManifestPromise) {
     hubImageManifestPromise = fetch(`/assets/hub_pixel_art/_manifest.json?v=${HUB_IMAGE_VERSION}`, { cache: 'no-store' })
@@ -1875,7 +1904,7 @@ async function loadPage() {
 
   try {
     currentGame = await fetchJson(`/api/games/${encodeURIComponent(gameId)}`)
-    document.title = `RetroDex - ${currentGame.title}`
+    updateSeoMeta(currentGame)
 
     if (breadcrumbTitleEl) {
       breadcrumbTitleEl.textContent = (currentGame.title || '').toUpperCase().substring(0, 30) || 'â€”'
