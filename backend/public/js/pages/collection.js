@@ -217,7 +217,8 @@
     if (activeTab === 'wanted') {
       return {
         title: 'Wishlist vide',
-        copy: 'Ouvrez Recherche pour ajouter un jeu a surveiller.'
+        copy: 'Ouvrez Recherche pour ajouter un jeu a surveiller.',
+        linkLabel: 'Rechercher un jeu a ajouter',
       }
     }
 
@@ -226,13 +227,15 @@
         title: 'Liste a vendre vide',
         copy: isPublicForSaleView
           ? 'Aucune entree n\'est actuellement proposee.'
-          : 'Ajoutez un jeu a vendre depuis votre collection.'
+          : 'Ajoutez un jeu a vendre depuis votre collection.',
+        linkLabel: 'Rechercher un jeu a ajouter',
       }
     }
 
     return {
-      title: 'Collection vide',
-      copy: 'Ouvrez Recherche pour ajouter une premiere entree a l\'etagere.'
+      title: 'Votre collection est vide.',
+      copy: '',
+      linkLabel: 'Rechercher un jeu a ajouter',
     }
   }
 
@@ -415,7 +418,8 @@
       spacer.innerHTML = `
         <div class="terminal-empty-state">
           <div class="terminal-empty-title">${escapeHtml(message.title)}</div>
-          <div class="terminal-empty-copy">${escapeHtml(message.copy)}</div>
+          ${message.copy ? `<div class="terminal-empty-copy">${escapeHtml(message.copy)}</div>` : ''}
+          ${message.linkLabel ? `<div class="terminal-empty-copy"><a href="/search.html" class="terminal-action-link">${escapeHtml(message.linkLabel)}</a></div>` : ''}
         </div>
       `
     } else {
