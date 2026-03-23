@@ -79,6 +79,14 @@ function buildExcerpt(value, maxLength = 160) {
   return `${safeSlice}…`
 }
 
+const DEX_RARITY_ORDER = {
+  LEGENDARY: 0,
+  EPIC: 1,
+  RARE: 2,
+  UNCOMMON: 3,
+  COMMON: 4,
+}
+
 function uniqueBy(items, keySelector) {
   const seen = new Set()
   const next = []
@@ -125,6 +133,44 @@ function sortByQuery(query, items, valuesSelector) {
     return String(left.title || left.name || '').localeCompare(String(right.title || right.name || ''), 'fr', {
       sensitivity: 'base',
     })
+  })
+}
+
+function editorialSignalCount(game) {
+  const item = normalizeGameRecord(game)
+  return [
+    Boolean(item.synopsis || item.summary),
+    parseStoredJson(item.dev_anecdotes).length > 0,
+    parseStoredJson(item.dev_team).length > 0,
+    parseStoredJson(item.cheat_codes).length > 0,
+    Boolean(item.tagline),
+  ].filter(Boolean).length
+}
+
+function compareDexPriority(leftGame, rightGame) {
+  const left = normalizeGameRecord(leftGame)
+  const right = normalizeGameRecord(rightGame)
+  const leftHasSynopsis = Boolean(left.synopsis || left.summary)
+  const rightHasSynopsis = Boolean(right.synopsis || right.summary)
+
+  if (leftHasSynopsis !== rightHasSynopsis) {
+    return leftHasSynopsis ? -1 : 1
+  }
+
+  const signalDiff = editorialSignalCount(right) - editorialSignalCount(left)
+  if (signalDiff !== 0) {
+    return signalDiff
+  }
+
+  const rarityDiff =
+    (DEX_RARITY_ORDER[String(left.rarity || '').toUpperCase()] ?? 9)
+    - (DEX_RARITY_ORDER[String(right.rarity || '').toUpperCase()] ?? 9)
+  if (rarityDiff !== 0) {
+    return rarityDiff
+  }
+
+  return String(left.title || '').localeCompare(String(right.title || ''), 'fr', {
+    sensitivity: 'base',
   })
 }
 
@@ -284,6 +330,10 @@ function serializeDexResult(game) {
     metascore: item.metascore ?? null,
     tagline: item.tagline || null,
     synopsis: item.synopsis || null,
+    summary: item.summary || null,
+    dev_anecdotes: item.dev_anecdotes || null,
+    dev_team: item.dev_team || null,
+    cheat_codes: item.cheat_codes || null,
     synopsisExcerpt: buildExcerpt(item.synopsis || item.summary),
     team,
     anecdotes,
@@ -377,13 +427,15 @@ async function searchDex(query, limit) {
   if (!query) {
     return (await fetchGamesInBatches(Math.max(limit, 1000)))
       .filter((game) => Boolean(game.synopsis || game.dev_anecdotes || game.dev_team || game.cheat_codes))
+      .sort(compareDexPriority)
       .slice(0, limit)
       .map(serializeDexResult)
   }
 
-  const fetchLimit = Math.min(Math.max(limit * 3, limit), 120)
-  const [titleRows, synopsisRows, summaryRows, taglineRows] = await Promise.all([
+  const fetchLimit = Math.min(Math.max(limit * 3, limit), 200)
+  const [titleRows, consoleRows, synopsisRows, summaryRows, taglineRows] = await Promise.all([
     fetchGamesByField('title', query, fetchLimit),
+    fetchGamesByField('console', query, fetchLimit),
     fetchGamesByField('synopsis', query, fetchLimit),
     fetchGamesByField('summary', query, fetchLimit),
     fetchGamesByField('tagline', query, fetchLimit),
@@ -391,12 +443,21 @@ async function searchDex(query, limit) {
 
   const rows = uniqueBy([
     ...titleRows,
+    ...consoleRows,
     ...synopsisRows,
     ...summaryRows,
     ...taglineRows,
   ], (item) => item.id).filter((game) => Boolean(game.synopsis || game.dev_anecdotes || game.dev_team || game.cheat_codes))
 
-  return sortByQuery(query, rows, (item) => [item.title, item.tagline, item.summary, item.synopsis])
+  return sortByQuery(query, rows, (item) => [item.title, item.console, item.tagline, item.summary, item.synopsis])
+    .sort((left, right) => {
+      const byQuery = scoreByQuery(query, [left.title, left.console, left.tagline, left.summary, left.synopsis])
+        - scoreByQuery(query, [right.title, right.console, right.tagline, right.summary, right.synopsis])
+      if (byQuery !== 0) {
+        return byQuery
+      }
+      return compareDexPriority(left, right)
+    })
     .slice(0, limit)
     .map(serializeDexResult)
 }
@@ -486,6 +547,7 @@ router.get('/api/dex/search', handleAsync(async (req, res) => {
     query: q,
     items,
     count: items.length,
+    total: items.length,
   })
 }))
 
