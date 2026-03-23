@@ -57,6 +57,8 @@ app.get('/api/health', handleAsync(async (_req, res) => {
   const games = await Game.count()
   res.json({
     ok: true,
+    env: process.env.NODE_ENV || 'development',
+    db: process.env.DATABASE_URL ? 'postgres' : 'sqlite',
     status: 'running',
     backend: 'retrodex-express-sequelize',
     database: databaseMode,
