@@ -173,10 +173,12 @@ function rarityRankAscending(value) {
 }
 
 function compareNullableNumbers(left, right, ascending = true) {
+  const leftEmpty = left == null || String(left).trim() === ''
+  const rightEmpty = right == null || String(right).trim() === ''
   const leftNumber = Number(left)
   const rightNumber = Number(right)
-  const leftMissing = !Number.isFinite(leftNumber)
-  const rightMissing = !Number.isFinite(rightNumber)
+  const leftMissing = leftEmpty || !Number.isFinite(leftNumber)
+  const rightMissing = rightEmpty || !Number.isFinite(rightNumber)
 
   if (leftMissing && rightMissing) return 0
   if (leftMissing) return 1
