@@ -37,8 +37,8 @@ SUPABASE_SERVICE_KEY=...
 ### Decision 2 - Vercel est la cible frontend
 
 - Validation : 23 mars 2026
-- Le frontend statique est deployee via Vercel
-- L'API Express reste adaptee en parallele
+- Le frontend statique est deploye via Vercel
+- L'API Express est adaptee en parallele
 
 ### Decision 3 - Pipeline de curation isole
 
@@ -46,11 +46,11 @@ SUPABASE_SERVICE_KEY=...
 - Structure cible :
 ```text
 scripts/
-├── fix/
-├── enrich/
-├── migrate/
-├── visual/
-└── utils/
+|- fix/
+|- enrich/
+|- migrate/
+|- visual/
+`- utils/
 ```
 
 ### Decision 4 - Supabase comme point d'acces donnees des routes migrees
@@ -137,7 +137,28 @@ scripts/
 - Validation :
   - `GET /api/health` -> `database = 'supabase'`
   - `games = 1490`
-  - le mode DB exposé correspond désormais au runtime réel
+  - le mode DB expose correspond desormais au runtime reel
+
+### A8 - Deploiement Vercel
+
+- Statut : valide
+- Fichiers principaux :
+  - `vercel.json`
+  - `backend/src/server.js`
+  - `backend/src/routes/serverless.js`
+  - `backend/package.json`
+- Decision technique :
+  - runtime Vercel isole du chemin Sequelize legacy
+  - routeur serverless Supabase dedie pour les endpoints publics critiques
+  - variable Vercel `SUPABASE_SERVICE_KEY` alignee sur la cle de runtime locale fonctionnelle
+- Validation :
+  - `https://retrodex-beryl.vercel.app/api/health` -> `200`, `database = 'supabase'`, `games = 1490`
+  - `https://retrodex-beryl.vercel.app/hub.html` -> `200`
+  - `https://retrodex-beryl.vercel.app/api/games?sort=rarity_desc&limit=3` -> `200`
+  - `https://retrodex-beryl.vercel.app/api/stats` -> `200`
+- Limite connue :
+  - seules les routes serverless migrees vers Supabase sont garanties cote Vercel
+  - les routes encore purement legacy restent reservees au runtime local tant qu'elles n'ont pas ete migrees
 
 ---
 
@@ -147,10 +168,10 @@ scripts/
 |---|---|
 | RLS Supabase bloque les requetes | verifier les policies et les droits de la cle utilisee |
 | Vue `retrodex_search_index` absente | fallback direct sur `games` + `franchise_entries` |
-| Ecart de schema legacy/ Supabase | centraliser les mappings dans `backend/db_supabase.js` |
+| Ecart de schema legacy / Supabase | centraliser les mappings dans `backend/db_supabase.js` |
 | Cle service exposee par erreur | ne jamais la committer, usage scripts uniquement |
 | Hook Notion non bloquant | laisser Git continuer, traiter Notion separement |
 
 ---
 
-*Derniere mise a jour operationnelle : 23 mars 2026 - A7 validee cote code*
+*Derniere mise a jour operationnelle : 23 mars 2026 - A8 validee cote code et deploiement*
