@@ -40,10 +40,14 @@
     .legendary-card { border: 1px solid #ddc420; background: #050505; padding: 0; overflow: hidden; cursor: pointer; border-radius: 6px; }
     .legendary-card:hover { border-color: #9bbc0f; }
     .legendary-card canvas { width: 100%; height: 80px; display: block; }
+    .legendary-card-media { width: 100%; height: 112px; overflow: hidden; background: #020402; border-bottom: 1px solid rgba(155, 188, 15, 0.12); }
+    .legendary-card-media img { width: 100%; height: 100%; object-fit: cover; display: block; image-rendering: pixelated; }
     .legendary-card-info { padding: 0.4rem 0.5rem; }
     .legendary-card-title { font-size: 0.7rem; color: #ddc420; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .legendary-card-meta { font-size: 0.6rem; color: #5a9a3a; margin-top: 0.15rem; }
     .legendary-card-price { font-size: 0.75rem; color: #9bbc0f; margin-top: 0.15rem; }
+    .hub-encyclo-card-media { width: 100%; aspect-ratio: 16 / 9; margin-bottom: 8px; overflow: hidden; border: 1px solid rgba(155, 188, 15, 0.12); background: #020402; }
+    .hub-encyclo-card-media img { width: 100%; height: 100%; object-fit: cover; display: block; image-rendering: pixelated; }
     @media (max-width: 768px) {
       .legendary-grid { grid-template-columns: 1fr; }
       .hub-search-form { flex-direction: column; }
@@ -129,6 +133,26 @@
   </footer>
 
   <script>
+    let hubImageManifestPromise = null;
+
+    function loadHubImageManifest() {
+      if (!hubImageManifestPromise) {
+        hubImageManifestPromise = fetch('/assets/hub_pixel_art/_manifest.json')
+          .then((response) => (response.ok ? response.json() : []))
+          .catch(() => []);
+      }
+      return hubImageManifestPromise;
+    }
+
+    async function getHubImagePath(gameId) {
+      if (!gameId) return '';
+      const manifest = await loadHubImageManifest();
+      const entry = Array.isArray(manifest)
+        ? manifest.find((item) => item.game_id === gameId)
+        : null;
+      return entry?.path ? `/assets/hub_pixel_art/${entry.path.split('\\').pop()}` : '';
+    }
+
     function renderCardThumb(canvas, game) {
       const w = 120;
       const h = 68;
@@ -238,13 +262,25 @@
         return;
       }
 
-      items.forEach(game => {
+      for (const game of items) {
         const card = document.createElement('div');
         card.className = 'legendary-card';
         card.onclick = () => { window.location = '/game-detail.html?id=' + game.id; };
 
-        const canvas = document.createElement('canvas');
-        renderCardThumb(canvas, game);
+        const media = document.createElement('div');
+        media.className = 'legendary-card-media';
+        const imagePath = await getHubImagePath(game.id);
+        if (imagePath) {
+          const img = document.createElement('img');
+          img.src = imagePath;
+          img.alt = game.title || 'Illustration';
+          img.loading = 'lazy';
+          media.appendChild(img);
+        } else {
+          const canvas = document.createElement('canvas');
+          renderCardThumb(canvas, game);
+          media.appendChild(canvas);
+        }
 
         const info = document.createElement('div');
         info.className = 'legendary-card-info';
@@ -266,10 +302,10 @@
         info.appendChild(title);
         info.appendChild(meta);
         info.appendChild(price);
-        card.appendChild(canvas);
+        card.appendChild(media);
         card.appendChild(info);
         grid.appendChild(card);
-      });
+      }
     }
 
     async function loadEncyclopediaPreview() {

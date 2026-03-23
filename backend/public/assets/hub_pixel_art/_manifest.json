@@ -1,0 +1,242 @@
+﻿[
+    {
+        "game_id":  "tetris-game-boy",
+        "title":  "Tetris",
+        "slug":  "tetris",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\tetris.png"
+    },
+    {
+        "game_id":  "pokemon-gold-game-boy",
+        "title":  "PokÃ©mon Gold",
+        "slug":  "poka-mon-gold",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\poka-mon-gold.png"
+    },
+    {
+        "game_id":  "pokemon-silver-game-boy",
+        "title":  "PokÃ©mon Silver",
+        "slug":  "poka-mon-silver",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\poka-mon-silver.png"
+    },
+    {
+        "game_id":  "oracle-of-ages-game-boy",
+        "title":  "The Legend of Zelda: Oracle of Ages",
+        "slug":  "the-legend-of-zelda-oracle-of-ages",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\the-legend-of-zelda-oracle-of-ages.png"
+    },
+    {
+        "game_id":  "oracle-of-seasons-game-boy",
+        "title":  "The Legend of Zelda: Oracle of Seasons",
+        "slug":  "the-legend-of-zelda-oracle-of-seasons",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\the-legend-of-zelda-oracle-of-seasons.png"
+    },
+    {
+        "game_id":  "tetris-dx-game-boy",
+        "title":  "Tetris DX",
+        "slug":  "tetris-dx",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\tetris-dx.png"
+    },
+    {
+        "game_id":  "the-legend-of-zelda-links-awakening-game-boy",
+        "title":  "The Legend of Zelda: Link\u0027s Awakening",
+        "slug":  "the-legend-of-zelda-link-s-awakening",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\the-legend-of-zelda-link-s-awakening.png"
+    },
+    {
+        "game_id":  "pokemon-red-game-boy",
+        "title":  "PokÃ©mon Red",
+        "slug":  "poka-mon-red",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\poka-mon-red.png"
+    },
+    {
+        "game_id":  "metal-gear-ghost-babel-game-boy",
+        "title":  "Metal Gear: Ghost Babel",
+        "slug":  "metal-gear-ghost-babel",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\metal-gear-ghost-babel.png"
+    },
+    {
+        "game_id":  "super-mario-land-2-game-boy",
+        "title":  "Super Mario Land 2: 6 Golden Coins",
+        "slug":  "super-mario-land-2-6-golden-coins",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\super-mario-land-2-6-golden-coins.png"
+    },
+    {
+        "game_id":  "super-mario-bros-3-nintendo-entertainment-system",
+        "title":  "Super Mario Bros. 3",
+        "slug":  "super-mario-bros-3",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\super-mario-bros-3.png"
+    },
+    {
+        "game_id":  "kirby-adventure-nintendo-entertainment-system",
+        "title":  "Kirby\u0027s Adventure",
+        "slug":  "kirby-s-adventure",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\kirby-s-adventure.png"
+    },
+    {
+        "game_id":  "the-legend-of-zelda-nintendo-entertainment-system",
+        "title":  "The Legend of Zelda",
+        "slug":  "the-legend-of-zelda",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\the-legend-of-zelda.png"
+    },
+    {
+        "game_id":  "mike-tysons-punch-out-nintendo-entertainment-system",
+        "title":  "Mike Tyson\u0027s Punch-Out!!",
+        "slug":  "mike-tyson-s-punch-out",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\mike-tyson-s-punch-out.png"
+    },
+    {
+        "game_id":  "mega-man-2-nintendo-entertainment-system",
+        "title":  "Mega Man 2",
+        "slug":  "mega-man-2",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\mega-man-2.png"
+    },
+    {
+        "game_id":  "super-mario-bros-nintendo-entertainment-system",
+        "title":  "Super Mario Bros.",
+        "slug":  "super-mario-bros",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\super-mario-bros.png"
+    },
+    {
+        "game_id":  "contra-nintendo-entertainment-system",
+        "title":  "Contra",
+        "slug":  "contra",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\contra.png"
+    },
+    {
+        "game_id":  "castlevania-nintendo-entertainment-system",
+        "title":  "Castlevania",
+        "slug":  "castlevania",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\castlevania.png"
+    },
+    {
+        "game_id":  "duck-tales-nintendo-entertainment-system",
+        "title":  "DuckTales",
+        "slug":  "ducktales",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\ducktales.png"
+    },
+    {
+        "game_id":  "metroid-nintendo-entertainment-system",
+        "title":  "Metroid",
+        "slug":  "metroid",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\metroid.png"
+    },
+    {
+        "game_id":  "yoshi-island-super-nintendo",
+        "title":  "Super Mario World 2: Yoshi\u0027s Island",
+        "slug":  "super-mario-world-2-yoshi-s-island",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\super-mario-world-2-yoshi-s-island.png"
+    },
+    {
+        "game_id":  "super-metroid-super-nintendo",
+        "title":  "Super Metroid",
+        "slug":  "super-metroid",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\super-metroid.png"
+    },
+    {
+        "game_id":  "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+        "title":  "The Legend of Zelda: A Link to the Past",
+        "slug":  "the-legend-of-zelda-a-link-to-the-past",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\the-legend-of-zelda-a-link-to-the-past.png"
+    },
+    {
+        "game_id":  "super-mario-world-super-nintendo",
+        "title":  "Super Mario World",
+        "slug":  "super-mario-world",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\super-mario-world.png"
+    },
+    {
+        "game_id":  "earthbound-super-nintendo",
+        "title":  "EarthBound",
+        "slug":  "earthbound",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\earthbound.png"
+    },
+    {
+        "game_id":  "final-fantasy-vi-super-nintendo",
+        "title":  "Final Fantasy VI",
+        "slug":  "final-fantasy-vi",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\final-fantasy-vi.png"
+    },
+    {
+        "game_id":  "donkey-kong-country-2-super-nintendo",
+        "title":  "Donkey Kong Country 2",
+        "slug":  "donkey-kong-country-2",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\donkey-kong-country-2.png"
+    },
+    {
+        "game_id":  "donkey-kong-country-super-nintendo",
+        "title":  "Donkey Kong Country",
+        "slug":  "donkey-kong-country",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\donkey-kong-country.png"
+    },
+    {
+        "game_id":  "secret-of-mana-super-nintendo",
+        "title":  "Secret of Mana",
+        "slug":  "secret-of-mana",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\secret-of-mana.png"
+    },
+    {
+        "game_id":  "super-mario-kart-super-nintendo",
+        "title":  "Super Mario Kart",
+        "slug":  "super-mario-kart",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\super-mario-kart.png"
+    },
+    {
+        "game_id":  "tekken-3-playstation",
+        "title":  "Tekken 3",
+        "slug":  "tekken-3",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\tekken-3.png"
+    },
+    {
+        "game_id":  "metal-gear-solid-playstation",
+        "title":  "Metal Gear Solid",
+        "slug":  "metal-gear-solid",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\metal-gear-solid.png"
+    },
+    {
+        "game_id":  "castlevania-symphony-of-the-night-playstation",
+        "title":  "Castlevania: Symphony of the Night",
+        "slug":  "castlevania-symphony-of-the-night",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\castlevania-symphony-of-the-night.png"
+    },
+    {
+        "game_id":  "final-fantasy-vii-playstation",
+        "title":  "Final Fantasy VII",
+        "slug":  "final-fantasy-vii",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\final-fantasy-vii.png"
+    },
+    {
+        "game_id":  "vagrant-story-playstation",
+        "title":  "Vagrant Story",
+        "slug":  "vagrant-story",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\vagrant-story.png"
+    },
+    {
+        "game_id":  "resident-evil-2-playstation",
+        "title":  "Resident Evil 2",
+        "slug":  "resident-evil-2",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\resident-evil-2.png"
+    },
+    {
+        "game_id":  "crash-bandicoot-playstation",
+        "title":  "Crash Bandicoot",
+        "slug":  "crash-bandicoot",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\crash-bandicoot.png"
+    },
+    {
+        "game_id":  "silent-hill-playstation",
+        "title":  "Silent Hill",
+        "slug":  "silent-hill",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\silent-hill.png"
+    },
+    {
+        "game_id":  "final-fantasy-viii-playstation",
+        "title":  "Final Fantasy VIII",
+        "slug":  "final-fantasy-viii",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\final-fantasy-viii.png"
+    },
+    {
+        "game_id":  "final-fantasy-tactics-playstation",
+        "title":  "Final Fantasy Tactics",
+        "slug":  "final-fantasy-tactics",
+        "path":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\hub_pixel_art\\final-fantasy-tactics.png"
+    }
+]
