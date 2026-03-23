@@ -1,91 +1,146 @@
-'use strict'
+'use strict';
+// SYNC: A6 - migre le 2026-03-23 - routes /api/prices lues via Supabase
+// Décision source : SYNC.md § A6
 
-const { Router } = require('express')
-const { QueryTypes } = require('sequelize')
-const { sequelize } = require('../database')
+const { Router } = require('express');
 
-const router = Router()
+process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL;
+process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
+  || process.env.SUPABASE_SERVICE_ROLE_KEY
+  || process.env.SUPERDATA_SERVICE_KEY;
+process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key;
+
+const { db } = require('../../db_supabase');
+
+const router = Router();
 
 function isMissingPriceHistoryTable(error) {
-  const message = String(error?.message || '').toLowerCase()
+  const message = String(error?.message || '').toLowerCase();
   return message.includes('price_history') && (
-    message.includes('no such table')
-    || message.includes('does not exist')
-    || message.includes('unknown table')
-  )
+    message.includes('does not exist')
+    || message.includes('relation')
+    || message.includes('schema cache')
+  );
 }
 
-async function selectAll(sql, replacements = {}) {
-  return sequelize.query(sql, {
-    replacements,
-    type: QueryTypes.SELECT,
-  })
+function sortConditionOrder(left, right) {
+  const rank = { loose: 0, cib: 1, mint: 2 };
+  return (rank[left] ?? 99) - (rank[right] ?? 99);
+}
+
+function roundPrice(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) {
+    return null;
+  }
+  return Math.round(number * 100) / 100;
+}
+
+async function fetchGamesMap(gameIds) {
+  const uniqueIds = Array.from(new Set(gameIds.filter(Boolean)));
+  if (!uniqueIds.length) {
+    return new Map();
+  }
+
+  const { data, error } = await db
+    .from('games')
+    .select('id,title,console,rarity')
+    .in('id', uniqueIds);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return new Map((data || []).map((game) => [game.id, game]));
 }
 
 router.get('/recent', async (req, res) => {
-  const limit = Math.min(Number.parseInt(String(req.query.limit || '20'), 10) || 20, 100)
+  const limit = Math.min(Number.parseInt(String(req.query.limit || '20'), 10) || 20, 100);
 
   try {
-    const rows = await selectAll(`
-      SELECT
-        ph.id,
-        ph.game_id,
-        ph.price,
-        ph.condition,
-        ph.sale_date,
-        ph.source,
-        g.title,
-        g.console,
-        g.rarity
-      FROM price_history ph
-      JOIN games g ON g.id = ph.game_id
-      WHERE ph.source = 'ebay'
-      ORDER BY ph.sale_date DESC
-      LIMIT :limit
-    `, { limit })
+    const { data, error } = await db
+      .from('price_history')
+      .select('id,game_id,price,condition,sale_date,source')
+      .eq('source', 'ebay')
+      .order('sale_date', { ascending: false })
+      .limit(limit);
 
-    return res.json({ ok: true, count: rows.length, sales: rows })
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    const sales = data || [];
+    const gamesMap = await fetchGamesMap(sales.map((sale) => sale.game_id));
+    const rows = sales.map((sale) => {
+      const game = gamesMap.get(sale.game_id) || {};
+      return {
+        ...sale,
+        title: game.title || null,
+        console: game.console || null,
+        rarity: game.rarity || null,
+      };
+    });
+
+    return res.json({ ok: true, count: rows.length, sales: rows });
   } catch (error) {
     if (isMissingPriceHistoryTable(error)) {
-      return res.json({ ok: true, count: 0, sales: [] })
+      return res.json({ ok: true, count: 0, sales: [] });
     }
-    console.error('/api/prices/recent', error)
-    return res.status(500).json({ ok: false, error: 'Erreur base de données' })
+    console.error('/api/prices/recent', error);
+    return res.status(500).json({ ok: false, error: 'Erreur base de données' });
   }
-})
+});
 
 router.get('/:gameId/summary', async (req, res) => {
-  const { gameId } = req.params
-  const threshold = new Date(Date.now() - (1000 * 60 * 60 * 24 * 30 * 6)).toISOString()
+  const { gameId } = req.params;
+  const threshold = new Date(Date.now() - (1000 * 60 * 60 * 24 * 30 * 6)).toISOString();
 
   try {
-    const rows = await selectAll(`
-      SELECT
-        condition,
-        COUNT(*) AS sales_count,
-        ROUND(AVG(price), 2) AS avg_price,
-        MIN(price) AS min_price,
-        MAX(price) AS max_price,
-        MAX(sale_date) AS last_sale_date
-      FROM price_history
-      WHERE game_id = :gameId
-        AND source = 'ebay'
-        AND sale_date >= :threshold
-      GROUP BY condition
-      ORDER BY CASE condition
-        WHEN 'loose' THEN 0
-        WHEN 'cib' THEN 1
-        WHEN 'mint' THEN 2
-        ELSE 3
-      END
-    `, { gameId, threshold })
+    const { data, error } = await db
+      .from('price_history')
+      .select('condition,price,sale_date')
+      .eq('game_id', gameId)
+      .eq('source', 'ebay')
+      .gte('sale_date', threshold)
+      .order('sale_date', { ascending: false });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    const grouped = new Map();
+    for (const sale of data || []) {
+      const condition = sale.condition || 'unknown';
+      if (!grouped.has(condition)) {
+        grouped.set(condition, []);
+      }
+      grouped.get(condition).push(sale);
+    }
+
+    const byCondition = Array.from(grouped.entries())
+      .sort(([left], [right]) => sortConditionOrder(left, right))
+      .map(([condition, sales]) => {
+        const prices = sales
+          .map((sale) => Number(sale.price))
+          .filter((price) => Number.isFinite(price));
+        return {
+          condition,
+          sales_count: sales.length,
+          avg_price: prices.length
+            ? roundPrice(prices.reduce((sum, price) => sum + price, 0) / prices.length)
+            : null,
+          min_price: prices.length ? Math.min(...prices) : null,
+          max_price: prices.length ? Math.max(...prices) : null,
+          last_sale_date: sales[0]?.sale_date || null,
+        };
+      });
 
     return res.json({
       ok: true,
       gameId,
       period: '6 months',
-      byCondition: rows,
-    })
+      byCondition,
+    });
   } catch (error) {
     if (isMissingPriceHistoryTable(error)) {
       return res.json({
@@ -93,48 +148,42 @@ router.get('/:gameId/summary', async (req, res) => {
         gameId,
         period: '6 months',
         byCondition: [],
-      })
+      });
     }
-    console.error('/api/prices/:gameId/summary', error)
-    return res.status(500).json({ ok: false, error: 'Erreur base de données' })
+    console.error('/api/prices/:gameId/summary', error);
+    return res.status(500).json({ ok: false, error: 'Erreur base de données' });
   }
-})
+});
 
 router.get('/:gameId', async (req, res) => {
-  const { gameId } = req.params
-  const limit = Math.min(Number.parseInt(String(req.query.limit || '50'), 10) || 50, 200)
-  const condition = String(req.query.condition || '').trim().toLowerCase()
-  const allowedCondition = ['loose', 'cib', 'mint'].includes(condition) ? condition : null
+  const { gameId } = req.params;
+  const limit = Math.min(Number.parseInt(String(req.query.limit || '50'), 10) || 50, 200);
+  const condition = String(req.query.condition || '').trim().toLowerCase();
+  const allowedCondition = ['loose', 'cib', 'mint'].includes(condition) ? condition : null;
 
   try {
-    const rows = await selectAll(`
-      SELECT
-        id,
-        game_id,
-        price,
-        condition,
-        sale_date,
-        source,
-        listing_url,
-        listing_title,
-        created_at
-      FROM price_history
-      WHERE game_id = :gameId
-        ${allowedCondition ? 'AND condition = :condition' : ''}
-      ORDER BY sale_date DESC
-      LIMIT :limit
-    `, {
-      gameId,
-      limit,
-      ...(allowedCondition ? { condition: allowedCondition } : {}),
-    })
+    let query = db
+      .from('price_history')
+      .select('id,game_id,price,condition,sale_date,source,listing_url,listing_title,created_at')
+      .eq('game_id', gameId)
+      .order('sale_date', { ascending: false })
+      .limit(limit);
+
+    if (allowedCondition) {
+      query = query.eq('condition', allowedCondition);
+    }
+
+    const { data, error } = await query;
+    if (error) {
+      throw new Error(error.message);
+    }
 
     return res.json({
       ok: true,
       gameId,
-      count: rows.length,
-      sales: rows,
-    })
+      count: (data || []).length,
+      sales: data || [],
+    });
   } catch (error) {
     if (isMissingPriceHistoryTable(error)) {
       return res.json({
@@ -142,11 +191,11 @@ router.get('/:gameId', async (req, res) => {
         gameId,
         count: 0,
         sales: [],
-      })
+      });
     }
-    console.error('/api/prices/:gameId', error)
-    return res.status(500).json({ ok: false, error: 'Erreur base de données' })
+    console.error('/api/prices/:gameId', error);
+    return res.status(500).json({ ok: false, error: 'Erreur base de données' });
   }
-})
+});
 
-module.exports = router
+module.exports = router;
