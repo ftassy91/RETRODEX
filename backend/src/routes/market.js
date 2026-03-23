@@ -14,7 +14,7 @@ process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
   || process.env.SUPABASE_SERVICE_ROLE_KEY
   || process.env.SUPERDATA_SERVICE_KEY
 process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
-const { db } = require('../../db_supabase')
+const { db, getStats } = require('../../db_supabase')
 const { handleAsync } = require('../helpers/query')
 const { dedupeSearchResults } = require('../helpers/search')
 const {
@@ -146,6 +146,39 @@ function getFreshnessInfo(lastDate) {
   return 'outdated'
 }
 
+async function fetchAllSupabaseGamesForStats() {
+  const items = []
+  const batchSize = 1000
+  let from = 0
+
+  while (true) {
+    const { data, error } = await db
+      .from('games')
+      .select('id,title,console,year,rarity,loose_price,cib_price,mint_price,synopsis,source_confidence')
+      .eq('type', 'game')
+      .order('title', { ascending: true })
+      .range(from, from + batchSize - 1)
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    if (!Array.isArray(data) || data.length === 0) {
+      break
+    }
+
+    items.push(...data)
+
+    if (data.length < batchSize) {
+      break
+    }
+
+    from += batchSize
+  }
+
+  return items
+}
+
 function normalizeSearchGameRow(row) {
   return {
     id: row.id,
@@ -233,12 +266,18 @@ async function fetchSearchFallbackResults(query, type, requestedGamesLimit, requ
   }
 }
 
+// SYNC: A5 - migre le 2026-03-23 - route /api/stats lue via Supabase
+// Décision source : SYNC.md § A5
 router.get('/api/stats', handleAsync(async (_req, res) => {
-  const games = await Game.findAll({
-    where: { type: 'game' },
-    attributes: ['id', 'title', 'console', 'year', 'rarity', 'loosePrice', 'synopsis'],
-    order: [['title', 'ASC']],
-  })
+  const statsBase = await getStats().catch(() => ({}))
+  const games = await fetchAllSupabaseGamesForStats()
+  const { count: franchiseCount, error: franchiseError } = await db
+    .from('franchise_entries')
+    .select('*', { count: 'exact', head: true })
+
+  if (franchiseError) {
+    throw new Error(franchiseError.message)
+  }
 
   const byRarity = {
     LEGENDARY: 0,
@@ -263,7 +302,7 @@ router.get('/api/stats', handleAsync(async (_req, res) => {
       withSynopsis += 1
     }
 
-    const loose = Number(game.loosePrice)
+    const loose = Number(game.loose_price)
     if (Number.isFinite(loose) && loose > 0) {
       looseValues.push(loose)
     }
@@ -275,29 +314,25 @@ router.get('/api/stats', handleAsync(async (_req, res) => {
     .slice(0, 10)
 
   const pricedGames = games
-    .filter((game) => Number.isFinite(Number(game.loosePrice)) && Number(game.loosePrice) > 0)
-    .sort((left, right) => Number(right.loosePrice) - Number(left.loosePrice))
+    .filter((game) => Number.isFinite(Number(game.loose_price)) && Number(game.loose_price) > 0)
+    .sort((left, right) => Number(right.loose_price) - Number(left.loose_price))
 
   const top5Expensive = pricedGames.slice(0, 5).map((game) => ({
     id: game.id,
     title: game.title,
     platform: game.console,
-    loosePrice: Number(game.loosePrice),
+    loosePrice: Number(game.loose_price),
   }))
 
   const expensiveGame = pricedGames[0] || null
-  const cheapestGame = [...pricedGames].sort((left, right) => Number(left.loosePrice) - Number(right.loosePrice))[0] || null
-
-  const trustEntries = await RetrodexIndex.findAll({
-    attributes: ['confidence_pct'],
-  })
+  const cheapestGame = [...pricedGames].sort((left, right) => Number(left.loose_price) - Number(right.loose_price))[0] || null
 
   const trustStats = { t1: 0, t3: 0, t4: 0 }
-  trustEntries.forEach((entry) => {
-    const confidence = Number(entry.confidence_pct) || 0
-    if (confidence >= 60) {
+  games.forEach((game) => {
+    const confidence = Number(game.source_confidence) || 0
+    if (confidence >= 0.6) {
       trustStats.t1 += 1
-    } else if (confidence >= 25) {
+    } else if (confidence >= 0.25) {
       trustStats.t3 += 1
     } else {
       trustStats.t4 += 1
@@ -310,7 +345,7 @@ router.get('/api/stats', handleAsync(async (_req, res) => {
 
   res.json({
     ok: true,
-    total_games: games.length,
+    total_games: Number(statsBase.total_games) || games.length,
     total_platforms: byPlatformMap.size,
     priced_games: pricedGames.length,
     by_rarity: byRarity,
@@ -324,21 +359,21 @@ router.get('/api/stats', handleAsync(async (_req, res) => {
     trust_stats: trustStats,
     encyclopedia_stats: {
       with_synopsis: withSynopsis,
-      total_franchises: await Franchise.count(),
+      total_franchises: franchiseCount || 0,
     },
     top5_expensive: top5Expensive,
     expensive_game: expensiveGame ? {
       id: expensiveGame.id,
       title: expensiveGame.title,
       platform: expensiveGame.console,
-      loosePrice: Number(expensiveGame.loosePrice),
+      loosePrice: Number(expensiveGame.loose_price),
       year: expensiveGame.year,
     } : null,
     cheapest_game: cheapestGame ? {
       id: cheapestGame.id,
       title: cheapestGame.title,
       platform: cheapestGame.console,
-      loosePrice: Number(cheapestGame.loosePrice),
+      loosePrice: Number(cheapestGame.loose_price),
       year: cheapestGame.year,
     } : null,
   })
