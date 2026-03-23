@@ -1,4 +1,6 @@
 'use strict';
+// SYNC: A1 - migre uniquement les jeux jouables et canonise les doublons de slug
+// Décision source : SYNC.md § A1
 
 const path = require('path');
 
@@ -112,7 +114,7 @@ async function loadFranchiseGameIds() {
   const rows = await readSqliteRows(`
     SELECT franch_id, id
     FROM games
-    WHERE franch_id IS NOT NULL AND franch_id != ''
+    WHERE type = 'game' AND franch_id IS NOT NULL AND franch_id != ''
     ORDER BY title ASC
   `);
 
@@ -145,11 +147,22 @@ function transformFranchiseRow(row, gameIdsByFranchise) {
   };
 }
 
+function normalizeSlugToken(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, '');
+}
+
 function scoreGameRow(row) {
   let score = 0;
 
   if (row.id === row.slug) {
     score += 5;
+  }
+
+  if (normalizeSlugToken(row.id) === normalizeSlugToken(row.slug)) {
+    score += 10;
   }
 
   if (row.synopsis) {
@@ -314,7 +327,7 @@ async function main() {
     },
     {
       name: 'games',
-      query: 'SELECT * FROM games',
+      query: "SELECT * FROM games WHERE type = 'game'",
       target: 'games',
       prepareRows: (rows) => dedupeRowsByKey(rows, 'slug', scoreGameRow),
     },
