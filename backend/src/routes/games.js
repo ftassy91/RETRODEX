@@ -1,4 +1,6 @@
 'use strict'
+// SYNC: A2 - migre le 2026-03-23 - routes /api/games lues via Supabase
+// Décision source : SYNC.md § A2
 
 const { Router } = require('express')
 const { Op, literal } = require('sequelize')
@@ -6,6 +8,12 @@ const Game = require('../models/Game')
 const Franchise = require('../models/Franchise')
 const CommunityReport = require('../../models/CommunityReport')
 const RetrodexIndex = require('../../models/RetrodexIndex')
+process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL
+process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
+  || process.env.SUPABASE_SERVICE_ROLE_KEY
+  || process.env.SUPERDATA_SERVICE_KEY
+process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
+const { queryGames, getGameById } = require('../../db_supabase')
 const { handleAsync, parseLimit, buildGameWhere } = require('../helpers/query')
 const { withGameTrend, buildPriceHistoryPayload } = require('../helpers/priceHistory')
 
@@ -109,6 +117,88 @@ async function findGameById(id) {
   return Game.findByPk(id)
 }
 
+function normalizeGameRecord(game) {
+  if (!game || typeof game !== 'object') {
+    return game
+  }
+
+  return {
+    ...game,
+    loosePrice: game.loosePrice ?? game.loose_price ?? null,
+    cibPrice: game.cibPrice ?? game.cib_price ?? null,
+    mintPrice: game.mintPrice ?? game.mint_price ?? null,
+  }
+}
+
+function rarityRankDescending(value) {
+  switch (String(value || '').toUpperCase()) {
+    case 'LEGENDARY': return 0
+    case 'EPIC': return 1
+    case 'RARE': return 2
+    case 'UNCOMMON': return 3
+    case 'COMMON': return 4
+    default: return 5
+  }
+}
+
+function rarityRankAscending(value) {
+  switch (String(value || '').toUpperCase()) {
+    case 'COMMON': return 0
+    case 'UNCOMMON': return 1
+    case 'RARE': return 2
+    case 'EPIC': return 3
+    case 'LEGENDARY': return 4
+    default: return 5
+  }
+}
+
+function compareNullableNumbers(left, right, ascending = true) {
+  const leftNumber = Number(left)
+  const rightNumber = Number(right)
+  const leftMissing = !Number.isFinite(leftNumber)
+  const rightMissing = !Number.isFinite(rightNumber)
+
+  if (leftMissing && rightMissing) return 0
+  if (leftMissing) return 1
+  if (rightMissing) return -1
+
+  return ascending ? leftNumber - rightNumber : rightNumber - leftNumber
+}
+
+function compareGamesForSort(leftGame, rightGame, sortKey) {
+  const left = normalizeGameRecord(leftGame)
+  const right = normalizeGameRecord(rightGame)
+  const leftTitle = String(left.title || '')
+  const rightTitle = String(right.title || '')
+
+  switch (String(sortKey || '').trim()) {
+    case 'title_desc':
+      return rightTitle.localeCompare(leftTitle, 'fr', { sensitivity: 'base' })
+    case 'price_asc':
+      return compareNullableNumbers(left.loosePrice, right.loosePrice, true)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'price_desc':
+      return compareNullableNumbers(left.loosePrice, right.loosePrice, false)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'year_asc':
+      return compareNullableNumbers(left.year, right.year, true)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'year_desc':
+      return compareNullableNumbers(left.year, right.year, false)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'rarity_desc':
+      return rarityRankDescending(left.rarity) - rarityRankDescending(right.rarity)
+        || compareNullableNumbers(left.loosePrice, right.loosePrice, false)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'rarity_asc':
+      return rarityRankAscending(left.rarity) - rarityRankAscending(right.rarity)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'title_asc':
+    default:
+      return leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+  }
+}
+
 router.get('/games', handleAsync(async (req, res) => {
   const where = buildGameWhere(req.query)
   const query = { where, order: [['title', 'ASC']] }
@@ -133,12 +223,21 @@ router.get('/games/:id', handleAsync(async (req, res) => {
 
 router.get('/api/games', handleAsync(async (req, res) => {
   const limit = parseLimit(req.query.limit, 20, 5000)
-  const where = buildGameWhere(req.query)
   const includeTrend = String(req.query.include_trend || '') === '1'
-  const order = buildGamesOrder(req.query.sort)
-
-  const total = await Game.count({ where })
-  const games = await Game.findAll({ where, order, limit })
+  const offset = Math.max(0, Number.parseInt(String(req.query.offset || '0'), 10) || 0)
+  const { items: rawItems = [] } = await queryGames({
+    sort: req.query.sort,
+    console: req.query.console,
+    rarity: req.query.rarity,
+    limit: 5000,
+    offset: 0,
+    search: req.query.q,
+  })
+  const filteredItems = rawItems
+    .map(normalizeGameRecord)
+    .sort((left, right) => compareGamesForSort(left, right, req.query.sort))
+  const total = filteredItems.length
+  const games = filteredItems.slice(offset, offset + limit)
 
   res.json({
     items: includeTrend ? games.map(withGameTrend) : games,
@@ -166,7 +265,7 @@ router.get('/api/games/random', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games/:id', handleAsync(async (req, res) => {
-  const game = await findGameById(req.params.id)
+  const game = normalizeGameRecord(await getGameById(req.params.id))
 
   if (!game) {
     return res.status(404).json({ ok: false, error: 'Game not found' })
