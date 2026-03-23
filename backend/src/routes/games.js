@@ -1,7 +1,7 @@
 'use strict'
 
 const { Router } = require('express')
-const { Op } = require('sequelize')
+const { Op, literal } = require('sequelize')
 const Game = require('../models/Game')
 const Franchise = require('../models/Franchise')
 const CommunityReport = require('../../models/CommunityReport')
@@ -10,6 +10,61 @@ const { handleAsync, parseLimit, buildGameWhere } = require('../helpers/query')
 const { withGameTrend, buildPriceHistoryPayload } = require('../helpers/priceHistory')
 
 const router = Router()
+
+function buildGamesOrder(sort) {
+  const sortKey = String(sort || '').trim()
+
+  const SORT_MAP = {
+    title_asc: [['title', 'ASC']],
+    title_desc: [['title', 'DESC']],
+    price_asc: [
+      [literal('CASE WHEN loose_price IS NULL THEN 1 ELSE 0 END'), 'ASC'],
+      ['loosePrice', 'ASC'],
+      ['title', 'ASC'],
+    ],
+    price_desc: [
+      [literal('CASE WHEN loose_price IS NULL THEN 1 ELSE 0 END'), 'ASC'],
+      ['loosePrice', 'DESC'],
+      ['title', 'ASC'],
+    ],
+    year_asc: [
+      [literal('CASE WHEN year IS NULL THEN 1 ELSE 0 END'), 'ASC'],
+      ['year', 'ASC'],
+      ['title', 'ASC'],
+    ],
+    year_desc: [
+      [literal('CASE WHEN year IS NULL THEN 1 ELSE 0 END'), 'ASC'],
+      ['year', 'DESC'],
+      ['title', 'ASC'],
+    ],
+    rarity_desc: [
+      [literal(`CASE rarity
+        WHEN 'LEGENDARY' THEN 0
+        WHEN 'EPIC' THEN 1
+        WHEN 'RARE' THEN 2
+        WHEN 'UNCOMMON' THEN 3
+        WHEN 'COMMON' THEN 4
+        ELSE 5
+      END`), 'ASC'],
+      [literal('CASE WHEN loose_price IS NULL THEN 1 ELSE 0 END'), 'ASC'],
+      ['loosePrice', 'DESC'],
+      ['title', 'ASC'],
+    ],
+    rarity_asc: [
+      [literal(`CASE rarity
+        WHEN 'COMMON' THEN 0
+        WHEN 'UNCOMMON' THEN 1
+        WHEN 'RARE' THEN 2
+        WHEN 'EPIC' THEN 3
+        WHEN 'LEGENDARY' THEN 4
+        ELSE 5
+      END`), 'ASC'],
+      ['title', 'ASC'],
+    ],
+  }
+
+  return SORT_MAP[sortKey] || SORT_MAP.title_asc
+}
 
 function toGameSummary(game) {
   return {
@@ -80,9 +135,10 @@ router.get('/api/games', handleAsync(async (req, res) => {
   const limit = parseLimit(req.query.limit, 20, 5000)
   const where = buildGameWhere(req.query)
   const includeTrend = String(req.query.include_trend || '') === '1'
+  const order = buildGamesOrder(req.query.sort)
 
   const total = await Game.count({ where })
-  const games = await Game.findAll({ where, order: [['title', 'ASC']], limit })
+  const games = await Game.findAll({ where, order, limit })
 
   res.json({
     items: includeTrend ? games.map(withGameTrend) : games,
