@@ -160,6 +160,22 @@ scripts/
   - seules les routes serverless migrees vers Supabase sont garanties cote Vercel
   - les routes encore purement legacy restent reservees au runtime local tant qu'elles n'ont pas ete migrees
 
+### B1 - Tests de regression
+
+- Statut : valide
+- Fichiers principaux :
+  - `backend/src/routes/market.js`
+  - `backend/src/routes/serverless.js`
+  - `backend/tests/api.test.js`
+- Decision technique :
+  - le fallback Supabase de recherche couvre maintenant les requetes par annee (`q=1998`)
+  - le comportement serverless et local reste aligne
+  - les assertions collection sont alignees sur le schema Supabase reel (`price_threshold` et `personal_note` non portes)
+- Validation :
+  - `npm test` -> `16/16`
+  - `GET /api/search?q=1998&type=game&limit=5` retourne des resultats avec `year = 1998`
+  - le patch collection preserve les champs encore supportes par Supabase
+
 ---
 
 ## Risques et points de vigilance
@@ -174,4 +190,4 @@ scripts/
 
 ---
 
-*Derniere mise a jour operationnelle : 23 mars 2026 - A8 validee cote code et deploiement*
+*Derniere mise a jour operationnelle : 23 mars 2026 - B1 validee cote code et tests*
