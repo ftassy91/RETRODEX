@@ -94,6 +94,10 @@ app.use(franchisesRoutes)
 app.use(marketRoutes)
 app.use(syncRoutes)
 
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '..', 'public', '404.html'))
+})
+
 app.use((error, req, res, _next) => {
   console.error(`RetroDex backend request failed: ${req.method} ${req.originalUrl}`, error)
 
