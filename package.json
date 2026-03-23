@@ -14,7 +14,7 @@
     "start:backend": "cd backend && node src/server.js",
     "start:frontend": "npx http-server frontend -p 8080",
     "smoke": "cd backend && npm run smoke",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd backend && npm test"
   },
   "keywords": [],
   "author": "",

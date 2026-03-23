@@ -95,6 +95,59 @@ describe('API RetroDex', () => {
     expect(Array.isArray(res.body.by_platform)).toBe(true)
   })
 
+  test('GET /api/games?sort=rarity_desc place un jeu LEGENDARY en tete', async () => {
+    const res = await request(app).get('/api/games?sort=rarity_desc&limit=5')
+    expect(res.status).toBe(200)
+    expect(Array.isArray(res.body.items)).toBe(true)
+    expect(res.body.items.length).toBeGreaterThan(0)
+    expect(res.body.items[0].rarity).toBe('LEGENDARY')
+  })
+
+  test('GET /api/games?sort=price_desc place le loosePrice le plus eleve en tete', async () => {
+    const res = await request(app).get('/api/games?sort=price_desc&limit=5')
+    expect(res.status).toBe(200)
+    expect(Array.isArray(res.body.items)).toBe(true)
+    expect(res.body.items.length).toBeGreaterThan(1)
+
+    const prices = res.body.items.map((item) => Number(item.loosePrice || 0))
+    expect(prices[0]).toBe(Math.max(...prices))
+  })
+
+  test("GET /api/search?q=mario place un resultat contenant mario en tete", async () => {
+    const res = await request(app).get('/api/search?q=mario&limit=5')
+    expect(res.status).toBe(200)
+    expect(Array.isArray(res.body.results)).toBe(true)
+    expect(res.body.results.length).toBeGreaterThan(0)
+
+    const firstLabel = String(res.body.results[0].name || res.body.results[0].title || '').toLowerCase()
+    expect(firstLabel).toContain('mario')
+  })
+
+  test('GET /api/games et GET /api/stats exposent le meme total de jeux', async () => {
+    const [gamesRes, statsRes] = await Promise.all([
+      request(app).get('/api/games?limit=1'),
+      request(app).get('/api/stats'),
+    ])
+
+    expect(gamesRes.status).toBe(200)
+    expect(statsRes.status).toBe(200)
+    expect(gamesRes.body.total).toBe(statsRes.body.total_games)
+  })
+
+  test('GET /api/games/:id renvoie un tagline ponctue ou null', async () => {
+    const res = await request(app).get('/api/games/panzer-dragoon-saga-sega-saturn')
+    expect(res.status).toBe(200)
+
+    const { tagline } = res.body
+    if (tagline == null) {
+      expect(tagline).toBeNull()
+      return
+    }
+
+    expect(typeof tagline).toBe('string')
+    expect(/[.!?]\s*$/.test(tagline)).toBe(true)
+  })
+
   test('PATCH /api/collection/:id met a jour les metadonnees et preserve les champs omis', async () => {
     const list = await request(app).get('/api/collection')
     expect(list.status).toBe(200)
