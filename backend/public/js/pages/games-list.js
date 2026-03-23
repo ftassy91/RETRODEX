@@ -35,6 +35,22 @@ let filteredGames = []
 let selectedGameId = ''
 let collectionIndex = null
 
+const RARITY_DESC_ORDER = {
+  LEGENDARY: 0,
+  EPIC: 1,
+  RARE: 2,
+  UNCOMMON: 3,
+  COMMON: 4,
+}
+
+const RARITY_ASC_ORDER = {
+  COMMON: 0,
+  UNCOMMON: 1,
+  RARE: 2,
+  EPIC: 3,
+  LEGENDARY: 4,
+}
+
 const esc = (value) => String(value ?? '')
   .replaceAll('&', '&amp;')
   .replaceAll('<', '&lt;')
@@ -133,7 +149,7 @@ function readStateFromUrl() {
   genreEl.dataset.pending = params.get('genre') || ''
   trendEl.value = params.get('trend') || ''
   limitEl.value = ['20', '50', '100'].includes(params.get('limit')) ? params.get('limit') : '20'
-  sortEl.value = params.get('sort') || 'title_asc'
+  sortEl.value = params.get('sort') || 'rarity_desc'
   yearMinEl.value = yearVal(params.get('yearMin'))
   yearMaxEl.value = yearVal(params.get('yearMax'))
   selectedGameId = params.get('selected') || ''
@@ -159,7 +175,7 @@ function state() {
     yearMin,
     yearMax,
     limit: Number.parseInt(limitEl.value, 10) || 20,
-    sort: sortEl.value || 'title_asc',
+    sort: sortEl.value || 'rarity_desc',
     offset: currentOffset,
   }
 }
@@ -191,6 +207,15 @@ function updateUrl(currentState) {
 function sortGames(items, sortKey) {
   return [...items].sort((left, right) => {
     switch (sortKey) {
+      case 'rarity_desc':
+        return (RARITY_DESC_ORDER[String(left.rarity || '').toUpperCase()] ?? 5)
+          - (RARITY_DESC_ORDER[String(right.rarity || '').toUpperCase()] ?? 5)
+          || num(right.loosePrice) - num(left.loosePrice)
+          || textCmp(left.title, right.title)
+      case 'rarity_asc':
+        return (RARITY_ASC_ORDER[String(left.rarity || '').toUpperCase()] ?? 5)
+          - (RARITY_ASC_ORDER[String(right.rarity || '').toUpperCase()] ?? 5)
+          || textCmp(left.title, right.title)
       case 'title_desc':
         return textCmp(right.title, left.title)
       case 'loose_asc':
@@ -583,7 +608,7 @@ function resetFilters() {
   trendEl.value = ''
   yearMinEl.value = ''
   yearMaxEl.value = ''
-  sortEl.value = 'title_asc'
+  sortEl.value = 'rarity_desc'
   limitEl.value = '20'
   currentOffset = 0
   selectedGameId = ''
@@ -692,7 +717,7 @@ window.addEventListener('DOMContentLoaded', () => {
     || params.get('yearMin')
     || params.get('yearMax')
     || params.get('trend')
-    || (params.get('sort') && params.get('sort') !== 'title_asc')
+    || (params.get('sort') && params.get('sort') !== 'rarity_desc')
   if (hasAdv) toggleAdvanced(true)
 
   const hasFilters = !!(
