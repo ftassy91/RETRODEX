@@ -3,406 +3,173 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RetroDex — Encyclopédie</title>
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <title>RetroDex - Encyclopedie</title>
+  <meta name="description" content="Encyclopédie rétro : franchises, synopsis, équipes de développement.">
+  <meta property="og:title" content="Encyclopédie | RetroDex">
+  <meta property="og:description" content="Encyclopédie rétro : franchises, synopsis, équipes de développement.">
+  <meta property="og:type" content="website">
+  <meta name="robots" content="index, follow">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<div class="page-wrapper">
-
-  <nav class="breadcrumb">
-    <a href="/hub.html">HUB</a> <span class="sep">›</span> <span class="current">ENCYCLOPÉDIE</span>
-  </nav>
-
-  <h1 class="page-title">ENCYCLOPÉDIE</h1>
-  <div class="page-subtitle" id="encyclo-count">Chargement...</div>
-
-  <div class="global-search-bar">
-    <input type="text" id="global-search" placeholder="/ Rechercher..."
-      readonly onclick="location.href='/search.html'" style="cursor:pointer">
+<nav class="global-product-nav" aria-label="Navigation produit RetroDex">
+  <a class="global-product-home" href="/hub.html">Hub</a>
+  <div class="global-product-links">
+    <a class="global-product-link is-market" href="/stats.html">
+      <span class="nav-label">RetroMarket</span>
+      <span class="nav-copy">prix | confiance | signaux</span>
+    </a>
+    <a class="global-product-link is-active" href="/games-list.html">
+      <span class="nav-label">RetroDex</span>
+      <span class="nav-copy">catalogue | savoir | archives</span>
+    </a>
+    <a class="global-product-link" href="/collection.html">
+      <span class="nav-label">Collections</span>
+      <span class="nav-copy">etagere | wishlist | suivi</span>
+    </a>
+    <a class="global-product-link" href="/search.html">
+      <span class="nav-label">Recherche</span>
+      <span class="nav-copy">entree transverse</span>
+    </a>
   </div>
-
-  <div class="page-nav-inline">
-    <a href="/games-list.html">Catalogue</a>
-    <span>·</span>
-    <a href="/franchises.html">Franchises</a>
-    <span>·</span>
-    <a href="/search.html">Recherche</a>
-  </div>
-
-  <div class="encyclo-filters">
-    <button class="filter-btn active" data-filter="all">TOUT</button>
-    <button class="filter-btn" data-filter="synopsis">SYNOPSIS</button>
-    <button class="filter-btn" data-filter="anecdotes">ANECDOTES</button>
-    <button class="filter-btn" data-filter="team">ÉQUIPE</button>
-    <button class="filter-btn" data-filter="codes">CODES</button>
-    <button class="filter-btn" data-filter="franchise">FRANCHISES</button>
-  </div>
-
-  <div class="encyclo-layout">
-    <div class="encyclo-list" id="encyclo-list">
-      <div class="section-label">JEUX ENCYCLOPÉDIQUES</div>
-      <div id="games-list-container"></div>
-
-      <div class="section-label encyclo-franchises-heading" style="margin-top:24px">FRANCHISES</div>
-      <div id="franchises-list-container"></div>
+</nav>
+<main class="encyclo-shell">
+  <header class="encyclo-page-head">
+    <div class="encyclo-head-copy">
+      <nav class="breadcrumb">
+        <a href="/hub.html">HUB</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="section">RETRODEX</span>
+        <span class="sep">&rsaquo;</span>
+        <span class="current">ENCYCLOPEDIE</span>
+      </nav>
+      <div class="detail-kicker">RETRODEX EDITORIAL</div>
+      <h1 class="page-title">ENCYCLOPEDIE</h1>
+      <p id="encyclo-count" class="page-subtitle">Chargement...</p>
+      <p class="encyclo-intro">
+        Aile editoriale de RetroDex. Lire les synopsis, les anecdotes, les equipes de
+        developpement et les reperes de franchises comme un archive collector.
+      </p>
     </div>
 
-    <div class="encyclo-detail-panel" id="encyclo-detail-panel">
-      <div class="encyclo-placeholder">
-        ← Sélectionner un jeu ou une franchise
+    <div class="encyclo-head-tools">
+      <div class="global-search-bar">
+        <input
+          type="text"
+          id="global-search"
+          placeholder="/ Rechercher..."
+          readonly
+          onclick="location.href='/search.html'"
+          style="cursor:pointer"
+        >
+      </div>
+      <div class="page-nav-inline">
+        <a href="/games-list.html">Catalogue</a>
+        <span>&middot;</span>
+        <a href="/franchises.html">Franchises</a>
+        <span>&middot;</span>
+        <a href="/game-detail.html?id=panzer-dragoon-saga-sega-saturn">Lecture premium</a>
       </div>
     </div>
-  </div>
+  </header>
 
+  <section class="product-universe-frame is-dex" aria-label="Univers parent">
+    <div class="product-universe-head">
+      <div>
+        <div class="detail-kicker">PRIMARY UNIVERSE</div>
+        <h2 class="product-universe-title">RETRODEX</h2>
+      </div>
+      <div class="product-universe-chip">EDITORIAL MEMORY</div>
+    </div>
+    <p class="product-universe-copy">
+      Aile editoriale du produit. Cette page sert a passer de l'index de decouverte a la lecture
+      longue, en continuite avec les fiches jeu et les franchises.
+    </p>
+    <div class="product-universe-links">
+      <a href="/games-list.html">Catalogue</a>
+      <a class="is-active" href="/encyclopedia.html">Encyclopedie</a>
+      <a href="/franchises.html">Franchises</a>
+      <a href="/consoles.html">Consoles</a>
+    </div>
+    <div class="product-universe-overlap">
+      Overlap: Recherche pour l'entree rapide | Game Detail pour la lecture premium d'une entree.
+    </div>
+  </section>
+
+  <section class="encyclo-control-bar">
+    <div class="terminal-context">
+      RETRODEX &rsaquo; <span class="ctx-active">EDITORIAL MEMORY</span>
+      <span class="encyclo-context-copy">Choisir un index, puis ouvrir le panneau de lecture.</span>
+    </div>
+
+    <div class="encyclo-mode-tabs" id="encyclo-mode-tabs">
+      <button class="filter-btn active" data-mode="games" type="button">JEUX</button>
+      <button class="filter-btn" data-mode="franchises" type="button">FRANCHISES</button>
+      <button class="filter-btn" data-mode="consoles" type="button">CONSOLES</button>
+    </div>
+
+    <div class="encyclo-filters" id="encyclo-filters">
+      <button class="filter-btn active" data-filter="all" type="button">TOUT</button>
+      <button class="filter-btn" data-filter="synopsis" type="button">SYNOPSIS</button>
+      <button class="filter-btn" data-filter="anecdotes" type="button">ANECDOTES</button>
+      <button class="filter-btn" data-filter="team" type="button">EQUIPE</button>
+      <button class="filter-btn" data-filter="codes" type="button">CODES</button>
+      <button class="filter-btn" data-filter="franchise" type="button">FRANCHISES</button>
+    </div>
+  </section>
+
+  <section class="encyclo-layout encyclo-layout-refined">
+    <aside class="encyclo-index-panel">
+      <div class="encyclo-index-head">
+        <div class="detail-kicker">ARCHIVE INDEX</div>
+        <div class="encyclo-index-copy">
+          Liste dense des entrees enrichies. Le panneau de droite bascule ensuite en mode lecture.
+        </div>
+      </div>
+
+      <div class="encyclo-list" id="encyclo-list">
+        <div id="encyclo-games-section">
+          <div class="section-label">JEUX ENCYCLOPEDIQUES</div>
+          <div id="games-list-container"></div>
+        </div>
+
+        <div id="encyclo-franchises-section">
+          <div class="section-label encyclo-franchises-heading">FRANCHISES</div>
+          <div id="franchises-list-container"></div>
+        </div>
+
+        <div id="encyclo-consoles-section" hidden>
+          <div class="section-label encyclo-consoles-heading">CONSOLES</div>
+          <div id="consoles-list-container"></div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="encyclo-reading-shell">
+      <div class="encyclo-reading-head">
+        <div>
+          <div class="detail-kicker">READING PANEL</div>
+          <h2 class="encyclo-reading-title">Memoire indexee</h2>
+        </div>
+        <div class="encyclo-reading-copy">
+          Signal collector, contexte historique, puis lecture approfondie.
+        </div>
+      </div>
+
+      <div class="encyclo-detail-panel" id="encyclo-detail-panel">
+        <div class="encyclo-placeholder">
+          Selectionner un jeu, une franchise ou une console dans l'index pour ouvrir la lecture.
+        </div>
+      </div>
+    </section>
+  </section>
+</main>
+
+<script src="/js/features/console-ui.js?v=20260323b"></script>
+<script src="/js/pages/encyclopedia.js?v=20260323b"></script>
+<div class="footer-attribution">
+  Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
 </div>
-<script>
-let activeFilter = 'all'
-let activeItem = null
-let allGames = []
-let allFranchises = []
-
-const urlParams = new URLSearchParams(window.location.search)
-const preselectedGame = urlParams.get('game')
-
-async function init() {
-  try {
-    const [gamesRes, franchisesRes] = await Promise.all([
-      fetch('/api/games?limit=1000').then((r) => r.json()),
-      fetch('/api/franchises').then((r) => r.json())
-    ])
-
-    allGames = (gamesRes.items || []).filter((g) =>
-      g.synopsis || g.dev_anecdotes || g.dev_team || g.cheat_codes
-    )
-    if (allGames.length < 6) {
-      const fallbackRes = await fetch('/games')
-      if (fallbackRes.ok) {
-        const fallbackGames = await fallbackRes.json()
-        allGames = (Array.isArray(fallbackGames) ? fallbackGames : []).filter((g) =>
-          g.synopsis || g.dev_anecdotes || g.dev_team || g.cheat_codes
-        )
-      }
-    }
-    allFranchises = franchisesRes.items || franchisesRes.franchises || []
-
-    bindFilters()
-    applyFilter(activeFilter)
-
-    const total = allGames.length + allFranchises.length
-    document.getElementById('encyclo-count').textContent =
-      `${allGames.length} jeux · ${allFranchises.length} franchises · ${total} entrées`
-
-    if (preselectedGame) {
-      const row = document.querySelector(`[data-id="${preselectedGame}"]`)
-      if (row) {
-        loadGameDetail(preselectedGame, row)
-        return
-      }
-    }
-
-    if (allGames.length > 0) {
-      const firstRow = document.querySelector('.encyclo-list-row[data-id]')
-      loadGameDetail(allGames[0].id, firstRow)
-    }
-  } catch (e) {
-    document.getElementById('encyclo-count').textContent = 'Backend hors ligne'
-  }
-}
-
-function bindFilters() {
-  document.querySelectorAll('.encyclo-filters .filter-btn').forEach((button) => {
-    button.addEventListener('click', () => {
-      activeFilter = button.dataset.filter || 'all'
-      document.querySelectorAll('.encyclo-filters .filter-btn').forEach((btn) => {
-        btn.classList.toggle('active', btn === button)
-      })
-      applyFilter(activeFilter)
-    })
-  })
-}
-
-function applyFilter(filter) {
-  let filteredGames = allGames
-  let filteredFranchises = allFranchises
-
-  if (filter === 'synopsis') {
-    filteredGames = allGames.filter((game) => Boolean(game.synopsis))
-    filteredFranchises = []
-  } else if (filter === 'anecdotes') {
-    filteredGames = allGames.filter((game) => safeJSON(game.dev_anecdotes, []).length > 0)
-    filteredFranchises = []
-  } else if (filter === 'team') {
-    filteredGames = allGames.filter((game) => safeJSON(game.dev_team, []).length > 0)
-    filteredFranchises = []
-  } else if (filter === 'codes') {
-    filteredGames = allGames.filter((game) => safeJSON(game.cheat_codes, []).length > 0)
-    filteredFranchises = []
-  } else if (filter === 'franchise') {
-    filteredGames = []
-    filteredFranchises = allFranchises
-  }
-
-  renderGamesList(filteredGames)
-  renderFranchisesList(filteredFranchises)
-
-  const franchisesHeading = document.querySelector('.encyclo-franchises-heading')
-  const franchisesContainer = document.getElementById('franchises-list-container')
-  if (franchisesHeading) {
-    const hasFranchises = filteredFranchises.length > 0
-    franchisesHeading.style.display = hasFranchises ? 'block' : 'none'
-    franchisesContainer.style.display = hasFranchises ? 'block' : 'none'
-  }
-}
-
-function renderGamesList(games) {
-  const container = document.getElementById('games-list-container')
-  container.innerHTML = ''
-
-  if (!games.length) {
-    container.innerHTML = '<div class="encyclo-empty">Aucun jeu pour ce filtre.</div>'
-    return
-  }
-
-  games.forEach((game) => {
-    const badges = []
-    if (game.synopsis) badges.push('SYN')
-    if (safeJSON(game.dev_anecdotes, []).length) badges.push('ANE')
-    if (safeJSON(game.dev_team, []).length) badges.push('EQP')
-    if (safeJSON(game.cheat_codes, []).length) badges.push('COD')
-
-    const row = document.createElement('div')
-    row.className = 'encyclo-list-row'
-    row.dataset.id = game.id
-    row.onclick = () => loadGameDetail(game.id, row)
-    row.innerHTML = `
-      <div class="encyclo-row-title">${escapeHtml(game.title)}</div>
-      <div class="encyclo-row-meta">${escapeHtml(game.console || '')} · ${escapeHtml(game.year || '—')}</div>
-      <div class="encyclo-row-badges">
-        ${badges.map((badge) => `<span class="encyclo-badge">${badge}</span>`).join('')}
-      </div>
-    `
-    container.appendChild(row)
-  })
-}
-
-function renderFranchisesList(franchises) {
-  const container = document.getElementById('franchises-list-container')
-  container.innerHTML = ''
-
-  if (!franchises.length) {
-    return
-  }
-
-  franchises.forEach((franchise) => {
-    const row = document.createElement('div')
-    row.className = 'encyclo-list-row'
-    row.dataset.slug = franchise.slug
-    row.onclick = () => loadFranchiseDetail(franchise.slug, row)
-    row.innerHTML = `
-      <div class="encyclo-row-title">${escapeHtml(franchise.name)}</div>
-      <div class="encyclo-row-meta">${escapeHtml(franchise.first_game || '')}→${escapeHtml(franchise.last_game || '')} · ${escapeHtml(franchise.developer || '')}</div>
-      <div class="encyclo-row-badges">
-        <span class="encyclo-badge encyclo-badge-franchise">FRANCHISE</span>
-      </div>
-    `
-    container.appendChild(row)
-  })
-}
-
-async function loadGameDetail(gameId, rowEl) {
-  activeItem = { type: 'game', id: gameId }
-  setActiveRow(rowEl)
-  const panel = document.getElementById('encyclo-detail-panel')
-  panel.innerHTML = '<div class="encyclo-loading">Chargement...</div>'
-
-  try {
-    const [gameRes, encycloRes] = await Promise.all([
-      fetch(`/api/games/${gameId}`).then((r) => r.json()),
-      fetch(`/api/games/${gameId}/encyclopedia`).then((r) => r.json()).catch(() => ({}))
-    ])
-
-    const game = gameRes.game || gameRes
-    const enc = encycloRes.data || encycloRes
-    panel.innerHTML = buildGamePanel(game, enc)
-    switchTab('synopsis')
-  } catch (e) {
-    panel.innerHTML = '<div class="encyclo-loading">Erreur de chargement</div>'
-  }
-}
-
-function buildGamePanel(game, enc) {
-  const anecdotes = safeJSON(enc.dev_anecdotes || game.dev_anecdotes, [])
-  const team = safeJSON(enc.dev_team || game.dev_team, [])
-  const codes = safeJSON(enc.cheat_codes || game.cheat_codes, [])
-  const synopsis = enc.synopsis || game.synopsis || ''
-  const tagline = game.tagline || ''
-  const initials = String(game.title || '')
-    .split(' ')
-    .filter((word) => word.length > 0)
-    .slice(0, 2)
-    .map((word) => word[0])
-    .join('')
-    .toUpperCase()
-
-  return `
-    <div class="encyclo-panel-header">
-      <div class="encyclo-panel-cover">
-        ${game.cover_url
-          ? `<img src="${escapeHtml(game.cover_url)}" alt="${escapeHtml(game.title || 'Cover')}" width="80" height="80" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">`
-          : ''
-        }
-        <div class="encyclo-cover-placeholder" style="display:${game.cover_url ? 'none' : 'flex'}">${escapeHtml(initials || 'RD')}</div>
-      </div>
-      <div class="encyclo-panel-info">
-        <div class="encyclo-panel-title">${escapeHtml(game.title || 'Jeu')}</div>
-        <div class="encyclo-panel-meta">${escapeHtml(game.console || '')} · ${escapeHtml(game.year || '—')}</div>
-        <div class="encyclo-panel-rarity rarity-${escapeHtml((game.rarity || '').toLowerCase())}">${escapeHtml(game.rarity || '')}</div>
-        ${tagline ? `<div class="encyclo-panel-tagline">${escapeHtml(tagline)}</div>` : ''}
-        <a href="/game-detail.html?id=${encodeURIComponent(game.id)}" class="encyclo-panel-link">→ Voir la fiche complète</a>
-      </div>
-    </div>
-
-    <div class="encyclo-tabs">
-      <button class="encyclo-tab active" data-tab="synopsis" onclick="switchTab('synopsis')">SYNOPSIS</button>
-      ${team.length ? `<button class="encyclo-tab" data-tab="team" onclick="switchTab('team')">ÉQUIPE</button>` : ''}
-      ${anecdotes.length ? `<button class="encyclo-tab" data-tab="anecdotes" onclick="switchTab('anecdotes')">ANECDOTES</button>` : ''}
-      ${codes.length ? `<button class="encyclo-tab" data-tab="codes" onclick="switchTab('codes')">CODES</button>` : ''}
-    </div>
-
-    <div class="encyclo-tab-content" id="tab-synopsis">
-      ${synopsis
-        ? `<p class="encyclo-synopsis-text">${escapeHtml(synopsis)}</p>`
-        : '<div class="encyclo-empty">Aucun synopsis disponible.</div>'
-      }
-    </div>
-
-    <div class="encyclo-tab-content" id="tab-team" style="display:none">
-      ${team.map((member) => `
-        <div class="encyclo-team-row">
-          <span class="team-role">${escapeHtml(member.role || '')}</span>
-          <span class="team-name">${escapeHtml(member.name || '')}</span>
-          ${member.note ? `<span class="team-note">${escapeHtml(member.note)}</span>` : ''}
-        </div>
-      `).join('') || '<div class="encyclo-empty">Aucune donnée équipe.</div>'}
-    </div>
-
-    <div class="encyclo-tab-content" id="tab-anecdotes" style="display:none">
-      ${anecdotes.map((anecdote, index) => `
-        <div class="encyclo-anecdote-block">
-          <div class="encyclo-anecdote-title">${escapeHtml(anecdote.title || `Anecdote ${index + 1}`)}</div>
-          <div class="encyclo-anecdote-text">${escapeHtml(anecdote.text || anecdote)}</div>
-        </div>
-      `).join('') || '<div class="encyclo-empty">Aucune anecdote disponible.</div>'}
-    </div>
-
-    <div class="encyclo-tab-content" id="tab-codes" style="display:none">
-      ${codes.map((code) => `
-        <div class="encyclo-code-block">
-          <div class="encyclo-code-label">${escapeHtml(code.label || code.title || 'Code')}</div>
-          <div class="encyclo-code-value">${escapeHtml(code.code || code.value || code)}</div>
-          ${code.effect ? `<div class="encyclo-code-effect">${escapeHtml(code.effect)}</div>` : ''}
-        </div>
-      `).join('') || '<div class="encyclo-empty">Aucun code disponible.</div>'}
-    </div>
-  `
-}
-
-async function loadFranchiseDetail(slug, rowEl) {
-  activeItem = { type: 'franchise', slug }
-  setActiveRow(rowEl)
-  const panel = document.getElementById('encyclo-detail-panel')
-  panel.innerHTML = '<div class="encyclo-loading">Chargement...</div>'
-
-  try {
-    const res = await fetch(`/api/franchises/${slug}`).then((r) => r.json())
-    const franchise = res.franchise || res
-    const timeline = safeJSON(franchise.timeline, [])
-    const trivia = safeJSON(franchise.trivia, [])
-
-    panel.innerHTML = `
-      <div class="encyclo-panel-header">
-        <div class="encyclo-panel-info">
-          <div class="encyclo-panel-title">${escapeHtml(franchise.name || 'Franchise')}</div>
-          <div class="encyclo-panel-meta">${escapeHtml(franchise.first_game || '')}→${escapeHtml(franchise.last_game || '')} · ${escapeHtml(franchise.developer || '')}</div>
-          <span class="encyclo-badge encyclo-badge-franchise" style="margin-top:4px">FRANCHISE</span>
-          <a href="/franchises.html?slug=${encodeURIComponent(franchise.slug || slug)}" class="encyclo-panel-link">→ Voir la fiche complète</a>
-        </div>
-      </div>
-
-      <div class="encyclo-tabs">
-        <button class="encyclo-tab active" data-tab="synopsis" onclick="switchTab('synopsis')">HISTOIRE</button>
-        ${timeline.length ? `<button class="encyclo-tab" data-tab="team" onclick="switchTab('team')">TIMELINE</button>` : ''}
-        ${trivia.length ? `<button class="encyclo-tab" data-tab="anecdotes" onclick="switchTab('anecdotes')">ANECDOTES</button>` : ''}
-      </div>
-
-      <div class="encyclo-tab-content" id="tab-synopsis">
-        <p class="encyclo-synopsis-text">${escapeHtml(franchise.description || '')}</p>
-        ${franchise.legacy ? `<p class="encyclo-synopsis-text" style="margin-top:12px;color:var(--text-secondary)">${escapeHtml(franchise.legacy)}</p>` : ''}
-      </div>
-
-      <div class="encyclo-tab-content" id="tab-team" style="display:none">
-        ${timeline.map((item) => `
-          <div class="timeline-row">
-            <span class="timeline-year">${escapeHtml(item.year || '')}</span>
-            <span class="timeline-title">${escapeHtml(item.title || '')}</span>
-            <span class="timeline-desc">${escapeHtml(item.description || '')}</span>
-          </div>
-        `).join('') || '<div class="encyclo-empty">Aucune timeline disponible.</div>'}
-      </div>
-
-      <div class="encyclo-tab-content" id="tab-anecdotes" style="display:none">
-        ${trivia.map((item) => `
-          <div class="encyclo-anecdote-block">
-            <div class="encyclo-anecdote-title">${escapeHtml(item.title || '')}</div>
-            <div class="encyclo-anecdote-text">${escapeHtml(item.text || '')}</div>
-          </div>
-        `).join('') || '<div class="encyclo-empty">Aucune anecdote disponible.</div>'}
-      </div>
-    `
-
-    switchTab('synopsis')
-  } catch (e) {
-    panel.innerHTML = '<div class="encyclo-loading">Erreur de chargement</div>'
-  }
-}
-
-function switchTab(tabName) {
-  document.querySelectorAll('.encyclo-tab-content').forEach((el) => {
-    el.style.display = 'none'
-  })
-  document.querySelectorAll('.encyclo-tab').forEach((el) => {
-    el.classList.toggle('active', el.dataset.tab === tabName)
-  })
-  const target = document.getElementById(`tab-${tabName}`)
-  if (target) target.style.display = 'block'
-}
-
-function setActiveRow(rowEl) {
-  document.querySelectorAll('.encyclo-list-row').forEach((row) => row.classList.remove('active'))
-  if (rowEl) rowEl.classList.add('active')
-}
-
-function safeJSON(val, fallback) {
-  if (!val) return fallback
-  if (Array.isArray(val)) return val
-  if (typeof val === 'object') return val
-  try {
-    return JSON.parse(val)
-  } catch (e) {
-    return fallback
-  }
-}
-
-function escapeHtml(value) {
-  return String(value ?? '')
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;')
-}
-
-init()
-</script>
 </body>
 </html>

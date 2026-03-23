@@ -1,19 +1,17 @@
 {
   "version": 2,
-  "name": "retrodex-frontend",
   "builds": [
-    {
-      "src": "frontend/**",
-      "use": "@vercel/static"
-    }
+    { "src": "backend/src/server.js", "use": "@vercel/node" },
+    { "src": "backend/public/**", "use": "@vercel/static" }
   ],
+  "installCommand": "npm install && cd backend && npm install",
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/$1"
-    }
+    { "src": "/api/(.*)", "dest": "backend/src/server.js" },
+    { "src": "/", "dest": "backend/public/hub.html" },
+    { "src": "/(.*)", "dest": "backend/public/$1" }
   ],
   "env": {
-    "BACKEND_URL": "https://retrodex-backend.railway.app"
-  }
+    "NODE_ENV": "production"
+  },
+  "regions": ["cdg1"]
 }

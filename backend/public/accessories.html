@@ -3,111 +3,96 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <title>RetroDex - Accessoires</title>
+    <meta name="description" content="Accessoires rétro, périphériques et extensions hardware indexés dans RetroDex." />
+    <meta property="og:title" content="Accessoires | RetroDex" />
+    <meta property="og:description" content="Accessoires rétro, périphériques et extensions hardware indexés dans RetroDex." />
+    <meta property="og:type" content="website" />
+    <meta name="robots" content="index, follow" />
     <link rel="stylesheet" href="/style.css" />
-    <style>
-      .accessories-page {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 24px 16px 48px;
-      }
-
-      .accessories-shell {
-        border: 1px solid var(--border);
-        background: var(--bg-surface);
-        padding: 16px;
-      }
-
-      .accessories-toolbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 16px;
-        margin-bottom: 16px;
-        flex-wrap: wrap;
-      }
-
-      .accessories-filter {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: var(--text-secondary);
-        font-family: var(--font-mono);
-        font-size: 0.85rem;
-      }
-
-      .accessories-filter select {
-        min-width: 180px;
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        color: var(--text-primary);
-        font-family: var(--font-mono);
-        font-size: var(--font-size-base);
-        padding: 8px 10px;
-      }
-
-      .accessories-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .accessory-item {
-        border: 1px solid var(--border);
-        background: var(--bg-card);
-        padding: 12px 14px;
-        display: grid;
-        grid-template-columns: 1.3fr 1fr auto auto;
-        gap: 12px;
-        align-items: center;
-      }
-
-      .accessory-name {
-        color: var(--text-value);
-        font-family: var(--font-mono);
-      }
-
-      .accessory-console,
-      .accessory-year {
-        color: var(--text-secondary);
-        font-size: 0.85rem;
-      }
-
-      .accessory-type {
-        color: var(--text-alert);
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        text-transform: uppercase;
-      }
-
-      .empty-state {
-        border: 1px dashed var(--border);
-        background: rgba(19, 26, 19, 0.6);
-        padding: 24px;
-        color: var(--text-secondary);
-        font-family: var(--font-mono);
-      }
-
-      @media (max-width: 768px) {
-        .accessory-item {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
   </head>
   <body>
-    <main class="accessories-page">
-      <nav class="breadcrumb">
+    <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
+      <a class="global-product-home" href="/hub.html">Hub</a>
+      <div class="global-product-links">
+        <a class="global-product-link is-market" href="/stats.html">
+          <span class="nav-label">RetroMarket</span>
+          <span class="nav-copy">prix | confiance | signaux</span>
+        </a>
+        <a class="global-product-link is-active" href="/games-list.html">
+          <span class="nav-label">RetroDex</span>
+          <span class="nav-copy">catalogue | savoir | archives</span>
+        </a>
+        <a class="global-product-link" href="/collection.html">
+          <span class="nav-label">Collections</span>
+          <span class="nav-copy">etagere | wishlist | suivi</span>
+        </a>
+        <a class="global-product-link" href="/search.html">
+          <span class="nav-label">Recherche</span>
+          <span class="nav-copy">entree transverse</span>
+        </a>
+      </div>
+    </nav>
+
+    <main class="secondary-page-shell">
+      <nav class="breadcrumb" aria-label="Fil d'ariane">
         <a href="/hub.html">HUB</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="section">RETRODEX</span>
         <span class="sep">&rsaquo;</span>
         <span class="current">ACCESSOIRES</span>
       </nav>
 
-      <h1 class="page-title">ACCESSOIRES</h1>
-      <p id="accessories-count" class="page-subtitle">Chargement...</p>
+      <header class="secondary-page-head">
+        <div class="secondary-page-titlezone">
+          <div class="secondary-page-kicker">HARDWARE ANNEX</div>
+          <h1 class="page-title">ACCESSOIRES</h1>
+          <p id="accessories-count" class="page-subtitle">Chargement des accessoires...</p>
+          <p class="secondary-page-intro">
+            Surface archivee pour les peripheriques, cartes memoire, sticks et cablages relies
+            aux consoles RetroDex. Cette page prolonge la logique consoles et catalogue, sans
+            fonctionner comme un mini-produit isole.
+          </p>
+        </div>
+        <div class="page-status-line">
+          <strong>Page role</strong><br />
+          Sous-espace hardware de RetroDex. Utilisez la recherche ou la page consoles pour
+          remonter ensuite vers les systemes et jeux lies.
+        </div>
+      </header>
 
-      <section class="accessories-shell">
+      <section class="product-universe-frame">
+        <div class="product-universe-head">
+          <div>
+            <div class="secondary-page-kicker">Primary universe</div>
+            <h2 class="product-universe-title">RETRODEX</h2>
+          </div>
+          <span class="product-universe-chip">Archive annex</span>
+        </div>
+        <p class="product-universe-copy">
+          Accessoires appartient a la couche connaissance et archive hardware. La page relie les
+          consoles, les peripheriques et la lecture catalogue sans prendre la place du Hub ou de
+          la recherche transverse.
+        </p>
+        <div class="product-universe-links">
+          <a href="/hub.html">Hub</a>
+          <a href="/consoles.html" class="is-active">Consoles</a>
+          <a href="/games-list.html">Catalogue</a>
+          <a href="/search.html">Recherche</a>
+        </div>
+        <div class="product-universe-overlap">
+          Overlap utile : certains accessoires peuvent influer sur la valeur collector, mais la
+          lecture primaire reste hardware / archive, pas RetroMarket.
+        </div>
+      </section>
+
+      <section class="secondary-panel accessories-shell-refined">
         <div class="accessories-toolbar">
+          <div>
+            <div class="secondary-panel-kicker">Indexed hardware</div>
+            <h2 class="secondary-panel-title">Archive des accessoires</h2>
+          </div>
           <div class="accessories-filter">
             <label for="type-filter">Type</label>
             <select id="type-filter">
@@ -120,72 +105,9 @@
       </section>
     </main>
 
-    <script>
-      const countEl = document.getElementById('accessories-count');
-      const listEl = document.getElementById('accessories-list');
-      const filterEl = document.getElementById('type-filter');
-      let allAccessories = [];
-
-      function escapeHtml(value) {
-        return String(value ?? '')
-          .replaceAll('&', '&amp;')
-          .replaceAll('<', '&lt;')
-          .replaceAll('>', '&gt;')
-          .replaceAll('"', '&quot;')
-          .replaceAll("'", '&#039;');
-      }
-
-      function renderList(items) {
-        if (!items.length) {
-          listEl.innerHTML = '<div class="empty-state">Aucun accessoire — la base se remplit progressivement.</div>';
-          return;
-        }
-
-        listEl.innerHTML = items.map((item) => `
-          <article class="accessory-item">
-            <div class="accessory-name">${escapeHtml(item.name)}</div>
-            <div class="accessory-console">${escapeHtml(item.console_title || 'Sans console associee')}</div>
-            <div class="accessory-type">${escapeHtml(item.accessory_type || 'other')}</div>
-            <div class="accessory-year">${escapeHtml(item.release_year || '—')}</div>
-          </article>
-        `).join('');
-      }
-
-      function applyFilter() {
-        const type = filterEl.value;
-        const filtered = type ? allAccessories.filter((item) => item.accessory_type === type) : allAccessories;
-        renderList(filtered);
-      }
-
-      async function loadAccessories() {
-        const [typesRes, accessoriesRes] = await Promise.all([
-          fetch('/api/accessories/types'),
-          fetch('/api/accessories'),
-        ]);
-
-        const typesPayload = await typesRes.json();
-        const accessoriesPayload = await accessoriesRes.json();
-
-        if (!typesRes.ok || !accessoriesRes.ok || !typesPayload.ok || !accessoriesPayload.ok) {
-          throw new Error('Chargement impossible');
-        }
-
-        allAccessories = accessoriesPayload.accessories || [];
-        countEl.textContent = `${accessoriesPayload.count || allAccessories.length} accessoires references`;
-
-        const options = (typesPayload.types || []).map((type) =>
-          `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`
-        ).join('');
-        filterEl.insertAdjacentHTML('beforeend', options);
-        renderList(allAccessories);
-      }
-
-      filterEl.addEventListener('change', applyFilter);
-
-      loadAccessories().catch(() => {
-        countEl.textContent = 'Impossible de charger les accessoires';
-        listEl.innerHTML = '<div class="empty-state">Aucun accessoire — la base se remplit progressivement.</div>';
-      });
-    </script>
+    <script src="/js/pages/accessories.js"></script>
+    <div class="footer-attribution">
+      Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
+    </div>
   </body>
 </html>

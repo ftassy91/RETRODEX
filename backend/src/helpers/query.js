@@ -13,6 +13,7 @@ function parseLimit(value, fallback = 20, max = 100) {
 function buildGameWhere(query) {
   const where = {};
   const filters = [];
+  const type = String(query.type || "game").trim();
 
   if (query.q) {
     filters.push(
@@ -24,6 +25,10 @@ function buildGameWhere(query) {
 
   if (query.console) {
     where.console = query.console;
+  }
+
+  if (type) {
+    where.type = type;
   }
 
   if (filters.length) {

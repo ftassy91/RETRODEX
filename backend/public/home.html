@@ -3,287 +3,146 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RetroDex Backend Home</title>
-    <style>
-      :root {
-        color-scheme: dark;
-        --bg: #081008;
-        --panel: #102010;
-        --line: #294229;
-        --text: #d7efd7;
-        --muted: #98b898;
-        --accent: #8bac0f;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        font-family: Consolas, "Courier New", monospace;
-        background: var(--bg);
-        color: var(--text);
-      }
-
-      .page {
-        max-width: 1080px;
-        margin: 0 auto;
-        padding: 24px;
-      }
-
-      h1,
-      h2,
-      h3,
-      p {
-        margin: 0 0 12px;
-      }
-
-      .panel {
-        margin-bottom: 16px;
-        padding: 16px;
-        border: 1px solid var(--line);
-        background: var(--panel);
-      }
-
-      .status {
-        color: var(--accent);
-        min-height: 20px;
-      }
-
-      .muted {
-        color: var(--muted);
-      }
-
-      .grid {
-        display: grid;
-        gap: 12px;
-      }
-
-      .grid.three {
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      }
-
-      .card {
-        border: 1px solid var(--line);
-        background: #0b160b;
-        padding: 12px;
-      }
-
-      .actions {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-top: 12px;
-      }
-
-      .button-link {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 12px;
-        border: 1px solid var(--line);
-        background: #183018;
-        color: var(--text);
-        text-decoration: none;
-        min-width: 170px;
-      }
-
-      .button-link:hover {
-        border-color: var(--accent);
-      }
-
-      .meta {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 8px;
-        margin-top: 8px;
-      }
-
-      .sample-list {
-        padding-left: 18px;
-        margin: 8px 0 0;
-        color: var(--muted);
-      }
-
-      .random-card {
-        border: 1px solid var(--line);
-        background: #0b160b;
-        padding: 12px;
-      }
-    </style>
+    <title>RetroDex - Home Shell</title>
+    <meta name="description" content="Accueil RetroDex : catalogue, marché, encyclopédie et collection rétro." />
+    <meta property="og:title" content="Accueil | RetroDex" />
+    <meta property="og:description" content="Accueil RetroDex : catalogue, marché, encyclopédie et collection rétro." />
+    <meta property="og:type" content="website" />
+    <meta name="robots" content="index, follow" />
+    <link rel="stylesheet" href="/style.css" />
   </head>
-  <body>
-    <main class="page">
-      <section class="panel">
-        <h1>RetroDex Backend Home</h1>
-        <p class="muted">
-          Petit point d'entree beginner pour naviguer dans la surface backend sans toucher au
-          prototype statique principal.
-        </p>
-        <div id="health" class="status">Chargement de l'etat backend...</div>
-      </section>
+  <body class="home-shell">
+    <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
+      <a class="global-product-home is-active" href="/hub.html">Hub</a>
+      <div class="global-product-links">
+        <a class="global-product-link is-market" href="/stats.html">
+          <span class="nav-label">RetroMarket</span>
+          <span class="nav-copy">prix | confiance | signaux</span>
+        </a>
+        <a class="global-product-link" href="/games-list.html">
+          <span class="nav-label">RetroDex</span>
+          <span class="nav-copy">catalogue | savoir | archives</span>
+        </a>
+        <a class="global-product-link" href="/collection.html">
+          <span class="nav-label">Collections</span>
+          <span class="nav-copy">etagere | wishlist | suivi</span>
+        </a>
+        <a class="global-product-link" href="/search.html">
+          <span class="nav-label">Recherche</span>
+          <span class="nav-copy">entree transverse</span>
+        </a>
+      </div>
+    </nav>
 
-      <section class="panel">
-        <h2>Navigation rapide</h2>
-        <div class="actions">
-          <button id="randomButton" type="button" class="button-link">Jeu aleatoire beginner</button>
-          <a class="button-link" href="/games-list.html">Ouvrir GamesList</a>
-          <a class="button-link" href="/consoles.html">Ouvrir Consoles</a>
-          <a class="button-link" href="/collection.html">Ouvrir Collection</a>
-          <a class="button-link" href="/game-detail.html?id=tetris-game-boy">Ouvrir GameDetail</a>
-          <a class="button-link" href="/debug.html">Ouvrir debug riche</a>
-          <a class="button-link" href="/api/health" target="_blank" rel="noreferrer">Voir /api/health</a>
+    <main class="secondary-page-shell">
+      <nav class="breadcrumb" aria-label="Fil d'ariane">
+        <a href="/hub.html">HUB</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="section">SYSTEM</span>
+        <span class="sep">&rsaquo;</span>
+        <span class="current">HOME SHELL</span>
+      </nav>
+
+      <header class="secondary-page-head">
+        <div class="secondary-page-titlezone">
+          <div class="secondary-page-kicker">LOCAL SUPPORT SURFACE</div>
+          <h1 class="page-title">RETRODEX HOME SHELL</h1>
+          <p class="page-subtitle">Point d'appui local pour verifier le backend sans concurrencer le Hub.</p>
+          <p class="secondary-page-intro">
+            Cette page ne constitue pas une seconde architecture produit. Le Hub reste l'entree
+            principale. Le shell sert surtout a verifier rapidement l'etat de l'API, lancer une
+            fiche aleatoire et ouvrir quelques surfaces utiles pendant le developpement local.
+          </p>
+        </div>
+        <div id="health" class="page-status-line">Chargement de l'etat backend...</div>
+      </header>
+
+      <section class="product-universe-frame is-shell">
+        <div class="product-universe-head">
+          <div>
+            <div class="secondary-page-kicker">Page role</div>
+            <h2 class="product-universe-title">SUBORDINATE TO HUB</h2>
+          </div>
+          <span class="product-universe-chip">Local shell</span>
+        </div>
+        <p class="product-universe-copy">
+          Home reste une coquille locale. Elle renvoie d'abord vers le Hub puis, de maniere
+          secondaire, vers quelques surfaces pratiques de verification. Elle n'ajoute pas de carte
+          produit parallele aux quatre univers.
+        </p>
+        <div class="product-universe-links">
+          <a href="/hub.html" class="is-active">Hub</a>
+          <a href="/search.html">Recherche</a>
+          <a href="/collection.html">Collections</a>
+          <a href="/debug.html">Debug</a>
         </div>
       </section>
 
-      <section class="panel">
-        <h2>Pages backend</h2>
-        <div class="grid three">
-          <article class="card">
-            <h3>GamesList</h3>
-            <p class="muted">Liste simple qui consomme <code>GET /games</code>.</p>
-            <div class="actions">
-              <a class="button-link" href="/games-list.html">Ouvrir</a>
+      <section class="secondary-grid secondary-grid-two">
+        <section class="secondary-panel">
+          <div class="secondary-panel-head">
+            <div>
+              <div class="secondary-panel-kicker">Primary path</div>
+              <h2 class="secondary-panel-title">Ou aller ensuite</h2>
             </div>
-          </article>
-          <article class="card">
-            <h3>Consoles</h3>
-            <p class="muted">Navigateur simple qui consomme <code>GET /api/consoles</code>.</p>
-            <div class="actions">
-              <a class="button-link" href="/consoles.html">Ouvrir</a>
+            <div class="secondary-panel-copy">
+              Le Hub reste la bonne entree pour comprendre le produit. Les autres liens servent de
+              raccourcis utilitaires seulement.
             </div>
-          </article>
-          <article class="card">
-            <h3>GameDetail</h3>
-            <p class="muted">Fiche simple qui consomme <code>GET /games/:id</code>.</p>
-            <div class="actions">
-              <a class="button-link" href="/game-detail.html?id=tetris-game-boy">Ouvrir</a>
+          </div>
+          <div class="shell-actions">
+            <a class="shell-primary-link" href="/hub.html">Ouvrir le Hub</a>
+            <a class="shell-secondary-link" href="/games-list.html">Catalogue</a>
+            <a class="shell-secondary-link" href="/collection.html">Collection</a>
+            <a class="shell-secondary-link" href="/game-detail.html?id=tetris-game-boy">Fiche guidee</a>
+            <a class="shell-secondary-link" href="/debug.html">Surface debug</a>
+          </div>
+        </section>
+
+        <section class="secondary-panel">
+          <div class="secondary-panel-head">
+            <div>
+              <div class="secondary-panel-kicker">Backend state</div>
+              <h2 class="secondary-panel-title">Resume local</h2>
             </div>
-          </article>
-          <article class="card">
-            <h3>Collection</h3>
-            <p class="muted">Page beginner qui consomme <code>GET /api/collection</code>.</p>
-            <div class="actions">
-              <a class="button-link" href="/collection.html">Ouvrir</a>
-            </div>
-          </article>
-          <article class="card">
-            <h3>Debug riche</h3>
-            <p class="muted">Surface backend plus complete avec recherche, random et detail riche.</p>
-            <div class="actions">
-              <a class="button-link" href="/debug.html">Ouvrir</a>
-            </div>
-          </article>
+          </div>
+          <div id="meta" class="meta"></div>
+        </section>
+      </section>
+
+      <section class="secondary-panel">
+        <div class="secondary-panel-head">
+          <div>
+            <div class="secondary-panel-kicker">Sample feed</div>
+            <h2 class="secondary-panel-title">Premiers jeux exposes</h2>
+          </div>
+          <div class="secondary-panel-copy">
+            Echantillon court pour verifier vite la lecture catalogue sans ouvrir toute la surface.
+          </div>
         </div>
+        <ul id="samples" class="sample-list-clean"></ul>
       </section>
 
-      <section class="panel">
-        <h2>Etat rapide</h2>
-        <div id="meta" class="meta"></div>
-      </section>
-
-      <section class="panel">
-        <h2>Exemples</h2>
-        <p class="muted">Premiers jeux renvoyes par <code>GET /games?limit=5</code>.</p>
-        <ul id="samples" class="sample-list"></ul>
-      </section>
-
-      <section class="panel">
-        <h2>Random beginner start</h2>
-        <p class="muted">
-          Petit helper UX pour tomber tout de suite sur une fiche beginner sans choisir un id
-          manuellement.
-        </p>
-        <div id="randomCard" class="random-card muted">Clique sur "Jeu aleatoire beginner".</div>
+      <section class="secondary-panel">
+        <div class="secondary-panel-head">
+          <div>
+            <div class="secondary-panel-kicker">Random bootstrap</div>
+            <h2 class="secondary-panel-title">Jeu aleatoire</h2>
+          </div>
+          <div class="secondary-panel-copy">
+            Petit test utilitaire pour verifier le chargement d'une fiche sans choisir un identifiant.
+          </div>
+        </div>
+        <div class="shell-actions panel-action-strip">
+          <button id="randomButton" type="button" class="shell-secondary-link">Charger un jeu aleatoire</button>
+        </div>
+        <div id="randomCard" class="random-card-shell muted">Selectionnez un jeu aleatoire pour afficher une fiche courte.</div>
       </section>
     </main>
 
-    <script>
-      const healthEl = document.getElementById("health");
-      const metaEl = document.getElementById("meta");
-      const samplesEl = document.getElementById("samples");
-      const randomCardEl = document.getElementById("randomCard");
-      const randomButtonEl = document.getElementById("randomButton");
-
-      function escapeHtml(value) {
-        return String(value ?? "")
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#039;");
-      }
-
-      async function fetchJson(url) {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`${response.status} ${response.statusText}`);
-        }
-        return response.json();
-      }
-
-      async function loadHomeData() {
-        try {
-          const [health, consoles, games] = await Promise.all([
-            fetchJson("/api/health"),
-            fetchJson("/api/consoles"),
-            fetchJson("/games?limit=5"),
-          ]);
-
-          healthEl.textContent = `Backend OK - ${health.games} jeux dans ${health.database}`;
-          metaEl.innerHTML = `
-            <div><span class="muted">Database</span><br>${escapeHtml(health.database)}</div>
-            <div><span class="muted">Storage</span><br>${escapeHtml(health.storage)}</div>
-            <div><span class="muted">Games</span><br>${escapeHtml(health.games)}</div>
-            <div><span class="muted">Consoles</span><br>${escapeHtml(consoles.items.length)}</div>
-          `;
-          samplesEl.innerHTML = games
-            .map(
-              (game) =>
-                `<li><a class="muted" href="/game-detail.html?id=${encodeURIComponent(game.id)}">${escapeHtml(game.title)}</a></li>`
-            )
-            .join("");
-        } catch (error) {
-          healthEl.textContent = `Erreur home - ${error.message}`;
-          metaEl.innerHTML = "";
-          samplesEl.innerHTML = "";
-        }
-      }
-
-      function renderRandomCard(game) {
-        randomCardEl.classList.remove("muted");
-        randomCardEl.innerHTML = `
-          <h3>${escapeHtml(game.title)}</h3>
-          <div class="meta">
-            <div><span class="muted">Console</span><br>${escapeHtml(game.console || "n/a")}</div>
-            <div><span class="muted">Year</span><br>${escapeHtml(game.year || "n/a")}</div>
-            <div><span class="muted">Genre</span><br>${escapeHtml(game.genre || "n/a")}</div>
-            <div><span class="muted">Metascore</span><br>${escapeHtml(game.metascore || "n/a")}</div>
-          </div>
-          <div class="actions">
-            <a class="button-link" href="/game-detail.html?id=${encodeURIComponent(game.id)}">Ouvrir GameDetail</a>
-            <a class="button-link" href="/debug.html?gameId=${encodeURIComponent(game.id)}">Ouvrir detail riche</a>
-          </div>
-        `;
-      }
-
-      async function loadRandomGame() {
-        randomCardEl.classList.add("muted");
-        randomCardEl.textContent = "Chargement d'un jeu aleatoire...";
-
-        try {
-          const game = await fetchJson("/api/games/random");
-          renderRandomCard(game);
-        } catch (error) {
-          randomCardEl.classList.add("muted");
-          randomCardEl.textContent = `Erreur random - ${error.message}`;
-        }
-      }
-
-      randomButtonEl.addEventListener("click", loadRandomGame);
-
-      loadHomeData();
-    </script>
+    <script src="/js/pages/home.js"></script>
+    <div class="footer-attribution">
+      Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
+    </div>
   </body>
 </html>

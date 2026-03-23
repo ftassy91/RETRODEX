@@ -10,70 +10,56 @@
     <meta name="apple-mobile-web-app-title" content="RetroDex" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <title>RetroDex - Catalogue</title>
+    <meta name="description" content="1500+ jeux rétro indexés avec prix vérifiés, rareté et contenu éditorial." />
+    <meta property="og:title" content="Catalogue | RetroDex" />
+    <meta property="og:description" content="1500+ jeux rétro indexés avec prix vérifiés, rareté et contenu éditorial." />
+    <meta property="og:type" content="website" />
+    <meta name="robots" content="index, follow" />
     <link rel="stylesheet" href="/style.css" />
     <script src="/js/renderGameRow.js"></script>
-    <style>
-      :root { --panel-bg: rgba(15,56,15,.2); --panel-line: rgba(155,188,15,.18); --panel-strong: rgba(155,188,15,.42); --text-strong: #cfe66f; --text-soft: rgba(155,188,15,.62); --text-faint: rgba(155,188,15,.4); --text-active: #d8f08f; --legendary: #ddc420; --epic: #c48be8; --rare: #e88855; --uncommon: #44aadd; --common: #5a9a3a; }
-      .catalog-shell { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
-      .catalog-header { display: flex; justify-content: space-between; gap: 12px; align-items: end; flex-wrap: wrap; padding: 10px 0 18px; border-bottom: 1px solid rgba(155,188,15,.16); }
-      .catalog-header h1 { font-size: 26px; color: var(--text-strong); letter-spacing: .12em; margin: 10px 0 6px; }
-      .catalog-header p { font-size: 11px; color: var(--text-faint); }
-      .search-panel { background: var(--panel-bg); border: 1px solid var(--panel-line); border-radius: 6px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
-      .search-grid, .filter-grid { display: grid; gap: 12px; }
-      .search-grid { grid-template-columns: 1fr; }
-      .filter-grid { grid-template-columns: 1fr; }
-      .field { display: flex; flex-direction: column; gap: 6px; }
-      .field label { font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: .08em; }
-      .field input, .field select { width: 100%; padding: 10px 12px; border: 1px solid var(--panel-line); border-radius: 4px; background: rgba(10,10,10,.85); color: #9bbc0f; font: inherit; }
-      .field input:focus, .field select:focus { outline: none; border-color: var(--panel-strong); }
-      .search-actions, .results-bar, .pagination-bar { display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; }
-      .search-actions { flex-direction: column; align-items: stretch; }
-      .search-actions .btn { width: 100%; text-align: center; }
-      .reset-link { color: var(--text-active); font-size: 11px; text-decoration: none; border-bottom: 1px dashed rgba(216,240,143,.45); }
-      .reset-link:hover { border-bottom-color: var(--text-active); }
-      .results-bar { font-size: 11px; color: var(--text-faint); }
-      .results-summary-line { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-      .summary-pill { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(155,188,15,.2); background: rgba(10,10,10,.35); }
-      .summary-pill.active { color: var(--text-active); border-color: rgba(216,240,143,.55); background: rgba(216,240,143,.08); }
-      .results-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; }
-      .game-card { background: rgba(15,56,15,.16); border: 1px solid var(--common); border-radius: 6px; padding: 16px; display: flex; flex-direction: column; gap: 12px; min-height: 220px; }
-      .game-card.rarity-legendary { border-color: var(--legendary); }
-      .game-card.rarity-epic { border-color: var(--epic); }
-      .game-card.rarity-rare { border-color: var(--rare); }
-      .game-card.rarity-uncommon { border-color: var(--uncommon); }
-      .game-card.rarity-common { border-color: var(--common); }
-      .game-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
-      .game-title { font-size: 14px; color: var(--text-strong); font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .game-subtitle { font-size: 11px; color: var(--text-soft); }
-      .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
-      .genre-pill { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 999px; font-size: 10px; letter-spacing: .05em; border: 1px solid rgba(155,188,15,.22); background: rgba(155,188,15,.08); color: rgba(155,188,15,.72); }
-      .price-row { margin-top: auto; font-size: 11px; color: var(--text-soft); line-height: 1.6; }
-      .trend-mini { font-size: .65rem; padding: 0 .3rem; font-weight: bold; }
-      .trend-mini.up { color: #9bbc0f; }
-      .trend-mini.down { color: #e85555; }
-      .trend-mini.stable { color: #8bac0f; }
-      .empty-state, .loading-state { padding: 32px 20px; text-align: center; border: 1px dashed rgba(155,188,15,.18); border-radius: 6px; color: var(--text-faint); background: rgba(15,56,15,.08); }
-      .empty-state strong { color: var(--text-strong); }
-      .suggestions { margin-top: 14px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
-      .suggestion-btn { background: transparent; color: var(--text-active); border: 1px solid rgba(216,240,143,.28); border-radius: 999px; padding: 6px 10px; font: inherit; font-size: 11px; cursor: pointer; }
-      .suggestion-btn:hover { border-color: rgba(216,240,143,.7); background: rgba(216,240,143,.08); }
-      .pagination-bar { padding-bottom: 20px; }
-      .page-indicator { font-size: 11px; color: var(--text-faint); }
-      @media (max-width: 980px) { .results-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
-      @media (max-width: 640px) { .results-grid { grid-template-columns: 1fr; } .catalog-header { align-items: flex-start; } .results-bar, .pagination-bar, .search-actions { flex-direction: column; align-items: stretch; } .search-actions .btn, .pagination-bar .btn { width: 100%; text-align: center; } }
-    </style>
   </head>
   <body>
-    <main class="catalog-shell">
-      <header class="catalog-header">
-        <div>
+    <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
+      <a class="global-product-home" href="/hub.html">Hub</a>
+      <div class="global-product-links">
+        <a class="global-product-link is-market" href="/stats.html">
+          <span class="nav-label">RetroMarket</span>
+          <span class="nav-copy">prix | confiance | signaux</span>
+        </a>
+        <a class="global-product-link is-active" href="/games-list.html">
+          <span class="nav-label">RetroDex</span>
+          <span class="nav-copy">catalogue | savoir | archives</span>
+        </a>
+        <a class="global-product-link" href="/collection.html">
+          <span class="nav-label">Collections</span>
+          <span class="nav-copy">etagere | wishlist | suivi</span>
+        </a>
+        <a class="global-product-link" href="/search.html">
+          <span class="nav-label">Recherche</span>
+          <span class="nav-copy">entree transverse</span>
+        </a>
+      </div>
+    </nav>
+    <main class="catalog-shell catalog-page">
+      <header class="catalog-header catalog-page-head">
+        <div class="catalog-page-titlezone">
           <nav class="breadcrumb">
             <a href="/hub.html">HUB</a>
             <span class="sep">&rsaquo;</span>
+            <span class="section">RETRODEX</span>
+            <span class="sep">&rsaquo;</span>
             <span class="current">CATALOGUE</span>
           </nav>
+          <div class="detail-kicker">RETRODEX CATALOGUE</div>
           <h1 class="page-title">CATALOGUE</h1>
-          <p id="catalog-subtitle" class="page-subtitle">507 jeux retro</p>
+          <p id="catalog-subtitle" class="page-subtitle">Chargement...</p>
+          <p class="catalog-intro">
+            Expression catalogue de RetroDex. Filtrer, comparer, puis bifurquer vers les fiches,
+            les franchises et la couche editoriale.
+          </p>
+        </div>
+
+        <div class="catalog-head-tools">
           <div class="global-search-bar">
             <input
               type="text"
@@ -85,17 +71,51 @@
             />
           </div>
           <div class="page-nav-inline">
-            <a href="/encyclopedia.html">Encyclopédie</a>
+            <a href="/franchises.html">Franchises</a>
+            <span>&middot;</span>
+            <a href="/encyclopedia.html">Encyclopedie</a>
+            <span>&middot;</span>
+            <a href="/search.html">Recherche</a>
           </div>
         </div>
       </header>
 
-      <section class="bloomberg-layout">
-        <aside class="bloomberg-sidebar">
+      <section class="product-universe-frame is-dex" aria-label="Univers parent">
+        <div class="product-universe-head">
+          <div>
+            <div class="detail-kicker">PRIMARY UNIVERSE</div>
+            <h2 class="product-universe-title">RETRODEX</h2>
+          </div>
+          <div class="product-universe-chip">CATALOGUE</div>
+        </div>
+        <p class="product-universe-copy">
+          Catalogue central du produit. Cette page sert a parcourir le fonds de jeux, puis a
+          ouvrir la bonne profondeur de lecture : fiche jeu, franchise, encyclopedie ou recherche
+          transverse.
+        </p>
+        <div class="product-universe-links">
+          <a class="is-active" href="/games-list.html">Catalogue</a>
+          <a href="/franchises.html">Franchises</a>
+          <a href="/encyclopedia.html">Encyclopedie</a>
+          <a href="/search.html">Recherche transversale</a>
+        </div>
+        <div class="product-universe-overlap">
+          Overlap: Recherche pour l'entree rapide | RetroMarket pour la lecture prix et confiance.
+        </div>
+      </section>
+
+      <section class="bloomberg-layout catalog-layout">
+        <aside class="bloomberg-sidebar catalog-sidebar">
           <button id="filters-mobile-toggle" class="filters-mobile-toggle" type="button" aria-expanded="false">+ FILTRES</button>
           <div id="filters-sidebar-content" class="filters-sidebar-content">
-            <section class="search-panel">
-              <div class="section-title filters-sidebar-title">FILTRES</div>
+            <section class="search-panel catalog-filter-panel">
+              <div class="catalog-panel-head">
+                <div>
+                  <div class="detail-kicker">CATALOG FILTERS</div>
+                  <div class="filters-sidebar-title">Mode de lecture</div>
+                </div>
+                <div class="catalog-panel-copy">Filtrer la base par plateforme, rarete, periode et tendance.</div>
+              </div>
 
               <div class="search-grid">
                 <div class="field">
@@ -127,14 +147,11 @@
                 </div>
               </div>
 
-              <button id="toggle-advanced"
-                type="button"
-                onclick="toggleAdvanced()"
-                style="background:none;border:1px solid #306230;color:#5a9a3a;padding:0.3rem 0.75rem;font-size:0.7rem;cursor:pointer;align-self:flex-start;">
+              <button id="toggle-advanced" type="button" class="catalog-advanced-toggle">
                 + Filtres avances
               </button>
 
-              <div id="advanced-filters" style="display:none;">
+              <div id="advanced-filters" class="catalog-advanced-filters" hidden>
                 <div class="filter-grid">
                   <div class="field">
                     <label for="genre">Genre</label>
@@ -143,10 +160,10 @@
                   <div class="field">
                     <label for="filter-trend">Tendance</label>
                     <select id="filter-trend">
-                      <option value="">Tendance: Toutes</option>
-                      <option value="up">&#8593; En hausse</option>
-                      <option value="down">&#8595; En baisse</option>
-                      <option value="stable">= Stable</option>
+                      <option value="">Toutes</option>
+                      <option value="up">Hausse</option>
+                      <option value="down">Baisse</option>
+                      <option value="stable">Stable</option>
                     </select>
                   </div>
                   <div class="field">
@@ -157,727 +174,67 @@
                     <label for="year-max">Annee max</label>
                     <input id="year-max" type="number" min="1970" max="2012" placeholder="2012" />
                   </div>
-                  <div class="field">
-                    <label for="sort-by">Trier par</label>
-                    <select id="sort-by">
-                      <option value="title_asc" selected>Title A-Z</option>
-                      <option value="title_desc">Title Z-A</option>
-                      <option value="loose_asc">Price Loose &#8593;</option>
-                      <option value="loose_desc">Price Loose &#8595;</option>
-                      <option value="mint_asc">Price Mint &#8593;</option>
-                      <option value="mint_desc">Price Mint &#8595;</option>
-                      <option value="meta_asc">Metascore &#8593;</option>
-                      <option value="meta_desc">Metascore &#8595;</option>
-                      <option value="year_asc">Year &#8593;</option>
-                      <option value="year_desc">Year &#8595;</option>
+                    <div class="field">
+                      <label for="sort-by">Trier par</label>
+                      <select id="sort-by">
+                        <option value="rarity_desc" selected>Rarity ↓</option>
+                        <option value="title_asc">Title A-Z</option>
+                        <option value="title_desc">Title Z-A</option>
+                        <option value="loose_asc">Price Loose ↑</option>
+                        <option value="loose_desc">Price Loose ↓</option>
+                      <option value="mint_asc">Price Mint ↑</option>
+                      <option value="mint_desc">Price Mint ↓</option>
+                      <option value="meta_asc">Metascore ↑</option>
+                      <option value="meta_desc">Metascore ↓</option>
+                      <option value="year_asc">Year ↑</option>
+                      <option value="year_desc">Year ↓</option>
                     </select>
                   </div>
                 </div>
               </div>
 
-              <div class="search-actions">
+              <div class="search-actions catalog-search-actions">
+                <button id="search-button" type="button" class="btn">Appliquer</button>
                 <a id="reset-filters" href="#" class="reset-link">Reinitialiser</a>
-                <button id="search-button" type="button" class="btn">Rechercher</button>
               </div>
             </section>
           </div>
         </aside>
 
-        <section class="bloomberg-center">
-          <section class="results-bar">
-            <div id="results-summary" class="results-summary-line">Chargement...</div>
+        <section class="bloomberg-center catalog-main">
+          <section class="results-bar catalog-results-bar">
+            <div>
+              <div class="detail-kicker">CATALOG SIGNALS</div>
+              <div id="results-summary" class="results-summary-line">Chargement...</div>
+            </div>
             <div id="loading-indicator" class="status-bar"></div>
           </section>
 
           <section id="results" class="results-list"></section>
 
-          <div id="page-numbers" style="display:flex;flex-wrap:wrap;gap:0.25rem;justify-content:center;margin:1rem 0;"></div>
+          <div id="page-numbers" class="catalog-page-numbers"></div>
 
-          <section class="pagination-bar">
+          <section class="pagination-bar catalog-pagination-bar">
             <button id="prev-button" type="button" class="btn">Previous</button>
             <div id="page-indicator" class="page-indicator">Page 1 of 1</div>
             <button id="next-button" type="button" class="btn">Next</button>
           </section>
         </section>
 
-        <aside class="bloomberg-detail">
+        <aside class="bloomberg-detail catalog-detail">
           <div class="quick-detail-panel">
-            <div class="quick-detail-head">Detail rapide</div>
-            <div id="quick-detail" class="quick-detail-placeholder">&larr; Selectionner un jeu</div>
+            <div class="detail-kicker">DETAIL PREVIEW</div>
+            <div class="quick-detail-head">Lecture rapide</div>
+            <div id="quick-detail" class="quick-detail-placeholder">&larr; Survoler ou selectionner un jeu</div>
           </div>
         </aside>
       </section>
     </main>
 
-    <script>
-      const queryEl = document.getElementById("query");
-      const consoleEl = document.getElementById("console");
-      const rarityEl = document.getElementById("rarity");
-      const limitEl = document.getElementById("limit");
-      const genreEl = document.getElementById("genre");
-      const trendEl = document.getElementById("filter-trend");
-      const yearMinEl = document.getElementById("year-min");
-      const yearMaxEl = document.getElementById("year-max");
-      const sortEl = document.getElementById("sort-by");
-      const searchButtonEl = document.getElementById("search-button");
-      const resetFiltersEl = document.getElementById("reset-filters");
-      const resultsSummaryEl = document.getElementById("results-summary");
-      const loadingIndicatorEl = document.getElementById("loading-indicator");
-      const resultsEl = document.getElementById("results");
-      const pageNumbersEl = document.getElementById("page-numbers");
-      const pageIndicatorEl = document.getElementById("page-indicator");
-      const prevButtonEl = document.getElementById("prev-button");
-      const nextButtonEl = document.getElementById("next-button");
-      const subtitleEl = document.getElementById("catalog-subtitle");
-      const advancedFiltersEl = document.getElementById("advanced-filters");
-      const toggleAdvancedEl = document.getElementById("toggle-advanced");
-      const filtersMobileToggleEl = document.getElementById("filters-mobile-toggle");
-      const filtersSidebarContentEl = document.getElementById("filters-sidebar-content");
-      const quickDetailEl = document.getElementById("quick-detail");
-
-      let debounceTimer;
-      let currentOffset = 0;
-      let totalGames = 507;
-      let masterGames = [];
-      let fetchedGames = [];
-      let filteredGames = [];
-      let selectedGameId = "";
-
-      const esc = (value) => String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-
-      const num = (value) => Number(value) || 0;
-      const price = (value) => Number.isFinite(Number(value)) ? `$${Number(value)}` : "n/a";
-      const rClass = (value) => String(value || "COMMON").toLowerCase();
-      const textCmp = (left, right) => String(left || "").localeCompare(String(right || ""), "fr", { sensitivity: "base" });
-
-      function yearVal(value) {
-        const year = Number.parseInt(String(value || ""), 10);
-        return Number.isFinite(year) ? Math.max(1970, Math.min(2012, year)) : "";
-      }
-
-      function toggleAdvanced(forceOpen) {
-        const open = typeof forceOpen === "boolean"
-          ? forceOpen
-          : advancedFiltersEl.style.display === "none";
-
-        advancedFiltersEl.style.display = open ? "block" : "none";
-        toggleAdvancedEl.textContent = open ? "- Filtres avances" : "+ Filtres avances";
-      }
-
-      function toggleFiltersPanel(forceOpen) {
-        const open = typeof forceOpen === "boolean"
-          ? forceOpen
-          : !filtersSidebarContentEl.classList.contains("is-open");
-
-        filtersSidebarContentEl.classList.toggle("is-open", open);
-        filtersMobileToggleEl.setAttribute("aria-expanded", String(open));
-        filtersMobileToggleEl.textContent = open ? "- FILTRES" : "+ FILTRES";
-      }
-
-      function goToPage(page) {
-        const limit = Number.parseInt(document.getElementById("limit")?.value || "20", 10) || 20;
-        currentOffset = Math.max(0, (page - 1) * limit);
-        loadGames();
-        window.scrollTo(0, 0);
-      }
-
-      function renderPageNumbers(currentPage, totalPages) {
-        if (!pageNumbersEl) return;
-
-        if (totalPages <= 1) {
-          pageNumbersEl.innerHTML = "";
-          return;
-        }
-
-        pageNumbersEl.innerHTML = "";
-        let pages = [];
-
-        if (totalPages <= 7) {
-          pages = Array.from({ length: totalPages }, (_, index) => index + 1);
-        } else {
-          pages = [1, 2];
-          if (currentPage > 4) pages.push("...");
-          for (let page = Math.max(3, currentPage - 1); page <= Math.min(totalPages - 2, currentPage + 1); page++) {
-            pages.push(page);
-          }
-          if (currentPage < totalPages - 3) pages.push("...");
-          pages.push(totalPages - 1, totalPages);
-        }
-
-        pages.forEach((page) => {
-          if (page === "...") {
-            const span = document.createElement("span");
-            span.textContent = "...";
-            span.style.cssText = "color:#306230;padding:0 0.25rem;";
-            pageNumbersEl.appendChild(span);
-            return;
-          }
-
-          const btn = document.createElement("button");
-          btn.textContent = page;
-          btn.style.cssText = `
-            background:${page === currentPage ? "#0a1a0a" : "none"};
-            border:1px solid ${page === currentPage ? "#9bbc0f" : "#306230"};
-            color:${page === currentPage ? "#9bbc0f" : "#5a9a3a"};
-            padding:0.2rem 0.5rem;font-size:0.7rem;cursor:pointer;
-            min-width:28px;
-          `;
-          btn.onclick = () => goToPage(page);
-          pageNumbersEl.appendChild(btn);
-        });
-      }
-
-      async function fetchJson(url) {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`${response.status} ${response.statusText}`);
-        }
-        return response.json();
-      }
-
-      function readStateFromUrl() {
-        const params = new URLSearchParams(location.search);
-        queryEl.value = params.get("q") || "";
-        consoleEl.dataset.pending = params.get("console") || "";
-        rarityEl.value = params.get("rarity") || "";
-        genreEl.dataset.pending = params.get("genre") || "";
-        trendEl.value = params.get("trend") || "";
-        limitEl.value = ["20", "50", "100"].includes(params.get("limit")) ? params.get("limit") : "20";
-        sortEl.value = params.get("sort") || "title_asc";
-        yearMinEl.value = yearVal(params.get("yearMin"));
-        yearMaxEl.value = yearVal(params.get("yearMax"));
-        selectedGameId = params.get("selected") || "";
-        currentOffset = Math.max(0, Number.parseInt(params.get("offset") || "0", 10) || 0);
-      }
-
-      function state() {
-        let yearMin = yearVal(yearMinEl.value);
-        let yearMax = yearVal(yearMaxEl.value);
-
-        if (yearMin && yearMax && yearMin > yearMax) {
-          const swap = yearMin;
-          yearMin = yearMax;
-          yearMax = swap;
-        }
-
-        return {
-          q: queryEl.value.trim(),
-          console: consoleEl.value,
-          rarity: rarityEl.value,
-          genre: genreEl.value,
-          trend: trendEl.value,
-          yearMin,
-          yearMax,
-          limit: Number.parseInt(limitEl.value, 10) || 20,
-          sort: sortEl.value || "title_asc",
-          offset: currentOffset,
-        };
-      }
-
-      function updateUrl(currentState) {
-        const url = new URL(location.href);
-        const entries = [
-          ["q", currentState.q],
-          ["console", currentState.console],
-          ["rarity", currentState.rarity],
-          ["genre", currentState.genre],
-          ["trend", currentState.trend],
-          ["yearMin", currentState.yearMin ? String(currentState.yearMin) : ""],
-          ["yearMax", currentState.yearMax ? String(currentState.yearMax) : ""],
-          ["limit", String(currentState.limit)],
-          ["sort", currentState.sort],
-          ["offset", String(currentState.offset)],
-          ["selected", selectedGameId],
-        ];
-
-        entries.forEach(([key, value]) => {
-          if (value) url.searchParams.set(key, value);
-          else url.searchParams.delete(key);
-        });
-
-        history.replaceState({}, "", url);
-      }
-
-      function sortGames(items, sortKey) {
-        return [...items].sort((left, right) => {
-          switch (sortKey) {
-            case "title_desc":
-              return textCmp(right.title, left.title);
-            case "loose_asc":
-              return num(left.loosePrice) - num(right.loosePrice) || textCmp(left.title, right.title);
-            case "loose_desc":
-              return num(right.loosePrice) - num(left.loosePrice) || textCmp(left.title, right.title);
-            case "mint_asc":
-              return num(left.mintPrice) - num(right.mintPrice) || textCmp(left.title, right.title);
-            case "mint_desc":
-              return num(right.mintPrice) - num(left.mintPrice) || textCmp(left.title, right.title);
-            case "meta_asc":
-              return num(left.metascore) - num(right.metascore) || textCmp(left.title, right.title);
-            case "meta_desc":
-              return num(right.metascore) - num(left.metascore) || textCmp(left.title, right.title);
-            case "year_asc":
-              return num(left.year) - num(right.year) || textCmp(left.title, right.title);
-            case "year_desc":
-              return num(right.year) - num(left.year) || textCmp(left.title, right.title);
-            default:
-              return textCmp(left.title, right.title);
-          }
-        });
-      }
-
-      function detailUrl(gameId, currentState) {
-        const params = new URLSearchParams();
-        [
-          ["q", currentState.q],
-          ["console", currentState.console],
-          ["rarity", currentState.rarity],
-          ["genre", currentState.genre],
-          ["trend", currentState.trend],
-        ].forEach(([key, value]) => value && params.set(key, value));
-
-        if (currentState.yearMin) params.set("yearMin", String(currentState.yearMin));
-        if (currentState.yearMax) params.set("yearMax", String(currentState.yearMax));
-
-        params.set("limit", String(currentState.limit));
-        params.set("sort", currentState.sort);
-        params.set("offset", String(currentState.offset));
-        params.set("id", gameId);
-
-        return `/game-detail.html?${params.toString()}`;
-      }
-
-      function navigateTo(gameId) {
-        window.location.href = detailUrl(gameId, state());
-      }
-
-      function renderQuickDetailEmpty(message = "&larr; Selectionner un jeu") {
-        quickDetailEl.className = "quick-detail-placeholder";
-        quickDetailEl.innerHTML = message;
-      }
-
-      function detailPrice(value) {
-        const amount = Number(value);
-        if (!Number.isFinite(amount) || amount <= 0) {
-          return '<div class="price-value empty">$—</div>';
-        }
-        return `<div class="price-value">$${Math.round(amount)}</div>`;
-      }
-
-      function shortSummary(game) {
-        const text = String(game.summary || game.description || "").trim();
-        if (!text) return "";
-        return text.length > 220 ? `${esc(text.slice(0, 217))}...` : esc(text);
-      }
-
-      function quickDetailMarkup(game, currentState) {
-        const description = shortSummary(game);
-        return `
-          <div class="detail-content">
-            <div class="detail-title">${esc(game.title || "Sans titre")}</div>
-            <div class="detail-badges">
-              <span class="badge-platform">${esc(game.console || "Console inconnue")}</span>
-              <span class="badge-year">${esc(game.year || "n/a")}</span>
-              <span class="result-badge rarity-badge rarity-${esc(rClass(game.rarity))}">${esc(game.rarity || "COMMON")}</span>
-            </div>
-            <div class="detail-prices">
-              <div class="detail-price-col">
-                <div class="price-label">LOOSE</div>
-                ${detailPrice(game.loosePrice)}
-              </div>
-              <div class="detail-price-col">
-                <div class="price-label">CIB</div>
-                ${detailPrice(game.cibPrice)}
-              </div>
-              <div class="detail-price-col">
-                <div class="price-label">MINT</div>
-                ${detailPrice(game.mintPrice)}
-              </div>
-            </div>
-            ${description ? `<div class="detail-description">${description}</div>` : ""}
-            <a class="detail-link" href="${detailUrl(game.id, currentState)}">Voir fiche complete &rarr;</a>
-          </div>
-        `;
-      }
-
-      function markSelectedRow() {
-        resultsEl.querySelectorAll(".result-row").forEach((rowEl) => {
-          rowEl.classList.toggle("is-selected", rowEl.dataset.gameId === selectedGameId);
-        });
-      }
-
-      async function loadQuickDetail(gameId) {
-        selectedGameId = gameId;
-        markSelectedRow();
-        updateUrl(state());
-        quickDetailEl.className = "quick-detail-loading";
-        quickDetailEl.innerHTML = "Chargement...";
-
-        try {
-          const game = await fetchJson(`/api/games/${encodeURIComponent(gameId)}`);
-          quickDetailEl.className = "";
-          quickDetailEl.innerHTML = quickDetailMarkup(game, state());
-        } catch (error) {
-          quickDetailEl.className = "quick-detail-placeholder";
-          quickDetailEl.innerHTML = `Impossible de charger le detail (${esc(error.message)})`;
-        }
-      }
-
-      function renderSummary(currentState, total) {
-        const pills = [
-          `<span class="summary-pill active">${total} jeux</span>`,
-          `<span class="summary-pill ${currentState.console ? "active" : ""}">console: ${esc(currentState.console || "Toutes")}</span>`,
-          `<span class="summary-pill ${currentState.rarity ? "active" : ""}">rarete: ${esc(currentState.rarity || "Toutes")}</span>`,
-          `<span class="summary-pill ${currentState.genre ? "active" : ""}">genre: ${esc(currentState.genre || "Tous")}</span>`,
-        ];
-
-        if (currentState.trend) {
-          pills.push(`<span class="summary-pill active">tendance: ${esc(currentState.trend)}</span>`);
-        }
-
-        if (currentState.yearMin || currentState.yearMax) {
-          pills.push(`<span class="summary-pill active">annee: ${esc(currentState.yearMin || 1970)}-${esc(currentState.yearMax || 2012)}</span>`);
-        }
-
-        resultsSummaryEl.innerHTML = pills.join("");
-      }
-
-      function suggestions() {
-        const fallback = [
-          { title: "Panzer Dragoon Saga", metascore: 98 },
-          { title: "Chrono Trigger", metascore: 95 },
-          { title: "Super Mario World", metascore: 94 },
-          { title: "The Legend of Zelda: A Link to the Past", metascore: 95 },
-          { title: "Final Fantasy VII", metascore: 92 },
-          { title: "Radiant Silvergun", metascore: 94 },
-        ];
-        const pool = [...(masterGames.length ? masterGames : fallback)]
-          .sort((left, right) => num(right.metascore) - num(left.metascore) || textCmp(left.title, right.title))
-          .slice(0, 24);
-        const picks = [];
-
-        while (pool.length && picks.length < 3) {
-          picks.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
-        }
-
-        return picks;
-      }
-
-      function renderEmpty(currentState) {
-        const picks = suggestions();
-        const suffix = currentState.q ? ` pour &laquo;${esc(currentState.q)}&raquo;.` : ".";
-        renderPageNumbers(1, 1);
-
-        resultsEl.innerHTML = `<div class="empty-state">
-          <div><strong>Aucun jeu trouve${suffix}</strong></div>
-          <div style="margin-top:8px;">Essayez: ${picks.map((game) => esc(game.title)).join(" · ") || "un autre filtre"}.</div>
-          ${picks.length ? `<div class="suggestions">${picks.map((game) => `<button type="button" class="suggestion-btn" data-suggestion="${esc(game.title)}">${esc(game.title)}</button>`).join("")}</div>` : ""}
-        </div>`;
-
-        resultsEl.querySelectorAll("[data-suggestion]").forEach((button) => {
-          button.addEventListener("click", () => {
-            queryEl.value = button.dataset.suggestion || "";
-            currentOffset = 0;
-            loadGames();
-          });
-        });
-      }
-
-      function applyFilters(currentState) {
-        filteredGames = fetchedGames.filter((game) => {
-          const rarity = String(game.rarity || "").toUpperCase();
-          const genre = String(game.genre || "");
-          const year = num(game.year);
-          const trend = String(game.trend?.mint || "");
-
-          if (currentState.rarity && rarity !== currentState.rarity) return false;
-          if (currentState.genre && genre !== currentState.genre) return false;
-          if (currentState.trend && trend !== currentState.trend) return false;
-          if (currentState.yearMin && (!year || year < currentState.yearMin)) return false;
-          if (currentState.yearMax && (!year || year > currentState.yearMax)) return false;
-
-          return true;
-        });
-      }
-
-      function render(currentState) {
-        filteredGames = sortGames(filteredGames, currentState.sort);
-        const total = filteredGames.length;
-        const start = currentState.offset;
-        const end = Math.min(start + currentState.limit, total);
-        const pageItems = filteredGames.slice(start, end);
-        const page = total ? Math.floor(start / currentState.limit) + 1 : 1;
-        const totalPages = Math.max(1, Math.ceil(total / currentState.limit));
-
-        renderSummary(currentState, total);
-        pageIndicatorEl.textContent = `Page ${page} of ${totalPages}`;
-        prevButtonEl.disabled = start <= 0;
-        nextButtonEl.disabled = end >= total;
-        renderPageNumbers(page, totalPages);
-
-        if (!pageItems.length) {
-          renderEmpty(currentState);
-          return;
-        }
-
-        resultsEl.innerHTML = "";
-        pageItems.forEach((game) => {
-          const rowEl = renderGameRow(game, {
-            onClick: () => navigateTo(game.id),
-          });
-          rowEl.setAttribute("role", "link");
-          rowEl.setAttribute("tabindex", "0");
-          resultsEl.appendChild(rowEl);
-        });
-
-        resultsEl.querySelectorAll(".result-row").forEach((rowEl) => {
-          rowEl.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" || event.key === " ") {
-              event.preventDefault();
-              navigateTo(rowEl.dataset.gameId);
-            }
-          });
-        });
-      }
-
-      function renderLoadingSkeletons() {
-        resultsEl.innerHTML = `
-          <div class="skeleton skeleton-title"></div>
-          <div class="skeleton skeleton-line-full"></div>
-          <div class="skeleton skeleton-line-full"></div>
-          <div class="skeleton skeleton-line-medium"></div>
-          <div class="skeleton skeleton-line-full"></div>
-          <div class="skeleton skeleton-line-short"></div>
-        `;
-      }
-
-      async function loadConsoles() {
-        const payload = await fetchJson("/api/consoles");
-        const consoles = Array.isArray(payload.consoles)
-          ? payload.consoles
-          : Array.isArray(payload.items)
-            ? payload.items
-            : [];
-
-        consoles.forEach((item) => {
-          const consoleName = item.platform || item.name || item.title || "";
-          if (!consoleName) return;
-
-          const option = document.createElement("option");
-          option.value = consoleName;
-          option.textContent = `${consoleName} (${Number(item.gamesCount) || 0})`;
-          if (consoleEl.dataset.pending === consoleName) option.selected = true;
-          consoleEl.appendChild(option);
-        });
-      }
-
-      function populateGenres(source) {
-        const genres = [...new Set((source || masterGames).map((game) => String(game.genre || "").trim()).filter(Boolean))].sort(textCmp);
-        if (genreEl.options.length > 1 || !genres.length) return;
-
-        genres.forEach((genre) => {
-          const option = document.createElement("option");
-          option.value = genre;
-          option.textContent = genre;
-          if (genreEl.dataset.pending === genre) option.selected = true;
-          genreEl.appendChild(option);
-        });
-      }
-
-      async function loadMeta() {
-        try {
-          const [statsPayload, gamesPayload] = await Promise.all([
-            fetchJson("/api/stats"),
-            fetchJson("/games"),
-          ]);
-          totalGames = statsPayload.totals?.games || totalGames;
-          masterGames = Array.isArray(gamesPayload) ? gamesPayload : [];
-        } catch (_) {
-          masterGames = masterGames || [];
-        }
-
-        subtitleEl.textContent = `${totalGames} jeux retro`;
-        populateGenres();
-      }
-
-      async function loadGames() {
-        const currentState = state();
-        updateUrl(currentState);
-        loadingIndicatorEl.textContent = "Chargement...";
-        renderLoadingSkeletons();
-
-        const params = new URLSearchParams();
-        if (currentState.q) params.set("q", currentState.q);
-        if (currentState.console) params.set("console", currentState.console);
-        params.set("limit", String(Math.max(totalGames || 507, 507)));
-        params.set("include_trend", "1");
-
-        try {
-          const payload = await fetchJson(`/api/games?${params.toString()}`);
-          fetchedGames = Array.isArray(payload.items) ? payload.items : [];
-          populateGenres(fetchedGames);
-          applyFilters(currentState);
-
-          if (currentState.offset >= filteredGames.length && filteredGames.length > 0) {
-            currentOffset = Math.max(0, Math.floor((filteredGames.length - 1) / currentState.limit) * currentState.limit);
-            return loadGames();
-          }
-
-          render(currentState);
-          loadingIndicatorEl.textContent = "";
-        } catch (error) {
-          loadingIndicatorEl.textContent = `Erreur: ${error.message}`;
-          resultsEl.innerHTML = '<div class="empty-state">Impossible de charger le catalogue.</div>';
-        }
-      }
-
-      function searchNow() {
-        clearTimeout(debounceTimer);
-        currentOffset = 0;
-        loadGames();
-      }
-
-      function resetFilters() {
-        queryEl.value = "";
-        consoleEl.value = "";
-        rarityEl.value = "";
-        genreEl.value = "";
-        trendEl.value = "";
-        yearMinEl.value = "";
-        yearMaxEl.value = "";
-        sortEl.value = "title_asc";
-        limitEl.value = "20";
-        currentOffset = 0;
-        selectedGameId = "";
-        renderQuickDetailEmpty();
-        toggleAdvanced(false);
-        loadGames();
-      }
-
-      searchButtonEl.addEventListener("click", searchNow);
-      filtersMobileToggleEl.addEventListener("click", () => toggleFiltersPanel());
-      resetFiltersEl.addEventListener("click", (event) => {
-        event.preventDefault();
-        resetFilters();
-      });
-
-      queryEl.addEventListener("input", () => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-          currentOffset = 0;
-          loadGames();
-        }, 300);
-      });
-
-      queryEl.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          searchNow();
-        }
-        if (event.key === "Escape") {
-          event.preventDefault();
-          queryEl.value = "";
-          searchNow();
-        }
-      });
-
-      [consoleEl, rarityEl, genreEl, trendEl, limitEl, sortEl].forEach((element) => {
-        element.addEventListener("change", () => {
-          currentOffset = 0;
-          loadGames();
-        });
-      });
-
-      [yearMinEl, yearMaxEl].forEach((element) => {
-        element.addEventListener("input", () => {
-          clearTimeout(debounceTimer);
-          debounceTimer = setTimeout(() => {
-            currentOffset = 0;
-            loadGames();
-          }, 300);
-        });
-        element.addEventListener("keydown", (event) => {
-          if (event.key === "Enter") {
-            event.preventDefault();
-            searchNow();
-          }
-        });
-      });
-
-      prevButtonEl.addEventListener("click", () => {
-        const currentState = state();
-        currentOffset = Math.max(0, currentState.offset - currentState.limit);
-        loadGames();
-      });
-
-      nextButtonEl.addEventListener("click", () => {
-        const currentState = state();
-        if (currentState.offset + currentState.limit < filteredGames.length) {
-          currentOffset = currentState.offset + currentState.limit;
-          loadGames();
-        }
-      });
-
-      document.addEventListener("keydown", (event) => {
-        const tag = event.target?.tagName;
-        const inField = tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA" || event.target?.isContentEditable;
-
-        if (event.key === "Escape" && queryEl.value) {
-          queryEl.value = "";
-          currentOffset = 0;
-          loadGames();
-          return;
-        }
-
-        if (inField) return;
-
-        const currentState = state();
-        if (event.key === "ArrowLeft" && currentState.offset > 0) {
-          event.preventDefault();
-          currentOffset = Math.max(0, currentState.offset - currentState.limit);
-          loadGames();
-        }
-        if (event.key === "ArrowRight" && currentState.offset + currentState.limit < filteredGames.length) {
-          event.preventDefault();
-          currentOffset = currentState.offset + currentState.limit;
-          loadGames();
-        }
-      });
-
-      readStateFromUrl();
-      window.addEventListener("DOMContentLoaded", () => {
-        const params = new URLSearchParams(window.location.search);
-        const hasAdv = params.get("genre")
-          || params.get("yearMin")
-          || params.get("yearMax")
-          || params.get("trend")
-          || (params.get("sort") && params.get("sort") !== "title_asc");
-        if (hasAdv) toggleAdvanced(true);
-
-        const hasFilters = !!(
-          queryEl.value.trim()
-          || consoleEl.dataset.pending
-          || rarityEl.value
-          || genreEl.dataset.pending
-          || trendEl.value
-          || yearMinEl.value
-          || yearMaxEl.value
-        );
-        toggleFiltersPanel(window.innerWidth >= 768 || hasFilters || hasAdv);
-      });
-      Promise.all([loadConsoles(), loadMeta()])
-        .then(() => loadGames())
-        .then(() => {
-          if (selectedGameId) loadQuickDetail(selectedGameId);
-        })
-        .catch((error) => {
-          loadingIndicatorEl.textContent = `Erreur initiale: ${error.message}`;
-          resultsEl.innerHTML = '<div class="empty-state">Chargement impossible.</div>';
-        });
-    </script>
+    <script src="/js/core/api.js"></script>
+    <script src="/js/pages/games-list.js"></script>
+    <div class="footer-attribution">
+      Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
+    </div>
   </body>
 </html>

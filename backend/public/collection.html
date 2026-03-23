@@ -9,718 +9,188 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="RetroDex">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <title>RetroDex - Ma collection</title>
+    <meta name="description" content="Gérez votre collection rétro : valeur, condition, wishlist." />
+    <meta property="og:title" content="Collection | RetroDex" />
+    <meta property="og:description" content="Gérez votre collection rétro : valeur, condition, wishlist." />
+    <meta property="og:type" content="website" />
+    <meta name="robots" content="index, follow" />
     <link rel="stylesheet" href="/style.css" />
-    <style>
-      :root {
-        --panel-bg: rgba(15, 56, 15, 0.2);
-        --panel-line: rgba(155, 188, 15, 0.18);
-        --text-strong: #cfe66f;
-        --text-soft: rgba(155, 188, 15, 0.62);
-        --text-faint: rgba(155, 188, 15, 0.4);
-      }
-
-      .collection-shell {
-        max-width: 1100px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-
-      .page-header {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding-bottom: 14px;
-      }
-
-      .summary-bar {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .summary-card,
-      .collection-card {
-        background: var(--panel-bg);
-        border: 1px solid var(--panel-line);
-        border-radius: 6px;
-        padding: 16px;
-      }
-
-      .summary-card .label {
-        display: block;
-        font-size: 10px;
-        color: var(--text-faint);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        margin-bottom: 8px;
-      }
-
-      .summary-card .value {
-        font-size: 24px;
-        color: var(--text-strong);
-      }
-
-      .collection-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
-      }
-
-      .collection-card {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .card-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 10px;
-      }
-
-      .title-row {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .card-title {
-        font-size: 15px;
-        color: var(--text-strong);
-        text-decoration: none;
-        font-weight: bold;
-      }
-
-      .card-title:hover {
-        text-decoration: underline;
-      }
-
-      .card-subtitle,
-      .note-row,
-      .price-row,
-      .status-text,
-      .collection-market-line,
-      .collection-paid-line {
-        color: var(--text-soft);
-      }
-
-      .card-subtitle,
-      .price-row,
-      .collection-market-line,
-      .collection-paid-line {
-        font-size: 11px;
-        line-height: 1.6;
-      }
-
-      .note-row {
-        font-size: 12px;
-        line-height: 1.5;
-      }
-
-      .danger-btn {
-        border-color: rgba(155, 188, 15, 0.25);
-      }
-
-      .danger-btn:hover {
-        border-color: #e74c3c;
-        background: rgba(231, 76, 60, 0.08);
-      }
-
-      .empty-state {
-        background: rgba(15, 56, 15, 0.12);
-        border: 1px dashed rgba(155, 188, 15, 0.18);
-        border-radius: 6px;
-        padding: 40px 20px;
-        text-align: center;
-        color: var(--text-faint);
-      }
-
-      .empty-state p {
-        font-size: 13px;
-        margin-bottom: 16px;
-      }
-
-      .status-text {
-        font-size: 11px;
-        min-height: 16px;
-      }
-
-      .public-banner {
-        border: 1px solid rgba(78, 205, 196, 0.3);
-        background: rgba(78, 205, 196, 0.08);
-        color: #8fe7df;
-        border-radius: 6px;
-        padding: 10px 12px;
-        font-size: 12px;
-      }
-
-      .sale-actions {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-bottom: 14px;
-      }
-
-      .copy-feedback {
-        font-size: 11px;
-        color: var(--text-strong);
-        min-height: 16px;
-      }
-
-      .collection-value[hidden] {
-        display: none;
-      }
-
-      .collection-paid-line strong {
-        color: var(--text-alert);
-      }
-
-      .threshold-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 3px 8px;
-        border: 1px solid currentColor;
-        font-size: 10px;
-        font-family: var(--font-mono);
-        margin-top: 8px;
-      }
-
-      .threshold-badge.ok {
-        color: var(--confidence-high);
-      }
-
-      .threshold-badge.over {
-        color: var(--confidence-low);
-      }
-
-      .value-summary {
-        margin-top: 14px;
-        display: grid;
-        gap: 6px;
-      }
-
-      .value-summary-line {
-        font-size: 11px;
-        color: var(--text-secondary);
-        font-family: var(--font-mono);
-      }
-
-      .value-summary-line strong {
-        color: var(--text-primary);
-      }
-
-      .tab-btn:disabled {
-        opacity: 0.45;
-        cursor: default;
-      }
-
-      @media (max-width: 800px) {
-        .summary-bar,
-        .collection-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
   </head>
   <body>
-    <main class="collection-shell">
-      <nav class="breadcrumb">
-        <a href="/hub.html">HUB</a>
-        <span class="sep">&rsaquo;</span>
-        <span class="current">MA COLLECTION</span>
-      </nav>
+    <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
+      <a class="global-product-home" href="/hub.html">Hub</a>
+      <div class="global-product-links">
+        <a class="global-product-link is-market" href="/stats.html">
+          <span class="nav-label">RetroMarket</span>
+          <span class="nav-copy">prix | confiance | signaux</span>
+        </a>
+        <a class="global-product-link" href="/games-list.html">
+          <span class="nav-label">RetroDex</span>
+          <span class="nav-copy">catalogue | savoir | archives</span>
+        </a>
+        <a class="global-product-link is-active" href="/collection.html">
+          <span class="nav-label">Collections</span>
+          <span class="nav-copy">etagere | wishlist | suivi</span>
+        </a>
+        <a class="global-product-link" href="/search.html">
+          <span class="nav-label">Recherche</span>
+          <span class="nav-copy">entree transverse</span>
+        </a>
+      </div>
+    </nav>
+    <div class="page-wrapper">
+      <div class="terminal-context">
+        HUB > <span class="ctx-active">COLLECTIONS</span> > <span>COLLECTION</span>
+      </div>
 
-      <header class="page-header">
-        <h1 class="page-title">MA COLLECTION</h1>
-        <div class="page-nav-inline">
-          <a href="/encyclopedia.html">Encyclopédie</a>
+      <div id="public-banner" class="terminal-context" style="display:none;border-top:none;padding-top:6px;padding-bottom:6px;">
+        Liste publique - consultation uniquement
+      </div>
+
+      <div class="terminal-summary-bar" id="collection-summary-bar">
+        <div class="terminal-summary-cell">
+          <div class="terminal-summary-label">ITEMS</div>
+          <div class="terminal-summary-value" id="stat-total">-</div>
         </div>
-      </header>
-
-      <nav class="tabs" aria-label="Vues de collection">
-        <button type="button" class="tab-btn active" data-tab="owned">MA COLLECTION</button>
-        <button type="button" class="tab-btn" data-tab="wanted">WISHLIST</button>
-        <button type="button" class="tab-btn" data-tab="for_sale">&Agrave; VENDRE</button>
-      </nav>
-
-      <div id="public-banner" class="public-banner" hidden>Liste publique - consultation uniquement</div>
-
-      <section class="summary-bar">
-        <article class="summary-card">
-          <span class="label">Total items</span>
-          <span class="value" id="total-items">&mdash;</span>
-        </article>
-        <article class="summary-card">
-          <span class="label">Valeur Loose</span>
-          <span class="value" id="total-loose">&mdash;</span>
-        </article>
-        <article class="summary-card">
-          <span class="label">Valeur Mint</span>
-          <span class="value" id="total-mint">&mdash;</span>
-        </article>
-      </section>
-
-      <div id="status-text" class="status-text">Chargement...</div>
-
-      <section id="collection-value" class="collection-value" hidden>
-        <div class="value-header">VALEUR DE MA COLLECTION</div>
-        <div class="value-grid">
-          <div class="value-col">
-            <div class="value-label">LOOSE</div>
-            <div class="value-amount" id="val-loose">$&mdash;</div>
-          </div>
-          <div class="value-col">
-            <div class="value-label">CIB</div>
-            <div class="value-amount" id="val-cib">$&mdash;</div>
-          </div>
-          <div class="value-col">
-            <div class="value-label">MINT</div>
-            <div class="value-amount" id="val-mint">$&mdash;</div>
-          </div>
+        <div class="terminal-summary-cell">
+          <div class="terminal-summary-label">VALEUR LOOSE</div>
+          <div class="terminal-summary-value neutral" id="stat-value-loose">-</div>
         </div>
-        <div class="value-summary">
-          <div class="value-summary-line">Paye : <strong id="val-paid">$&mdash;</strong></div>
-          <div class="value-summary-line">Valeur actuelle : <strong id="val-current">$&mdash;</strong></div>
-          <div class="value-summary-line">Plus-value estimee : <strong id="val-profit">$&mdash;</strong></div>
+        <div class="terminal-summary-cell">
+          <div class="terminal-summary-label">PAYE</div>
+          <div class="terminal-summary-value" id="stat-paid">-</div>
         </div>
-        <div class="value-count" id="val-count">&mdash; jeux</div>
-      </section>
+        <div class="terminal-summary-cell">
+          <div class="terminal-summary-label">+/- ESTIME</div>
+          <div class="terminal-summary-value" id="stat-gain">-</div>
+        </div>
+        <div class="terminal-summary-cell">
+          <div class="terminal-summary-label">VALEUR CIB</div>
+          <div class="terminal-summary-value" id="stat-value-cib">-</div>
+        </div>
+        <div class="terminal-summary-cell">
+          <div class="terminal-summary-label">VALEUR MINT</div>
+          <div class="terminal-summary-value" id="stat-value-mint">-</div>
+        </div>
+      </div>
 
-      <section id="collection-content"></section>
-    </main>
+      <div class="terminal-context" style="padding-top:8px;padding-bottom:8px;">
+        <a href="/search.html" class="terminal-action-link">Ajouter un jeu → rechercher dans le catalogue</a>
+      </div>
 
-    <script>
-      const totalItemsEl = document.getElementById("total-items");
-      const totalLooseEl = document.getElementById("total-loose");
-      const totalMintEl = document.getElementById("total-mint");
-      const collectionValueEl = document.getElementById("collection-value");
-      const valLooseEl = document.getElementById("val-loose");
-      const valCibEl = document.getElementById("val-cib");
-      const valMintEl = document.getElementById("val-mint");
-      const valPaidEl = document.getElementById("val-paid");
-      const valCurrentEl = document.getElementById("val-current");
-      const valProfitEl = document.getElementById("val-profit");
-      const valCountEl = document.getElementById("val-count");
-      const statusTextEl = document.getElementById("status-text");
-      const collectionContentEl = document.getElementById("collection-content");
-      const publicBannerEl = document.getElementById("public-banner");
-      const tabButtons = Array.from(document.querySelectorAll("[data-tab]"));
-      const isPublicForSaleView = new URLSearchParams(window.location.search).get("view") === "for_sale";
+      <div class="terminal-filter-bar" style="margin-top:0">
+        <div class="terminal-filter-group">
+          <button class="terminal-filter-btn active" data-list="owned" type="button">MA COLLECTION</button>
+          <button class="terminal-filter-btn" data-list="wanted" type="button">WISHLIST</button>
+          <button class="terminal-filter-btn" data-list="for_sale" type="button">A VENDRE</button>
+        </div>
+        <div class="terminal-filter-group" style="margin-left:auto">
+          <button class="terminal-filter-btn" id="copy-sale-link-btn" type="button" style="display:none">COPIER LIEN</button>
+          <button class="terminal-filter-btn" id="collection-add-btn" type="button">[/] AJOUTER</button>
+        </div>
+      </div>
 
-      let enrichedItems = [];
-      let activeTab = isPublicForSaleView ? "for_sale" : "owned";
-      let copyFeedbackTimer = null;
+      <div class="terminal-filter-bar collection-toolbar">
+        <div class="terminal-filter-group collection-toolbar-group">
+          <input id="collection-search-input" class="collection-toolbar-input" type="search" placeholder="Filtrer par titre ou note..." />
+          <select id="collection-console-filter" class="collection-toolbar-select">
+            <option value="">Toutes les consoles</option>
+          </select>
+          <select id="collection-sort-select" class="collection-toolbar-select">
+            <option value="title_asc">Titre A-Z</option>
+            <option value="title_desc">Titre Z-A</option>
+            <option value="paid_desc">Prix d'achat decroissant</option>
+            <option value="paid_asc">Prix d'achat croissant</option>
+            <option value="value_desc">Valeur loose decroissante</option>
+          </select>
+        </div>
+        <div class="terminal-filter-group" style="margin-left:auto">
+          <button class="terminal-filter-btn" id="collection-export-btn" type="button">EXPORT CSV</button>
+        </div>
+      </div>
 
-      function escapeHtml(value) {
-        return String(value ?? "")
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#039;");
-      }
+      <div id="status-text" class="terminal-context terminal-status-line">
+        Chargement...
+      </div>
 
-      function formatCurrency(value) {
-        const number = Number(value);
-        return Number.isFinite(number) && number > 0 ? `$${number.toFixed(2)}` : "$—";
-      }
+      <div
+        class="terminal-table-header"
+        style="grid-template-columns: 12px 1fr 90px 60px 70px 70px 70px"
+      >
+        <span></span>
+        <span>TITRE</span>
+        <span>CONSOLE</span>
+        <span>COND.</span>
+        <span style="text-align:right">PRIX</span>
+        <span style="text-align:right">PAYE</span>
+        <span style="text-align:right">GAIN</span>
+      </div>
 
-      function rarityClass(value) {
-        return String(value || "COMMON").toLowerCase();
-      }
+      <div id="collection-list-container"></div>
 
-      function conditionClass(value) {
-        const normalized = String(value || "Loose").toLowerCase();
-        return normalized === "mint" ? "mint" : normalized === "cib" ? "cib" : "loose";
-      }
-
-      function getTabLabel(tab) {
-        if (tab === "wanted") return "la wishlist";
-        if (tab === "for_sale") return "la liste a vendre";
-        return "votre collection";
-      }
-
-      function getCollectionApiUrl(tab) {
-        if (isPublicForSaleView && tab === "for_sale") {
-          return "/api/collection/public";
-        }
-
-        const params = new URLSearchParams();
-        params.set("list_type", tab);
-        return `/api/collection?${params.toString()}`;
-      }
-
-      function getCurrentConditionPrice(item) {
-        if (!item?.game) {
-          return null;
-        }
-
-        const condition = String(item.condition || "Loose").toLowerCase();
-        if (condition === "mint") return item.game.mintPrice;
-        if (condition === "cib") return item.game.cibPrice;
-        return item.game.loosePrice;
-      }
-
-      function getThresholdState(item) {
-        const current = Number(getCurrentConditionPrice(item));
-        const threshold = Number(item?.price_threshold);
-
-        if (!Number.isFinite(current) || !Number.isFinite(threshold) || threshold <= 0) {
-          return null;
-        }
-
-        const under = current <= threshold;
-        return {
-          label: under ? "SOUS SEUIL" : "AU-DESSUS",
-          className: under ? "ok" : "over",
-        };
-      }
-
-      async function fetchJson(url, options) {
-        const response = await fetch(url, options);
-        if (!response.ok) {
-          const body = await response.json().catch(() => ({}));
-          throw new Error(body.error || `${response.status} ${response.statusText}`);
-        }
-        return response.json();
-      }
-
-      function computeTotals(items) {
-        return items.reduce((acc, item) => {
-          acc.count += 1;
-          acc.loose += Number(item.game?.loosePrice || 0);
-          acc.mint += Number(item.game?.mintPrice || 0);
-          return acc;
-        }, { count: 0, loose: 0, mint: 0 });
-      }
-
-      function updateSummary(items) {
-        const totals = computeTotals(items);
-        totalItemsEl.textContent = String(totals.count);
-        totalLooseEl.textContent = formatCurrency(totals.loose);
-        totalMintEl.textContent = formatCurrency(totals.mint);
-      }
-
-      function resetCollectionValue() {
-        collectionValueEl.hidden = activeTab !== "owned";
-        valLooseEl.textContent = "$—";
-        valCibEl.textContent = "$—";
-        valMintEl.textContent = "$—";
-        valPaidEl.textContent = "$—";
-        valCurrentEl.textContent = "$—";
-        valProfitEl.textContent = "$—";
-        valCountEl.textContent = "— jeux";
-      }
-
-      async function loadCollectionStats() {
-        if (activeTab !== "owned") {
-          resetCollectionValue();
-          return;
-        }
-
-        try {
-          const stats = await fetchJson("/api/collection/stats");
-
-          if (!stats.count) {
-            resetCollectionValue();
-            return;
-          }
-
-          collectionValueEl.hidden = false;
-          valLooseEl.textContent = formatCurrency(stats.total_loose);
-          valCibEl.textContent = formatCurrency(stats.total_cib);
-          valMintEl.textContent = formatCurrency(stats.total_mint);
-          valPaidEl.textContent = formatCurrency(stats.total_paid);
-          valCurrentEl.textContent = formatCurrency(stats.total_loose);
-          valProfitEl.textContent = formatCurrency(stats.profit_estimate);
-          valCountEl.textContent = `${stats.count} jeu(x)`;
-        } catch (_error) {
-          resetCollectionValue();
-        }
-      }
-
-      function setCopyFeedback(message) {
-        const feedbackEl = collectionContentEl.querySelector("[data-copy-feedback]");
-        if (!feedbackEl) {
-          return;
-        }
-
-        feedbackEl.textContent = message;
-
-        if (copyFeedbackTimer) {
-          window.clearTimeout(copyFeedbackTimer);
-        }
-
-        if (message) {
-          copyFeedbackTimer = window.setTimeout(() => {
-            const currentFeedbackEl = collectionContentEl.querySelector("[data-copy-feedback]");
-            if (currentFeedbackEl) {
-              currentFeedbackEl.textContent = "";
-            }
-          }, 2000);
-        }
-      }
-
-      function renderEmptyState(tab) {
-        if (tab === "wanted") {
-          collectionContentEl.innerHTML = `
-            <div class="empty-state">
-              <p>Aucun jeu dans la wishlist</p>
-            </div>
-          `;
-          return;
-        }
-
-        if (tab === "for_sale") {
-          collectionContentEl.innerHTML = `
-            <div class="sale-actions">
-              <button type="button" class="btn" data-copy-sale-link>Copier le lien de vente</button>
-              <span class="copy-feedback" data-copy-feedback></span>
-            </div>
-            <div class="empty-state">
-              <p>Aucun jeu a vendre</p>
-            </div>
-          `;
-          return;
-        }
-
-        collectionContentEl.innerHTML = `
-          <div class="empty-state">
-            <p>Aucun jeu &mdash; ajoutez-en depuis une fiche</p>
-            <a href="/games-list.html" class="btn">Parcourir le catalogue &rarr;</a>
+      <div class="terminal-preview-panel" id="collection-detail" style="display:none">
+        <div class="terminal-preview-label">SELECTION</div>
+        <div class="terminal-preview-title" id="detail-title">-</div>
+        <div class="terminal-preview-row" id="detail-row1"></div>
+        <div class="terminal-preview-row" id="detail-row2"></div>
+        <form id="collection-edit-form" class="collection-form collection-edit-form" hidden>
+          <div class="collection-controls">
+            <select id="edit-condition" class="collection-condition-select" aria-label="Etat du jeu">
+              <option value="Loose">Loose</option>
+              <option value="CIB">CIB</option>
+              <option value="Mint">Mint</option>
+            </select>
+            <input
+              id="edit-price-paid"
+              class="collection-condition-select"
+              type="number"
+              min="0"
+              step="0.01"
+              inputmode="decimal"
+              placeholder="Prix d'achat"
+              aria-label="Prix d'achat"
+            />
+            <input
+              id="edit-purchase-date"
+              class="collection-condition-select"
+              type="date"
+              aria-label="Date d'achat"
+            />
           </div>
-        `;
-      }
-
-      function renderOwnedCollection(items) {
-        if (!items.length) {
-          renderEmptyState("owned");
-          return;
-        }
-
-        collectionContentEl.innerHTML = `
-          <div class="collection-grid">
-            ${items.map((item) => `
-              <article class="collection-card" data-item-id="${escapeHtml(item.id)}">
-                <div class="card-head">
-                  <div>
-                    <div class="title-row">
-                      <a class="card-title" href="/game-detail.html?id=${encodeURIComponent(item.game.id)}">${escapeHtml(item.game.title)}</a>
-                      <span class="condition-badge condition-${escapeHtml(conditionClass(item.condition))}">${escapeHtml(item.condition || "Loose")}</span>
-                    </div>
-                    <div class="card-subtitle">${escapeHtml(item.game.platform || item.game.console || "Console inconnue")} &middot; ${escapeHtml(item.game.year || "n/a")}</div>
-                    ${item.notes ? `<div class="note-row">${escapeHtml(item.notes)}</div>` : ""}
-                  </div>
-                  <span class="rarity-badge rarity-${escapeHtml(rarityClass(item.game.rarity))}">${escapeHtml(item.game.rarity || "COMMON")}</span>
-                </div>
-                <div class="price-row">
-                  Loose ${escapeHtml(formatCurrency(item.game.loosePrice))} &middot; CIB ${escapeHtml(formatCurrency(item.game.cibPrice))} &middot; Mint ${escapeHtml(formatCurrency(item.game.mintPrice))}
-                </div>
-                <div>
-                  <button type="button" class="btn danger-btn" data-delete-id="${escapeHtml(item.id)}">Retirer</button>
-                </div>
-              </article>
-            `).join("")}
+          <textarea
+            id="edit-notes"
+            class="collection-note-input"
+            rows="2"
+            maxlength="320"
+            placeholder="Notes personnelles..."
+          ></textarea>
+          <div class="collection-edit-actions">
+            <button id="collection-edit-save-btn" class="terminal-inline-btn" type="submit">ENREGISTRER</button>
+            <button id="collection-edit-cancel-btn" class="terminal-inline-btn" type="button">ANNULER</button>
           </div>
-        `;
-      }
+        </form>
+      </div>
 
-      function renderWishlist(items) {
-        if (!items.length) {
-          renderEmptyState("wanted");
-          return;
-        }
+      <div class="terminal-footer">
+        <span><kbd>[UP/DN]</kbd> Naviguer</span>
+        <span><kbd>[Enter]</kbd> Ouvrir la fiche</span>
+        <span><kbd>[Del]</kbd> Retirer avec confirmation</span>
+        <span><kbd>[/]</kbd> Rechercher pour ajouter</span>
+      </div>
 
-        collectionContentEl.innerHTML = `
-          <div class="collection-grid">
-            ${items.map((item) => `
-              <article class="collection-card" data-item-id="${escapeHtml(item.id)}">
-                <div class="card-head">
-                  <div>
-                    <div class="title-row">
-                      <a class="card-title" href="/game-detail.html?id=${encodeURIComponent(item.game.id)}">${escapeHtml(item.game.title)}</a>
-                      <span class="condition-badge condition-${escapeHtml(conditionClass(item.condition))}">${escapeHtml(item.condition || "Loose")}</span>
-                    </div>
-                    <div class="card-subtitle">${escapeHtml(item.game.platform || item.game.console || "Console inconnue")} &middot; ${escapeHtml(item.game.year || "n/a")}</div>
-                    <div class="collection-market-line">
-                      Prix actuel ${escapeHtml(String(item.condition || "Loose").toUpperCase())} : ${escapeHtml(formatCurrency(getCurrentConditionPrice(item)))}
-                    </div>
-                    <div class="collection-market-line">
-                      Seuil defini : ${escapeHtml(formatCurrency(item.price_threshold))}
-                    </div>
-                    ${(() => {
-                      const thresholdState = getThresholdState(item);
-                      if (!thresholdState) return "";
-                      return `<div class="threshold-badge ${escapeHtml(thresholdState.className)}">${escapeHtml(thresholdState.label)}</div>`;
-                    })()}
-                    ${item.notes ? `<div class="note-row">${escapeHtml(item.notes)}</div>` : ""}
-                  </div>
-                  <span class="rarity-badge rarity-${escapeHtml(rarityClass(item.game.rarity))}">${escapeHtml(item.game.rarity || "COMMON")}</span>
-                </div>
-                <div class="price-row">
-                  Loose ${escapeHtml(formatCurrency(item.game.loosePrice))} &middot; CIB ${escapeHtml(formatCurrency(item.game.cibPrice))} &middot; Mint ${escapeHtml(formatCurrency(item.game.mintPrice))}
-                </div>
-                <div>
-                  <button type="button" class="btn danger-btn" data-delete-id="${escapeHtml(item.id)}">Retirer</button>
-                </div>
-              </article>
-            `).join("")}
-          </div>
-        `;
-      }
+      <div class="footer-igdb">
+        Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
+      </div>
+    </div>
 
-      function renderForSale(items) {
-        if (!items.length) {
-          renderEmptyState("for_sale");
-          return;
-        }
-
-        collectionContentEl.innerHTML = `
-          <div class="sale-actions">
-            <button type="button" class="btn" data-copy-sale-link>Copier le lien de vente</button>
-            <span class="copy-feedback" data-copy-feedback></span>
-          </div>
-          <div class="collection-grid">
-            ${items.map((item) => `
-              <article class="collection-card" data-item-id="${escapeHtml(item.id)}">
-                <div class="card-head">
-                  <div>
-                    <div class="title-row">
-                      <a class="card-title" href="/game-detail.html?id=${encodeURIComponent(item.game.id)}">${escapeHtml(item.game.title)}</a>
-                      <span class="condition-badge condition-${escapeHtml(conditionClass(item.condition))}">${escapeHtml(item.condition || "Loose")}</span>
-                    </div>
-                    <div class="card-subtitle">${escapeHtml(item.game.platform || item.game.console || "Console inconnue")} &middot; ${escapeHtml(item.game.year || "n/a")}</div>
-                    <div class="collection-paid-line">
-                      Prix paye : <strong>${escapeHtml(formatCurrency(item.price_paid))}</strong>
-                    </div>
-                    ${item.notes ? `<div class="note-row">${escapeHtml(item.notes)}</div>` : ""}
-                  </div>
-                  <span class="rarity-badge rarity-${escapeHtml(rarityClass(item.game.rarity))}">${escapeHtml(item.game.rarity || "COMMON")}</span>
-                </div>
-                ${isPublicForSaleView ? "" : `<div><button type="button" class="btn danger-btn" data-delete-id="${escapeHtml(item.id)}">Retirer</button></div>`}
-              </article>
-            `).join("")}
-          </div>
-        `;
-      }
-
-      function renderActiveTab(items) {
-        if (activeTab === "wanted") {
-          renderWishlist(items);
-          return;
-        }
-
-        if (activeTab === "for_sale") {
-          renderForSale(items);
-          return;
-        }
-
-        renderOwnedCollection(items);
-      }
-
-      function syncActiveTabButton() {
-        tabButtons.forEach((button) => {
-          const tab = button.getAttribute("data-tab");
-          button.classList.toggle("active", tab === activeTab);
-          button.disabled = isPublicForSaleView && tab !== "for_sale";
-        });
-
-        if (publicBannerEl) {
-          publicBannerEl.hidden = !(isPublicForSaleView && activeTab === "for_sale");
-        }
-      }
-
-      function setActiveTab(tab) {
-        if (isPublicForSaleView && tab !== "for_sale") {
-          return;
-        }
-
-        activeTab = tab;
-        syncActiveTabButton();
-        loadCollection();
-      }
-
-      async function loadCollection() {
-        statusTextEl.textContent = "Chargement...";
-        collectionContentEl.innerHTML = "";
-        await loadCollectionStats();
-
-        try {
-          const payload = await fetchJson(getCollectionApiUrl(activeTab));
-          const items = (payload.items || []).filter((item) => item.game);
-
-          enrichedItems = items;
-          updateSummary(enrichedItems);
-          renderActiveTab(enrichedItems);
-          statusTextEl.textContent = items.length ? `${items.length} jeu(x) dans ${getTabLabel(activeTab)}.` : "";
-        } catch (error) {
-          statusTextEl.textContent = `Erreur collection : ${error.message}`;
-          enrichedItems = [];
-          updateSummary(enrichedItems);
-          if (activeTab !== "owned") {
-            resetCollectionValue();
-          }
-          renderEmptyState(activeTab);
-        }
-      }
-
-      tabButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          const nextTab = button.getAttribute("data-tab") || "owned";
-          if (nextTab === activeTab) {
-            return;
-          }
-          setActiveTab(nextTab);
-        });
-      });
-
-      collectionContentEl.addEventListener("click", async (event) => {
-        const copyButton = event.target.closest("[data-copy-sale-link]");
-        if (copyButton) {
-          try {
-            await navigator.clipboard.writeText(`${window.location.origin}/collection.html?view=for_sale`);
-            setCopyFeedback("Lien copie !");
-          } catch (_error) {
-            setCopyFeedback("Copie impossible");
-          }
-          return;
-        }
-
-        const button = event.target.closest("[data-delete-id]");
-        if (!button) {
-          return;
-        }
-
-        if (isPublicForSaleView && activeTab === "for_sale") {
-          return;
-        }
-
-        const collectionItemId = button.getAttribute("data-delete-id");
-        statusTextEl.textContent = "Suppression...";
-        button.disabled = true;
-
-        try {
-          await fetchJson(`/api/collection/${encodeURIComponent(collectionItemId)}`, {
-            method: "DELETE",
-          });
-          enrichedItems = enrichedItems.filter((item) => String(item.id) !== String(collectionItemId));
-          updateSummary(enrichedItems);
-          renderActiveTab(enrichedItems);
-          statusTextEl.textContent = "Jeu retire.";
-        } catch (error) {
-          statusTextEl.textContent = `Erreur suppression : ${error.message}`;
-          button.disabled = false;
-        }
-      });
-
-      syncActiveTabButton();
-      resetCollectionValue();
-      loadCollection();
-    </script>
+    <script src="/js/core/config.js"></script>
+    <script src="/js/core/dom.js"></script>
+    <script src="/js/core/format.js"></script>
+    <script src="/js/core/api.js"></script>
+    <script src="/js/core/state.js"></script>
+    <script src="/js/pages/collection.js"></script>
+    <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>

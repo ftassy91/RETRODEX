@@ -1,14 +1,20 @@
 'use strict'
-require('dotenv').config({
-  path: require('path').join(__dirname, '../../backend/.env')
-})
+const path = require('path')
+const ROOT = path.resolve(__dirname, '../..')
+module.paths.push(path.join(ROOT, 'backend', 'node_modules'))
+
+try {
+  require('dotenv').config({
+    path: path.join(ROOT, 'backend', '.env')
+  })
+} catch (_error) {
+  // Non-blocking hook: if dotenv is unavailable, rely on the current process env.
+}
 
 const fs = require('fs')
-const path = require('path')
 const https = require('https')
 const { execSync } = require('child_process')
 
-const ROOT = path.resolve(__dirname, '../..')
 const NOTION_TOKEN = process.env.NOTION_TOKEN
 const KANBAN_DB_ID = '3de5a2f353074e90b493ede9f82e4129'
 const NOTION_CORE_VERSION = '2022-06-28'

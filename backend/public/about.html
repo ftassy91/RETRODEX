@@ -1,98 +1,214 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#9bbc0f">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="RetroDex">
-  <link rel="apple-touch-icon" href="/icons/icon-192.png">
-  <title>RetroDex — A propos</title>
-  <link rel="stylesheet" href="/style.css">
-  <style>
-    .about-hero { max-width:900px; margin:0 auto 32px; padding:28px 0 20px; border-bottom:1px solid rgba(155,188,15,0.15); }
-    .about-hero h1 { font-size:22px; color:#cfe66f; letter-spacing:0.1em; margin-bottom:8px; }
-    .about-hero p { font-size:12px; color:rgba(155,188,15,0.6); line-height:1.6; max-width:600px; }
-    .section { max-width:900px; margin:0 auto 28px; }
-    .section h2 { font-size:11px; color:rgba(155,188,15,0.45); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:14px; }
-    .stats-row { display:flex; gap:16px; flex-wrap:wrap; }
-    .stat-box { background:rgba(15,56,15,0.2); border:1px solid rgba(155,188,15,0.18); border-radius:5px; padding:14px 20px; min-width:130px; }
-    .stat-box .val { font-size:24px; color:#cfe66f; display:block; }
-    .stat-box .lbl { font-size:10px; color:rgba(155,188,15,0.45); letter-spacing:0.06em; }
-    .stack-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; }
-    .stack-item { background:rgba(15,56,15,0.15); border:1px solid rgba(155,188,15,0.15); border-radius:4px; padding:12px 14px; }
-    .stack-item .role { font-size:10px; color:rgba(155,188,15,0.4); margin-bottom:4px; text-transform:uppercase; }
-    .stack-item .tech { font-size:12px; color:#9bbc0f; }
-    .links-list { display:flex; flex-direction:column; gap:8px; }
-    .link-row { display:flex; align-items:center; gap:12px; padding:10px 14px; background:rgba(15,56,15,0.15); border:1px solid rgba(155,188,15,0.15); border-radius:4px; text-decoration:none; color:#9bbc0f; transition:border-color 0.15s; }
-    .link-row:hover { border-color:rgba(155,188,15,0.5); }
-    .link-row .icon { font-size:16px; }
-    .link-row .desc { font-size:11px; color:rgba(155,188,15,0.5); margin-left:auto; }
-  </style>
-</head>
-<body>
-  <nav class="breadcrumb" style="max-width:900px;margin:0 auto 1.25rem;">
-    <a href="/hub.html">HUB</a>
-    <span class="sep">&rsaquo;</span>
-    <span class="current">A PROPOS</span>
-  </nav>
-  <div class="about-hero">
-    <h1 class="page-title">A PROPOS DE RETRODEX</h1>
-    <p class="page-subtitle">RetroDex est un hub centralise pour collectionneurs de jeux video retro. Catalogue, fiches, collection personnelle et suivi des prix en un seul endroit.</p>
-  </div>
-  <div class="section">
-    <h2>Statistiques</h2>
-    <div class="stats-row">
-      <div class="stat-box"><span class="val" id="s-games">—</span><span class="lbl">JEUX</span></div>
-      <div class="stat-box"><span class="val" id="s-consoles">—</span><span class="lbl">CONSOLES</span></div>
-      <div class="stat-box"><span class="val" id="s-meta">—</span><span class="lbl">METASCORE MOY.</span></div>
-      <div class="stat-box"><span class="val" id="s-coll">—</span><span class="lbl">COLLECTION</span></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/icons/icon-192.png" />
+    <title>RetroDex - A propos</title>
+    <meta name="description" content="Présentation de RetroDex et de son approche collectionneur." />
+    <meta property="og:title" content="À propos | RetroDex" />
+    <meta property="og:description" content="Présentation de RetroDex et de son approche collectionneur." />
+    <meta property="og:type" content="website" />
+    <meta name="robots" content="index, follow" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
+      <a class="global-product-home" href="/hub.html">Hub</a>
+      <div class="global-product-links">
+        <a class="global-product-link is-market" href="/stats.html">
+          <span class="nav-label">RetroMarket</span>
+          <span class="nav-copy">prix | confiance | signaux</span>
+        </a>
+        <a class="global-product-link is-active" href="/games-list.html">
+          <span class="nav-label">RetroDex</span>
+          <span class="nav-copy">catalogue | savoir | archives</span>
+        </a>
+        <a class="global-product-link" href="/collection.html">
+          <span class="nav-label">Collections</span>
+          <span class="nav-copy">etagere | wishlist | suivi</span>
+        </a>
+        <a class="global-product-link" href="/search.html">
+          <span class="nav-label">Recherche</span>
+          <span class="nav-copy">entree transverse</span>
+        </a>
+      </div>
+    </nav>
+
+    <main class="secondary-page-shell">
+      <nav class="breadcrumb" aria-label="Fil d'ariane">
+        <a href="/hub.html">HUB</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="section">RETRODEX</span>
+        <span class="sep">&rsaquo;</span>
+        <span class="current">A PROPOS</span>
+      </nav>
+
+      <header class="secondary-page-head">
+        <div class="secondary-page-titlezone">
+          <div class="secondary-page-kicker">RETRODEX IDENTITY</div>
+          <h1 class="page-title">A PROPOS DE RETRODEX</h1>
+          <p class="page-subtitle">Cadre produit, echelle actuelle et structure du terminal du collectionneur.</p>
+          <p class="secondary-page-intro">
+            Cette page situe RetroDex dans son ensemble. Le Hub reste le cockpit d'orientation,
+            tandis qu'ici l'on explique la logique produit, l'etat systeme et les espaces qui
+            composent l'archive.
+          </p>
+        </div>
+        <div class="page-status-line">
+          <strong>Page role</strong><br />
+          Reference structurelle pour comprendre ce que RetroDex est, comment il se mappe en
+          quatre univers et ou commencer selon l'intention.
+        </div>
+      </header>
+
+      <section class="product-universe-frame">
+        <div class="product-universe-head">
+          <div>
+            <div class="secondary-page-kicker">Primary universe</div>
+            <h2 class="product-universe-title">RETRODEX</h2>
+          </div>
+          <span class="product-universe-chip">Reference page</span>
+        </div>
+        <p class="product-universe-copy">
+          A propos appartient a la couche connaissance et identite du produit. La page n'est pas
+          un point d'entree concurrent au Hub : elle documente la carte du systeme et relie
+          catalogue, encyclopedie, consoles et surfaces adjacentes.
+        </p>
+        <div class="product-universe-links">
+          <a href="/hub.html">Hub</a>
+          <a href="/games-list.html" class="is-active">Catalogue</a>
+          <a href="/encyclopedia.html">Encyclopedie</a>
+          <a href="/consoles.html">Consoles</a>
+          <a href="/franchises.html">Franchises</a>
+        </div>
+        <div class="product-universe-overlap">
+          Overlap utile : le Hub oriente, RetroMarket qualifie la valeur, Collections suit la
+          possession. Cette page reste toutefois une cle de lecture RetroDex.
+        </div>
+      </section>
+
+      <section class="secondary-grid secondary-grid-two">
+        <section class="secondary-panel">
+          <div class="secondary-panel-head">
+            <div>
+              <div class="secondary-panel-kicker">System scale</div>
+              <h2 class="secondary-panel-title">Etat de reference</h2>
+            </div>
+            <div class="secondary-panel-copy">
+              Chiffres de lecture rapide pour situer l'amplitude actuelle de l'archive.
+            </div>
+          </div>
+          <div class="outlier-stats-grid">
+            <div class="outlier-stat">
+              <div class="outlier-stat-value" id="s-games">-</div>
+              <div class="outlier-stat-label">Jeux</div>
+            </div>
+            <div class="outlier-stat">
+              <div class="outlier-stat-value" id="s-consoles">-</div>
+              <div class="outlier-stat-label">Plateformes</div>
+            </div>
+            <div class="outlier-stat">
+              <div class="outlier-stat-value" id="s-meta">-</div>
+              <div class="outlier-stat-label">Avg loose</div>
+            </div>
+            <div class="outlier-stat">
+              <div class="outlier-stat-value" id="s-coll">-</div>
+              <div class="outlier-stat-label">Collection</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="secondary-panel">
+          <div class="secondary-panel-head">
+            <div>
+              <div class="secondary-panel-kicker">Product position</div>
+              <h2 class="secondary-panel-title">Un terminal, pas un simple catalogue</h2>
+            </div>
+          </div>
+          <div class="page-copy-stack">
+            <p>
+              RetroDex articule quatre univers clairs : RetroMarket pour la valeur et la
+              confiance, RetroDex pour le savoir et l'archive, Collections pour le suivi
+              personnel, Recherche pour traverser rapidement l'ensemble du systeme.
+            </p>
+            <p>
+              Le Hub orchestre cette carte. Les pages coeur se specialisent ensuite : lecture
+              riche sur la fiche jeu, index d'archives pour les franchises et consoles, surfaces
+              de travail denses pour recherche et collection.
+            </p>
+          </div>
+        </section>
+      </section>
+
+      <section class="secondary-panel">
+        <div class="secondary-panel-head">
+          <div>
+            <div class="secondary-panel-kicker">Technical stack</div>
+            <h2 class="secondary-panel-title">Base technique actuelle</h2>
+          </div>
+          <div class="secondary-panel-copy">
+            Stack volontairement simple, modulaire et compatible avec la maintenance incrémentale.
+          </div>
+        </div>
+        <div class="stack-grid-clean">
+          <div class="stack-item-clean"><div class="role">Runtime</div><div class="tech">Node.js</div></div>
+          <div class="stack-item-clean"><div class="role">Serveur</div><div class="tech">Express</div></div>
+          <div class="stack-item-clean"><div class="role">Database</div><div class="tech">SQLite / PostgreSQL</div></div>
+          <div class="stack-item-clean"><div class="role">ORM</div><div class="tech">Sequelize</div></div>
+          <div class="stack-item-clean"><div class="role">Frontend</div><div class="tech">Vanilla HTML / CSS / JS</div></div>
+          <div class="stack-item-clean"><div class="role">Charts</div><div class="tech">Chart.js</div></div>
+          <div class="stack-item-clean"><div class="role">Data sync</div><div class="tech">Notion + scripts</div></div>
+          <div class="stack-item-clean"><div class="role">Palette</div><div class="tech">Terminal phosphore</div></div>
+        </div>
+      </section>
+
+      <section class="secondary-panel">
+        <div class="secondary-panel-head">
+          <div>
+            <div class="secondary-panel-kicker">Related spaces</div>
+            <h2 class="secondary-panel-title">Espaces a ouvrir ensuite</h2>
+          </div>
+          <div class="secondary-panel-copy">
+            Points d'entree logiques depuis cette page pour passer de la lecture produit a l'usage.
+          </div>
+        </div>
+        <div class="secondary-link-list">
+          <a href="/hub.html" class="secondary-link-row">
+            <div class="secondary-link-main">
+              <div class="secondary-link-title">Hub</div>
+              <div class="secondary-link-copy">Cockpit d'orientation pour choisir l'univers adapte a votre intention.</div>
+            </div>
+            <span class="secondary-link-meta">Orientation</span>
+          </a>
+          <a href="/games-list.html" class="secondary-link-row">
+            <div class="secondary-link-main">
+              <div class="secondary-link-title">Catalogue</div>
+              <div class="secondary-link-copy">Index collector des jeux, portes d'entree vers fiches, franchises et marche.</div>
+            </div>
+            <span class="secondary-link-meta">RetroDex</span>
+          </a>
+          <a href="/encyclopedia.html" class="secondary-link-row">
+            <div class="secondary-link-main">
+              <div class="secondary-link-title">Encyclopedie</div>
+              <div class="secondary-link-copy">Lecture editoriale, anecdotes et reperes culturels des jeux et lignages.</div>
+            </div>
+            <span class="secondary-link-meta">Memoire</span>
+          </a>
+          <a href="/stats.html" class="secondary-link-row">
+            <div class="secondary-link-main">
+              <div class="secondary-link-title">RetroMarket</div>
+              <div class="secondary-link-copy">Vue valeur, confiance des sources et reperes de rarete.</div>
+            </div>
+            <span class="secondary-link-meta">Marche</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <script src="/js/pages/about.js"></script>
+    <div class="footer-attribution">
+      Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
     </div>
-  </div>
-  <div class="section">
-    <h2>Stack technique</h2>
-    <div class="stack-grid">
-      <div class="stack-item"><div class="role">Runtime</div><div class="tech">Node.js v24</div></div>
-      <div class="stack-item"><div class="role">Serveur</div><div class="tech">Express 4</div></div>
-      <div class="stack-item"><div class="role">Base de donnees</div><div class="tech">SQLite + Sequelize</div></div>
-      <div class="stack-item"><div class="role">Frontend</div><div class="tech">Vanilla JS</div></div>
-      <div class="stack-item"><div class="role">Prototype</div><div class="tech">Canvas + GB palette</div></div>
-      <div class="stack-item"><div class="role">Sync</div><div class="tech">Notion API</div></div>
-      <div class="stack-item"><div class="role">Graphiques</div><div class="tech">Chart.js</div></div>
-      <div class="stack-item"><div class="role">Palette</div><div class="tech">Game Boy #0F380F</div></div>
-    </div>
-  </div>
-  <div class="section">
-    <h2>Modules</h2>
-    <div class="links-list">
-      <a href="/games-list.html" class="link-row"><span class="icon">🗂</span><span>Catalogue — 507 jeux</span><span class="desc">port 3000</span></a>
-      <a href="/consoles.html" class="link-row"><span class="icon">🕹</span><span>Consoles — 16 systemes</span><span class="desc">port 3000</span></a>
-      <a href="/collection.html" class="link-row"><span class="icon">📦</span><span>Collection personnelle</span><span class="desc">port 3000</span></a>
-      <a href="/stats.html" class="link-row"><span class="icon">📊</span><span>Statistiques</span><span class="desc">port 3000</span></a>
-      <a href="http://localhost:8080/launcher.html" class="link-row" target="_blank"><span class="icon">🎮</span><span>RetroDex Front — prototype 3DS</span><span class="desc">port 8080</span></a>
-      <a href="http://localhost:8080/modules/retromarket/market.html" class="link-row" target="_blank"><span class="icon">💹</span><span>RetroMarket — terminal CRT</span><span class="desc">port 8080</span></a>
-    </div>
-  </div>
-  <div class="section" style="padding-bottom:32px">
-    <h2>Donnees marche</h2>
-    <div class="stack-grid">
-      <div class="stack-item"><div class="role">Jeux suivis</div><div class="tech">507</div></div>
-      <div class="stack-item"><div class="role">Ventes verifiees</div><div class="tech">120</div></div>
-      <div class="stack-item"><div class="role">Series historiques</div><div class="tech">5 x 10 ans</div></div>
-      <div class="stack-item"><div class="role">Verified market</div><div class="tech">9 jeux</div></div>
-    </div>
-  </div>
-  <script>
-    fetch('/api/stats').then(r=>r.json()).then(d=>{
-      document.getElementById('s-games').textContent=d.totals.games;
-      document.getElementById('s-consoles').textContent=d.totals.consoles;
-      document.getElementById('s-meta').textContent=d.totals.averageMetascore;
-    }).catch(()=>{});
-    fetch('/api/collection').then(r=>r.json()).then(d=>{
-      document.getElementById('s-coll').textContent=(d.items||[]).length;
-    }).catch(()=>{});
-  </script>
-</body>
+  </body>
 </html>

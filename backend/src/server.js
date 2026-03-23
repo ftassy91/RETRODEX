@@ -1,32 +1,96 @@
 'use strict'
 
 const path = require('path')
+
 require('dotenv').config({
   path: path.join(__dirname, '..', '.env'),
 })
 
+process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL
+process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
+  || process.env.SUPABASE_SERVICE_ROLE_KEY
+  || process.env.SUPERDATA_SERVICE_KEY
+process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
+
 const express = require('express')
 const cors = require('cors')
-const { DataTypes } = require('sequelize')
-
-const { sequelize, storagePath, databaseMode, databaseTarget } = require('./database')
-const Game = require('./models/Game')
-const Franchise = require('./models/Franchise')
-const RetrodexIndex = require('../models/RetrodexIndex')
-const { syncGamesFromPrototype } = require('./syncGames')
+const { mode: supabaseMode, db: supabaseDb } = require('../db_supabase')
 const { handleAsync } = require('./helpers/query')
 
-const gamesRoutes = require('./routes/games')
-const collectionRoutes = require('./routes/collection')
-const franchisesRoutes = require('./routes/franchises')
-const marketRoutes = require('./routes/market')
-const syncRoutes = require('./routes/sync')
+const pricesRouter = require('./routes/prices')
 
-const baseRetrodexIndexSync = RetrodexIndex.sync.bind(RetrodexIndex)
-RetrodexIndex.sync = (options = {}) => baseRetrodexIndexSync({
-  ...options,
-  alter: false,
-}).catch(() => {})
+const hasServerlessSupabaseEnv = Boolean(process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL)
+const isServerlessSupabaseRuntime = Boolean(process.env.VERCEL && hasServerlessSupabaseEnv)
+
+let legacyRuntime = null
+
+function getLegacyRuntime() {
+  if (legacyRuntime) {
+    return legacyRuntime
+  }
+
+  const { DataTypes } = require('sequelize')
+  const { sequelize, storagePath, databaseMode, databaseTarget } = require('./database')
+  const Game = require('./models/Game')
+  const Franchise = require('./models/Franchise')
+  const RetrodexIndex = require('../models/RetrodexIndex')
+  const { syncGamesFromPrototype } = require('./syncGames')
+
+  const baseRetrodexIndexSync = RetrodexIndex.sync.bind(RetrodexIndex)
+  RetrodexIndex.sync = (options = {}) => baseRetrodexIndexSync({
+    ...options,
+    alter: false,
+  }).catch(() => {})
+
+  legacyRuntime = {
+    DataTypes,
+    sequelize,
+    storagePath,
+    databaseMode,
+    databaseTarget,
+    Game,
+    Franchise,
+    syncGamesFromPrototype,
+  }
+
+  return legacyRuntime
+}
+
+async function countSupabaseGames() {
+  const { count, error } = await supabaseDb
+    .from('games')
+    .select('id', { count: 'exact', head: true })
+    .eq('type', 'game')
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return Number(count) || 0
+}
+
+async function ensureGameEncyclopediaColumns() {
+  const { DataTypes, sequelize } = getLegacyRuntime()
+  const queryInterface = sequelize.getQueryInterface()
+  const columns = await queryInterface.describeTable('games').catch(() => null)
+
+  if (!columns) {
+    return
+  }
+
+  const missingColumns = [
+    ['tagline', { type: DataTypes.TEXT, allowNull: true }],
+    ['cover_url', { type: DataTypes.TEXT, allowNull: true }],
+    ['synopsis', { type: DataTypes.TEXT, allowNull: true }],
+    ['dev_anecdotes', { type: DataTypes.TEXT, allowNull: true }],
+    ['dev_team', { type: DataTypes.TEXT, allowNull: true }],
+    ['cheat_codes', { type: DataTypes.TEXT, allowNull: true }],
+  ].filter(([name]) => !columns[name])
+
+  for (const [name, definition] of missingColumns) {
+    await queryInterface.addColumn('games', name, definition)
+  }
+}
 
 const app = express()
 
@@ -53,46 +117,60 @@ app.get('/', (_req, res) => {
   })
 })
 
+// SYNC: A7 - migre le 2026-03-23 - health check expose le mode DB reel
+// Decision source : SYNC.md § A7
+// SYNC: A8 - migre le 2026-03-23 - bootstrap Vercel sans charger Sequelize
+// Decision source : SYNC.md § A8
 app.get('/api/health', handleAsync(async (_req, res) => {
-  const games = await Game.count()
+  let games = 0
+  let database = supabaseMode
+  let db = process.env.DATABASE_URL ? 'postgres' : 'sqlite'
+  let storage = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL || null
+
+  if (supabaseMode === 'supabase') {
+    games = await countSupabaseGames()
+    db = 'supabase'
+  } else {
+    const {
+      Game,
+      storagePath,
+      databaseMode,
+      databaseTarget,
+    } = getLegacyRuntime()
+
+    games = await Game.count()
+    database = databaseMode
+    storage = databaseTarget || storagePath
+  }
+
   res.json({
     ok: true,
+    env: process.env.NODE_ENV || 'development',
+    db,
     status: 'running',
     backend: 'retrodex-express-sequelize',
-    database: databaseMode,
-    storage: databaseTarget || storagePath,
+    database,
+    storage,
     games,
     timestamp: new Date().toISOString(),
   })
 }))
 
-async function ensureGameEncyclopediaColumns() {
-  const queryInterface = sequelize.getQueryInterface()
-  const columns = await queryInterface.describeTable('games').catch(() => null)
-
-  if (!columns) {
-    return
-  }
-
-  const missingColumns = [
-    ['tagline', { type: DataTypes.TEXT, allowNull: true }],
-    ['cover_url', { type: DataTypes.TEXT, allowNull: true }],
-    ['synopsis', { type: DataTypes.TEXT, allowNull: true }],
-    ['dev_anecdotes', { type: DataTypes.TEXT, allowNull: true }],
-    ['dev_team', { type: DataTypes.TEXT, allowNull: true }],
-    ['cheat_codes', { type: DataTypes.TEXT, allowNull: true }],
-  ].filter(([name]) => !columns[name])
-
-  for (const [name, definition] of missingColumns) {
-    await queryInterface.addColumn('games', name, definition)
-  }
+if (isServerlessSupabaseRuntime) {
+  app.use(require('./routes/serverless'))
+  app.use('/api/prices', pricesRouter)
+} else {
+  app.use(require('./routes/games'))
+  app.use(require('./routes/collection'))
+  app.use(require('./routes/market'))
+  app.use('/api/prices', pricesRouter)
+  app.use(require('./routes/franchises'))
+  app.use(require('./routes/sync'))
 }
 
-app.use(gamesRoutes)
-app.use(collectionRoutes)
-app.use(franchisesRoutes)
-app.use(marketRoutes)
-app.use(syncRoutes)
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '..', 'public', '404.html'))
+})
 
 app.use((error, req, res, _next) => {
   console.error(`RetroDex backend request failed: ${req.method} ${req.originalUrl}`, error)
@@ -108,6 +186,13 @@ app.use((error, req, res, _next) => {
 })
 
 async function startServer(portOverride) {
+  const {
+    sequelize,
+    databaseMode,
+    Franchise,
+    Game,
+    syncGamesFromPrototype,
+  } = getLegacyRuntime()
   const shouldAlterSchema = process.env.NODE_ENV !== 'production'
   let effectiveAlter = shouldAlterSchema
 
@@ -122,8 +207,10 @@ async function startServer(portOverride) {
       throw error
     }
   }
+
   await ensureGameEncyclopediaColumns()
   await Franchise.sync({ alter: effectiveAlter })
+
   let shouldBootstrap = true
 
   try {
@@ -145,6 +232,7 @@ async function startServer(portOverride) {
 
 if (require.main === module) {
   startServer().catch(async (error) => {
+    const { sequelize } = getLegacyRuntime()
     console.error('Unable to start RetroDex backend:', error)
     await sequelize.close()
     process.exit(1)

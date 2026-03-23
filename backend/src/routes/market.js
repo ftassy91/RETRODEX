@@ -1,4 +1,8 @@
 'use strict'
+// SYNC: B1 - migre le 2026-03-23 - fallback Supabase et recherche par annee alignes avec les tests
+// Decision source : SYNC.md Â§ B1
+// SYNC: A3 - migre le 2026-03-23 - recherche lue via Supabase
+// Décision source : SYNC.md § A3
 
 const { Router } = require('express')
 const { Op } = require('sequelize')
@@ -7,7 +11,19 @@ const Accessory = require('../models/Accessory')
 const RetrodexIndex = require('../../models/RetrodexIndex')
 const CommunityReport = require('../../models/CommunityReport')
 const Franchise = require('../models/Franchise')
+process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL
+process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
+  || process.env.SUPABASE_SERVICE_ROLE_KEY
+  || process.env.SUPERDATA_SERVICE_KEY
+process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
+const { db, getStats } = require('../../db_supabase')
 const { handleAsync } = require('../helpers/query')
+const { dedupeSearchResults } = require('../helpers/search')
+const {
+  getConsoleById,
+  getRelatedConsoles,
+  normalizeConsoleKey,
+} = require('../lib/consoles')
 
 const router = Router()
 
@@ -25,6 +41,10 @@ function parseItemsOffset(value, defaultValue = 0) {
     return defaultValue
   }
   return parsed
+}
+
+function buildSearchFetchLimit(value, multiplier = 2, hardCap = 200) {
+  return Math.min(Math.max(value * multiplier, value), hardCap)
 }
 
 function buildItemsWhere(query = {}) {
@@ -82,6 +102,20 @@ function toConsolePayload(game, gamesCount = 0) {
   }
 }
 
+function matchNotableGames(notableTitles = [], games = []) {
+  const byTitle = new Map(
+    games.map((game) => [normalizeConsoleKey(game.title), game])
+  )
+
+  return notableTitles.map((title) => {
+    const match = byTitle.get(normalizeConsoleKey(title)) || null
+    return {
+      title,
+      game: match ? toItemPayload(match) : null,
+    }
+  })
+}
+
 function median(values) {
   if (!values.length) {
     return 0
@@ -114,12 +148,158 @@ function getFreshnessInfo(lastDate) {
   return 'outdated'
 }
 
+async function fetchAllSupabaseGamesForStats() {
+  const items = []
+  const batchSize = 1000
+  let from = 0
+
+  while (true) {
+    const { data, error } = await db
+      .from('games')
+      .select('id,title,console,year,rarity,loose_price,cib_price,mint_price,synopsis,source_confidence')
+      .eq('type', 'game')
+      .order('title', { ascending: true })
+      .range(from, from + batchSize - 1)
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    if (!Array.isArray(data) || data.length === 0) {
+      break
+    }
+
+    items.push(...data)
+
+    if (data.length < batchSize) {
+      break
+    }
+
+    from += batchSize
+  }
+
+  return items
+}
+
+function normalizeSearchGameRow(row) {
+  return {
+    id: row.id,
+    title: row.title || row.name || null,
+    console: row.console || null,
+    year: row.year ?? null,
+    rarity: row.rarity || null,
+    loosePrice: row.loosePrice ?? row.loose_price ?? null,
+    slug: row.slug || null,
+    franch_id: row.franch_id || null,
+    source_confidence: row.source_confidence ?? null,
+    _type: 'game',
+  }
+}
+
+function normalizeSearchFranchiseRow(row) {
+  return {
+    id: row.id || row.slug,
+    name: row.name,
+    slug: row.slug || null,
+    first_game: row.first_game ?? row.first_game_year ?? null,
+    last_game: row.last_game ?? row.last_game_year ?? null,
+    developer: row.developer || null,
+    _type: 'franchise',
+  }
+}
+
+async function fetchSearchIndexResults(query, limit) {
+  const { data, error } = await db
+    .from('retrodex_search_index')
+    .select('*')
+    .ilike('name', `%${query}%`)
+    .limit(limit)
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return Array.isArray(data) ? data : []
+}
+
+async function fetchSearchFallbackResults(
+  query,
+  type,
+  requestedGamesLimit,
+  requestedFranchisesLimit,
+  numericYear = null
+) {
+  const gamePromises = []
+  const franchisePromises = []
+
+  if (type === 'all' || type === 'game') {
+    const titleMatchesPromise =
+      db
+        .from('games')
+        .select('id,title,console,year,rarity,loosePrice:loose_price,slug,franch_id,source_confidence')
+        .eq('type', 'game')
+        .ilike('title', `%${query}%`)
+        .limit(buildSearchFetchLimit(requestedGamesLimit))
+    const yearMatchesPromise = Number.isInteger(numericYear)
+      ? db
+        .from('games')
+        .select('id,title,console,year,rarity,loosePrice:loose_price,slug,franch_id,source_confidence')
+        .eq('type', 'game')
+        .eq('year', numericYear)
+        .limit(buildSearchFetchLimit(requestedGamesLimit))
+      : Promise.resolve({ data: [], error: null })
+
+    gamePromises.push(Promise.all([titleMatchesPromise, yearMatchesPromise]))
+  }
+
+  if (type === 'all' || type === 'franchise') {
+    franchisePromises.push(
+      db
+        .from('franchise_entries')
+        .select('slug,name,first_game_year,last_game_year,developer')
+        .ilike('name', `%${query}%`)
+        .limit(requestedFranchisesLimit)
+    )
+  }
+
+  const [gamesResults, franchisesResult] = await Promise.all([
+    gamePromises[0] || Promise.resolve([{ data: [], error: null }, { data: [], error: null }]),
+    franchisePromises[0] || Promise.resolve({ data: [], error: null }),
+  ])
+
+  const [titleMatchesResult, yearMatchesResult] = gamesResults
+  if (titleMatchesResult.error) throw new Error(titleMatchesResult.error.message)
+  if (yearMatchesResult.error) throw new Error(yearMatchesResult.error.message)
+  if (franchisesResult.error) throw new Error(franchisesResult.error.message)
+
+  return {
+    games: dedupeSearchResults([
+      ...((titleMatchesResult.data || []).map(normalizeSearchGameRow)),
+      ...((yearMatchesResult.data || []).map(normalizeSearchGameRow)),
+    ]),
+    franchises: (franchisesResult.data || []).map((row) => normalizeSearchFranchiseRow({
+      id: row.slug,
+      slug: row.slug,
+      name: row.name,
+      first_game_year: row.first_game_year,
+      last_game_year: row.last_game_year,
+      developer: row.developer,
+    })),
+  }
+}
+
+// SYNC: A5 - migre le 2026-03-23 - route /api/stats lue via Supabase
+// Décision source : SYNC.md § A5
 router.get('/api/stats', handleAsync(async (_req, res) => {
-  const games = await Game.findAll({
-    where: { type: 'game' },
-    attributes: ['id', 'title', 'console', 'year', 'rarity', 'loosePrice', 'synopsis'],
-    order: [['title', 'ASC']],
-  })
+  const statsBase = await getStats().catch(() => ({}))
+  const games = await fetchAllSupabaseGamesForStats()
+  const { count: franchiseCount, error: franchiseError } = await db
+    .from('franchise_entries')
+    .select('*', { count: 'exact', head: true })
+
+  if (franchiseError) {
+    throw new Error(franchiseError.message)
+  }
 
   const byRarity = {
     LEGENDARY: 0,
@@ -144,7 +324,7 @@ router.get('/api/stats', handleAsync(async (_req, res) => {
       withSynopsis += 1
     }
 
-    const loose = Number(game.loosePrice)
+    const loose = Number(game.loose_price)
     if (Number.isFinite(loose) && loose > 0) {
       looseValues.push(loose)
     }
@@ -156,29 +336,25 @@ router.get('/api/stats', handleAsync(async (_req, res) => {
     .slice(0, 10)
 
   const pricedGames = games
-    .filter((game) => Number.isFinite(Number(game.loosePrice)) && Number(game.loosePrice) > 0)
-    .sort((left, right) => Number(right.loosePrice) - Number(left.loosePrice))
+    .filter((game) => Number.isFinite(Number(game.loose_price)) && Number(game.loose_price) > 0)
+    .sort((left, right) => Number(right.loose_price) - Number(left.loose_price))
 
   const top5Expensive = pricedGames.slice(0, 5).map((game) => ({
     id: game.id,
     title: game.title,
     platform: game.console,
-    loosePrice: Number(game.loosePrice),
+    loosePrice: Number(game.loose_price),
   }))
 
   const expensiveGame = pricedGames[0] || null
-  const cheapestGame = [...pricedGames].sort((left, right) => Number(left.loosePrice) - Number(right.loosePrice))[0] || null
-
-  const trustEntries = await RetrodexIndex.findAll({
-    attributes: ['confidence_pct'],
-  })
+  const cheapestGame = [...pricedGames].sort((left, right) => Number(left.loose_price) - Number(right.loose_price))[0] || null
 
   const trustStats = { t1: 0, t3: 0, t4: 0 }
-  trustEntries.forEach((entry) => {
-    const confidence = Number(entry.confidence_pct) || 0
-    if (confidence >= 60) {
+  games.forEach((game) => {
+    const confidence = Number(game.source_confidence) || 0
+    if (confidence >= 0.6) {
       trustStats.t1 += 1
-    } else if (confidence >= 25) {
+    } else if (confidence >= 0.25) {
       trustStats.t3 += 1
     } else {
       trustStats.t4 += 1
@@ -191,7 +367,7 @@ router.get('/api/stats', handleAsync(async (_req, res) => {
 
   res.json({
     ok: true,
-    total_games: games.length,
+    total_games: Number(statsBase.total_games) || games.length,
     total_platforms: byPlatformMap.size,
     priced_games: pricedGames.length,
     by_rarity: byRarity,
@@ -205,21 +381,21 @@ router.get('/api/stats', handleAsync(async (_req, res) => {
     trust_stats: trustStats,
     encyclopedia_stats: {
       with_synopsis: withSynopsis,
-      total_franchises: await Franchise.count(),
+      total_franchises: franchiseCount || 0,
     },
     top5_expensive: top5Expensive,
     expensive_game: expensiveGame ? {
       id: expensiveGame.id,
       title: expensiveGame.title,
       platform: expensiveGame.console,
-      loosePrice: Number(expensiveGame.loosePrice),
+      loosePrice: Number(expensiveGame.loose_price),
       year: expensiveGame.year,
     } : null,
     cheapest_game: cheapestGame ? {
       id: cheapestGame.id,
       title: cheapestGame.title,
       platform: cheapestGame.console,
-      loosePrice: Number(cheapestGame.loosePrice),
+      loosePrice: Number(cheapestGame.loose_price),
       year: cheapestGame.year,
     } : null,
   })
@@ -237,46 +413,63 @@ router.get('/api/search', handleAsync(async (req, res) => {
     return res.json({ ok: true, results: [], query: q })
   }
 
-  const like = { [Op.like]: `%${q}%` }
+  const requestedGamesLimit = type === 'all' ? Math.ceil(limit * 0.7) : limit
+  const requestedFranchisesLimit = type === 'all' ? Math.ceil(limit * 0.3) : limit
 
-  let games = []
-  let franchises = []
+  let results = []
 
-  if (type === 'all' || type === 'game') {
-    games = await Game.findAll({
-      where: {
-        type: 'game',
-        [Op.or]: [
-          { title: like },
-          { console: like },
-          { genre: like },
-          ...(numericYear ? [{ year: numericYear }] : []),
-        ],
-      },
-      attributes: ['id', 'title', 'console', 'year', 'rarity', 'loosePrice', 'slug'],
-      order: [['rarity', 'ASC'], ['title', 'ASC']],
-      limit: type === 'all' ? Math.ceil(limit * 0.7) : limit,
-    })
+  try {
+    const indexRows = await fetchSearchIndexResults(q, buildSearchFetchLimit(limit))
+    results = indexRows
+      .filter((row) => type === 'all' || row._type === type)
+      .map((row) => (row._type === 'franchise'
+        ? normalizeSearchFranchiseRow(row)
+        : normalizeSearchGameRow(row)))
+  } catch (_error) {
+    const fallback = await fetchSearchFallbackResults(
+      q,
+      type,
+      requestedGamesLimit,
+      requestedFranchisesLimit,
+      numericYear
+    )
+    results = [
+      ...fallback.franchises,
+      ...dedupeSearchResults(fallback.games).slice(0, requestedGamesLimit),
+    ]
   }
 
-  if (type === 'all' || type === 'franchise') {
-    franchises = await Franchise.findAll({
-      where: {
-        [Op.or]: [
-          { name: like },
-          { description: like },
-        ],
-      },
-      attributes: ['id', 'name', 'slug', 'first_game', 'last_game', 'developer'],
-      order: [['name', 'ASC']],
-      limit: type === 'all' ? Math.ceil(limit * 0.3) : limit,
-    })
+  if (numericYear && (type === 'all' || type === 'game')) {
+    results = results.filter((item) => item._type !== 'game' || item.year === numericYear)
   }
 
-  const results = [
-    ...franchises.map((franchise) => ({ ...franchise.toJSON(), _type: 'franchise' })),
-    ...games.map((game) => ({ ...game.toJSON(), _type: 'game' })),
-  ]
+  function scoreResult(result, query) {
+    const normalizedQuery = query.toLowerCase().trim()
+    const name = String(result.name || result.title || '').toLowerCase()
+    if (name === normalizedQuery) return 0
+    if (name.startsWith(`${normalizedQuery} `)) return 1
+    if (name.startsWith(normalizedQuery)) return 2
+    if (name.endsWith(` ${normalizedQuery}`)) return 2
+    if (name.includes(` ${normalizedQuery}`)) return 3
+    if (name.includes(normalizedQuery)) return 4
+    return 10
+  }
+
+  results.sort((a, b) => {
+    const diff = scoreResult(a, q) - scoreResult(b, q)
+    if (diff !== 0) return diff
+    const aName = String(a.name || a.title || '').toLowerCase()
+    const bName = String(b.name || b.title || '').toLowerCase()
+    if (aName === bName) {
+      if (a._type === 'franchise' && b._type !== 'franchise') return -1
+      if (b._type === 'franchise' && a._type !== 'franchise') return 1
+    }
+    if (a._type === 'game' && b._type !== 'game') return -1
+    if (b._type === 'game' && a._type !== 'game') return 1
+    return 0
+  })
+
+  results = results.slice(0, limit)
 
   return res.json({
     ok: true,
@@ -352,7 +545,15 @@ router.get('/api/consoles', handleAsync(async (_req, res) => {
 
   res.json({
     ok: true,
-    consoles: consoles.map((item) => toConsolePayload(item, gamesByPlatform.get(item.console) || 0)),
+    consoles: consoles.map((item) => {
+      const encyclopedia = getConsoleById(item.id) || getConsoleById(item.console)
+      return {
+        ...toConsolePayload(item, gamesByPlatform.get(item.console) || 0),
+        manufacturer: encyclopedia?.manufacturer || null,
+        generation: encyclopedia?.generation || null,
+        overview: encyclopedia?.overview || null,
+      }
+    }),
     count: consoles.length,
   })
 }))
@@ -373,14 +574,21 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: 'Not found' })
   }
 
-  const games = await Game.findAll({
+  const totalGames = await Game.count({
+    where: {
+      type: 'game',
+      console: consoleItem.console,
+    },
+  })
+
+  const catalog = await Game.findAll({
     where: {
       type: 'game',
       console: consoleItem.console,
     },
     order: [['title', 'ASC']],
-    limit: 20,
   })
+  const games = catalog.slice(0, 20)
 
   const accessories = await Accessory.findAll({
     where: {
@@ -390,9 +598,26 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
     limit: 10,
   })
 
+  const encyclopedia = getConsoleById(consoleItem.id) || getConsoleById(consoleItem.console)
+  const relatedConsoles = encyclopedia
+    ? getRelatedConsoles(encyclopedia, 4).map((entry) => ({
+        id: entry.id,
+        name: entry.name,
+        manufacturer: entry.manufacturer,
+        release_year: entry.release_year,
+        generation: entry.generation,
+      }))
+    : []
+  const notableGames = encyclopedia
+    ? matchNotableGames(encyclopedia.legacy?.notable_games || [], catalog)
+    : []
+
   return res.json({
     ok: true,
-    console: toConsolePayload(consoleItem, games.length),
+    console: {
+      ...toConsolePayload(consoleItem, totalGames),
+      manufacturer: encyclopedia?.manufacturer || null,
+    },
     games: games.map(toItemPayload),
     accessories: accessories.map((item) => ({
       id: item.id,
@@ -400,6 +625,9 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
       accessory_type: item.accessory_type || null,
       slug: item.slug || null,
     })),
+    encyclopedia,
+    relatedConsoles,
+    notableGames,
   })
 }))
 
