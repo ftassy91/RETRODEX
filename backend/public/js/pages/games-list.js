@@ -24,6 +24,7 @@ const toggleAdvancedEl = document.getElementById('toggle-advanced')
 const filtersMobileToggleEl = document.getElementById('filters-mobile-toggle')
 const filtersSidebarContentEl = document.getElementById('filters-sidebar-content')
 const quickDetailEl = document.getElementById('quick-detail')
+const metascoreSortButtonEl = document.getElementById('sort-metascore-desc')
 const CoreApi = window.RetroDexApi || {}
 
 let debounceTimer
@@ -60,6 +61,13 @@ const esc = (value) => String(value ?? '')
 
 const num = (value) => Number(value) || 0
 const textCmp = (left, right) => String(left || '').localeCompare(String(right || ''), 'fr', { sensitivity: 'base' })
+
+function normalizeSortKey(value) {
+  const sortKey = String(value || '').trim()
+  if (sortKey === 'meta_asc') return 'metascore_asc'
+  if (sortKey === 'meta_desc') return 'metascore_desc'
+  return sortKey || 'rarity_desc'
+}
 
 function yearVal(value) {
   const year = Number.parseInt(String(value || ''), 10)
@@ -149,7 +157,7 @@ function readStateFromUrl() {
   genreEl.dataset.pending = params.get('genre') || ''
   trendEl.value = params.get('trend') || ''
   limitEl.value = ['20', '50', '100'].includes(params.get('limit')) ? params.get('limit') : '20'
-  sortEl.value = params.get('sort') || 'rarity_desc'
+  sortEl.value = normalizeSortKey(params.get('sort') || 'rarity_desc')
   yearMinEl.value = yearVal(params.get('yearMin'))
   yearMaxEl.value = yearVal(params.get('yearMax'))
   selectedGameId = params.get('selected') || ''
@@ -175,7 +183,7 @@ function state() {
     yearMin,
     yearMax,
     limit: Number.parseInt(limitEl.value, 10) || 20,
-    sort: sortEl.value || 'rarity_desc',
+    sort: normalizeSortKey(sortEl.value || 'rarity_desc'),
     offset: currentOffset,
   }
 }
@@ -205,8 +213,9 @@ function updateUrl(currentState) {
 }
 
 function sortGames(items, sortKey) {
+  const normalizedSort = normalizeSortKey(sortKey)
   return [...items].sort((left, right) => {
-    switch (sortKey) {
+    switch (normalizedSort) {
       case 'rarity_desc':
         return (RARITY_DESC_ORDER[String(left.rarity || '').toUpperCase()] ?? 5)
           - (RARITY_DESC_ORDER[String(right.rarity || '').toUpperCase()] ?? 5)
@@ -227,8 +236,10 @@ function sortGames(items, sortKey) {
       case 'mint_desc':
         return num(right.mintPrice) - num(left.mintPrice) || textCmp(left.title, right.title)
       case 'meta_asc':
+      case 'metascore_asc':
         return num(left.metascore) - num(right.metascore) || textCmp(left.title, right.title)
       case 'meta_desc':
+      case 'metascore_desc':
         return num(right.metascore) - num(left.metascore) || textCmp(left.title, right.title)
       case 'year_asc':
         return num(left.year) - num(right.year) || textCmp(left.title, right.title)
@@ -322,10 +333,26 @@ function quickDetailMarkup(game, currentState) {
           ${detailPrice(game.mintPrice)}
         </div>
       </div>
+      <div id="preview-metascore" class="preview-metascore"></div>
       ${description ? `<div class="detail-description">${description}</div>` : ''}
       <a class="detail-link terminal-action-link" href="${detailUrl(game.id, currentState)}">Voir fiche complete &rarr;</a>
     </div>
   `
+}
+
+function renderPreviewMetascore(game) {
+  if (!quickDetailEl || !window.RetroDexMetascore) return
+  const previewMeta = quickDetailEl.querySelector('#preview-metascore')
+  if (!previewMeta) return
+  previewMeta.innerHTML = ''
+  if (game?.metascore) {
+    previewMeta.appendChild(window.RetroDexMetascore.renderBlock(game.metascore))
+  }
+}
+
+function syncSortShortcutState() {
+  if (!metascoreSortButtonEl) return
+  metascoreSortButtonEl.classList.toggle('active', normalizeSortKey(sortEl?.value) === 'metascore_desc')
 }
 
 function markSelectedRow() {
@@ -345,6 +372,7 @@ async function loadQuickDetail(gameId) {
     const game = await fetchJson(`/api/games/${encodeURIComponent(gameId)}`)
     quickDetailEl.className = ''
     quickDetailEl.innerHTML = quickDetailMarkup(game, state())
+    renderPreviewMetascore(game)
   } catch (error) {
     quickDetailEl.className = 'quick-detail-placeholder'
     quickDetailEl.innerHTML = `Impossible de charger le detail (${esc(error.message)})`
@@ -356,6 +384,7 @@ function previewQuickDetail(game, currentState) {
   if (selectedGameId === game.id) return
   quickDetailEl.className = ''
   quickDetailEl.innerHTML = quickDetailMarkup(game, currentState)
+  renderPreviewMetascore(game)
 }
 
 function renderSummary(currentState, total) {
@@ -651,6 +680,7 @@ queryEl.addEventListener('keydown', (event) => {
 [consoleEl, rarityEl, genreEl, trendEl, limitEl, sortEl].forEach((element) => {
   element.addEventListener('change', () => {
     currentOffset = 0
+    syncSortShortcutState()
     loadGames()
   })
 })
@@ -686,6 +716,13 @@ nextButtonEl.addEventListener('click', () => {
   }
 })
 
+metascoreSortButtonEl?.addEventListener('click', () => {
+  sortEl.value = 'metascore_desc'
+  currentOffset = 0
+  syncSortShortcutState()
+  loadGames()
+})
+
 document.addEventListener('keydown', (event) => {
   const tag = event.target?.tagName
   const inField = tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA' || event.target?.isContentEditable
@@ -713,6 +750,7 @@ document.addEventListener('keydown', (event) => {
 })
 
 readStateFromUrl()
+syncSortShortcutState()
 window.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search)
   const hasAdv = params.get('genre')

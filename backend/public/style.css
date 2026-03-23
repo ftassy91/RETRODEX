@@ -5483,6 +5483,12 @@ body {
   margin-top: 2px;
 }
 
+.catalog-sort-shortcuts {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
 .catalog-search-actions {
   margin-top: 6px;
   align-items: stretch;
@@ -5562,6 +5568,19 @@ body {
   align-items: center;
   gap: 12px;
   justify-content: flex-end;
+}
+
+.result-metascore {
+  min-width: 24px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.result-metascore-empty {
+  color: #1a1a1a;
+  font-family: var(--font-mono);
+  font-size: 10px;
 }
 
 .result-row.result-row-catalog .result-price {
@@ -5645,6 +5664,14 @@ body {
   border-radius: 0;
   border-color: rgba(67, 95, 60, 0.58);
   background: rgba(8, 12, 8, 0.74);
+}
+
+.preview-metascore {
+  margin-bottom: 12px;
+}
+
+.market-metascore {
+  margin: 10px 0 12px;
 }
 
 .detail-link {

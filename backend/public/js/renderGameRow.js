@@ -57,6 +57,7 @@ function renderGameRow(game, options = {}) {
     </div>
     <div class="result-signal">
       ${showPrice ? `<span class="result-price">${loosePrice}</span>` : ''}
+      <span class="result-metascore"></span>
       ${showRarity ? `<span class="result-rarity" style="color:${rarityColors[rarity] || 'var(--text-muted)'}">${escapeHtml(rarity || 'COMMON')}</span>` : ''}
     </div>
   `
@@ -74,6 +75,21 @@ function renderGameRow(game, options = {}) {
       rarityImg.style.marginRight = '4px'
       const rarityEl = el.querySelector('.result-rarity')
       if (rarityEl) rarityEl.prepend(rarityImg)
+    }
+  }
+
+  const metascoreEl = el.querySelector('.result-metascore')
+  if (metascoreEl) {
+    if (window.RetroDexMetascore && game.metascore) {
+      const badge = window.RetroDexMetascore.renderBadge(game.metascore, 'micro')
+      const label = window.RetroDexMetascore.getLabel(game.metascore)
+      badge.title = `Metascore: ${game.metascore}/100 · ${label}`
+      badge.addEventListener('mouseenter', () => {
+        window.RetroDexExperience?.showStatus?.(`METASCORE ${game.metascore}/100 · ${label}`)
+      })
+      metascoreEl.appendChild(badge)
+    } else {
+      metascoreEl.innerHTML = '<span class="result-metascore-empty">—</span>'
     }
   }
 
