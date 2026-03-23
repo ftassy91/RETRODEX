@@ -3,6 +3,7 @@
 // Décision source : SYNC.md § A6
 
 const { Router } = require('express');
+const { QueryTypes } = require('sequelize');
 
 process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL;
 process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
@@ -10,9 +11,11 @@ process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
   || process.env.SUPERDATA_SERVICE_KEY;
 process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key;
 
-const { db } = require('../../db_supabase');
+const { db, mode } = require('../../db_supabase');
+const { sequelize, databaseMode } = require('../database');
 
 const router = Router();
+const USE_SUPABASE = mode === 'supabase';
 
 function isMissingPriceHistoryTable(error) {
   const message = String(error?.message || '').toLowerCase();
@@ -34,6 +37,49 @@ function roundPrice(value) {
     return null;
   }
   return Math.round(number * 100) / 100;
+}
+
+function getCutoffStr(months) {
+  const cutoff = new Date();
+  cutoff.setMonth(cutoff.getMonth() - months);
+  return cutoff.toISOString().slice(0, 10);
+}
+
+async function ensureLocalPriceHistoryTable() {
+  if (databaseMode !== 'sqlite') {
+    return;
+  }
+
+  await sequelize.query(`
+    CREATE TABLE IF NOT EXISTS price_history (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      game_id TEXT NOT NULL,
+      price REAL NOT NULL,
+      condition TEXT CHECK(condition IN ('loose','cib','mint')) DEFAULT 'loose',
+      sale_date TEXT,
+      source TEXT DEFAULT 'seed',
+      listing_title TEXT,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY(game_id) REFERENCES games(id) ON DELETE CASCADE
+    )
+  `);
+}
+
+async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {
+  await ensureLocalPriceHistoryTable();
+
+  return sequelize.query(
+    `SELECT price, condition, sale_date
+     FROM price_history
+     WHERE game_id = :gameId
+       AND sale_date >= :cutoffStr
+     ORDER BY sale_date DESC
+     LIMIT :limit`,
+    {
+      replacements: { gameId, cutoffStr, limit },
+      type: QueryTypes.SELECT,
+    }
+  );
 }
 
 async function fetchGamesMap(gameIds) {
@@ -93,52 +139,79 @@ router.get('/recent', async (req, res) => {
 
 router.get('/:gameId/summary', async (req, res) => {
   const { gameId } = req.params;
-  const threshold = new Date(Date.now() - (1000 * 60 * 60 * 24 * 30 * 6)).toISOString();
+  const months = Math.min(Number.parseInt(String(req.query.months || '24'), 10) || 24, 60);
 
   try {
-    const { data, error } = await db
-      .from('price_history')
-      .select('condition,price,sale_date')
-      .eq('game_id', gameId)
-      .eq('source', 'ebay')
-      .gte('sale_date', threshold)
-      .order('sale_date', { ascending: false });
+    const cutoffStr = getCutoffStr(months);
+    let rows = [];
 
-    if (error) {
-      throw new Error(error.message);
-    }
+    if (USE_SUPABASE) {
+      const { data, error } = await db
+        .from('price_history')
+        .select('price,condition,sale_date')
+        .eq('game_id', gameId)
+        .gte('sale_date', cutoffStr)
+        .order('sale_date', { ascending: false })
+        .limit(2000);
 
-    const grouped = new Map();
-    for (const sale of data || []) {
-      const condition = sale.condition || 'unknown';
-      if (!grouped.has(condition)) {
-        grouped.set(condition, []);
+      if (error) {
+        throw new Error(error.message);
       }
-      grouped.get(condition).push(sale);
+
+      rows = data || [];
+    } else {
+      rows = await queryLocalPriceHistoryRows(gameId, cutoffStr, 2000);
     }
 
-    const byCondition = Array.from(grouped.entries())
-      .sort(([left], [right]) => sortConditionOrder(left, right))
-      .map(([condition, sales]) => {
-        const prices = sales
-          .map((sale) => Number(sale.price))
-          .filter((price) => Number.isFinite(price));
+    const buckets = {};
+    for (const row of rows) {
+      const condition = String(row.condition || 'loose').toLowerCase();
+      if (!['loose', 'cib', 'mint'].includes(condition)) {
+        continue;
+      }
+      if (!buckets[condition]) {
+        buckets[condition] = { prices: [], dates: [] };
+      }
+      buckets[condition].prices.push(Number(row.price));
+      buckets[condition].dates.push(row.sale_date);
+    }
+
+    const byCondition = ['loose', 'cib', 'mint']
+      .filter((condition) => buckets[condition] && buckets[condition].prices.length > 0)
+      .map((condition) => {
+        const prices = buckets[condition].prices.filter((price) => Number.isFinite(price));
+        const dates = [...buckets[condition].dates].sort();
+        const sorted = [...prices].sort((left, right) => left - right);
+        const total = sorted.length;
+        const middle = Math.floor(total / 2);
+        const median = total % 2 === 0
+          ? (sorted[middle - 1] + sorted[middle]) / 2
+          : sorted[middle];
+
         return {
           condition,
-          sales_count: sales.length,
-          avg_price: prices.length
-            ? roundPrice(prices.reduce((sum, price) => sum + price, 0) / prices.length)
-            : null,
-          min_price: prices.length ? Math.min(...prices) : null,
-          max_price: prices.length ? Math.max(...prices) : null,
-          last_sale_date: sales[0]?.sale_date || null,
+          count: total,
+          min: total ? roundPrice(sorted[0]) : null,
+          max: total ? roundPrice(sorted[total - 1]) : null,
+          median: total ? roundPrice(median) : null,
+          avg: total ? roundPrice(sorted.reduce((sum, price) => sum + price, 0) / total) : null,
+          firstDate: dates[0] || null,
+          lastDate: dates[dates.length - 1] || null,
         };
       });
+
+    const allPrices = rows
+      .map((row) => Number(row.price))
+      .filter((price) => Number.isFinite(price));
 
     return res.json({
       ok: true,
       gameId,
-      period: '6 months',
+      period: `${months} months`,
+      totalSales: rows.length,
+      lastSale: rows[0]?.sale_date || null,
+      minPrice: allPrices.length ? roundPrice(Math.min(...allPrices)) : null,
+      maxPrice: allPrices.length ? roundPrice(Math.max(...allPrices)) : null,
       byCondition,
     });
   } catch (error) {
@@ -146,7 +219,11 @@ router.get('/:gameId/summary', async (req, res) => {
       return res.json({
         ok: true,
         gameId,
-        period: '6 months',
+        period: `${months} months`,
+        totalSales: 0,
+        lastSale: null,
+        minPrice: null,
+        maxPrice: null,
         byCondition: [],
       });
     }
