@@ -4,11 +4,18 @@ require('dotenv').config({
   path: path.join(__dirname, '..', '.env'),
 })
 
+process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL
+process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
+  || process.env.SUPABASE_SERVICE_ROLE_KEY
+  || process.env.SUPERDATA_SERVICE_KEY
+process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
+
 const express = require('express')
 const cors = require('cors')
 const { DataTypes } = require('sequelize')
 
 const { sequelize, storagePath, databaseMode, databaseTarget } = require('./database')
+const { mode: supabaseMode, db: supabaseDb } = require('../db_supabase')
 const Game = require('./models/Game')
 const Franchise = require('./models/Franchise')
 const RetrodexIndex = require('../models/RetrodexIndex')
@@ -53,15 +60,31 @@ app.get('/', (_req, res) => {
   })
 })
 
+// SYNC: A7 - migre le 2026-03-23 - health check expose le mode DB reel
+// Décision source : SYNC.md § A7
 app.get('/api/health', handleAsync(async (_req, res) => {
-  const games = await Game.count()
+  let games = await Game.count()
+
+  if (supabaseMode === 'supabase') {
+    const { count, error } = await supabaseDb
+      .from('games')
+      .select('id', { count: 'exact', head: true })
+      .eq('type', 'game')
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    games = Number(count) || 0
+  }
+
   res.json({
     ok: true,
     env: process.env.NODE_ENV || 'development',
     db: process.env.DATABASE_URL ? 'postgres' : 'sqlite',
     status: 'running',
     backend: 'retrodex-express-sequelize',
-    database: databaseMode,
+    database: supabaseMode === 'none' ? databaseMode : supabaseMode,
     storage: databaseTarget || storagePath,
     games,
     timestamp: new Date().toISOString(),
