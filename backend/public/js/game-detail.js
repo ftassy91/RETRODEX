@@ -18,6 +18,7 @@ const heroEl = document.getElementById("hero");
       const catalogBackLinkEl = document.getElementById("catalog-back-link");
       const breadcrumbTitleEl = document.getElementById("breadcrumb-title");
       const detailShellEl = document.querySelector(".detail-shell, main, .content");
+      const hardwareMediaPromise = import("/scripts/hardware/renderer_media.js").catch(() => null);
 
       let currentGame = null;
       let currentCollectionItem = null;
@@ -76,6 +77,45 @@ const heroEl = document.getElementById("hero");
 
       function getGameId() {
         return new URLSearchParams(window.location.search).get("id") || "";
+      }
+
+      function resolveHardwareMediaContext(consoleName) {
+        const normalized = String(consoleName || "").toLowerCase().trim();
+        if (!normalized) {
+          return null;
+        }
+        if (normalized.includes("game boy advance")) return { consoleId: "game-boy-advance", mediaType: "cart-gba" };
+        if (normalized.includes("game boy")) return { consoleId: "game-boy", mediaType: "cart-gb" };
+        if (normalized.includes("super nintendo") || normalized.includes("snes")) return { consoleId: "snes", mediaType: "cart-snes" };
+        if (normalized.includes("mega drive") || normalized.includes("genesis")) return { consoleId: "megadrive", mediaType: "cart-md" };
+        if (normalized.includes("playstation")) return { consoleId: "ps1", mediaType: "disc-cd" };
+        if (normalized.includes("nintendo 64")) return { consoleId: "n64", mediaType: "cart-n64" };
+        if (normalized.includes("saturn")) return { consoleId: "saturn", mediaType: "disc-cd" };
+        if (normalized.includes("nintendo entertainment system") || normalized === "nes") return { consoleId: "nes", mediaType: "cart-nes" };
+        return null;
+      }
+
+      async function injectMediaIcon(game) {
+        const context = resolveHardwareMediaContext(game?.console);
+        if (!context) {
+          return;
+        }
+        const titleRowEl = document.querySelector(".hero-title-row");
+        if (!titleRowEl) {
+          return;
+        }
+        const module = await hardwareMediaPromise;
+        if (!module?.renderMedia) {
+          return;
+        }
+        let iconEl = document.getElementById("hero-media-icon");
+        if (!iconEl) {
+          iconEl = document.createElement("span");
+          iconEl.id = "hero-media-icon";
+          iconEl.className = "hero-media-icon";
+          titleRowEl.prepend(iconEl);
+        }
+        iconEl.innerHTML = module.renderMedia(context.mediaType, context.consoleId, 32);
       }
 
       function buildCatalogueBackLink() {
@@ -139,7 +179,9 @@ const heroEl = document.getElementById("hero");
                   />
                 </div>
                 <div class="game-header-copy">
-                  <h1 class="hero-title page-title">${escapeHtml(game.title)}</h1>
+                  <div class="hero-title-row">
+                    <h1 class="hero-title page-title">${escapeHtml(game.title)}</h1>
+                  </div>
                   <div class="game-tagline" id="game-tagline" style="display:none"></div>
                   <div class="hero-meta game-badges game-meta">
                     <span class="pill">${escapeHtml(game.console || "Console inconnue")}</span>
@@ -877,6 +919,7 @@ const heroEl = document.getElementById("hero");
             breadcrumbTitleEl.textContent = (currentGame.title || "").toUpperCase().substring(0, 30) || "—";
           }
           renderHeroSection(currentGame);
+          await injectMediaIcon(currentGame);
           const coverImgEl = document.getElementById("game-cover-img");
           if (coverImgEl) {
             coverImgEl.alt = currentGame.title || "";

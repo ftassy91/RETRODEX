@@ -107,6 +107,18 @@
         margin-bottom: 10px;
       }
 
+      .detail-illustration {
+        width: 100%;
+        max-width: 220px;
+        margin: 0 0 14px;
+      }
+
+      .detail-illustration svg {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
       .detail-meta {
         display: flex;
         flex-wrap: wrap;
@@ -201,7 +213,10 @@
       </section>
     </main>
 
-    <script>
+    <script type="module">
+      import { renderConsole } from '/scripts/hardware/renderer_hardware.js';
+      import { resolveHardwareId } from '/scripts/hardware/hardware_profiles.js';
+
       const countEl = document.getElementById('console-count');
       const gridEl = document.getElementById('consoles-grid');
       const detailEl = document.getElementById('console-detail');
@@ -230,11 +245,13 @@
       }
 
       function renderCard(item) {
-        const manufacturer = getManufacturer(item.title || item.platform);
+        const title = item.title || item.name || item.platform || 'Console';
+        const platform = item.platform || item.name || title;
+        const manufacturer = getManufacturer(title || platform);
         return `
-          <article class="console-card${item.id === selectedId ? ' active selected' : ''}" data-id="${escapeHtml(item.id)}" data-platform="${escapeHtml(item.platform || '')}">
+          <article class="console-card${item.id === selectedId ? ' active selected' : ''}" data-id="${escapeHtml(item.id || platform)}" data-platform="${escapeHtml(platform)}">
             <div class="console-card-head">
-              <div class="console-name">${escapeHtml(item.title)}</div>
+              <div class="console-name">${escapeHtml(title)}</div>
               <div class="console-year">${item.year ? escapeHtml(item.year) : '&mdash;'}</div>
             </div>
             <div class="console-meta">
@@ -249,6 +266,8 @@
         const manufacturer = getManufacturer(payload.console.title || payload.console.platform);
         const games = payload.games || [];
         const accessories = payload.accessories || [];
+        const consoleId = resolveHardwareId(payload.console.id || payload.console.platform || payload.console.title || '');
+        const illustration = consoleId ? renderConsole(consoleId, { withMedia: true, showLabel: false }) : '';
         const list = games.length
           ? `
             <ul class="detail-games">
@@ -271,6 +290,7 @@
           : '<div class="detail-empty">&mdash;</div>';
 
         detailEl.innerHTML = `
+          ${illustration ? `<div class="detail-illustration">${illustration}</div>` : ''}
           <div class="detail-title">${escapeHtml(payload.console.title)}</div>
           <div class="detail-meta">
             <span class="detail-pill">${payload.console.year ? escapeHtml(payload.console.year) : '&mdash;'}</span>
@@ -301,14 +321,14 @@
       async function loadConsoles() {
         const response = await fetch('/api/consoles');
         const payload = await response.json();
-        if (!response.ok || !payload.ok) {
+        const consoles = payload.consoles || payload.items || [];
+        if (!response.ok || !consoles.length) {
           countEl.textContent = 'Impossible de charger les consoles';
           gridEl.innerHTML = '';
           detailEl.innerHTML = '<div class="detail-empty">Erreur de chargement.</div>';
           return;
         }
 
-        const consoles = payload.consoles || [];
         const requestedPlatform = getRequestedPlatform().toLowerCase();
         countEl.textContent = `${payload.count || consoles.length} systemes retro`;
         gridEl.innerHTML = consoles.map(renderCard).join('');
@@ -326,8 +346,8 @@
         });
 
         if (consoles.length > 0) {
-          const initialConsole = consoles.find((item) => String(item.platform || '').toLowerCase() === requestedPlatform) || consoles[0];
-          selectedId = initialConsole.id;
+          const initialConsole = consoles.find((item) => String(item.platform || item.name || '').toLowerCase() === requestedPlatform) || consoles[0];
+          selectedId = initialConsole.id || initialConsole.platform || initialConsole.name;
           gridEl.querySelector(`.console-card[data-id="${CSS.escape(selectedId)}"]`)?.classList.add('active', 'selected');
           await loadDetail(selectedId);
         }
