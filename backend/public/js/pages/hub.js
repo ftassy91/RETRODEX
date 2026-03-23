@@ -4,10 +4,32 @@
   const { byId, setHtml, setText } = window.RetroDexDom || {}
   const { escapeHtml, formatCurrency } = window.RetroDexFormat || {}
   const { fetchJson, getItems } = window.RetroDexApi || {}
+  const HUB_IMAGE_VERSION = '20260323b'
+  let hubImageManifestPromise = null
 
   if (!byId || !setHtml || !setText || !escapeHtml || !formatCurrency || !fetchJson || !getItems) {
     console.warn('[RetroDex] Hub bootstrap skipped: core helpers missing')
     return
+  }
+
+  function loadHubImageManifest() {
+    if (!hubImageManifestPromise) {
+      hubImageManifestPromise = fetch(`/assets/hub_pixel_art/_manifest.json?v=${HUB_IMAGE_VERSION}`, { cache: 'no-store' })
+        .then((response) => (response.ok ? response.json() : []))
+        .catch(() => [])
+    }
+
+    return hubImageManifestPromise
+  }
+
+  async function getHubImagePath(gameId) {
+    if (!gameId) return ''
+
+    const manifest = await loadHubImageManifest()
+    if (!Array.isArray(manifest)) return ''
+
+    const entry = manifest.find((item) => item && item.game_id === gameId)
+    return entry?.file ? `/assets/hub_pixel_art/${entry.file}?v=${HUB_IMAGE_VERSION}` : ''
   }
 
   function renderCardThumb(canvas, game) {
@@ -105,15 +127,28 @@
         return
       }
 
-      items.forEach((game) => {
+      for (const game of items) {
         const card = document.createElement('div')
         card.className = 'legendary-card'
         card.addEventListener('click', () => {
           window.location.href = `/game-detail.html?id=${encodeURIComponent(game.id)}`
         })
 
-        const canvas = document.createElement('canvas')
-        renderCardThumb(canvas, game)
+        const media = document.createElement('div')
+        media.className = 'legendary-card-media'
+
+        const imagePath = await getHubImagePath(game.id)
+        if (imagePath) {
+          const img = document.createElement('img')
+          img.src = imagePath
+          img.alt = game.title || 'Illustration'
+          img.loading = 'lazy'
+          media.appendChild(img)
+        } else {
+          const canvas = document.createElement('canvas')
+          renderCardThumb(canvas, game)
+          media.appendChild(canvas)
+        }
 
         const info = document.createElement('div')
         info.className = 'legendary-card-info'
@@ -123,10 +158,10 @@
           <div class="legendary-card-price">${Number.isFinite(Number(game.mintPrice)) ? `Mint ${formatCurrency(game.mintPrice)}` : 'Mint -'}</div>
         `
 
-        card.appendChild(canvas)
+        card.appendChild(media)
         card.appendChild(info)
         grid.appendChild(card)
-      })
+      }
     } catch (_) {}
   }
 
@@ -151,18 +186,21 @@
       if (!grid) return
 
       setHtml(grid, '')
-      items.slice(0, 6).forEach((game) => {
+      for (const game of items.slice(0, 6)) {
         const card = document.createElement('div')
         card.className = 'hub-encyclo-card'
         card.addEventListener('click', () => {
           window.location.href = `/encyclopedia.html?game=${encodeURIComponent(game.id)}`
         })
+
+        const imagePath = await getHubImagePath(game.id)
         card.innerHTML = `
+          ${imagePath ? `<div class="hub-encyclo-card-media"><img src="${escapeHtml(imagePath)}" alt="${escapeHtml(game.title || 'Illustration')}" loading="lazy"></div>` : ''}
           <div class="hub-encyclo-card-title">${escapeHtml(game.title || 'Sans titre')}</div>
           <div class="hub-encyclo-card-meta">${escapeHtml(game.console || '')} - ${escapeHtml(game.year || '')}</div>
         `
         grid.appendChild(card)
-      })
+      }
     } catch (_) {}
   }
 
@@ -295,7 +333,6 @@
 
     navigator.serviceWorker
       .register('/sw.js')
-      .then(() => console.log('[RetroDex] Service worker registered'))
       .catch((error) => console.warn('[RetroDex] SW registration failed:', error))
   }
 

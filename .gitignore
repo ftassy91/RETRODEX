@@ -30,3 +30,10 @@ files.zip
 CODEX_PROMPT_MARKET_PIPELINE.md
 CODEX_PROMPT_PIPELINE.md
 CODEX_PROMPT_PIPELINE_V3.md
+
+# Local Codex/browser artifacts
+.cdp-gamelist/
+.codex*
+**/.codex*
+test-results/
+**/__pycache__/
