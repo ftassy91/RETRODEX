@@ -130,6 +130,15 @@ scripts/
   - `GET /api/prices/panzer-dragoon-saga-sega-saturn` -> `{ ok: true, count: 0, sales: [] }`
   - `GET /api/prices/panzer-dragoon-saga-sega-saturn/summary` -> `{ ok: true, byCondition: [] }`
 
+### A7 - `/api/health`
+
+- Statut : valide
+- Fichier principal : `backend/src/server.js`
+- Validation :
+  - `GET /api/health` -> `database = 'supabase'`
+  - `games = 1490`
+  - le mode DB exposé correspond désormais au runtime réel
+
 ---
 
 ## Risques et points de vigilance
@@ -144,4 +153,4 @@ scripts/
 
 ---
 
-*Derniere mise a jour operationnelle : 23 mars 2026 - A6 validee cote code*
+*Derniere mise a jour operationnelle : 23 mars 2026 - A7 validee cote code*
