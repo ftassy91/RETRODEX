@@ -208,6 +208,45 @@ function normalizeSearchFranchiseRow(row) {
   }
 }
 
+function parseStoredJson(value) {
+  if (value == null || value === '') {
+    return null
+  }
+
+  if (Array.isArray(value) || typeof value === 'object') {
+    return value
+  }
+
+  if (typeof value !== 'string') {
+    return null
+  }
+
+  try {
+    return JSON.parse(value)
+  } catch (_error) {
+    return null
+  }
+}
+
+function toFranchisePayload(franchise) {
+  return {
+    id: franchise.id || franchise.slug,
+    name: franchise.name,
+    slug: franchise.slug || null,
+    description: franchise.description || franchise.synopsis || null,
+    first_game: franchise.first_game ?? franchise.first_game_year ?? null,
+    last_game: franchise.last_game ?? franchise.last_game_year ?? null,
+    developer: franchise.developer || null,
+    publisher: franchise.publisher || null,
+    genres: parseStoredJson(franchise.genres),
+    platforms: parseStoredJson(franchise.platforms),
+    timeline: parseStoredJson(franchise.timeline),
+    team_changes: parseStoredJson(franchise.team_changes),
+    trivia: parseStoredJson(franchise.trivia),
+    legacy: franchise.legacy || franchise.heritage || null,
+  }
+}
+
 async function fetchSearchIndexResults(query, limit) {
   const { data, error } = await db
     .from('retrodex_search_index')
@@ -619,6 +658,113 @@ router.get('/api/search', handleAsync(async (req, res) => {
     items: results,
     count: results.length,
     query: q,
+  })
+}))
+
+router.get('/api/franchises', handleAsync(async (_req, res) => {
+  const { data, error } = await db
+    .from('franchise_entries')
+    .select('slug,name,synopsis,first_game_year,last_game_year,developer,genres,platforms,game_ids,heritage')
+    .order('name', { ascending: true })
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  const items = (data || []).map((franchise) => toFranchisePayload({
+    ...franchise,
+    id: franchise.slug,
+  }))
+
+  res.json({
+    ok: true,
+    items,
+    franchises: items,
+    count: items.length,
+  })
+}))
+
+router.get('/api/franchises/:slug', handleAsync(async (req, res) => {
+  const slug = String(req.params.slug || '').trim()
+  const { data, error } = await db
+    .from('franchise_entries')
+    .select('slug,name,synopsis,first_game_year,last_game_year,developer,genres,platforms,game_ids,heritage')
+    .eq('slug', slug)
+    .single()
+
+  if (error || !data) {
+    return res.status(404).json({ ok: false, error: 'Franchise not found' })
+  }
+
+  return res.json({
+    ok: true,
+    franchise: toFranchisePayload({
+      ...data,
+      id: data.slug,
+    }),
+  })
+}))
+
+router.get('/api/franchises/:slug/games', handleAsync(async (req, res) => {
+  const slug = String(req.params.slug || '').trim()
+  const { data: franchise, error: franchiseError } = await db
+    .from('franchise_entries')
+    .select('slug,game_ids')
+    .eq('slug', slug)
+    .single()
+
+  if (franchiseError || !franchise) {
+    return res.status(404).json({ ok: false, error: 'Franchise not found' })
+  }
+
+  const parsedIds = parseStoredJson(franchise.game_ids)
+  let games = []
+
+  if (Array.isArray(parsedIds) && parsedIds.length) {
+    const { data, error } = await db
+      .from('games')
+      .select('id,title,console,year,genre,rarity,slug,loose_price,cib_price,mint_price')
+      .in('id', parsedIds)
+      .order('title', { ascending: true })
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    games = data || []
+  } else {
+    const { data, error } = await db
+      .from('games')
+      .select('id,title,console,year,genre,rarity,slug,loose_price,cib_price,mint_price')
+      .eq('type', 'game')
+      .eq('franch_id', slug)
+      .order('title', { ascending: true })
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    games = data || []
+  }
+
+  return res.json({
+    ok: true,
+    games: games.map((game) => {
+      const item = normalizeGameRecord(game)
+      return {
+        id: item.id,
+        title: item.title,
+        platform: item.console,
+        year: item.year,
+        genre: item.genre,
+        rarity: item.rarity,
+        slug: item.slug || null,
+        loosePrice: item.loosePrice,
+        cibPrice: item.cibPrice,
+        mintPrice: item.mintPrice,
+      }
+    }),
+    count: games.length,
   })
 }))
 
