@@ -35,6 +35,8 @@ const relatedContentEl = document.getElementById('related-content')
 
 let currentGame = null
 let currentCollectionItem = null
+const HUB_IMAGE_VERSION = '20260323b'
+let hubImageManifestPromise = null
 
 const PRICE_HISTORY_STATES = [
   { key: 'loose', label: 'Loose', condition: 'Loose', color: '#9bbc0f' },
@@ -134,6 +136,31 @@ function getGameId() {
   return new URLSearchParams(window.location.search).get('id') || ''
 }
 
+function loadHubImageManifest() {
+  if (!hubImageManifestPromise) {
+    hubImageManifestPromise = fetch(`/assets/hub_pixel_art/_manifest.json?v=${HUB_IMAGE_VERSION}`, { cache: 'no-store' })
+      .then((response) => (response.ok ? response.json() : []))
+      .catch(() => [])
+  }
+
+  return hubImageManifestPromise
+}
+
+async function getPreferredIllustrationPath(game) {
+  const manifest = await loadHubImageManifest()
+  if (!Array.isArray(manifest)) return ''
+
+  const ids = [game?.id, game?.slug].filter(Boolean)
+  for (const id of ids) {
+    const entry = manifest.find((item) => item && item.game_id === id)
+    if (entry?.file) {
+      return `/assets/hub_pixel_art/${entry.file}?v=${HUB_IMAGE_VERSION}`
+    }
+  }
+
+  return ''
+}
+
 function buildCatalogueBackLink() {
   const params = new URLSearchParams(window.location.search)
   const source = params.get('source')
@@ -203,6 +230,7 @@ function showSkeleton() {
 }
 
 function renderHeroSection(game) {
+  const visibleGenre = game.genre && game.genre !== 'Other' ? game.genre : ''
   heroEl.innerHTML = `
     <div class="detail-hero-shell">
       <div class="detail-hero-status">
@@ -232,7 +260,7 @@ function renderHeroSection(game) {
               <div class="hero-meta game-badges game-meta">
                 <span class="pill">${escapeHtml(game.console || 'Console inconnue')}</span>
                 <span class="pill">${escapeHtml(game.year || 'n/a')}</span>
-                <span class="pill">${escapeHtml(game.genre || 'Genre inconnu')}</span>
+                ${visibleGenre ? `<span class="pill">${escapeHtml(visibleGenre)}</span>` : ''}
                 <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || 'COMMON')}</span>
               </div>
 
@@ -618,7 +646,7 @@ function renderStats(game) {
   const stats = [
     ['Plateforme', game.console],
     ['Annee', game.year],
-    ['Genre', game.genre],
+    ['Genre', game.genre && game.genre !== 'Other' ? game.genre : ''],
     ['Rarete', game.rarity],
     ['Developpeur', game.developer],
     ['Editeur', game.publisher],
@@ -1858,10 +1886,16 @@ async function loadPage() {
     const coverImgEl = document.getElementById('game-cover-img')
     if (coverImgEl) {
       coverImgEl.alt = currentGame.title || ''
-      coverImgEl.src = currentGame.cover_url
-        ? currentGame.cover_url
-        : generateCoverPlaceholder(currentGame.title, currentGame.rarity, currentGame.console)
+      const preferredIllustration = await getPreferredIllustrationPath(currentGame)
+      coverImgEl.src = preferredIllustration
+        || currentGame.cover_url
+        || generateCoverPlaceholder(currentGame.title, currentGame.rarity, currentGame.console)
       coverImgEl.addEventListener('error', () => {
+        if (coverImgEl.src !== currentGame.cover_url && currentGame.cover_url) {
+          coverImgEl.src = currentGame.cover_url
+          return
+        }
+
         coverImgEl.src = generateCoverPlaceholder(currentGame.title, currentGame.rarity, currentGame.console)
       }, { once: true })
     }

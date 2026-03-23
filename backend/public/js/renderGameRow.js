@@ -43,7 +43,7 @@ function renderGameRow(game, options = {}) {
   const rarity = game.rarity || ''
   const year = game.year || 'n/a'
   const consoleName = game.console || ''
-  const genre = game.genre || ''
+  const genre = game.genre && game.genre !== 'Other' ? game.genre : ''
   const loosePrice = showPrice
     ? (game.loosePrice ? `$${Math.round(game.loosePrice)}` : '&mdash;')
     : ''

@@ -522,7 +522,9 @@ async function loadConsoles() {
 }
 
 function populateGenres(source) {
-  const genres = [...new Set((source || masterGames).map((game) => String(game.genre || '').trim()).filter(Boolean))].sort(textCmp)
+  const genres = [...new Set((source || masterGames)
+    .map((game) => String(game.genre || '').trim())
+    .filter((genre) => genre && genre !== 'Other'))].sort(textCmp)
   if (genreEl.options.length > 1 || !genres.length) return
 
   genres.forEach((genre) => {
