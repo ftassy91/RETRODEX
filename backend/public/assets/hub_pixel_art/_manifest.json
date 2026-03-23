@@ -1,0 +1,302 @@
+[
+    {
+        "game_id": "tetris-game-boy",
+        "title": "Tetris",
+        "slug": "tetris",
+        "file": "tetris.png"
+    },
+    {
+        "game_id": "pokemon-gold-game-boy",
+        "title": "PokÃ©mon Gold",
+        "slug": "poka-mon-gold",
+        "file": "poka-mon-gold.png"
+    },
+    {
+        "game_id": "pokemon-silver-game-boy",
+        "title": "PokÃ©mon Silver",
+        "slug": "poka-mon-silver",
+        "file": "poka-mon-silver.png"
+    },
+    {
+        "game_id": "oracle-of-ages-game-boy",
+        "title": "The Legend of Zelda: Oracle of Ages",
+        "slug": "the-legend-of-zelda-oracle-of-ages",
+        "file": "the-legend-of-zelda-oracle-of-ages.png"
+    },
+    {
+        "game_id": "oracle-of-seasons-game-boy",
+        "title": "The Legend of Zelda: Oracle of Seasons",
+        "slug": "the-legend-of-zelda-oracle-of-seasons",
+        "file": "the-legend-of-zelda-oracle-of-seasons.png"
+    },
+    {
+        "game_id": "tetris-dx-game-boy",
+        "title": "Tetris DX",
+        "slug": "tetris-dx",
+        "file": "tetris-dx.png"
+    },
+    {
+        "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+        "title": "The Legend of Zelda: Link's Awakening",
+        "slug": "the-legend-of-zelda-link-s-awakening",
+        "file": "the-legend-of-zelda-link-s-awakening.png"
+    },
+    {
+        "game_id": "pokemon-red-game-boy",
+        "title": "PokÃ©mon Red",
+        "slug": "poka-mon-red",
+        "file": "poka-mon-red.png"
+    },
+    {
+        "game_id": "metal-gear-ghost-babel-game-boy",
+        "title": "Metal Gear: Ghost Babel",
+        "slug": "metal-gear-ghost-babel",
+        "file": "metal-gear-ghost-babel.png"
+    },
+    {
+        "game_id": "super-mario-land-2-game-boy",
+        "title": "Super Mario Land 2: 6 Golden Coins",
+        "slug": "super-mario-land-2-6-golden-coins",
+        "file": "super-mario-land-2-6-golden-coins.png"
+    },
+    {
+        "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+        "title": "Super Mario Bros. 3",
+        "slug": "super-mario-bros-3",
+        "file": "super-mario-bros-3.png"
+    },
+    {
+        "game_id": "kirby-adventure-nintendo-entertainment-system",
+        "title": "Kirby's Adventure",
+        "slug": "kirby-s-adventure",
+        "file": "kirby-s-adventure.png"
+    },
+    {
+        "game_id": "the-legend-of-zelda-nintendo-entertainment-system",
+        "title": "The Legend of Zelda",
+        "slug": "the-legend-of-zelda",
+        "file": "the-legend-of-zelda.png"
+    },
+    {
+        "game_id": "mike-tysons-punch-out-nintendo-entertainment-system",
+        "title": "Mike Tyson's Punch-Out!!",
+        "slug": "mike-tyson-s-punch-out",
+        "file": "mike-tyson-s-punch-out.png"
+    },
+    {
+        "game_id": "mega-man-2-nintendo-entertainment-system",
+        "title": "Mega Man 2",
+        "slug": "mega-man-2",
+        "file": "mega-man-2.png"
+    },
+    {
+        "game_id": "super-mario-bros-nintendo-entertainment-system",
+        "title": "Super Mario Bros.",
+        "slug": "super-mario-bros",
+        "file": "super-mario-bros.png"
+    },
+    {
+        "game_id": "contra-nintendo-entertainment-system",
+        "title": "Contra",
+        "slug": "contra",
+        "file": "contra.png"
+    },
+    {
+        "game_id": "castlevania-nintendo-entertainment-system",
+        "title": "Castlevania",
+        "slug": "castlevania",
+        "file": "castlevania.png"
+    },
+    {
+        "game_id": "duck-tales-nintendo-entertainment-system",
+        "title": "DuckTales",
+        "slug": "ducktales",
+        "file": "ducktales.png"
+    },
+    {
+        "game_id": "metroid-nintendo-entertainment-system",
+        "title": "Metroid",
+        "slug": "metroid",
+        "file": "metroid.png"
+    },
+    {
+        "game_id": "yoshi-island-super-nintendo",
+        "title": "Super Mario World 2: Yoshi's Island",
+        "slug": "super-mario-world-2-yoshi-s-island",
+        "file": "super-mario-world-2-yoshi-s-island.png"
+    },
+    {
+        "game_id": "super-metroid-super-nintendo",
+        "title": "Super Metroid",
+        "slug": "super-metroid",
+        "file": "super-metroid.png"
+    },
+    {
+        "game_id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+        "title": "The Legend of Zelda: A Link to the Past",
+        "slug": "the-legend-of-zelda-a-link-to-the-past",
+        "file": "the-legend-of-zelda-a-link-to-the-past.png"
+    },
+    {
+        "game_id": "super-mario-world-super-nintendo",
+        "title": "Super Mario World",
+        "slug": "super-mario-world",
+        "file": "super-mario-world.png"
+    },
+    {
+        "game_id": "earthbound-super-nintendo",
+        "title": "EarthBound",
+        "slug": "earthbound",
+        "file": "earthbound.png"
+    },
+    {
+        "game_id": "final-fantasy-vi-super-nintendo",
+        "title": "Final Fantasy VI",
+        "slug": "final-fantasy-vi",
+        "file": "final-fantasy-vi.png"
+    },
+    {
+        "game_id": "donkey-kong-country-2-super-nintendo",
+        "title": "Donkey Kong Country 2",
+        "slug": "donkey-kong-country-2",
+        "file": "donkey-kong-country-2.png"
+    },
+    {
+        "game_id": "donkey-kong-country-super-nintendo",
+        "title": "Donkey Kong Country",
+        "slug": "donkey-kong-country",
+        "file": "donkey-kong-country.png"
+    },
+    {
+        "game_id": "secret-of-mana-super-nintendo",
+        "title": "Secret of Mana",
+        "slug": "secret-of-mana",
+        "file": "secret-of-mana.png"
+    },
+    {
+        "game_id": "super-mario-kart-super-nintendo",
+        "title": "Super Mario Kart",
+        "slug": "super-mario-kart",
+        "file": "super-mario-kart.png"
+    },
+    {
+        "game_id": "tekken-3-playstation",
+        "title": "Tekken 3",
+        "slug": "tekken-3",
+        "file": "tekken-3.png"
+    },
+    {
+        "game_id": "metal-gear-solid-playstation",
+        "title": "Metal Gear Solid",
+        "slug": "metal-gear-solid",
+        "file": "metal-gear-solid.png"
+    },
+    {
+        "game_id": "castlevania-symphony-of-the-night-playstation",
+        "title": "Castlevania: Symphony of the Night",
+        "slug": "castlevania-symphony-of-the-night",
+        "file": "castlevania-symphony-of-the-night.png"
+    },
+    {
+        "game_id": "final-fantasy-vii-playstation",
+        "title": "Final Fantasy VII",
+        "slug": "final-fantasy-vii",
+        "file": "final-fantasy-vii.png"
+    },
+    {
+        "game_id": "vagrant-story-playstation",
+        "title": "Vagrant Story",
+        "slug": "vagrant-story",
+        "file": "vagrant-story.png"
+    },
+    {
+        "game_id": "resident-evil-2-playstation",
+        "title": "Resident Evil 2",
+        "slug": "resident-evil-2",
+        "file": "resident-evil-2.png"
+    },
+    {
+        "game_id": "crash-bandicoot-playstation",
+        "title": "Crash Bandicoot",
+        "slug": "crash-bandicoot",
+        "file": "crash-bandicoot.png"
+    },
+    {
+        "game_id": "silent-hill-playstation",
+        "title": "Silent Hill",
+        "slug": "silent-hill",
+        "file": "silent-hill.png"
+    },
+    {
+        "game_id": "final-fantasy-viii-playstation",
+        "title": "Final Fantasy VIII",
+        "slug": "final-fantasy-viii",
+        "file": "final-fantasy-viii.png"
+    },
+    {
+        "game_id": "final-fantasy-tactics-playstation",
+        "title": "Final Fantasy Tactics",
+        "slug": "final-fantasy-tactics",
+        "file": "final-fantasy-tactics.png"
+    },
+    {
+        "game_id": "castlevania-rondo-of-blood-turbografx-16",
+        "title": "Castlevania: Rondo of Blood",
+        "slug": "castlevania-rondo-of-blood",
+        "file": "castlevania-rondo-of-blood-turbografx-16.png"
+    },
+    {
+        "game_id": "dungeons-dragons-collection-sega-saturn",
+        "title": "Dungeons & Dragons Collection",
+        "slug": "dungeons-dragons-collection",
+        "file": "dungeons-dragons-collection-sega-saturn.png"
+    },
+    {
+        "game_id": "judgement-silversword-wonderswan",
+        "title": "Judgement Silversword",
+        "slug": "judgement-silversword",
+        "file": "judgement-silversword-wonderswan.png"
+    },
+    {
+        "game_id": "little-samson-nintendo-entertainment-system",
+        "title": "Little Samson",
+        "slug": "little-samson",
+        "file": "little-samson-nintendo-entertainment-system.png"
+    },
+    {
+        "game_id": "panzer-dragoon-saga-sega-saturn",
+        "title": "Panzer Dragoon Saga",
+        "slug": "panzer-dragoon-saga",
+        "file": "panzer-dragoon-saga-sega-saturn.png"
+    },
+    {
+        "game_id": "radiant-silvergun-sega-saturn",
+        "title": "Radiant Silvergun",
+        "slug": "radiant-silvergun",
+        "file": "radiant-silvergun-sega-saturn.png"
+    },
+    {
+        "game_id": "castlevania-dracula-x-super-nintendo",
+        "title": "Castlevania: Dracula X",
+        "slug": "castlevania-dracula-x",
+        "file": "castlevania-dracula-x-super-nintendo.png"
+    },
+    {
+        "game_id": "chrono-trigger-super-nintendo",
+        "title": "Chrono Trigger",
+        "slug": "chrono-trigger",
+        "file": "chrono-trigger-super-nintendo.png"
+    },
+    {
+        "game_id": "gunstar-heroes-sega-genesis",
+        "title": "Gunstar Heroes",
+        "slug": "gunstar-heroes",
+        "file": "gunstar-heroes-sega-genesis.png"
+    },
+    {
+        "game_id": "mega-man-x3-super-nintendo",
+        "title": "Mega Man X3",
+        "slug": "mega-man-x3",
+        "file": "mega-man-x3-super-nintendo.png"
+    }
+]
