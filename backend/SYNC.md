@@ -176,6 +176,40 @@ scripts/
   - `GET /api/search?q=1998&type=game&limit=5` retourne des resultats avec `year = 1998`
   - le patch collection preserve les champs encore supportes par Supabase
 
+### B2 - Meta tags SEO
+
+- Statut : valide
+- Fichiers constates comme deja conformes :
+  - `backend/public/*.html`
+  - `backend/public/js/pages/game-detail.js`
+- Validation :
+  - toutes les pages HTML servies exposent `description`, `og:title`, `og:description`, `robots`
+  - `game-detail.js` met a jour dynamiquement `description`, `og:title` et `og:description` apres chargement du jeu
+
+### B3 - IGDB enrichissement
+
+- Statut : bloque
+- Blocages :
+  - `IGDB_CLIENT_ID` absent de `backend/.env`
+  - `IGDB_CLIENT_SECRET` absent de `backend/.env`
+- Note :
+  - le script reel existe a `scripts/market/fetch_covers_igdb.js`, pas au chemin theorique du brief
+
+### B4 - Taglines Anthropic
+
+- Statut : partiellement prepare, validation bloquee
+- Fichier principal :
+  - `scripts/encyclopedia/generate_encyclopedia.js`
+- Decision technique :
+  - ajout d'un mode `--taglines-only` sans casser le mode encyclopedie existant
+  - argument `--limit` supporte
+  - filtre cible : `type='game'`, `synopsis != null`, `tagline = null`
+- Blocage :
+  - l'appel Anthropic retourne `Your credit balance is too low to access the Anthropic API`
+- Validation partielle :
+  - `node scripts/encyclopedia/generate_encyclopedia.js --taglines-only --limit 5` s'execute
+  - aucun tagline genere tant que le billing Anthropic reste bloque
+
 ---
 
 ## Risques et points de vigilance
@@ -190,4 +224,4 @@ scripts/
 
 ---
 
-*Derniere mise a jour operationnelle : 23 mars 2026 - B1 validee cote code et tests*
+*Derniere mise a jour operationnelle : 23 mars 2026 - B2 validee, B3/B4 bloques par prerequis externes*
