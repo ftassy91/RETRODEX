@@ -9,6 +9,11 @@ const CommunityReport = require('../../models/CommunityReport')
 const Franchise = require('../models/Franchise')
 const { handleAsync } = require('../helpers/query')
 const { dedupeSearchResults } = require('../helpers/search')
+const {
+  getConsoleById,
+  getRelatedConsoles,
+  normalizeConsoleKey,
+} = require('../lib/consoles')
 
 const router = Router()
 
@@ -85,6 +90,20 @@ function toConsolePayload(game, gamesCount = 0) {
     slug: game.slug || null,
     gamesCount,
   }
+}
+
+function matchNotableGames(notableTitles = [], games = []) {
+  const byTitle = new Map(
+    games.map((game) => [normalizeConsoleKey(game.title), game])
+  )
+
+  return notableTitles.map((title) => {
+    const match = byTitle.get(normalizeConsoleKey(title)) || null
+    return {
+      title,
+      game: match ? toItemPayload(match) : null,
+    }
+  })
 }
 
 function median(values) {
@@ -287,6 +306,26 @@ router.get('/api/search', handleAsync(async (req, res) => {
     ...games,
   ]
 
+  function scoreResult(result, query) {
+    const normalizedQuery = query.toLowerCase().trim()
+    const name = String(result.name || result.title || '').toLowerCase()
+    if (name === normalizedQuery) return 0
+    if (name.startsWith(`${normalizedQuery} `)) return 1
+    if (name.startsWith(normalizedQuery)) return 2
+    if (name.endsWith(` ${normalizedQuery}`)) return 2
+    if (name.includes(` ${normalizedQuery}`)) return 3
+    if (name.includes(normalizedQuery)) return 4
+    return 10
+  }
+
+  results.sort((a, b) => {
+    const diff = scoreResult(a, q) - scoreResult(b, q)
+    if (diff !== 0) return diff
+    if (a._type === 'game' && b._type !== 'game') return -1
+    if (b._type === 'game' && a._type !== 'game') return 1
+    return 0
+  })
+
   return res.json({
     ok: true,
     results,
@@ -361,7 +400,15 @@ router.get('/api/consoles', handleAsync(async (_req, res) => {
 
   res.json({
     ok: true,
-    consoles: consoles.map((item) => toConsolePayload(item, gamesByPlatform.get(item.console) || 0)),
+    consoles: consoles.map((item) => {
+      const encyclopedia = getConsoleById(item.id) || getConsoleById(item.console)
+      return {
+        ...toConsolePayload(item, gamesByPlatform.get(item.console) || 0),
+        manufacturer: encyclopedia?.manufacturer || null,
+        generation: encyclopedia?.generation || null,
+        overview: encyclopedia?.overview || null,
+      }
+    }),
     count: consoles.length,
   })
 }))
@@ -382,14 +429,21 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: 'Not found' })
   }
 
-  const games = await Game.findAll({
+  const totalGames = await Game.count({
+    where: {
+      type: 'game',
+      console: consoleItem.console,
+    },
+  })
+
+  const catalog = await Game.findAll({
     where: {
       type: 'game',
       console: consoleItem.console,
     },
     order: [['title', 'ASC']],
-    limit: 20,
   })
+  const games = catalog.slice(0, 20)
 
   const accessories = await Accessory.findAll({
     where: {
@@ -399,9 +453,26 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
     limit: 10,
   })
 
+  const encyclopedia = getConsoleById(consoleItem.id) || getConsoleById(consoleItem.console)
+  const relatedConsoles = encyclopedia
+    ? getRelatedConsoles(encyclopedia, 4).map((entry) => ({
+        id: entry.id,
+        name: entry.name,
+        manufacturer: entry.manufacturer,
+        release_year: entry.release_year,
+        generation: entry.generation,
+      }))
+    : []
+  const notableGames = encyclopedia
+    ? matchNotableGames(encyclopedia.legacy?.notable_games || [], catalog)
+    : []
+
   return res.json({
     ok: true,
-    console: toConsolePayload(consoleItem, games.length),
+    console: {
+      ...toConsolePayload(consoleItem, totalGames),
+      manufacturer: encyclopedia?.manufacturer || null,
+    },
     games: games.map(toItemPayload),
     accessories: accessories.map((item) => ({
       id: item.id,
@@ -409,6 +480,9 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
       accessory_type: item.accessory_type || null,
       slug: item.slug || null,
     })),
+    encyclopedia,
+    relatedConsoles,
+    notableGames,
   })
 }))
 
