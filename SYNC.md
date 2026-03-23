@@ -155,6 +155,22 @@ scripts/enrich/generate_encyclopedia.js
     - `/api/search?q=zelda&limit=5` → franchise `The Legend of Zelda` dans les 2 premiers
   - commit : `a39bd0f`
 
+- `A4` — Route `backend/src/routes/collection.js` migrée vers Supabase pour `/api/collection`
+  - `GET /api/collection` lit `collection_items` avec `user_session = 'local'`
+  - `POST /api/collection` insère dans Supabase
+  - `PATCH /api/collection/:id` met à jour dans Supabase
+  - `DELETE /api/collection/:id` supprime dans Supabase
+  - contrat frontend conservé :
+    - `GET` → `{ items, total }`
+    - `POST` → `201`
+    - `PATCH` → `200`
+    - `DELETE` → `200` avec `{ ok: true, deletedId }`
+  - validation passée :
+    - ajout d'un jeu → visible dans `GET`
+    - patch condition/notes → persisté
+    - suppression → le jeu disparaît de `GET`
+  - commit : `e5a2a66`
+
 ---
 
 ## Protocole de mise à jour
