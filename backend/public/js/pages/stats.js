@@ -126,6 +126,10 @@ function renderMarketSearchResults(items) {
       <span style="text-align:right">${escapeHtml(formatCurrency(item.mintPrice || 0))}</span>
       <span style="text-align:center" class="${marketSignalClass(item.signal)}">${escapeHtml(marketSignalLabel(item.signal))}</span>
     `
+    if (window.RetroDexAssets && item.console) {
+      const img = window.RetroDexAssets.createSupportImg(item.console, 16)
+      row.insertBefore(img, row.firstChild)
+    }
     row.addEventListener('click', () => {
       marketSearchResultsEl.querySelectorAll('.terminal-row').forEach((node) => node.classList.remove('selected'))
       row.classList.add('selected')
