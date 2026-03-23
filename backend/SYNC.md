@@ -119,6 +119,17 @@ scripts/
   - `GET /api/stats` -> `total_games = 1490`
   - alignement confirme entre `/api/games` et `/api/stats`
 
+### A6 - `/api/prices`
+
+- Statut : valide
+- Fichier principal : `backend/src/routes/prices.js`
+- Lecture via Supabase `price_history`
+- Jointure jeu faite en deux temps pour rester robuste meme si la relation Supabase n'est pas exposee
+- Validation :
+  - `GET /api/prices/recent` -> `{ ok: true, count: 0, sales: [] }`
+  - `GET /api/prices/panzer-dragoon-saga-sega-saturn` -> `{ ok: true, count: 0, sales: [] }`
+  - `GET /api/prices/panzer-dragoon-saga-sega-saturn/summary` -> `{ ok: true, byCondition: [] }`
+
 ---
 
 ## Risques et points de vigilance
@@ -133,4 +144,4 @@ scripts/
 
 ---
 
-*Derniere mise a jour operationnelle : 23 mars 2026 - A5 validee cote code*
+*Derniere mise a jour operationnelle : 23 mars 2026 - A6 validee cote code*
