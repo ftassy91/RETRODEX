@@ -3,7 +3,7 @@
 // Décision source : SYNC.md § A2
 
 const { Router } = require('express')
-const { Op, literal } = require('sequelize')
+const { Op, QueryTypes, literal } = require('sequelize')
 const Game = require('../models/Game')
 const Franchise = require('../models/Franchise')
 const CommunityReport = require('../../models/CommunityReport')
@@ -13,9 +13,10 @@ process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
   || process.env.SUPABASE_SERVICE_ROLE_KEY
   || process.env.SUPERDATA_SERVICE_KEY
 process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
-const { queryGames, getGameById } = require('../../db_supabase')
+const { queryGames, getGameById, db: priceHistoryDb, mode: priceHistoryMode } = require('../../db_supabase')
 const { handleAsync, parseLimit, buildGameWhere } = require('../helpers/query')
 const { withGameTrend, buildPriceHistoryPayload } = require('../helpers/priceHistory')
+const { sequelize, databaseMode } = require('../database')
 
 const router = Router()
 
@@ -135,6 +136,43 @@ function parseStoredJson(value) {
 
 async function findGameById(id) {
   return Game.findByPk(id)
+}
+
+async function fetchSeedPriceHistory(gameId) {
+  if (priceHistoryMode === 'supabase') {
+    const { data, error } = await priceHistoryDb
+      .from('price_history')
+      .select('price,condition,sale_date')
+      .eq('game_id', gameId)
+      .order('sale_date', { ascending: true })
+      .limit(2000)
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    return data || []
+  }
+
+  if (databaseMode !== 'sqlite') {
+    return []
+  }
+
+  try {
+    return await sequelize.query(
+      `SELECT price, condition, sale_date
+       FROM price_history
+       WHERE game_id = :gameId
+       ORDER BY sale_date ASC
+       LIMIT 2000`,
+      {
+        replacements: { gameId },
+        type: QueryTypes.SELECT,
+      }
+    )
+  } catch (_error) {
+    return []
+  }
 }
 
 function normalizeGameRecord(game) {
@@ -305,7 +343,7 @@ router.get('/api/games/:id', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
-  const [game, reports, indexEntries] = await Promise.all([
+  const [game, reports, indexEntries, seedHistory] = await Promise.all([
     findGameById(req.params.id),
     CommunityReport.findAll({
       where: {
@@ -322,13 +360,14 @@ router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
       },
       order: [['condition', 'ASC']],
     }),
+    fetchSeedPriceHistory(req.params.id),
   ])
 
   if (!game) {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
 
-  return res.json(buildPriceHistoryPayload(game, { reports, indexEntries }))
+  return res.json(buildPriceHistoryPayload(game, { reports, indexEntries, seedHistory }))
 }))
 
 router.get('/api/games/:id/summary', handleAsync(async (req, res) => {

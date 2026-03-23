@@ -167,6 +167,70 @@ function buildObservedPoints(reports = []) {
     });
 }
 
+function buildSeedPoints(rows = []) {
+  return rows
+    .map((row) => {
+      const date = toIsoDate(row.sale_date);
+      const value = toPriceNumber(row.price);
+      if (!date || value == null) {
+        return null;
+      }
+
+      return {
+        date,
+        value,
+        source: "market",
+        confidence_pct: 65,
+        context: "price_history",
+      };
+    })
+    .filter(Boolean)
+    .sort((left, right) => {
+      if (left.date !== right.date) {
+        return left.date.localeCompare(right.date);
+      }
+
+      return left.value - right.value;
+    });
+}
+
+function mergeHistoryPoints(observedPoints = [], seedPoints = []) {
+  const merged = [...observedPoints, ...seedPoints]
+    .sort((left, right) => {
+      if (left.date !== right.date) {
+        return left.date.localeCompare(right.date);
+      }
+
+      const weight = { market: 0, community: 1, editorial: 2 };
+      const leftWeight = weight[left.source] ?? 0;
+      const rightWeight = weight[right.source] ?? 0;
+      if (leftWeight !== rightWeight) {
+        return leftWeight - rightWeight;
+      }
+
+      return left.value - right.value;
+    });
+
+  const deduped = [];
+  const indexByDate = new Map();
+
+  merged.forEach((point) => {
+    if (!indexByDate.has(point.date)) {
+      indexByDate.set(point.date, deduped.length);
+      deduped.push(point);
+      return;
+    }
+
+    const currentIndex = indexByDate.get(point.date);
+    const currentPoint = deduped[currentIndex];
+    if (point.source === "editorial" && currentPoint.source !== "editorial") {
+      deduped[currentIndex] = point;
+    }
+  });
+
+  return deduped;
+}
+
 function filterPointsByPeriod(points = [], period) {
   if (!points.length || !period?.days) {
     return [...points];
@@ -246,6 +310,44 @@ function buildSeriesSource(points = [], indexEntry, currentPriceSource) {
   }
 
   return "Sans historique";
+}
+
+function buildSeriesSourceDetailed(points = [], indexEntry, currentPriceSource) {
+  if (points.length) {
+    const editorialCount = points.filter((point) => point.source === "editorial").length;
+    const communityCount = points.filter((point) => point.source === "community").length;
+    const marketCount = points.filter((point) => point.source === "market").length;
+
+    if (editorialCount && communityCount && marketCount) {
+      return `${editorialCount} vente(s) editoriales · ${communityCount} observation(s) communautaires · ${marketCount} point(s) marche`;
+    }
+
+    if (editorialCount && communityCount) {
+      return `${editorialCount} vente(s) editoriales · ${communityCount} observation(s) communautaires`;
+    }
+
+    if (editorialCount && marketCount) {
+      return `${editorialCount} vente(s) editoriales · ${marketCount} point(s) marche`;
+    }
+
+    if (communityCount && marketCount) {
+      return `${communityCount} observation(s) communautaires · ${marketCount} point(s) marche`;
+    }
+
+    if (editorialCount) {
+      return `${editorialCount} vente(s) editoriales`;
+    }
+
+    if (communityCount) {
+      return `${communityCount} observation(s) communautaires`;
+    }
+
+    if (marketCount) {
+      return `${marketCount} point(s) price_history`;
+    }
+  }
+
+  return buildSeriesSource(points, indexEntry, currentPriceSource);
 }
 
 function buildSeriesConfidence(points = [], indexEntry) {
@@ -337,8 +439,13 @@ function buildLegacyHistory(seriesByState) {
     });
 }
 
-function buildPriceHistoryPayload(game, { reports = [], indexEntries = [] } = {}) {
+function buildPriceHistoryPayload(game, { reports = [], indexEntries = [], seedHistory = [] } = {}) {
   const reportsByState = {
+    loose: [],
+    cib: [],
+    mint: [],
+  };
+  const seedByState = {
     loose: [],
     cib: [],
     mint: [],
@@ -348,6 +455,11 @@ function buildPriceHistoryPayload(game, { reports = [], indexEntries = [] } = {}
   reports.forEach((report) => {
     const key = conditionKey(report.condition);
     reportsByState[key].push(report);
+  });
+
+  seedHistory.forEach((row) => {
+    const key = conditionKey(row.condition);
+    seedByState[key].push(row);
   });
 
   indexEntries.forEach((entry) => {
@@ -362,28 +474,30 @@ function buildPriceHistoryPayload(game, { reports = [], indexEntries = [] } = {}
 
   PRICE_HISTORY_STATES.forEach((state) => {
     const observedPoints = buildObservedPoints(reportsByState[state.key]);
+    const seedPoints = buildSeedPoints(seedByState[state.key]);
+    const mergedPoints = mergeHistoryPoints(observedPoints, seedPoints);
     const currentPrice = resolveCurrentPrice(game, state, indexByState.get(state.key));
-    const lastObservation = resolveLastObservation(observedPoints, indexByState.get(state.key), currentPrice);
-    const confidencePct = buildSeriesConfidence(observedPoints, indexByState.get(state.key));
+    const lastObservation = resolveLastObservation(mergedPoints, indexByState.get(state.key), currentPrice);
+    const confidencePct = buildSeriesConfidence(mergedPoints, indexByState.get(state.key));
 
     series[state.key] = {
       key: state.key,
       label: state.label,
       condition: state.condition,
-      available: observedPoints.length > 0,
-      points: observedPoints,
-      periods: buildPeriodStats(observedPoints),
+      available: mergedPoints.length > 0,
+      points: mergedPoints,
+      periods: buildPeriodStats(mergedPoints),
       current_price: currentPrice.value,
       current_price_source: currentPrice.source,
       last_observation: lastObservation,
       confidence_pct: confidencePct,
-      source_label: buildSeriesSource(observedPoints, indexByState.get(state.key), currentPrice.source),
+      source_label: buildSeriesSourceDetailed(mergedPoints, indexByState.get(state.key), currentPrice.source),
     };
 
     currentPrices[state.key] = currentPrice.value || 0;
-    trend[state.key] = computeObservedTrend(observedPoints);
+    trend[state.key] = computeObservedTrend(mergedPoints);
 
-    if (observedPoints.length) {
+    if (mergedPoints.length) {
       availableSeries.push(state.key);
     } else {
       missingSeries.push(state.key);
@@ -401,7 +515,7 @@ function buildPriceHistoryPayload(game, { reports = [], indexEntries = [] } = {}
     missingSeries,
     hasAnyHistory: availableSeries.length > 0,
     history: buildLegacyHistory(series),
-    sourceNotice: "Courbes basees sur observations datees. Les etats sans observations restent affiches sans courbe.",
+    sourceNotice: "Courbes basees sur observations datees et price_history seed. Les etats sans observations restent affiches sans courbe.",
   };
 }
 
