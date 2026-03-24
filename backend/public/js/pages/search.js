@@ -175,7 +175,7 @@
 
   function renderResults(results, context) {
     if (!results.length) {
-      renderEmpty('Aucun resultat.');
+      renderEmpty('Aucun resultat visible.');
       if (countEl) countEl.textContent = '0 resultat';
       return;
     }
