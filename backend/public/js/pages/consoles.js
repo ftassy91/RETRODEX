@@ -34,9 +34,18 @@ function requestedPlatform() {
   return new URLSearchParams(window.location.search).get('platform') || ''
 }
 
+function consoleEmptyMarkup(title, copy) {
+  return `
+    <div class="console-detail-empty terminal-empty-state">
+      <div class="terminal-empty-title">${escapeHtml(title)}</div>
+      <div class="terminal-empty-copy">${escapeHtml(copy)}</div>
+    </div>
+  `
+}
+
 function listMarkup(items, emptyMessage) {
   if (!items?.length) {
-    return `<div class="console-detail-empty">${escapeHtml(emptyMessage)}</div>`
+    return consoleEmptyMarkup('Aucune entree', emptyMessage)
   }
 
   return `<ul class="console-bullet-list">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
@@ -49,7 +58,7 @@ function consoleRowMarkup(item) {
   return `
     <button type="button" class="console-row${isSelected ? ' active' : ''}" data-id="${escapeHtml(item.id)}" data-platform="${escapeHtml(item.platform || '')}">
       <span class="console-row-title">${escapeHtml(item.title || item.platform || 'Console')}</span>
-      <span class="console-row-meta">${escapeHtml(manufacturer)} &middot; ${escapeHtml(item.year || item.release_year || 'n/a')} &middot; ${escapeHtml(item.gamesCount || 0)} jeux</span>
+      <span class="console-row-meta">${escapeHtml(manufacturer)} | ${escapeHtml(item.year || item.release_year || 'n/a')} | ${escapeHtml(item.gamesCount || 0)} jeux</span>
       <span class="console-row-signal">${escapeHtml(item.generation || item.platform || 'Archive')}</span>
     </button>
   `
@@ -57,7 +66,7 @@ function consoleRowMarkup(item) {
 
 function accessoryMarkup(accessories) {
   if (!accessories.length) {
-    return '<div class="console-detail-empty">Aucun accessoire archive pour ce systeme dans la base active.</div>'
+    return consoleEmptyMarkup('Accessoires indisponibles', 'Aucun accessoire archive pour ce systeme dans la base active.')
   }
 
   return accessories.map((item) => `
@@ -70,7 +79,7 @@ function accessoryMarkup(accessories) {
 
 async function gamesMarkup(consoleInfo, games) {
   if (!games.length) {
-    return '<div class="console-detail-empty">Aucun jeu relie a ce systeme dans la base active.</div>'
+    return consoleEmptyMarkup('Catalogue indisponible', 'Aucun jeu relie a ce systeme dans la base active.')
   }
 
   const mediaIcon = await renderMediaAsset(consoleInfo, 24)
@@ -83,7 +92,7 @@ async function gamesMarkup(consoleInfo, games) {
             ${mediaIcon ? `<span class="console-game-media" aria-hidden="true">${mediaIcon.markup}</span>` : ''}
             <span class="console-game-title">${escapeHtml(game.title || 'Jeu')}</span>
           </span>
-          <span class="console-game-meta">${escapeHtml(consoleInfo.platform || '')} &middot; ${escapeHtml(game.year || 'n/a')}</span>
+          <span class="console-game-meta">${escapeHtml(consoleInfo.platform || '')} | ${escapeHtml(game.year || 'n/a')}</span>
         </a>
       `).join('')}
     </div>
@@ -93,7 +102,7 @@ async function gamesMarkup(consoleInfo, games) {
 
 function relatedConsolesMarkup(consoles) {
   if (!consoles?.length) {
-    return '<div class="console-detail-empty">Aucune console voisine pertinente a afficher.</div>'
+    return consoleEmptyMarkup('Liens indisponibles', 'Aucune console voisine pertinente a afficher.')
   }
 
   return `
@@ -110,7 +119,7 @@ function relatedConsolesMarkup(consoles) {
 
 function notableGamesMarkup(notableGames) {
   if (!notableGames?.length) {
-    return '<div class="console-detail-empty">Aucun titre notable cartographie automatiquement.</div>'
+    return consoleEmptyMarkup('Titres indisponibles', 'Aucun titre notable cartographie automatiquement.')
   }
 
   return `
@@ -246,7 +255,7 @@ async function renderDetail(payload) {
                 <p>${escapeHtml(member.note || '')}</p>
               </article>
             `).join('')}</div>`
-          : '<div class="console-detail-empty">Equipe non documentee.</div>',
+          : consoleEmptyMarkup('Equipe non documentee', 'Aucun membre cle n est documente pour cette machine.'),
       })}
       ${encyclopediaSectionMarkup({
         title: 'Fiche technique',
@@ -335,13 +344,13 @@ function syncSelectedRow() {
 async function loadDetail(id) {
   selectedId = id
   syncSelectedRow()
-  detailEl.innerHTML = '<div class="console-detail-empty">Chargement...</div>'
+  detailEl.innerHTML = consoleEmptyMarkup('Chargement', 'Lecture de la fiche hardware et des liens associes.')
 
   const response = await fetch(`/api/consoles/${encodeURIComponent(id)}`)
   const payload = await response.json()
 
   if (!response.ok || !payload.ok) {
-    detailEl.innerHTML = '<div class="console-detail-empty">Ce systeme n\'est pas disponible dans l\'archive.</div>'
+    detailEl.innerHTML = consoleEmptyMarkup('Systeme indisponible', 'Ce systeme n est pas disponible dans l archive.')
     return
   }
 
@@ -355,7 +364,7 @@ async function loadConsoles() {
   if (!response.ok || !payload.ok) {
     countEl.textContent = 'Impossible de charger les consoles'
     gridEl.innerHTML = ''
-    detailEl.innerHTML = '<div class="console-detail-empty">Erreur de chargement.</div>'
+    detailEl.innerHTML = consoleEmptyMarkup('Erreur de chargement', 'Impossible de charger les consoles depuis l archive.')
     return
   }
 
@@ -387,5 +396,5 @@ async function loadConsoles() {
 
 loadConsoles().catch(() => {
   countEl.textContent = 'Impossible de charger les consoles'
-  detailEl.innerHTML = '<div class="console-detail-empty">Le systeme n\'a pas pu etre charge.</div>'
+  detailEl.innerHTML = consoleEmptyMarkup('Archive indisponible', 'Le systeme n a pas pu etre charge.')
 })
