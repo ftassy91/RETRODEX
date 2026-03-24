@@ -74,6 +74,13 @@ function coverageBadges(game) {
   return badges
 }
 
+function summaryExcerpt(value, fallback = '') {
+  const text = String(value || '').replace(/\s+/g, ' ').trim()
+  if (!text) return fallback
+  if (text.length <= 118) return text
+  return `${text.slice(0, 117).trimEnd()}...`
+}
+
 function updateCount() {
   const total = allGames.length + allFranchises.length + allConsoles.length
   countEl.textContent = `${allGames.length} jeux | ${allFranchises.length} franchises | ${allConsoles.length} consoles | ${total} entrees`
@@ -186,8 +193,12 @@ function renderGamesList(games) {
       <span class="encyclo-list-row-head">
         <span class="encyclo-row-title">${escapeHtml(game.title)}</span>
       </span>
-      <span class="encyclo-row-meta">${escapeHtml(game.console || 'Console inconnue')} &middot; ${escapeHtml(game.year || 'n/a')}</span>
-      <span class="encyclo-row-badges">
+      <span class="encyclo-row-meta">${escapeHtml(game.console || 'Console inconnue')} | ${escapeHtml(game.year || 'n/a')} | ${escapeHtml(game.developer || 'Studio inconnu')}</span>
+      <span class="encyclo-row-summary">${escapeHtml(summaryExcerpt(game.tagline || game.summary || game.synopsis, 'Lecture editoriale non indexee.'))}</span>
+      <span class="encyclo-row-signals">
+        ${game.genre && game.genre !== 'Other' ? `<span class="encyclo-badge">${escapeHtml(game.genre)}</span>` : ''}
+        ${game.rarity ? `<span class="encyclo-badge encyclo-badge-franchise">${escapeHtml(game.rarity)}</span>` : ''}
+        ${game.loosePrice != null ? `<span class="encyclo-badge">Loose ${escapeHtml(formatCurrency(game.loosePrice))}</span>` : ''}
         ${coverageBadges(game).map((badge) => `<span class="encyclo-badge">${badge}</span>`).join('')}
       </span>
     `
@@ -223,9 +234,12 @@ function renderFranchisesList(franchises) {
     row.dataset.slug = franchise.slug
     row.innerHTML = `
       <span class="encyclo-row-title">${escapeHtml(franchise.name)}</span>
-      <span class="encyclo-row-meta">${escapeHtml(franchise.first_game || 'n/a')} &rarr; ${escapeHtml(franchise.last_game || 'n/a')} &middot; ${escapeHtml(franchise.developer || 'Studio inconnu')}</span>
-      <span class="encyclo-row-badges">
+      <span class="encyclo-row-meta">${escapeHtml(franchise.first_game || 'n/a')} -> ${escapeHtml(franchise.last_game || 'n/a')} | ${escapeHtml(franchise.developer || 'Studio inconnu')}</span>
+      <span class="encyclo-row-summary">${escapeHtml(summaryExcerpt(franchise.description || franchise.legacy, 'Memoire de franchise disponible.'))}</span>
+      <span class="encyclo-row-signals">
         <span class="encyclo-badge encyclo-badge-franchise">FRANCHISE</span>
+        ${franchise.first_game ? `<span class="encyclo-badge">${escapeHtml(franchise.first_game)}</span>` : ''}
+        ${franchise.last_game ? `<span class="encyclo-badge">${escapeHtml(franchise.last_game)}</span>` : ''}
       </span>
     `
     row.addEventListener('click', () => loadFranchiseDetail(franchise.slug, row))
@@ -248,9 +262,11 @@ function renderConsolesList(consoles) {
     row.dataset.consoleId = consoleItem.id
     row.innerHTML = `
       <span class="encyclo-row-title">${escapeHtml(consoleItem.title)}</span>
-      <span class="encyclo-row-meta">${escapeHtml(consoleItem.manufacturer || 'Archive')} &middot; ${escapeHtml(consoleItem.year || 'n/a')} &middot; ${escapeHtml(consoleItem.gamesCount || 0)} jeux</span>
-      <span class="encyclo-row-badges">
+      <span class="encyclo-row-meta">${escapeHtml(consoleItem.manufacturer || 'Archive')} | ${escapeHtml(consoleItem.year || 'n/a')} | ${escapeHtml(consoleItem.gamesCount || 0)} jeux</span>
+      <span class="encyclo-row-summary">${escapeHtml(summaryExcerpt(consoleItem.generation || consoleItem.platform || consoleItem.media, 'Lecture hardware disponible.'))}</span>
+      <span class="encyclo-row-signals">
         <span class="encyclo-badge encyclo-badge-franchise">CONSOLE</span>
+        ${consoleItem.manufacturer ? `<span class="encyclo-badge">${escapeHtml(consoleItem.manufacturer)}</span>` : ''}
       </span>
     `
     row.addEventListener('click', () => loadConsoleDetail(consoleItem.id, row))
@@ -283,7 +299,7 @@ function gamePanelMarkup(game, encyclopedia) {
       <div class="encyclo-panel-info">
         <div class="detail-kicker">GAME ENTRY</div>
         <div class="encyclo-panel-title">${escapeHtml(game.title || 'Jeu')}</div>
-        <div class="encyclo-panel-meta">${escapeHtml(game.console || 'Console inconnue')} &middot; ${escapeHtml(game.year || 'n/a')} &middot; ${escapeHtml(game.developer || 'Studio inconnu')}</div>
+        <div class="encyclo-panel-meta">${escapeHtml(game.console || 'Console inconnue')} | ${escapeHtml(game.year || 'n/a')} | ${escapeHtml(game.developer || 'Studio inconnu')}</div>
         <div class="surface-signal-grid is-compact">
           <div class="surface-signal-card">
             <span class="surface-signal-label">Metascore</span>
@@ -309,9 +325,9 @@ function gamePanelMarkup(game, encyclopedia) {
         </div>
         ${tagline ? `<div class="encyclo-panel-tagline">${escapeHtml(tagline)}</div>` : ''}
         <div class="surface-action-row encyclo-panel-links">
-          <a href="/game-detail.html?id=${encodeURIComponent(game.id)}" class="encyclo-panel-link terminal-action-link">Ouvrir la fiche complete &rarr;</a>
-          <a href="/game-detail.html?id=${encodeURIComponent(game.id)}#price-history-section" class="encyclo-panel-link terminal-action-link">Ouvrir price trace &rarr;</a>
-          <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="encyclo-panel-link terminal-action-link">Voir la valeur RetroMarket &rarr;</a>
+          <a href="/game-detail.html?id=${encodeURIComponent(game.id)}" class="encyclo-panel-link terminal-action-link">Ouvrir la fiche complete -></a>
+          <a href="/game-detail.html?id=${encodeURIComponent(game.id)}#price-history-section" class="encyclo-panel-link terminal-action-link">Ouvrir price trace -></a>
+          <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="encyclo-panel-link terminal-action-link">Voir la valeur RetroMarket -></a>
         </div>
       </div>
     </div>
@@ -382,12 +398,12 @@ function franchisePanelMarkup(franchise) {
       <div class="encyclo-panel-info">
         <div class="detail-kicker">FRANCHISE ENTRY</div>
         <div class="encyclo-panel-title">${escapeHtml(franchise.name || 'Franchise')}</div>
-        <div class="encyclo-panel-meta">${escapeHtml(franchise.first_game || 'n/a')} &rarr; ${escapeHtml(franchise.last_game || 'n/a')} &middot; ${escapeHtml(franchise.developer || 'Studio inconnu')}</div>
+        <div class="encyclo-panel-meta">${escapeHtml(franchise.first_game || 'n/a')} -> ${escapeHtml(franchise.last_game || 'n/a')} | ${escapeHtml(franchise.developer || 'Studio inconnu')}</div>
         <div class="encyclo-panel-signals">
           <span class="encyclo-panel-rarity encyclo-badge-franchise">FRANCHISE</span>
           <span class="encyclo-panel-signal">${timeline.length} reperes</span>
         </div>
-        <a href="/franchises.html?slug=${encodeURIComponent(franchise.slug || '')}" class="encyclo-panel-link terminal-action-link">Ouvrir la fiche complete &rarr;</a>
+        <a href="/franchises.html?slug=${encodeURIComponent(franchise.slug || '')}" class="encyclo-panel-link terminal-action-link">Ouvrir la fiche complete -></a>
       </div>
     </div>
 
@@ -498,12 +514,12 @@ async function consolePanelMarkup(payload) {
       <div class="encyclo-panel-info encyclo-panel-info--console">
         <div class="detail-kicker">CONSOLE ENTRY</div>
         <div class="encyclo-panel-title">${escapeHtml(encyclopedia.name || consoleInfo.title || 'Console')}</div>
-        <div class="encyclo-panel-meta">${escapeHtml(encyclopedia.manufacturer || consoleInfo.manufacturer || 'Archive')} &middot; ${escapeHtml(encyclopedia.release_year || consoleInfo.year || 'n/a')} &middot; ${escapeHtml(encyclopedia.generation || consoleInfo.platform || 'Archive')}</div>
+        <div class="encyclo-panel-meta">${escapeHtml(encyclopedia.manufacturer || consoleInfo.manufacturer || 'Archive')} | ${escapeHtml(encyclopedia.release_year || consoleInfo.year || 'n/a')} | ${escapeHtml(encyclopedia.generation || consoleInfo.platform || 'Archive')}</div>
         <div class="encyclo-panel-signals">
           <span class="encyclo-panel-rarity encyclo-badge-franchise">CONSOLE</span>
           <span class="encyclo-panel-signal">${escapeHtml(consoleInfo.gamesCount || 0)} jeux</span>
         </div>
-        <a href="/consoles.html?platform=${encodeURIComponent(consoleInfo.platform || consoleInfo.title || '')}" class="encyclo-panel-link terminal-action-link">Ouvrir la fiche hardware complete &rarr;</a>
+        <a href="/consoles.html?platform=${encodeURIComponent(consoleInfo.platform || consoleInfo.title || '')}" class="encyclo-panel-link terminal-action-link">Ouvrir la fiche hardware complete -></a>
       </div>
     </div>
 

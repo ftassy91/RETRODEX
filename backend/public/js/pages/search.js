@@ -72,6 +72,13 @@
     return card;
   }
 
+  function createChip(label, modifier = '') {
+    const chip = document.createElement('span');
+    chip.className = `sc-chip${modifier ? ` ${modifier}` : ''}`;
+    chip.textContent = label;
+    return chip;
+  }
+
   function buildSecondaryCopy(item) {
     const parts = [];
     if (item.type === 'game' && item.meta?.genre) parts.push(item.meta.genre);
@@ -81,6 +88,28 @@
     if (item.meta?.synopsis) parts.push('editorial');
     if (item.meta?.loosePrice != null) parts.push('market');
     return parts.join(' | ');
+  }
+
+  function buildSummaryCopy(item, context) {
+    if (context === 'retrodex') {
+      return item.meta?.tagline || item.meta?.summary || item.meta?.synopsis || '';
+    }
+
+    if (context === 'retromarket') {
+      if (item.meta?.loosePrice != null) {
+        const rarity = item.meta?.rarity ? `Raret\u00e9 ${item.meta.rarity}` : 'Signal marche';
+        return `${rarity} | ${fmtPrice(item.meta.loosePrice) || 'n/a'} loose | lecture immediate du potentiel collector.`;
+      }
+      return '';
+    }
+
+    return item.meta?.tagline || item.meta?.summary || item.meta?.synopsis || '';
+  }
+
+  function buildActionLabel(item) {
+    if (item.type === 'franchise') return 'Voir franchise ->';
+    if (item.type === 'console') return 'Voir console ->';
+    return 'Voir fiche ->';
   }
 
   function renderSignals(item, context) {
@@ -178,12 +207,43 @@
         main.appendChild(secondary);
       }
 
+      const summaryCopy = buildSummaryCopy(item, context);
+      if (summaryCopy) {
+        const summary = document.createElement('span');
+        summary.className = 'sc-summary';
+        summary.textContent = summaryCopy;
+        main.appendChild(summary);
+      }
+
+      const chipRow = document.createElement('div');
+      chipRow.className = 'sc-chip-row';
+
+      if (item.type === 'game' && item.meta?.console) {
+        chipRow.appendChild(createChip(item.meta.console, 'is-primary'));
+      } else {
+        chipRow.appendChild(createChip(String(item.type || 'entry').toUpperCase(), 'is-primary'));
+      }
+
+      if (item.meta?.year) {
+        chipRow.appendChild(createChip(String(item.meta.year)));
+      }
+
+      if (item.meta?.rarity) {
+        chipRow.appendChild(createChip(item.meta.rarity, 'is-hot'));
+      }
+
+      if (item.meta?.metascore) {
+        chipRow.appendChild(createChip(`MS ${item.meta.metascore}`));
+      }
+
+      main.appendChild(chipRow);
+
       row.appendChild(main);
       row.appendChild(renderSignals(item, context));
 
       const action = document.createElement('span');
       action.className = 'sc-action';
-      action.textContent = 'Ouvrir ->';
+      action.textContent = buildActionLabel(item);
       row.appendChild(action);
 
       resultsEl.appendChild(row);
