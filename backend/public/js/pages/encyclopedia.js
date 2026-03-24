@@ -91,6 +91,15 @@ function formatCurrency(value) {
   return Number.isFinite(amount) && amount > 0 ? `$${Math.round(amount)}` : 'n/a'
 }
 
+function encycloStateMarkup(title, copy, className = 'encyclo-empty') {
+  return `
+    <div class="${className} terminal-empty-state">
+      <div class="terminal-empty-title">${escapeHtml(title)}</div>
+      <div class="terminal-empty-copy">${escapeHtml(copy)}</div>
+    </div>
+  `
+}
+
 function syncDexQueryToUrl(query) {
   const nextParams = new URLSearchParams(window.location.search)
   if (query) nextParams.set('q', query)
@@ -180,7 +189,7 @@ function renderGamesList(games) {
   gamesContainerEl.innerHTML = ''
 
   if (!games.length) {
-    gamesContainerEl.innerHTML = '<div class="encyclo-empty">Aucune entree jeu pour ce filtre actif.</div>'
+    gamesContainerEl.innerHTML = encycloStateMarkup('Index jeu vide', 'Aucune entree jeu pour ce filtre actif.')
     return
   }
 
@@ -221,7 +230,7 @@ function renderFranchisesList(franchises) {
 
   if (!franchises.length) {
     if (franchisesHeadingEl) franchisesHeadingEl.hidden = true
-    franchisesContainerEl.innerHTML = '<div class="encyclo-empty">Aucune franchise disponible.</div>'
+    franchisesContainerEl.innerHTML = encycloStateMarkup('Index franchise vide', 'Aucune franchise disponible.')
     return
   }
 
@@ -251,7 +260,7 @@ function renderConsolesList(consoles) {
   consolesContainerEl.innerHTML = ''
 
   if (!consoles.length) {
-    consolesContainerEl.innerHTML = '<div class="encyclo-empty">Aucune console disponible.</div>'
+    consolesContainerEl.innerHTML = encycloStateMarkup('Index console vide', 'Aucune console disponible.')
     return
   }
 
@@ -349,7 +358,7 @@ function gamePanelMarkup(game, encyclopedia) {
     <section class="encyclo-tab-content" id="tab-synopsis">
       ${synopsis
         ? `<p class="encyclo-synopsis-text">${escapeHtml(synopsis)}</p>`
-        : '<div class="encyclo-empty">Aucun synopsis disponible dans cette entree.</div>'
+        : encycloStateMarkup('Synopsis indisponible', 'Aucun synopsis disponible dans cette entree.')
       }
     </section>
 
@@ -360,7 +369,7 @@ function gamePanelMarkup(game, encyclopedia) {
           <span class="team-name">${escapeHtml(member.name || 'Nom inconnu')}</span>
           ${member.note ? `<span class="team-note">${escapeHtml(member.note)}</span>` : ''}
         </div>
-      `).join('') || '<div class="encyclo-empty">Aucune equipe documentee.</div>'}
+      `).join('') || encycloStateMarkup('Equipe indisponible', 'Aucune equipe documentee pour cette entree.')}
     </section>
 
     <section class="encyclo-tab-content" id="tab-anecdotes" hidden>
@@ -369,7 +378,7 @@ function gamePanelMarkup(game, encyclopedia) {
           <div class="encyclo-anecdote-title">${escapeHtml(anecdote.title || `Anecdote ${index + 1}`)}</div>
           <div class="encyclo-anecdote-text">${escapeHtml(anecdote.text || anecdote)}</div>
         </article>
-      `).join('') || '<div class="encyclo-empty">Aucune anecdote disponible.</div>'}
+      `).join('') || encycloStateMarkup('Anecdotes indisponibles', 'Aucune anecdote disponible pour cette entree.')}
     </section>
 
     <section class="encyclo-tab-content" id="tab-codes" hidden>
@@ -379,7 +388,7 @@ function gamePanelMarkup(game, encyclopedia) {
           <div class="encyclo-code-value">${escapeHtml(code.code || code.value || code)}</div>
           ${code.effect ? `<div class="encyclo-code-effect">${escapeHtml(code.effect)}</div>` : ''}
         </article>
-      `).join('') || '<div class="encyclo-empty">Aucun code disponible.</div>'}
+      `).join('') || encycloStateMarkup('Codes indisponibles', 'Aucun code disponible pour cette entree.')}
     </section>
   `
 }
@@ -432,7 +441,7 @@ function franchisePanelMarkup(franchise) {
           <span class="timeline-title">${escapeHtml(item.title || 'Repere')}</span>
           <span class="timeline-desc">${escapeHtml(item.description || '')}</span>
         </article>
-      `).join('') || '<div class="encyclo-empty">Aucune timeline disponible.</div>'}
+      `).join('') || encycloStateMarkup('Timeline indisponible', 'Aucune timeline disponible pour cette franchise.')}
     </section>
 
     <section class="encyclo-tab-content" id="tab-anecdotes" hidden>
@@ -441,14 +450,14 @@ function franchisePanelMarkup(franchise) {
           <div class="encyclo-anecdote-title">${escapeHtml(item.title || 'Anecdote')}</div>
           <div class="encyclo-anecdote-text">${escapeHtml(item.text || '')}</div>
         </article>
-      `).join('') || '<div class="encyclo-empty">Aucune anecdote disponible.</div>'}
+      `).join('') || encycloStateMarkup('Anecdotes indisponibles', 'Aucune anecdote disponible pour cette franchise.')}
     </section>
   `
 }
 
 function listMarkup(items, emptyMessage) {
   if (!items?.length) {
-    return `<div class="encyclo-empty">${escapeHtml(emptyMessage)}</div>`
+    return encycloStateMarkup('Section vide', emptyMessage)
   }
 
   return `<ul class="console-bullet-list">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
@@ -456,7 +465,7 @@ function listMarkup(items, emptyMessage) {
 
 function relatedConsolesMarkup(consoles) {
   if (!consoles?.length) {
-    return '<div class="encyclo-empty">Aucune console voisine a afficher.</div>'
+    return encycloStateMarkup('Liens indisponibles', 'Aucune console voisine a afficher.')
   }
 
   return `
@@ -473,7 +482,7 @@ function relatedConsolesMarkup(consoles) {
 
 function notableGamesMarkup(notableGames) {
   if (!notableGames?.length) {
-    return '<div class="encyclo-empty">Aucun titre notable mappe.</div>'
+    return encycloStateMarkup('Titres indisponibles', 'Aucun titre notable mappe.')
   }
 
   return `
@@ -596,7 +605,7 @@ async function consolePanelMarkup(payload) {
 async function loadGameDetail(gameId, rowEl) {
   activeItem = { type: 'game', id: gameId }
   setActiveRow(rowEl)
-  detailPanelEl.innerHTML = '<div class="encyclo-loading">Chargement...</div>'
+  detailPanelEl.innerHTML = encycloStateMarkup('Chargement', 'Lecture de l entree editoriale en cours.', 'encyclo-loading')
 
   try {
     const [gamePayload, encyclopediaPayload] = await Promise.all([
@@ -611,14 +620,14 @@ async function loadGameDetail(gameId, rowEl) {
     detailPanelEl.innerHTML = gamePanelMarkup(game, encyclopedia)
     window.switchEncycloTab('synopsis')
   } catch (_) {
-    detailPanelEl.innerHTML = '<div class="encyclo-loading">Lecture indisponible pour cette entree.</div>'
+    detailPanelEl.innerHTML = encycloStateMarkup('Lecture indisponible', 'Lecture indisponible pour cette entree.', 'encyclo-loading')
   }
 }
 
 async function loadFranchiseDetail(slug, rowEl) {
   activeItem = { type: 'franchise', slug }
   setActiveRow(rowEl)
-  detailPanelEl.innerHTML = '<div class="encyclo-loading">Chargement...</div>'
+  detailPanelEl.innerHTML = encycloStateMarkup('Chargement', 'Lecture de la franchise en cours.', 'encyclo-loading')
 
   try {
     const payload = await fetch(`/api/franchises/${encodeURIComponent(slug)}`).then((response) => response.json())
@@ -626,14 +635,14 @@ async function loadFranchiseDetail(slug, rowEl) {
     detailPanelEl.innerHTML = franchisePanelMarkup(franchise)
     window.switchEncycloTab('synopsis')
   } catch (_) {
-    detailPanelEl.innerHTML = '<div class="encyclo-loading">Lecture indisponible pour cette franchise.</div>'
+    detailPanelEl.innerHTML = encycloStateMarkup('Lecture indisponible', 'Lecture indisponible pour cette franchise.', 'encyclo-loading')
   }
 }
 
 async function loadConsoleDetail(consoleId, rowEl) {
   activeItem = { type: 'console', id: consoleId }
   setActiveRow(rowEl)
-  detailPanelEl.innerHTML = '<div class="encyclo-loading">Chargement...</div>'
+  detailPanelEl.innerHTML = encycloStateMarkup('Chargement', 'Lecture de la console en cours.', 'encyclo-loading')
 
   try {
     const payload = await fetch(`/api/consoles/${encodeURIComponent(consoleId)}`).then((response) => response.json())
@@ -651,7 +660,7 @@ async function loadConsoleDetail(consoleId, rowEl) {
     })
     window.switchEncycloTab('overview')
   } catch (_) {
-    detailPanelEl.innerHTML = '<div class="encyclo-loading">Lecture indisponible pour cette console.</div>'
+    detailPanelEl.innerHTML = encycloStateMarkup('Lecture indisponible', 'Lecture indisponible pour cette console.', 'encyclo-loading')
   }
 }
 
@@ -716,7 +725,7 @@ function restoreSelection() {
     }
   }
 
-  detailPanelEl.innerHTML = '<div class="encyclo-placeholder">Aucune entree disponible pour ce mode actif.</div>'
+  detailPanelEl.innerHTML = encycloStateMarkup('Mode vide', 'Aucune entree disponible pour ce mode actif.', 'encyclo-placeholder')
 }
 
 function renderActiveMode() {
@@ -820,7 +829,7 @@ async function init() {
     renderActiveMode()
   } catch (_) {
     countEl.textContent = 'Backend hors ligne'
-    detailPanelEl.innerHTML = '<div class="encyclo-loading">Archive indisponible.</div>'
+    detailPanelEl.innerHTML = encycloStateMarkup('Archive indisponible', 'Archive indisponible.', 'encyclo-loading')
   }
 }
 
