@@ -149,28 +149,52 @@ function renderMarketSearchResults(items) {
 
 async function performMarketSearch() {
   if (!marketSearchInputEl) return
-
   const query = String(marketSearchInputEl.value || '').trim()
+
   const nextParams = new URLSearchParams(window.location.search)
-  if (query) nextParams.set('q', query)
-  else nextParams.delete('q')
-  window.history.replaceState({}, '', `${window.location.pathname}${nextParams.toString() ? `?${nextParams.toString()}` : ''}`)
+  query ? nextParams.set('q', query) : nextParams.delete('q')
+  window.history.replaceState({}, '',
+    `${window.location.pathname}${nextParams.toString() ? `?${nextParams.toString()}` : ''}`)
 
   if (query.length < 2) {
-    if (marketSearchCountEl) {
-      marketSearchCountEl.textContent = ''
-    }
-    renderMarketSearchEmpty('Saisissez au moins 2 caracteres pour lire les signaux de valeur.')
+    if (marketSearchCountEl) marketSearchCountEl.textContent = ''
+    renderMarketSearchEmpty('Saisissez au moins 2 caractères pour lire les signaux de valeur.')
     return
   }
-
-  if (marketSearchCountEl) {
-    marketSearchCountEl.textContent = 'Recherche...'
-  }
+  if (marketSearchCountEl) marketSearchCountEl.textContent = 'Recherche...'
 
   try {
-    const payload = await fetchJson(`/api/market/search?q=${encodeURIComponent(query)}&limit=12`)
-    renderMarketSearchResults(payload.items || [])
+    let items
+    if (window.RetroDexSearch) {
+      const results = await window.RetroDexSearch.search(query, {}, 'retromarket', 12)
+      items = results.map((result) => ({
+        id: result.id,
+        title: result.title,
+        console: result.meta?.console,
+        year: result.meta?.year,
+        rarity: result.meta?.rarity,
+        loosePrice: result.meta?.loosePrice,
+        cibPrice: result.meta?.cibPrice,
+        mintPrice: result.meta?.mintPrice,
+        signal: ['LEGENDARY', 'EPIC'].includes(result.meta?.rarity) ? 'premium'
+          : result.meta?.rarity === 'RARE' ? 'watch' : 'baseline',
+      }))
+    } else {
+      const payload = await fetchJson(`/api/games?q=${encodeURIComponent(query)}&limit=12`)
+      items = (payload.items || []).map((game) => ({
+        id: game.id,
+        title: game.title,
+        console: game.console,
+        year: game.year,
+        rarity: game.rarity,
+        loosePrice: game.loosePrice,
+        cibPrice: game.cibPrice,
+        mintPrice: game.mintPrice,
+        signal: ['LEGENDARY', 'EPIC'].includes(game.rarity) ? 'premium'
+          : game.rarity === 'RARE' ? 'watch' : 'baseline',
+      }))
+    }
+    renderMarketSearchResults(items)
   } catch (error) {
     renderMarketSearchEmpty(`Recherche indisponible (${error.message}).`)
   }
