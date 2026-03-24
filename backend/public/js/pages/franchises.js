@@ -68,6 +68,15 @@ function buildArchiveCode(value) {
   return initials || 'RDX'
 }
 
+function signalCardMarkup(label, value, accentClass = '') {
+  return `
+    <div class="surface-signal-card${accentClass ? ` ${accentClass}` : ''}">
+      <span class="surface-signal-label">${escapeHtml(label)}</span>
+      <span class="surface-signal-value${accentClass === 'is-hot' ? ' is-hot' : value === 'n/a' ? ' is-muted' : ''}">${escapeHtml(value || 'n/a')}</span>
+    </div>
+  `
+}
+
 function buildListItem(item) {
   return `
     <button class="franchise-list-item${item.slug === selectedSlug ? ' selected' : ''}" data-slug="${escapeHtml(item.slug)}" type="button">
@@ -184,15 +193,16 @@ function renderOverviewPanel(franchise, genres, platforms) {
     <section class="franchise-tab-panel" data-panel="overview">
       <div class="franchise-section">
         <div class="section-label">APERCU</div>
-        <p class="franchise-description franchise-description-lead">${escapeHtml(franchise.description || 'Aucune description disponible.')}</p>
-        <div class="franchise-badges">
-          ${genres.length ? genres.map((genre) => `<span class="detail-pill">${escapeHtml(genre)}</span>`).join('') : '<span class="detail-pill">ARCHIVE</span>'}
+        <p class="franchise-description franchise-description-lead surface-summary-copy">${escapeHtml(franchise.description || 'Aucune description disponible.')}</p>
+        <div class="surface-chip-row">
+          ${genres.length ? genres.slice(0, 4).map((genre) => `<span class="surface-chip is-primary">${escapeHtml(genre)}</span>`).join('') : '<span class="surface-chip">ARCHIVE</span>'}
+          ${platforms.length ? platforms.slice(0, 4).map((platform) => `<span class="surface-chip">${escapeHtml(platform)}</span>`).join('') : ''}
         </div>
-        <div class="franchise-platforms">Plateformes : ${platforms.length ? escapeHtml(platforms.join(', ')) : 'Non documente'}</div>
+        <div class="franchise-platforms surface-identity-meta">Plateformes : ${platforms.length ? escapeHtml(platforms.join(', ')) : 'Non documente'}</div>
       </div>
       <div class="franchise-section">
         <div class="section-label">HERITAGE</div>
-        <div class="franchise-legacy">${escapeHtml(franchise.legacy || 'Aucun heritage documente.')}</div>
+        <div class="franchise-legacy surface-summary-copy">${escapeHtml(franchise.legacy || 'Aucun heritage documente.')}</div>
       </div>
     </section>
   `
@@ -287,6 +297,29 @@ function renderGamesPanel(games) {
   `
 }
 
+function renderGamesPanelRm1(games) {
+  return `
+    <section class="franchise-tab-panel" data-panel="games" hidden>
+      <div class="franchise-section" id="franchise-linked-games">
+        <div class="section-label">JEUX LIES</div>
+        ${games.length ? `
+          <div class="franchise-games-list">
+            ${games.map((game) => `
+              <a class="franchise-game-row rm1-franchise-game-row" href="/game-detail.html?id=${encodeURIComponent(game.id)}">
+                <span class="franchise-game-main">
+                  <span class="franchise-game-title">${escapeHtml(game.title)}</span>
+                  <span class="franchise-game-meta">${escapeHtml(game.platform || '-')} | ${escapeHtml(game.year || '-')}</span>
+                </span>
+                <span class="surface-chip">FICHE</span>
+              </a>
+            `).join('')}
+          </div>
+        ` : '<div class="franchise-detail-empty">Aucun jeu lie en base.</div>'}
+      </div>
+    </section>
+  `
+}
+
 function buildDetailMarkup(franchise, games) {
   const genres = toArray(franchise.genres)
   const platforms = toArray(franchise.platforms)
@@ -294,6 +327,11 @@ function buildDetailMarkup(franchise, games) {
   const teamChanges = toArray(franchise.team_changes)
   const trivia = toArray(franchise.trivia)
   const archiveCode = buildArchiveCode(franchise.name)
+  const period = formatYears(franchise)
+  const chipMarkup = [
+    ...genres.slice(0, 3).map((genre) => `<span class="surface-chip is-primary">${escapeHtml(genre)}</span>`),
+    ...platforms.slice(0, 3).map((platform) => `<span class="surface-chip">${escapeHtml(platform)}</span>`),
+  ].join('')
 
   return `
     <div class="franchise-panel">
@@ -306,16 +344,21 @@ function buildDetailMarkup(franchise, games) {
         <div class="franchise-panel-main">
           <div class="franchise-panel-kicker">COLLECTOR DOSSIER</div>
           <h2 class="detail-title">${escapeHtml(franchise.name)}</h2>
-          <div class="franchise-years-line">${escapeHtml(formatYears(franchise))}</div>
+          <div class="franchise-years-line surface-identity-meta">${escapeHtml(period)} | ${escapeHtml(franchise.developer || 'Inconnu')} | ${escapeHtml(franchise.publisher || 'Inconnu')}</div>
 
-          <div class="franchise-meta">
-            <span class="detail-pill detail-pill-quiet">DEV ${escapeHtml(franchise.developer || 'Inconnu')}</span>
-            <span class="detail-pill detail-pill-quiet">PUB ${escapeHtml(franchise.publisher || 'Inconnu')}</span>
-            <span class="detail-pill detail-pill-accent">${games.length} jeux lies</span>
+          <div class="surface-signal-grid franchise-overview-grid">
+            ${signalCardMarkup('Periode', period)}
+            ${signalCardMarkup('Studio', franchise.developer || 'Inconnu')}
+            ${signalCardMarkup('Jeux lies', String(games.length), games.length ? 'is-hot' : '')}
           </div>
 
-          <div class="franchise-action-row">
-            <a class="franchise-action-link" href="/search.html?q=${encodeURIComponent(franchise.name)}">RECHERCHER CETTE FRANCHISE</a>
+          <div class="surface-chip-row">
+            ${chipMarkup || '<span class="surface-chip">ARCHIVE</span>'}
+          </div>
+
+          <div class="surface-action-row franchise-action-row">
+            <a class="franchise-action-link" href="/search.html?q=${encodeURIComponent(franchise.name)}&ctx=retrodex">RECHERCHER CETTE FRANCHISE</a>
+            <a class="franchise-action-link" href="/search.html?q=${encodeURIComponent(franchise.name)}">OUVRIR LA RECHERCHE TRANSVERSE</a>
             ${games.length ? '<button type="button" class="franchise-action-link button-link" data-tab-jump="games">VOIR LES JEUX LIES</button>' : ''}
           </div>
         </div>
@@ -334,7 +377,7 @@ function buildDetailMarkup(franchise, games) {
         ${renderTimelinePanel(timeline)}
         ${renderTeamPanel(teamChanges)}
         ${renderTriviaPanel(trivia)}
-        ${renderGamesPanel(games)}
+        ${renderGamesPanelRm1(games)}
       </div>
     </div>
   `

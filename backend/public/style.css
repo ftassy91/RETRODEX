@@ -9220,6 +9220,55 @@ body.hub-page .product-universe-frame {
   grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
+.surface-signal-grid.is-five {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.collection-toolbar.surface-query-shell {
+  margin-top: 0;
+  padding: 10px 12px;
+}
+
+.collection-preview-summary {
+  margin-top: 12px;
+}
+
+.collection-preview-summary:empty {
+  display: none;
+}
+
+.franchises-search-helper,
+.hub-search-helper,
+.console-head-tools .surface-query-helper {
+  margin-top: 10px;
+}
+
+.franchise-overview-grid {
+  margin-top: 12px;
+}
+
+.franchise-game-main {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.rm1-franchise-game-row {
+  align-items: center;
+}
+
+.console-detail-signals.surface-signal-grid {
+  margin-top: 12px;
+}
+
+.console-detail-actions.surface-action-row {
+  margin-top: 12px;
+}
+
+.hub-search-form.surface-query-shell {
+  margin-bottom: 0;
+}
+
 .encyclo-list-row .asset-support {
   margin-right: 8px;
 }

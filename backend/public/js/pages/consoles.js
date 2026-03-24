@@ -179,15 +179,34 @@ async function renderDetail(payload) {
       <div class="console-detail-copy">
         <div class="detail-kicker">HARDWARE ENTRY</div>
         <div class="console-detail-title">${escapeHtml(encyclopedia.name || consoleInfo.title || 'Console')}</div>
-        <div class="console-detail-meta">${escapeHtml(manufacturer)} &middot; ${escapeHtml(encyclopedia.release_year || consoleInfo.year || 'n/a')} &middot; ${escapeHtml(encyclopedia.generation || consoleInfo.platform || 'Archive')}</div>
-        <div class="console-detail-signals">
-          <span class="console-detail-badge">${escapeHtml(manufacturer)}</span>
-          <span class="console-detail-badge">${escapeHtml(consoleInfo.gamesCount || games.length)} jeux visibles</span>
-          <span class="console-detail-badge">${escapeHtml(accessories.length)} accessoires</span>
+        <div class="console-detail-meta surface-identity-meta">${escapeHtml(manufacturer)} | ${escapeHtml(encyclopedia.release_year || consoleInfo.year || 'n/a')} | ${escapeHtml(encyclopedia.generation || consoleInfo.platform || 'Archive')}</div>
+        <div class="console-detail-signals surface-signal-grid is-compact">
+          <div class="surface-signal-card">
+            <span class="surface-signal-label">Constructeur</span>
+            <span class="surface-signal-value">${escapeHtml(manufacturer)}</span>
+          </div>
+          <div class="surface-signal-card">
+            <span class="surface-signal-label">Sortie</span>
+            <span class="surface-signal-value">${escapeHtml(encyclopedia.release_year || consoleInfo.year || 'n/a')}</span>
+          </div>
+          <div class="surface-signal-card">
+            <span class="surface-signal-label">Catalogue</span>
+            <span class="surface-signal-value is-hot">${escapeHtml(consoleInfo.gamesCount || games.length)} jeux</span>
+          </div>
+          <div class="surface-signal-card">
+            <span class="surface-signal-label">Accessoires</span>
+            <span class="surface-signal-value">${escapeHtml(accessories.length)}</span>
+          </div>
         </div>
-        <div class="console-detail-actions">
-          <a class="terminal-action-link" href="/games-list.html?console=${encodeURIComponent(consoleInfo.platform || '')}">Ouvrir le catalogue &rarr;</a>
-          <a class="terminal-action-link" href="/search.html">Rechercher un jeu &rarr;</a>
+        <div class="surface-chip-row">
+          <span class="surface-chip is-primary">${escapeHtml(encyclopedia.generation || consoleInfo.platform || 'Archive')}</span>
+          <span class="surface-chip">${escapeHtml(technicalSpecs.media || 'media n/a')}</span>
+          <span class="surface-chip">${escapeHtml(notableGames.length)} titres notables</span>
+        </div>
+        <div class="console-detail-actions surface-action-row">
+          <a class="terminal-action-link" href="/games-list.html?console=${encodeURIComponent(consoleInfo.platform || '')}">Ouvrir le catalogue -></a>
+          <a class="terminal-action-link" href="/search.html?q=${encodeURIComponent(consoleInfo.platform || '')}&ctx=retrodex">Ouvrir la recherche -></a>
+          <a class="terminal-action-link" href="/search.html?q=${encodeURIComponent(consoleInfo.platform || '')}&ctx=retrodex">Ouvrir RetroDex -></a>
         </div>
       </div>
     </div>
@@ -200,7 +219,7 @@ async function renderDetail(payload) {
         </div>
         <div class="console-section-copy">Bloc d'entree court pour situer la machine avant les details.</div>
       </div>
-      <div class="console-overview-copy">${escapeHtml(encyclopedia.overview || 'Notice encyclopedique indisponible pour cette console.')}</div>
+      <div class="console-overview-copy surface-summary-copy">${escapeHtml(encyclopedia.overview || 'Notice encyclopedique indisponible pour cette console.')}</div>
     </div>
 
     <div class="console-encyclopedia-grid">

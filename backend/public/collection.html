@@ -80,6 +80,10 @@
         <a href="/search.html" class="terminal-action-link">Ajouter un jeu → rechercher dans le catalogue</a>
       </div>
 
+      <div class="surface-query-helper">
+        Entree etagere locale. Filtrez vos lignes, ouvrez la lecture de valeur, puis basculez vers RetroMarket ou la fiche jeu sans perdre le contexte.
+      </div>
+
       <div class="terminal-filter-bar" style="margin-top:0">
         <div class="terminal-filter-group">
           <button class="terminal-filter-btn active" data-list="owned" type="button">MA COLLECTION</button>
@@ -92,7 +96,7 @@
         </div>
       </div>
 
-      <div class="terminal-filter-bar collection-toolbar">
+      <div class="terminal-filter-bar collection-toolbar surface-query-shell">
         <div class="terminal-filter-group collection-toolbar-group">
           <input id="collection-search-input" class="collection-toolbar-input" type="search" placeholder="Filtrer par titre ou note..." />
           <select id="collection-console-filter" class="collection-toolbar-select">
@@ -109,6 +113,10 @@
         <div class="terminal-filter-group" style="margin-left:auto">
           <button class="terminal-filter-btn" id="collection-export-btn" type="button">EXPORT CSV</button>
         </div>
+      </div>
+
+      <div class="surface-query-helper">
+        Structure RM-1 : identite, valeur estimee, signaux secondaires, puis actions directes vers la fiche, le marche et RetroDex.
       </div>
 
       <div id="status-text" class="terminal-context terminal-status-line">
@@ -130,11 +138,15 @@
 
       <div id="collection-list-container"></div>
 
-      <div class="terminal-preview-panel" id="collection-detail" style="display:none">
+      <div class="terminal-preview-panel surface-preview-panel" id="collection-detail" style="display:none">
         <div class="terminal-preview-label">SELECTION</div>
         <div class="terminal-preview-title" id="detail-title">-</div>
-        <div class="terminal-preview-row" id="detail-row1"></div>
-        <div class="terminal-preview-row" id="detail-row2"></div>
+        <div class="terminal-preview-row surface-identity-meta" id="detail-row1"></div>
+        <div class="surface-signal-grid is-five" id="detail-signal-grid"></div>
+        <div class="terminal-preview-row surface-chip-row" id="detail-chip-row"></div>
+        <div class="collection-preview-summary surface-summary-copy" id="detail-summary"></div>
+        <div id="detail-metascore" class="preview-metascore"></div>
+        <div class="terminal-preview-row surface-action-row" id="detail-row2"></div>
         <form id="collection-edit-form" class="collection-form collection-edit-form" hidden>
           <div class="collection-controls">
             <select id="edit-condition" class="collection-condition-select" aria-label="Etat du jeu">
@@ -190,6 +202,8 @@
     <script src="/js/core/format.js"></script>
     <script src="/js/core/api.js"></script>
     <script src="/js/core/state.js"></script>
+    <script src="/js/core/assets.js"></script>
+    <script src="/js/core/metascore.js"></script>
     <script src="/js/pages/collection.js"></script>
     <script src="/js/features/experience-layer.js"></script>
   </body>
