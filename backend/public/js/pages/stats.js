@@ -25,10 +25,13 @@ const marketSearchPreviewEl = document.getElementById('market-search-preview')
 const marketPreviewTitleEl = document.getElementById('market-preview-title')
 const marketPreviewMetaEl = document.getElementById('market-preview-meta')
 const marketPreviewPriceEl = document.getElementById('market-preview-price')
+const marketPreviewSignalEl = document.getElementById('market-preview-signal')
+const marketPreviewStatsEl = document.getElementById('market-preview-stats')
 const marketPreviewLinksEl = document.getElementById('market-preview-links')
 
 const urlParams = new URLSearchParams(window.location.search)
 let marketSearchTimer = null
+let marketPreviewToken = 0
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -66,6 +69,61 @@ function marketSignalClass(signal) {
   return ''
 }
 
+function formatCompactDate(value) {
+  if (!value) return 'n/a'
+  const date = new Date(value)
+  if (!Number.isFinite(date.getTime())) return String(value)
+  const day = String(date.getDate()).padStart(2, '0')
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  return `${day}/${month}/${date.getFullYear()}`
+}
+
+function getConditionSummary(summary, condition) {
+  if (!summary || !Array.isArray(summary.byCondition)) return null
+  return summary.byCondition.find((item) => item.condition === condition) || null
+}
+
+function renderMarketPreviewStats(summary) {
+  if (!marketPreviewStatsEl) return
+
+  if (!summary || !summary.totalSales) {
+    marketPreviewStatsEl.innerHTML = `
+      <div class="market-preview-stat is-empty">
+        <span class="market-preview-stat-label">Serie 24M</span>
+        <span class="market-preview-stat-value">Aucune donnee exploitable</span>
+      </div>
+    `
+    return
+  }
+
+  const loose = getConditionSummary(summary, 'loose')
+  const cib = getConditionSummary(summary, 'cib')
+  const mint = getConditionSummary(summary, 'mint')
+
+  marketPreviewStatsEl.innerHTML = `
+    <div class="market-preview-stat">
+      <span class="market-preview-stat-label">Ventes 24M</span>
+      <span class="market-preview-stat-value">${escapeHtml(summary.totalSales)}</span>
+    </div>
+    <div class="market-preview-stat">
+      <span class="market-preview-stat-label">Derniere vente</span>
+      <span class="market-preview-stat-value">${escapeHtml(formatCompactDate(summary.lastSale))}</span>
+    </div>
+    <div class="market-preview-stat">
+      <span class="market-preview-stat-label">Loose median</span>
+      <span class="market-preview-stat-value">${escapeHtml(loose ? formatCurrency(loose.median) : 'n/a')}</span>
+    </div>
+    <div class="market-preview-stat">
+      <span class="market-preview-stat-label">CIB median</span>
+      <span class="market-preview-stat-value">${escapeHtml(cib ? formatCurrency(cib.median) : 'n/a')}</span>
+    </div>
+    <div class="market-preview-stat">
+      <span class="market-preview-stat-label">Mint median</span>
+      <span class="market-preview-stat-value">${escapeHtml(mint ? formatCurrency(mint.median) : 'n/a')}</span>
+    </div>
+  `
+}
+
 function renderMarketSearchEmpty(message) {
   if (!marketSearchResultsEl) return
 
@@ -78,27 +136,55 @@ function renderMarketSearchEmpty(message) {
   if (marketSearchPreviewEl) {
     marketSearchPreviewEl.style.display = 'none'
   }
+  if (marketPreviewStatsEl) {
+    marketPreviewStatsEl.innerHTML = ''
+  }
 }
 
-function showMarketSearchPreview(item) {
+async function showMarketSearchPreview(item) {
   if (!marketSearchPreviewEl) return
 
+  const previewToken = ++marketPreviewToken
   marketSearchPreviewEl.style.display = 'block'
   marketPreviewTitleEl.textContent = item.title || '-'
   marketPreviewMetaEl.innerHTML = `
     <span><span class="pv-label">Console </span><span class="pv-val">${escapeHtml(item.console || '-')}</span></span>
     <span><span class="pv-label">Annee </span><span class="pv-val">${escapeHtml(item.year || '-')}</span></span>
+    <span><span class="pv-label">Genre </span><span class="pv-val">${escapeHtml(item.genre || '-')}</span></span>
     <span><span class="pv-label">Rarete </span><span class="pv-val">${escapeHtml(item.rarity || '-')}</span></span>
-    <span><span class="pv-label">Signal </span><span class="pv-val">${escapeHtml(marketSignalLabel(item.signal))}</span></span>
   `
   marketPreviewPriceEl.innerHTML = `
     <span><span class="pv-label">Loose </span><span class="pv-val">${escapeHtml(formatCurrency(item.loosePrice || 0))}</span></span>
     <span><span class="pv-label">CIB </span><span class="pv-val">${escapeHtml(formatCurrency(item.cibPrice || 0))}</span></span>
     <span><span class="pv-label">Mint </span><span class="pv-val">${escapeHtml(formatCurrency(item.mintPrice || 0))}</span></span>
   `
+  if (marketPreviewSignalEl) {
+    marketPreviewSignalEl.innerHTML = `
+      <span><span class="pv-label">Signal </span><span class="pv-val ${marketSignalClass(item.signal)}">${escapeHtml(marketSignalLabel(item.signal))}</span></span>
+      <span><span class="pv-label">Lecture </span><span class="pv-val">Prix, rarete, historique</span></span>
+    `
+    if (item.metascore && window.RetroDexMetascore) {
+      const metaWrap = document.createElement('span')
+      metaWrap.className = 'market-preview-inline-score'
+      metaWrap.appendChild(window.RetroDexMetascore.renderInline(item.metascore))
+      marketPreviewSignalEl.appendChild(metaWrap)
+    }
+  }
+  renderMarketPreviewStats(null)
   marketPreviewLinksEl.innerHTML = `
-    <a class="terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(item.id)}">Voir plus dans RetroDex &rarr;</a>
+    <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}">Ouvrir fiche marche &rarr;</a>
+    <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}#price-history-section">Ouvrir price trace &rarr;</a>
+    <a class="terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(item.id)}">Ouvrir RetroDex &rarr;</a>
   `
+
+  try {
+    const summary = await fetchJson(`/api/prices/${encodeURIComponent(item.id)}/summary?months=24`)
+    if (previewToken !== marketPreviewToken) return
+    renderMarketPreviewStats(summary)
+  } catch (error) {
+    if (previewToken !== marketPreviewToken) return
+    renderMarketPreviewStats(null)
+  }
 }
 
 function renderMarketSearchResults(items) {
@@ -126,13 +212,23 @@ function renderMarketSearchResults(items) {
       <span style="text-align:right">${escapeHtml(formatCurrency(item.mintPrice || 0))}</span>
       <span style="text-align:center" class="${marketSignalClass(item.signal)}">${escapeHtml(marketSignalLabel(item.signal))}</span>
     `
+    if (window.RetroDexAssets && item.console) {
+      const img = window.RetroDexAssets.createSupportImg(item.console, 16)
+      row.insertBefore(img, row.firstChild)
+    }
+    const titleEl = row.querySelector('span')
+    if (titleEl && item.metascore && window.RetroDexMetascore) {
+      titleEl.appendChild(document.createTextNode(' '))
+      titleEl.appendChild(window.RetroDexMetascore.renderBadge(item.metascore, 'micro'))
+    }
+    row.setAttribute('aria-label', `${item.title} ${item.console || ''} ${marketSignalLabel(item.signal)}`)
     row.addEventListener('click', () => {
       marketSearchResultsEl.querySelectorAll('.terminal-row').forEach((node) => node.classList.remove('selected'))
       row.classList.add('selected')
       showMarketSearchPreview(item)
     })
     row.addEventListener('dblclick', () => {
-      window.location.href = `/encyclopedia.html?game=${encodeURIComponent(item.id)}`
+      window.location.href = `/game-detail.html?id=${encodeURIComponent(item.id)}`
     })
     marketSearchResultsEl.appendChild(row)
 
@@ -172,7 +268,9 @@ async function performMarketSearch() {
         title: result.title,
         console: result.meta?.console,
         year: result.meta?.year,
+        genre: result.meta?.genre,
         rarity: result.meta?.rarity,
+        metascore: result.meta?.metascore,
         loosePrice: result.meta?.loosePrice,
         cibPrice: result.meta?.cibPrice,
         mintPrice: result.meta?.mintPrice,
@@ -186,7 +284,9 @@ async function performMarketSearch() {
         title: game.title,
         console: game.console,
         year: game.year,
+        genre: game.genre,
         rarity: game.rarity,
+        metascore: game.metascore,
         loosePrice: game.loosePrice,
         cibPrice: game.cibPrice,
         mintPrice: game.mintPrice,
@@ -213,7 +313,7 @@ function bindMarketSearch() {
   if (initialQuery) {
     performMarketSearch()
   } else {
-    renderMarketSearchEmpty('Recherche contextuelle RetroMarket : prix, rarete et fourchettes uniquement.')
+    renderMarketSearchEmpty('Recherche contextuelle RetroMarket : selectionnez un jeu pour lire les stats prix 24 mois et ouvrir la fiche marche.')
   }
 }
 

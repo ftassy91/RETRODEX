@@ -79,7 +79,7 @@
           <div class="stats-section-copy">Prix, rarete, fourchettes et signaux de valorisation uniquement.</div>
         </div>
 
-        <div class="terminal-query-line">
+        <div class="terminal-query-line market-search-shell">
           <span class="terminal-query-label">QUERY :</span>
           <input
             type="text"
@@ -89,6 +89,9 @@
             autocomplete="off"
           />
           <span class="terminal-query-count" id="market-search-count"></span>
+        </div>
+        <div class="market-search-helper">
+          Entree directe jeu par jeu. Selectionnez une ligne pour lire les stats prix 24 mois, puis ouvrez la fiche marche complete.
         </div>
 
         <div
@@ -106,10 +109,12 @@
         <div id="market-search-results"></div>
 
         <div class="terminal-preview-panel" id="market-search-preview" style="display:none">
-          <div class="terminal-preview-label">RETROMARKET</div>
+          <div class="terminal-preview-label">GAME SIGNAL</div>
           <div class="terminal-preview-title" id="market-preview-title">-</div>
           <div class="terminal-preview-row" id="market-preview-meta"></div>
           <div class="terminal-preview-row" id="market-preview-price"></div>
+          <div class="terminal-preview-row" id="market-preview-signal"></div>
+          <div class="market-preview-stats" id="market-preview-stats"></div>
           <div class="terminal-preview-row" id="market-preview-links"></div>
         </div>
       </section>
@@ -253,6 +258,8 @@
     </main>
 
     <script src="/js/core/search-core.js?v=20260324"></script>
+    <script src="/js/core/assets.js"></script>
+    <script src="/js/core/metascore.js"></script>
     <script src="/js/pages/stats.js"></script>
     <div class="footer-attribution">
       Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
