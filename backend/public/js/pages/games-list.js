@@ -574,7 +574,7 @@ async function loadMeta() {
 async function loadGames() {
   const currentState = state()
   updateUrl(currentState)
-  loadingIndicatorEl.textContent = 'Chargement...'
+  loadingIndicatorEl.textContent = 'Chargement du catalogue...'
   renderLoadingSkeletons()
 
   const params = new URLSearchParams()
