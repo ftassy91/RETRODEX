@@ -17,6 +17,8 @@ const { dedupeSearchResults } = require('../helpers/search')
 const { buildPriceHistoryPayload } = require('../helpers/priceHistory')
 
 const router = Router()
+// SYNC: SC-5 - routes Search Core confirmees pour le runtime serverless
+// Decision source : SYNC.md § SEARCH RULES / SERVERLESS RULES
 
 const RARITY_DESC_ORDER = {
   LEGENDARY: 0,
