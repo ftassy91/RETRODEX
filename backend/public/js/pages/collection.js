@@ -251,6 +251,16 @@
     return `-${formatCurrency(Math.abs(gain))}`
   }
 
+  function collectionStateMarkup(title, copy, actionMarkup = '') {
+    return `
+      <div class="terminal-empty-state">
+        <div class="terminal-empty-title">${escapeHtml(title)}</div>
+        ${copy ? `<div class="terminal-empty-copy">${escapeHtml(copy)}</div>` : ''}
+        ${actionMarkup || ''}
+      </div>
+    `
+  }
+
   function renderDetailMetascore(score) {
     if (!detailMetascoreEl || !window.RetroDexMetascore) return
     detailMetascoreEl.innerHTML = ''
@@ -499,13 +509,11 @@
 
     if (!items.length) {
       const message = emptyListMessage()
-      spacer.innerHTML = `
-        <div class="terminal-empty-state">
-          <div class="terminal-empty-title">${escapeHtml(message.title)}</div>
-          ${message.copy ? `<div class="terminal-empty-copy">${escapeHtml(message.copy)}</div>` : ''}
-          ${message.linkLabel ? `<div class="terminal-empty-copy"><a href="/search.html" class="terminal-action-link">${escapeHtml(message.linkLabel)}</a></div>` : ''}
-        </div>
-      `
+      spacer.innerHTML = collectionStateMarkup(
+        message.title,
+        message.copy,
+        message.linkLabel ? `<div class="terminal-empty-copy"><a href="/search.html" class="terminal-action-link">${escapeHtml(message.linkLabel)}</a></div>` : ''
+      )
     } else {
       spacer.innerHTML = `
         <div class="terminal-quiet-note">
@@ -527,12 +535,7 @@
     clearSelection()
     setHtml(
       collectionListContainerEl,
-      `
-        <div class="terminal-empty-state">
-          <div class="terminal-empty-title">Aucun resultat visible</div>
-          <div class="terminal-empty-copy">Aucun item ne correspond aux filtres actifs. Ajustez la recherche ou la console.</div>
-        </div>
-      `
+      collectionStateMarkup('Aucun resultat visible', 'Aucun item ne correspond aux filtres actifs. Ajustez la recherche ou la console.')
     )
   }
 
@@ -685,8 +688,8 @@
 
   async function loadCollection(preferredItemId = null) {
     clearSelection()
-    setStatus('Chargement...')
-    setHtml(collectionListContainerEl, '')
+    setStatus('Chargement de la collection...')
+    setHtml(collectionListContainerEl, collectionStateMarkup('Chargement', 'Lecture des lignes de collection et des signaux associes.'))
 
     try {
       const payload = await fetchCollection(activeTab, isPublicForSaleView)
@@ -707,7 +710,15 @@
       allCollectionItems = []
       enrichedItems = []
       updateSummaryFromItems([])
-      renderEmptyState()
+      setHtml(
+        collectionListContainerEl,
+        collectionStateMarkup(
+          'Collection indisponible',
+          'Impossible de lire les lignes locales pour le moment.',
+          '<div class="terminal-empty-copy"><a href="/search.html" class="terminal-action-link">Ouvrir Recherche -></a></div>'
+        )
+      )
+      clearSelection()
       setStatus(`Erreur collection : ${error.message}`)
     }
   }
