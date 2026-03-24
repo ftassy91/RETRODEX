@@ -1,7 +1,7 @@
 'use strict';
 /**
  * backend/public/js/pages/search.js
- * Remplace le routeur de redirection par un vrai moteur (via RetroDexSearch).
+ * Search Core inline surface.
  */
 ;(() => {
   const inputEl = document.getElementById('search-router-input')
@@ -55,20 +55,91 @@
     return createFallbackMetascoreBadge(score);
   }
 
+  function createSignalCard(label, value, modifier = '') {
+    const card = document.createElement('div');
+    card.className = `surface-signal-card${modifier ? ` ${modifier}` : ''}`;
+
+    const cardLabel = document.createElement('span');
+    cardLabel.className = 'surface-signal-label';
+    cardLabel.textContent = label;
+
+    const cardValue = document.createElement('span');
+    cardValue.className = 'surface-signal-value';
+    cardValue.textContent = value;
+
+    card.appendChild(cardLabel);
+    card.appendChild(cardValue);
+    return card;
+  }
+
+  function buildSecondaryCopy(item) {
+    const parts = [];
+    if (item.type === 'game' && item.meta?.genre) parts.push(item.meta.genre);
+    if (item.type === 'game' && item.meta?.developer) parts.push(item.meta.developer);
+    if (item.type === 'franchise' && item.meta?.developer) parts.push(item.meta.developer);
+    if (item.type === 'console' && item.meta?.manufacturer) parts.push(item.meta.manufacturer);
+    if (item.meta?.synopsis) parts.push('editorial');
+    if (item.meta?.loosePrice != null) parts.push('market');
+    return parts.join(' | ');
+  }
+
+  function renderSignals(item, context) {
+    const grid = document.createElement('div');
+    grid.className = 'sc-signal-grid';
+
+    if (item.type === 'game' && (context === 'retromarket' || context === 'all') && item.meta?.loosePrice != null) {
+      grid.appendChild(createSignalCard('Loose', fmtPrice(item.meta.loosePrice) || 'n/a'));
+    }
+
+    if (item.meta?.metascore) {
+      const scoreCard = document.createElement('div');
+      scoreCard.className = 'surface-signal-card';
+
+      const scoreLabel = document.createElement('span');
+      scoreLabel.className = 'surface-signal-label';
+      scoreLabel.textContent = 'Metascore';
+
+      const scoreValue = document.createElement('div');
+      scoreValue.className = 'surface-signal-value';
+      const badge = createMetascoreBadge(item.meta.metascore);
+      if (badge) {
+        scoreValue.appendChild(badge);
+      } else {
+        scoreValue.textContent = String(item.meta.metascore);
+      }
+
+      scoreCard.appendChild(scoreLabel);
+      scoreCard.appendChild(scoreValue);
+      grid.appendChild(scoreCard);
+    }
+
+    if (item.meta?.rarity) {
+      grid.appendChild(createSignalCard('Rarete', item.meta.rarity));
+    } else {
+      grid.appendChild(createSignalCard('Type', String(item.type || '').toUpperCase()));
+    }
+
+    if (!grid.children.length) {
+      grid.appendChild(createSignalCard('Type', String(item.type || '').toUpperCase()));
+    }
+
+    return grid;
+  }
+
   function renderEmpty(message) {
     resultsEl.innerHTML = `<div style="color:#333;font-family:monospace;font-size:11px;padding:12px 0">${message}</div>`;
   }
 
   function renderResults(results, context) {
     if (!results.length) {
-      renderEmpty('Aucun résultat.');
-      if (countEl) countEl.textContent = '0 résultat';
+      renderEmpty('Aucun resultat.');
+      if (countEl) countEl.textContent = '0 resultat';
       return;
     }
 
     const contextLabel = window.RetroDexSearch?.CTX?.[context]?.label || context.toUpperCase();
     if (countEl) {
-      countEl.textContent = `${results.length} résultat(s) — ${contextLabel}`;
+      countEl.textContent = `${results.length} resultat(s) | ${contextLabel}`;
     }
 
     resultsEl.innerHTML = '';
@@ -81,6 +152,12 @@
         row.appendChild(window.RetroDexAssets.createSupportImg(item.meta.console, 16));
       }
 
+      const main = document.createElement('div');
+      main.className = 'sc-main';
+
+      const identity = document.createElement('div');
+      identity.className = 'sc-identity';
+
       const title = document.createElement('span');
       title.className = 'sc-title';
       title.textContent = item.title;
@@ -89,25 +166,25 @@
       subtitle.className = 'sc-sub';
       subtitle.textContent = item.subtitle || '';
 
-      const type = document.createElement('span');
-      type.className = 'sc-type';
-      type.textContent = String(item.type || '').toUpperCase();
+      identity.appendChild(title);
+      identity.appendChild(subtitle);
+      main.appendChild(identity);
 
-      row.appendChild(title);
-      row.appendChild(subtitle);
-      row.appendChild(type);
-
-      if (context === 'retromarket' || context === 'all') {
-        const price = document.createElement('span');
-        price.className = 'sc-price';
-        price.textContent = fmtPrice(item.meta?.loosePrice);
-        row.appendChild(price);
+      const secondaryCopy = buildSecondaryCopy(item);
+      if (secondaryCopy) {
+        const secondary = document.createElement('span');
+        secondary.className = 'sc-secondary';
+        secondary.textContent = secondaryCopy;
+        main.appendChild(secondary);
       }
 
-      const metascoreBadge = createMetascoreBadge(item.meta?.metascore);
-      if (metascoreBadge) {
-        row.appendChild(metascoreBadge);
-      }
+      row.appendChild(main);
+      row.appendChild(renderSignals(item, context));
+
+      const action = document.createElement('span');
+      action.className = 'sc-action';
+      action.textContent = 'Ouvrir ->';
+      row.appendChild(action);
 
       resultsEl.appendChild(row);
     });
@@ -144,7 +221,7 @@
     if (countEl) {
       countEl.textContent = contextLabel === 'TOUS'
         ? ''
-        : `Contexte actif — ${contextLabel}`;
+        : `Contexte actif | ${contextLabel}`;
     }
     renderEmpty('Saisissez un titre, une console ou une franchise.');
     syncUrl('', currentContext);

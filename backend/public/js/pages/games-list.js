@@ -300,6 +300,7 @@ function quickDetailMarkup(game, currentState) {
   const description = shortSummary(game)
   const collectionState = getCollectionState(game.id)
   const detailHref = detailUrl(game.id, currentState)
+  const visibleGenre = game.genre && game.genre !== 'Other' ? game.genre : ''
   return `
     <div class="detail-content">
       <div class="detail-title">${esc(game.title || 'Sans titre')}</div>
@@ -309,22 +310,28 @@ function quickDetailMarkup(game, currentState) {
         <span class="result-badge rarity-badge rarity-${esc(String(game.rarity || 'common').toLowerCase())}">${esc(game.rarity || 'COMMON')}</span>
         ${collectionState === 'owned' ? '<span class="result-owned-badge">OWNED</span>' : ''}
       </div>
-      <div class="detail-prices">
-        <div class="detail-price-col">
-          <div class="price-label">LOOSE</div>
-          ${detailPrice(game.loosePrice)}
+      <div class="surface-signal-grid">
+        <div class="surface-signal-card">
+          <span class="surface-signal-label">Loose</span>
+          <span class="surface-signal-value is-alert">${esc(Number(game.loosePrice) > 0 ? `$${Math.round(Number(game.loosePrice))}` : 'n/a')}</span>
         </div>
-        <div class="detail-price-col">
-          <div class="price-label">CIB</div>
-          ${detailPrice(game.cibPrice)}
+        <div class="surface-signal-card">
+          <span class="surface-signal-label">CIB</span>
+          <span class="surface-signal-value">${esc(Number(game.cibPrice) > 0 ? `$${Math.round(Number(game.cibPrice))}` : 'n/a')}</span>
         </div>
-        <div class="detail-price-col">
-          <div class="price-label">MINT</div>
-          ${detailPrice(game.mintPrice)}
+        <div class="surface-signal-card">
+          <span class="surface-signal-label">Mint</span>
+          <span class="surface-signal-value">${esc(Number(game.mintPrice) > 0 ? `$${Math.round(Number(game.mintPrice))}` : 'n/a')}</span>
         </div>
       </div>
-      ${description ? `<div class="detail-description">${description}</div>` : ''}
-      <div class="detail-link-group">
+      <div class="surface-chip-row">
+        ${visibleGenre ? `<span class="surface-chip is-primary">${esc(visibleGenre)}</span>` : ''}
+        <span class="surface-chip">${esc(game.rarity || 'ARCHIVE')}</span>
+        ${game.metascore ? `<span class="surface-chip is-hot">MS ${esc(game.metascore)}</span>` : '<span class="surface-chip">NO SCORE</span>'}
+      </div>
+      <div id="preview-metascore" class="preview-metascore"></div>
+      ${description ? `<div class="detail-description surface-summary-copy">${description}</div>` : ''}
+      <div class="detail-link-group surface-action-row">
         <a class="detail-link terminal-action-link" href="${detailHref}">Voir fiche complete &rarr;</a>
         <a class="detail-link terminal-action-link" href="${detailHref}#price-history-section">Ouvrir price trace &rarr;</a>
         <a class="detail-link terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(game.id)}">Ouvrir RetroDex &rarr;</a>

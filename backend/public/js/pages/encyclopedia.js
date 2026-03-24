@@ -79,6 +79,11 @@ function updateCount() {
   countEl.textContent = `${allGames.length} jeux | ${allFranchises.length} franchises | ${allConsoles.length} consoles | ${total} entrees`
 }
 
+function formatCurrency(value) {
+  const amount = Number(value)
+  return Number.isFinite(amount) && amount > 0 ? `$${Math.round(amount)}` : 'n/a'
+}
+
 function syncDexQueryToUrl(query) {
   const nextParams = new URLSearchParams(window.location.search)
   if (query) nextParams.set('q', query)
@@ -178,12 +183,23 @@ function renderGamesList(games) {
     row.className = 'encyclo-list-row'
     row.dataset.id = game.id
     row.innerHTML = `
-      <span class="encyclo-row-title">${escapeHtml(game.title)}</span>
+      <span class="encyclo-list-row-head">
+        <span class="encyclo-row-title">${escapeHtml(game.title)}</span>
+      </span>
       <span class="encyclo-row-meta">${escapeHtml(game.console || 'Console inconnue')} &middot; ${escapeHtml(game.year || 'n/a')}</span>
       <span class="encyclo-row-badges">
         ${coverageBadges(game).map((badge) => `<span class="encyclo-badge">${badge}</span>`).join('')}
       </span>
     `
+    const headEl = row.querySelector('.encyclo-list-row-head')
+    if (headEl && window.RetroDexAssets && game.console) {
+      headEl.prepend(window.RetroDexAssets.createSupportImg(game.console, 16))
+    }
+    if (headEl && game.metascore && window.RetroDexMetascore?.renderBadge) {
+      const metaBadge = window.RetroDexMetascore.renderBadge(game.metascore, 'micro')
+      metaBadge.title = `Metascore : ${game.metascore}/100`
+      headEl.appendChild(metaBadge)
+    }
     row.addEventListener('click', () => loadGameDetail(game.id, row))
     gamesContainerEl.appendChild(row)
   })
@@ -250,6 +266,8 @@ function gamePanelMarkup(game, encyclopedia) {
   const tagline = game.tagline || ''
   const rarity = String(game.rarity || 'ARCHIVE')
   const metascore = game.metascore || encyclopedia.metascore || null
+  const modulesCount = coverageBadges(game).length
+  const genre = game.genre && game.genre !== 'Other' ? game.genre : ''
 
   return `
     <div class="encyclo-panel-header">
@@ -265,15 +283,36 @@ function gamePanelMarkup(game, encyclopedia) {
       <div class="encyclo-panel-info">
         <div class="detail-kicker">GAME ENTRY</div>
         <div class="encyclo-panel-title">${escapeHtml(game.title || 'Jeu')}</div>
-        <div class="encyclo-panel-meta">${escapeHtml(game.console || 'Console inconnue')} &middot; ${escapeHtml(game.year || 'n/a')}</div>
-        <div class="encyclo-panel-signals">
-          <span class="encyclo-panel-rarity rarity-${escapeHtml(rarity.toLowerCase())}">${escapeHtml(rarity)}</span>
-          <span class="encyclo-panel-signal">${coverageBadges(game).length} modules</span>
-          ${metascore ? `<span class="encyclo-panel-signal">META ${escapeHtml(metascore)}</span>` : ''}
+        <div class="encyclo-panel-meta">${escapeHtml(game.console || 'Console inconnue')} &middot; ${escapeHtml(game.year || 'n/a')} &middot; ${escapeHtml(game.developer || 'Studio inconnu')}</div>
+        <div class="surface-signal-grid is-compact">
+          <div class="surface-signal-card">
+            <span class="surface-signal-label">Metascore</span>
+            <span class="surface-signal-value">${metascore ? escapeHtml(metascore) : 'n/a'}</span>
+          </div>
+          <div class="surface-signal-card">
+            <span class="surface-signal-label">Loose</span>
+            <span class="surface-signal-value is-alert">${escapeHtml(formatCurrency(game.loosePrice))}</span>
+          </div>
+          <div class="surface-signal-card">
+            <span class="surface-signal-label">Rarete</span>
+            <span class="surface-signal-value">${escapeHtml(rarity)}</span>
+          </div>
+          <div class="surface-signal-card">
+            <span class="surface-signal-label">Couverture</span>
+            <span class="surface-signal-value is-muted">${escapeHtml(`${modulesCount} modules`)}</span>
+          </div>
+        </div>
+        <div class="surface-chip-row">
+          ${genre ? `<span class="surface-chip is-primary">${escapeHtml(genre)}</span>` : ''}
+          <span class="surface-chip">${escapeHtml(game.console || 'Console')}</span>
+          ${metascore ? `<span class="surface-chip is-hot">MS ${escapeHtml(metascore)}</span>` : '<span class="surface-chip">NO SCORE</span>'}
         </div>
         ${tagline ? `<div class="encyclo-panel-tagline">${escapeHtml(tagline)}</div>` : ''}
-        <a href="/game-detail.html?id=${encodeURIComponent(game.id)}" class="encyclo-panel-link terminal-action-link">Ouvrir la fiche complete &rarr;</a>
-        <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="encyclo-panel-link terminal-action-link">Voir la valeur RetroMarket &rarr;</a>
+        <div class="surface-action-row encyclo-panel-links">
+          <a href="/game-detail.html?id=${encodeURIComponent(game.id)}" class="encyclo-panel-link terminal-action-link">Ouvrir la fiche complete &rarr;</a>
+          <a href="/game-detail.html?id=${encodeURIComponent(game.id)}#price-history-section" class="encyclo-panel-link terminal-action-link">Ouvrir price trace &rarr;</a>
+          <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="encyclo-panel-link terminal-action-link">Voir la valeur RetroMarket &rarr;</a>
+        </div>
       </div>
     </div>
 

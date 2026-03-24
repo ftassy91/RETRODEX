@@ -85,12 +85,13 @@ function getConditionSummary(summary, condition) {
 
 function renderMarketPreviewStats(summary) {
   if (!marketPreviewStatsEl) return
+  marketPreviewStatsEl.classList.add('surface-signal-grid')
 
   if (!summary || !summary.totalSales) {
     marketPreviewStatsEl.innerHTML = `
-      <div class="market-preview-stat is-empty">
-        <span class="market-preview-stat-label">Serie 24M</span>
-        <span class="market-preview-stat-value">Aucune donnee exploitable</span>
+      <div class="surface-signal-card is-wide">
+        <span class="surface-signal-label">Serie 24M</span>
+        <span class="surface-signal-value is-muted">Aucune donnee exploitable</span>
       </div>
     `
     return
@@ -101,25 +102,25 @@ function renderMarketPreviewStats(summary) {
   const mint = getConditionSummary(summary, 'mint')
 
   marketPreviewStatsEl.innerHTML = `
-    <div class="market-preview-stat">
-      <span class="market-preview-stat-label">Ventes 24M</span>
-      <span class="market-preview-stat-value">${escapeHtml(summary.totalSales)}</span>
+    <div class="surface-signal-card">
+      <span class="surface-signal-label">Ventes 24M</span>
+      <span class="surface-signal-value">${escapeHtml(summary.totalSales)}</span>
     </div>
-    <div class="market-preview-stat">
-      <span class="market-preview-stat-label">Derniere vente</span>
-      <span class="market-preview-stat-value">${escapeHtml(formatCompactDate(summary.lastSale))}</span>
+    <div class="surface-signal-card">
+      <span class="surface-signal-label">Derniere vente</span>
+      <span class="surface-signal-value">${escapeHtml(formatCompactDate(summary.lastSale))}</span>
     </div>
-    <div class="market-preview-stat">
-      <span class="market-preview-stat-label">Loose median</span>
-      <span class="market-preview-stat-value">${escapeHtml(loose ? formatCurrency(loose.median) : 'n/a')}</span>
+    <div class="surface-signal-card">
+      <span class="surface-signal-label">Loose median</span>
+      <span class="surface-signal-value is-alert">${escapeHtml(loose ? formatCurrency(loose.median) : 'n/a')}</span>
     </div>
-    <div class="market-preview-stat">
-      <span class="market-preview-stat-label">CIB median</span>
-      <span class="market-preview-stat-value">${escapeHtml(cib ? formatCurrency(cib.median) : 'n/a')}</span>
+    <div class="surface-signal-card">
+      <span class="surface-signal-label">CIB median</span>
+      <span class="surface-signal-value">${escapeHtml(cib ? formatCurrency(cib.median) : 'n/a')}</span>
     </div>
-    <div class="market-preview-stat">
-      <span class="market-preview-stat-label">Mint median</span>
-      <span class="market-preview-stat-value">${escapeHtml(mint ? formatCurrency(mint.median) : 'n/a')}</span>
+    <div class="surface-signal-card">
+      <span class="surface-signal-label">Mint median</span>
+      <span class="surface-signal-value">${escapeHtml(mint ? formatCurrency(mint.median) : 'n/a')}</span>
     </div>
   `
 }
@@ -147,6 +148,7 @@ async function showMarketSearchPreview(item) {
   const previewToken = ++marketPreviewToken
   marketSearchPreviewEl.style.display = 'block'
   marketPreviewTitleEl.textContent = item.title || '-'
+  marketPreviewMetaEl.className = 'terminal-preview-row surface-identity-meta'
   marketPreviewMetaEl.innerHTML = `
     <span><span class="pv-label">Console </span><span class="pv-val">${escapeHtml(item.console || '-')}</span></span>
     <span><span class="pv-label">Annee </span><span class="pv-val">${escapeHtml(item.year || '-')}</span></span>
@@ -154,23 +156,37 @@ async function showMarketSearchPreview(item) {
     <span><span class="pv-label">Rarete </span><span class="pv-val">${escapeHtml(item.rarity || '-')}</span></span>
   `
   marketPreviewPriceEl.innerHTML = `
-    <span><span class="pv-label">Loose </span><span class="pv-val">${escapeHtml(formatCurrency(item.loosePrice || 0))}</span></span>
-    <span><span class="pv-label">CIB </span><span class="pv-val">${escapeHtml(formatCurrency(item.cibPrice || 0))}</span></span>
-    <span><span class="pv-label">Mint </span><span class="pv-val">${escapeHtml(formatCurrency(item.mintPrice || 0))}</span></span>
+    <div class="surface-signal-grid is-compact">
+      <div class="surface-signal-card">
+        <span class="surface-signal-label">Loose</span>
+        <span class="surface-signal-value is-alert">${escapeHtml(formatCurrency(item.loosePrice || 0))}</span>
+      </div>
+      <div class="surface-signal-card">
+        <span class="surface-signal-label">CIB</span>
+        <span class="surface-signal-value">${escapeHtml(formatCurrency(item.cibPrice || 0))}</span>
+      </div>
+      <div class="surface-signal-card">
+        <span class="surface-signal-label">Mint</span>
+        <span class="surface-signal-value">${escapeHtml(formatCurrency(item.mintPrice || 0))}</span>
+      </div>
+    </div>
   `
   if (marketPreviewSignalEl) {
+    marketPreviewSignalEl.className = 'terminal-preview-row surface-chip-row'
     marketPreviewSignalEl.innerHTML = `
-      <span><span class="pv-label">Signal </span><span class="pv-val ${marketSignalClass(item.signal)}">${escapeHtml(marketSignalLabel(item.signal))}</span></span>
-      <span><span class="pv-label">Lecture </span><span class="pv-val">Prix, rarete, historique</span></span>
+      <span class="surface-chip is-hot">${escapeHtml(marketSignalLabel(item.signal))}</span>
+      <span class="surface-chip">${escapeHtml(item.rarity || 'ARCHIVE')}</span>
+      <span class="surface-chip">prix | rarete | historique</span>
     `
     if (item.metascore && window.RetroDexMetascore) {
       const metaWrap = document.createElement('span')
-      metaWrap.className = 'market-preview-inline-score'
+      metaWrap.className = 'surface-chip is-primary market-preview-inline-score'
       metaWrap.appendChild(window.RetroDexMetascore.renderInline(item.metascore))
       marketPreviewSignalEl.appendChild(metaWrap)
     }
   }
   renderMarketPreviewStats(null)
+  marketPreviewLinksEl.className = 'terminal-preview-row surface-action-row'
   marketPreviewLinksEl.innerHTML = `
     <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}">Ouvrir fiche marche &rarr;</a>
     <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}#price-history-section">Ouvrir price trace &rarr;</a>
