@@ -26,6 +26,10 @@
   const collectionDetailEl = byId('collection-detail')
   const detailTitleEl = byId('detail-title')
   const detailRow1El = byId('detail-row1')
+  const detailSignalGridEl = byId('detail-signal-grid')
+  const detailChipRowEl = byId('detail-chip-row')
+  const detailSummaryEl = byId('detail-summary')
+  const detailMetascoreEl = byId('detail-metascore')
   const detailRow2El = byId('detail-row2')
   const editFormEl = byId('collection-edit-form')
   const editConditionEl = byId('edit-condition')
@@ -230,6 +234,29 @@
     return 'votre collection'
   }
 
+  function getTabSignalLabel(tab) {
+    if (tab === 'wanted') return 'WISHLIST'
+    if (tab === 'for_sale') return 'FOR SALE'
+    return 'COLLECTION'
+  }
+
+  function formatPreviewValue(value) {
+    const numeric = Number(value || 0)
+    return numeric > 0 ? formatCurrency(numeric) : 'n/a'
+  }
+
+  function formatGainValue(gain) {
+    if (gain == null) return 'n/a'
+    if (gain >= 0) return `+${formatCurrency(gain)}`
+    return `-${formatCurrency(Math.abs(gain))}`
+  }
+
+  function renderDetailMetascore(score) {
+    if (!detailMetascoreEl || !window.RetroDexMetascore) return
+    detailMetascoreEl.innerHTML = ''
+    detailMetascoreEl.appendChild(window.RetroDexMetascore.renderBlock(score ?? null))
+  }
+
   function emptyListMessage() {
     if (activeTab === 'wanted') {
       return {
@@ -317,6 +344,11 @@
     selectedCollectionItem = null
     hideEditForm()
     qsa('.terminal-row', collectionListContainerEl).forEach((row) => row.classList.remove('selected'))
+    if (detailSignalGridEl) detailSignalGridEl.innerHTML = ''
+    if (detailChipRowEl) detailChipRowEl.innerHTML = ''
+    if (detailSummaryEl) detailSummaryEl.textContent = ''
+    if (detailMetascoreEl) detailMetascoreEl.innerHTML = ''
+    if (detailRow2El) detailRow2El.innerHTML = ''
     collectionDetailEl.style.display = 'none'
   }
 
@@ -338,38 +370,71 @@
     const game = getGame(item)
     const note = getCollectionNote(item)
     const gameId = game.id || item.gameId || item.id || ''
+    const consoleName = game.console || game.platform || '-'
+    const year = game.year || '-'
+    const developer = game.developer || 'Archive'
+    const loosePrice = Number(game.loosePrice || 0)
+    const cibPrice = Number(game.cibPrice || 0)
+    const mintPrice = Number(game.mintPrice || 0)
+    const paid = Number(item.price_paid || 0)
+    const gain = paid > 0 ? loosePrice - paid : null
+    const previewCopy = note || game.tagline || game.summary || game.synopsis || 'Aucune note ou lecture complementaire pour cette entree.'
     hideEditForm()
 
     collectionDetailEl.style.display = 'block'
     setText(detailTitleEl, game.title || '?')
-    detailRow1El.innerHTML = `
-      <span><span class="pv-label">Console </span><span class="pv-val">${escapeHtml(game.console || game.platform || '-')}</span></span>
-      <span><span class="pv-label">Condition </span><span class="pv-val">${escapeHtml(item.condition || '-')}</span></span>
-      <span><span class="pv-label">Achete le </span><span class="pv-val">${escapeHtml(item.purchase_date || '-')}</span></span>
-      <span><span class="pv-label">Prix d'achat </span><span class="pv-val">${item.price_paid ? formatCurrency(item.price_paid) : '-'}</span></span>
-    `
+    detailRow1El.innerHTML = `${escapeHtml(consoleName)} | ${escapeHtml(year)} | ${escapeHtml(developer)}`
+    if (detailSignalGridEl) {
+      detailSignalGridEl.innerHTML = `
+        <div class="surface-signal-card">
+          <span class="surface-signal-label">Loose</span>
+          <span class="surface-signal-value is-alert">${escapeHtml(formatPreviewValue(loosePrice))}</span>
+        </div>
+        <div class="surface-signal-card">
+          <span class="surface-signal-label">Paye</span>
+          <span class="surface-signal-value">${escapeHtml(paid > 0 ? formatCurrency(paid) : 'n/a')}</span>
+        </div>
+        <div class="surface-signal-card">
+          <span class="surface-signal-label">Delta</span>
+          <span class="surface-signal-value${gain == null ? ' is-muted' : gain >= 0 ? ' is-hot' : ''}">${escapeHtml(formatGainValue(gain))}</span>
+        </div>
+        <div class="surface-signal-card">
+          <span class="surface-signal-label">CIB</span>
+          <span class="surface-signal-value">${escapeHtml(formatPreviewValue(cibPrice))}</span>
+        </div>
+        <div class="surface-signal-card">
+          <span class="surface-signal-label">Mint</span>
+          <span class="surface-signal-value">${escapeHtml(formatPreviewValue(mintPrice))}</span>
+        </div>
+      `
+    }
 
-    const extraMeta = []
-    if (note) {
-      extraMeta.push(`<span><span class="pv-label">Note </span><span class="pv-val">${escapeHtml(note)}</span></span>`)
+    if (detailChipRowEl) {
+      detailChipRowEl.innerHTML = `
+        <span class="surface-chip is-primary">${escapeHtml(item.condition || 'Archive')}</span>
+        <span class="surface-chip">${escapeHtml(getTabSignalLabel(activeTab))}</span>
+        ${item.purchase_date ? `<span class="surface-chip">Achete ${escapeHtml(item.purchase_date)}</span>` : ''}
+        ${item.price_threshold ? `<span class="surface-chip">Seuil ${escapeHtml(formatCurrency(item.price_threshold))}</span>` : ''}
+        ${game.rarity ? `<span class="surface-chip is-hot">${escapeHtml(game.rarity)}</span>` : ''}
+      `
     }
-    if (game.metascore) {
-      extraMeta.push(`<span><span class="pv-label">Metascore </span><span class="pv-val">${escapeHtml(game.metascore)}</span></span>`)
+
+    if (detailSummaryEl) {
+      detailSummaryEl.textContent = previewCopy
     }
-    if (item.price_threshold) {
-      extraMeta.push(`<span><span class="pv-label">Seuil </span><span class="pv-val">${formatCurrency(item.price_threshold)}</span></span>`)
-    }
+
+    renderDetailMetascore(game.metascore)
 
     detailRow2El.innerHTML = `
-      ${extraMeta.join('')}
-      <span><a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="terminal-action-link">-> Valeur RetroMarket</a></span>
-      <span><a href="/encyclopedia.html?game=${encodeURIComponent(gameId)}" class="terminal-action-link">-> Dossier RetroDex</a></span>
-      <span><a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="terminal-action-link">-> Voir la fiche</a></span>
+      <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="terminal-action-link">Valeur RetroMarket -></a>
+      <a href="/game-detail.html?id=${encodeURIComponent(gameId)}#price-history-section" class="terminal-action-link">Ouvrir price trace -></a>
+      <a href="/encyclopedia.html?game=${encodeURIComponent(gameId)}" class="terminal-action-link">Dossier RetroDex -></a>
+      <a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="terminal-action-link">Voir la fiche -></a>
       ${isPublicForSaleView && activeTab === 'for_sale' ? '' : `
-        <button id="collection-edit-btn" class="terminal-inline-btn">
+        <button id="collection-edit-btn" class="terminal-inline-btn" type="button">
           MODIFIER
         </button>
-        <button id="collection-remove-btn" class="terminal-inline-btn">
+        <button id="collection-remove-btn" class="terminal-inline-btn" type="button">
           RETIRER
         </button>
       `}

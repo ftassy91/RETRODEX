@@ -56,7 +56,7 @@
           <p id="franchise-count" class="page-subtitle">Chargement...</p>
         </div>
 
-        <div class="franchises-search-shell">
+        <div class="franchises-search-shell surface-query-shell">
           <label class="franchises-search-label" for="franchise-search">INDEX QUERY</label>
           <input
             id="franchise-search"
@@ -67,6 +67,9 @@
             spellcheck="false"
           />
           <a class="franchises-search-link" href="/search.html">RECHERCHE GLOBALE</a>
+        </div>
+        <div class="surface-query-helper franchises-search-helper">
+          Une franchise = une lecture archivee : identite, lignage, equipe, puis ponts clairs vers les jeux lies et la recherche transverse.
         </div>
       </header>
 
@@ -79,7 +82,7 @@
           <div id="franchise-list" class="franchise-list"></div>
         </aside>
 
-        <section id="franchise-detail" class="franchises-detail" aria-live="polite">
+        <section id="franchise-detail" class="franchises-detail surface-preview-panel" aria-live="polite">
           <div class="franchise-detail-empty">
             <div class="franchise-archive-slot">
               <span class="franchise-archive-code">RDX</span>
