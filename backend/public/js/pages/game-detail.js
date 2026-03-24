@@ -329,7 +329,7 @@ function renderHeroSection(game) {
         </aside>
       </div>
 
-      <section class="price-history">
+      <section class="price-history" id="price-history-section">
         <div class="detail-section-head compact">
           <div>
             <div class="detail-kicker">PRICE TRACE</div>
