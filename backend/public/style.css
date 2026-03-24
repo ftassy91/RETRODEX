@@ -9333,6 +9333,12 @@ body.hub-page .product-universe-frame {
   margin-bottom: 0;
 }
 
+.hub-empty-state,
+.coll-items .terminal-empty-state {
+  width: 100%;
+  min-height: 96px;
+}
+
 .encyclo-list-row .asset-support {
   margin-right: 8px;
 }
@@ -9417,6 +9423,45 @@ body.hub-page .product-universe-frame {
   .encyclo-row-summary,
   .terminal-empty-copy {
     line-height: 1.6;
+  }
+
+  .collection-toolbar.surface-query-shell {
+    padding: 10px;
+  }
+
+  .collection-toolbar-group {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .collection-toolbar-input,
+  .collection-toolbar-select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .surface-action-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .surface-action-row a,
+  .surface-action-row button {
+    width: 100%;
+  }
+
+  .hub-universe-actions,
+  .hub-system-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .hub-module-link,
+  .hub-inline-link,
+  .hub-action-inline {
+    white-space: normal;
   }
 }
 

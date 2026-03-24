@@ -32,6 +32,15 @@
     return entry?.file ? `/assets/hub_pixel_art/${entry.file}?v=${HUB_IMAGE_VERSION}` : ''
   }
 
+  function hubStateMarkup(title, copy) {
+    return `
+      <div class="terminal-empty-state hub-empty-state">
+        <div class="terminal-empty-title">${escapeHtml(title)}</div>
+        ${copy ? `<div class="terminal-empty-copy">${escapeHtml(copy)}</div>` : ''}
+      </div>
+    `
+  }
+
   function renderCardThumb(canvas, game) {
     const width = 120
     const height = 68
@@ -113,17 +122,21 @@
   }
 
   async function loadLegendary() {
+    const grid = byId('legendary-grid')
+    if (grid) {
+      setHtml(grid, hubStateMarkup('Chargement', 'Lecture de la vitrine LEGENDARY.'))
+    }
+
     try {
       const payload = await fetchJson('/api/items?rarity=LEGENDARY&limit=6')
       const items = getItems(payload)
         .sort((left, right) => (Number(right.mintPrice) || 0) - (Number(left.mintPrice) || 0))
         .slice(0, 6)
-      const grid = byId('legendary-grid')
       if (!grid) return
 
       setHtml(grid, '')
       if (!items.length) {
-        setHtml(grid, '<span class="coll-empty">Aucune entree LEGENDARY disponible dans la selection active.</span>')
+        setHtml(grid, hubStateMarkup('Aucune entree visible', 'La vitrine LEGENDARY est vide pour cette selection.'))
         return
       }
 
@@ -162,10 +175,19 @@
         card.appendChild(info)
         grid.appendChild(card)
       }
-    } catch (_) {}
+    } catch (_) {
+      if (grid) {
+        setHtml(grid, hubStateMarkup('Lecture indisponible', 'Impossible de charger la vitrine LEGENDARY.'))
+      }
+    }
   }
 
   async function loadEncyclopediaPreview() {
+    const grid = byId('hub-encyclo-preview')
+    if (grid) {
+      setHtml(grid, hubStateMarkup('Chargement', 'Lecture des dossiers RetroDex en cours.'))
+    }
+
     try {
       const payload = await fetchJson('/api/games?limit=1000&type=game')
       let items = getItems(payload).filter((game) =>
@@ -182,10 +204,14 @@
         }
       }
 
-      const grid = byId('hub-encyclo-preview')
       if (!grid) return
 
       setHtml(grid, '')
+      if (!items.length) {
+        setHtml(grid, hubStateMarkup('Aucun dossier visible', 'Aucune entree enrichie n est disponible pour cet apercu.'))
+        return
+      }
+
       for (const game of items.slice(0, 6)) {
         const card = document.createElement('div')
         card.className = 'hub-encyclo-card'
@@ -201,7 +227,11 @@
         `
         grid.appendChild(card)
       }
-    } catch (_) {}
+    } catch (_) {
+      if (grid) {
+        setHtml(grid, hubStateMarkup('Archive indisponible', 'Impossible de charger l apercu encyclopedique.'))
+      }
+    }
   }
 
   function setUniverseSignals({ stats, collectionItems, health, totalGames }) {
@@ -234,6 +264,11 @@
     let statsPayload = null
     let healthPayload = null
     let collectionItems = []
+    const collectionContainer = byId('coll-items')
+
+    if (collectionContainer) {
+      setHtml(collectionContainer, hubStateMarkup('Chargement', 'Lecture de l etagere personnelle.'))
+    }
 
     try {
       const gamesPayload = await fetchJson('/api/games?limit=1&type=game')
@@ -281,14 +316,13 @@
       collectionItems = getItems(collection)
       setText(byId('stat-collection'), collectionItems.length)
 
-      const container = byId('coll-items')
-      if (!container) return
+      if (!collectionContainer) return
 
       if (!collectionItems.length) {
-        setHtml(container, '<span class="coll-empty">Aucune entree suivie pour le moment. Ouvrir Recherche pour alimenter l\'etagere.</span>')
+        setHtml(collectionContainer, hubStateMarkup('Aucune entree suivie', 'Ouvrir Recherche pour alimenter l etagere.'))
       } else {
         setHtml(
-          container,
+          collectionContainer,
           collectionItems
             .map((item) => {
               const gameId = item.game?.id || item.Game?.id || item.gameId || item.id
@@ -300,6 +334,9 @@
       }
     } catch (_) {
       setText(byId('stat-collection'), '-')
+      if (collectionContainer) {
+        setHtml(collectionContainer, hubStateMarkup('Collection indisponible', 'Impossible de lire l etagere pour le moment.'))
+      }
     }
 
     setUniverseSignals({
