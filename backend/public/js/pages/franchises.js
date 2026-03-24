@@ -96,13 +96,27 @@ function setListMeta(label) {
   }
 }
 
+function franchiseEmptyMarkup(title, copy) {
+  return `
+    <div class="franchise-detail-empty terminal-empty-state">
+      <div class="terminal-empty-title">${escapeHtml(title)}</div>
+      <div class="terminal-empty-copy">${escapeHtml(copy)}</div>
+    </div>
+  `
+}
+
+function franchiseListEmptyMarkup(title, copy) {
+  return `
+    <div class="franchise-list-empty terminal-empty-state">
+      <div class="terminal-empty-title">${escapeHtml(title)}</div>
+      <div class="terminal-empty-copy">${escapeHtml(copy)}</div>
+    </div>
+  `
+}
+
 function renderList(items) {
   if (!items.length) {
-    listEl.innerHTML = `
-      <div class="franchise-list-empty">
-        Aucun dossier ne correspond a cette requete.
-      </div>
-    `
+    listEl.innerHTML = franchiseListEmptyMarkup('Aucun dossier', 'Aucun dossier ne correspond a cette requete.')
     setListMeta('Aucun resultat')
     return
   }
@@ -113,7 +127,7 @@ function renderList(items) {
   listEl.querySelectorAll('.franchise-list-item').forEach((node) => {
     node.addEventListener('click', () => {
       loadFranchise(node.dataset.slug).catch(() => {
-        detailEl.innerHTML = '<div class="franchise-detail-empty">Erreur de chargement.</div>'
+        detailEl.innerHTML = franchiseEmptyMarkup('Erreur de chargement', 'Le dossier n a pas pu etre relu depuis l archive.')
       })
     })
   })
@@ -151,21 +165,13 @@ function filterFranchises() {
   renderList(filteredFranchises)
 
   if (!filteredFranchises.length) {
-    detailEl.innerHTML = `
-      <div class="franchise-detail-empty">
-        <div class="franchise-archive-slot">
-          <span class="franchise-archive-code">ERR</span>
-          <span class="franchise-archive-caption">INDEX FILTER</span>
-        </div>
-        <div class="franchise-empty-copy">Aucun dossier ne correspond a cette requete. Affinez l'index query.</div>
-      </div>
-    `
+    detailEl.innerHTML = franchiseEmptyMarkup('Index vide', 'Aucun dossier ne correspond a cette requete. Affinez l index query.')
     return
   }
 
   if (!filteredFranchises.some((item) => item.slug === selectedSlug)) {
     loadFranchise(filteredFranchises[0].slug).catch(() => {
-      detailEl.innerHTML = '<div class="franchise-detail-empty">Erreur de chargement.</div>'
+      detailEl.innerHTML = franchiseEmptyMarkup('Erreur de chargement', 'Le dossier n a pas pu etre relu depuis l archive.')
     })
   } else {
     markSelected(selectedSlug)
@@ -224,7 +230,7 @@ function renderTimelinePanel(timeline) {
               </div>
               <span class="${timelineBadgeClass(entry.event_type)}">${escapeHtml(timelineBadgeLabel(entry.event_type))}</span>
             </div>
-          `).join('') : '<div class="franchise-detail-empty">Aucune timeline disponible.</div>'}
+          `).join('') : franchiseEmptyMarkup('Timeline vide', 'Aucune timeline disponible pour cette franchise.')}
         </div>
       </div>
     </section>
@@ -255,7 +261,7 @@ function renderTeamPanel(teamChanges) {
               </div>
             `).join('')}
           </div>
-        ` : '<div class="franchise-detail-empty">Aucun changement documente.</div>'}
+        ` : franchiseEmptyMarkup('Equipe non documentee', 'Aucun changement d equipe documente pour cette franchise.')}
       </div>
     </section>
   `
@@ -271,7 +277,7 @@ function renderTriviaPanel(trivia) {
             <div class="anecdote-title">${escapeHtml(entry.title || '-')}</div>
             <div class="anecdote-text">${escapeHtml(entry.text || '-')}</div>
           </div>
-        `).join('') : '<div class="franchise-detail-empty">Aucune anecdote disponible.</div>'}
+        `).join('') : franchiseEmptyMarkup('Aucune anecdote', 'Aucune anecdote disponible pour cette franchise.')}
       </div>
     </section>
   `
@@ -287,11 +293,11 @@ function renderGamesPanel(games) {
             ${games.map((game) => `
               <a class="franchise-game-row" href="/game-detail.html?id=${encodeURIComponent(game.id)}">
                 <span class="franchise-game-title">${escapeHtml(game.title)}</span>
-                <span class="franchise-game-meta">${escapeHtml(game.platform || '-')} · ${escapeHtml(game.year || '-')}</span>
+                <span class="franchise-game-meta">${escapeHtml(game.platform || '-')} | ${escapeHtml(game.year || '-')}</span>
               </a>
             `).join('')}
           </div>
-        ` : '<div class="franchise-detail-empty">Aucun jeu lie en base.</div>'}
+        ` : franchiseEmptyMarkup('Jeux indisponibles', 'Aucun jeu lie en base pour cette franchise.')}
       </div>
     </section>
   `
@@ -314,7 +320,7 @@ function renderGamesPanelRm1(games) {
               </a>
             `).join('')}
           </div>
-        ` : '<div class="franchise-detail-empty">Aucun jeu lie en base.</div>'}
+        ` : franchiseEmptyMarkup('Jeux indisponibles', 'Aucun jeu lie en base pour cette franchise.')}
       </div>
     </section>
   `
@@ -388,7 +394,7 @@ async function loadFranchise(slug) {
   activeTab = 'overview'
   const targetUrl = slug ? `/franchises.html?slug=${encodeURIComponent(slug)}` : '/franchises.html'
   window.history.replaceState({}, '', targetUrl)
-  detailEl.innerHTML = '<div class="franchise-detail-empty">Chargement...</div>'
+  detailEl.innerHTML = franchiseEmptyMarkup('Chargement', 'Lecture du dossier et des jeux lies.')
 
   const [detailRes, gamesRes] = await Promise.all([
     fetch(`/api/franchises/${encodeURIComponent(slug)}`),
@@ -399,7 +405,7 @@ async function loadFranchise(slug) {
   const gamesData = await gamesRes.json()
 
   if (!detailRes.ok || !detailData.ok) {
-    detailEl.innerHTML = '<div class="franchise-detail-empty">Ce dossier n\'est pas disponible dans l\'archive.</div>'
+    detailEl.innerHTML = franchiseEmptyMarkup('Dossier indisponible', 'Ce dossier n est pas disponible dans l archive.')
     return
   }
 
@@ -421,7 +427,7 @@ async function loadFranchises() {
 
   if (!response.ok || !data.ok) {
     countEl.textContent = 'Impossible de charger les franchises'
-    detailEl.innerHTML = '<div class="franchise-detail-empty">Erreur de chargement.</div>'
+    detailEl.innerHTML = franchiseEmptyMarkup('Erreur de chargement', 'Impossible de charger les franchises depuis l archive.')
     return
   }
 
@@ -431,7 +437,7 @@ async function loadFranchises() {
   renderList(filteredFranchises)
 
   if (!allFranchises.length) {
-    detailEl.innerHTML = '<div class="franchise-detail-empty">Aucune franchise indexee.</div>'
+    detailEl.innerHTML = franchiseEmptyMarkup('Archive vide', 'Aucune franchise indexee dans la base active.')
     return
   }
 
@@ -461,5 +467,6 @@ document.addEventListener('keydown', (event) => {
 
 loadFranchises().catch(() => {
   countEl.textContent = 'Impossible de charger les franchises'
-  detailEl.innerHTML = '<div class="franchise-detail-empty">Le dossier n\'a pas pu etre charge.</div>'
+  detailEl.innerHTML = franchiseEmptyMarkup('Archive indisponible', 'Le dossier n a pas pu etre charge.')
 })
+

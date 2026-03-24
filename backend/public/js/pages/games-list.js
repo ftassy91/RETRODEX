@@ -288,15 +288,22 @@ function navigateTo(gameId) {
   window.location.href = detailUrl(gameId, state())
 }
 
-function renderQuickDetailEmpty(message = '&larr; Survoler ou selectionner un jeu') {
-  quickDetailEl.className = 'quick-detail-placeholder'
-  quickDetailEl.innerHTML = message
+function quickDetailStateMarkup(title, copy) {
+  return `
+    <div class="terminal-empty-title">${esc(title)}</div>
+    <div class="terminal-empty-copy">${esc(copy)}</div>
+  `
+}
+
+function renderQuickDetailEmpty(message = 'Survoler ou selectionner un jeu') {
+  quickDetailEl.className = 'quick-detail-placeholder terminal-empty-state'
+  quickDetailEl.innerHTML = quickDetailStateMarkup('Preview catalogue', message)
 }
 
 function detailPrice(value) {
   const amount = Number(value)
   if (!Number.isFinite(amount) || amount <= 0) {
-    return '<div class="price-value empty">$—</div>'
+    return '<div class="price-value empty">$--</div>'
   }
   return `<div class="price-value">$${Math.round(amount)}</div>`
 }
@@ -343,9 +350,9 @@ function quickDetailMarkup(game, currentState) {
       <div id="preview-metascore" class="preview-metascore"></div>
       ${description ? `<div class="detail-description surface-summary-copy">${description}</div>` : ''}
       <div class="detail-link-group surface-action-row">
-        <a class="detail-link terminal-action-link" href="${detailHref}">Voir fiche complete &rarr;</a>
-        <a class="detail-link terminal-action-link" href="${detailHref}#price-history-section">Ouvrir price trace &rarr;</a>
-        <a class="detail-link terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(game.id)}">Ouvrir RetroDex &rarr;</a>
+        <a class="detail-link terminal-action-link" href="${detailHref}">Voir fiche complete -></a>
+        <a class="detail-link terminal-action-link" href="${detailHref}#price-history-section">Ouvrir price trace -></a>
+        <a class="detail-link terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(game.id)}">Ouvrir RetroDex -></a>
       </div>
     </div>
   `
@@ -376,8 +383,8 @@ async function loadQuickDetail(gameId) {
   selectedGameId = gameId
   markSelectedRow()
   updateUrl(state())
-  quickDetailEl.className = 'quick-detail-loading'
-  quickDetailEl.innerHTML = 'Chargement...'
+  quickDetailEl.className = 'quick-detail-loading terminal-empty-state'
+  quickDetailEl.innerHTML = quickDetailStateMarkup('Chargement', 'Lecture du signal marche et des actions disponibles.')
 
   try {
     const game = await fetchJson(`/api/games/${encodeURIComponent(gameId)}`)
@@ -385,8 +392,8 @@ async function loadQuickDetail(gameId) {
     quickDetailEl.innerHTML = quickDetailMarkup(game, state())
     renderPreviewMetascore(game)
   } catch (error) {
-    quickDetailEl.className = 'quick-detail-placeholder'
-    quickDetailEl.innerHTML = `Impossible de charger le detail (${esc(error.message)})`
+    quickDetailEl.className = 'quick-detail-placeholder terminal-empty-state'
+    quickDetailEl.innerHTML = quickDetailStateMarkup('Detail indisponible', `Impossible de charger le detail (${error.message})`)
   }
 }
 
@@ -440,13 +447,13 @@ function suggestions() {
 
 function renderEmpty(currentState) {
   const picks = suggestions()
-  const suffix = currentState.q ? ` pour &laquo;${esc(currentState.q)}&raquo;.` : '.'
+  const suffix = currentState.q ? ` pour "${esc(currentState.q)}".` : '.'
   renderPageNumbers(1, 1)
 
   resultsEl.innerHTML = `
     <div class="empty-state">
       <div><strong>Aucun jeu trouve${suffix}</strong></div>
-      <div style="margin-top:8px;">Essayez : ${picks.map((game) => esc(game.title)).join(' · ') || 'un autre filtre'}.</div>
+      <div style="margin-top:8px;">Essayez : ${picks.map((game) => esc(game.title)).join(' | ') || 'un autre filtre'}.</div>
       ${picks.length ? `<div class="suggestions">${picks.map((game) => `<button type="button" class="suggestion-btn" data-suggestion="${esc(game.title)}">${esc(game.title)}</button>`).join('')}</div>` : ''}
     </div>
   `
@@ -792,3 +799,4 @@ Promise.all([loadConsoles(), loadMeta(), loadCollectionSignals()])
     loadingIndicatorEl.textContent = `Erreur initiale: ${error.message}`
     resultsEl.innerHTML = '<div class="empty-state">Chargement impossible.</div>'
   })
+

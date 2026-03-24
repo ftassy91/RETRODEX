@@ -188,9 +188,9 @@ async function showMarketSearchPreview(item) {
   renderMarketPreviewStats(null)
   marketPreviewLinksEl.className = 'terminal-preview-row surface-action-row'
   marketPreviewLinksEl.innerHTML = `
-    <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}">Ouvrir fiche marche &rarr;</a>
-    <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}#price-history-section">Ouvrir price trace &rarr;</a>
-    <a class="terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(item.id)}">Ouvrir RetroDex &rarr;</a>
+    <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}">Ouvrir fiche marche -></a>
+    <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}#price-history-section">Ouvrir price trace -></a>
+    <a class="terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(item.id)}">Ouvrir RetroDex -></a>
   `
 
   try {
@@ -222,7 +222,7 @@ function renderMarketSearchResults(items) {
     row.style.gridTemplateColumns = '1fr 120px 80px 80px 80px 90px'
     row.innerHTML = `
       <span style="color:var(--text-primary)">${escapeHtml(item.title)}</span>
-      <span class="result-meta">${escapeHtml(item.console || '-')} &middot; ${escapeHtml(item.year || '-')}</span>
+      <span class="result-meta">${escapeHtml(item.console || '-')} | ${escapeHtml(item.year || '-')}</span>
       <span style="text-align:right;color:var(--text-alert)">${escapeHtml(formatCurrency(item.loosePrice || 0))}</span>
       <span style="text-align:right">${escapeHtml(formatCurrency(item.cibPrice || 0))}</span>
       <span style="text-align:right">${escapeHtml(formatCurrency(item.mintPrice || 0))}</span>
@@ -270,7 +270,7 @@ async function performMarketSearch() {
 
   if (query.length < 2) {
     if (marketSearchCountEl) marketSearchCountEl.textContent = ''
-    renderMarketSearchEmpty('Saisissez au moins 2 caractères pour lire les signaux de valeur.')
+    renderMarketSearchEmpty('Saisissez au moins 2 caracteres pour lire les signaux de valeur.')
     return
   }
   if (marketSearchCountEl) marketSearchCountEl.textContent = 'Recherche...'
@@ -379,7 +379,7 @@ function renderGameSpot(element, game, fallbackTitle, fallbackMeta) {
   element.href = `/game-detail.html?id=${encodeURIComponent(game.id)}`
   element.innerHTML = `
     <span class="game-spot-title">${escapeHtml(game.title)}</span>
-    <span class="game-spot-meta">${escapeHtml(game.platform || 'Console inconnue')} &middot; ${escapeHtml(game.year || 'n/a')}</span>
+    <span class="game-spot-meta">${escapeHtml(game.platform || 'Console inconnue')} | ${escapeHtml(game.year || 'n/a')}</span>
     <span class="game-spot-price">${escapeHtml(formatCurrency(game.loosePrice))}</span>
   `
 }
@@ -417,3 +417,4 @@ async function loadStats() {
 
 loadStats()
 bindMarketSearch()
+
