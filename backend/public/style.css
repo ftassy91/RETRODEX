@@ -1935,14 +1935,30 @@ a:hover {
   margin-bottom: 12px;
 }
 
+.catalog-search-jump {
+  border-color: rgba(155, 188, 15, 0.46);
+  background: linear-gradient(180deg, rgba(11, 15, 11, 0.99), rgba(4, 7, 4, 0.99));
+  box-shadow:
+    inset 0 0 0 1px rgba(155, 188, 15, 0.09),
+    inset 0 1px 0 rgba(155, 188, 15, 0.04);
+}
+
+.catalog-search-jump-copy {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
 #global-search {
   width: 100%;
   background: var(--bg-card);
   border: 1px solid var(--border);
   color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 11px;
-  padding: 6px 12px;
+  font-size: 13px;
+  padding: 10px 12px;
   cursor: pointer;
   box-sizing: border-box;
 }
@@ -5442,8 +5458,25 @@ body {
   line-height: 1.7;
 }
 
+.field-helper {
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
 .catalog-filter-panel .field label {
   color: var(--text-muted);
+}
+
+.catalog-filter-panel .field-query-primary {
+  grid-column: 1 / -1;
+}
+
+.catalog-filter-panel .field-query-primary label {
+  color: var(--text-alert);
+  letter-spacing: 0.08em;
 }
 
 .catalog-filter-panel .field input,
@@ -5456,10 +5489,31 @@ body {
   font-size: 11px;
 }
 
+.catalog-filter-panel .field-query-primary input {
+  min-height: 42px;
+  font-size: 14px;
+  border-color: rgba(155, 188, 15, 0.46);
+  background: linear-gradient(180deg, rgba(11, 15, 11, 0.99), rgba(4, 7, 4, 0.99));
+  box-shadow:
+    inset 0 0 0 1px rgba(155, 188, 15, 0.09),
+    inset 0 1px 0 rgba(155, 188, 15, 0.04);
+}
+
+.catalog-filter-panel .field-query-primary input::placeholder {
+  color: rgba(155, 188, 15, 0.62);
+}
+
 .catalog-filter-panel .field input:focus,
 .catalog-filter-panel .field select:focus {
   border-color: rgba(155, 188, 15, 0.5);
   box-shadow: inset 0 0 0 1px rgba(155, 188, 15, 0.12);
+}
+
+.catalog-filter-panel .field-query-primary input:focus {
+  border-color: rgba(155, 188, 15, 0.72);
+  box-shadow:
+    inset 0 0 0 1px rgba(155, 188, 15, 0.16),
+    inset 0 1px 0 rgba(155, 188, 15, 0.04);
 }
 
 .catalog-advanced-toggle {
@@ -5600,6 +5654,13 @@ body {
   background:
     linear-gradient(180deg, rgba(8, 12, 8, 0.98), rgba(5, 8, 5, 0.98)),
     radial-gradient(circle at top right, rgba(155, 188, 15, 0.03), transparent 28%);
+}
+
+.detail-link-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .quick-detail-head {
