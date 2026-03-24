@@ -60,15 +60,18 @@
         </div>
 
         <div class="catalog-head-tools">
-          <div class="global-search-bar">
+          <div class="global-search-bar catalog-search-jump">
             <input
               type="text"
               id="global-search"
-              placeholder="/ Rechercher..."
+              placeholder="/ Recherche transverse Search Core..."
               readonly
               onclick="location.href='/search.html'"
               style="cursor:pointer"
             />
+          </div>
+          <div class="catalog-search-jump-copy">
+            Recherche transverse multi-contexte. Pour filtrer le catalogue lui-meme, utilisez le champ local dans le panneau de gauche.
           </div>
           <div class="page-nav-inline">
             <a href="/franchises.html">Franchises</a>
@@ -118,9 +121,10 @@
               </div>
 
               <div class="search-grid">
-                <div class="field">
+                <div class="field field-query-primary">
                   <label for="query">Recherche</label>
                   <input id="query" type="text" placeholder="Rechercher un jeu, une console..." autocomplete="off" />
+                  <div class="field-helper">Filtre local catalogue. Titre, console, annee ou genre.</div>
                 </div>
                 <div class="field">
                   <label for="console">Console</label>

@@ -310,6 +310,7 @@ function shortSummary(game) {
 function quickDetailMarkup(game, currentState) {
   const description = shortSummary(game)
   const collectionState = getCollectionState(game.id)
+  const detailHref = detailUrl(game.id, currentState)
   return `
     <div class="detail-content">
       <div class="detail-title">${esc(game.title || 'Sans titre')}</div>
@@ -335,7 +336,11 @@ function quickDetailMarkup(game, currentState) {
       </div>
       <div id="preview-metascore" class="preview-metascore"></div>
       ${description ? `<div class="detail-description">${description}</div>` : ''}
-      <a class="detail-link terminal-action-link" href="${detailUrl(game.id, currentState)}">Voir fiche complete &rarr;</a>
+      <div class="detail-link-group">
+        <a class="detail-link terminal-action-link" href="${detailHref}">Voir fiche complete &rarr;</a>
+        <a class="detail-link terminal-action-link" href="${detailHref}#price-history-section">Ouvrir price trace &rarr;</a>
+        <a class="detail-link terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(game.id)}">Ouvrir RetroDex &rarr;</a>
+      </div>
     </div>
   `
 }
