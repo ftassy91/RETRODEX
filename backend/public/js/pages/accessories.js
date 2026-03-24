@@ -14,9 +14,18 @@ function escapeHtml(value) {
     .replaceAll("'", '&#039;')
 }
 
+function accessoryStateMarkup(title, copy) {
+  return `
+    <div class="terminal-empty-state outlier-empty">
+      <div class="terminal-empty-title">${escapeHtml(title)}</div>
+      <div class="terminal-empty-copy">${escapeHtml(copy)}</div>
+    </div>
+  `
+}
+
 function renderList(items) {
   if (!items.length) {
-    listEl.innerHTML = '<div class="empty-state outlier-empty">Aucun accessoire indexe pour ce filtre.</div>'
+    listEl.innerHTML = accessoryStateMarkup('Aucun accessoire visible', 'Aucun accessoire indexe pour ce filtre actif.')
     return
   }
 
@@ -34,7 +43,7 @@ function renderList(items) {
           <div class="accessory-meta">${escapeHtml(consoleLabel)} - ${escapeHtml(yearLabel)}</div>
         </div>
         <div class="accessory-type-chip">${escapeHtml(item.accessory_type || 'other')}</div>
-        <a class="terminal-action-link" href="${consoleHref}">Console associee &rarr;</a>
+        <a class="terminal-action-link" href="${consoleHref}">Console associee -></a>
       </article>
     `
   }).join('')
@@ -47,6 +56,8 @@ function applyFilter() {
 }
 
 async function loadAccessories() {
+  listEl.innerHTML = accessoryStateMarkup('Chargement', 'Lecture des accessoires hardware en cours.')
+
   const [typesRes, accessoriesRes] = await Promise.all([
     fetch('/api/accessories/types'),
     fetch('/api/accessories'),
@@ -73,5 +84,5 @@ filterEl.addEventListener('change', applyFilter)
 
 loadAccessories().catch(() => {
   countEl.textContent = 'Impossible de charger les accessoires'
-  listEl.innerHTML = '<div class="empty-state outlier-empty">Aucun accessoire indexe. La base hardware reste en cours de remplissage.</div>'
+  listEl.innerHTML = accessoryStateMarkup('Archive indisponible', 'La base hardware n est pas disponible pour le moment.')
 })
