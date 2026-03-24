@@ -9187,6 +9187,19 @@ body.hub-page .product-universe-frame {
   margin-top: 12px;
 }
 
+.detail-market-summary-grid {
+  margin-top: 12px;
+}
+
+.detail-market-summary-grid .surface-signal-card {
+  min-height: 78px;
+}
+
+.detail-market-summary-grid .surface-signal-value {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .detail-market-actions {
   margin-top: 10px;
 }
@@ -9195,7 +9208,15 @@ body.hub-page .product-universe-frame {
   margin-top: 12px;
 }
 
+.detail-identity-signal-grid .surface-signal-card {
+  min-height: 72px;
+}
+
 .detail-hero-actions {
+  margin-top: 12px;
+}
+
+.detail-market-panel .surface-chip-row {
   margin-top: 12px;
 }
 

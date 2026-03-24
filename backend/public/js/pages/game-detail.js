@@ -68,6 +68,15 @@ function formatPrice(value, fallback = '--') {
   return Number.isFinite(number) && number > 0 ? `$${Math.round(number)}` : fallback
 }
 
+function formatCount(value, singular, plural = `${singular}s`) {
+  const number = Number(value)
+  if (!Number.isFinite(number) || number <= 0) {
+    return `0 ${plural}`
+  }
+
+  return `${number} ${number === 1 ? singular : plural}`
+}
+
 function formatMultilineHtml(value, fallback = 'n/a') {
   const text = String(value || '').trim()
   if (!text) {
@@ -297,7 +306,7 @@ function renderHeroSection(game) {
                 <div class="game-meta-row">
                   <span class="meta-key">PLATFORM</span>
                   <a class="console-link meta-value-link" href="/consoles.html?platform=${encodeURIComponent(game.console || '')}">
-                    ${escapeHtml(game.console || 'Console inconnue')} &rarr;
+                    ${escapeHtml(game.console || 'Console inconnue')} ->
                   </a>
                 </div>
                 <div class="game-meta-row">
@@ -329,12 +338,16 @@ function renderHeroSection(game) {
                   <span class="surface-signal-label">Metascore</span>
                   <span class="surface-signal-value">${escapeHtml(game.metascore || 'n/a')}</span>
                 </div>
+                <div class="surface-signal-card">
+                  <span class="surface-signal-label">Loose</span>
+                  <span class="surface-signal-value is-alert">${escapeHtml(formatPrice(game.loosePrice, 'n/a'))}</span>
+                </div>
               </div>
 
               <div class="surface-action-row detail-hero-actions">
-                <a class="terminal-action-link" href="#price-history-section">Ouvrir price trace &rarr;</a>
-                <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title || '')}">Ouvrir RetroMarket &rarr;</a>
-                <a class="terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(game.id || '')}">Ouvrir dossier &rarr;</a>
+                <a class="terminal-action-link" href="#price-history-section">Ouvrir price trace -></a>
+                <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title || '')}">Ouvrir RetroMarket -></a>
+                <a class="terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(game.id || '')}">Ouvrir dossier -></a>
               </div>
 
               <div id="game-relations" class="game-relations"></div>
@@ -364,8 +377,31 @@ function renderHeroSection(game) {
             <span class="surface-chip">${visibleGenre ? escapeHtml(visibleGenre) : 'genre n/a'}</span>
             <span class="surface-chip">graphe 1M | 6M | 1A | 10A</span>
           </div>
+          <div class="surface-signal-grid is-five detail-market-summary-grid">
+            <div class="surface-signal-card">
+              <span class="surface-signal-label">Derniere vente</span>
+              <span class="surface-signal-value" id="market-last-sale">--</span>
+            </div>
+            <div class="surface-signal-card">
+              <span class="surface-signal-label">Series</span>
+              <span class="surface-signal-value" id="market-series">--</span>
+            </div>
+            <div class="surface-signal-card">
+              <span class="surface-signal-label">Profondeur</span>
+              <span class="surface-signal-value" id="market-depth">--</span>
+            </div>
+            <div class="surface-signal-card">
+              <span class="surface-signal-label">Fenetre</span>
+              <span class="surface-signal-value" id="market-period">1A</span>
+            </div>
+            <div class="surface-signal-card">
+              <span class="surface-signal-label">Statut</span>
+              <span class="surface-signal-value" id="market-status">REFERENCE</span>
+            </div>
+          </div>
           <div class="surface-action-row detail-market-actions">
-            <a class="terminal-action-link" href="#price-history-section">Aller au graphe &rarr;</a>
+            <a class="terminal-action-link" href="#price-history-section">Aller au graphe -></a>
+            <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title || '')}">Voir signaux marche -></a>
           </div>
           <div id="market-metascore" class="market-metascore"></div>
           <div id="retrodex-index" class="index-insufficient">Chargement de l'indice RetroDex...</div>
@@ -376,14 +412,14 @@ function renderHeroSection(game) {
         <div class="detail-section-head compact">
           <div>
             <div class="detail-kicker">PRICE TRACE</div>
-            <h3>Historique des prix - 12 mois</h3>
-            <p class="price-history-copy">Lecture par condition sur la fenetre active. Utilisez les onglets pour comparer la profondeur du marche.</p>
+            <h3>Price trace | 1A</h3>
+            <p class="price-history-copy">Lecture par condition sur la fenetre active. Utilisez les onglets pour comparer le signal marche et la profondeur des ventes.</p>
           </div>
         </div>
         <div class="trend-row">
-          <span class="trend-badge" id="trend-loose">Loose &mdash;</span>
-          <span class="trend-badge" id="trend-cib">CIB &mdash;</span>
-          <span class="trend-badge" id="trend-mint">Mint &mdash;</span>
+          <span class="trend-badge" id="trend-loose">Loose --</span>
+          <span class="trend-badge" id="trend-cib">CIB --</span>
+          <span class="trend-badge" id="trend-mint">Mint --</span>
         </div>
         <div class="chart-toggle">
           <button class="chart-btn active" data-type="mint">Mint</button>
@@ -403,15 +439,15 @@ function renderHeroSection(game) {
         <div class="price-stats-row">
           <div class="price-stat">
             <span class="stat-label">12M MIN</span>
-            <span class="stat-value" id="stat-min">&mdash;</span>
+            <span class="stat-value" id="stat-min">--</span>
           </div>
           <div class="price-stat">
             <span class="stat-label">12M MAX</span>
-            <span class="stat-value" id="stat-max">&mdash;</span>
+            <span class="stat-value" id="stat-max">--</span>
           </div>
           <div class="price-stat">
             <span class="stat-label">VARIATION</span>
-            <span class="stat-value" id="stat-variation">&mdash;</span>
+            <span class="stat-value" id="stat-variation">--</span>
           </div>
         </div>
       </section>
@@ -718,22 +754,35 @@ function renderSummary(game) {
 
 function renderStats(game) {
   const stats = [
-    ['Plateforme', game.console],
-    ['Annee', game.year],
-    ['Genre', game.genre && game.genre !== 'Other' ? game.genre : ''],
-    ['Rarete', game.rarity],
-    ['Developpeur', game.developer],
-    ['Editeur', game.publisher],
-    ['Metascore', game.metascore],
-    ['Slug', game.slug],
-  ].filter(([, value]) => value != null && String(value).trim() !== '')
+    { label: 'Plateforme', value: game.console },
+    { label: 'Annee', value: game.year },
+    { label: 'Genre', value: game.genre && game.genre !== 'Other' ? game.genre : '' },
+    { label: 'Rarete', value: game.rarity },
+    { label: 'Developpeur', value: game.developer },
+    { label: 'Editeur', value: game.publisher },
+    { label: 'Metascore', value: '__METASCORE__', id: 'stat-metascore' },
+    { label: 'Slug', value: game.slug },
+  ].filter((entry) => entry.value != null && String(entry.value).trim() !== '')
 
-  statsRowEl.innerHTML = stats.map(([label, value]) => `
+  statsRowEl.innerHTML = stats.map(({ label, value, id }) => `
     <div class="stat-cell">
       <span class="label">${escapeHtml(label)}</span>
-      <span class="value">${escapeHtml(value)}</span>
+      <span class="value"${id ? ` id="${id}"` : ''}>${value === '__METASCORE__' ? '--' : escapeHtml(value)}</span>
     </div>
   `).join('')
+
+  const statMeta = document.getElementById('stat-metascore')
+  if (statMeta && window.RetroDexMetascore) {
+    if (game.metascore) {
+      const color = window.RetroDexMetascore.getColor(game.metascore)
+      const label = window.RetroDexMetascore.getLabel(game.metascore)
+      statMeta.textContent = `${game.metascore} | ${label}`
+      statMeta.style.color = color
+    } else {
+      statMeta.textContent = 'N/A'
+      statMeta.style.color = '#333333'
+    }
+  }
 }
 
 function populateCollectionForm(item) {
@@ -1702,6 +1751,60 @@ async function loadPriceHistory(gameId) {
     })
   }
 
+  function syncMarketSummary() {
+    const lastSaleEl = document.getElementById('market-last-sale')
+    const seriesEl = document.getElementById('market-series')
+    const depthEl = document.getElementById('market-depth')
+    const periodEl = document.getElementById('market-period')
+    const statusEl = document.getElementById('market-status')
+    const period = getPeriod(activePeriodId)
+    const observedEntries = PRICE_HISTORY_STATES
+      .map((state) => ({ state, series: getSeries(state.key) }))
+      .filter((entry) => entry.series.points.length > 0)
+    const latestObservation = observedEntries
+      .map((entry) => ({
+        stateLabel: entry.state.label,
+        observation: entry.series.last_observation,
+      }))
+      .filter((entry) => entry.observation?.value != null)
+      .sort((a, b) => {
+        const aDate = parseObservationDate(a.observation?.date)?.getTime() || 0
+        const bDate = parseObservationDate(b.observation?.date)?.getTime() || 0
+        return bDate - aDate
+      })[0] || null
+    const totalPoints = observedEntries.reduce((sum, entry) => sum + entry.series.points.length, 0)
+    const activeSeries = PRICE_HISTORY_STATES
+      .filter((state) => visibleSeries.has(state.key) && getSeries(state.key).points.length > 0)
+      .map((state) => state.label.toUpperCase())
+
+    if (lastSaleEl) {
+      lastSaleEl.textContent = latestObservation
+        ? `${formatPrice(latestObservation.observation.value, 'n/a')} | ${formatHistoryDate(latestObservation.observation.date)}`
+        : '--'
+    }
+
+    if (seriesEl) {
+      seriesEl.textContent = activeSeries.length ? activeSeries.join(' | ') : 'REFERENCE'
+    }
+
+    if (depthEl) {
+      depthEl.textContent = totalPoints ? formatCount(totalPoints, 'obs.', 'obs.') : '0 obs.'
+    }
+
+    if (periodEl) {
+      periodEl.textContent = period.label || 'ALL'
+    }
+
+    if (statusEl) {
+      statusEl.textContent = data.hasAnyHistory ? 'OBSERVED' : 'REFERENCE'
+      statusEl.classList.toggle('is-alert', !data.hasAnyHistory)
+    }
+
+    if (headingEl) {
+      headingEl.textContent = `Price trace | ${period.label || 'ALL'}`
+    }
+  }
+
   function renderMetrics() {
     const period = getPeriod(activePeriodId)
     metricsEl.classList.add('history-state-grid')
@@ -1929,6 +2032,7 @@ async function loadPriceHistory(gameId) {
     renderLegend()
     renderPeriods()
     syncTrendBadges()
+    syncMarketSummary()
     renderMetrics()
     renderChart()
   }
