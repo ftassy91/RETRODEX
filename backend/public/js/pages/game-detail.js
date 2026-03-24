@@ -63,12 +63,12 @@ function safeArray(value) {
   return Array.isArray(value) ? value : []
 }
 
-function formatPrice(value, fallback = 'â€”') {
+function formatPrice(value, fallback = '--') {
   const number = Number(value)
   return Number.isFinite(number) && number > 0 ? `$${Math.round(number)}` : fallback
 }
 
-function formatMultilineHtml(value, fallback = 'â€”') {
+function formatMultilineHtml(value, fallback = 'n/a') {
   const text = String(value || '').trim()
   if (!text) {
     return escapeHtml(fallback)
@@ -264,7 +264,7 @@ function renderHeroSection(game) {
     <div class="detail-hero-shell">
       <div class="detail-hero-status">
         <span class="detail-kicker">ARCHIVE ENTRY</span>
-        <span class="detail-status-copy">collector record Â· market signal Â· editorial memory</span>
+        <span class="detail-status-copy">collector record | market signal | editorial memory</span>
       </div>
 
       <div class="hero-grid detail-hero-grid">
@@ -274,7 +274,7 @@ function renderHeroSection(game) {
               <div class="game-cover-container">
                 <img id="game-cover-img" src="" alt="${escapeHtml(game.title || '')}" width="160" height="160" />
               </div>
-              <div class="game-cover-caption">ARCHIVE SLOT Â· COVER ART</div>
+              <div class="game-cover-caption">ARCHIVE SLOT | COVER ART</div>
             </div>
 
             <div class="game-header-copy">
@@ -316,6 +316,27 @@ function renderHeroSection(game) {
                 ` : ''}
               </div>
 
+              <div class="surface-signal-grid detail-identity-signal-grid">
+                <div class="surface-signal-card">
+                  <span class="surface-signal-label">Plateforme</span>
+                  <span class="surface-signal-value">${escapeHtml(game.console || 'n/a')}</span>
+                </div>
+                <div class="surface-signal-card">
+                  <span class="surface-signal-label">Annee</span>
+                  <span class="surface-signal-value">${escapeHtml(game.year || 'n/a')}</span>
+                </div>
+                <div class="surface-signal-card">
+                  <span class="surface-signal-label">Metascore</span>
+                  <span class="surface-signal-value">${escapeHtml(game.metascore || 'n/a')}</span>
+                </div>
+              </div>
+
+              <div class="surface-action-row detail-hero-actions">
+                <a class="terminal-action-link" href="#price-history-section">Ouvrir price trace &rarr;</a>
+                <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title || '')}">Ouvrir RetroMarket &rarr;</a>
+                <a class="terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(game.id || '')}">Ouvrir dossier &rarr;</a>
+              </div>
+
               <div id="game-relations" class="game-relations"></div>
             </div>
           </div>
@@ -324,6 +345,28 @@ function renderHeroSection(game) {
         <aside class="price-panel detail-market-panel">
           <div class="detail-kicker">MARKET / TRUST</div>
           <p class="market-panel-copy">Valeur par condition, niveau de confiance et fraicheur des donnees.</p>
+          <div class="surface-signal-grid detail-market-price-grid">
+            <div class="surface-signal-card">
+              <span class="surface-signal-label">Loose</span>
+              <span class="surface-signal-value is-alert">${escapeHtml(formatPrice(game.loosePrice, 'n/a'))}</span>
+            </div>
+            <div class="surface-signal-card">
+              <span class="surface-signal-label">CIB</span>
+              <span class="surface-signal-value">${escapeHtml(formatPrice(game.cibPrice, 'n/a'))}</span>
+            </div>
+            <div class="surface-signal-card">
+              <span class="surface-signal-label">Mint</span>
+              <span class="surface-signal-value">${escapeHtml(formatPrice(game.mintPrice, 'n/a'))}</span>
+            </div>
+          </div>
+          <div class="surface-chip-row">
+            <span class="surface-chip is-hot">${escapeHtml(game.rarity || 'ARCHIVE')}</span>
+            <span class="surface-chip">${visibleGenre ? escapeHtml(visibleGenre) : 'genre n/a'}</span>
+            <span class="surface-chip">graphe 1M | 6M | 1A | 10A</span>
+          </div>
+          <div class="surface-action-row detail-market-actions">
+            <a class="terminal-action-link" href="#price-history-section">Aller au graphe &rarr;</a>
+          </div>
           <div id="market-metascore" class="market-metascore"></div>
           <div id="retrodex-index" class="index-insufficient">Chargement de l'indice RetroDex...</div>
         </aside>
@@ -333,7 +376,8 @@ function renderHeroSection(game) {
         <div class="detail-section-head compact">
           <div>
             <div class="detail-kicker">PRICE TRACE</div>
-            <h3>Historique des prix &middot; 12 mois</h3>
+            <h3>Historique des prix - 12 mois</h3>
+            <p class="price-history-copy">Lecture par condition sur la fenetre active. Utilisez les onglets pour comparer la profondeur du marche.</p>
           </div>
         </div>
         <div class="trend-row">
@@ -457,7 +501,7 @@ function buildTrustSource(entries, confidence) {
   if (sourcesEditorial > 0) {
     const formattedDate = formatTrustDate(latestSaleDate)
     return formattedDate
-      ? `${sourcesEditorial} ventes reelles Â· derniere : ${formattedDate}`
+      ? `${sourcesEditorial} ventes reelles | derniere: ${formattedDate}`
       : `${sourcesEditorial} ventes reelles`
   }
 
@@ -472,7 +516,7 @@ function formatIndexRange(low, high) {
   const lowNumber = Number(low)
   const highNumber = Number(high)
   if (!Number.isFinite(lowNumber) || !Number.isFinite(highNumber) || lowNumber <= 0 || highNumber <= 0) {
-    return 'â€”'
+    return 'n/a'
   }
 
   return `$${Math.round(lowNumber)} - $${Math.round(highNumber)}`
@@ -526,20 +570,20 @@ async function loadRetrodexIndex(gameId) {
       <div class="index-primary">
         <span class="index-primary-label">REFERENCE</span>
         <span class="index-primary-value">${escapeHtml(formatPrice(primaryEntry.index_value))}</span>
-        <span class="index-primary-meta">${escapeHtml(primaryEntry.condition || 'â€”')} Â· ${escapeHtml(formatIndexRange(primaryEntry.range_low, primaryEntry.range_high))}</span>
+        <span class="index-primary-meta">${escapeHtml(primaryEntry.condition || 'n/a')} | ${escapeHtml(formatIndexRange(primaryEntry.range_low, primaryEntry.range_high))}</span>
       </div>
       <div class="trust-header">
-        <span class="trust-badge trust-${trustMeta.tier}">TIER ${trustMeta.tier} Â· ${trustMeta.label}</span>
+        <span class="trust-badge trust-${trustMeta.tier}">TIER ${trustMeta.tier} | ${trustMeta.label}</span>
         <span class="trust-source">${escapeHtml(trustSource)}</span>
       </div>
       <div class="trust-support-row">
         <span class="trust-freshness">${escapeHtml(getFreshnessLabel(freshest))}</span>
-        <span class="index-sources">${sourcesEditorial} ventes Â· 0 listings Â· ${sourcesCommunity} contributions</span>
+        <span class="index-sources">${sourcesEditorial} ventes | 0 listings | ${sourcesCommunity} contributions</span>
       </div>
       <div class="index-prices">
         ${orderedEntries.map((entry) => `
           <div class="index-condition ${entry.condition === primaryEntry.condition ? 'is-primary' : ''}">
-            <span class="label">${escapeHtml(entry.condition || 'â€”')}</span>
+            <span class="label">${escapeHtml(entry.condition || 'n/a')}</span>
             <span class="value">${escapeHtml(formatPrice(entry.index_value))}</span>
             <span class="range">${escapeHtml(formatIndexRange(entry.range_low, entry.range_high))}</span>
           </div>
@@ -622,7 +666,7 @@ async function loadEncyclopedia(gameId) {
         html: cheatCodes.map((code) => `
           <div class="encyclo-cheat-row">
             <span class="cheat-name">${escapeHtml(code.label || code.name || 'Code')}</span>
-            <span class="cheat-code">${escapeHtml(code.code || code.value || 'â€”')}</span>
+            <span class="cheat-code">${escapeHtml(code.code || code.value || '--')}</span>
             <span class="cheat-effect">${escapeHtml(code.effect || 'Effet non documente')}</span>
           </div>
         `).join(''),
@@ -684,7 +728,7 @@ async function loadFranchise(gameId) {
     const franchise = data.franchise
     relationsEl.innerHTML = `
       <a class="terminal-action-link franchise-link" href="/franchises.html?slug=${encodeURIComponent(franchise.slug)}">
-        FRANCHISE Â· ${escapeHtml(franchise.name)} (${escapeHtml(franchise.first_game || 'â€”')}â†’${escapeHtml(franchise.last_game || 'â€”')}) â†’
+        FRANCHISE | ${escapeHtml(franchise.name)} (${escapeHtml(franchise.first_game || 'n/a')}-${escapeHtml(franchise.last_game || 'n/a')}) ->
       </a>
     `
   } catch (_error) {}
@@ -1164,7 +1208,7 @@ function extractSeries(title) {
 function renderRelatedPrices(current, related) {
   upsertRelatedModule(
     'franchise-versions',
-    'Meme franchise Â· autres versions',
+    'Meme franchise | autres versions',
     'Comparaison rapide avec les variantes les plus proches.',
     `
       <div class="compare-table">
@@ -1256,7 +1300,7 @@ async function loadSimilar(gameId) {
           ${safeArray(data.games).map((game) => `
             <div class="similar-item" onclick="window.location='/game-detail.html?id=${encodeURIComponent(game.id)}'">
               <div class="similar-title">${escapeHtml(game.title)}</div>
-              <div class="similar-meta">${escapeHtml(game.console || 'â€”')} Â· ${escapeHtml(game.year || 'â€”')}</div>
+              <div class="similar-meta">${escapeHtml(game.console || 'n/a')} | ${escapeHtml(game.year || 'n/a')}</div>
               <div class="similar-price">${escapeHtml(formatPrice(game.loosePrice))}</div>
             </div>
           `).join('')}
@@ -1947,7 +1991,7 @@ async function loadPage() {
     updateSeoMeta(currentGame)
 
     if (breadcrumbTitleEl) {
-      breadcrumbTitleEl.textContent = (currentGame.title || '').toUpperCase().substring(0, 30) || 'â€”'
+      breadcrumbTitleEl.textContent = (currentGame.title || '').toUpperCase().substring(0, 30) || '--'
     }
 
     renderHeroSection(currentGame)

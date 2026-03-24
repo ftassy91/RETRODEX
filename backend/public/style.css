@@ -8506,6 +8506,91 @@ body::-webkit-scrollbar-thumb,
   color: var(--text-muted);
 }
 
+.price-history .detail-section-head.compact {
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.price-history-copy {
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.6;
+  max-width: 72ch;
+}
+
+.price-history .trend-row {
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.price-history .chart-toggle,
+.price-history .period-selector {
+  padding: 8px 10px;
+  border: 1px solid rgba(56, 79, 51, 0.7);
+  background: rgba(7, 10, 7, 0.88);
+}
+
+.price-history .chart-btn,
+.price-history .period-btn {
+  min-width: 56px;
+  min-height: 28px;
+  border-radius: 0;
+  border: 1px solid rgba(56, 79, 51, 0.7);
+  background: rgba(4, 7, 4, 0.98);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.price-history .chart-btn.active,
+.price-history .period-btn.active {
+  color: var(--text-alert);
+  border-color: rgba(228, 136, 85, 0.55);
+}
+
+.price-history .chart-container {
+  min-height: 212px;
+  padding: 12px 12px 6px;
+  border: 1px solid rgba(56, 79, 51, 0.7);
+  background:
+    linear-gradient(180deg, rgba(8, 12, 8, 0.98), rgba(4, 7, 4, 0.98)),
+    linear-gradient(90deg, rgba(155, 188, 15, 0.03), transparent 30%);
+}
+
+.price-history .price-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.price-history .price-stat {
+  min-height: 82px;
+  padding: 10px 12px;
+  border: 1px solid rgba(56, 79, 51, 0.7);
+  background: rgba(7, 10, 7, 0.88);
+}
+
+.price-history .price-stat .stat-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.price-history .price-stat .stat-value {
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  font-size: 18px;
+}
+
 .price-history-point {
   cursor: pointer;
 }
@@ -8889,5 +8974,326 @@ body::-webkit-scrollbar-thumb,
 /* Les reafficher uniquement sur hub.html */
 body.hub-page .product-universe-frame {
   display: block;
+}
+
+/* ========================================
+   SC-6 - RM-1 visual standard
+======================================== */
+
+.surface-query-shell {
+  border-color: rgba(155, 188, 15, 0.46);
+  background: linear-gradient(180deg, rgba(11, 15, 11, 0.99), rgba(4, 7, 4, 0.99));
+  box-shadow:
+    inset 0 0 0 1px rgba(155, 188, 15, 0.09),
+    inset 0 1px 0 rgba(155, 188, 15, 0.04);
+}
+
+.surface-query-shell .terminal-query-label,
+.surface-query-shell input::placeholder {
+  color: rgba(155, 188, 15, 0.72);
+}
+
+.surface-query-shell .terminal-query-input,
+.surface-query-shell input {
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.surface-query-shell .terminal-query-count {
+  min-width: 118px;
+  color: var(--text-alert);
+  font-size: 11px;
+}
+
+.surface-query-helper {
+  margin: 8px 0 12px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.surface-preview-panel {
+  border-color: rgba(67, 95, 60, 0.58);
+  background:
+    linear-gradient(180deg, rgba(9, 13, 9, 0.98), rgba(6, 10, 6, 0.98)),
+    radial-gradient(circle at top right, rgba(155, 188, 15, 0.03), transparent 28%);
+}
+
+.surface-summary-copy {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.surface-signal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.surface-signal-grid.is-compact {
+  gap: 8px;
+}
+
+.surface-signal-card {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(67, 95, 60, 0.58);
+  background: rgba(8, 12, 8, 0.78);
+}
+
+.surface-signal-card.is-wide {
+  grid-column: span 2;
+}
+
+.surface-signal-label {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.surface-signal-value {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.surface-signal-value.is-alert {
+  color: var(--text-alert);
+}
+
+.surface-signal-value.is-muted {
+  color: var(--text-secondary);
+}
+
+.surface-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.surface-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border: 1px solid rgba(67, 95, 60, 0.58);
+  color: var(--text-secondary);
+  background: rgba(8, 12, 8, 0.78);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.surface-chip.is-hot {
+  color: var(--text-alert);
+  border-color: rgba(228, 136, 85, 0.5);
+}
+
+.surface-chip.is-primary {
+  color: var(--text-primary);
+  border-color: rgba(155, 188, 15, 0.42);
+}
+
+.surface-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-top: 12px;
+}
+
+.surface-action-row a,
+.surface-action-row button {
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+
+.surface-action-row a:hover,
+.surface-action-row button:hover {
+  color: #f1c45c;
+  text-decoration: underline;
+}
+
+.surface-action-row.is-inline {
+  margin-top: 8px;
+}
+
+.surface-identity-meta {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.search-surface-copy,
+.encyclo-search-helper {
+  margin-top: 8px;
+}
+
+.sc-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1.7fr) minmax(220px, 0.95fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(45, 61, 41, 0.62);
+  text-decoration: none;
+  color: inherit;
+  font-family: var(--font-mono);
+  background: rgba(7, 10, 7, 0.88);
+}
+
+.sc-row:hover {
+  background: linear-gradient(90deg, rgba(155, 188, 15, 0.05), rgba(10, 14, 10, 0.96) 66%);
+}
+
+.sc-row .asset-support {
+  margin: 2px 0 0;
+}
+
+.sc-main {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.sc-identity {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.sc-title {
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.sc-sub {
+  color: var(--text-secondary);
+  font-size: 10px;
+  line-height: 1.6;
+  min-width: 0;
+}
+
+.sc-secondary {
+  color: var(--text-muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.sc-signal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  min-width: 0;
+}
+
+.sc-action {
+  align-self: center;
+  color: var(--text-alert);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.detail-market-price-grid {
+  margin-top: 12px;
+}
+
+.detail-market-actions {
+  margin-top: 10px;
+}
+
+.detail-identity-signal-grid {
+  margin-top: 12px;
+}
+
+.detail-hero-actions {
+  margin-top: 12px;
+}
+
+.preview-metascore .metascore-block,
+.market-metascore .metascore-block {
+  margin-bottom: 0;
+}
+
+.quick-detail-panel .surface-signal-grid,
+.terminal-preview-panel .surface-signal-grid,
+.encyclo-panel-info .surface-signal-grid {
+  margin-top: 12px;
+}
+
+.quick-detail-panel .surface-chip-row,
+.terminal-preview-panel .surface-chip-row,
+.encyclo-panel-info .surface-chip-row {
+  margin-top: 12px;
+}
+
+.market-preview-stats.surface-signal-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.encyclo-list-row .asset-support {
+  margin-right: 8px;
+}
+
+.encyclo-list-row-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.encyclo-panel-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+
+@media (max-width: 1040px) {
+  .sc-row {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .sc-signal-grid,
+  .sc-action {
+    grid-column: 2;
+  }
+
+  .surface-signal-grid,
+  .market-preview-stats.surface-signal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .sc-row {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .sc-signal-grid,
+  .surface-signal-grid,
+  .market-preview-stats.surface-signal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .surface-signal-card.is-wide {
+    grid-column: auto;
+  }
 }
 
