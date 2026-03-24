@@ -156,7 +156,21 @@
   }
 
   function renderEmpty(message) {
-    resultsEl.innerHTML = `<div style="color:#333;font-family:monospace;font-size:11px;padding:12px 0">${message}</div>`;
+    resultsEl.innerHTML = `
+      <div class="terminal-empty-state search-empty">
+        <div class="terminal-empty-title">Recherche inline</div>
+        <div class="terminal-empty-copy">${message}</div>
+      </div>
+    `;
+  }
+
+  function renderState(title, copy, tone = '') {
+    resultsEl.innerHTML = `
+      <div class="terminal-empty-state search-empty${tone ? ` ${tone}` : ''}">
+        <div class="terminal-empty-title">${title}</div>
+        <div class="terminal-empty-copy">${copy}</div>
+      </div>
+    `;
   }
 
   function renderResults(results, context) {
@@ -252,7 +266,7 @@
 
   async function doSearch(query, context) {
     if (!window.RetroDexSearch) {
-      renderEmpty('Chargement du moteur...');
+      renderState('Chargement', 'Le moteur de recherche est en cours d initialisation.');
       window.setTimeout(() => doSearch(query, context), 400);
       return;
     }
@@ -266,7 +280,7 @@
       renderResults(results, context);
       syncUrl(query, context);
     } catch (error) {
-      resultsEl.innerHTML = `<div style="color:#cc0000;font-family:monospace;font-size:11px">Erreur : ${error.message}</div>`;
+      renderState('Recherche indisponible', `Erreur : ${error.message}`, 'is-error');
     }
   }
 
