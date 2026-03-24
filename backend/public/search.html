@@ -11,6 +11,68 @@
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
     <link rel="stylesheet" href="/style.css" />
+    <style>
+      .search-ctx-tabs {
+        display: flex;
+        gap: 0;
+        margin: 8px 0 0;
+        border-bottom: 1px solid #1a1a1a;
+      }
+      .ctx-tab {
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        color: #333333;
+        font-family: monospace;
+        font-size: 10px;
+        letter-spacing: 2px;
+        padding: 6px 16px;
+        cursor: pointer;
+      }
+      .ctx-tab:hover { color: #00cc33; }
+      .ctx-tab.active { color: #00ff41; border-bottom-color: #00ff41; }
+      .search-count-label {
+        font-size: 9px;
+        color: #333333;
+        letter-spacing: 2px;
+        margin: 8px 0 4px;
+        font-family: monospace;
+      }
+      #search-core-results .sc-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 0;
+        border-bottom: 1px solid #0d0d0d;
+        text-decoration: none;
+        color: inherit;
+        font-family: monospace;
+      }
+      #search-core-results .sc-row:hover { background: #0d0d0d; }
+      #search-core-results .sc-row .asset-support { margin-left: 8px; }
+      .sc-title {
+        color: #00ff41;
+        flex: 1;
+        font-size: 13px;
+      }
+      .sc-sub {
+        color: #333333;
+        font-size: 10px;
+        min-width: 160px;
+      }
+      .sc-price {
+        color: #ffaa00;
+        font-size: 11px;
+        min-width: 60px;
+        text-align: right;
+      }
+      .sc-type {
+        font-size: 9px;
+        color: #333333;
+        letter-spacing: 1px;
+        min-width: 80px;
+      }
+    </style>
   </head>
   <body>
     <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
@@ -53,20 +115,21 @@
       </div>
 
       <div class="terminal-preview-panel" style="display:block">
-        <div class="terminal-preview-label">ROUTAGE CONTEXTUEL</div>
-        <div class="terminal-preview-title">Choisir un module de recherche</div>
+        <div class="terminal-preview-label">SEARCH CORE V3</div>
+        <div class="terminal-preview-title">Recherche contextuelle en memoire</div>
         <div class="terminal-preview-row">
-          La recherche globale est retiree. Chaque module expose maintenant son propre scope.
+          Jeux, franchises et consoles sont indexes une fois, puis relus selon le contexte actif.
         </div>
       </div>
 
-      <div class="terminal-filter-bar">
-        <div class="terminal-filter-group">
-          <button class="terminal-filter-btn active" data-module-route="market" type="button">RETROMARKET</button>
-          <button class="terminal-filter-btn" data-module-route="dex" type="button">RETRODEX</button>
-          <button class="terminal-filter-btn" data-module-route="collection" type="button">COLLECTION</button>
-        </div>
+      <div class="search-ctx-tabs" role="tablist">
+        <button class="ctx-tab active" data-ctx="all" type="button">TOUS</button>
+        <button class="ctx-tab" data-ctx="retrodex" type="button">RETRODEX</button>
+        <button class="ctx-tab" data-ctx="retromarket" type="button">RETROMARKET</button>
+        <button class="ctx-tab" data-ctx="collection" type="button">COLLECTION</button>
       </div>
+      <div id="search-core-count" class="search-count-label"></div>
+      <div id="search-core-results"></div>
 
       <div id="search-router-results">
         <div class="terminal-row" style="grid-template-columns: 160px 1fr 200px">
@@ -104,6 +167,7 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/search-core.js?v=20260324"></script>
     <script src="/js/core/assets.js"></script>
+    <script src="/js/core/metascore.js"></script>
     <script src="/js/pages/search.js"></script>
     <script src="/js/features/experience-layer.js"></script>
   </body>
