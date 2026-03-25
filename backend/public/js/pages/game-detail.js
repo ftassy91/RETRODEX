@@ -5,7 +5,6 @@ const CoreApi = window.RetroDexApi || {}
 const CoreState = window.RetroDexState || {}
 
 const heroEl = document.getElementById('hero')
-const summaryEl = document.getElementById('summary')
 const statsRowEl = document.getElementById('stats-row')
 const collectionStateEl = document.getElementById('collection-state')
 const collectionCurrentMetaEl = document.getElementById('collection-current-meta')
@@ -35,6 +34,8 @@ const relatedContentEl = document.getElementById('related-content')
 
 let currentGame = null
 let currentCollectionItem = null
+let currentEncyclopediaData = null
+let currentArchiveData = null
 const HUB_IMAGE_VERSION = '20260323b'
 let hubImageManifestPromise = null
 
@@ -257,17 +258,14 @@ function showSkeleton() {
       </div>
     </div>
   `
-  summaryEl.innerHTML = `
-    <div class="skeleton skeleton-line-full"></div>
-    <div class="skeleton skeleton-line-full"></div>
-    <div class="skeleton skeleton-line-medium"></div>
-  `
-  statsRowEl.innerHTML = `
-    <div class="skeleton skeleton-line-full"></div>
-    <div class="skeleton skeleton-line-full"></div>
-    <div class="skeleton skeleton-line-full"></div>
-    <div class="skeleton skeleton-line-full"></div>
-  `
+  if (statsRowEl) {
+    statsRowEl.innerHTML = `
+      <div class="skeleton skeleton-line-full"></div>
+      <div class="skeleton skeleton-line-full"></div>
+      <div class="skeleton skeleton-line-full"></div>
+      <div class="skeleton skeleton-line-full"></div>
+    `
+  }
 
   if (editorialShellEl) {
     editorialShellEl.hidden = true
@@ -281,11 +279,13 @@ function showSkeleton() {
 function renderHeroSection(game) {
   const meta = resolveGameMeta(game)
   const visibleGenre = meta.genreName && meta.genreName !== 'Other' ? meta.genreName : ''
+  const summary = String(game.summary || game.synopsis || '').trim()
+  const publisherValue = meta.publisherName || 'n/a'
+  const metascoreValue = game.metascore ? String(game.metascore) : 'n/a'
   heroEl.innerHTML = `
     <div class="detail-hero-shell">
       <div class="detail-hero-status">
-        <span class="detail-kicker">ARCHIVE ENTRY</span>
-        <span class="detail-status-copy">collector record | market signal | editorial memory</span>
+        <span class="terminal-preview-label">ARCHIVE ENTRY</span>
       </div>
 
       <div class="hero-grid detail-hero-grid">
@@ -295,71 +295,74 @@ function renderHeroSection(game) {
               <div class="game-cover-container">
                 <img id="game-cover-img" src="" alt="${escapeHtml(game.title || '')}" width="160" height="160" />
               </div>
-              <div class="game-cover-caption">ARCHIVE SLOT | COVER ART</div>
             </div>
 
             <div class="game-header-copy">
-              <div class="detail-kicker">GAME FILE</div>
               <h1 class="hero-title page-title">${escapeHtml(game.title)}</h1>
 
-              <div class="game-tagline-shell" id="game-tagline-shell" hidden>
-                <span class="detail-inline-label">Collector note</span>
-                <div class="game-tagline" id="game-tagline"></div>
-              </div>
-
-              <div class="hero-meta game-badges game-meta">
-                <span class="pill">${escapeHtml(meta.consoleName)}</span>
-                <span class="pill">${escapeHtml(game.year || 'n/a')}</span>
-                ${visibleGenre ? `<span class="pill">${escapeHtml(visibleGenre)}</span>` : ''}
-                <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || 'COMMON')}</span>
-              </div>
-
-              <div class="game-meta-cluster">
-                <div class="game-meta-row">
-                  <span class="meta-key">PLATFORM</span>
-                  <a class="console-link meta-value-link" href="/consoles.html?platform=${encodeURIComponent(meta.consoleName)}">
-                    ${escapeHtml(meta.consoleName)} ->
-                  </a>
-                </div>
-                <div class="game-meta-row">
-                  <span class="meta-key">YEAR</span>
-                  <span class="meta-value">${escapeHtml(game.year || 'n/a')}</span>
-                </div>
-                <div class="game-meta-row">
-                  <span class="meta-key">DEVELOPER</span>
-                  <span class="meta-value">${escapeHtml(meta.developerName)}</span>
-                </div>
+              <div class="terminal-preview-row surface-identity-meta detail-hero-meta-strip">
+                <span>${escapeHtml(meta.consoleName)}</span>
+                <span>•</span>
+                <span>${escapeHtml(game.year || 'n/a')}</span>
+                <span>•</span>
+                <span>${escapeHtml(meta.developerName)}</span>
                 ${meta.publisherName ? `
-                  <div class="game-meta-row">
-                    <span class="meta-key">PUBLISHER</span>
-                    <span class="meta-value">${escapeHtml(meta.publisherName)}</span>
-                  </div>
+                  <span>•</span>
+                  <span>${escapeHtml(meta.publisherName)}</span>
                 ` : ''}
               </div>
 
-              <div class="surface-signal-grid detail-identity-signal-grid">
-                <div class="surface-signal-card">
-                  <span class="surface-signal-label">Plateforme</span>
-                  <span class="surface-signal-value">${escapeHtml(meta.consoleName)}</span>
+              <div id="hero-summary-shell" class="hero-summary-shell"${summary ? '' : ' hidden'}>
+                <div id="hero-summary" class="hero-summary surface-summary-copy">${summary ? formatMultilineHtml(summary) : ''}</div>
+              </div>
+
+              <div class="game-tagline-shell" id="game-tagline-shell" hidden>
+                <span class="detail-inline-label">Note</span>
+                <div class="game-tagline" id="game-tagline"></div>
+              </div>
+
+              <div class="hero-meta game-badges game-meta surface-chip-row detail-hero-chip-row">
+                ${visibleGenre ? `<span class="surface-chip">${escapeHtml(visibleGenre)}</span>` : ''}
+                <span class="surface-chip">${escapeHtml(meta.developerName)}</span>
+                <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || 'COMMON')}</span>
+              </div>
+
+              <div class="terminal-summary-bar detail-hero-summary-bar">
+                <div class="terminal-summary-cell">
+                  <div class="terminal-summary-label">Plateforme</div>
+                  <div class="terminal-summary-value">
+                    <a class="console-link meta-value-link" href="/consoles.html?platform=${encodeURIComponent(meta.consoleName)}">
+                      ${escapeHtml(meta.consoleName)} ->
+                    </a>
+                  </div>
                 </div>
-                <div class="surface-signal-card">
-                  <span class="surface-signal-label">Annee</span>
-                  <span class="surface-signal-value">${escapeHtml(game.year || 'n/a')}</span>
+                <div class="terminal-summary-cell">
+                  <div class="terminal-summary-label">Annee</div>
+                  <div class="terminal-summary-value">${escapeHtml(game.year || 'n/a')}</div>
                 </div>
-                <div class="surface-signal-card">
-                  <span class="surface-signal-label">Metascore</span>
-                  <span class="surface-signal-value">${escapeHtml(game.metascore || 'n/a')}</span>
+                <div class="terminal-summary-cell">
+                  <div class="terminal-summary-label">Metascore</div>
+                  <div id="hero-metascore-value" class="terminal-summary-value">${escapeHtml(metascoreValue)}</div>
                 </div>
-                <div class="surface-signal-card">
-                  <span class="surface-signal-label">Loose</span>
-                  <span class="surface-signal-value is-alert">${escapeHtml(formatPrice(game.loosePrice, 'n/a'))}</span>
+                <div class="terminal-summary-cell">
+                  <div class="terminal-summary-label">Editeur</div>
+                  <div class="terminal-summary-value">${escapeHtml(publisherValue)}</div>
                 </div>
               </div>
 
-              <div class="surface-action-row detail-hero-actions">
-                <a class="terminal-action-link" href="#price-history-section">Ouvrir price trace -></a>
-                <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title || '')}">Ouvrir RetroMarket -></a>
-                <a class="terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(game.id || '')}">Ouvrir dossier -></a>
+              <div class="surface-preview-panel detail-market-bridge">
+                <div class="terminal-preview-label">RETROMARKET</div>
+                <div class="surface-summary-copy">
+                  Prix, tendances et signal marché.
+                </div>
+                <div class="surface-action-row detail-hero-actions is-inline">
+                  <a href="/stats.html?q=${encodeURIComponent(game.title || '')}">
+                    Voir le prix ->
+                  </a>
+                  <a href="/encyclopedia.html?game=${encodeURIComponent(game.id || '')}">
+                    Ouvrir dossier ->
+                  </a>
+                </div>
               </div>
 
               <div id="game-relations" class="game-relations"></div>
@@ -367,102 +370,7 @@ function renderHeroSection(game) {
           </div>
         </section>
 
-        <aside class="price-panel detail-market-panel">
-          <div class="detail-kicker">MARKET / TRUST</div>
-          <p class="market-panel-copy">Valeur par condition, niveau de confiance et fraicheur des donnees.</p>
-          <div class="surface-signal-grid detail-market-price-grid">
-            <div class="surface-signal-card">
-              <span class="surface-signal-label">Loose</span>
-              <span class="surface-signal-value is-alert">${escapeHtml(formatPrice(game.loosePrice, 'n/a'))}</span>
-            </div>
-            <div class="surface-signal-card">
-              <span class="surface-signal-label">CIB</span>
-              <span class="surface-signal-value">${escapeHtml(formatPrice(game.cibPrice, 'n/a'))}</span>
-            </div>
-            <div class="surface-signal-card">
-              <span class="surface-signal-label">Mint</span>
-              <span class="surface-signal-value">${escapeHtml(formatPrice(game.mintPrice, 'n/a'))}</span>
-            </div>
-          </div>
-          <div class="surface-chip-row">
-            <span class="surface-chip is-hot">${escapeHtml(game.rarity || 'ARCHIVE')}</span>
-            <span class="surface-chip">${visibleGenre ? escapeHtml(visibleGenre) : 'genre n/a'}</span>
-            <span class="surface-chip">graphe 1M | 6M | 1A | 10A</span>
-          </div>
-          <div class="surface-signal-grid is-five detail-market-summary-grid">
-            <div class="surface-signal-card">
-              <span class="surface-signal-label">Derniere vente</span>
-              <span class="surface-signal-value" id="market-last-sale">--</span>
-            </div>
-            <div class="surface-signal-card">
-              <span class="surface-signal-label">Series</span>
-              <span class="surface-signal-value" id="market-series">--</span>
-            </div>
-            <div class="surface-signal-card">
-              <span class="surface-signal-label">Profondeur</span>
-              <span class="surface-signal-value" id="market-depth">--</span>
-            </div>
-            <div class="surface-signal-card">
-              <span class="surface-signal-label">Fenetre</span>
-              <span class="surface-signal-value" id="market-period">1A</span>
-            </div>
-            <div class="surface-signal-card">
-              <span class="surface-signal-label">Statut</span>
-              <span class="surface-signal-value" id="market-status">REFERENCE</span>
-            </div>
-          </div>
-          <div class="surface-action-row detail-market-actions">
-            <a class="terminal-action-link" href="#price-history-section">Aller au graphe -></a>
-            <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title || '')}">Voir signaux marche -></a>
-          </div>
-          <div id="market-metascore" class="market-metascore"></div>
-          <div id="retrodex-index" class="index-insufficient">Chargement de l'indice RetroDex...</div>
-        </aside>
       </div>
-
-      <section class="price-history" id="price-history-section">
-        <div class="detail-section-head compact">
-          <div>
-            <div class="detail-kicker">PRICE TRACE</div>
-            <h3>Price trace | 1A</h3>
-            <p class="price-history-copy">Lecture par condition sur la fenetre active. Utilisez les onglets pour comparer le signal marche et la profondeur des ventes.</p>
-          </div>
-        </div>
-        <div class="trend-row">
-          <span class="trend-badge" id="trend-loose">Loose --</span>
-          <span class="trend-badge" id="trend-cib">CIB --</span>
-          <span class="trend-badge" id="trend-mint">Mint --</span>
-        </div>
-        <div class="chart-toggle">
-          <button class="chart-btn active" data-type="mint">Mint</button>
-          <button class="chart-btn" data-type="cib">CIB</button>
-          <button class="chart-btn" data-type="loose">Loose</button>
-        </div>
-        <div class="period-selector">
-          <button class="period-btn" data-period="30">1M</button>
-          <button class="period-btn" data-period="180">6M</button>
-          <button class="period-btn active" data-period="365">1A</button>
-          <button class="period-btn" data-period="3650">10A</button>
-        </div>
-        <div class="chart-container">
-          <svg id="price-chart" viewBox="0 0 600 160" preserveAspectRatio="none"></svg>
-          <div class="chart-labels" id="chart-labels"></div>
-        </div>
-        <div class="price-stats-row">
-          <div class="price-stat">
-            <span class="stat-label">12M MIN</span>
-            <span class="stat-value" id="stat-min">--</span>
-          </div>
-          <div class="price-stat">
-            <span class="stat-label">12M MAX</span>
-            <span class="stat-value" id="stat-max">--</span>
-          </div>
-          <div class="price-stat">
-            <span class="stat-label">VARIATION</span>
-            <span class="stat-value" id="stat-variation">--</span>
-          </div>
-        </div>
-      </section>
     </div>
   `
 
@@ -477,17 +385,17 @@ function renderHeroSection(game) {
   }
 
   if (window.RetroDexMetascore) {
-    const metascoreContainer = heroEl.querySelector('#market-metascore, .market-metascore')
-    if (metascoreContainer) {
-      metascoreContainer.innerHTML = ''
-      metascoreContainer.appendChild(window.RetroDexMetascore.renderBlock(game.metascore))
-    }
-
     const rarityBadge = heroEl.querySelector('.rarity-badge, [data-rarity]')
     if (rarityBadge?.parentNode && game.metascore) {
       const badge = window.RetroDexMetascore.renderBadge(game.metascore, 'normal')
       badge.title = `Metascore : ${game.metascore}/100`
       rarityBadge.parentNode.insertBefore(badge, rarityBadge)
+    }
+
+    const heroMetaEl = document.getElementById('hero-metascore-value')
+    if (heroMetaEl && game.metascore) {
+      heroMetaEl.textContent = `${game.metascore} | ${window.RetroDexMetascore.getLabel(game.metascore)}`
+      heroMetaEl.style.color = window.RetroDexMetascore.getColor(game.metascore)
     }
   }
 }
@@ -506,6 +414,23 @@ function getTrustMeta(value) {
   if (pct >= 30) return { tier: 'T3', label: 'INDICATIF' }
   if (pct >= 10) return { tier: 'T4', label: 'ESTIME' }
   return { tier: 'T0', label: 'INCONNU' }
+}
+
+function getTrustBadgeText(tier) {
+  if (tier === 'T1') return '✓ DONNÉES VÉRIFIÉES · TIER T1'
+  if (tier === 'T2') return 'DONNÉES CROISÉES · TIER T2'
+  return 'ESTIMATION · PEU DE DONNÉES'
+}
+
+function getTrustBadgeStyle(tier) {
+  const base = "font-family:'Press Start 2P', monospace;font-size:0.5rem;"
+  if (tier === 'T1') {
+    return `${base}background:rgba(155,188,15,0.15);border:1px solid #9bbc0f;color:#9bbc0f;`
+  }
+  if (tier === 'T2') {
+    return `${base}background:rgba(155,188,15,0.08);border:1px solid #9bbc0f;color:#9bbc0f;`
+  }
+  return `${base}background:rgba(241,196,92,0.08);border:1px solid #f1c45c;color:#f1c45c;`
 }
 
 function getFreshnessLabel(value) {
@@ -548,13 +473,11 @@ function buildTrustSource(entries, confidence) {
 
   if (sourcesEditorial > 0) {
     const formattedDate = formatTrustDate(latestSaleDate)
-    return formattedDate
-      ? `${sourcesEditorial} ventes reelles | derniere: ${formattedDate}`
-      : `${sourcesEditorial} ventes reelles`
+    return `${sourcesEditorial} vente(s) vérifiée(s) | dernière obs. : ${formattedDate || 'date inconnue'}`
   }
 
-  if ((Number(confidence) || 0) === 15) {
-    return 'estimation statistique - aucune vente verifiee'
+  if ((Number(confidence) || 0) >= 0) {
+    return 'Aucune vente vérifiée — prix calculé par référence'
   }
 
   return 'aucune donnee - contribuez un prix'
@@ -621,7 +544,7 @@ async function loadRetrodexIndex(gameId) {
         <span class="index-primary-meta">${escapeHtml(primaryEntry.condition || 'n/a')} | ${escapeHtml(formatIndexRange(primaryEntry.range_low, primaryEntry.range_high))}</span>
       </div>
       <div class="trust-header">
-        <span class="trust-badge trust-${trustMeta.tier}">TIER ${trustMeta.tier} | ${trustMeta.label}</span>
+        <span class="trust-badge trust-${trustMeta.tier}" style="${escapeHtml(getTrustBadgeStyle(trustMeta.tier))}">${escapeHtml(getTrustBadgeText(trustMeta.tier))}</span>
         <span class="trust-source">${escapeHtml(trustSource)}</span>
       </div>
       <div class="trust-support-row">
@@ -654,6 +577,206 @@ function activateEditorialTab(tabId) {
   })
 }
 
+function normalizeContributor(member, fallbackRole = '') {
+  if (!member) {
+    return null
+  }
+
+  if (typeof member === 'string') {
+    const name = member.trim()
+    return name ? { name, role: fallbackRole, note: '' } : null
+  }
+
+  const name = String(member.name || member.full_name || member.person || '').trim()
+  if (!name) {
+    return null
+  }
+
+  return {
+    name,
+    role: String(member.role || fallbackRole || '').trim(),
+    note: String(member.note || member.description || '').trim(),
+  }
+}
+
+function buildContributorRows(devTeam = [], composers = []) {
+  const rows = []
+  const seen = new Set()
+
+  const pushContributor = (entry, fallbackRole = '') => {
+    const person = normalizeContributor(entry, fallbackRole)
+    if (!person) {
+      return
+    }
+
+    const dedupeKey = person.name.toLowerCase()
+    if (seen.has(dedupeKey)) {
+      return
+    }
+
+    seen.add(dedupeKey)
+    rows.push(person)
+  }
+
+  safeArray(devTeam).forEach((member) => pushContributor(member))
+  safeArray(composers).forEach((member) => pushContributor(member, 'Compositeur'))
+
+  return rows.slice(0, 10)
+}
+
+function buildEditorialSections() {
+  const sections = []
+  const encyclo = currentEncyclopediaData || {}
+  const archive = currentArchiveData || {}
+  const contributors = buildContributorRows(encyclo.dev_team, archive.ost?.composers)
+  const anecdotes = safeArray(encyclo.dev_anecdotes)
+  const cheatCodes = safeArray(encyclo.cheat_codes)
+  const characters = safeArray(archive.characters)
+  const tracks = safeArray(archive.ost?.notable_tracks)
+
+  if (archive.lore || archive.gameplay_description) {
+    let html = ''
+    if (archive.lore) {
+      html += `<div class="archive-lore">${formatMultilineHtml(archive.lore)}</div>`
+    }
+    if (archive.gameplay_description) {
+      html += `<div class="archive-gameplay"><span class="archive-label">Gameplay</span> ${formatMultilineHtml(archive.gameplay_description)}</div>`
+    }
+    sections.push({ id: 'lore', label: 'LORE', html })
+  }
+
+  if (contributors.length) {
+    sections.push({
+      id: 'team',
+      label: 'EQUIPE',
+      html: contributors.map((member) => `
+        <div class="encyclo-team-row">
+          <span class="team-role">${escapeHtml(member.role || 'Equipe')}</span>
+          <span class="team-name">${escapeHtml(member.name)}</span>
+          ${member.note ? `<span class="team-note">${escapeHtml(member.note)}</span>` : ''}
+        </div>
+      `).join(''),
+    })
+  }
+
+  if (anecdotes.length) {
+    sections.push({
+      id: 'anecdotes',
+      label: 'ANECDOTES',
+      html: anecdotes.map((item, index) => `
+        <div class="encyclo-anecdote">
+          <div class="anecdote-title">${escapeHtml(item.title || `Anecdote ${index + 1}`)}</div>
+          <div class="anecdote-text">${formatMultilineHtml(item.text || item)}</div>
+        </div>
+      `).join(''),
+    })
+  }
+
+  if (characters.length) {
+    sections.push({
+      id: 'characters',
+      label: 'PERSO',
+      html: characters.map((character) => `
+        <div class="archive-character-row">
+          <span class="archive-char-name">${escapeHtml(character.name || 'Inconnu')}</span>
+          <span class="archive-char-role">${escapeHtml(character.role || '')}</span>
+          <span class="archive-char-desc">${escapeHtml(character.description || '')}</span>
+        </div>
+      `).join(''),
+    })
+  }
+
+  if (tracks.length || archive.duration?.main || archive.speedrun_wr?.time) {
+    let html = ''
+    if (tracks.length) {
+      html += `<div class="archive-ost-tracks"><span class="archive-label">Tracks</span><ul>${
+        tracks.map((track) => `<li>${escapeHtml(track)}</li>`).join('')
+      }</ul></div>`
+    }
+    if (archive.duration?.main) {
+      html += `<div class="archive-duration"><span class="archive-label">Duree</span> Main: ${escapeHtml(archive.duration.main)}h${
+        archive.duration.complete ? ` | Complet: ${escapeHtml(archive.duration.complete)}h` : ''
+      }</div>`
+    }
+    if (archive.speedrun_wr?.time) {
+      html += `<div class="archive-speedrun"><span class="archive-label">Speedrun</span> ${escapeHtml(archive.speedrun_wr.category || 'any%')}: ${escapeHtml(archive.speedrun_wr.time)}${
+        archive.speedrun_wr.runner ? ` par ${escapeHtml(archive.speedrun_wr.runner)}` : ''
+      }</div>`
+    }
+    sections.push({ id: 'ost', label: 'OST', html })
+  }
+
+  if (cheatCodes.length) {
+    sections.push({
+      id: 'codes',
+      label: 'CODES',
+      html: cheatCodes.map((code) => `
+        <div class="encyclo-cheat-row">
+          <span class="cheat-name">${escapeHtml(code.label || code.name || 'Code')}</span>
+          <span class="cheat-code">${escapeHtml(code.code || code.value || '--')}</span>
+          <span class="cheat-effect">${escapeHtml(code.effect || 'Effet non documente')}</span>
+        </div>
+      `).join(''),
+    })
+  }
+
+  if (archive.manual_url) {
+    sections.push({
+      id: 'notice',
+      label: 'NOTICE',
+      html: `
+        <div class="archive-manual">
+          <a class="terminal-action-link" href="${escapeHtml(archive.manual_url)}" target="_blank" rel="noopener noreferrer">
+            Ouvrir la notice ->
+          </a>
+        </div>
+      `,
+    })
+  }
+
+  return sections
+}
+
+function renderEditorialContent() {
+  if (!editorialShellEl || !editorialContentEl) {
+    return
+  }
+
+  const sections = buildEditorialSections()
+  if (!sections.length) {
+    editorialShellEl.hidden = true
+    editorialContentEl.innerHTML = ''
+    return
+  }
+
+  const currentActiveTab = editorialContentEl.querySelector('.detail-editorial-tab.active')?.dataset.tab
+  const activeTab = sections.some((section) => section.id === currentActiveTab)
+    ? currentActiveTab
+    : sections[0].id
+
+  editorialShellEl.hidden = false
+  editorialContentEl.innerHTML = `
+    <div class="detail-editorial-tabs">
+      ${sections.map((section) => `
+        <button type="button" class="detail-editorial-tab ${section.id === activeTab ? 'active' : ''}" data-tab="${section.id}">
+          ${section.label}
+        </button>
+      `).join('')}
+    </div>
+    <div class="detail-editorial-panels">
+      ${sections.map((section) => `
+        <section class="detail-editorial-panel" data-panel="${section.id}" ${section.id === activeTab ? '' : 'hidden'}>
+          ${section.html}
+        </section>
+      `).join('')}
+    </div>
+  `
+
+  editorialContentEl.querySelectorAll('.detail-editorial-tab').forEach((button) => {
+    button.addEventListener('click', () => activateEditorialTab(button.dataset.tab))
+  })
+}
+
 async function loadEncyclopedia(gameId) {
   if (!editorialShellEl || !editorialContentEl) {
     return
@@ -662,101 +785,25 @@ async function loadEncyclopedia(gameId) {
   try {
     const data = await fetchJson(`/api/games/${gameId}/encyclopedia`)
     if (!data.ok) {
-      editorialShellEl.hidden = true
+      currentEncyclopediaData = null
+      renderEditorialContent()
       return
     }
 
-    const sections = []
-    const synopsis = String(data.synopsis || '').trim()
-    const devTeam = safeArray(data.dev_team)
-    const anecdotes = safeArray(data.dev_anecdotes)
-    const cheatCodes = safeArray(data.cheat_codes)
-
-    if (synopsis) {
-      sections.push({
-        id: 'synopsis',
-        label: 'SYNOPSIS',
-        html: `<div class="encyclo-text editorial-prose">${formatMultilineHtml(synopsis)}</div>`,
-      })
+    if (currentGame && !String(currentGame.summary || '').trim() && String(data.synopsis || '').trim()) {
+      currentGame.synopsis = data.synopsis
+      renderSummary(currentGame)
     }
-
-    if (devTeam.length) {
-      sections.push({
-        id: 'team',
-        label: 'EQUIPE',
-        html: devTeam.map((member) => `
-          <div class="encyclo-team-row">
-            <span class="team-role">${escapeHtml(member.role || 'Role inconnu')}</span>
-            <span class="team-name">${escapeHtml(member.name || 'Nom inconnu')}</span>
-            ${member.note ? `<span class="team-note">${escapeHtml(member.note)}</span>` : ''}
-          </div>
-        `).join(''),
-      })
+    currentEncyclopediaData = {
+      synopsis: data.synopsis ?? null,
+      dev_anecdotes: Array.isArray(data.dev_anecdotes) ? data.dev_anecdotes : [],
+      dev_team: Array.isArray(data.dev_team) ? data.dev_team : [],
+      cheat_codes: Array.isArray(data.cheat_codes) ? data.cheat_codes : [],
     }
-
-    if (anecdotes.length) {
-      sections.push({
-        id: 'anecdotes',
-        label: 'ANECDOTES',
-        html: anecdotes.map((item, index) => `
-          <div class="encyclo-anecdote">
-            <div class="anecdote-title">${escapeHtml(item.title || `Anecdote ${index + 1}`)}</div>
-            <div class="anecdote-text">${formatMultilineHtml(item.text || item)}</div>
-          </div>
-        `).join(''),
-      })
-    }
-
-    if (cheatCodes.length) {
-      sections.push({
-        id: 'codes',
-        label: 'CODES',
-        html: cheatCodes.map((code) => `
-          <div class="encyclo-cheat-row">
-            <span class="cheat-name">${escapeHtml(code.label || code.name || 'Code')}</span>
-            <span class="cheat-code">${escapeHtml(code.code || code.value || '--')}</span>
-            <span class="cheat-effect">${escapeHtml(code.effect || 'Effet non documente')}</span>
-          </div>
-        `).join(''),
-      })
-    }
-
-    if (!sections.length) {
-      editorialContentEl.innerHTML = ''
-      // Don't hide shell - loadArchive() may inject content after us
-      return
-    }
-
-    editorialShellEl.hidden = false
-    editorialContentEl.innerHTML = `
-      <div class="editorial-intro">
-        <div class="detail-inline-label">From signal to memory</div>
-        <p class="detail-section-copy">
-          La cote et la confiance donnent le contexte. Le dossier RetroDex commence ici.
-        </p>
-      </div>
-      <div class="detail-editorial-tabs">
-        ${sections.map((section, index) => `
-          <button type="button" class="detail-editorial-tab ${index === 0 ? 'active' : ''}" data-tab="${section.id}">
-            ${section.label}
-          </button>
-        `).join('')}
-      </div>
-      <div class="detail-editorial-panels">
-        ${sections.map((section, index) => `
-          <section class="detail-editorial-panel" data-panel="${section.id}" ${index === 0 ? '' : 'hidden'}>
-            ${section.html}
-          </section>
-        `).join('')}
-      </div>
-    `
-
-    editorialContentEl.querySelectorAll('.detail-editorial-tab').forEach((button) => {
-      button.addEventListener('click', () => activateEditorialTab(button.dataset.tab))
-    })
+    renderEditorialContent()
   } catch (error) {
-    editorialShellEl.hidden = true
-    editorialContentEl.innerHTML = ''
+    currentEncyclopediaData = null
+    renderEditorialContent()
     console.warn('Encyclopedia load failed:', error.message)
   }
 }
@@ -783,30 +830,50 @@ async function loadFranchise(gameId) {
 }
 
 function renderSummary(game) {
+  const summaryShellEl = document.getElementById('hero-summary-shell')
+  const summaryEl = document.getElementById('hero-summary')
+  if (!summaryShellEl || !summaryEl) {
+    return
+  }
+
   const summary = String(game.summary || game.synopsis || '').trim()
+  summaryShellEl.hidden = !summary
   summaryEl.innerHTML = summary
     ? formatMultilineHtml(summary)
-    : 'Aucun resume editorial disponible.'
+    : ''
 }
 
 function renderStats(game) {
-  const stats = [
-    { label: 'Plateforme', value: game.console },
-    { label: 'Annee', value: game.year },
-    { label: 'Genre', value: game.genre && game.genre !== 'Other' ? game.genre : '' },
-    { label: 'Rarete', value: game.rarity },
-    { label: 'Developpeur', value: game.developerCompany?.name || game.developer },
-    { label: 'Editeur', value: game.publisherCompany?.name || (game.publisher && game.publisher !== 'undefined' ? game.publisher : '') },
+  const summaryStats = [
+    { label: 'Plateforme', value: game.console || 'n/a' },
+    { label: 'Annee', value: game.year || 'n/a' },
     { label: 'Metascore', value: '__METASCORE__', id: 'stat-metascore' },
-    { label: 'Slug', value: game.slug },
+    { label: 'Rarete', value: game.rarity || 'COMMON' },
+  ]
+  const detailStats = [
+    { label: 'Genre', value: game.genre && game.genre !== 'Other' ? game.genre : '' },
+    { label: 'Developpeur', value: game.developerCompany?.name || game.developer || '' },
+    { label: 'Editeur', value: game.publisherCompany?.name || (game.publisher && game.publisher !== 'undefined' ? game.publisher : '') },
+    { label: 'Slug', value: game.slug || '' },
   ].filter((entry) => entry.value != null && String(entry.value).trim() !== '')
 
-  statsRowEl.innerHTML = stats.map(({ label, value, id }) => `
-    <div class="stat-cell">
-      <span class="label">${escapeHtml(label)}</span>
-      <span class="value"${id ? ` id="${id}"` : ''}>${value === '__METASCORE__' ? '--' : escapeHtml(value)}</span>
+  statsRowEl.innerHTML = `
+    <div class="terminal-summary-bar detail-stats-bar">
+      ${summaryStats.map(({ label, value, id }) => `
+        <div class="terminal-summary-cell">
+          <div class="terminal-summary-label">${escapeHtml(label)}</div>
+          <div class="terminal-summary-value"${id ? ` id="${id}"` : ''}>${value === '__METASCORE__' ? '--' : escapeHtml(value)}</div>
+        </div>
+      `).join('')}
     </div>
-  `).join('')
+    ${detailStats.length ? `
+      <div class="surface-chip-row detail-stats-chip-row">
+        ${detailStats.map(({ label, value }) => `
+          <span class="surface-chip"><strong>${escapeHtml(label)}</strong>&nbsp;${escapeHtml(value)}</span>
+        `).join('')}
+      </div>
+    ` : ''}
+  `
 
   const statMeta = document.getElementById('stat-metascore')
   if (statMeta && window.RetroDexMetascore) {
@@ -870,18 +937,8 @@ function buildCollectionMeta(item, listType) {
     `<span class="condition-badge condition-${escapeHtml(conditionClass(item.condition))}" data-condition="${escapeHtml(item.condition || 'Loose')}">${escapeHtml(item.condition || 'Loose')}</span>`,
   ]
 
-  if (listType === 'wanted') {
-    fragments.push('<span class="collection-note-text">Wishlist</span>')
-  } else if (listType === 'for_sale') {
-    fragments.push('<span class="collection-note-text">Liste a vendre</span>')
-  }
-
-  if (item.price_paid != null) {
-    fragments.push(`<span class="collection-note-text">Paye ${escapeHtml(formatPrice(item.price_paid))}</span>`)
-  }
-
   if (item.purchase_date) {
-    fragments.push(`<span class="collection-note-text">Achete le ${escapeHtml(item.purchase_date)}</span>`)
+    fragments.push(`<span class="collection-note-text">${escapeHtml(item.purchase_date)}</span>`)
   }
 
   const note = getCollectionNote(item)
@@ -894,13 +951,13 @@ function buildCollectionMeta(item, listType) {
 
 function applyCollectionUiState(item, options = {}) {
   if (options.error) {
-    collectionStateEl.textContent = `Impossible de charger la collection (${options.error.message}).`
+    collectionStateEl.textContent = 'Indisponible'
     collectionCurrentMetaEl.innerHTML = ''
     collectionFormEl.hidden = false
     collectionButtonEl.disabled = true
     if (wishlistButtonEl) {
       wishlistButtonEl.disabled = true
-      wishlistButtonEl.textContent = 'Wishlist indisponible'
+      wishlistButtonEl.textContent = 'Wishlist'
     }
     if (collectionRemoveButtonEl) {
       collectionRemoveButtonEl.hidden = true
@@ -914,12 +971,12 @@ function applyCollectionUiState(item, options = {}) {
   populateCollectionForm(item)
 
   if (!item) {
-    collectionStateEl.textContent = "Ce jeu n'est pas encore dans vos listes."
+    collectionStateEl.textContent = ''
     collectionCurrentMetaEl.innerHTML = ''
-    collectionButtonEl.textContent = 'Ajouter a ma collection'
+    collectionButtonEl.textContent = 'Ajouter collection'
     collectionButtonEl.disabled = false
     if (wishlistButtonEl) {
-      wishlistButtonEl.textContent = 'Ajouter a ma wishlist'
+      wishlistButtonEl.textContent = 'Ajouter wishlist'
       wishlistButtonEl.disabled = false
     }
     if (collectionRemoveButtonEl) {
@@ -935,48 +992,48 @@ function applyCollectionUiState(item, options = {}) {
   window.RetroDexAssets?.decorateConditionBadges?.(collectionCurrentMetaEl)
 
   if (listType === 'wanted') {
-    collectionStateEl.textContent = 'Dans votre wishlist'
-    collectionButtonEl.textContent = 'Ajouter a ma collection'
+    collectionStateEl.textContent = 'Wishlist'
+    collectionButtonEl.textContent = 'Ajouter collection'
     collectionButtonEl.disabled = false
     if (wishlistButtonEl) {
-      wishlistButtonEl.textContent = 'Dans ma wishlist'
+      wishlistButtonEl.textContent = 'Wishlist'
       wishlistButtonEl.disabled = true
     }
     if (collectionRemoveButtonEl) {
       collectionRemoveButtonEl.hidden = false
       collectionRemoveButtonEl.disabled = false
-      collectionRemoveButtonEl.textContent = 'Retirer de ma wishlist'
+      collectionRemoveButtonEl.textContent = 'Retirer'
     }
     return
   }
 
   if (listType === 'for_sale') {
-    collectionStateEl.textContent = 'Dans votre liste a vendre'
-    collectionButtonEl.textContent = 'Enregistrer les modifications'
+    collectionStateEl.textContent = 'A vendre'
+    collectionButtonEl.textContent = 'Enregistrer'
     collectionButtonEl.disabled = false
     if (wishlistButtonEl) {
-      wishlistButtonEl.textContent = 'Deja suivi'
+      wishlistButtonEl.textContent = 'Wishlist'
       wishlistButtonEl.disabled = true
     }
     if (collectionRemoveButtonEl) {
       collectionRemoveButtonEl.hidden = false
       collectionRemoveButtonEl.disabled = false
-      collectionRemoveButtonEl.textContent = 'Retirer de ma liste'
+      collectionRemoveButtonEl.textContent = 'Retirer'
     }
     return
   }
 
-  collectionStateEl.textContent = 'Dans votre collection'
-  collectionButtonEl.textContent = 'Enregistrer les modifications'
+  collectionStateEl.textContent = 'Collection'
+  collectionButtonEl.textContent = 'Enregistrer'
   collectionButtonEl.disabled = false
   if (wishlistButtonEl) {
-    wishlistButtonEl.textContent = 'Deja en collection'
+    wishlistButtonEl.textContent = 'Wishlist'
     wishlistButtonEl.disabled = true
   }
   if (collectionRemoveButtonEl) {
     collectionRemoveButtonEl.hidden = false
     collectionRemoveButtonEl.disabled = false
-    collectionRemoveButtonEl.textContent = 'Retirer de ma collection'
+    collectionRemoveButtonEl.textContent = 'Retirer'
   }
 }
 
@@ -1023,9 +1080,7 @@ async function handleCollectionAction() {
           list_type: listType === 'wanted' ? 'owned' : listType,
         }),
       })
-      collectionStatusEl.textContent = listType === 'wanted'
-        ? 'Jeu deplace dans votre collection.'
-        : 'Fiche collection mise a jour.'
+      collectionStatusEl.textContent = listType === 'wanted' ? 'Déplacé.' : 'Enregistré.'
     } else {
       await fetchJson('/api/collection', {
         method: 'POST',
@@ -1038,7 +1093,7 @@ async function handleCollectionAction() {
           list_type: 'owned',
         }),
       })
-      collectionStatusEl.textContent = 'Jeu ajoute a votre collection.'
+      collectionStatusEl.textContent = 'Ajouté.'
     }
 
     await refreshCollectionStatus()
@@ -1055,11 +1110,11 @@ async function handleWishlistAction() {
 
   const listType = currentCollectionItem ? normalizeCollectionListType(currentCollectionItem.list_type) : null
   if (listType === 'wanted') {
-    collectionStatusEl.textContent = 'Ce jeu est deja dans votre wishlist.'
+    collectionStatusEl.textContent = 'Déjà en wishlist.'
     return
   }
   if (listType === 'owned' || listType === 'for_sale') {
-    collectionStatusEl.textContent = 'Ce jeu existe deja dans vos listes.'
+    collectionStatusEl.textContent = 'Déjà enregistré.'
     return
   }
 
@@ -1068,7 +1123,7 @@ async function handleWishlistAction() {
   if (collectionRemoveButtonEl) {
     collectionRemoveButtonEl.disabled = true
   }
-  collectionStatusEl.textContent = 'Ajout a la wishlist...'
+  collectionStatusEl.textContent = 'Ajout...'
 
   try {
     const formValues = readCollectionFormValues()
@@ -1086,7 +1141,7 @@ async function handleWishlistAction() {
       }),
     })
 
-    collectionStatusEl.textContent = 'Jeu ajoute a votre wishlist.'
+    collectionStatusEl.textContent = 'Ajouté.'
     await refreshCollectionStatus()
   } catch (error) {
     collectionStatusEl.textContent = `Erreur wishlist: ${error.message}`
@@ -1123,7 +1178,7 @@ async function handleCollectionRemove() {
     await fetchJson(`/api/collection/${encodeURIComponent(currentCollectionItem.id)}`, {
       method: 'DELETE',
     })
-    collectionStatusEl.textContent = 'Jeu retire.'
+    collectionStatusEl.textContent = 'Retiré.'
     await refreshCollectionStatus()
   } catch (error) {
     collectionStatusEl.textContent = `Erreur suppression: ${error.message}`
@@ -1212,13 +1267,7 @@ function upsertRelatedModule(moduleId, title, copy, bodyHtml) {
   }
 
   moduleEl.innerHTML = `
-    <div class="related-module-head">
-      <div>
-        <div class="detail-kicker">SECONDARY PATH</div>
-        <h3>${escapeHtml(title)}</h3>
-      </div>
-      ${copy ? `<p class="detail-section-copy">${escapeHtml(copy)}</p>` : ''}
-    </div>
+    <div class="related-module-head"><h3>${escapeHtml(title)}</h3></div>
     <div class="related-module-body">${bodyHtml}</div>
   `
 
@@ -1253,37 +1302,46 @@ function extractSeries(title) {
   return words[0] || ''
 }
 
+function renderRelatedMetascore(score) {
+  if (window.RetroDexMetascore?.renderBadge) {
+    return window.RetroDexMetascore.renderBadge(score, 'micro').outerHTML
+  }
+
+  const value = Number(score)
+  return `<span class="related-metascore-fallback">${Number.isFinite(value) ? Math.round(value) : '—'}</span>`
+}
+
 function renderRelatedPrices(current, related) {
   upsertRelatedModule(
     'franchise-versions',
     'Meme franchise | autres versions',
-    'Comparaison rapide avec les variantes les plus proches.',
+    '',
     `
-      <div class="compare-table">
-        <div class="compare-row compare-header">
-          <span>Titre</span>
-          <span>Console</span>
-          <span>Loose</span>
-          <span>Mint</span>
-          <span>Rarete</span>
-        </div>
-        <div class="compare-row current">
-          <span>${escapeHtml(current.title)}</span>
-          <span>${escapeHtml(current.console || 'n/a')}</span>
-          <span>${escapeHtml(formatPrice(current.loosePrice))}</span>
-          <span>${escapeHtml(formatPrice(current.mintPrice))}</span>
-          <span class="rarity-badge rarity-${escapeHtml(rarityClass(current.rarity))}">${escapeHtml(current.rarity || 'COMMON')}</span>
-        </div>
-        ${related.map((game) => `
-          <div class="compare-row clickable" onclick="window.location='/game-detail.html?id=${encodeURIComponent(game.id)}'">
-            <span>${escapeHtml(game.title)}</span>
-            <span>${escapeHtml(game.console || 'n/a')}</span>
-            <span>${escapeHtml(formatPrice(game.loosePrice))}</span>
-            <span>${escapeHtml(formatPrice(game.mintPrice))}</span>
-            <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || 'COMMON')}</span>
+        <div class="compare-table">
+          <div class="compare-row compare-header">
+            <span>Titre</span>
+            <span>Annee</span>
+            <span>Console</span>
+            <span>Meta</span>
+            <span>Rarete</span>
           </div>
-        `).join('')}
-      </div>
+          <div class="compare-row current">
+            <span>${escapeHtml(current.title)}</span>
+            <span>${escapeHtml(current.year || 'n/a')}</span>
+            <span>${escapeHtml(current.console || 'n/a')}</span>
+            <span class="compare-score-cell">${renderRelatedMetascore(current.metascore)}</span>
+            <span class="rarity-badge rarity-${escapeHtml(rarityClass(current.rarity))}">${escapeHtml(current.rarity || 'COMMON')}</span>
+          </div>
+          ${related.map((game) => `
+            <div class="compare-row clickable" onclick="window.location='/game-detail.html?id=${encodeURIComponent(game.id)}'">
+              <span>${escapeHtml(game.title)}</span>
+              <span>${escapeHtml(game.year || 'n/a')}</span>
+              <span>${escapeHtml(game.console || 'n/a')}</span>
+              <span class="compare-score-cell">${renderRelatedMetascore(game.metascore)}</span>
+              <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || 'COMMON')}</span>
+            </div>
+          `).join('')}
+        </div>
     `
   )
 }
@@ -1342,14 +1400,16 @@ async function loadSimilar(gameId) {
     upsertRelatedModule(
       'similar-games',
       'Jeux similaires',
-      'Exploration secondaire basee sur le genre, la periode et la proximite de catalogue.',
+      '',
       `
         <div id="similar-grid">
           ${safeArray(data.games).map((game) => `
             <div class="similar-item" onclick="window.location='/game-detail.html?id=${encodeURIComponent(game.id)}'">
-              <div class="similar-title">${escapeHtml(game.title)}</div>
-              <div class="similar-meta">${escapeHtml(game.console || 'n/a')} | ${escapeHtml(game.year || 'n/a')}</div>
-              <div class="similar-price">${escapeHtml(formatPrice(game.loosePrice))}</div>
+              <div class="similar-item-main">
+                <div class="similar-title">${escapeHtml(game.title)}</div>
+                <div class="similar-meta">${escapeHtml(game.console || 'n/a')} | ${escapeHtml(game.year || 'n/a')}</div>
+              </div>
+              <div class="similar-side">${renderRelatedMetascore(game.metascore)}</div>
             </div>
           `).join('')}
         </div>
@@ -2081,161 +2141,17 @@ async function loadPriceHistory(gameId) {
 async function loadArchive(gameId) {
   try {
     const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/archive`)
-    if (!data.ok) return
-    console.log('[RetroDex] archive data:', JSON.stringify({
-      lore: !!data.lore,
-      characters: Array.isArray(data.characters) ? data.characters.length : 0,
-      ost_composers: !!(data.ost?.composers?.length),
-      manual: !!data.manual_url
-    }))
-
-    const sections = []
-
-    // LORE section
-    if (data.lore) {
-      let html = `<div class="archive-lore">${escapeHtml(data.lore)}</div>`
-      if (data.gameplay_description) {
-        html += `<div class="archive-gameplay"><span class="archive-label">GAMEPLAY</span> ${escapeHtml(data.gameplay_description)}</div>`
-      }
-      sections.push({ id: 'lore', label: 'LORE', html })
+    if (!data.ok) {
+      currentArchiveData = null
+      renderEditorialContent()
+      return
     }
 
-    // CHARACTERS section
-    if (Array.isArray(data.characters) && data.characters.length) {
-      const html = data.characters.map(c => `
-        <div class="archive-character-row">
-          <span class="archive-char-name">${escapeHtml(c.name || 'Inconnu')}</span>
-          <span class="archive-char-role">${escapeHtml(c.role || '')}</span>
-          <span class="archive-char-desc">${escapeHtml(c.description || '')}</span>
-        </div>
-      `).join('')
-      sections.push({ id: 'characters', label: 'PERSO', html })
-    }
-
-    // OST section
-    if (data.ost?.composers?.length || data.ost?.notable_tracks?.length) {
-      let html = ''
-      if (data.ost.composers?.length) {
-        html += `<div class="archive-ost-composers"><span class="archive-label">COMPOSITEURS</span> ${
-          data.ost.composers.map(c => escapeHtml(c.name || c)).join(', ')
-        }</div>`
-      }
-      if (data.ost.notable_tracks?.length) {
-        html += `<div class="archive-ost-tracks"><span class="archive-label">TRACKS</span><ul>${
-          data.ost.notable_tracks.map(t => `<li>${escapeHtml(t)}</li>`).join('')
-        }</ul></div>`
-      }
-      if (data.duration?.main) {
-        html += `<div class="archive-duration"><span class="archive-label">DURÉE</span> Main: ${data.duration.main}h`
-        if (data.duration.complete) html += ` | Complet: ${data.duration.complete}h`
-        html += `</div>`
-      }
-      if (data.speedrun_wr?.time) {
-        html += `<div class="archive-speedrun"><span class="archive-label">SPEEDRUN WR</span> ${escapeHtml(data.speedrun_wr.category || 'any%')}: ${escapeHtml(data.speedrun_wr.time)}`
-        if (data.speedrun_wr.runner) html += ` par ${escapeHtml(data.speedrun_wr.runner)}`
-        html += `</div>`
-      }
-      sections.push({ id: 'ost', label: 'OST', html })
-    }
-
-    // RECORDS tab
-    if (data.speedrun_wr?.time || data.duration?.main) {
-      let recordHtml = ''
-      if (data.duration?.main) {
-        recordHtml += `<div class="archive-duration" style="margin-bottom:1rem;">
-          <span class="archive-label">DURÉE DE VIE</span>
-          <div style="margin-top:0.5rem;font-family:'Share Tech Mono',monospace;font-size:0.82rem;color:#a8c8a8;">
-            Main story : <strong style="color:#9bbc0f;">${data.duration.main}h</strong>
-            ${data.duration.complete ? ` &nbsp;|&nbsp; Complet : <strong style="color:#9bbc0f;">${data.duration.complete}h</strong>` : ''}
-          </div>
-        </div>`
-      }
-      if (data.speedrun_wr?.time) {
-        recordHtml += `<div class="archive-speedrun" style="display:block;padding:0.75rem;border:1px solid rgba(241,196,92,0.2);background:rgba(241,196,92,0.03);margin-top:0.5rem;">
-          <span class="archive-label">SPEEDRUN WORLD RECORD</span>
-          <div style="margin-top:0.5rem;">
-            <span style="color:#f1c45c;font-family:'Press Start 2P',monospace;font-size:0.65rem;letter-spacing:0.05em;">
-              ${escapeHtml(data.speedrun_wr.category || 'any%')} — ${escapeHtml(data.speedrun_wr.time)}
-            </span>
-            ${data.speedrun_wr.runner ? `<span style="color:#9bbc0f;font-family:'Share Tech Mono',monospace;font-size:0.75rem;margin-left:0.75rem;">par ${escapeHtml(data.speedrun_wr.runner)}</span>` : ''}
-            ${data.speedrun_wr.date ? `<div style="color:#486648;font-family:'Share Tech Mono',monospace;font-size:0.68rem;margin-top:0.25rem;">${escapeHtml(data.speedrun_wr.date)}</div>` : ''}
-            ${data.speedrun_wr.source_url ? `<div style="margin-top:0.5rem;"><a class="terminal-action-link" href="${escapeHtml(data.speedrun_wr.source_url)}" target="_blank" rel="noopener" style="font-size:0.68rem;">Voir sur speedrun.com -></a></div>` : ''}
-          </div>
-        </div>`
-      }
-      sections.push({ id: 'records', label: 'RECORDS', html: recordHtml })
-    }
-
-    // CONTEXTE tab — dev context, shown only when no encyclopedia anecdotes tab
-    if (data.gameplay_description) {
-      const contexteHtml = `
-        <div class="archive-lore" style="margin-bottom:1rem;">
-          <span class="archive-label">MÉCANIQUE PRINCIPALE</span>
-          <div style="margin-top:0.5rem;">${escapeHtml(data.gameplay_description)}</div>
-        </div>
-      `
-      sections.push({ id: 'contexte', label: 'CONTEXTE', html: contexteHtml })
-    }
-
-    // NOTICE section
-    if (data.manual_url) {
-      sections.push({
-        id: 'notice',
-        label: 'NOTICE',
-        html: `
-          <div class="archive-manual">
-            <span class="archive-label">NOTICE OFFICIELLE</span>
-            <div style="margin-top:0.75rem;">
-              <a class="terminal-action-link" href="${escapeHtml(data.manual_url)}" target="_blank" rel="noopener noreferrer">
-                Consulter la notice sur Archive.org ->
-              </a>
-            </div>
-            <p class="archive-manual-note">Document archivé. Source : Internet Archive.</p>
-          </div>
-        `,
-      })
-    }
-
-    if (!sections.length) return
-    if (!editorialShellEl || !editorialContentEl) return
-
-    editorialShellEl.hidden = false
-
-    let tabsEl = editorialContentEl.querySelector('.detail-editorial-tabs')
-    let panelsEl = editorialContentEl.querySelector('.detail-editorial-panels')
-
-    if (!tabsEl || !panelsEl) {
-      editorialContentEl.innerHTML = `
-        <div class="editorial-intro">
-          <div class="detail-inline-label">RetroDex — mémoire éditorialisée</div>
-          <p class="detail-section-copy">Savoir, lore, personnages, OST et notices.</p>
-        </div>
-        <div class="detail-editorial-tabs"></div>
-        <div class="detail-editorial-panels"></div>
-      `
-      tabsEl = editorialContentEl.querySelector('.detail-editorial-tabs')
-      panelsEl = editorialContentEl.querySelector('.detail-editorial-panels')
-    }
-
-    const existingTabs = tabsEl.querySelectorAll('.detail-editorial-tab').length
-    sections.forEach((section, index) => {
-      const btn = document.createElement('button')
-      btn.type = 'button'
-      btn.className = 'detail-editorial-tab'
-      btn.dataset.tab = section.id
-      btn.textContent = section.label
-      if (existingTabs === 0 && index === 0) btn.classList.add('active')
-      btn.addEventListener('click', () => activateEditorialTab(section.id))
-      tabsEl.appendChild(btn)
-
-      const panel = document.createElement('section')
-      panel.className = 'detail-editorial-panel archive-panel'
-      panel.dataset.panel = section.id
-      panel.hidden = !(existingTabs === 0 && index === 0)
-      panel.innerHTML = section.html
-      panelsEl.appendChild(panel)
-    })
+    currentArchiveData = data
+    renderEditorialContent()
   } catch (e) {
+    currentArchiveData = null
+    renderEditorialContent()
     console.warn('[RetroDex] loadArchive failed:', e.message)
   }
 }
@@ -2247,7 +2163,6 @@ async function loadPage() {
 
   if (!gameId) {
     heroEl.innerHTML = '<div class="loading-card">Aucun identifiant de jeu fourni.</div>'
-    summaryEl.textContent = 'Impossible de charger cette fiche sans identifiant.'
     return
   }
 
@@ -2288,7 +2203,6 @@ async function loadPage() {
     }
 
     await loadFranchise(currentGame.id)
-    await loadRetrodexIndex(currentGame.id)
     renderSummary(currentGame)
     renderStats(currentGame)
     collectionButtonEl.addEventListener('click', handleCollectionAction)
@@ -2298,11 +2212,9 @@ async function loadPage() {
     await loadEncyclopedia(currentGame.id)
     await loadArchive(currentGame.id)
     await loadSimilar(currentGame.id)
-    await loadPriceHistory(currentGame.id)
     await loadRelatedGames(currentGame)
   } catch (error) {
     heroEl.innerHTML = `<div class="loading-card">Impossible de charger la fiche (${escapeHtml(error.message)}).</div>`
-    summaryEl.textContent = 'Erreur de chargement.'
     statsRowEl.innerHTML = ''
     collectionStateEl.textContent = 'Fiche indisponible.'
     collectionButtonEl.disabled = true
@@ -2320,5 +2232,42 @@ async function loadPage() {
   }
 }
 
+function setAccordionState(sectionEl, expanded) {
+  if (!sectionEl) {
+    return
+  }
+
+  const toggleEl = sectionEl.querySelector('.detail-accordion-toggle')
+  const contentEl = sectionEl.querySelector('.detail-accordion-content')
+  if (!toggleEl || !contentEl) {
+    return
+  }
+
+  sectionEl.classList.toggle('is-open', expanded)
+  toggleEl.setAttribute('aria-expanded', expanded ? 'true' : 'false')
+  const indicatorEl = toggleEl.querySelector('.detail-accordion-indicator')
+  if (indicatorEl) {
+    indicatorEl.textContent = expanded ? '−' : '+'
+  }
+  contentEl.hidden = !expanded
+}
+
+function initDetailAccordions() {
+  document.querySelectorAll('.detail-accordion').forEach((sectionEl) => {
+    const toggleEl = sectionEl.querySelector('.detail-accordion-toggle')
+    if (!toggleEl || toggleEl.dataset.bound === 'true') {
+      return
+    }
+
+    toggleEl.dataset.bound = 'true'
+    setAccordionState(sectionEl, false)
+    toggleEl.addEventListener('click', () => {
+      const expanded = toggleEl.getAttribute('aria-expanded') === 'true'
+      setAccordionState(sectionEl, !expanded)
+    })
+  })
+}
+
+initDetailAccordions()
 loadPage()
 contribSubmitEl?.addEventListener('click', handleContributionSubmit)

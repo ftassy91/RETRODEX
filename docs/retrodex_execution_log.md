@@ -9,6 +9,7 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Decision d'isoler strictement les commits UX et le document de suivi, sans embarquer le working tree deja sale hors perimetre.
 - Refonte prevue en 5 sprints : copy/structure, finalisation RetroDex, navigation, refonte RetroMarket, harmonisation/QA.
 - Sprint 1 : simplification de la microcopy RetroDex / RetroMarket et retrait des textes redondants les plus visibles.
+- Sprint 2 : fiche RetroDex recentree sur un bloc principal fixe, accordeons unifies et panneau encyclopedique fusionne avec equipe + compositeurs.
 
 ## [2026-03-26 00:45]
 - Sprint en cours : Sprint 1 - audit cible, suivi, simplification globale
@@ -44,3 +45,22 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - aucun
 - Prochaine etape :
   - commit Sprint 1 puis refonte structurelle de la fiche RetroDex
+
+## [2026-03-26 01:08]
+- Sprint en cours : Sprint 2 - finalisation RetroDex
+- Actions realisees :
+  - fusion des donnees encyclopediques et archive dans le panneau `RetroDex / Encyclopedie`
+  - integration de l'equipe et des compositeurs avec plafond d'affichage a 10 personnes
+  - suppression du resume en bloc autonome au profit du resume integre au hero
+  - conservation d'un hero sans prix et de quatre accord eons secondaires homogenes
+  - correction de la normalisation front des donnees encyclopediques pour eviter les erreurs runtime
+- Fichiers modifies :
+  - `backend/public/js/pages/game-detail.js`
+  - `backend/public/game-detail.html`
+  - `docs/retrodex_execution_log.md`
+- Commits effectues :
+  - en preparation
+- Blocages :
+  - aucun blocage structurel, validation navigateur a refaire apres check JS
+- Prochaine etape :
+  - verifier la fiche RetroDex, committer Sprint 2, puis attaquer les ponts de navigation et la refonte RetroMarket
