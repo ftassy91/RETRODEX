@@ -37,6 +37,15 @@
     return price != null && Number(price) > 0 ? `$${Number(price).toFixed(0)}` : '';
   }
 
+  function escapeHtml(value) {
+    return String(value || '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
   function createFallbackMetascoreBadge(score) {
     const badge = document.createElement('span');
     badge.className = 'metascore-badge metascore-badge--micro metascore-badge--good';
@@ -191,12 +200,17 @@
       row.className = 'sc-row';
       row.href = item.href;
 
-      if (window.RetroDexAssets && item.meta?.console) {
-        row.appendChild(window.RetroDexAssets.createSupportImg(item.meta.console, 16));
-      }
+      const coverSrc = item.meta?.coverImage || item.coverImage || null;
+      const coverEl = coverSrc
+        ? `<img src="${escapeHtml(coverSrc)}" alt="" class="sc-result-cover" width="80" height="80" loading="lazy" style="width:80px;height:80px;object-fit:cover;border:1px solid rgba(155,188,15,0.3);flex-shrink:0;">`
+        : `<span class="sc-result-cover-placeholder" style="width:80px;height:80px;min-width:80px;background:rgba(155,188,15,0.08);border:1px solid rgba(155,188,15,0.2);display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P',monospace;font-size:0.9rem;color:#9bbc0f;flex-shrink:0;">${escapeHtml((item.title || '?')[0].toUpperCase())}</span>`;
+      row.insertAdjacentHTML('beforeend', coverEl);
 
       const main = document.createElement('div');
       main.className = 'sc-main';
+      if (window.RetroDexAssets && item.meta?.console) {
+        main.appendChild(window.RetroDexAssets.createSupportImg(item.meta.console, 16));
+      }
 
       const identity = document.createElement('div');
       identity.className = 'sc-identity';
@@ -227,6 +241,18 @@
         summary.className = 'sc-summary';
         summary.textContent = summaryCopy;
         main.appendChild(summary);
+      }
+
+      const loreSnippet = item.meta?.loreSnippet
+        ? `${item.meta.loreSnippet}...`
+        : item.meta?.lore
+          ? `${item.meta.lore.substring(0, 80)}...`
+        : '';
+      if (loreSnippet) {
+        const lore = document.createElement('span');
+        lore.className = 'sc-summary';
+        lore.textContent = loreSnippet;
+        main.appendChild(lore);
       }
 
       const chipRow = document.createElement('div');

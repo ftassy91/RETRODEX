@@ -415,6 +415,69 @@ async function loadStats() {
   }
 }
 
+async function loadMarketplaceListings() {
+  const listingsEl = document.getElementById('marketplace-listings')
+  const emptyEl = document.getElementById('marketplace-empty')
+  if (!listingsEl) return
+
+  try {
+    const data = await fetchJson('/marketplace?status=active&limit=20')
+    const listings = data.listings || data.items || data || []
+
+    if (!listings.length) {
+      if (emptyEl) emptyEl.hidden = false
+      return
+    }
+
+    console.log('[marketplace] first listing keys:', Object.keys(listings[0] || {}))
+
+    listingsEl.innerHTML = listings.map((listing) => {
+      const gameObj = listing.game || {}
+      const title = escapeHtml(
+        gameObj.title || listing.game_title || listing.gameTitle || '—'
+      )
+      const gameId = listing.gameId || listing.game_id || gameObj.id || gameObj.slug || ''
+      const href = gameId ? `/game-detail.html?id=${encodeURIComponent(gameId)}` : '#'
+      const condition = escapeHtml(listing.condition || '—')
+      const price = listing.price ? `$${Number(listing.price).toFixed(0)}` : '—'
+      const currency = escapeHtml(listing.currency || 'USD')
+      const status = escapeHtml(listing.status || 'active')
+
+      return `
+        <div class="market-result-row terminal-table-row" 
+             style="grid-template-columns: 2fr 140px 80px 80px 90px; display:grid; align-items:center;">
+          <span>
+            <a href="${escapeHtml(href)}" class="terminal-action-link" style="font-size:0.8rem;">
+              ${title}
+            </a>
+          </span>
+          <span style="font-family:'Share Tech Mono',monospace;font-size:0.78rem;color:#9bbc0f;">
+            ${condition}
+          </span>
+          <span style="text-align:right;font-family:'Share Tech Mono',monospace;
+                       font-size:0.82rem;color:#f1c45c;">
+            ${price}
+          </span>
+          <span style="text-align:right;font-family:'Share Tech Mono',monospace;
+                       font-size:0.72rem;color:#486648;">
+            ${currency}
+          </span>
+          <span style="text-align:center;">
+            <span style="font-family:'Press Start 2P',monospace;font-size:0.5rem;
+                         color:#9bbc0f;letter-spacing:0.1em;">
+              ${status.toUpperCase()}
+            </span>
+          </span>
+        </div>
+      `
+    }).join('')
+  } catch (e) {
+    console.error('[RetroMarket] marketplace load failed:', e.message)
+    if (emptyEl) emptyEl.hidden = false
+  }
+}
+
 loadStats()
 bindMarketSearch()
+loadMarketplaceListings()
 

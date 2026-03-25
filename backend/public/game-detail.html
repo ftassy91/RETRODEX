@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -11,9 +11,9 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <title>RetroDex &mdash; Fiche jeu</title>
-    <meta name="description" content="Fiche RetroDex d'un jeu rétro : prix vérifiés, rareté, encyclopédie et signaux collectionneur." />
+    <meta name="description" content="Fiche RetroDex d'un jeu rÃ©tro : prix vÃ©rifiÃ©s, raretÃ©, encyclopÃ©die et signaux collectionneur." />
     <meta property="og:title" content="Fiche jeu | RetroDex" />
-    <meta property="og:description" content="Fiche RetroDex d'un jeu rétro : prix vérifiés, rareté, encyclopédie et signaux collectionneur." />
+    <meta property="og:description" content="Fiche RetroDex d'un jeu rÃ©tro : prix vÃ©rifiÃ©s, raretÃ©, encyclopÃ©die et signaux collectionneur." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
     <link rel="stylesheet" href="/style.css" />
@@ -24,19 +24,19 @@
       <div class="global-product-links">
         <a class="global-product-link is-market" href="/stats.html">
           <span class="nav-label">RetroMarket</span>
-          <span class="nav-copy">prix | confiance | signaux</span>
+          <span class="nav-copy">prix | tendances | marché</span>
         </a>
         <a class="global-product-link is-active" href="/games-list.html">
           <span class="nav-label">RetroDex</span>
-          <span class="nav-copy">catalogue | savoir | archives</span>
+          <span class="nav-copy">fiches | lore | encyclopédie</span>
         </a>
         <a class="global-product-link" href="/collection.html">
           <span class="nav-label">Collections</span>
-          <span class="nav-copy">etagere | wishlist | suivi</span>
+          <span class="nav-copy">étagère | wishlist | suivi</span>
         </a>
         <a class="global-product-link" href="/search.html">
           <span class="nav-label">Recherche</span>
-          <span class="nav-copy">entree transverse</span>
+          <span class="nav-copy">recherche universelle</span>
         </a>
       </div>
     </nav>
@@ -53,6 +53,23 @@
         <div class="loading-card">Chargement de la fiche...</div>
       </section>
 
+      <div class="detail-section-separator">
+        <span class="detail-section-label">RETRODEX</span>
+        <span class="detail-section-hint">encyclopédie · lore · mémoire</span>
+      </div>
+      <section id="editorial-shell" class="editorial-card" hidden>
+        <div class="detail-section-head">
+          <div>
+            <div class="detail-kicker">EDITORIAL ARCHIVE</div>
+            <h2>RetroDex</h2>
+          </div>
+          <p class="detail-section-copy">
+            Savoir, lore, personnages, OST et notices.
+          </p>
+        </div>
+        <div id="editorial-content"></div>
+      </section>
+
       <section class="summary-card">
         <h2>Resume</h2>
         <div id="summary" class="summary-text">Lecture du dossier...</div>
@@ -63,6 +80,10 @@
         <div id="stats-row" class="stats-grid"></div>
       </section>
 
+      <div class="detail-section-separator">
+        <span class="detail-section-label">COLLECTION</span>
+        <span class="detail-section-hint">étagère · wishlist · suivi</span>
+      </div>
       <section class="collection-card">
         <h2>Collection</h2>
         <div class="collection-row">
@@ -111,19 +132,10 @@
         <div id="collection-status" class="status-text"></div>
       </section>
 
-      <section id="editorial-shell" class="editorial-card" hidden>
-        <div class="detail-section-head">
-          <div>
-            <div class="detail-kicker">EDITORIAL ARCHIVE</div>
-            <h2>Encyclopedie</h2>
-          </div>
-          <p class="detail-section-copy">
-            Synopsis, equipe, anecdotes et codes archives pour cette fiche.
-          </p>
-        </div>
-        <div id="editorial-content"></div>
-      </section>
-
+      <div class="detail-section-separator">
+        <span class="detail-section-label">EXPLORATION</span>
+        <span class="detail-section-hint">similaires · franchise · passerelles</span>
+      </div>
       <section id="related-shell" class="related-card" hidden>
         <div class="detail-section-head">
           <div>
@@ -171,7 +183,7 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/game-detail.js?v=20260324b"></script>
+    <script src="/js/pages/game-detail.js?v=20260325i"></script>
     <script src="/js/features/experience-layer.js"></script>
     <div class="footer-attribution">
       Covers :
@@ -179,3 +191,4 @@
     </div>
   </body>
 </html>
+

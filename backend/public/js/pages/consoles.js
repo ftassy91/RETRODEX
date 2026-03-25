@@ -56,11 +56,11 @@ function consoleRowMarkup(item) {
   const isSelected = item.id === selectedId
 
   return `
-    <button type="button" class="console-row${isSelected ? ' active' : ''}" data-id="${escapeHtml(item.id)}" data-platform="${escapeHtml(item.platform || '')}">
+    <a href="/console-detail.html?id=${encodeURIComponent(item.id)}" class="console-row${isSelected ? ' active' : ''}" data-id="${escapeHtml(item.id)}" data-platform="${escapeHtml(item.platform || '')}">
       <span class="console-row-title">${escapeHtml(item.title || item.platform || 'Console')}</span>
       <span class="console-row-meta">${escapeHtml(manufacturer)} | ${escapeHtml(item.year || item.release_year || 'n/a')} | ${escapeHtml(item.gamesCount || 0)} jeux</span>
       <span class="console-row-signal">${escapeHtml(item.generation || item.platform || 'Archive')}</span>
-    </button>
+    </a>
   `
 }
 

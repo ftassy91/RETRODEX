@@ -19,6 +19,8 @@ const { handleAsync } = require('./helpers/query')
 
 const pricesRouter = require('./routes/prices')
 const contextualSearchRouter = require('./routes/contextual-search')
+const consolesRouter = require('./routes/consoles')
+const marketplaceRouter = require('./routes/marketplace')
 
 const hasServerlessSupabaseEnv = Boolean(process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL)
 const isServerlessSupabaseRuntime = Boolean(process.env.VERCEL && hasServerlessSupabaseEnv)
@@ -56,6 +58,8 @@ function getLegacyRuntime() {
 
   return legacyRuntime
 }
+
+require('./models/associations')
 
 async function countSupabaseGames() {
   const { count, error } = await supabaseDb
@@ -133,6 +137,8 @@ app.use(cors({
     : '*',
 }))
 app.use(express.json())
+app.use('/', consolesRouter)
+app.use('/', marketplaceRouter)
 app.use(express.static(path.join(__dirname, '..', 'public')))
 app.use(contextualSearchRouter)
 
@@ -227,6 +233,14 @@ async function startServer(portOverride) {
     Game,
     syncGamesFromPrototype,
   } = getLegacyRuntime()
+  // Patch db_supabase with the correct sequelize instance
+  const dbSupabase = require('../db_supabase')
+  if (dbSupabase.setSequelize) {
+    dbSupabase.setSequelize(sequelize)
+  }
+  // Store the correct Sequelize instance on app.locals for route handlers
+  app.locals.sequelize = sequelize
+  app.locals.databaseMode = databaseMode
   const shouldAlterSchema = process.env.NODE_ENV !== 'production'
   let effectiveAlter = shouldAlterSchema
 

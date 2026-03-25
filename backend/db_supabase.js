@@ -15,6 +15,12 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY;
 const USE_SUPABASE = Boolean(SUPABASE_URL && SUPABASE_KEY);
 
+let _sequelizeOverride = null;
+function setSequelize(seq) { _sequelizeOverride = seq; }
+function getOverrideSequelize() { return _sequelizeOverride; }
+module.exports.setSequelize = setSequelize;
+module.exports.getOverrideSequelize = getOverrideSequelize;
+
 let db = null;
 let mode = 'none';
 
@@ -126,7 +132,8 @@ function buildSQLiteAdapter(sqlite) {
         return `${where.col} ${where.op} ?`;
       });
 
-      if (conditions.length) sql += ` WHERE ${conditions.join(' AND ')}`;
+      const filteredConditions = conditions.filter(Boolean);
+      if (filteredConditions.length) sql += ` WHERE ${filteredConditions.join(' AND ')}`;
       if (this._order) sql += ` ORDER BY ${this._order}`;
       if (this._limit != null) sql += ` LIMIT ${this._limit}`;
       if (this._offset != null) sql += ` OFFSET ${this._offset}`;
@@ -198,7 +205,12 @@ async function fetchSupabaseRowsInBatches(table, columns, configure, { orderBy, 
     if (error) throw new Error(error.message);
     if (!Array.isArray(data) || data.length === 0) break;
 
-    rows.push(...data);
+    rows.push(...data.map(row => ({
+      ...row,
+      coverImage: row.cover_url || null,
+    })));
+    // NOTE: In Supabase PostgreSQL, the canonical cover column is cover_url (snake_case).
+    // "coverImage" does not exist as a column. Always read/write cover_url.
 
     if (data.length < batchSize) break;
     from += batchSize;
@@ -224,7 +236,12 @@ async function fetchSupabaseGameWindow(filters, column, options, offset, limit) 
     if (error) throw new Error(error.message);
     if (!Array.isArray(data) || data.length === 0) break;
 
-    rows.push(...data);
+    rows.push(...data.map(row => ({
+      ...row,
+      coverImage: row.cover_url || null,
+    })));
+    // NOTE: In Supabase PostgreSQL, the canonical cover column is cover_url (snake_case).
+    // "coverImage" does not exist as a column. Always read/write cover_url.
 
     if (data.length < (to - from + 1)) break;
     from = to + 1;
@@ -233,7 +250,67 @@ async function fetchSupabaseGameWindow(filters, column, options, offset, limit) 
   return rows;
 }
 
+async function queryGamesViaSequelize(sequelize, filters) {
+  const { search, console: consoleName, rarity } = filters;
+
+  let whereClause = 'WHERE type = \'game\'';
+  const replacements = {};
+
+  if (consoleName) {
+    whereClause += ' AND "console" = :console';
+    replacements.console = consoleName;
+  }
+  if (rarity) {
+    whereClause += ' AND rarity = :rarity';
+    replacements.rarity = rarity;
+  }
+  if (search) {
+    whereClause += ` AND (
+      title ILIKE :search OR
+      developer ILIKE :search OR
+      "console" ILIKE :search OR
+      genre ILIKE :search OR
+      lore ILIKE :search OR
+      gameplay_description ILIKE :search
+    )`;
+    replacements.search = `%${search}%`;
+  }
+
+  const [rows] = await sequelize.query(
+    `SELECT *,
+      COALESCE("coverImage", cover_url) as "coverImage",
+      cover_url,
+      loose_price as "loosePrice",
+      cib_price as "cibPrice",
+      mint_price as "mintPrice"
+     FROM games ${whereClause}
+     ORDER BY title ASC
+     LIMIT 5000`,
+    { replacements }
+  );
+
+  const debugRow = rows.find(r => r.id === 'panzer-dragoon-saga-sega-saturn');
+  if (debugRow) {
+    console.log('[queryGamesViaSequelize DEBUG]', JSON.stringify({
+      id: debugRow.id,
+      coverImage: debugRow.coverImage,
+      cover_url: debugRow.cover_url,
+      coverimage: debugRow.coverimage,
+    }));
+  }
+
+  return { items: rows, total: rows.length };
+}
+
 async function queryGames({ sort, console: consoleName, rarity, limit = 20, offset = 0, search }) {
+  const filters = { console: consoleName, rarity, search };
+
+  // Always use Sequelize for production — PostgREST does not expose camelCase columns
+  const { sequelize } = require('./src/database');
+  if (sequelize.options.dialect === 'postgres') {
+    return queryGamesViaSequelize(sequelize, filters);
+  }
+
   const sortMap = {
     title_asc: ['title', { ascending: true }],
     title_desc: ['title', { ascending: false }],
@@ -249,7 +326,6 @@ async function queryGames({ sort, console: consoleName, rarity, limit = 20, offs
   };
 
   const [column, options] = sortMap[sort] || ['title', { ascending: true }];
-  const filters = { console: consoleName, rarity, search };
 
   if (mode === 'supabase') {
     const { count, error: countError } = await applyGameFilters(
@@ -285,9 +361,20 @@ async function queryGames({ sort, console: consoleName, rarity, limit = 20, offs
 }
 
 async function getGameById(id) {
+  if (_sequelizeOverride) {
+    const [rows] = await _sequelizeOverride.query(
+      `SELECT *, cover_url as "coverImage",
+        loose_price as "loosePrice", cib_price as "cibPrice",
+        mint_price as "mintPrice"
+       FROM games WHERE id = :id LIMIT 1`,
+      { replacements: { id } }
+    );
+    return rows[0] || null;
+  }
   const { data, error } = await db.from('games').select('*').eq('id', id).single();
   if (error) throw new Error(error.message);
-  return data;
+  if (!data) return data;
+  return { ...data, coverImage: data.cover_url || null };
 }
 
 async function getCollection(session = 'local') {
@@ -362,6 +449,8 @@ module.exports = {
   mode,
   isSupabase: mode === 'supabase',
   isSQLite: mode === 'sqlite',
+  setSequelize,
+  getOverrideSequelize,
   queryGames,
   getGameById,
   getCollection,

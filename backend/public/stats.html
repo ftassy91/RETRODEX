@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -11,9 +11,9 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <title>RetroDex - Statistiques</title>
-    <meta name="description" content="Prix marché, confiance et signaux sur 1500+ jeux rétro." />
+    <meta name="description" content="Prix marchÃ©, confiance et signaux sur 1500+ jeux rÃ©tro." />
     <meta property="og:title" content="Statistiques | RetroDex" />
-    <meta property="og:description" content="Prix marché, confiance et signaux sur 1500+ jeux rétro." />
+    <meta property="og:description" content="Prix marchÃ©, confiance et signaux sur 1500+ jeux rÃ©tro." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
     <link rel="stylesheet" href="/style.css" />
@@ -24,19 +24,19 @@
       <div class="global-product-links">
         <a class="global-product-link is-market is-active" href="/stats.html">
           <span class="nav-label">RetroMarket</span>
-          <span class="nav-copy">prix | confiance | signaux</span>
+          <span class="nav-copy">prix | tendances | marché</span>
         </a>
         <a class="global-product-link" href="/games-list.html">
           <span class="nav-label">RetroDex</span>
-          <span class="nav-copy">catalogue | savoir | archives</span>
+          <span class="nav-copy">fiches | lore | encyclopédie</span>
         </a>
         <a class="global-product-link" href="/collection.html">
           <span class="nav-label">Collections</span>
-          <span class="nav-copy">etagere | wishlist | suivi</span>
+          <span class="nav-copy">étagère | wishlist | suivi</span>
         </a>
         <a class="global-product-link" href="/search.html">
           <span class="nav-label">Recherche</span>
-          <span class="nav-copy">entree transverse</span>
+          <span class="nav-copy">recherche universelle</span>
         </a>
       </div>
     </nav>
@@ -255,14 +255,38 @@
 
         <a class="encyclopedia-link terminal-action-link" href="/franchises.html">Ouvrir les franchises -></a>
       </section>
+
+      <section class="stats-panel" id="marketplace-panel">
+        <div class="stats-section-head">
+          <div>
+            <div class="detail-kicker">BROCANTE RETRO</div>
+            <h2 class="stats-section-title">Annonces actives</h2>
+          </div>
+          <div class="stats-section-copy">Listings vendeurs de la communaute RetroDex.</div>
+        </div>
+
+        <div class="terminal-table-header" style="grid-template-columns: 2fr 140px 80px 80px 90px">
+          <span>JEU</span>
+          <span>ETAT</span>
+          <span style="text-align:right">PRIX</span>
+          <span style="text-align:right">DEVISE</span>
+          <span style="text-align:center">STATUT</span>
+        </div>
+
+        <div id="marketplace-listings"></div>
+        <div id="marketplace-empty" class="market-search-helper" hidden>
+          Aucune annonce active pour le moment.
+        </div>
+      </section>
     </main>
 
     <script src="/js/core/search-core.js?v=20260324"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/stats.js?v=20260324c"></script>
+    <script src="/js/pages/stats.js?v=20260325a"></script>
     <div class="footer-attribution">
       Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
     </div>
   </body>
 </html>
+

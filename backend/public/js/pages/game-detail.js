@@ -46,6 +46,17 @@ const PRICE_HISTORY_STATES = [
 
 const DEFAULT_PRICE_HISTORY_PERIOD = '1y'
 
+function resolveGameMeta(game) {
+  return {
+    consoleName: game.consoleData?.name || game.console || 'Console inconnue',
+    consoleSlug: game.consoleData?.slug || game.consoleId || '',
+    developerName: game.developerCompany?.name || game.developer || 'studio inconnu',
+    publisherName: game.publisherCompany?.name
+      || (game.publisher && game.publisher !== 'undefined' ? game.publisher : null),
+    genreName: (game.genres?.[0]?.name) || game.genre || '',
+  }
+}
+
 function escapeHtml(value) {
   if (typeof CoreFormat.escapeHtml === 'function') {
     return CoreFormat.escapeHtml(value)
@@ -165,7 +176,7 @@ function updateSeoMeta(game) {
   const description = truncateMetaDescription(
     game.tagline
     || game.summary
-    || `${game.title || 'Ce jeu rétro'} sur ${game.console || 'console inconnue'}${game.year ? ` (${game.year})` : ''}. Prix, rareté et encyclopédie RetroDex.`
+    || `${game.title || 'Ce jeu rétro'} sur ${game.consoleData?.name || game.console || 'console inconnue'}${game.year ? ` (${game.year})` : ''}. Prix, rareté et encyclopédie RetroDex.`
   )
 
   document.title = title
@@ -268,7 +279,8 @@ function showSkeleton() {
 }
 
 function renderHeroSection(game) {
-  const visibleGenre = game.genre && game.genre !== 'Other' ? game.genre : ''
+  const meta = resolveGameMeta(game)
+  const visibleGenre = meta.genreName && meta.genreName !== 'Other' ? meta.genreName : ''
   heroEl.innerHTML = `
     <div class="detail-hero-shell">
       <div class="detail-hero-status">
@@ -296,7 +308,7 @@ function renderHeroSection(game) {
               </div>
 
               <div class="hero-meta game-badges game-meta">
-                <span class="pill">${escapeHtml(game.console || 'Console inconnue')}</span>
+                <span class="pill">${escapeHtml(meta.consoleName)}</span>
                 <span class="pill">${escapeHtml(game.year || 'n/a')}</span>
                 ${visibleGenre ? `<span class="pill">${escapeHtml(visibleGenre)}</span>` : ''}
                 <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || 'COMMON')}</span>
@@ -305,8 +317,8 @@ function renderHeroSection(game) {
               <div class="game-meta-cluster">
                 <div class="game-meta-row">
                   <span class="meta-key">PLATFORM</span>
-                  <a class="console-link meta-value-link" href="/consoles.html?platform=${encodeURIComponent(game.console || '')}">
-                    ${escapeHtml(game.console || 'Console inconnue')} ->
+                  <a class="console-link meta-value-link" href="/consoles.html?platform=${encodeURIComponent(meta.consoleName)}">
+                    ${escapeHtml(meta.consoleName)} ->
                   </a>
                 </div>
                 <div class="game-meta-row">
@@ -315,12 +327,12 @@ function renderHeroSection(game) {
                 </div>
                 <div class="game-meta-row">
                   <span class="meta-key">DEVELOPER</span>
-                  <span class="meta-value">${escapeHtml(game.developer || 'studio inconnu')}</span>
+                  <span class="meta-value">${escapeHtml(meta.developerName)}</span>
                 </div>
-                ${game.publisher ? `
+                ${meta.publisherName ? `
                   <div class="game-meta-row">
                     <span class="meta-key">PUBLISHER</span>
-                    <span class="meta-value">${escapeHtml(game.publisher)}</span>
+                    <span class="meta-value">${escapeHtml(meta.publisherName)}</span>
                   </div>
                 ` : ''}
               </div>
@@ -328,7 +340,7 @@ function renderHeroSection(game) {
               <div class="surface-signal-grid detail-identity-signal-grid">
                 <div class="surface-signal-card">
                   <span class="surface-signal-label">Plateforme</span>
-                  <span class="surface-signal-value">${escapeHtml(game.console || 'n/a')}</span>
+                  <span class="surface-signal-value">${escapeHtml(meta.consoleName)}</span>
                 </div>
                 <div class="surface-signal-card">
                   <span class="surface-signal-label">Annee</span>
@@ -710,8 +722,8 @@ async function loadEncyclopedia(gameId) {
     }
 
     if (!sections.length) {
-      editorialShellEl.hidden = true
       editorialContentEl.innerHTML = ''
+      // Don't hide shell - loadArchive() may inject content after us
       return
     }
 
@@ -720,7 +732,7 @@ async function loadEncyclopedia(gameId) {
       <div class="editorial-intro">
         <div class="detail-inline-label">From signal to memory</div>
         <p class="detail-section-copy">
-          La cote et la confiance donnent le contexte. L'encyclopedie commence ici.
+          La cote et la confiance donnent le contexte. Le dossier RetroDex commence ici.
         </p>
       </div>
       <div class="detail-editorial-tabs">
@@ -783,8 +795,8 @@ function renderStats(game) {
     { label: 'Annee', value: game.year },
     { label: 'Genre', value: game.genre && game.genre !== 'Other' ? game.genre : '' },
     { label: 'Rarete', value: game.rarity },
-    { label: 'Developpeur', value: game.developer },
-    { label: 'Editeur', value: game.publisher },
+    { label: 'Developpeur', value: game.developerCompany?.name || game.developer },
+    { label: 'Editeur', value: game.publisherCompany?.name || (game.publisher && game.publisher !== 'undefined' ? game.publisher : '') },
     { label: 'Metascore', value: '__METASCORE__', id: 'stat-metascore' },
     { label: 'Slug', value: game.slug },
   ].filter((entry) => entry.value != null && String(entry.value).trim() !== '')
@@ -2066,6 +2078,168 @@ async function loadPriceHistory(gameId) {
   refreshHistory()
 }
 
+async function loadArchive(gameId) {
+  try {
+    const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/archive`)
+    if (!data.ok) return
+    console.log('[RetroDex] archive data:', JSON.stringify({
+      lore: !!data.lore,
+      characters: Array.isArray(data.characters) ? data.characters.length : 0,
+      ost_composers: !!(data.ost?.composers?.length),
+      manual: !!data.manual_url
+    }))
+
+    const sections = []
+
+    // LORE section
+    if (data.lore) {
+      let html = `<div class="archive-lore">${escapeHtml(data.lore)}</div>`
+      if (data.gameplay_description) {
+        html += `<div class="archive-gameplay"><span class="archive-label">GAMEPLAY</span> ${escapeHtml(data.gameplay_description)}</div>`
+      }
+      sections.push({ id: 'lore', label: 'LORE', html })
+    }
+
+    // CHARACTERS section
+    if (Array.isArray(data.characters) && data.characters.length) {
+      const html = data.characters.map(c => `
+        <div class="archive-character-row">
+          <span class="archive-char-name">${escapeHtml(c.name || 'Inconnu')}</span>
+          <span class="archive-char-role">${escapeHtml(c.role || '')}</span>
+          <span class="archive-char-desc">${escapeHtml(c.description || '')}</span>
+        </div>
+      `).join('')
+      sections.push({ id: 'characters', label: 'PERSO', html })
+    }
+
+    // OST section
+    if (data.ost?.composers?.length || data.ost?.notable_tracks?.length) {
+      let html = ''
+      if (data.ost.composers?.length) {
+        html += `<div class="archive-ost-composers"><span class="archive-label">COMPOSITEURS</span> ${
+          data.ost.composers.map(c => escapeHtml(c.name || c)).join(', ')
+        }</div>`
+      }
+      if (data.ost.notable_tracks?.length) {
+        html += `<div class="archive-ost-tracks"><span class="archive-label">TRACKS</span><ul>${
+          data.ost.notable_tracks.map(t => `<li>${escapeHtml(t)}</li>`).join('')
+        }</ul></div>`
+      }
+      if (data.duration?.main) {
+        html += `<div class="archive-duration"><span class="archive-label">DURÉE</span> Main: ${data.duration.main}h`
+        if (data.duration.complete) html += ` | Complet: ${data.duration.complete}h`
+        html += `</div>`
+      }
+      if (data.speedrun_wr?.time) {
+        html += `<div class="archive-speedrun"><span class="archive-label">SPEEDRUN WR</span> ${escapeHtml(data.speedrun_wr.category || 'any%')}: ${escapeHtml(data.speedrun_wr.time)}`
+        if (data.speedrun_wr.runner) html += ` par ${escapeHtml(data.speedrun_wr.runner)}`
+        html += `</div>`
+      }
+      sections.push({ id: 'ost', label: 'OST', html })
+    }
+
+    // RECORDS tab
+    if (data.speedrun_wr?.time || data.duration?.main) {
+      let recordHtml = ''
+      if (data.duration?.main) {
+        recordHtml += `<div class="archive-duration" style="margin-bottom:1rem;">
+          <span class="archive-label">DURÉE DE VIE</span>
+          <div style="margin-top:0.5rem;font-family:'Share Tech Mono',monospace;font-size:0.82rem;color:#a8c8a8;">
+            Main story : <strong style="color:#9bbc0f;">${data.duration.main}h</strong>
+            ${data.duration.complete ? ` &nbsp;|&nbsp; Complet : <strong style="color:#9bbc0f;">${data.duration.complete}h</strong>` : ''}
+          </div>
+        </div>`
+      }
+      if (data.speedrun_wr?.time) {
+        recordHtml += `<div class="archive-speedrun" style="display:block;padding:0.75rem;border:1px solid rgba(241,196,92,0.2);background:rgba(241,196,92,0.03);margin-top:0.5rem;">
+          <span class="archive-label">SPEEDRUN WORLD RECORD</span>
+          <div style="margin-top:0.5rem;">
+            <span style="color:#f1c45c;font-family:'Press Start 2P',monospace;font-size:0.65rem;letter-spacing:0.05em;">
+              ${escapeHtml(data.speedrun_wr.category || 'any%')} — ${escapeHtml(data.speedrun_wr.time)}
+            </span>
+            ${data.speedrun_wr.runner ? `<span style="color:#9bbc0f;font-family:'Share Tech Mono',monospace;font-size:0.75rem;margin-left:0.75rem;">par ${escapeHtml(data.speedrun_wr.runner)}</span>` : ''}
+            ${data.speedrun_wr.date ? `<div style="color:#486648;font-family:'Share Tech Mono',monospace;font-size:0.68rem;margin-top:0.25rem;">${escapeHtml(data.speedrun_wr.date)}</div>` : ''}
+            ${data.speedrun_wr.source_url ? `<div style="margin-top:0.5rem;"><a class="terminal-action-link" href="${escapeHtml(data.speedrun_wr.source_url)}" target="_blank" rel="noopener" style="font-size:0.68rem;">Voir sur speedrun.com -></a></div>` : ''}
+          </div>
+        </div>`
+      }
+      sections.push({ id: 'records', label: 'RECORDS', html: recordHtml })
+    }
+
+    // CONTEXTE tab — dev context, shown only when no encyclopedia anecdotes tab
+    if (data.gameplay_description) {
+      const contexteHtml = `
+        <div class="archive-lore" style="margin-bottom:1rem;">
+          <span class="archive-label">MÉCANIQUE PRINCIPALE</span>
+          <div style="margin-top:0.5rem;">${escapeHtml(data.gameplay_description)}</div>
+        </div>
+      `
+      sections.push({ id: 'contexte', label: 'CONTEXTE', html: contexteHtml })
+    }
+
+    // NOTICE section
+    if (data.manual_url) {
+      sections.push({
+        id: 'notice',
+        label: 'NOTICE',
+        html: `
+          <div class="archive-manual">
+            <span class="archive-label">NOTICE OFFICIELLE</span>
+            <div style="margin-top:0.75rem;">
+              <a class="terminal-action-link" href="${escapeHtml(data.manual_url)}" target="_blank" rel="noopener noreferrer">
+                Consulter la notice sur Archive.org ->
+              </a>
+            </div>
+            <p class="archive-manual-note">Document archivé. Source : Internet Archive.</p>
+          </div>
+        `,
+      })
+    }
+
+    if (!sections.length) return
+    if (!editorialShellEl || !editorialContentEl) return
+
+    editorialShellEl.hidden = false
+
+    let tabsEl = editorialContentEl.querySelector('.detail-editorial-tabs')
+    let panelsEl = editorialContentEl.querySelector('.detail-editorial-panels')
+
+    if (!tabsEl || !panelsEl) {
+      editorialContentEl.innerHTML = `
+        <div class="editorial-intro">
+          <div class="detail-inline-label">RetroDex — mémoire éditorialisée</div>
+          <p class="detail-section-copy">Savoir, lore, personnages, OST et notices.</p>
+        </div>
+        <div class="detail-editorial-tabs"></div>
+        <div class="detail-editorial-panels"></div>
+      `
+      tabsEl = editorialContentEl.querySelector('.detail-editorial-tabs')
+      panelsEl = editorialContentEl.querySelector('.detail-editorial-panels')
+    }
+
+    const existingTabs = tabsEl.querySelectorAll('.detail-editorial-tab').length
+    sections.forEach((section, index) => {
+      const btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'detail-editorial-tab'
+      btn.dataset.tab = section.id
+      btn.textContent = section.label
+      if (existingTabs === 0 && index === 0) btn.classList.add('active')
+      btn.addEventListener('click', () => activateEditorialTab(section.id))
+      tabsEl.appendChild(btn)
+
+      const panel = document.createElement('section')
+      panel.className = 'detail-editorial-panel archive-panel'
+      panel.dataset.panel = section.id
+      panel.hidden = !(existingTabs === 0 && index === 0)
+      panel.innerHTML = section.html
+      panelsEl.appendChild(panel)
+    })
+  } catch (e) {
+    console.warn('[RetroDex] loadArchive failed:', e.message)
+  }
+}
+
 async function loadPage() {
   const gameId = getGameId()
   buildCatalogueBackLink()
@@ -2093,14 +2267,14 @@ async function loadPage() {
       const preferredIllustration = await getPreferredIllustrationPath(currentGame)
       coverImgEl.src = preferredIllustration
         || currentGame.cover_url
-        || generateCoverPlaceholder(currentGame.title, currentGame.rarity, currentGame.console)
+        || generateCoverPlaceholder(currentGame.title, currentGame.rarity, currentGame.consoleData?.name || currentGame.console)
       coverImgEl.addEventListener('error', () => {
         if (coverImgEl.src !== currentGame.cover_url && currentGame.cover_url) {
           coverImgEl.src = currentGame.cover_url
           return
         }
 
-        coverImgEl.src = generateCoverPlaceholder(currentGame.title, currentGame.rarity, currentGame.console)
+        coverImgEl.src = generateCoverPlaceholder(currentGame.title, currentGame.rarity, currentGame.consoleData?.name || currentGame.console)
       }, { once: true })
     }
 
@@ -2122,6 +2296,7 @@ async function loadPage() {
     collectionRemoveButtonEl?.addEventListener('click', handleCollectionRemove)
     await refreshCollectionStatus()
     await loadEncyclopedia(currentGame.id)
+    await loadArchive(currentGame.id)
     await loadSimilar(currentGame.id)
     await loadPriceHistory(currentGame.id)
     await loadRelatedGames(currentGame)
