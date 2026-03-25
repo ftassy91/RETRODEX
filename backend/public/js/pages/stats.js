@@ -130,7 +130,7 @@ function renderMarketSearchEmpty(message) {
 
   marketSearchResultsEl.innerHTML = `
     <div class="terminal-empty-state search-empty">
-      <div class="terminal-empty-title">Recherche RetroMarket</div>
+      <div class="terminal-empty-title">Recherche</div>
       <div class="terminal-empty-copy">${escapeHtml(message)}</div>
     </div>
   `
@@ -188,9 +188,8 @@ async function showMarketSearchPreview(item) {
   renderMarketPreviewStats(null)
   marketPreviewLinksEl.className = 'terminal-preview-row surface-action-row'
   marketPreviewLinksEl.innerHTML = `
-    <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}">Ouvrir fiche marche -></a>
-    <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}#price-history-section">Ouvrir price trace -></a>
-    <a class="terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(item.id)}">Ouvrir RetroDex -></a>
+    <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}">Voir fiche -></a>
+    <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}">RetroDex -></a>
   `
 
   try {
@@ -216,6 +215,9 @@ function renderMarketSearchResults(items) {
 
   marketSearchResultsEl.innerHTML = ''
   items.forEach((item, index) => {
+    const marketFreshness = Number(item.loosePrice || 0) > 0
+      ? `<span style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#486648;display:block;margin-top:0.2rem;">données marché disponibles</span>`
+      : `<span style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#3a5a3a;display:block;margin-top:0.2rem;">prix non indexé</span>`
     const row = document.createElement('button')
     row.type = 'button'
     row.className = 'terminal-row'
@@ -223,7 +225,7 @@ function renderMarketSearchResults(items) {
     row.innerHTML = `
       <span style="color:var(--text-primary)">${escapeHtml(item.title)}</span>
       <span class="result-meta">${escapeHtml(item.console || '-')} | ${escapeHtml(item.year || '-')}</span>
-      <span style="text-align:right;color:var(--text-alert)">${escapeHtml(formatCurrency(item.loosePrice || 0))}</span>
+      <span style="text-align:right;color:var(--text-alert);display:block;">${escapeHtml(formatCurrency(item.loosePrice || 0))}${marketFreshness}</span>
       <span style="text-align:right">${escapeHtml(formatCurrency(item.cibPrice || 0))}</span>
       <span style="text-align:right">${escapeHtml(formatCurrency(item.mintPrice || 0))}</span>
       <span style="text-align:center" class="${marketSignalClass(item.signal)}">${escapeHtml(marketSignalLabel(item.signal))}</span>
@@ -270,7 +272,7 @@ async function performMarketSearch() {
 
   if (query.length < 2) {
     if (marketSearchCountEl) marketSearchCountEl.textContent = ''
-    renderMarketSearchEmpty('Saisissez au moins 2 caracteres pour lire les signaux de valeur.')
+    renderMarketSearchEmpty('Saisir au moins 2 caractères.')
     return
   }
   if (marketSearchCountEl) marketSearchCountEl.textContent = 'Recherche...'
@@ -329,7 +331,7 @@ function bindMarketSearch() {
   if (initialQuery) {
     performMarketSearch()
   } else {
-    renderMarketSearchEmpty('Recherche contextuelle RetroMarket : selectionnez un jeu pour lire les stats prix 24 mois et ouvrir la fiche marche.')
+    renderMarketSearchEmpty('Sélectionner un jeu.')
   }
 }
 
@@ -409,8 +411,8 @@ async function loadStats() {
       `Moyenne loose: ${formatCurrency(payload.price_stats?.avg_loose || 0)} | Min: ${formatCurrency(payload.price_stats?.min_loose || 0)} | Max: ${formatCurrency(payload.price_stats?.max_loose || 0)}`
   } catch (error) {
     statsErrorEl.hidden = false
-    statsErrorEl.textContent = `Lecture stats indisponible (${error.message}).`
-    marketNoteEl.textContent = 'Analyse RetroMarket indisponible.'
+    statsErrorEl.textContent = `Stats indisponibles (${error.message}).`
+    marketNoteEl.textContent = 'Indisponible.'
     console.error('Stats page failed:', error)
   }
 }
