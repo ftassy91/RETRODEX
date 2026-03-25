@@ -189,7 +189,6 @@ async function showMarketSearchPreview(item) {
   marketPreviewLinksEl.className = 'terminal-preview-row surface-action-row'
   marketPreviewLinksEl.innerHTML = `
     <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}">Voir fiche -></a>
-    <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}">RetroDex -></a>
   `
 
   try {
@@ -223,7 +222,10 @@ function renderMarketSearchResults(items) {
     row.className = 'terminal-row'
     row.style.gridTemplateColumns = '1fr 120px 80px 80px 80px 90px'
     row.innerHTML = `
-      <span style="color:var(--text-primary)">${escapeHtml(item.title)}</span>
+      <span style="color:var(--text-primary)">
+        ${escapeHtml(item.title)}
+        <a href="/game-detail.html?id=${encodeURIComponent(item.id)}" class="terminal-action-link" style="font-size:0.72rem;display:block;margin-top:0.25rem;" onclick="event.stopPropagation()">Voir fiche -></a>
+      </span>
       <span class="result-meta">${escapeHtml(item.console || '-')} | ${escapeHtml(item.year || '-')}</span>
       <span style="text-align:right;color:var(--text-alert);display:block;">${escapeHtml(formatCurrency(item.loosePrice || 0))}${marketFreshness}</span>
       <span style="text-align:right">${escapeHtml(formatCurrency(item.cibPrice || 0))}</span>
@@ -261,9 +263,12 @@ function renderMarketSearchResults(items) {
   }
 }
 
-async function performMarketSearch() {
+async function performMarketSearch(queryOverride = null) {
   if (!marketSearchInputEl) return
-  const query = String(marketSearchInputEl.value || '').trim()
+  const query = String((queryOverride ?? marketSearchInputEl.value) || '').trim()
+  if (queryOverride != null) {
+    marketSearchInputEl.value = query
+  }
 
   const nextParams = new URLSearchParams(window.location.search)
   query ? nextParams.set('q', query) : nextParams.delete('q')
@@ -329,7 +334,7 @@ function bindMarketSearch() {
   })
 
   if (initialQuery) {
-    performMarketSearch()
+    window.setTimeout(() => performMarketSearch(initialQuery), 150)
   } else {
     renderMarketSearchEmpty('Sélectionner un jeu.')
   }

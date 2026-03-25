@@ -10,6 +10,7 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Refonte prevue en 5 sprints : copy/structure, finalisation RetroDex, navigation, refonte RetroMarket, harmonisation/QA.
 - Sprint 1 : simplification de la microcopy RetroDex / RetroMarket et retrait des textes redondants les plus visibles.
 - Sprint 2 : fiche RetroDex recentree sur un bloc principal fixe, accordeons unifies et panneau encyclopedique fusionne avec equipe + compositeurs.
+- Sprint 3 : passerelles RetroDex <-> RetroMarket clarifiees avec CTA uniques et pre-remplissage URL fiabilise.
 
 ## [2026-03-26 00:45]
 - Sprint en cours : Sprint 1 - audit cible, suivi, simplification globale
@@ -64,3 +65,20 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - aucun blocage structurel, validation navigateur a refaire apres check JS
 - Prochaine etape :
   - verifier la fiche RetroDex, committer Sprint 2, puis attaquer les ponts de navigation et la refonte RetroMarket
+
+## [2026-03-26 01:16]
+- Sprint en cours : Sprint 3 - ponts de navigation
+- Actions realisees :
+  - suppression du doublon de CTA RetroDex dans le preview RetroMarket
+  - ajout d'un lien `Voir fiche ->` directement dans chaque resultat marche
+  - fiabilisation du pre-remplissage `stats.html?q=` avec declenchement automatique de la recherche
+- Fichiers modifies :
+  - `backend/public/js/pages/stats.js`
+  - `backend/public/stats.html`
+  - `docs/retrodex_execution_log.md`
+- Commits effectues :
+  - en preparation
+- Blocages :
+  - aucun
+- Prochaine etape :
+  - valider la recherche contextuelle puis lancer la refonte structurelle RetroMarket
