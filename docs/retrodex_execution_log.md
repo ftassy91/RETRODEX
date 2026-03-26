@@ -855,3 +855,34 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - toutes les fiches n'ont pas encore de duree de vie localement ; la section s'affichera quand la donnee existe
 - Next step:
   - executer le script en dry-run, appliquer le sync, verifier les endpoints live et pousser le correctif de traçabilite
+
+## [2026-03-26 19:24]
+- Sprint / phase:
+  - clarification UI de la fiche jeu RetroDex
+- Actions completed:
+  - ajout d'un onglet `NOTICE` dans l'accordeon encyclopedique quand `manual_url` existe
+  - conservation de `RECORD` pour speedrun / versions uniquement
+  - remplacement des indicateurs d'accordeon `+ / -` par des chevrons `▸ / ▾`
+  - augmentation discrete de leur lisibilite pour rendre l'ouverture/fermeture evidente sans changer la logique visuelle
+  - cache-busting de `game-detail.html`
+- Files modified:
+  - `backend/public/js/pages/game-detail.js`
+  - `backend/public/style.css`
+  - `backend/public/game-detail.html`
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement de schema
+  - aucune mutation de donnees
+- Sources evaluated:
+  - aucune nouvelle source
+- Compliance notes:
+  - aucun impact legal ou contractuel
+- Quality score impact:
+  - meilleure decouvrabilite des accordeons
+  - acces plus clair aux notices dans la couche encyclopedique
+- Commits:
+  - en attente
+- Issues:
+  - les notices n'apparaitront que sur les jeux qui ont deja `manual_url`
+- Next step:
+  - commit, push, verification live sur une fiche avec notice et sur l'etat visuel des accordeons

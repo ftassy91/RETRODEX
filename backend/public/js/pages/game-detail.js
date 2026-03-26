@@ -811,7 +811,22 @@ function buildEditorialSections() {
     })
   }
 
-  if (versions.length || manualUrl || speedrun?.time) {
+  if (manualUrl) {
+    sections.push({
+      id: 'notice',
+      label: 'NOTICE',
+      html: `
+        <div class="archive-manual">
+          <a class="terminal-action-link" href="${escapeHtml(manualUrl)}" target="_blank" rel="noopener noreferrer">
+            Ouvrir la notice ->
+          </a>
+          <div class="archive-manual-note">Reference externe archivee.</div>
+        </div>
+      `,
+    })
+  }
+
+  if (versions.length || speedrun?.time) {
     let html = ''
     if (speedrun?.time) {
       html += `<div class="archive-speedrun"><span class="archive-label">WR</span> ${escapeHtml(speedrun.category || 'Any%')} : ${escapeHtml(speedrun.time)}${speedrun.runner ? ` · ${escapeHtml(speedrun.runner)}` : ''}</div>`
@@ -820,15 +835,6 @@ function buildEditorialSections() {
       html += `<div class="archive-ost-tracks"><span class="archive-label">Versions</span><ul>${
         versions.map((version) => `<li>${escapeHtml(typeof version === 'string' ? version : version.name || version.label || '')}</li>`).join('')
       }</ul></div>`
-    }
-    if (manualUrl) {
-      html += `
-        <div class="archive-manual">
-          <a class="terminal-action-link" href="${escapeHtml(manualUrl)}" target="_blank" rel="noopener noreferrer">
-            Ouvrir la notice ->
-          </a>
-        </div>
-      `
     }
     sections.push({ id: 'record', label: 'RECORD', html })
   }
@@ -2347,7 +2353,7 @@ function setAccordionState(sectionEl, expanded) {
   toggleEl.setAttribute('aria-expanded', expanded ? 'true' : 'false')
   const indicatorEl = toggleEl.querySelector('.detail-accordion-indicator')
   if (indicatorEl) {
-    indicatorEl.textContent = expanded ? '−' : '+'
+    indicatorEl.textContent = expanded ? '▾' : '▸'
   }
   contentEl.hidden = !expanded
 }
