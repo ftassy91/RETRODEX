@@ -4815,10 +4815,14 @@ body {
 }
 
 .detail-accordion-indicator {
-  color: var(--text-alert);
+  color: rgba(241, 196, 92, 0.92);
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.55rem;
+  font-size: 0.72rem;
   flex-shrink: 0;
+  min-width: 14px;
+  text-align: center;
+  line-height: 1;
+  opacity: 0.92;
 }
 
 .detail-accordion-content {
