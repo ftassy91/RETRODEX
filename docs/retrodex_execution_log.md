@@ -23,6 +23,10 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Phase 2 engagee : consoles stabilisees comme entites produit avec un contrat backend unique, un hero fixe, des accord eons et des scores de qualite visibles.
 - Phase 3 et 4 engagees : migrations versionnees, tables canoniques, scoring qualite, routes d'audit et priorisation d'enrichissement actives.
 - Phase 5 engagee : pipeline d'import `identity-first` pose, DS valide en dry-run conforme, 3DS explicitement bloque tant qu'aucune source approuvee n'est branchee.
+- Audit structure genere et versionne sous `data/audit/`, avec couverture jeux / consoles / marche exploitable directement.
+- Base canonique initiale creee via migration `20260326_001_canonical_core`, sans casser le read-model public legacy.
+- Pipeline catalogue conforme ajoute : `backend/scripts/import-catalog.js`, idempotent par recherche d'existant, journalise dans `enrichment_runs`.
+- Risques restants explicites : read-model `games` encore heterogene, 3DS sans source locale conforme, attribution source encore absente sur la majorite du catalogue historique.
 
 ## [2026-03-26 00:45]
 - Sprint en cours : Sprint 1 - audit cible, suivi, simplification globale
@@ -287,9 +291,32 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - scoring calcule et expose sur 1491 jeux et 25 consoles
   - premiers constats majeurs : 1491 jeux sans attribution source explicite, 1012 sans summary, 1481 sans dev team, 486 sans prix
 - Commits:
-  - lot data en preparation
+  - `cf9971c` - `feat(audit): add canonical migrations scoring and compliant import pipeline`
 - Issues:
   - le read-model `games` legacy reste heterogene et oblige encore certains calculs d'audit a faire des hypotheses de compatibilite
   - le catalogue 3DS n'a pas encore de source locale conforme branchee
 - Next step:
   - commit du lot data, puis faire un passage final de coherence shell/navigation et livrer un resume propre
+
+## [2026-03-26 08:09]
+- Sprint / phase : Cloture de run - coherence finale et traçabilite
+- Actions completed:
+  - validation transversale du shell : `hub.html`, `search.html`, `game-detail.html`, `stats.html`, `console-detail.html`, `consoles.html`
+  - validation runtime des routes `api/search/global`, `api/consoles`, `api/consoles/:id`, `api/audit/*`
+  - consolidation finale du journal avec les hashes reels des commits
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement supplementaire
+- Sources evaluated:
+  - aucune nouvelle source
+- Compliance notes:
+  - aucun nouvel assouplissement ; le 3DS reste volontairement bloque faute de source approuvee
+- Quality score impact:
+  - aucun recalcul supplementaire, seulement validation de l'exposition
+- Commits:
+  - en preparation pour cloture documentaire
+- Issues:
+  - le working tree global du repo reste tres sale hors perimetre `backend/`
+- Next step:
+  - commit documentaire final de cloture
