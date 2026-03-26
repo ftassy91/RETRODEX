@@ -1,0 +1,6280 @@
+[
+  {
+    "entityType": "game",
+    "entityId": "chrono-trigger-nintendo-ds",
+    "title": "Chrono Trigger",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.75,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "castlevania-symphony-of-the-night-playstation",
+    "title": "Castlevania: Symphony of the Night",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.71,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "castlevania-symphony-of-the-night-sega-saturn",
+    "title": "Castlevania: Symphony of the Night",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.71,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "earthbound-super-nintendo",
+    "title": "EarthBound",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.71,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "final-fantasy-vi-super-nintendo",
+    "title": "Final Fantasy VI",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.71,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "panzer-dragoon-saga-sega-saturn",
+    "title": "Panzer Dragoon Saga",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.71,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "suikoden-ii-playstation",
+    "title": "Suikoden II",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.71,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "terranigma-super-nintendo",
+    "title": "Terranigma",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.71,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "dungeons-dragons-collection-sega-saturn",
+    "title": "Dungeons & Dragons Collection",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.69,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 75,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "mega-man-x-super-nintendo",
+    "title": "Mega Man X",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.69,
+    "completenessScore": 93,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "alien-soldier-sega-genesis",
+    "title": "Alien Soldier",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "burning-rangers-sega-saturn",
+    "title": "Burning Rangers",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 95,
+    "confidenceScore": 98,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 95,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "castlevania-dracula-x-super-nintendo",
+    "title": "Castlevania: Dracula X",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "conkers-bad-fur-day-nintendo-64",
+    "title": "Conker's Bad Fur Day",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 95,
+    "confidenceScore": 89,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 80
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "contra-iii-alien-wars-super-nintendo",
+    "title": "Contra III: The Alien Wars",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "demons-crest-super-nintendo",
+    "title": "Demon's Crest",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "gunstar-heroes-sega-genesis",
+    "title": "Gunstar Heroes",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "kirby-super-star-super-nintendo",
+    "title": "Kirby Super Star",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "mega-man-x3-super-nintendo",
+    "title": "Mega Man X3",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "radiant-silvergun-sega-saturn",
+    "title": "Radiant Silvergun",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 75,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "secret-of-mana-super-nintendo",
+    "title": "Secret of Mana",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "super-mario-kart-super-nintendo",
+    "title": "Super Mario Kart",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "super-metroid-super-nintendo",
+    "title": "Super Metroid",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+    "title": "The Legend of Zelda: A Link to the Past",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.66,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "ghost-trick-phantom-detective-nintendo-ds",
+    "title": "Ghost Trick: Phantom Detective",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.65,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "rocket-knight-adventures-sega-genesis",
+    "title": "Rocket Knight Adventures",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.65,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "thunder-force-iv-sega-genesis",
+    "title": "Thunder Force IV",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.65,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "thunder-force-v-sega-saturn",
+    "title": "Thunder Force V",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.65,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "vampire-savior-sega-saturn",
+    "title": "Vampire Savior",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.65,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "999-nine-hours-nine-persons-nine-doors-nintendo-ds",
+    "title": "999: Nine Hours, Nine Persons, Nine Doors",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "donkey-kong-country-super-nintendo",
+    "title": "Donkey Kong Country",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "dragon-force-sega-saturn",
+    "title": "Dragon Force",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "dynamite-headdy-sega-genesis",
+    "title": "Dynamite Headdy",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "guardian-heroes-sega-saturn",
+    "title": "Guardian Heroes",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "judgement-silversword-wonderswan",
+    "title": "Judgement Silversword",
+    "platform": "WonderSwan",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "klonoa-door-to-phantomile-playstation",
+    "title": "Klonoa: Door to Phantomile",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "mother-3-game-boy-advance",
+    "title": "Mother 3",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "panzer-dragoon-ii-zwei-sega-saturn",
+    "title": "Panzer Dragoon II Zwei",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "radiant-historia-nintendo-ds",
+    "title": "Radiant Historia",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "samurai-shodown-ii-neo-geo",
+    "title": "Samurai Shodown II",
+    "platform": "Neo Geo",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "silent-hill-playstation",
+    "title": "Silent Hill",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "tactics-ogre-super-nintendo",
+    "title": "Tactics Ogre",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "the-last-blade-2-neo-geo",
+    "title": "The Last Blade 2",
+    "platform": "Neo Geo",
+    "tier": "Tier A",
+    "priorityScore": 0.62,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "castlevania-circle-of-the-moon-game-boy-advance",
+    "title": "Castlevania: Circle of the Moon",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 93,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "castlevania-order-of-ecclesia-nintendo-ds",
+    "title": "Castlevania: Order of Ecclesia",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 93,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "chrono-trigger-super-nintendo",
+    "title": "Chrono Trigger",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 97,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "colin-mcrae-rally-playstation",
+    "title": "Colin McRae Rally",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "contra-hard-corps-sega-genesis",
+    "title": "Contra: Hard Corps",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 93,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "jet-force-gemini-nintendo-64",
+    "title": "Jet Force Gemini",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "lylat-wars-nintendo-64",
+    "title": "Lylat Wars",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "mortal-kombat-ii-sega-genesis",
+    "title": "Mortal Kombat II",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "ogre-battle-64-nintendo-64",
+    "title": "Ogre Battle 64",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "phantasy-star-iv-sega-genesis",
+    "title": "Phantasy Star IV",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "pokemon-diamond-nintendo-ds",
+    "title": "Pokemon Diamond",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "sonic-the-hedgehog-sega-genesis",
+    "title": "Sonic the Hedgehog",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 93,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "street-fighter-ii-super-nintendo",
+    "title": "Street Fighter II",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 93,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "suikoden-playstation",
+    "title": "Suikoden",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "super-probotector-super-nintendo",
+    "title": "Super Probotector",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+    "title": "The Legend of Zelda: Ocarina of Time",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 93,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "story-of-thor-sega-genesis",
+    "title": "The Story of Thor",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "valkyrie-profile-playstation",
+    "title": "Valkyrie Profile",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.61,
+    "completenessScore": 95,
+    "confidenceScore": 96,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 91,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "dark-savior-sega-saturn",
+    "title": "Dark Savior",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.6,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "knights-in-the-nightmare-nintendo-ds",
+    "title": "Knights in the Nightmare",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.6,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "tales-of-phantasia-super-nintendo",
+    "title": "Tales of Phantasia",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.6,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "castlevania-dawn-of-sorrow-nintendo-ds",
+    "title": "Castlevania: Dawn of Sorrow",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.59,
+    "completenessScore": 93,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "metal-slug-neo-geo",
+    "title": "Metal Slug",
+    "platform": "Neo Geo",
+    "tier": "Tier A",
+    "priorityScore": 0.59,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "metal-slug-2-neo-geo",
+    "title": "Metal Slug 2",
+    "platform": "Neo Geo",
+    "tier": "Tier A",
+    "priorityScore": 0.59,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "metal-slug-3-neo-geo",
+    "title": "Metal Slug 3",
+    "platform": "Neo Geo",
+    "tier": "Tier A",
+    "priorityScore": 0.59,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "new-super-mario-bros-nintendo-ds",
+    "title": "New Super Mario Bros.",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.59,
+    "completenessScore": 93,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "policenauts-playstation",
+    "title": "Policenauts",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.59,
+    "completenessScore": 88,
+    "confidenceScore": 98,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 95,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "sonic-the-hedgehog-2-sega-genesis",
+    "title": "Sonic the Hedgehog 2",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.59,
+    "completenessScore": 93,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "super-castlevania-iv-super-nintendo",
+    "title": "Super Castlevania IV",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.59,
+    "completenessScore": 93,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "the-king-of-fighters-98-neo-geo",
+    "title": "The King of Fighters '98",
+    "platform": "Neo Geo",
+    "tier": "Tier A",
+    "priorityScore": 0.59,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "wipeout-xl-playstation",
+    "title": "Wipeout XL",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.59,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "air-traffic-controller-playstation",
+    "title": "Air Traffic Controller",
+    "platform": "PlayStation",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "air-traffic-controller-nintendo-ds",
+    "title": "Air Traffic Controller",
+    "platform": "Nintendo DS",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "aironauts-playstation",
+    "title": "Aironauts",
+    "platform": "PlayStation",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "aitakute-your-smiles-in-my-heart-playstation",
+    "title": "Aitakute...Your Smiles in My Heart",
+    "platform": "PlayStation",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "alive-playstation",
+    "title": "Alive",
+    "platform": "PlayStation",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "all-star-racing-playstation",
+    "title": "All Star Racing",
+    "platform": "PlayStation",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "all-star-tennis-2000-playstation",
+    "title": "All Star Tennis 2000",
+    "platform": "PlayStation",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "all-star-racing-2-playstation",
+    "title": "All-Star Racing 2",
+    "platform": "PlayStation",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 60,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 86,
+      "editorial": 20,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "alnam-no-tsubasa-shoujin-no-sora-no-kanata-e-playstation",
+    "title": "Alnam no Tsubasa: Shoujin no Sora no Kanata e",
+    "platform": "PlayStation",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "ancient-roman-power-of-dark-side-playstation",
+    "title": "Ancient Roman: Power of Dark Side",
+    "platform": "PlayStation",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "banshee-s-last-cry-game-boy-advance",
+    "title": "Banshee's Last Cry",
+    "platform": "Game Boy Advance",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 60,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 86,
+      "editorial": 20,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "battle-cross-super-nintendo",
+    "title": "Battle Cross",
+    "platform": "Super Nintendo",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "battle-fantasy-sega-genesis",
+    "title": "Battle Fantasy",
+    "platform": "Sega Genesis",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "battle-pinball-super-nintendo",
+    "title": "Battle Pinball",
+    "platform": "Super Nintendo",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "bio-evil-sega-mega-drive-tech-demo-sega-genesis",
+    "title": "Bio Evil ® (SEGA Mega Drive Tech Demo)",
+    "platform": "Sega Genesis",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "bouncers-sega-genesis",
+    "title": "Bouncers",
+    "platform": "Sega Genesis",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "cyber-doll-sega-saturn",
+    "title": "Cyber Doll",
+    "platform": "Sega Saturn",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 60,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 86,
+      "editorial": 20,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "daiboken-saint-elmo-s-no-kiseki-sega-saturn",
+    "title": "Daibōken: Saint Elmo's no Kiseki",
+    "platform": "Sega Saturn",
+    "tier": "Tier C",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 92,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 0,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 83,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "garou-mark-of-the-wolves-neo-geo",
+    "title": "Garou: Mark of the Wolves",
+    "platform": "Neo Geo",
+    "tier": "Tier A",
+    "priorityScore": 0.58,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "nds",
+    "title": "Nintendo DS",
+    "platform": "Nintendo DS",
+    "tier": "Tier B",
+    "priorityScore": 0.58,
+    "completenessScore": 50,
+    "confidenceScore": 85,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "missingCriticalFields": [
+      "overview"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 70,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "100-star-playstation",
+    "title": "100% Star",
+    "platform": "PlayStation",
+    "tier": "Tier B",
+    "priorityScore": 0.57,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "1080-snowboarding-nintendo-64",
+    "title": "1080° Snowboarding",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 97,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 93,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "Internet Archive",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "16t-sega-genesis",
+    "title": "16t",
+    "platform": "Sega Genesis",
+    "tier": "Tier B",
+    "priorityScore": 0.57,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "Internet Archive",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "19-03-ueno-hatsu-yakou-ressha-playstation",
+    "title": "19:03 Ueno Hatsu Yakou Ressha",
+    "platform": "PlayStation",
+    "tier": "Tier B",
+    "priorityScore": 0.57,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "6-inch-my-darling-sega-saturn",
+    "title": "6 Inch My Darling",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 60,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 20,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "a-q-renkan-awa-sega-genesis",
+    "title": "A Q Renkan Awa",
+    "platform": "Sega Genesis",
+    "tier": "Tier B",
+    "priorityScore": 0.57,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "abyss-nintendo-ds",
+    "title": "Abyss",
+    "platform": "Nintendo DS",
+    "tier": "Tier B",
+    "priorityScore": 0.57,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "Internet Archive",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "advance-wars-dual-strike-nintendo-ds",
+    "title": "Advance Wars: Dual Strike",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 97,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 93,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "ah-nanjarin-playstation",
+    "title": "Ah Nanjarin",
+    "platform": "PlayStation",
+    "tier": "Tier B",
+    "priorityScore": 0.57,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "airs-adventure-sega-saturn",
+    "title": "Airs Adventure",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 60,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 20,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "albert-odyssey-sega-saturn",
+    "title": "Albert Odyssey: Legend of Eldean",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "alundra-playstation",
+    "title": "Alundra",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 97,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 93,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "animal-crossing-wild-world-nintendo-ds",
+    "title": "Animal Crossing: Wild World",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "astro-boy-omega-factor-game-boy-advance",
+    "title": "Astro Boy: Omega Factor",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 97,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 93,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "banjo-tooie-nintendo-64",
+    "title": "Banjo-Tooie",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 97,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 93,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "batman-returns-super-nintendo",
+    "title": "Batman Returns",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 97,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 93,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "blast-corps-nintendo-64",
+    "title": "Blast Corps",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 97,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 93,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "boktai-the-sun-is-in-your-hand-game-boy-advance",
+    "title": "Boktai: The Sun Is in Your Hand",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "castlevania-rondo-of-blood-turbografx-16",
+    "title": "Castlevania: Rondo of Blood",
+    "platform": "TurboGrafx-16",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 93,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "chrono-cross-playstation",
+    "title": "Chrono Cross",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "chrono-resurrection-nintendo-64",
+    "title": "Chrono Resurrection",
+    "platform": "Nintendo 64",
+    "tier": "Tier B",
+    "priorityScore": 0.57,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "crash-bandicoot-3-warped-playstation",
+    "title": "Crash Bandicoot 3: Warped",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "crash-team-racing-playstation",
+    "title": "Crash Team Racing",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "darius-gaiden-sega-saturn",
+    "title": "Darius Gaiden",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "donkey-kong-64-nintendo-64",
+    "title": "Donkey Kong 64",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 97,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 93,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "dragon-quest-ix-nintendo-ds",
+    "title": "Dragon Quest IX",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "earthworm-jim-sega-genesis",
+    "title": "Earthworm Jim",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "f-zero-x-nintendo-64",
+    "title": "F-Zero X",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 97,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 93,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "fighters-megamix-sega-saturn",
+    "title": "Fighters Megamix",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "final-fantasy-ix-playstation",
+    "title": "Final Fantasy IX",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "final-fantasy-vi-advance-game-boy-advance",
+    "title": "Final Fantasy VI Advance",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "final-fantasy-vii-playstation",
+    "title": "Final Fantasy VII",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "final-fantasy-viii-playstation",
+    "title": "Final Fantasy VIII",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "fire-emblem-game-boy-advance",
+    "title": "Fire Emblem",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "gb",
+    "title": "Game Boy",
+    "platform": "Game Boy",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "golden-sun-game-boy-advance",
+    "title": "Golden Sun",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "goldeneye-007-nintendo-64",
+    "title": "GoldenEye 007",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 97,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 93,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "gran-turismo-playstation",
+    "title": "Gran Turismo",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "herzog-zwei-sega-genesis",
+    "title": "Herzog Zwei",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "infinite-space-nintendo-ds",
+    "title": "Infinite Space",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "landstalker-sega-genesis",
+    "title": "Landstalker",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "lunar-silver-star-story-playstation",
+    "title": "Lunar: Silver Star Story",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "madden-nfl-94-sega-genesis",
+    "title": "Madden NFL '94",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "mario-and-luigi-bowsers-inside-story-nintendo-ds",
+    "title": "Mario & Luigi: Bowser's Inside Story",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "mario-luigi-superstar-saga-game-boy-advance",
+    "title": "Mario & Luigi: Superstar Saga",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "mario-golf-advance-tour-game-boy-advance",
+    "title": "Mario Golf: Advance Tour",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "mario-kart-ds-nintendo-ds",
+    "title": "Mario Kart DS",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "mario-kart-super-circuit-game-boy-advance",
+    "title": "Mario Kart: Super Circuit",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "mega-man-x2-super-nintendo",
+    "title": "Mega Man X2",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "metal-gear-solid-playstation",
+    "title": "Metal Gear Solid",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "meteos-nintendo-ds",
+    "title": "Meteos",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "metroid-zero-mission-game-boy-advance",
+    "title": "Metroid: Zero Mission",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "nights-into-dreams-sega-saturn",
+    "title": "NiGHTS into Dreams",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "n64",
+    "title": "Nintendo 64",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "paper-mario-nintendo-64",
+    "title": "Paper Mario",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "ps1",
+    "title": "PlayStation",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "pokemon-heartgold-nintendo-ds",
+    "title": "Pokémon HeartGold",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "resident-evil-2-playstation",
+    "title": "Resident Evil 2",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "ristar-sega-genesis",
+    "title": "Ristar",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "md",
+    "title": "Sega Mega Drive",
+    "platform": "Sega Mega Drive",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "sega-rally-championship-sega-saturn",
+    "title": "Sega Rally Championship",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "sat",
+    "title": "Sega Saturn",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "shining-force-ii-sega-genesis",
+    "title": "Shining Force II",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "shining-the-holy-ark-sega-saturn",
+    "title": "Shining the Holy Ark",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "shinobi-iii-sega-genesis",
+    "title": "Shinobi III",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "simcity-super-nintendo",
+    "title": "SimCity",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "snes",
+    "title": "SNES",
+    "platform": "SNES",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "sonic-knuckles-sega-genesis",
+    "title": "Sonic & Knuckles",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "soul-blade-playstation",
+    "title": "Soul Blade",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "spyro-2-riptos-rage-playstation",
+    "title": "Spyro 2: Ripto's Rage!",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "starfox-super-nintendo",
+    "title": "Star Fox",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "street-fighter-alpha-3-sega-saturn",
+    "title": "Street Fighter Alpha 3",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "streets-of-rage-sega-genesis",
+    "title": "Streets of Rage",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "streets-of-rage-2-sega-genesis",
+    "title": "Streets of Rage 2",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "super-mario-all-stars-super-nintendo",
+    "title": "Super Mario All-Stars",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "super-mario-rpg-super-nintendo",
+    "title": "Super Mario RPG",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "super-mario-world-super-nintendo",
+    "title": "Super Mario World",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "yoshi-island-super-nintendo",
+    "title": "Super Mario World 2: Yoshi's Island",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "majoras-mask-nintendo-64",
+    "title": "The Legend of Zelda: Majora's Mask",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 89,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 80
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "the-legend-of-zelda-phantom-hourglass-nintendo-ds",
+    "title": "The Legend of Zelda: Phantom Hourglass",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "the-revenge-of-shinobi-sega-genesis",
+    "title": "The Revenge of Shinobi",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "the-world-ends-with-you-nintendo-ds",
+    "title": "The World Ends with You",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "tomb-raider-playstation",
+    "title": "Tomb Raider",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "tony-hawks-pro-skater-2-playstation",
+    "title": "Tony Hawk's Pro Skater 2",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "twisted-metal-2-playstation",
+    "title": "Twisted Metal 2",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "vagrant-story-playstation",
+    "title": "Vagrant Story",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "warioware-inc-game-boy-advance",
+    "title": "WarioWare, Inc.: Mega Microgame$",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "wave-race-64-nintendo-64",
+    "title": "Wave Race 64",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "wild-guns-super-nintendo",
+    "title": "Wild Guns",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "xenogears-playstation",
+    "title": "Xenogears",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.57,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "advance-wars-game-boy-advance",
+    "title": "Advance Wars",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 97,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 93,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "aladdin-sega-genesis",
+    "title": "Aladdin",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "azure-dreams-playstation",
+    "title": "Azure Dreams",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "banjo-kazooie-nintendo-64",
+    "title": "Banjo-Kazooie",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 97,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 93,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "body-harvest-nintendo-64",
+    "title": "Body Harvest",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 75,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "dev_team"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 50,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "castle-of-illusion-sega-genesis",
+    "title": "Castle of Illusion",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "castlevania-aria-of-sorrow-game-boy-advance",
+    "title": "Castlevania: Aria of Sorrow",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 100,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "clockwork-knight-sega-saturn",
+    "title": "Clockwork Knight",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 75,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "dev_team"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 50,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "crash-bandicoot-playstation",
+    "title": "Crash Bandicoot",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "crash-bandicoot-2-cortex-strikes-back-playstation",
+    "title": "Crash Bandicoot 2: Cortex Strikes Back",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "diddy-kong-racing-nintendo-64",
+    "title": "Diddy Kong Racing",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 97,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 93,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "donkey-kong-country-2-super-nintendo",
+    "title": "Donkey Kong Country 2",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "driver-playstation",
+    "title": "Driver",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "earthworm-jim-2-sega-genesis",
+    "title": "Earthworm Jim 2",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 96,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 91,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "f-zero-super-nintendo",
+    "title": "F-Zero",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "final-fantasy-iv-super-nintendo",
+    "title": "Final Fantasy IV",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 100,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "gradius-iii-super-nintendo",
+    "title": "Gradius III",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "legend-of-mana-playstation",
+    "title": "Legend of Mana",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "mega-man-7-super-nintendo",
+    "title": "Mega Man 7",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 93,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "megaman-zero-2-game-boy-advance",
+    "title": "Mega Man Zero 2",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 93,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "mr-driller-playstation",
+    "title": "Mr. Driller",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "nba-jam-sega-genesis",
+    "title": "NBA Jam",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "perfect-dark-nintendo-64",
+    "title": "Perfect Dark",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "phoenix-wright-ace-attorney-nintendo-ds",
+    "title": "Phoenix Wright: Ace Attorney",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "point-blank-playstation",
+    "title": "Point Blank",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "pokemon-emerald-game-boy-advance",
+    "title": "Pokémon Emerald",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "resident-evil-3-nemesis-playstation",
+    "title": "Resident Evil 3: Nemesis",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 93,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 85,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "sonic-advance-game-boy-advance",
+    "title": "Sonic Advance",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "splatterhouse-2-sega-genesis",
+    "title": "Splatterhouse 2",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "spyro-the-dragon-playstation",
+    "title": "Spyro the Dragon",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "spyro-year-of-the-dragon-playstation",
+    "title": "Spyro: Year of the Dragon",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "star-fox-64-nintendo-64",
+    "title": "Star Fox 64",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "super-ghouls-n-ghosts-super-nintendo",
+    "title": "Super Ghouls 'n Ghosts",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "super-mario-64-nintendo-64",
+    "title": "Super Mario 64",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 100,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "super-smash-bros-nintendo-64",
+    "title": "Super Smash Bros.",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "syphon-filter-playstation",
+    "title": "Syphon Filter",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "teenage-mutant-ninja-turtles-iv-super-nintendo",
+    "title": "Teenage Mutant Ninja Turtles IV",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "tekken-3-playstation",
+    "title": "Tekken 3",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 100,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "house-of-the-dead-sega-saturn",
+    "title": "The House of the Dead",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "legend-of-dragoon-playstation",
+    "title": "The Legend of Dragoon",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "the-legend-of-zelda-a-link-to-the-past-game-boy-advance",
+    "title": "The Legend of Zelda: A Link to the Past",
+    "platform": "Game Boy Advance",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 100,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 100,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "the-legend-of-zelda-majoras-mask-nintendo-64",
+    "title": "The Legend of Zelda: Majora's Mask",
+    "platform": "Nintendo 64",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 100,
+    "confidenceScore": 85,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 100,
+      "structural": 80
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "the-lion-king-super-nintendo",
+    "title": "The Lion King",
+    "platform": "Super Nintendo",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "virtua-fighter-2-sega-saturn",
+    "title": "Virtua Fighter 2",
+    "platform": "Sega Saturn",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 95,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 90,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "wild-arms-playstation",
+    "title": "Wild Arms",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "yoshis-island-ds-nintendo-ds",
+    "title": "Yoshi's Island DS",
+    "platform": "Nintendo DS",
+    "tier": "Tier A",
+    "priorityScore": 0.56,
+    "completenessScore": 88,
+    "confidenceScore": 99,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 98,
+      "editorial": 75,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "10101-will-the-starship-playstation",
+    "title": "10101: \"Will\" The Starship",
+    "platform": "PlayStation",
+    "tier": "Tier B",
+    "priorityScore": 0.55,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "Internet Archive",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "99-no-namida-nintendo-ds",
+    "title": "99 no Namida",
+    "platform": "Nintendo DS",
+    "tier": "Tier B",
+    "priorityScore": 0.55,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "aleck-bordon-adventure-tower-and-shaft-game-boy-advance",
+    "title": "Aleck Bordon Adventure: Tower and Shaft",
+    "platform": "Game Boy Advance",
+    "tier": "Tier B",
+    "priorityScore": 0.55,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "ancient-magic-bazoe-mahou-sekai-super-nintendo",
+    "title": "Ancient Magic: Bazoe! Mahou Sekai",
+    "platform": "Super Nintendo",
+    "tier": "Tier B",
+    "priorityScore": 0.55,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "aqua-world-umi-monogatari-sega-saturn",
+    "title": "Aqua World: Umi Monogatari",
+    "platform": "Sega Saturn",
+    "tier": "Tier B",
+    "priorityScore": 0.55,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "arabian-nights-sabaku-no-seirei-o-super-nintendo",
+    "title": "Arabian Nights: Sabaku no Seirei-ō",
+    "platform": "Super Nintendo",
+    "tier": "Tier B",
+    "priorityScore": 0.55,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "awogue-sega-genesis",
+    "title": "Awogue",
+    "platform": "Sega Genesis",
+    "tier": "Tier B",
+    "priorityScore": 0.55,
+    "completenessScore": 50,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 0,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "iru-playstation",
+    "title": "...Iru!",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.54,
+    "completenessScore": 68,
+    "confidenceScore": 95,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 90,
+      "editorial": 35,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "98-koshien-playstation",
+    "title": "'98 Kōshien",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.54,
+    "completenessScore": 68,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 35,
+      "structural": 100
+    },
+    "policies": [
+      "Internet Archive",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "99-koshien-playstation",
+    "title": "'99 Kōshien",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.54,
+    "completenessScore": 68,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 35,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "1-on-1-playstation",
+    "title": "1 on 1",
+    "platform": "PlayStation",
+    "tier": "Tier B",
+    "priorityScore": 0.54,
+    "completenessScore": 58,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 15,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "Internet Archive",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "100-manyen-quiz-hunter-playstation",
+    "title": "100 Manyen Quiz Hunter",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.54,
+    "completenessScore": 68,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 35,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "16-tile-mah-jongg-sega-genesis",
+    "title": "16-Tile Mah Jongg",
+    "platform": "Sega Genesis",
+    "tier": "Tier A",
+    "priorityScore": 0.54,
+    "completenessScore": 68,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 35,
+      "structural": 100
+    },
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "70-s-robot-anime-geppy-x-playstation",
+    "title": "70's Robot Anime Geppy-X",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.54,
+    "completenessScore": 68,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 35,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "aces-of-the-air-playstation",
+    "title": "Aces of the Air",
+    "platform": "PlayStation",
+    "tier": "Tier B",
+    "priorityScore": 0.54,
+    "completenessScore": 58,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 15,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "acid-playstation",
+    "title": "Acid",
+    "platform": "PlayStation",
+    "tier": "Tier B",
+    "priorityScore": 0.54,
+    "completenessScore": 58,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 15,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "adidas-power-soccer-playstation",
+    "title": "Adidas Power Soccer",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.54,
+    "completenessScore": 68,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 35,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "adidas-power-soccer-international-97-playstation",
+    "title": "Adidas Power Soccer International '97",
+    "platform": "PlayStation",
+    "tier": "Tier A",
+    "priorityScore": 0.54,
+    "completenessScore": 68,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "dev_team",
+      "ost_composers"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 35,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "advanced-world-war-sennen-teikoku-no-koubou-last-of-the-millennium-sega-saturn",
+    "title": "Advanced World War Sennen Teikoku no Koubou ~Last of the Millennium~",
+    "platform": "Sega Saturn",
+    "tier": "Tier B",
+    "priorityScore": 0.54,
+    "completenessScore": 58,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 15,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "game",
+    "entityId": "aero-dive-playstation",
+    "title": "Aero Dive",
+    "platform": "PlayStation",
+    "tier": "Tier B",
+    "priorityScore": 0.54,
+    "completenessScore": 58,
+    "confidenceScore": 93,
+    "sourceCoverageScore": 100,
+    "freshnessScore": 100,
+    "missingCriticalFields": [
+      "summary",
+      "dev_team"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 100,
+      "sourceTrust": 86,
+      "editorial": 15,
+      "structural": 100
+    },
+    "policies": [
+      "IGDB / Twitch",
+      "RETRODEX internal"
+    ]
+  }
+]

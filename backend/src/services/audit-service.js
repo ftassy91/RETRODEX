@@ -557,6 +557,41 @@ async function getAuditSummary({ persist = false } = {}) {
   }
 }
 
+function toPriorityItem(entry) {
+  return {
+    entityType: entry.entityType,
+    entityId: entry.entityId,
+    title: entry.title,
+    platform: entry.platform || null,
+    tier: entry.tier,
+    priorityScore: entry.priorityScore,
+    completenessScore: entry.completenessScore,
+    confidenceScore: entry.confidenceScore,
+    sourceCoverageScore: entry.sourceCoverageScore,
+    freshnessScore: entry.freshnessScore,
+    missingCriticalFields: entry.missingCriticalFields || [],
+    breakdown: entry.breakdown || {},
+    policies: entry.policies || [],
+  }
+}
+
+async function getPriorityQueue({ entityType = 'all', limit = 100, persist = false } = {}) {
+  const normalizedType = String(entityType || 'all').trim().toLowerCase()
+  const shouldLoadGames = normalizedType === 'all' || normalizedType === 'game'
+  const shouldLoadConsoles = normalizedType === 'all' || normalizedType === 'console'
+
+  const [games, consoles] = await Promise.all([
+    shouldLoadGames ? getGameAuditEntries({ limit: 5000, persist }) : Promise.resolve([]),
+    shouldLoadConsoles ? getConsoleAuditEntries({ persist }) : Promise.resolve([]),
+  ])
+
+  return [...games, ...consoles]
+    .map(toPriorityItem)
+    .sort((left, right) => right.priorityScore - left.priorityScore
+      || String(left.title || '').localeCompare(String(right.title || ''), 'fr', { sensitivity: 'base' }))
+    .slice(0, limit)
+}
+
 function ensureAuditDir() {
   if (!fs.existsSync(AUDIT_OUTPUT_DIR)) {
     fs.mkdirSync(AUDIT_OUTPUT_DIR, { recursive: true })
@@ -566,11 +601,12 @@ function ensureAuditDir() {
 async function writeAuditReports() {
   ensureAuditDir()
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
-  const [summary, games, consoles, market] = await Promise.all([
+  const [summary, games, consoles, market, priorities] = await Promise.all([
     getAuditSummary({ persist: true }),
     getGameAuditEntries({ limit: 5000, persist: true }),
     getConsoleAuditEntries({ persist: true }),
     getMarketAudit(),
+    getPriorityQueue({ entityType: 'all', limit: 250, persist: true }),
   ])
 
   const files = {
@@ -578,12 +614,14 @@ async function writeAuditReports() {
     games: path.join(AUDIT_OUTPUT_DIR, `${timestamp}_games.json`),
     consoles: path.join(AUDIT_OUTPUT_DIR, `${timestamp}_consoles.json`),
     market: path.join(AUDIT_OUTPUT_DIR, `${timestamp}_market.json`),
+    priorities: path.join(AUDIT_OUTPUT_DIR, `${timestamp}_priorities.json`),
   }
 
   fs.writeFileSync(files.summary, JSON.stringify(summary, null, 2))
   fs.writeFileSync(files.games, JSON.stringify(games, null, 2))
   fs.writeFileSync(files.consoles, JSON.stringify(consoles, null, 2))
   fs.writeFileSync(files.market, JSON.stringify(market, null, 2))
+  fs.writeFileSync(files.priorities, JSON.stringify(priorities, null, 2))
 
   return { files, summary }
 }
@@ -593,5 +631,6 @@ module.exports = {
   getGameAuditEntries,
   getConsoleAuditEntries,
   getMarketAudit,
+  getPriorityQueue,
   writeAuditReports,
 }

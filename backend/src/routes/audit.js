@@ -8,6 +8,7 @@ const {
   getGameAuditEntries,
   getConsoleAuditEntries,
   getMarketAudit,
+  getPriorityQueue,
 } = require('../services/audit-service')
 
 const router = Router()
@@ -40,6 +41,17 @@ router.get('/api/audit/consoles', handleAsync(async (req, res) => {
 router.get('/api/audit/market', handleAsync(async (_req, res) => {
   const market = await getMarketAudit()
   res.json({ ok: true, market })
+}))
+
+router.get('/api/audit/priorities', handleAsync(async (req, res) => {
+  const limit = parseLimit(req.query.limit, 100, 1000)
+  const entityType = String(req.query.entityType || 'all').trim().toLowerCase()
+  const items = await getPriorityQueue({
+    entityType,
+    limit,
+    persist: shouldPersist(req),
+  })
+  res.json({ ok: true, entityType, count: items.length, items })
 }))
 
 module.exports = router

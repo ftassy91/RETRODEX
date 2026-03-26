@@ -29,6 +29,7 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Nouveau passage de durcissement data : backfill canonique complet depuis le legacy `games` et `price_history`, audit relie a la couche canonique, provenance explicite sur les jeux et consoles, et index runtime d'idempotence pour les observations.
 - Impact qualite immediat : attribution source manquante tombee a zero, summaries manquants tombes a 75, dev team manquante a 255, compositeurs manquants a 465, snapshots marche fiables a 1005.
 - Nouveau passage read-model : `api/games/:id`, `api/games/:id/encyclopedia`, `api/games/:id/archive`, `api/games/:id/summary`, `api/games/:id/price-history`, `api/prices/*` et la recherche globale commencent a lire la couche canonique plutot que le seul legacy brut.
+- Sortie de priorisation exposee explicitement via `api/audit/priorities` et artefact versionne `*_priorities.json`.
 - Risques restants explicites : read-model `games` encore heterogene, 3DS sans source locale conforme, attribution source encore absente sur la majorite du catalogue historique.
 
 ## [2026-03-26 00:45]
@@ -379,18 +380,22 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - bascule du lecteur local `backend/src/routes/prices.js` de `price_history` vers `price_observations` avec fallback legacy
   - ajout d'un signal qualite dans `backend/src/routes/global-search.js` pour les jeux et consoles via `quality_records`
   - correction de la migration `20260326_002_canonical_runtime_indexes` pour dedupliquer `price_observations` avant creation de l'index unique
+  - ajout de `backend/src/routes/audit.js` + `backend/src/services/audit-service.js` pour exposer `api/audit/priorities` et ecrire `*_priorities.json`
   - regeneration de l'audit apres deduplication et validation runtime du shell, des consoles, de l'audit, du detail jeu et des prix
 - Files modified:
   - `backend/src/services/game-read-service.js`
   - `backend/src/routes/games-detail.js`
   - `backend/src/routes/prices.js`
   - `backend/src/routes/global-search.js`
+  - `backend/src/routes/audit.js`
+  - `backend/src/services/audit-service.js`
   - `backend/migrations/20260326_002_canonical_runtime_indexes.js`
   - `docs/retrodex_execution_log.md`
   - `data/audit/2026-03-26T08-05-27-313Z_summary.json`
   - `data/audit/2026-03-26T08-05-27-313Z_games.json`
   - `data/audit/2026-03-26T08-05-27-313Z_consoles.json`
   - `data/audit/2026-03-26T08-05-27-313Z_market.json`
+  - `data/audit/2026-03-26T08-08-31-393Z_priorities.json`
 - Schema or data changes:
   - deduplication des `price_observations` a 136895 lignes uniques
   - index runtime d'unicite pose sur `(source_name, listing_reference)`
@@ -403,6 +408,7 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Quality score impact:
   - `totalObservations` d'audit aligne sur la valeur dedupee 136895
   - detail jeu et recherche exploitent des tiers et scores issus de la couche canonique
+  - la priorisation d'enrichissement est maintenant disponible directement cote API pour pilotage des prochains runs
 - Commits:
   - en preparation
 - Issues:
