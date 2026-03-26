@@ -1,0 +1,50 @@
+{
+  "game_id": "yoshi-island-super-nintendo",
+  "title": "Super Mario World 2: Yoshi's Island",
+  "platform": "Super Nintendo",
+  "year": 1995,
+  "genre_primary": "Platformer",
+  "genre_secondary": "Playful",
+  "bucket": "platformer_cartoon",
+  "risk_level": "high",
+  "risk_reasons": [
+    "mario"
+  ],
+  "platform_style_id": "snes_storybook_16bit",
+  "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+  "palette_hint": [
+    "#1f2041",
+    "#4b3f72",
+    "#ffc857",
+    "#f4f1de"
+  ],
+  "memory_rule_id": "super_mario_world_hill_route",
+  "main_subject": "a small agile explorer in side view",
+  "environment": "a bright side-scrolling course with rounded grassy hills, chunky ledges, and a clear path of platforms rising upward",
+  "action_mood_cue": "caught in a clean forward leap from one ledge to the next",
+  "mood": [
+    "bright",
+    "playful",
+    "nimble"
+  ],
+  "composition": "single explorer only, side-view read, one jump arc, rounded hill backdrop, and no crowd or decorative clutter",
+  "memory_hook": "clean jump rhythm, rounded hills, and cheerful forward platform momentum",
+  "legal_watchouts": [
+    "avoid Mario likeness",
+    "avoid mustache and cap codes",
+    "avoid official enemy silhouettes",
+    "avoid exact pipe or block layouts"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Platformer game.\n\nA small agile explorer in side view in a bright side-scrolling course with rounded grassy hills, chunky ledges, and a clear path of platforms rising upward, caught in a clean forward leap from one ledge to the next.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- bright, playful, nimble\n\nComposition:\n- single explorer only, side-view read, one jump arc, rounded hill backdrop, and no crowd or decorative clutter\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Mario likeness, avoid mustache and cap codes, avoid official enemy silhouettes, avoid exact pipe or block layouts, avoid resemblance to mario",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "pixel art illustration only",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+    "render_policy": "always_pixel_art"
+  },
+  "status": "READY_FOR_REVIEW"
+}

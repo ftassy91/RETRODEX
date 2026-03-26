@@ -1,0 +1,50 @@
+{
+  "game_id": "mike-tysons-punch-out-nintendo-entertainment-system",
+  "title": "Mike Tyson's Punch-Out!!",
+  "platform": "Nintendo Entertainment System",
+  "year": 1987,
+  "genre_primary": "Sport",
+  "genre_secondary": "Combat",
+  "bucket": "sports",
+  "risk_level": "low",
+  "risk_reasons": [
+    "generic_atmosphere_safe"
+  ],
+  "platform_style_id": "nes_restrained_poster",
+  "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+  "palette_hint": [
+    "#0d1b2a",
+    "#415a77",
+    "#c8d5b9",
+    "#f4d35e"
+  ],
+  "memory_rule_id": "punch_out_corner_faceoff",
+  "main_subject": "a short determined boxer in gloves seen from the ring corner",
+  "environment": "a bright boxing ring with one huge opponent silhouette looming across the ropes",
+  "action_mood_cue": "bouncing lightly just before the opening bell",
+  "mood": [
+    "tense",
+    "arcade",
+    "underdog"
+  ],
+  "composition": "one small boxer foreground, one large opponent silhouette background, ring ropes framing the space, and no crowd detail",
+  "memory_hook": "size contrast, ring pressure, and the feeling of an impossible title fight",
+  "legal_watchouts": [
+    "avoid official boxer likeness",
+    "avoid exact roster proportions",
+    "avoid franchise UI",
+    "avoid branded trunks or gloves"
+  ],
+  "legal_notes": "Risk level: low. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Sport game.\n\nA short determined boxer in gloves seen from the ring corner in a bright boxing ring with one huge opponent silhouette looming across the ropes, bouncing lightly just before the opening bell.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- tense, arcade, underdog\n\nComposition:\n- one small boxer foreground, one large opponent silhouette background, ring ropes framing the space, and no crowd detail\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official boxer likeness, avoid exact roster proportions, avoid franchise UI, avoid branded trunks or gloves",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "pixel art illustration only",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+    "render_policy": "always_pixel_art"
+  },
+  "status": "READY_FOR_REVIEW"
+}

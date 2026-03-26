@@ -1,0 +1,155 @@
+{
+  "timestamp": "2026-03-23T06:57:28Z",
+  "mode": "incremental",
+  "has_meaningful_changes": true,
+  "root": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0",
+  "tracked_files": 12852,
+  "change_summary": {
+    "added": [
+      "scripts/retrodex_sync_config.json"
+    ],
+    "modified": [],
+    "removed": [],
+    "counts": {
+      "added": 1,
+      "modified": 0,
+      "removed": 0,
+      "total": 1
+    },
+    "area_counts": {
+      "automation": 1
+    },
+    "frontend_impact": false
+  },
+  "catalog_snapshot": {
+    "path": "data/catalog.json",
+    "games": 507,
+    "release_year_min": 1984,
+    "release_year_max": 2010,
+    "games_in_target_window_1990_2012": 453
+  },
+  "asset_snapshot": {
+    "folders": {
+      "boxart": {
+        "exists": false,
+        "files": 0,
+        "extensions": {}
+      },
+      "sprites": {
+        "exists": false,
+        "files": 0,
+        "extensions": {}
+      },
+      "top-screen": {
+        "exists": true,
+        "files": 1,
+        "extensions": {
+          ".md": 1
+        }
+      },
+      "generated_gb": {
+        "exists": true,
+        "files": 82,
+        "extensions": {
+          ".json": 24,
+          ".png": 58
+        }
+      },
+      "artwork": {
+        "exists": false,
+        "files": 0,
+        "extensions": {}
+      },
+      "screenshots": {
+        "exists": false,
+        "files": 0,
+        "extensions": {}
+      },
+      "titlescreens": {
+        "exists": false,
+        "files": 0,
+        "extensions": {}
+      }
+    },
+    "library": {
+      "path": "data/retrodeck_asset_library.json",
+      "entries": 24,
+      "archived_games": 6,
+      "checkpoint": {
+        "last_processed_game_index": 29,
+        "last_processed_game_id": "final-fantasy-iii-nintendo-entertainment-system",
+        "updated_at": "2026-03-13T21:47:15Z"
+      }
+    }
+  },
+  "market_snapshot": {
+    "coverage_report_path": "data/market_coverage_report.json",
+    "tracked_games": 507,
+    "history_games": 5,
+    "sales_games": 15,
+    "source_games": 15,
+    "console_coverage_entries": 0,
+    "import_manifest_entries": 12,
+    "template_game_count": 15
+  },
+  "sync_export_summary": {
+    "generated_at": "2026-03-23T06:57:36Z",
+    "paths": {
+      "games": "data/notion_exports/retrodex_games_sync_preview.json",
+      "assets": "data/notion_exports/retrodex_assets_sync_preview.json",
+      "market": "data/notion_exports/retrodex_market_sync_preview.json",
+      "games_backlog": "data/notion_exports/retrodex_games_curation_backlog.json",
+      "asset_backlog": "data/notion_exports/retrodex_asset_reconciliation_backlog.json"
+    },
+    "games_summary": {
+      "eligible_games": 453,
+      "gap_to_goal": 47,
+      "core_ready_records": 142,
+      "records_missing_core_fields": 311,
+      "records_needing_enrichment": 453,
+      "records_with_local_assets": 22
+    },
+    "assets_summary": {
+      "direct_asset_records": 58,
+      "pipeline_asset_records": 24,
+      "matched_direct_assets": 44,
+      "unmatched_direct_assets": 14
+    },
+    "market_summary": {
+      "manifest_priority_games": 12,
+      "games_with_sales": 15,
+      "games_with_history": 15,
+      "games_with_sources": 15,
+      "total_sales_records": 120,
+      "coverage_tracked_games": 507
+    },
+    "games_backlog_summary": {
+      "records_missing_core_fields": 311,
+      "records_ready_for_enrichment_only": 142
+    },
+    "asset_backlog_summary": {
+      "unmatched_direct_assets": 14
+    }
+  },
+  "git_status": {
+    "available": true,
+    "status": "ok",
+    "root": "C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/RETRODEXseedV0/prototype_v0",
+    "summary": "## codex/hub-pixel-art-rollout...origin/codex/hub-pixel-art-rollout\n?? .codex_tetris.png\n?? CHART_INSTALL.md\n?? STACK_TECHNIQUE_ONBOARDING_RETRODEX.md\n?? assets/covers/\n?? assets/generated_gb/\n?? assets/icons/\n?? assets/img/\n?? assets/market/\n?? assets/placeholders/\n?? assets/retrodex/\n?? assets/top-screen/\n?? css/\n?? data/build_demo_status.py\n?? data/build_demo_subset.py\n?? data/build_market_import_js.py\n?? data/catalog.js\n?? data/catalog.json\n?? data/catalog_active.js\n?? data/catalog_synthetic_backup.json\n?? data/consoles.js\n?? data/consoles.json\n?? data/demo_status.js\n?? data/demo_status.json\n?? data/demo_subset.js\n?? data/demo_subset.json\n?? data/demo_subset_qa.json\n?? data/demo_subset_qa.md\n?? data/demo_top_card_batch_001.json\n?? data/demo_top_card_batch_002.json\n?? data/demo_top_card_batch_003.json\n?? data/demo_top_card_batch_004.json\n?? data/demo_top_card_batch_005.json\n?? data/demo_top_card_batch_006.json\n?? data/entries.js\n?? data/entries.json\n?? data/entries_active.js\n?? data/generate_demo_title_cards.ps1\n?? data/generate_market_coverage_report.py\n?? data/generate_market_curation_workspace.py\n?? data/generate_market_import_templates.py\n?? data/generate_top_screen_generated_gb.py\n?? data/market_coverage_report.json\n?? data/market_coverage_report.md\n?? data/market_curation_batch_001.json\n?? data/market_curation_batch_001.md\n?? data/market_history.js\n?? data/market_history_template.json\n?? data/market_import_manifest.json\n?? data/market_sales.js\n?? data/market_sales_template.json\n?? data/market_sources.js\n?? data/market_sources_template.json\n?? data/notion_exports/README.md\n?? data/notion_exports/RETRODEX_HQ_ACTIVE_PAGE_UPDATE_2026-03-22.md\n?? data/notion_exports/RETRODEX_HQ_MAIN_PAGE_UPDATE_2026-03-22.md\n?? data/notion_exports/RETRODEX_HQ_MANUAL_UPDATE_GUIDE_2026-03-22.md\n?? data/notion_exports/RETRODEX_HQ_UPDATE_2026-03-22.md\n?? data/notion_exports/retrodex_asset_reconciliation_backlog.json\n?? data/notion_exports/retrodex_assets_sync_preview.json\n?? data/notion_exports/retrodex_games_curation_backlog.json\n?? data/notion_exports/retrodex_games_sync_preview.json\n?? data/notion_exports/retrodex_hq_update_2026-03-22_manifest.json\n?? data/notion_exports/retrodex_market_sync_preview.json\n?? data/notion_exports/retrodex_sync_export_summary.json\n?? data/notion_exports/stack_technique_onboarding_retrodex_payload.json\n?? data/prices.js\n?? data/prices.json\n?? data/qa_demo_subset.py\n?? data/refresh_market_imports.py\n?? data/regen.py\n?? data/retrodeck_asset_library.js\n?? data/retrodeck_asset_library.json\n?? data/tmp2tbxpvnl\n?? data/top_screen_artwork.js\n?? data/validate.py\n?? data/validate_market_imports.py\n?? data_engine/\n?? datapack/\n?? debug.html\n?? debug_calibration.png\n?? debug_screens.png\n?? img/\n?? js/app.js\n?? js/collection-panel.js\n?? js/collection-store.js\n?? js/consoles.js\n?? js/data-layer.js\n?? js/home.js\n?? js/illustration.js\n?? js/illustration_v3_backup.js\n?? js/market.js\n?? js/retrodex.js\n?? js/router.js\n?? js/scene.js\n?? js/search.js\n?? js/top-screen-generator.js\n?? js/top-screen.js\n?? js/utils.js\n?? launcher.html\n?? logs/\n?? maps/\n?? memory/\n?? modules/\n?? retrodeck_assets/\n?? review/\n?? scripts/README.md\n?? scripts/__pycache__/\n?? scripts/retrodex_sync_agent.py\n?? scripts/retrodex_sync_config.example.json\n?? scripts/retrodex_sync_config.json\n?? scripts/retrodex_visual_pipeline.py\n?? scripts/retrodex_visual_renderer.py\n?? start.sh"
+  },
+  "notion_status": {
+    "status": "queued",
+    "reason": "missing_token_env:RETRODEX_NOTION_TOKEN",
+    "queued": 3,
+    "synced": 0
+  },
+  "deployment_status": {
+    "status": "no_frontend_change_detected",
+    "frontend_changed": false,
+    "changed_frontend_files": [],
+    "vercel_config_present": false,
+    "note": "No frontend-impacting file changes detected in the current sync pass."
+  },
+  "commit_message_suggestion": "[RETRODEX] automation: record incremental sync audit",
+  "summary_text": "mode=incremental; changed=1; catalog_games=507; target_window_games=453; generated_gb_assets=82; market_sales_games=15; git=ok"
+}

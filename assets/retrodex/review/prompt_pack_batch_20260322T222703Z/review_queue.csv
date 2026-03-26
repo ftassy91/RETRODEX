@@ -1,0 +1,6 @@
+game_id,title,platform,risk_level,status,decision,decision_reason,reviewer_notes,prompt_pack_json,prompt_pack_md,selected_for_generation
+super-metroid-super-nintendo,Super Metroid,Super Nintendo,high,PENDING_REVIEW,,,,packs/super-metroid-super-nintendo.json,packs/super-metroid-super-nintendo.md,
+super-mario-bros-3-nintendo-entertainment-system,Super Mario Bros. 3,Nintendo Entertainment System,high,PENDING_REVIEW,,,,packs/super-mario-bros-3-nintendo-entertainment-system.json,packs/super-mario-bros-3-nintendo-entertainment-system.md,
+metroid-zero-mission-game-boy-advance,Metroid: Zero Mission,Game Boy Advance,high,PENDING_REVIEW,,,,packs/metroid-zero-mission-game-boy-advance.json,packs/metroid-zero-mission-game-boy-advance.md,
+shinobi-iii-sega-genesis,Shinobi III,Sega Genesis,low,PENDING_REVIEW,,,,packs/shinobi-iii-sega-genesis.json,packs/shinobi-iii-sega-genesis.md,
+castlevania-bloodlines-sega-genesis,Castlevania: Bloodlines,Sega Genesis,high,PENDING_REVIEW,,,,packs/castlevania-bloodlines-sega-genesis.json,packs/castlevania-bloodlines-sega-genesis.md,

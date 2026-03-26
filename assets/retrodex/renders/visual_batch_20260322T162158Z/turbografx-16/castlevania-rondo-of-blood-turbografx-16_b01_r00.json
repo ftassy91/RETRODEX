@@ -1,0 +1,45 @@
+{
+  "game_id": "castlevania-rondo-of-blood-turbografx-16",
+  "title": "Castlevania: Rondo of Blood",
+  "platform": "TurboGrafx-16",
+  "retry_count": 0,
+  "classification": {
+    "bucket": "fantasy_adventure",
+    "risk_level": "high",
+    "illustration_class": "object",
+    "composition_type": "object"
+  },
+  "prompt": "Original illustration inspired by a retro Action-Platformer game.\n\nA small heroic adventurer with a sword in a windswept fantasy landscape with ruins, a distant landmark, and a traversable path, standing on a windswept path with quiet resolve.\n\nGame metadata:\n- Title: Castlevania: Rondo of Blood\n- Platform: TurboGrafx-16\n- Release year: 1993\n- Secondary genre signal: Retro\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- bright arcade key art, punchy motion, crisp light, poster-like composition\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- mysterious, heroic, mythic\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "avoid resemblance to castlevania, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "render": {
+    "path": "assets/retrodex/renders/visual_batch_20260322T162158Z/turbografx-16/castlevania-rondo-of-blood-turbografx-16_b01_r00.png",
+    "subject_bbox": [
+      320,
+      189,
+      736,
+      783
+    ],
+    "subject_label": "heroic_adventurer"
+  },
+  "qa": {
+    "checks": {
+      "no_text_detected": true,
+      "no_logo_detected": true,
+      "no_character_likeness": true,
+      "subject_readable": true,
+      "ui_overlay_usable": true,
+      "no_copyright_replication": true,
+      "platform_style_match": true
+    },
+    "qa_score": 100,
+    "status": "generated",
+    "failure_reasons": [],
+    "metrics": {
+      "area_ratio": 0.1716,
+      "subject_contrast": 99.01,
+      "overlay_mean": 52.63,
+      "overlay_std": 35.04
+    }
+  },
+  "generated_at": "2026-03-22T16:21:58Z"
+}

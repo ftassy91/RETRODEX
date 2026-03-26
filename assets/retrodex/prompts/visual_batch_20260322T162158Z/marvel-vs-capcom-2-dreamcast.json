@@ -1,0 +1,21 @@
+{
+  "game_id": "marvel-vs-capcom-2-dreamcast",
+  "slug": "marvel-vs-capcom-2-dreamcast",
+  "title": "Marvel vs. Capcom 2",
+  "platform": "Dreamcast",
+  "year": 2000,
+  "genre_primary": "Fighting",
+  "genre_secondary": "Combat",
+  "bucket": "fighting",
+  "platform_style": "dreamcast_futurist",
+  "illustration_class": "object",
+  "risk_level": "medium",
+  "subject_key": "duelist",
+  "main_subject": "lone duelist silhouette",
+  "action_mood_cue": "holding a tense ready stance before impact",
+  "composition_type": "object",
+  "prompt": "Original illustration inspired by a retro Fighting game.\n\nA lone duelist silhouette in an arena or duel space with impact energy, banners, and confrontation framing, holding a tense ready stance before impact.\n\nGame metadata:\n- Title: Marvel vs. Capcom 2\n- Platform: Dreamcast\n- Release year: 2000\n- Secondary genre signal: Combat\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- clean futurist editorial art, airy space, modern arcade tone, bright accent lighting\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- intense, dramatic, charged\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "avoid any mascot-like facial or costume elements, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "legal_notes": "Risk level medium; use generic subject archetypes, readable environments, and platform-coded style only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

@@ -1,0 +1,45 @@
+Create an original GameDetail hero illustration for a retro video game database entry.
+
+Game metadata:
+- Title: Final Fantasy IV
+- Platform: WonderSwan
+- Release year: 2002
+- Genre: RPG, Epic
+- Mood: epic, melancholic, legendary, dreamlike
+- Context world: a mythic horizon with ancient structures, sacred sky, and story-scale depth
+- Central object: crystal
+- Supporting objects: crystal, banner, ancient map, orb
+- Genre signal: mythic role-playing quest
+
+Visual goal:
+- Deliver one image that reads in under two seconds
+- Make the central object immediately readable and clearly tied to a game world
+- Convey the genre instantly through the object, the environment, and the lighting
+- Build a premium hero visual for a RetroDex GameDetail page
+
+Composition:
+- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre
+- One strong focal point only
+- No decorative geometry
+- No empty backdrop
+
+Platform style:
+- minimal handheld illustration, clean geometry, sparse composition, collector-friendly balance
+
+Strict legal and safety constraints:
+- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite
+- Do NOT imitate exact copyrighted visual designs
+- Do NOT include any trademarked logo or title text inside the image
+- Evoke only the atmosphere, object language, environment, and genre cues
+- The result must be fully original and non-infringing in appearance
+
+Output:
+- High detail
+- Premium editorial hero illustration
+- No text
+- No watermark
+- Strong silhouette readability
+- Clean overlay-safe lighting
+
+Negative constraints:
+avoid resemblance to final fantasy, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background

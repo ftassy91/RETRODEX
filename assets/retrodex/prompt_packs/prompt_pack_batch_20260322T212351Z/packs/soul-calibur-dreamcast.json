@@ -1,0 +1,48 @@
+{
+  "game_id": "soul-calibur-dreamcast",
+  "title": "Soul Calibur",
+  "platform": "Dreamcast",
+  "year": 1999,
+  "genre_primary": "Fighting",
+  "genre_secondary": "Combat",
+  "bucket": "fighting",
+  "risk_level": "medium",
+  "risk_reasons": [
+    "bucket_sensitive_visual_identity"
+  ],
+  "platform_style_id": "dreamcast_futurist",
+  "platform_style_description": "Dreamcast aesthetic, clean futurist rendering, bright accent light, airy composition, and modern arcade clarity",
+  "palette_hint": [
+    "#0b132b",
+    "#3a506b",
+    "#5bc0be",
+    "#ff9f1c"
+  ],
+  "main_subject": "a lone duelist with a large blade",
+  "environment": "a wind-swept stone platform before a monumental ring gate and distant ruins",
+  "action_mood_cue": "holding a poised guard stance just before the duel begins",
+  "mood": [
+    "mythic",
+    "charged",
+    "ceremonial"
+  ],
+  "composition": "single duelist only, one readable blade, no crowd, one monumental landmark behind",
+  "memory_hook": "weapon-based duel, sacred arena, and pre-impact tension",
+  "legal_watchouts": [
+    "avoid roster character likeness",
+    "avoid signature swords",
+    "avoid crowd scenes",
+    "avoid franchise costumes"
+  ],
+  "legal_notes": "Risk level: medium. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Fighting game.\n\nA lone duelist with a large blade in a wind-swept stone platform before a monumental ring gate and distant ruins, holding a poised guard stance just before the duel begins.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Dreamcast aesthetic, clean futurist rendering, bright accent light, airy composition, and modern arcade clarity\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- mythic, charged, ceremonial\n\nComposition:\n- single duelist only, one readable blade, no crowd, one monumental landmark behind\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid roster character likeness, avoid signature swords, avoid crowd scenes, avoid franchise costumes",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

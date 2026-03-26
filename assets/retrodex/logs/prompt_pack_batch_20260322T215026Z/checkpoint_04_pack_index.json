@@ -1,0 +1,135 @@
+{
+  "run_id": "prompt_pack_batch_20260322T215026Z",
+  "prompt_version": "prompt_formula_v1_production",
+  "pack_count": 16,
+  "packs": [
+    {
+      "game_id": "panzer-dragoon-saga-sega-saturn",
+      "title": "Panzer Dragoon Saga",
+      "platform": "Sega Saturn",
+      "risk_level": "medium",
+      "json_path": "packs/panzer-dragoon-saga-sega-saturn.json",
+      "md_path": "packs/panzer-dragoon-saga-sega-saturn.md"
+    },
+    {
+      "game_id": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/super-metroid-super-nintendo.json",
+      "md_path": "packs/super-metroid-super-nintendo.md"
+    },
+    {
+      "game_id": "tekken-3-playstation",
+      "title": "Tekken 3",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/tekken-3-playstation.json",
+      "md_path": "packs/tekken-3-playstation.md"
+    },
+    {
+      "game_id": "castlevania-aria-of-sorrow-game-boy-advance",
+      "title": "Castlevania: Aria of Sorrow",
+      "platform": "Game Boy Advance",
+      "risk_level": "high",
+      "json_path": "packs/castlevania-aria-of-sorrow-game-boy-advance.json",
+      "md_path": "packs/castlevania-aria-of-sorrow-game-boy-advance.md"
+    },
+    {
+      "game_id": "phantasy-star-iv-sega-genesis",
+      "title": "Phantasy Star IV",
+      "platform": "Sega Genesis",
+      "risk_level": "low",
+      "json_path": "packs/phantasy-star-iv-sega-genesis.json",
+      "md_path": "packs/phantasy-star-iv-sega-genesis.md"
+    },
+    {
+      "game_id": "resident-evil-2-playstation",
+      "title": "Resident Evil 2",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/resident-evil-2-playstation.json",
+      "md_path": "packs/resident-evil-2-playstation.md"
+    },
+    {
+      "game_id": "metroid-zero-mission-game-boy-advance",
+      "title": "Metroid: Zero Mission",
+      "platform": "Game Boy Advance",
+      "risk_level": "high",
+      "json_path": "packs/metroid-zero-mission-game-boy-advance.json",
+      "md_path": "packs/metroid-zero-mission-game-boy-advance.md"
+    },
+    {
+      "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+      "title": "The Legend of Zelda: Link's Awakening",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/the-legend-of-zelda-links-awakening-game-boy.json",
+      "md_path": "packs/the-legend-of-zelda-links-awakening-game-boy.md"
+    },
+    {
+      "game_id": "pokemon-crystal-game-boy",
+      "title": "Pokémon Crystal",
+      "platform": "Game Boy",
+      "risk_level": "low",
+      "json_path": "packs/pokemon-crystal-game-boy.json",
+      "md_path": "packs/pokemon-crystal-game-boy.md"
+    },
+    {
+      "game_id": "silent-hill-playstation",
+      "title": "Silent Hill",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/silent-hill-playstation.json",
+      "md_path": "packs/silent-hill-playstation.md"
+    },
+    {
+      "game_id": "shinobi-iii-sega-genesis",
+      "title": "Shinobi III",
+      "platform": "Sega Genesis",
+      "risk_level": "low",
+      "json_path": "packs/shinobi-iii-sega-genesis.json",
+      "md_path": "packs/shinobi-iii-sega-genesis.md"
+    },
+    {
+      "game_id": "megaman-zero-game-boy-advance",
+      "title": "Mega Man Zero",
+      "platform": "Game Boy Advance",
+      "risk_level": "high",
+      "json_path": "packs/megaman-zero-game-boy-advance.json",
+      "md_path": "packs/megaman-zero-game-boy-advance.md"
+    },
+    {
+      "game_id": "mario-kart-super-circuit-game-boy-advance",
+      "title": "Mario Kart: Super Circuit",
+      "platform": "Game Boy Advance",
+      "risk_level": "high",
+      "json_path": "packs/mario-kart-super-circuit-game-boy-advance.json",
+      "md_path": "packs/mario-kart-super-circuit-game-boy-advance.md"
+    },
+    {
+      "game_id": "castlevania-bloodlines-sega-genesis",
+      "title": "Castlevania: Bloodlines",
+      "platform": "Sega Genesis",
+      "risk_level": "high",
+      "json_path": "packs/castlevania-bloodlines-sega-genesis.json",
+      "md_path": "packs/castlevania-bloodlines-sega-genesis.md"
+    },
+    {
+      "game_id": "wario-land-super-mario-land-3-game-boy",
+      "title": "Wario Land: Super Mario Land 3",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/wario-land-super-mario-land-3-game-boy.json",
+      "md_path": "packs/wario-land-super-mario-land-3-game-boy.md"
+    },
+    {
+      "game_id": "metroid-ii-return-of-samus-game-boy",
+      "title": "Metroid II: Return of Samus",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/metroid-ii-return-of-samus-game-boy.json",
+      "md_path": "packs/metroid-ii-return-of-samus-game-boy.md"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+Create an original editorial illustration for a retro video game database entry.
+
+Game metadata:
+- Title: Castle of Illusion
+- Platform: Sega Master System
+- Release year: 1990
+- Genre: Platformer, Action
+- Mood: playful, kinetic, bright
+- Setting: stacked platforms, rolling backdrop, floating shapes
+- Key objects: spring, coin-like token, toy block
+
+Visual goal:
+- Represent the game's atmosphere, genre, and collectible identity
+- Produce a unique, original image suitable for a premium database card
+- The image must feel iconic, readable, and emotionally evocative
+
+Composition:
+- A single symbolic prop or machine-inspired form, centered or slightly offset, with strong collectible-card readability
+- Designed for use in a GameDetail header / hero illustration
+
+Style system:
+- Use the visual language associated with clean arcade illustration, simple geometry, high contrast shapes, restrained palette
+- Apply the RetroDex art direction: premium collectible editorial art, readable, elegant, atmospheric
+
+Strict legal and safety constraints:
+- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite
+- Do NOT imitate exact copyrighted visual designs
+- Do NOT include any trademarked logo or title text inside the image
+- Evoke only the atmosphere, archetypes, objects, and genre cues
+- The result must be fully original and non-infringing in appearance
+
+Output:
+- High detail
+- Premium editorial game-card illustration
+- No text
+- No watermark
+- Clean readable lighting
+
+Negative constraints:
+avoid any mascot-like facial or costume elements, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text

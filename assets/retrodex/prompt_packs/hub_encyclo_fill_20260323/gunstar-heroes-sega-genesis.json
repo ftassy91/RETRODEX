@@ -1,0 +1,6 @@
+{
+  "game_id": "gunstar-heroes-sega-genesis",
+  "title": "Gunstar Heroes",
+  "prompt": "Original pixel art illustration inspired by a 16-bit run-and-gun action game. Two compact heroic fighters, one in blue and one in red, leap across a metal platform while firing energy shots at a giant mechanized core in the background. Visual focus: readable hero silhouettes, explosive arcade action, one clear boss machine shape, readable in one second. Style: Sega Genesis pixel art, bold contrast, crunchy sprite shading, energetic arcade palette, sharp silhouettes, no painterly rendering. Mood: explosive, fast, rebellious. Composition: dynamic diagonal jump, central machine target, minimal clutter, clear foreground and background separation. Important: no logos, no text, no exact official character faces or costumes, no direct copying of sprite sheets, keep it original but strongly evocative.",
+  "negative_prompt": "text, logo, watermark, official gunstar heroes sprite designs, exact costumes, box art recreation, realistic painting, blurry illustration"
+}

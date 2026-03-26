@@ -1,0 +1,486 @@
+[
+  {
+    "game_id": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+    "slug": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+    "title": "The Legend of Zelda: Ocarina of Time",
+    "platform": "Nintendo 64",
+    "year": 1998,
+    "developer": "Nintendo",
+    "metascore": 99,
+    "rarity": "COMMON",
+    "genre_primary": "Action-Adventure",
+    "genre_secondary": "Fantasy",
+    "tone": [
+      "mysterious",
+      "heroic",
+      "mythic"
+    ],
+    "setting": [
+      "ruins",
+      "path",
+      "distant landmark"
+    ],
+    "key_objects": [
+      "sword",
+      "lantern",
+      "stone relic",
+      "artifact"
+    ],
+    "core_object": "sword",
+    "context_scene": "a windswept fantasy landscape with ruins, a distant landmark, and a traversable path",
+    "genre_signal": "heroic fantasy exploration",
+    "focus_scale": 1.0,
+    "bucket": "fantasy_adventure",
+    "platform_style_id": "n64_color_volume",
+    "platform_style_description": "colorful stylized 3D collectible render, playful volume, toy-like readability",
+    "risk_level": "high",
+    "risk_reasons": [
+      "zelda"
+    ],
+    "illustration_class": "object",
+    "composition_type": "object",
+    "priority": 1008,
+    "legal_notes": "Risk level high; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+    "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: The Legend of Zelda: Ocarina of Time\n- Platform: Nintendo 64\n- Release year: 1998\n- Genre: Action-Adventure, Fantasy\n- Mood: mysterious, heroic, mythic\n- Context world: a windswept fantasy landscape with ruins, a distant landmark, and a traversable path\n- Central object: sword\n- Supporting objects: sword, lantern, stone relic, artifact\n- Genre signal: heroic fantasy exploration\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- colorful stylized 3D collectible render, playful volume, toy-like readability\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+    "negative_prompt": "avoid resemblance to zelda, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+    "retry_count": 0,
+    "status": "queued",
+    "correction_notes": []
+  },
+  {
+    "game_id": "tony-hawks-pro-skater-2-playstation",
+    "slug": "tony-hawks-pro-skater-2-playstation",
+    "title": "Tony Hawk's Pro Skater 2",
+    "platform": "PlayStation",
+    "year": 2000,
+    "developer": "Neversoft",
+    "metascore": 98,
+    "rarity": "COMMON",
+    "genre_primary": "Sports",
+    "genre_secondary": "Competition",
+    "tone": [
+      "competitive",
+      "clean",
+      "focused"
+    ],
+    "setting": [
+      "stadium",
+      "lights",
+      "field geometry"
+    ],
+    "key_objects": [
+      "vehicle",
+      "ball",
+      "trophy silhouette",
+      "score marker"
+    ],
+    "core_object": "vehicle",
+    "context_scene": "a stadium or competition ground with lights, field markers, and focused event framing",
+    "genre_signal": "competitive event focus",
+    "focus_scale": 1.0,
+    "bucket": "sports",
+    "platform_style_id": "ps1_lowpoly_editorial",
+    "platform_style_description": "early 3D editorial look, low-poly-inspired forms, moody lighting, late-90s techno-fantasy atmosphere",
+    "risk_level": "low",
+    "risk_reasons": [
+      "generic_atmosphere_safe"
+    ],
+    "illustration_class": "object",
+    "composition_type": "object",
+    "priority": 1000,
+    "legal_notes": "Risk level low; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+    "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Tony Hawk's Pro Skater 2\n- Platform: PlayStation\n- Release year: 2000\n- Genre: Sports, Competition\n- Mood: competitive, clean, focused\n- Context world: a stadium or competition ground with lights, field markers, and focused event framing\n- Central object: vehicle\n- Supporting objects: vehicle, ball, trophy silhouette, score marker\n- Genre signal: competitive event focus\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- early 3D editorial look, low-poly-inspired forms, moody lighting, late-90s techno-fantasy atmosphere\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+    "negative_prompt": "no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+    "retry_count": 0,
+    "status": "queued",
+    "correction_notes": []
+  },
+  {
+    "game_id": "soul-calibur-dreamcast",
+    "slug": "soul-calibur-dreamcast",
+    "title": "Soul Calibur",
+    "platform": "Dreamcast",
+    "year": 1999,
+    "developer": "Project Soul",
+    "metascore": 98,
+    "rarity": "COMMON",
+    "genre_primary": "Fighting",
+    "genre_secondary": "Combat",
+    "tone": [
+      "intense",
+      "dramatic",
+      "charged"
+    ],
+    "setting": [
+      "arena",
+      "banner field",
+      "impact burst"
+    ],
+    "key_objects": [
+      "weapon",
+      "gauntlet",
+      "arena sigil",
+      "impact ring"
+    ],
+    "core_object": "weapon",
+    "context_scene": "an arena or duel space with impact energy, banners, and confrontation framing",
+    "genre_signal": "combat readiness and duel pressure",
+    "focus_scale": 1.0,
+    "bucket": "fighting",
+    "platform_style_id": "dreamcast_futurist",
+    "platform_style_description": "clean futurist editorial art, airy space, modern arcade tone, bright accent lighting",
+    "risk_level": "medium",
+    "risk_reasons": [
+      "bucket_sensitive_visual_identity"
+    ],
+    "illustration_class": "object",
+    "composition_type": "object",
+    "priority": 999,
+    "legal_notes": "Risk level medium; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+    "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Soul Calibur\n- Platform: Dreamcast\n- Release year: 1999\n- Genre: Fighting, Combat\n- Mood: intense, dramatic, charged\n- Context world: an arena or duel space with impact energy, banners, and confrontation framing\n- Central object: weapon\n- Supporting objects: weapon, gauntlet, arena sigil, impact ring\n- Genre signal: combat readiness and duel pressure\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- clean futurist editorial art, airy space, modern arcade tone, bright accent lighting\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+    "negative_prompt": "avoid any mascot-like facial or costume elements, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+    "retry_count": 0,
+    "status": "queued",
+    "correction_notes": []
+  },
+  {
+    "game_id": "castlevania-rondo-of-blood-turbografx-16",
+    "slug": "castlevania-rondo-of-blood-turbografx-16",
+    "title": "Castlevania: Rondo of Blood",
+    "platform": "TurboGrafx-16",
+    "year": 1993,
+    "developer": "Konami",
+    "metascore": 94,
+    "rarity": "LEGENDARY",
+    "genre_primary": "Action-Platformer",
+    "genre_secondary": "Retro",
+    "tone": [
+      "mysterious",
+      "heroic",
+      "mythic"
+    ],
+    "setting": [
+      "ruins",
+      "path",
+      "distant landmark"
+    ],
+    "key_objects": [
+      "sword",
+      "lantern",
+      "stone relic",
+      "portal ring"
+    ],
+    "core_object": "sword",
+    "context_scene": "a windswept fantasy landscape with ruins, a distant landmark, and a traversable path",
+    "genre_signal": "heroic fantasy exploration",
+    "focus_scale": 1.0,
+    "bucket": "fantasy_adventure",
+    "platform_style_id": "turbografx_arcade_poster",
+    "platform_style_description": "bright arcade key art, punchy motion, crisp light, poster-like composition",
+    "risk_level": "high",
+    "risk_reasons": [
+      "castlevania"
+    ],
+    "illustration_class": "object",
+    "composition_type": "object",
+    "priority": 998,
+    "legal_notes": "Risk level high; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+    "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Castlevania: Rondo of Blood\n- Platform: TurboGrafx-16\n- Release year: 1993\n- Genre: Action-Platformer, Retro\n- Mood: mysterious, heroic, mythic\n- Context world: a windswept fantasy landscape with ruins, a distant landmark, and a traversable path\n- Central object: sword\n- Supporting objects: sword, lantern, stone relic, portal ring\n- Genre signal: heroic fantasy exploration\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- bright arcade key art, punchy motion, crisp light, poster-like composition\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+    "negative_prompt": "avoid resemblance to castlevania, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+    "retry_count": 0,
+    "status": "queued",
+    "correction_notes": []
+  },
+  {
+    "game_id": "perfect-dark-nintendo-64",
+    "slug": "perfect-dark-nintendo-64",
+    "title": "Perfect Dark",
+    "platform": "Nintendo 64",
+    "year": 2000,
+    "developer": "Rare",
+    "metascore": 97,
+    "rarity": "COMMON",
+    "genre_primary": "FPS",
+    "genre_secondary": "Action",
+    "tone": [
+      "aggressive",
+      "fast",
+      "arcade"
+    ],
+    "setting": [
+      "star lane",
+      "energy tunnel",
+      "combat haze"
+    ],
+    "key_objects": [
+      "weapon",
+      "craft silhouette",
+      "energy bolt",
+      "shield disc"
+    ],
+    "core_object": "weapon",
+    "context_scene": "a deep space lane or combat tunnel with velocity and incoming threat",
+    "genre_signal": "arcade velocity and projectile threat",
+    "focus_scale": 1.0,
+    "bucket": "shooter_arcade",
+    "platform_style_id": "n64_color_volume",
+    "platform_style_description": "colorful stylized 3D collectible render, playful volume, toy-like readability",
+    "risk_level": "medium",
+    "risk_reasons": [
+      "perfect dark"
+    ],
+    "illustration_class": "object",
+    "composition_type": "object",
+    "priority": 990,
+    "legal_notes": "Risk level medium; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+    "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Perfect Dark\n- Platform: Nintendo 64\n- Release year: 2000\n- Genre: FPS, Action\n- Mood: aggressive, fast, arcade\n- Context world: a deep space lane or combat tunnel with velocity and incoming threat\n- Central object: weapon\n- Supporting objects: weapon, craft silhouette, energy bolt, shield disc\n- Genre signal: arcade velocity and projectile threat\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- colorful stylized 3D collectible render, playful volume, toy-like readability\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+    "negative_prompt": "avoid resemblance to perfect dark, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+    "retry_count": 0,
+    "status": "queued",
+    "correction_notes": []
+  },
+  {
+    "game_id": "tetris-game-boy",
+    "slug": "tetris-game-boy",
+    "title": "Tetris",
+    "platform": "Game Boy",
+    "year": 1989,
+    "developer": "Nintendo R&D1",
+    "metascore": 98,
+    "rarity": "COMMON",
+    "genre_primary": "Puzzle",
+    "genre_secondary": "Abstract",
+    "tone": [
+      "precise",
+      "calm",
+      "cerebral",
+      "minimal"
+    ],
+    "setting": [
+      "grid",
+      "negative space",
+      "stacked motifs"
+    ],
+    "key_objects": [
+      "tile_stack",
+      "tile cluster",
+      "orb",
+      "frame marker"
+    ],
+    "core_object": "tile_stack",
+    "context_scene": "a physical puzzle space with stacked pieces, spatial logic, and grounded surfaces",
+    "genre_signal": "spatial problem-solving with physical pieces",
+    "focus_scale": 1.0,
+    "bucket": "puzzle_abstract",
+    "platform_style_id": "gameboy_monochrome_story",
+    "platform_style_description": "monochrome handheld illustration, limited green palette, crisp pixel-informed shapes, nostalgic portable mood",
+    "risk_level": "high",
+    "risk_reasons": [
+      "tetris"
+    ],
+    "illustration_class": "object",
+    "composition_type": "object",
+    "priority": 989,
+    "legal_notes": "Risk level high; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+    "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Tetris\n- Platform: Game Boy\n- Release year: 1989\n- Genre: Puzzle, Abstract\n- Mood: precise, calm, cerebral, minimal\n- Context world: a physical puzzle space with stacked pieces, spatial logic, and grounded surfaces\n- Central object: tile_stack\n- Supporting objects: tile_stack, tile cluster, orb, frame marker\n- Genre signal: spatial problem-solving with physical pieces\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- monochrome handheld illustration, limited green palette, crisp pixel-informed shapes, nostalgic portable mood\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+    "negative_prompt": "avoid resemblance to tetris, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+    "retry_count": 0,
+    "status": "queued",
+    "correction_notes": []
+  },
+  {
+    "game_id": "super-mario-64-nintendo-64",
+    "slug": "super-mario-64-nintendo-64",
+    "title": "Super Mario 64",
+    "platform": "Nintendo 64",
+    "year": 1996,
+    "developer": "Nintendo",
+    "metascore": 97,
+    "rarity": "COMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Action",
+    "tone": [
+      "playful",
+      "kinetic",
+      "bright"
+    ],
+    "setting": [
+      "stacked platforms",
+      "rolling backdrop",
+      "floating shapes"
+    ],
+    "key_objects": [
+      "artifact",
+      "spring",
+      "coin-like token",
+      "toy block"
+    ],
+    "core_object": "artifact",
+    "context_scene": "a playful platform world with layered terrain, readable obstacles, and bright depth cues",
+    "genre_signal": "playful traversal and momentum",
+    "focus_scale": 1.0,
+    "bucket": "platformer_cartoon",
+    "platform_style_id": "n64_color_volume",
+    "platform_style_description": "colorful stylized 3D collectible render, playful volume, toy-like readability",
+    "risk_level": "high",
+    "risk_reasons": [
+      "mario"
+    ],
+    "illustration_class": "object",
+    "composition_type": "object",
+    "priority": 986,
+    "legal_notes": "Risk level high; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+    "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Super Mario 64\n- Platform: Nintendo 64\n- Release year: 1996\n- Genre: Platformer, Action\n- Mood: playful, kinetic, bright\n- Context world: a playful platform world with layered terrain, readable obstacles, and bright depth cues\n- Central object: artifact\n- Supporting objects: artifact, spring, coin-like token, toy block\n- Genre signal: playful traversal and momentum\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- colorful stylized 3D collectible render, playful volume, toy-like readability\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+    "negative_prompt": "avoid resemblance to mario, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+    "retry_count": 0,
+    "status": "queued",
+    "correction_notes": []
+  },
+  {
+    "game_id": "super-metroid-super-nintendo",
+    "slug": "super-metroid-super-nintendo",
+    "title": "Super Metroid",
+    "platform": "Super Nintendo",
+    "year": 1994,
+    "developer": "Nintendo",
+    "metascore": 96,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Action-Adventure",
+    "genre_secondary": "Fantasy",
+    "tone": [
+      "futuristic",
+      "urgent",
+      "cold",
+      "focused"
+    ],
+    "setting": [
+      "starfield",
+      "reactor space",
+      "industrial skyline",
+      "industrial glow"
+    ],
+    "key_objects": [
+      "helmet",
+      "visor",
+      "energy core",
+      "drone-like beacon"
+    ],
+    "core_object": "helmet",
+    "context_scene": "a futuristic industrial skyline or reactor zone with cold light and scale",
+    "genre_signal": "futuristic danger and combat technology",
+    "focus_scale": 1.0,
+    "bucket": "sci_fi_action",
+    "platform_style_id": "snes_storybook_16bit",
+    "platform_style_description": "colorful 16-bit-inspired fantasy illustration, richer gradients, polished sprite-era composition",
+    "risk_level": "high",
+    "risk_reasons": [
+      "metroid"
+    ],
+    "illustration_class": "object",
+    "composition_type": "object",
+    "priority": 984,
+    "legal_notes": "Risk level high; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+    "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Super Metroid\n- Platform: Super Nintendo\n- Release year: 1994\n- Genre: Action-Adventure, Fantasy\n- Mood: futuristic, urgent, cold, focused\n- Context world: a futuristic industrial skyline or reactor zone with cold light and scale\n- Central object: helmet\n- Supporting objects: helmet, visor, energy core, drone-like beacon\n- Genre signal: futuristic danger and combat technology\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- colorful 16-bit-inspired fantasy illustration, richer gradients, polished sprite-era composition\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+    "negative_prompt": "avoid resemblance to metroid, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+    "retry_count": 0,
+    "status": "queued",
+    "correction_notes": []
+  },
+  {
+    "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+    "slug": "super-mario-bros-3-nintendo-entertainment-system",
+    "title": "Super Mario Bros. 3",
+    "platform": "Nintendo Entertainment System",
+    "year": 1990,
+    "developer": "Nintendo R&D4",
+    "metascore": 97,
+    "rarity": "COMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Action",
+    "tone": [
+      "playful",
+      "kinetic",
+      "bright"
+    ],
+    "setting": [
+      "stacked platforms",
+      "rolling backdrop",
+      "floating shapes"
+    ],
+    "key_objects": [
+      "artifact",
+      "spring",
+      "coin-like token",
+      "toy block"
+    ],
+    "core_object": "artifact",
+    "context_scene": "a playful platform world with layered terrain, readable obstacles, and bright depth cues",
+    "genre_signal": "playful traversal and momentum",
+    "focus_scale": 1.0,
+    "bucket": "platformer_cartoon",
+    "platform_style_id": "nes_restrained_poster",
+    "platform_style_description": "restrained retro poster aesthetic, simple shapes, limited palette, readable silhouettes, 8-bit spirit without actual sprites",
+    "risk_level": "high",
+    "risk_reasons": [
+      "mario"
+    ],
+    "illustration_class": "object",
+    "composition_type": "object",
+    "priority": 980,
+    "legal_notes": "Risk level high; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+    "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Super Mario Bros. 3\n- Platform: Nintendo Entertainment System\n- Release year: 1990\n- Genre: Platformer, Action\n- Mood: playful, kinetic, bright\n- Context world: a playful platform world with layered terrain, readable obstacles, and bright depth cues\n- Central object: artifact\n- Supporting objects: artifact, spring, coin-like token, toy block\n- Genre signal: playful traversal and momentum\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- restrained retro poster aesthetic, simple shapes, limited palette, readable silhouettes, 8-bit spirit without actual sprites\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+    "negative_prompt": "avoid resemblance to mario, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+    "retry_count": 0,
+    "status": "queued",
+    "correction_notes": []
+  },
+  {
+    "game_id": "tekken-3-playstation",
+    "slug": "tekken-3-playstation",
+    "title": "Tekken 3",
+    "platform": "PlayStation",
+    "year": 1998,
+    "developer": "Namco",
+    "metascore": 96,
+    "rarity": "COMMON",
+    "genre_primary": "Fighting",
+    "genre_secondary": "Combat",
+    "tone": [
+      "intense",
+      "dramatic",
+      "charged",
+      "aggressive"
+    ],
+    "setting": [
+      "arena",
+      "banner field",
+      "impact burst"
+    ],
+    "key_objects": [
+      "weapon",
+      "gauntlet",
+      "arena sigil",
+      "impact ring"
+    ],
+    "core_object": "weapon",
+    "context_scene": "an arena or duel space with impact energy, banners, and confrontation framing",
+    "genre_signal": "combat readiness and duel pressure",
+    "focus_scale": 1.0,
+    "bucket": "fighting",
+    "platform_style_id": "ps1_lowpoly_editorial",
+    "platform_style_description": "early 3D editorial look, low-poly-inspired forms, moody lighting, late-90s techno-fantasy atmosphere",
+    "risk_level": "high",
+    "risk_reasons": [
+      "tekken"
+    ],
+    "illustration_class": "object",
+    "composition_type": "object",
+    "priority": 978,
+    "legal_notes": "Risk level high; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+    "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Tekken 3\n- Platform: PlayStation\n- Release year: 1998\n- Genre: Fighting, Combat\n- Mood: intense, dramatic, charged, aggressive\n- Context world: an arena or duel space with impact energy, banners, and confrontation framing\n- Central object: weapon\n- Supporting objects: weapon, gauntlet, arena sigil, impact ring\n- Genre signal: combat readiness and duel pressure\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- early 3D editorial look, low-poly-inspired forms, moody lighting, late-90s techno-fantasy atmosphere\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+    "negative_prompt": "avoid resemblance to tekken, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+    "retry_count": 0,
+    "status": "queued",
+    "correction_notes": []
+  }
+]

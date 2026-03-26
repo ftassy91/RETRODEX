@@ -1,0 +1,6 @@
+{
+  "game_id": "mega-man-x3-super-nintendo",
+  "title": "Mega Man X3",
+  "prompt": "Original pixel art illustration inspired by a 16-bit futuristic action platformer. A blue armored android hero stands on an industrial platform with a charged arm cannon raised toward a huge mechanical gate and warning lights in the distance. Visual focus: one clear armored hero silhouette, one industrial sci-fi landmark, readable in one second. Style: Super Nintendo pixel art, crisp 16-bit sprite shading, saturated blue and steel tones, sharp outlines, clean layered background, no painterly rendering. Mood: determined, high-tech, urgent. Composition: hero in foreground, strong side lighting, mechanical backdrop, minimal clutter. Important: no logos, no text, no exact official helmet or armor design, no direct copying of sprite art, keep it original but immediately evocative.",
+  "negative_prompt": "text, logo, watermark, official mega man x design, exact helmet replication, exact armor replication, box art recreation, realistic painting"
+}

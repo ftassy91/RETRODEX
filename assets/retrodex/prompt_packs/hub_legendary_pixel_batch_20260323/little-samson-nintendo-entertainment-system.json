@@ -1,0 +1,6 @@
+{
+    "game_id":  "little-samson-nintendo-entertainment-system",
+    "title":  "Little Samson",
+    "prompt":  "Original pixel art illustration inspired by an 8-bit fantasy platformer. A small child hero with a simple tunic and slingshot stands on a rocky ledge beside a tiny dragon companion, looking toward a distant dark citadel across a colorful valley. Visual focus: one small hero, one tiny dragon, one destination, readable in 1 second. Style: expressive NES pixel art, bright but limited palette, clean sprite-era silhouettes, no blur. Mood: brave, whimsical, adventurous. Composition: hero on left foreground, valley center, castle landmark on horizon, no clutter. Important: do not replicate official Little Samson character designs, logos, or box art. Must feel original but evoke a charming late NES fantasy quest.",
+    "negative_prompt":  "official Little Samson character likeness, logo, exact dragon design, text, realistic painting, 3D render"
+}

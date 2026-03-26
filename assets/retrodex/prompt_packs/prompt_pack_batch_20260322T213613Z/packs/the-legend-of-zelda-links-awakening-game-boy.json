@@ -1,0 +1,50 @@
+{
+  "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+  "title": "The Legend of Zelda: Link's Awakening",
+  "platform": "Game Boy",
+  "year": 1993,
+  "genre_primary": "Action-Adventure",
+  "genre_secondary": "Fantasy",
+  "bucket": "fantasy_adventure",
+  "risk_level": "high",
+  "risk_reasons": [
+    "link",
+    "zelda"
+  ],
+  "platform_style_id": "gameboy_monochrome_story",
+  "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+  "palette_hint": [
+    "#0f380f",
+    "#306230",
+    "#8bac0f",
+    "#cadc9f"
+  ],
+  "main_subject": "a small child-sized adventurer seen from behind on the left foreground with a short sword at their side",
+  "environment": "a calm island shoreline looking across open water toward a single steep mountain island placed on the right side, with a smooth egg-shaped shrine integrated at its summit",
+  "action_mood_cue": "standing still after reaching the shore, facing the distant island in sea wind",
+  "mood": [
+    "lonely",
+    "dreamlike",
+    "adventurous"
+  ],
+  "composition": "small child-sized figure anchored in the lower-left foreground, broad reflective water across the center, one dominant mountain island on the right third, a clear egg-shaped summit, simple clouds, screen-like framing, and strong negative space",
+  "memory_hook": "portable island adventure, quiet arrival after the shore, and a single egg-crowned destination on the horizon",
+  "legal_watchouts": [
+    "avoid Link likeness",
+    "avoid exact island mountain shapes from official art",
+    "avoid official shield and hat details",
+    "avoid title-screen text or logos",
+    "avoid exact Wind Fish egg iconography"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA small child-sized adventurer seen from behind on the left foreground with a short sword at their side in a calm island shoreline looking across open water toward a single steep mountain island placed on the right side, with a smooth egg-shaped shrine integrated at its summit, standing still after reaching the shore, facing the distant island in sea wind.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- lonely, dreamlike, adventurous\n\nComposition:\n- small child-sized figure anchored in the lower-left foreground, broad reflective water across the center, one dominant mountain island on the right third, a clear egg-shaped summit, simple clouds, screen-like framing, and strong negative space\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Link likeness, avoid exact island mountain shapes from official art, avoid official shield and hat details, avoid title-screen text or logos, avoid exact Wind Fish egg iconography, avoid resemblance to link, avoid resemblance to zelda",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

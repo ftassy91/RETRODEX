@@ -1,0 +1,6 @@
+game_id,status,risk_level,illustration_class,retries,qa_score
+panzer-dragoon-saga-sega-saturn,generated,medium,object,2,100
+the-legend-of-zelda-ocarina-of-time-nintendo-64,generated,high,object,1,100
+radiant-silvergun-sega-saturn,generated,low,hero,0,100
+tony-hawks-pro-skater-2-playstation,generated,low,hero,0,100
+soul-calibur-dreamcast,generated,medium,object,0,100

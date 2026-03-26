@@ -1,0 +1,45 @@
+{
+  "game_id": "tetris-game-boy",
+  "title": "Tetris",
+  "platform": "Game Boy",
+  "retry_count": 0,
+  "classification": {
+    "bucket": "puzzle_abstract",
+    "risk_level": "high",
+    "illustration_class": "object",
+    "composition_type": "object"
+  },
+  "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Tetris\n- Platform: Game Boy\n- Release year: 1989\n- Genre: Puzzle, Abstract\n- Mood: precise, calm, cerebral, minimal\n- Context world: a physical puzzle space with stacked pieces, spatial logic, and grounded surfaces\n- Central object: tile_stack\n- Supporting objects: tile_stack, tile cluster, orb, frame marker\n- Genre signal: spatial problem-solving with physical pieces\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- monochrome handheld illustration, limited green palette, crisp pixel-informed shapes, nostalgic portable mood\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+  "negative_prompt": "avoid resemblance to tetris, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "render": {
+    "path": "assets/retrodex/renders/game-boy/tetris-game-boy_b01_r00.png",
+    "subject_bbox": [
+      272,
+      225,
+      784,
+      747
+    ],
+    "subject_label": "tile_stack"
+  },
+  "qa": {
+    "checks": {
+      "no_text_detected": true,
+      "no_logo_detected": true,
+      "no_character_likeness": true,
+      "subject_readable": true,
+      "ui_overlay_usable": true,
+      "no_copyright_replication": true,
+      "platform_style_match": true
+    },
+    "qa_score": 100,
+    "status": "generated",
+    "failure_reasons": [],
+    "metrics": {
+      "area_ratio": 0.1856,
+      "subject_contrast": 145.68,
+      "overlay_mean": 29.4,
+      "overlay_std": 5.78
+    }
+  },
+  "generated_at": "2026-03-22T15:42:30Z"
+}

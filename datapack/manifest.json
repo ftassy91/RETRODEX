@@ -1,0 +1,53 @@
+{
+  "name": "RetroDex DataPack",
+  "version": "1.2",
+  "updated": "2026-03-13",
+  "description": "Données vérifiées et assets de base pour RetroDex.",
+  "contents": {
+    "catalog": {
+      "file": "catalog.json",
+      "entries": 507
+    },
+    "prices": {
+      "file": "prices.json",
+      "entries": 507
+    },
+    "consoles": {
+      "file": "consoles.json",
+      "entries": 16
+    },
+    "assets": [
+      "3ds-template.png"
+    ]
+  },
+  "stats": {
+    "total_games": 507,
+    "total_prices": 507,
+    "total_consoles": 16,
+    "consoles_covered": [
+      "Atari Lynx",
+      "Dreamcast",
+      "Game Boy",
+      "Game Boy Advance",
+      "Game Gear",
+      "Neo Geo",
+      "Nintendo 64",
+      "Nintendo DS",
+      "Nintendo Entertainment System",
+      "PlayStation",
+      "Sega Genesis",
+      "Sega Master System",
+      "Sega Saturn",
+      "Super Nintendo",
+      "TurboGrafx-16",
+      "WonderSwan"
+    ],
+    "rarity_breakdown": {
+      "COMMON": 256,
+      "UNCOMMON": 186,
+      "RARE": 41,
+      "EPIC": 18,
+      "LEGENDARY": 6
+    }
+  }
+}

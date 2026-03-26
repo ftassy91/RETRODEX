@@ -1,0 +1,18 @@
+{
+  "game_id": "magical-drop-iii-neo-geo",
+  "slug": "magical-drop-iii-neo-geo",
+  "title": "Magical Drop III",
+  "platform": "Neo Geo",
+  "year": 1997,
+  "genre_primary": "Adventure",
+  "genre_secondary": "Mystery",
+  "bucket": "fantasy_adventure",
+  "platform_style": "neo_geo_premium_arcade",
+  "illustration_class": "hero",
+  "risk_level": "low",
+  "composition_type": "hero",
+  "prompt": "Create an original editorial illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Magical Drop III\n- Platform: Neo Geo\n- Release year: 1997\n- Genre: Adventure, Mystery\n- Mood: mysterious, heroic, mythic\n- Setting: ruins, path, distant landmark\n- Key objects: sword, lantern, stone relic\n\nVisual goal:\n- Represent the game's atmosphere, genre, and collectible identity\n- Produce a unique, original image suitable for a premium database card\n- The image must feel iconic, readable, and emotionally evocative\n\nComposition:\n- One archetypal, faceless silhouette or totemic figure, never resembling an official character, placed against strong atmosphere and generous negative space\n- Designed for use in a GameDetail header / hero illustration\n\nStyle system:\n- Use the visual language associated with premium arcade key art, dramatic contrast, dynamic framing, bold heroic silhouettes\n- Apply the RetroDex art direction: premium collectible editorial art, readable, elegant, atmospheric\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, archetypes, objects, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial game-card illustration\n- No text\n- No watermark\n- Clean readable lighting",
+  "negative_prompt": "no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text",
+  "legal_notes": "Risk level low; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

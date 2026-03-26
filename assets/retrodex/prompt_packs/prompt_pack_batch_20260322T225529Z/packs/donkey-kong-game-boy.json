@@ -1,0 +1,49 @@
+{
+  "game_id": "donkey-kong-game-boy",
+  "title": "Donkey Kong",
+  "platform": "Game Boy",
+  "year": 1994,
+  "genre_primary": "Platformer",
+  "genre_secondary": "Playful",
+  "bucket": "platformer_cartoon",
+  "risk_level": "high",
+  "risk_reasons": [
+    "donkey kong"
+  ],
+  "platform_style_id": "gameboy_monochrome_story",
+  "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+  "palette_hint": [
+    "#0f380f",
+    "#306230",
+    "#8bac0f",
+    "#cadc9f"
+  ],
+  "memory_rule_id": "donkey_kong_gb_girder_climb",
+  "main_subject": "a stout climber under a hanging platform with one large ape-like silhouette above",
+  "environment": "a vertical construction-site puzzle space with girders, ladders, and a few rolling barrel-like hazards",
+  "action_mood_cue": "mid-climb in a tense rescue-puzzle moment",
+  "mood": [
+    "arcade",
+    "playful",
+    "tense"
+  ],
+  "composition": "single climber foreground and one large ape silhouette as distant threat, strong vertical read, and sparse puzzle geometry",
+  "memory_hook": "ladders, girders, barrels, and a tense arcade climb with instant readability",
+  "legal_watchouts": [
+    "avoid exact ape likeness",
+    "avoid official barrel logos",
+    "avoid exact construction layout from arcade screens",
+    "avoid franchise lettering"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Platformer game.\n\nA stout climber under a hanging platform with one large ape-like silhouette above in a vertical construction-site puzzle space with girders, ladders, and a few rolling barrel-like hazards, mid-climb in a tense rescue-puzzle moment.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- arcade, playful, tense\n\nComposition:\n- single climber foreground and one large ape silhouette as distant threat, strong vertical read, and sparse puzzle geometry\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid exact ape likeness, avoid official barrel logos, avoid exact construction layout from arcade screens, avoid franchise lettering, avoid resemblance to donkey kong",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

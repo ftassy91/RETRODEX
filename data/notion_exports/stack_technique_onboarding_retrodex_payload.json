@@ -1,0 +1,16 @@
+{
+  "status": "ready_but_blocked_by_notion_auth",
+  "blocked_reason": "notion_api_token_invalid",
+  "target_parent_title": "RETRODEX - HQ",
+  "intended_action": "create_child_page_and_add_visible_link_from_hq",
+  "page_title": "STACK TECHNIQUE - Onboarding developpeur - RetroDex",
+  "source_markdown_path": "STACK_TECHNIQUE_ONBOARDING_RETRODEX.md",
+  "placement_hint": "Documentation / Onboarding / References techniques",
+  "hq_link_label": "STACK TECHNIQUE - Onboarding developpeur - RetroDex",
+  "created_at_utc": "2026-03-22T15:21:30Z",
+  "notes": [
+    "The onboarding content was written from the observed local codebase.",
+    "Direct Notion MCP access currently returns 401 unauthorized.",
+    "Use this payload once Notion access to RETRODEX - HQ is restored."
+  ]
+}

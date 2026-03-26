@@ -1,0 +1,41 @@
+[
+  {
+    "game_id": "castlevania-bloodlines-sega-genesis",
+    "title": "Castlevania: Bloodlines",
+    "status": "error",
+    "error": "Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************MdQA. You c",
+    "output_path": null
+  },
+  {
+    "game_id": "metroid-zero-mission-game-boy-advance",
+    "title": "Metroid: Zero Mission",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T222721Z\\metroid-zero-mission-game-boy-advance.png",
+    "revised_prompt": "Imagine an image inspired by a vintage Action-Adventure game. A solitary, armored explorer equipped with an arm-mounted tool stands within an eerie alien cavern. The cavern is populated with towering biomechanical pillars that stretch towar",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-yzneuVBV8ADQvVfFovoVIxzA.png?st=2026-03-22T21%3A27%3A36Z&se=2026-03-22T23%3A27%3A36Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=77e5a8ec-6bd1-4477-8afc-16703a64f029&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T01%3A30%3A03Z&ske=2026-03-23T01%3A30%3A03Z&sks=b&skv=2026-02-06&sig=ltVHapBOrsd45Xy9eAQ6WkcEZ/JuYchuqVBRz%2B7dmb8%3D"
+  },
+  {
+    "game_id": "shinobi-iii-sega-genesis",
+    "title": "Shinobi III",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T222721Z\\shinobi-iii-sega-genesis.png",
+    "revised_prompt": "Create a high clarity, strong contrast, minimal noise illustration inspired by a retro Adventure game. Visualize a lone, unidentifiable ninja of ambiguous gender on a slanted rooftop in a moonlit city roofline. There are layered temple and ",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-h6VQrb6r00m7nIUMy6C4vHD4.png?st=2026-03-22T21%3A27%3A54Z&se=2026-03-22T23%3A27%3A54Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=8b33a531-2df9-46a3-bc02-d4b1430a422c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T02%3A59%3A00Z&ske=2026-03-23T02%3A59%3A00Z&sks=b&skv=2026-02-06&sig=JfxPSFw90Qe7gnxYAJ9ZE1tvU%2B5NvXUknWPRkGvJb6Q%3D"
+  },
+  {
+    "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+    "title": "Super Mario Bros. 3",
+    "status": "error",
+    "error": "Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************MdQA. You c",
+    "output_path": null
+  },
+  {
+    "game_id": "super-metroid-super-nintendo",
+    "title": "Super Metroid",
+    "status": "error",
+    "error": "Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************MdQA. You c",
+    "output_path": null
+  }
+]

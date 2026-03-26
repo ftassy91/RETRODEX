@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-03-22T23:31:50Z",
+  "stage_completed": "incremental_sync_scan_completed",
+  "files_modified": [
+    ".venv/.gitignore",
+    ".venv/Lib/site-packages/81d243bd2c585b0f4821__mypyc.cp314-win_amd64.pyd",
+    ".venv/Lib/site-packages/annotated_types-0.7.0.dist-info/INSTALLER",
+    ".venv/Lib/site-packages/annotated_types-0.7.0.dist-info/METADATA",
+    ".venv/Lib/site-packages/annotated_types-0.7.0.dist-info/RECORD",
+    ".venv/Lib/site-packages/annotated_types-0.7.0.dist-info/WHEEL",
+    ".venv/Lib/site-packages/annotated_types-0.7.0.dist-info/licenses/LICENSE",
+    ".venv/Lib/site-packages/annotated_types/__init__.py",
+    ".venv/Lib/site-packages/annotated_types/py.typed",
+    ".venv/Lib/site-packages/annotated_types/test_cases.py",
+    ".venv/Lib/site-packages/anyio-4.12.1.dist-info/INSTALLER",
+    ".venv/Lib/site-packages/anyio-4.12.1.dist-info/METADATA",
+    ".venv/Lib/site-packages/anyio-4.12.1.dist-info/RECORD",
+    ".venv/Lib/site-packages/anyio-4.12.1.dist-info/WHEEL",
+    ".venv/Lib/site-packages/anyio-4.12.1.dist-info/entry_points.txt",
+    ".venv/Lib/site-packages/anyio-4.12.1.dist-info/licenses/LICENSE",
+    ".venv/Lib/site-packages/anyio-4.12.1.dist-info/top_level.txt",
+    ".venv/Lib/site-packages/anyio/__init__.py",
+    ".venv/Lib/site-packages/anyio/_backends/__init__.py",
+    ".venv/Lib/site-packages/anyio/_backends/_asyncio.py",
+    ".venv/Lib/site-packages/anyio/_backends/_trio.py",
+    ".venv/Lib/site-packages/anyio/_core/__init__.py",
+    ".venv/Lib/site-packages/anyio/_core/_asyncio_selector_thread.py",
+    ".venv/Lib/site-packages/anyio/_core/_contextmanagers.py",
+    ".venv/Lib/site-packages/anyio/_core/_eventloop.py"
+  ],
+  "tasks_created": [
+    "Sync audit 2026-03-22T23:31:50Z",
+    "Review sync batch sync-20260322T233157Z",
+    "Sync automation checkpoint",
+    "Catalog baseline snapshot",
+    "Market baseline snapshot",
+    "Asset baseline snapshot"
+  ],
+  "next_recommended_step": "Restore a valid Notion token and fill scripts/retrodex_sync_config.json so queued operations can be replayed."
+}

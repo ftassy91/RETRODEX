@@ -1,0 +1,21 @@
+{
+  "game_id": "rad-racer-nintendo-entertainment-system",
+  "slug": "rad-racer-nintendo-entertainment-system",
+  "title": "Rad Racer",
+  "platform": "Nintendo Entertainment System",
+  "year": 1987,
+  "genre_primary": "Racing",
+  "genre_secondary": "Competition",
+  "bucket": "racing",
+  "platform_style": "nes_restrained_poster",
+  "illustration_class": "object",
+  "risk_level": "low",
+  "subject_key": "vehicle",
+  "main_subject": "single colorful vehicle",
+  "action_mood_cue": "drifting through a curve with visible momentum",
+  "composition_type": "object",
+  "prompt": "Original illustration inspired by a retro Racing game.\n\nA single colorful vehicle in a fast track or road scene with motion lines, curve markers, and strong directional perspective, drifting through a curve with visible momentum.\n\nGame metadata:\n- Title: Rad Racer\n- Platform: Nintendo Entertainment System\n- Release year: 1987\n- Secondary genre signal: Competition\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- restrained retro poster aesthetic, simple shapes, limited palette, readable silhouettes, 8-bit spirit without actual sprites\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- fast, mechanical, competitive\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "legal_notes": "Risk level low; use generic subject archetypes, readable environments, and platform-coded style only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

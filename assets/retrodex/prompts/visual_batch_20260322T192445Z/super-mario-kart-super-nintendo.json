@@ -1,0 +1,21 @@
+{
+  "game_id": "super-mario-kart-super-nintendo",
+  "slug": "super-mario-kart-super-nintendo",
+  "title": "Super Mario Kart",
+  "platform": "Super Nintendo",
+  "year": 1992,
+  "genre_primary": "Racing",
+  "genre_secondary": "Competition",
+  "bucket": "racing",
+  "platform_style": "snes_storybook_16bit",
+  "illustration_class": "object",
+  "risk_level": "high",
+  "subject_key": "vehicle",
+  "main_subject": "single colorful kart",
+  "action_mood_cue": "drifting hard through a playful curved track",
+  "composition_type": "object",
+  "prompt": "Original illustration inspired by a retro Racing game.\n\nA single colorful kart in a fast track or road scene with motion lines, curve markers, and strong directional perspective, drifting hard through a playful curved track.\n\nGame metadata:\n- Title: Super Mario Kart\n- Platform: Super Nintendo\n- Release year: 1992\n- Secondary genre signal: Competition\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- colorful 16-bit-inspired fantasy illustration, richer gradients, polished sprite-era composition\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- fast, mechanical, competitive\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "avoid resemblance to mario, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "legal_notes": "Risk level high; use generic subject archetypes, readable environments, and platform-coded style only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

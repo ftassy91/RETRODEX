@@ -1,0 +1,40 @@
+{
+  "game": "Paperboy",
+  "game_id": "paperboy-nintendo-entertainment-system",
+  "console": "Nintendo Entertainment System",
+  "year": 1988,
+  "asset_type": "cover_art",
+  "asset_name": "Paperboy",
+  "source_type": "wikipedia_inferred",
+  "image_reference": "Paperboy",
+  "selection_reason": "Fallback to official game cover art because no better sprite-grade source was available",
+  "episode_number": null,
+  "publisher": "Mindscape",
+  "title_font": "Press Start 2P",
+  "display_layout": "sprite_identity_card",
+  "sprite_path": "retrodeck_assets/paperboy_nintendo_entertainment_system/sprite.png",
+  "source_path": "retrodeck_assets/_cache/source_images/wikipedia_commons_thumb_d_d7_toronto_star_paperboy_whitby_jpg_330px_toronto_star_paperboy_.jpg",
+  "asset_dir": "retrodeck_assets/paperboy_nintendo_entertainment_system",
+  "palette": [
+    "#0F380F",
+    "#306230",
+    "#8BAC0F",
+    "#9BBC0F"
+  ],
+  "validation": {
+    "specific_game_reference": true,
+    "low_res_readable": true,
+    "gb_palette_ready": true,
+    "opaque_ratio": 0.5799,
+    "bbox": {
+      "y": 3,
+      "width": 32,
+      "height": 42,
+      "x": 8
+    }
+  },
+  "created_at": "2026-03-13T21:47:06Z",
+  "fallback_conditions": [
+    "inferred_title_fallback"
+  ]
+}

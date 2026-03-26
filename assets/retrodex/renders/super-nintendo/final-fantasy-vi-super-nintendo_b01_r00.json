@@ -1,0 +1,47 @@
+{
+  "game_id": "final-fantasy-vi-super-nintendo",
+  "title": "Final Fantasy VI",
+  "platform": "Super Nintendo",
+  "retry_count": 0,
+  "classification": {
+    "bucket": "rpg_epic",
+    "risk_level": "high",
+    "illustration_class": "environment",
+    "composition_type": "environment"
+  },
+  "prompt": "Create an original editorial illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Final Fantasy VI\n- Platform: Super Nintendo\n- Release year: 1994\n- Genre: RPG, Epic\n- Mood: epic, melancholic, legendary, dreamlike\n- Setting: horizon, monument, sacred sky\n- Key objects: crystal, banner, ancient map, orb\n\nVisual goal:\n- Represent the game's atmosphere, genre, and collectible identity\n- Produce a unique, original image suitable for a premium database card\n- The image must feel iconic, readable, and emotionally evocative\n\nComposition:\n- Environment-first framing with one key landmark or object, depth layers, and a quiet overlay-safe zone\n- Designed for use in a GameDetail header / hero illustration\n\nStyle system:\n- Use the visual language associated with colorful 16-bit-inspired fantasy illustration, richer gradients, polished sprite-era composition\n- Apply the RetroDex art direction: premium collectible editorial art, readable, elegant, atmospheric\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, archetypes, objects, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial game-card illustration\n- No text\n- No watermark\n- Clean readable lighting",
+  "negative_prompt": "avoid resemblance to final fantasy, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text",
+  "render": {
+    "path": "assets/retrodex/renders/super-nintendo/final-fantasy-vi-super-nintendo_b01_r00.png",
+    "subject_bbox": [
+      288,
+      378,
+      480,
+      612
+    ],
+    "subject_label": "crystal"
+  },
+  "qa": {
+    "checks": {
+      "no_text_detected": true,
+      "no_logo_detected": true,
+      "no_character_likeness": true,
+      "subject_readable": false,
+      "ui_overlay_usable": true,
+      "no_copyright_replication": true,
+      "platform_style_match": true
+    },
+    "qa_score": 80,
+    "status": "retry",
+    "failure_reasons": [
+      "subject_readable"
+    ],
+    "metrics": {
+      "area_ratio": 0.0312,
+      "subject_contrast": 47.33,
+      "overlay_mean": 48.33,
+      "overlay_std": 41.17
+    }
+  },
+  "generated_at": "2026-03-22T14:57:28Z"
+}

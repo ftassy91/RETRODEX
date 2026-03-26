@@ -1,0 +1,29 @@
+{
+  "version": "1.0",
+  "palette": {
+    "darkest":  "#0F380F",
+    "dark":     "#306230",
+    "light":    "#8BAC0F",
+    "lightest": "#9BBC0F"
+  },
+  "output": {
+    "width": 320,
+    "height": 240,
+    "ratio": "4:3",
+    "format": "canvas"
+  },
+  "composition_layers": [
+    "background",
+    "environment",
+    "hero",
+    "title"
+  ],
+  "fallback_order": ["boxart","title_screen","screenshot","logo","generated"],
+  "naming_convention": "top_{game_slug}.png",
+  "style": {
+    "scanlines": true,
+    "dithering": true,
+    "lcd_glow": false,
+    "pixel_scale": 4
+  }
+}

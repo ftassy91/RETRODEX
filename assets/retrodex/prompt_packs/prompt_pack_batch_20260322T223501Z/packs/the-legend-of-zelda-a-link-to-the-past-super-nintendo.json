@@ -1,0 +1,49 @@
+{
+  "game_id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+  "title": "The Legend of Zelda: A Link to the Past",
+  "platform": "Super Nintendo",
+  "year": 1991,
+  "genre_primary": "Action-Adventure",
+  "genre_secondary": "Fantasy",
+  "bucket": "fantasy_adventure",
+  "risk_level": "high",
+  "risk_reasons": [
+    "link",
+    "zelda"
+  ],
+  "platform_style_id": "snes_storybook_16bit",
+  "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+  "palette_hint": [
+    "#1f2041",
+    "#4b3f72",
+    "#ffc857",
+    "#f4f1de"
+  ],
+  "memory_rule_id": "zelda_mainline_horizon",
+  "main_subject": "a small solitary adventurer with a simple sword and round shield",
+  "environment": "a windswept fantasy field or shoreline facing one monumental ancient landmark on the horizon",
+  "action_mood_cue": "pausing in the wind before the journey continues",
+  "mood": [
+    "mysterious",
+    "heroic",
+    "dreamlike"
+  ],
+  "composition": "small foreground subject, one dominant distant landmark, broad open space, clean sky and very low clutter",
+  "memory_hook": "solitary overworld discovery, mythic destination, and horizon-driven adventure",
+  "legal_watchouts": [
+    "avoid Link likeness",
+    "avoid Triforce-like symbols",
+    "avoid official shield patterns"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA small solitary adventurer with a simple sword and round shield in a windswept fantasy field or shoreline facing one monumental ancient landmark on the horizon, pausing in the wind before the journey continues.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- mysterious, heroic, dreamlike\n\nComposition:\n- small foreground subject, one dominant distant landmark, broad open space, clean sky and very low clutter\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Link likeness, avoid Triforce-like symbols, avoid official shield patterns, avoid resemblance to link, avoid resemblance to zelda",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

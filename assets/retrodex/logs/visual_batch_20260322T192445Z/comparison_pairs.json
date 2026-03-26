@@ -1,0 +1,96 @@
+{
+  "previous_run": "visual_batch_20260322T162158Z",
+  "current_run": "visual_batch_20260322T192445Z",
+  "items": [
+    {
+      "game_id": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+      "title": "The Legend of Zelda: Ocarina of Time",
+      "platform": "Nintendo 64",
+      "subject": "small heroic adventurer with a sword",
+      "context": "a windswept fantasy landscape with ruins, a distant landmark, and a traversable path",
+      "action": "standing on a windswept path with quiet resolve",
+      "style": "n64_color_volume"
+    },
+    {
+      "game_id": "tony-hawks-pro-skater-2-playstation",
+      "title": "Tony Hawk's Pro Skater 2",
+      "platform": "PlayStation",
+      "subject": "single skateboarder silhouette",
+      "context": "a stadium or competition ground with lights, field markers, and focused event framing",
+      "action": "balancing into motion on a board in a clean skate scene",
+      "style": "ps1_lowpoly_editorial"
+    },
+    {
+      "game_id": "soul-calibur-dreamcast",
+      "title": "Soul Calibur",
+      "platform": "Dreamcast",
+      "subject": "lone martial artist silhouette",
+      "context": "an arena or duel space with impact energy, banners, and confrontation framing",
+      "action": "holding a focused pre-fight stance in a charged arena",
+      "style": "dreamcast_futurist"
+    },
+    {
+      "game_id": "castlevania-rondo-of-blood-turbografx-16",
+      "title": "Castlevania: Rondo of Blood",
+      "platform": "TurboGrafx-16",
+      "subject": "small heroic adventurer with a sword",
+      "context": "a windswept fantasy landscape with ruins, a distant landmark, and a traversable path",
+      "action": "standing on a windswept path with quiet resolve",
+      "style": "turbografx_arcade_poster"
+    },
+    {
+      "game_id": "perfect-dark-nintendo-64",
+      "title": "Perfect Dark",
+      "platform": "Nintendo 64",
+      "subject": "lone covert operative silhouette",
+      "context": "a deep space lane or combat tunnel with velocity and incoming threat",
+      "action": "moving carefully through a tense high-tech space",
+      "style": "n64_color_volume"
+    },
+    {
+      "game_id": "tetris-game-boy",
+      "title": "Tetris",
+      "platform": "Game Boy",
+      "subject": "stacked falling blocks",
+      "context": "a physical puzzle space with stacked pieces, spatial logic, and grounded surfaces",
+      "action": "captured in a precise descending arrangement above a grounded puzzle surface",
+      "style": "gameboy_monochrome_story"
+    },
+    {
+      "game_id": "super-mario-64-nintendo-64",
+      "title": "Super Mario 64",
+      "platform": "Nintendo 64",
+      "subject": "small agile explorer",
+      "context": "a playful platform world with layered terrain, readable obstacles, and bright depth cues",
+      "action": "caught in a forward-moving leap through layered terrain",
+      "style": "n64_color_volume"
+    },
+    {
+      "game_id": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "platform": "Super Nintendo",
+      "subject": "lone armored explorer",
+      "context": "a futuristic industrial skyline or reactor zone with cold light and scale",
+      "action": "standing in a hostile alien cavern under atmospheric light",
+      "style": "snes_storybook_16bit"
+    },
+    {
+      "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+      "title": "Super Mario Bros. 3",
+      "platform": "Nintendo Entertainment System",
+      "subject": "small agile explorer",
+      "context": "a playful platform world with layered terrain, readable obstacles, and bright depth cues",
+      "action": "caught in a forward-moving leap through layered terrain",
+      "style": "nes_restrained_poster"
+    },
+    {
+      "game_id": "tekken-3-playstation",
+      "title": "Tekken 3",
+      "platform": "PlayStation",
+      "subject": "lone martial artist silhouette",
+      "context": "an arena or duel space with impact energy, banners, and confrontation framing",
+      "action": "holding a focused pre-fight stance in a charged arena",
+      "style": "ps1_lowpoly_editorial"
+    }
+  ]
+}

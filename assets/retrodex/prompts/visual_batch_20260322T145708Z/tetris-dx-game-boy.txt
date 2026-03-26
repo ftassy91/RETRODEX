@@ -1,0 +1,40 @@
+Create an original editorial illustration for a retro video game database entry.
+
+Game metadata:
+- Title: Tetris DX
+- Platform: Game Boy
+- Release year: 1998
+- Genre: Puzzle, Abstract
+- Mood: precise, calm, cerebral, minimal
+- Setting: grid, negative space, stacked motifs
+- Key objects: tile cluster, orb, frame marker
+
+Visual goal:
+- Represent the game's atmosphere, genre, and collectible identity
+- Produce a unique, original image suitable for a premium database card
+- The image must feel iconic, readable, and emotionally evocative
+
+Composition:
+- A highly legible abstract motif built from geometric forms, platform palette cues, and atmosphere rather than literal depiction
+- Designed for use in a GameDetail header / hero illustration
+
+Style system:
+- Use the visual language associated with monochrome handheld illustration, limited green palette, crisp pixel-informed shapes, nostalgic portable mood
+- Apply the RetroDex art direction: premium collectible editorial art, readable, elegant, atmospheric
+
+Strict legal and safety constraints:
+- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite
+- Do NOT imitate exact copyrighted visual designs
+- Do NOT include any trademarked logo or title text inside the image
+- Evoke only the atmosphere, archetypes, objects, and genre cues
+- The result must be fully original and non-infringing in appearance
+
+Output:
+- High detail
+- Premium editorial game-card illustration
+- No text
+- No watermark
+- Clean readable lighting
+
+Negative constraints:
+avoid resemblance to tetris, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text

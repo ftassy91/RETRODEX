@@ -1,0 +1,49 @@
+{
+  "game_id": "metal-gear-ghost-babel-game-boy",
+  "title": "Metal Gear: Ghost Babel",
+  "platform": "Game Boy",
+  "year": 2000,
+  "genre_primary": "Action-Stealth",
+  "genre_secondary": "Retro",
+  "bucket": "sci_fi_action",
+  "risk_level": "high",
+  "risk_reasons": [
+    "metal gear"
+  ],
+  "platform_style_id": "gameboy_monochrome_story",
+  "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+  "palette_hint": [
+    "#0f380f",
+    "#306230",
+    "#8bac0f",
+    "#cadc9f"
+  ],
+  "memory_rule_id": "",
+  "main_subject": "a lone covert operative silhouette with compact gear",
+  "environment": "a tense high-tech corridor or facility edge",
+  "action_mood_cue": "moving carefully through hard shadow and cold light",
+  "mood": [
+    "stealthy",
+    "tense",
+    "controlled"
+  ],
+  "composition": "single silhouette, corridor depth, strong light break, minimal props",
+  "memory_hook": "stealth, infiltration, and intelligence thriller mood",
+  "legal_watchouts": [
+    "avoid specific spy likeness",
+    "avoid weapon replicas",
+    "avoid franchise logos or device designs"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Action-Stealth game.\n\nA lone covert operative silhouette with compact gear in a tense high-tech corridor or facility edge, moving carefully through hard shadow and cold light.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- stealthy, tense, controlled\n\nComposition:\n- single silhouette, corridor depth, strong light break, minimal props\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid specific spy likeness, avoid weapon replicas, avoid franchise logos or device designs, avoid resemblance to metal gear",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "pixel art illustration only",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+    "render_policy": "always_pixel_art"
+  },
+  "status": "READY_FOR_REVIEW"
+}

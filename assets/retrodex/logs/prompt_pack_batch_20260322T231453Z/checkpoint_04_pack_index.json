@@ -1,0 +1,327 @@
+{
+  "run_id": "prompt_pack_batch_20260322T231453Z",
+  "prompt_version": "prompt_formula_v1_production",
+  "pack_count": 40,
+  "packs": [
+    {
+      "game_id": "tetris-game-boy",
+      "title": "Tetris",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/tetris-game-boy.json",
+      "md_path": "packs/tetris-game-boy.md"
+    },
+    {
+      "game_id": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/super-metroid-super-nintendo.json",
+      "md_path": "packs/super-metroid-super-nintendo.md"
+    },
+    {
+      "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+      "title": "Super Mario Bros. 3",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "high",
+      "json_path": "packs/super-mario-bros-3-nintendo-entertainment-system.json",
+      "md_path": "packs/super-mario-bros-3-nintendo-entertainment-system.md"
+    },
+    {
+      "game_id": "tekken-3-playstation",
+      "title": "Tekken 3",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/tekken-3-playstation.json",
+      "md_path": "packs/tekken-3-playstation.md"
+    },
+    {
+      "game_id": "yoshi-island-super-nintendo",
+      "title": "Super Mario World 2: Yoshi's Island",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/yoshi-island-super-nintendo.json",
+      "md_path": "packs/yoshi-island-super-nintendo.md"
+    },
+    {
+      "game_id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+      "title": "The Legend of Zelda: A Link to the Past",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/the-legend-of-zelda-a-link-to-the-past-super-nintendo.json",
+      "md_path": "packs/the-legend-of-zelda-a-link-to-the-past-super-nintendo.md"
+    },
+    {
+      "game_id": "metal-gear-solid-playstation",
+      "title": "Metal Gear Solid",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/metal-gear-solid-playstation.json",
+      "md_path": "packs/metal-gear-solid-playstation.md"
+    },
+    {
+      "game_id": "castlevania-symphony-of-the-night-playstation",
+      "title": "Castlevania: Symphony of the Night",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/castlevania-symphony-of-the-night-playstation.json",
+      "md_path": "packs/castlevania-symphony-of-the-night-playstation.md"
+    },
+    {
+      "game_id": "kirby-adventure-nintendo-entertainment-system",
+      "title": "Kirby's Adventure",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "high",
+      "json_path": "packs/kirby-adventure-nintendo-entertainment-system.json",
+      "md_path": "packs/kirby-adventure-nintendo-entertainment-system.md"
+    },
+    {
+      "game_id": "super-mario-world-super-nintendo",
+      "title": "Super Mario World",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/super-mario-world-super-nintendo.json",
+      "md_path": "packs/super-mario-world-super-nintendo.md"
+    },
+    {
+      "game_id": "earthbound-super-nintendo",
+      "title": "EarthBound",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/earthbound-super-nintendo.json",
+      "md_path": "packs/earthbound-super-nintendo.md"
+    },
+    {
+      "game_id": "vagrant-story-playstation",
+      "title": "Vagrant Story",
+      "platform": "PlayStation",
+      "risk_level": "low",
+      "json_path": "packs/vagrant-story-playstation.json",
+      "md_path": "packs/vagrant-story-playstation.md"
+    },
+    {
+      "game_id": "final-fantasy-vi-super-nintendo",
+      "title": "Final Fantasy VI",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/final-fantasy-vi-super-nintendo.json",
+      "md_path": "packs/final-fantasy-vi-super-nintendo.md"
+    },
+    {
+      "game_id": "the-legend-of-zelda-nintendo-entertainment-system",
+      "title": "The Legend of Zelda",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "high",
+      "json_path": "packs/the-legend-of-zelda-nintendo-entertainment-system.json",
+      "md_path": "packs/the-legend-of-zelda-nintendo-entertainment-system.md"
+    },
+    {
+      "game_id": "final-fantasy-vii-playstation",
+      "title": "Final Fantasy VII",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/final-fantasy-vii-playstation.json",
+      "md_path": "packs/final-fantasy-vii-playstation.md"
+    },
+    {
+      "game_id": "oracle-of-ages-game-boy",
+      "title": "The Legend of Zelda: Oracle of Ages",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/oracle-of-ages-game-boy.json",
+      "md_path": "packs/oracle-of-ages-game-boy.md"
+    },
+    {
+      "game_id": "oracle-of-seasons-game-boy",
+      "title": "The Legend of Zelda: Oracle of Seasons",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/oracle-of-seasons-game-boy.json",
+      "md_path": "packs/oracle-of-seasons-game-boy.md"
+    },
+    {
+      "game_id": "pokemon-gold-game-boy",
+      "title": "Pokémon Gold",
+      "platform": "Game Boy",
+      "risk_level": "low",
+      "json_path": "packs/pokemon-gold-game-boy.json",
+      "md_path": "packs/pokemon-gold-game-boy.md"
+    },
+    {
+      "game_id": "pokemon-silver-game-boy",
+      "title": "Pokémon Silver",
+      "platform": "Game Boy",
+      "risk_level": "low",
+      "json_path": "packs/pokemon-silver-game-boy.json",
+      "md_path": "packs/pokemon-silver-game-boy.md"
+    },
+    {
+      "game_id": "mike-tysons-punch-out-nintendo-entertainment-system",
+      "title": "Mike Tyson's Punch-Out!!",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "low",
+      "json_path": "packs/mike-tysons-punch-out-nintendo-entertainment-system.json",
+      "md_path": "packs/mike-tysons-punch-out-nintendo-entertainment-system.md"
+    },
+    {
+      "game_id": "donkey-kong-country-2-super-nintendo",
+      "title": "Donkey Kong Country 2",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/donkey-kong-country-2-super-nintendo.json",
+      "md_path": "packs/donkey-kong-country-2-super-nintendo.md"
+    },
+    {
+      "game_id": "resident-evil-2-playstation",
+      "title": "Resident Evil 2",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/resident-evil-2-playstation.json",
+      "md_path": "packs/resident-evil-2-playstation.md"
+    },
+    {
+      "game_id": "tetris-dx-game-boy",
+      "title": "Tetris DX",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/tetris-dx-game-boy.json",
+      "md_path": "packs/tetris-dx-game-boy.md"
+    },
+    {
+      "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+      "title": "The Legend of Zelda: Link's Awakening",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/the-legend-of-zelda-links-awakening-game-boy.json",
+      "md_path": "packs/the-legend-of-zelda-links-awakening-game-boy.md"
+    },
+    {
+      "game_id": "metal-gear-ghost-babel-game-boy",
+      "title": "Metal Gear: Ghost Babel",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/metal-gear-ghost-babel-game-boy.json",
+      "md_path": "packs/metal-gear-ghost-babel-game-boy.md"
+    },
+    {
+      "game_id": "mega-man-2-nintendo-entertainment-system",
+      "title": "Mega Man 2",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "high",
+      "json_path": "packs/mega-man-2-nintendo-entertainment-system.json",
+      "md_path": "packs/mega-man-2-nintendo-entertainment-system.md"
+    },
+    {
+      "game_id": "pokemon-red-game-boy",
+      "title": "Pokémon Red",
+      "platform": "Game Boy",
+      "risk_level": "low",
+      "json_path": "packs/pokemon-red-game-boy.json",
+      "md_path": "packs/pokemon-red-game-boy.md"
+    },
+    {
+      "game_id": "silent-hill-playstation",
+      "title": "Silent Hill",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/silent-hill-playstation.json",
+      "md_path": "packs/silent-hill-playstation.md"
+    },
+    {
+      "game_id": "crash-bandicoot-playstation",
+      "title": "Crash Bandicoot",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/crash-bandicoot-playstation.json",
+      "md_path": "packs/crash-bandicoot-playstation.md"
+    },
+    {
+      "game_id": "super-mario-bros-nintendo-entertainment-system",
+      "title": "Super Mario Bros.",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "high",
+      "json_path": "packs/super-mario-bros-nintendo-entertainment-system.json",
+      "md_path": "packs/super-mario-bros-nintendo-entertainment-system.md"
+    },
+    {
+      "game_id": "donkey-kong-country-super-nintendo",
+      "title": "Donkey Kong Country",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/donkey-kong-country-super-nintendo.json",
+      "md_path": "packs/donkey-kong-country-super-nintendo.md"
+    },
+    {
+      "game_id": "secret-of-mana-super-nintendo",
+      "title": "Secret of Mana",
+      "platform": "Super Nintendo",
+      "risk_level": "low",
+      "json_path": "packs/secret-of-mana-super-nintendo.json",
+      "md_path": "packs/secret-of-mana-super-nintendo.md"
+    },
+    {
+      "game_id": "super-mario-kart-super-nintendo",
+      "title": "Super Mario Kart",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/super-mario-kart-super-nintendo.json",
+      "md_path": "packs/super-mario-kart-super-nintendo.md"
+    },
+    {
+      "game_id": "contra-nintendo-entertainment-system",
+      "title": "Contra",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "low",
+      "json_path": "packs/contra-nintendo-entertainment-system.json",
+      "md_path": "packs/contra-nintendo-entertainment-system.md"
+    },
+    {
+      "game_id": "duck-tales-nintendo-entertainment-system",
+      "title": "DuckTales",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "medium",
+      "json_path": "packs/duck-tales-nintendo-entertainment-system.json",
+      "md_path": "packs/duck-tales-nintendo-entertainment-system.md"
+    },
+    {
+      "game_id": "final-fantasy-viii-playstation",
+      "title": "Final Fantasy VIII",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/final-fantasy-viii-playstation.json",
+      "md_path": "packs/final-fantasy-viii-playstation.md"
+    },
+    {
+      "game_id": "castlevania-nintendo-entertainment-system",
+      "title": "Castlevania",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "high",
+      "json_path": "packs/castlevania-nintendo-entertainment-system.json",
+      "md_path": "packs/castlevania-nintendo-entertainment-system.md"
+    },
+    {
+      "game_id": "super-mario-land-2-game-boy",
+      "title": "Super Mario Land 2: 6 Golden Coins",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/super-mario-land-2-game-boy.json",
+      "md_path": "packs/super-mario-land-2-game-boy.md"
+    },
+    {
+      "game_id": "final-fantasy-tactics-playstation",
+      "title": "Final Fantasy Tactics",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/final-fantasy-tactics-playstation.json",
+      "md_path": "packs/final-fantasy-tactics-playstation.md"
+    },
+    {
+      "game_id": "metroid-nintendo-entertainment-system",
+      "title": "Metroid",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "high",
+      "json_path": "packs/metroid-nintendo-entertainment-system.json",
+      "md_path": "packs/metroid-nintendo-entertainment-system.md"
+    }
+  ]
+}

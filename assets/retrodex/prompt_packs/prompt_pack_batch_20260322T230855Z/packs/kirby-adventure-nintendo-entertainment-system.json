@@ -1,0 +1,50 @@
+{
+  "game_id": "kirby-adventure-nintendo-entertainment-system",
+  "title": "Kirby's Adventure",
+  "platform": "Nintendo Entertainment System",
+  "year": 1993,
+  "genre_primary": "Platformer",
+  "genre_secondary": "Playful",
+  "bucket": "platformer_cartoon",
+  "risk_level": "high",
+  "risk_reasons": [
+    "kirby"
+  ],
+  "platform_style_id": "nes_restrained_poster",
+  "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+  "palette_hint": [
+    "#0d1b2a",
+    "#415a77",
+    "#c8d5b9",
+    "#f4d35e"
+  ],
+  "memory_rule_id": "kirby_adventure_star_jump",
+  "main_subject": "a tiny round traveler with simple feet and bright eyes riding a star-like trail",
+  "environment": "a soft side-scrolling dream sky with rounded clouds and a layered pastel horizon",
+  "action_mood_cue": "gliding joyfully through the air in a clean arc",
+  "mood": [
+    "light",
+    "cheerful",
+    "dreamlike"
+  ],
+  "composition": "single round traveler only, one star trail, wide sky, very low clutter, and clean side-view readability",
+  "memory_hook": "floaty dreamland movement, star ride energy, and cheerful handheld-to-console charm",
+  "legal_watchouts": [
+    "avoid exact Kirby face proportions",
+    "avoid Warp Star exact shape",
+    "avoid official enemy silhouettes",
+    "avoid franchise logos"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Platformer game.\n\nA tiny round traveler with simple feet and bright eyes riding a star-like trail in a soft side-scrolling dream sky with rounded clouds and a layered pastel horizon, gliding joyfully through the air in a clean arc.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- light, cheerful, dreamlike\n\nComposition:\n- single round traveler only, one star trail, wide sky, very low clutter, and clean side-view readability\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid exact Kirby face proportions, avoid Warp Star exact shape, avoid official enemy silhouettes, avoid franchise logos, avoid resemblance to kirby",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "pixel art illustration only",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+    "render_policy": "always_pixel_art"
+  },
+  "status": "READY_FOR_REVIEW"
+}

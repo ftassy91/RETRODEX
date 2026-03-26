@@ -1,0 +1,49 @@
+{
+  "game_id": "pokemon-crystal-game-boy",
+  "title": "Pokémon Crystal",
+  "platform": "Game Boy",
+  "year": 2001,
+  "genre_primary": "Adventure",
+  "genre_secondary": "Mystery",
+  "bucket": "fantasy_adventure",
+  "risk_level": "low",
+  "risk_reasons": [
+    "generic_atmosphere_safe"
+  ],
+  "platform_style_id": "gameboy_monochrome_story",
+  "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+  "palette_hint": [
+    "#0f380f",
+    "#306230",
+    "#8bac0f",
+    "#cadc9f"
+  ],
+  "memory_rule_id": "pokemon_johto_journey",
+  "main_subject": "a small young trainer silhouette with a compact bag",
+  "environment": "a quiet path by tall grass and water under a night sky, with one distant tower-like landmark",
+  "action_mood_cue": "pausing at the edge of the route as if something rare might appear",
+  "mood": [
+    "curious",
+    "quiet",
+    "adventurous"
+  ],
+  "composition": "single young trainer only, low grass in the foreground, one distant landmark, no monster in frame, calm portable scale",
+  "memory_hook": "night journey, tall grass suspense, and a quiet world that invites exploration",
+  "legal_watchouts": [
+    "avoid official trainer likeness",
+    "avoid pokeball designs",
+    "avoid creature silhouettes",
+    "avoid franchise color blocking or logos"
+  ],
+  "legal_notes": "Risk level: low. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Adventure game.\n\nA small young trainer silhouette with a compact bag in a quiet path by tall grass and water under a night sky, with one distant tower-like landmark, pausing at the edge of the route as if something rare might appear.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- curious, quiet, adventurous\n\nComposition:\n- single young trainer only, low grass in the foreground, one distant landmark, no monster in frame, calm portable scale\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official trainer likeness, avoid pokeball designs, avoid creature silhouettes, avoid franchise color blocking or logos",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

@@ -1,0 +1,48 @@
+{
+  "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+  "title": "Super Mario Bros. 3",
+  "platform": "Nintendo Entertainment System",
+  "year": 1990,
+  "genre_primary": "Platformer",
+  "genre_secondary": "Playful",
+  "bucket": "platformer_cartoon",
+  "risk_level": "high",
+  "risk_reasons": [
+    "mario"
+  ],
+  "platform_style_id": "nes_restrained_poster",
+  "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+  "palette_hint": [
+    "#0d1b2a",
+    "#415a77",
+    "#c8d5b9",
+    "#f4d35e"
+  ],
+  "main_subject": "a small agile explorer in side view",
+  "environment": "a theatrical side-scrolling platform course with layered block islands, suspended platforms, and open sky",
+  "action_mood_cue": "caught in a clean upward leap over a gap",
+  "mood": [
+    "playful",
+    "nimble",
+    "bright"
+  ],
+  "composition": "single explorer only, side-view read, one jump arc, no crowd, no abstract stripes",
+  "memory_hook": "2D jump rhythm, stage-like worlds, and forward platform momentum",
+  "legal_watchouts": [
+    "avoid Mario likeness",
+    "avoid mustache and hat codes",
+    "avoid official mushrooms or stars",
+    "avoid purely graphic stripe backgrounds"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Platformer game.\n\nA small agile explorer in side view in a theatrical side-scrolling platform course with layered block islands, suspended platforms, and open sky, caught in a clean upward leap over a gap.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- playful, nimble, bright\n\nComposition:\n- single explorer only, side-view read, one jump arc, no crowd, no abstract stripes\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Mario likeness, avoid mustache and hat codes, avoid official mushrooms or stars, avoid purely graphic stripe backgrounds, avoid resemblance to mario",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

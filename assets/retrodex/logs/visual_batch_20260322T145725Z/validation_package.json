@@ -1,0 +1,479 @@
+{
+  "run_id": "visual_batch_20260322T145725Z",
+  "batch_size": 50,
+  "generated_items": [
+    {
+      "game_id": "panzer-dragoon-saga-sega-saturn",
+      "title": "Panzer Dragoon Saga",
+      "platform": "Sega Saturn",
+      "render_path": "assets/retrodex/renders/sega-saturn/panzer-dragoon-saga-sega-saturn_b01_r02.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+      "title": "The Legend of Zelda: Ocarina of Time",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/nintendo-64/the-legend-of-zelda-ocarina-of-time-nintendo-64_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "radiant-silvergun-sega-saturn",
+      "title": "Radiant Silvergun",
+      "platform": "Sega Saturn",
+      "render_path": "assets/retrodex/renders/sega-saturn/radiant-silvergun-sega-saturn_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "tony-hawks-pro-skater-2-playstation",
+      "title": "Tony Hawk's Pro Skater 2",
+      "platform": "PlayStation",
+      "render_path": "assets/retrodex/renders/playstation/tony-hawks-pro-skater-2-playstation_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "soul-calibur-dreamcast",
+      "title": "Soul Calibur",
+      "platform": "Dreamcast",
+      "render_path": "assets/retrodex/renders/dreamcast/soul-calibur-dreamcast_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "castlevania-rondo-of-blood-turbografx-16",
+      "title": "Castlevania: Rondo of Blood",
+      "platform": "TurboGrafx-16",
+      "render_path": "assets/retrodex/renders/turbografx-16/castlevania-rondo-of-blood-turbografx-16_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "perfect-dark-nintendo-64",
+      "title": "Perfect Dark",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/nintendo-64/perfect-dark-nintendo-64_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "tetris-game-boy",
+      "title": "Tetris",
+      "platform": "Game Boy",
+      "render_path": "assets/retrodex/renders/game-boy/tetris-game-boy_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "super-mario-64-nintendo-64",
+      "title": "Super Mario 64",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/nintendo-64/super-mario-64-nintendo-64_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "platform": "Super Nintendo",
+      "render_path": "assets/retrodex/renders/super-nintendo/super-metroid-super-nintendo_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+      "title": "Super Mario Bros. 3",
+      "platform": "Nintendo Entertainment System",
+      "render_path": "assets/retrodex/renders/nintendo-entertainment-system/super-mario-bros-3-nintendo-entertainment-system_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "tekken-3-playstation",
+      "title": "Tekken 3",
+      "platform": "PlayStation",
+      "render_path": "assets/retrodex/renders/playstation/tekken-3-playstation_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "goldeneye-007-nintendo-64",
+      "title": "GoldenEye 007",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/nintendo-64/goldeneye-007-nintendo-64_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "gran-turismo-playstation",
+      "title": "Gran Turismo",
+      "platform": "PlayStation",
+      "render_path": "assets/retrodex/renders/playstation/gran-turismo-playstation_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "final-fantasy-vi-advance-game-boy-advance",
+      "title": "Final Fantasy VI Advance",
+      "platform": "Game Boy Advance",
+      "render_path": "assets/retrodex/renders/game-boy-advance/final-fantasy-vi-advance-game-boy-advance_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "yoshi-island-super-nintendo",
+      "title": "Super Mario World 2: Yoshi's Island",
+      "platform": "Super Nintendo",
+      "render_path": "assets/retrodex/renders/super-nintendo/yoshi-island-super-nintendo_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "skies-of-arcadia-dreamcast",
+      "title": "Skies of Arcadia",
+      "platform": "Dreamcast",
+      "render_path": "assets/retrodex/renders/dreamcast/skies-of-arcadia-dreamcast_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "the-legend-of-zelda-a-link-to-the-past-game-boy-advance",
+      "title": "The Legend of Zelda: A Link to the Past",
+      "platform": "Game Boy Advance",
+      "render_path": "assets/retrodex/renders/game-boy-advance/the-legend-of-zelda-a-link-to-the-past-game-boy-advance_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+      "title": "The Legend of Zelda: A Link to the Past",
+      "platform": "Super Nintendo",
+      "render_path": "assets/retrodex/renders/super-nintendo/the-legend-of-zelda-a-link-to-the-past-super-nintendo_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "majoras-mask-nintendo-64",
+      "title": "The Legend of Zelda: Majora's Mask",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/nintendo-64/majoras-mask-nintendo-64_b01_r02.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "the-legend-of-zelda-majoras-mask-nintendo-64",
+      "title": "The Legend of Zelda: Majora's Mask",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/nintendo-64/the-legend-of-zelda-majoras-mask-nintendo-64_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "judgement-silversword-wonderswan",
+      "title": "Judgement Silversword",
+      "platform": "WonderSwan",
+      "render_path": "assets/retrodex/renders/wonderswan/judgement-silversword-wonderswan_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "metal-gear-solid-playstation",
+      "title": "Metal Gear Solid",
+      "platform": "PlayStation",
+      "render_path": "assets/retrodex/renders/playstation/metal-gear-solid-playstation_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "conkers-bad-fur-day-nintendo-64",
+      "title": "Conker's Bad Fur Day",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/nintendo-64/conkers-bad-fur-day-nintendo-64_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "metal-slug-3-neo-geo",
+      "title": "Metal Slug 3",
+      "platform": "Neo Geo",
+      "render_path": "assets/retrodex/renders/neo-geo/metal-slug-3-neo-geo_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "ghost-trick-phantom-detective-nintendo-ds",
+      "title": "Ghost Trick: Phantom Detective",
+      "platform": "Nintendo DS",
+      "render_path": "assets/retrodex/renders/nintendo-ds/ghost-trick-phantom-detective-nintendo-ds_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "chrono-cross-playstation",
+      "title": "Chrono Cross",
+      "platform": "PlayStation",
+      "render_path": "assets/retrodex/renders/playstation/chrono-cross-playstation_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "final-fantasy-ix-playstation",
+      "title": "Final Fantasy IX",
+      "platform": "PlayStation",
+      "render_path": "assets/retrodex/renders/playstation/final-fantasy-ix-playstation_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "tony-hawks-pro-skater-2-dreamcast",
+      "title": "Tony Hawk's Pro Skater 2",
+      "platform": "Dreamcast",
+      "render_path": "assets/retrodex/renders/dreamcast/tony-hawks-pro-skater-2-dreamcast_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "banjo-kazooie-nintendo-64",
+      "title": "Banjo-Kazooie",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/nintendo-64/banjo-kazooie-nintendo-64_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "chrono-trigger-nintendo-ds",
+      "title": "Chrono Trigger",
+      "platform": "Nintendo DS",
+      "render_path": "assets/retrodex/renders/nintendo-ds/chrono-trigger-nintendo-ds_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "castlevania-symphony-of-the-night-playstation",
+      "title": "Castlevania: Symphony of the Night",
+      "platform": "PlayStation",
+      "render_path": "assets/retrodex/renders/playstation/castlevania-symphony-of-the-night-playstation_b01_r02.png",
+      "qa_score": 80,
+      "status": "flagged"
+    },
+    {
+      "game_id": "ikaruga-dreamcast",
+      "title": "Ikaruga",
+      "platform": "Dreamcast",
+      "render_path": "assets/retrodex/renders/dreamcast/ikaruga-dreamcast_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "999-nine-hours-nine-persons-nine-doors-nintendo-ds",
+      "title": "999: Nine Hours, Nine Persons, Nine Doors",
+      "platform": "Nintendo DS",
+      "render_path": "assets/retrodex/renders/nintendo-ds/999-nine-hours-nine-persons-nine-doors-nintendo-ds_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "gunstar-heroes-sega-genesis",
+      "title": "Gunstar Heroes",
+      "platform": "Sega Genesis",
+      "render_path": "assets/retrodex/renders/sega-genesis/gunstar-heroes-sega-genesis_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "kirby-adventure-nintendo-entertainment-system",
+      "title": "Kirby's Adventure",
+      "platform": "Nintendo Entertainment System",
+      "render_path": "assets/retrodex/renders/nintendo-entertainment-system/kirby-adventure-nintendo-entertainment-system_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "suikoden-ii-playstation",
+      "title": "Suikoden II",
+      "platform": "PlayStation",
+      "render_path": "assets/retrodex/renders/playstation/suikoden-ii-playstation_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "the-king-of-fighters-98-neo-geo",
+      "title": "The King of Fighters '98",
+      "platform": "Neo Geo",
+      "render_path": "assets/retrodex/renders/neo-geo/the-king-of-fighters-98-neo-geo_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "paper-mario-nintendo-64",
+      "title": "Paper Mario",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/nintendo-64/paper-mario-nintendo-64_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "super-mario-world-super-nintendo",
+      "title": "Super Mario World",
+      "platform": "Super Nintendo",
+      "render_path": "assets/retrodex/renders/super-nintendo/super-mario-world-super-nintendo_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "earthbound-super-nintendo",
+      "title": "EarthBound",
+      "platform": "Super Nintendo",
+      "render_path": "assets/retrodex/renders/super-nintendo/earthbound-super-nintendo_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "vagrant-story-playstation",
+      "title": "Vagrant Story",
+      "platform": "PlayStation",
+      "render_path": "assets/retrodex/renders/playstation/vagrant-story-playstation_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "wave-race-64-nintendo-64",
+      "title": "Wave Race 64",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/nintendo-64/wave-race-64-nintendo-64_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "y-s-book-i-ii-turbografx-16",
+      "title": "Ys Book I & II",
+      "platform": "TurboGrafx-16",
+      "render_path": "assets/retrodex/renders/turbografx-16/y-s-book-i-ii-turbografx-16_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "final-fantasy-vi-super-nintendo",
+      "title": "Final Fantasy VI",
+      "platform": "Super Nintendo",
+      "render_path": "assets/retrodex/renders/super-nintendo/final-fantasy-vi-super-nintendo_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "dungeons-dragons-collection-sega-saturn",
+      "title": "Dungeons & Dragons Collection",
+      "platform": "Sega Saturn",
+      "render_path": "assets/retrodex/renders/sega-saturn/dungeons-dragons-collection-sega-saturn_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "garou-mark-of-the-wolves-neo-geo",
+      "title": "Garou: Mark of the Wolves",
+      "platform": "Neo Geo",
+      "render_path": "assets/retrodex/renders/neo-geo/garou-mark-of-the-wolves-neo-geo_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "advance-wars-game-boy-advance",
+      "title": "Advance Wars",
+      "platform": "Game Boy Advance",
+      "render_path": "assets/retrodex/renders/game-boy-advance/advance-wars-game-boy-advance_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "marvel-vs-capcom-2-dreamcast",
+      "title": "Marvel vs. Capcom 2",
+      "platform": "Dreamcast",
+      "render_path": "assets/retrodex/renders/dreamcast/marvel-vs-capcom-2-dreamcast_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "castlevania-order-of-ecclesia-nintendo-ds",
+      "title": "Castlevania: Order of Ecclesia",
+      "platform": "Nintendo DS",
+      "render_path": "assets/retrodex/renders/nintendo-ds/castlevania-order-of-ecclesia-nintendo-ds_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    }
+  ],
+  "flagged_items": [
+    {
+      "game_id": "castlevania-symphony-of-the-night-playstation",
+      "render_path": "assets/retrodex/renders/playstation/castlevania-symphony-of-the-night-playstation_b01_r02.png",
+      "failure_reasons": [
+        "subject_readable"
+      ],
+      "retry_count": 2
+    }
+  ],
+  "next_batch_ready": [
+    {
+      "game_id": "the-legend-of-zelda-nintendo-entertainment-system",
+      "title": "The Legend of Zelda",
+      "platform": "Nintendo Entertainment System",
+      "priority": 937
+    },
+    {
+      "game_id": "thunder-force-iv-sega-genesis",
+      "title": "Thunder Force IV",
+      "platform": "Sega Genesis",
+      "priority": 937
+    },
+    {
+      "game_id": "final-fantasy-vii-playstation",
+      "title": "Final Fantasy VII",
+      "platform": "PlayStation",
+      "priority": 937
+    },
+    {
+      "game_id": "mario-kart-ds-nintendo-ds",
+      "title": "Mario Kart DS",
+      "platform": "Nintendo DS",
+      "priority": 935
+    },
+    {
+      "game_id": "radiant-historia-nintendo-ds",
+      "title": "Radiant Historia",
+      "platform": "Nintendo DS",
+      "priority": 935
+    },
+    {
+      "game_id": "castlevania-symphony-of-the-night-sega-saturn",
+      "title": "Castlevania: Symphony of the Night",
+      "platform": "Sega Saturn",
+      "priority": 933
+    },
+    {
+      "game_id": "castlevania-aria-of-sorrow-game-boy-advance",
+      "title": "Castlevania: Aria of Sorrow",
+      "platform": "Game Boy Advance",
+      "priority": 933
+    },
+    {
+      "game_id": "warioware-inc-game-boy-advance",
+      "title": "WarioWare, Inc.: Mega Microgame$",
+      "platform": "Game Boy Advance",
+      "priority": 933
+    },
+    {
+      "game_id": "streets-of-rage-2-sega-genesis",
+      "title": "Streets of Rage 2",
+      "platform": "Sega Genesis",
+      "priority": 932
+    },
+    {
+      "game_id": "metal-slug-neo-geo",
+      "title": "Metal Slug",
+      "platform": "Neo Geo",
+      "priority": 931
+    }
+  ],
+  "contact_sheet": "assets/retrodex/logs/visual_batch_20260322T145725Z/validation_contact_sheet_batch_001.png"
+}

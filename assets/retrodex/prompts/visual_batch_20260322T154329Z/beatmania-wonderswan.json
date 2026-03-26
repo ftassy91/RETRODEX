@@ -1,0 +1,18 @@
+{
+  "game_id": "beatmania-wonderswan",
+  "slug": "beatmania-wonderswan",
+  "title": "Beatmania",
+  "platform": "WonderSwan",
+  "year": 2000,
+  "genre_primary": "Rythme",
+  "genre_secondary": "Retro",
+  "bucket": "mystery_adventure",
+  "platform_style": "wonderswan_mono_modern",
+  "illustration_class": "environment",
+  "risk_level": "low",
+  "composition_type": "environment",
+  "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Beatmania\n- Platform: WonderSwan\n- Release year: 2000\n- Genre: Rythme, Retro\n- Mood: curious, quiet, investigative\n- Context world: an archive room, hidden passage, or investigative interior with clues in the space\n- Central object: key\n- Supporting objects: key, notebook, sealed envelope, book\n- Genre signal: investigation, secrecy, and hidden meaning\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object in the foreground, anchored in a readable world with depth layers and a dark, calm overlay-safe side\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- minimal handheld illustration, clean geometry, sparse composition, collector-friendly balance\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+  "negative_prompt": "no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "legal_notes": "Risk level low; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

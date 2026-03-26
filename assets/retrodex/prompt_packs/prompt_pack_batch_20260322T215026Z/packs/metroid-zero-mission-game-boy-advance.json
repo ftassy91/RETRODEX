@@ -1,0 +1,49 @@
+{
+  "game_id": "metroid-zero-mission-game-boy-advance",
+  "title": "Metroid: Zero Mission",
+  "platform": "Game Boy Advance",
+  "year": 2004,
+  "genre_primary": "Action-Adventure",
+  "genre_secondary": "Fantasy",
+  "bucket": "sci_fi_action",
+  "risk_level": "high",
+  "risk_reasons": [
+    "metroid"
+  ],
+  "platform_style_id": "gba_bright_action",
+  "platform_style_description": "Game Boy Advance aesthetic, bright controlled colors, portable action framing, and clean pixel readability",
+  "palette_hint": [
+    "#0c1821",
+    "#324a5f",
+    "#f7b267",
+    "#84dcc6"
+  ],
+  "memory_rule_id": "metroid_hostile_passage",
+  "main_subject": "a lone armored explorer with an arm-mounted tool",
+  "environment": "an alien cavern with massive biomechanical pillars, acid glow, and a dark passage ahead",
+  "action_mood_cue": "aiming the arm-mounted tool into the dark in hostile silence",
+  "mood": [
+    "isolated",
+    "mysterious",
+    "alien"
+  ],
+  "composition": "single explorer foreground, one clear passage, deep cavern layers, sparse readable glow",
+  "memory_hook": "exploration, alien solitude, and hostile vertical space",
+  "legal_watchouts": [
+    "avoid Samus suit likeness",
+    "avoid Metroid creature silhouette",
+    "avoid Chozo-like symbols",
+    "avoid sword-like weapon silhouettes"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA lone armored explorer with an arm-mounted tool in an alien cavern with massive biomechanical pillars, acid glow, and a dark passage ahead, aiming the arm-mounted tool into the dark in hostile silence.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy Advance aesthetic, bright controlled colors, portable action framing, and clean pixel readability\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- isolated, mysterious, alien\n\nComposition:\n- single explorer foreground, one clear passage, deep cavern layers, sparse readable glow\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Samus suit likeness, avoid Metroid creature silhouette, avoid Chozo-like symbols, avoid sword-like weapon silhouettes, avoid resemblance to metroid",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

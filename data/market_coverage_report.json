@@ -1,0 +1,120 @@
+{
+  "tracked_games": 507,
+  "history_games": 5,
+  "sales_games": 15,
+  "source_games": 15,
+  "console_coverage": [
+    {
+      "console": "Nintendo 64",
+      "total": 38,
+      "history": 2,
+      "sales": 4,
+      "sources": 4
+    },
+    {
+      "console": "PlayStation",
+      "total": 62,
+      "history": 1,
+      "sales": 4,
+      "sources": 4
+    },
+    {
+      "console": "Game Boy",
+      "total": 31,
+      "history": 1,
+      "sales": 2,
+      "sources": 2
+    },
+    {
+      "console": "Super Nintendo",
+      "total": 55,
+      "history": 1,
+      "sales": 2,
+      "sources": 2
+    },
+    {
+      "console": "Dreamcast",
+      "total": 25,
+      "history": 0,
+      "sales": 1,
+      "sources": 1
+    },
+    {
+      "console": "Nintendo Entertainment System",
+      "total": 45,
+      "history": 0,
+      "sales": 1,
+      "sources": 1
+    },
+    {
+      "console": "Sega Saturn",
+      "total": 25,
+      "history": 0,
+      "sales": 1,
+      "sources": 1
+    },
+    {
+      "console": "Atari Lynx",
+      "total": 15,
+      "history": 0,
+      "sales": 0,
+      "sources": 0
+    },
+    {
+      "console": "Game Boy Advance",
+      "total": 33,
+      "history": 0,
+      "sales": 0,
+      "sources": 0
+    },
+    {
+      "console": "Game Gear",
+      "total": 20,
+      "history": 0,
+      "sales": 0,
+      "sources": 0
+    },
+    {
+      "console": "Neo Geo",
+      "total": 20,
+      "history": 0,
+      "sales": 0,
+      "sources": 0
+    },
+    {
+      "console": "Nintendo DS",
+      "total": 33,
+      "history": 0,
+      "sales": 0,
+      "sources": 0
+    },
+    {
+      "console": "Sega Genesis",
+      "total": 50,
+      "history": 0,
+      "sales": 0,
+      "sources": 0
+    },
+    {
+      "console": "Sega Master System",
+      "total": 20,
+      "history": 0,
+      "sales": 0,
+      "sources": 0
+    },
+    {
+      "console": "TurboGrafx-16",
+      "total": 20,
+      "history": 0,
+      "sales": 0,
+      "sources": 0
+    },
+    {
+      "console": "WonderSwan",
+      "total": 15,
+      "history": 0,
+      "sales": 0,
+      "sources": 0
+    }
+  ]
+}

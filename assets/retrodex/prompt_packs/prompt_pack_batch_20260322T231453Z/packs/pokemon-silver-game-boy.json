@@ -1,0 +1,45 @@
+{
+  "game_id": "pokemon-silver-game-boy",
+  "title": "Pokémon Silver",
+  "platform": "Game Boy",
+  "year": 2000,
+  "genre_primary": "RPG",
+  "genre_secondary": "Epic",
+  "bucket": "rpg_epic",
+  "risk_level": "low",
+  "risk_reasons": [
+    "generic_atmosphere_safe"
+  ],
+  "platform_style_id": "gameboy_monochrome_story",
+  "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+  "palette_hint": [
+    "#0f380f",
+    "#306230",
+    "#8bac0f",
+    "#cadc9f"
+  ],
+  "memory_rule_id": "",
+  "main_subject": "a lone wanderer beside a glowing relic",
+  "environment": "a broad sacred horizon with ruins and story-scale depth",
+  "action_mood_cue": "standing in a calm moment before a larger quest",
+  "mood": [
+    "epic",
+    "melancholic",
+    "legendary"
+  ],
+  "composition": "single subject foreground, relic secondary, layered horizon",
+  "memory_hook": "scale, myth, and world-spanning stakes",
+  "legal_watchouts": [],
+  "legal_notes": "Risk level: low. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro RPG game.\n\nA lone wanderer beside a glowing relic in a broad sacred horizon with ruins and story-scale depth, standing in a calm moment before a larger quest.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- epic, melancholic, legendary\n\nComposition:\n- single subject foreground, relic secondary, layered horizon\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "pixel art illustration only",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+    "render_policy": "always_pixel_art"
+  },
+  "status": "READY_FOR_REVIEW"
+}

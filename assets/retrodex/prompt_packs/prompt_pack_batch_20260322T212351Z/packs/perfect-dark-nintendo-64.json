@@ -1,0 +1,48 @@
+{
+  "game_id": "perfect-dark-nintendo-64",
+  "title": "Perfect Dark",
+  "platform": "Nintendo 64",
+  "year": 2000,
+  "genre_primary": "FPS",
+  "genre_secondary": "Retro",
+  "bucket": "shooter_arcade",
+  "risk_level": "medium",
+  "risk_reasons": [
+    "perfect dark"
+  ],
+  "platform_style_id": "n64_color_volume",
+  "platform_style_description": "Nintendo 64 aesthetic, colorful stylized 3D, playful volume, and rounded readable shapes",
+  "palette_hint": [
+    "#1b1b3a",
+    "#693668",
+    "#f84aa7",
+    "#5dfdcb"
+  ],
+  "main_subject": "a lone covert operative with compact futuristic gear",
+  "environment": "a sterile data-vault corridor with glass, consoles, and cold security light",
+  "action_mood_cue": "advancing cautiously toward a sealed breach",
+  "mood": [
+    "stealthy",
+    "clinical",
+    "tense"
+  ],
+  "composition": "single operative only, corridor depth, no trench coat, no fedora, minimal props",
+  "memory_hook": "covert infiltration, sci-fi espionage, and cold facility tension",
+  "legal_watchouts": [
+    "avoid specific spy likeness",
+    "avoid weapon replicas",
+    "avoid franchise logos or device designs",
+    "avoid noir detective styling"
+  ],
+  "legal_notes": "Risk level: medium. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro FPS game.\n\nA lone covert operative with compact futuristic gear in a sterile data-vault corridor with glass, consoles, and cold security light, advancing cautiously toward a sealed breach.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Nintendo 64 aesthetic, colorful stylized 3D, playful volume, and rounded readable shapes\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- stealthy, clinical, tense\n\nComposition:\n- single operative only, corridor depth, no trench coat, no fedora, minimal props\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid specific spy likeness, avoid weapon replicas, avoid franchise logos or device designs, avoid noir detective styling, avoid resemblance to perfect dark",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

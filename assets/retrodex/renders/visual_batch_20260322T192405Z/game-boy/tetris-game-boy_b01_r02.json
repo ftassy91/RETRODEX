@@ -1,0 +1,47 @@
+{
+  "game_id": "tetris-game-boy",
+  "title": "Tetris",
+  "platform": "Game Boy",
+  "retry_count": 2,
+  "classification": {
+    "bucket": "puzzle_abstract",
+    "risk_level": "high",
+    "illustration_class": "object",
+    "composition_type": "object_adjusted"
+  },
+  "prompt": "Original illustration inspired by a retro Puzzle game.\n\nA stacked falling blocks in a physical puzzle space with stacked pieces, spatial logic, and grounded surfaces, captured in a precise descending arrangement above a grounded puzzle surface.\n\nGame metadata:\n- Title: Tetris\n- Platform: Game Boy\n- Release year: 1989\n- Secondary genre signal: Abstract\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- monochrome handheld illustration, limited green palette, crisp pixel-informed shapes, nostalgic portable mood\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- precise, calm, cerebral, minimal\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark\n\nAdjustment: enlarge the central subject, reduce clutter, strengthen contrast, and keep the background supportive but secondary.",
+  "negative_prompt": "avoid resemblance to tetris, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background, simplify background detail, no humanoid face, no mascot proportions",
+  "render": {
+    "path": "assets/retrodex/renders/visual_batch_20260322T192405Z/game-boy/tetris-game-boy_b01_r02.png",
+    "subject_bbox": [
+      390,
+      465,
+      810,
+      795
+    ],
+    "subject_label": "tile_stack"
+  },
+  "qa": {
+    "checks": {
+      "no_text_detected": true,
+      "no_logo_detected": true,
+      "no_character_likeness": true,
+      "subject_readable": true,
+      "ui_overlay_usable": false,
+      "no_copyright_replication": true,
+      "platform_style_match": true
+    },
+    "qa_score": 86,
+    "status": "flagged",
+    "failure_reasons": [
+      "ui_overlay_usable"
+    ],
+    "metrics": {
+      "area_ratio": 0.0963,
+      "subject_contrast": 43.91,
+      "overlay_mean": 130.82,
+      "overlay_std": 51.85
+    }
+  },
+  "generated_at": "2026-03-22T19:24:06Z"
+}

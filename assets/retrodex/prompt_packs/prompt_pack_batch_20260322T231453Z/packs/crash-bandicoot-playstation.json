@@ -1,0 +1,50 @@
+{
+  "game_id": "crash-bandicoot-playstation",
+  "title": "Crash Bandicoot",
+  "platform": "PlayStation",
+  "year": 1996,
+  "genre_primary": "Platformer",
+  "genre_secondary": "Playful",
+  "bucket": "platformer_cartoon",
+  "risk_level": "high",
+  "risk_reasons": [
+    "crash"
+  ],
+  "platform_style_id": "ps1_pixel_editorial",
+  "platform_style_description": "PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels",
+  "palette_hint": [
+    "#11151c",
+    "#364156",
+    "#d66853",
+    "#f3dfa2"
+  ],
+  "memory_rule_id": "crash_jungle_dash",
+  "main_subject": "a small orange marsupial-like runner with fingerless-glove-like hands and oversized sneakers",
+  "environment": "a jungle path of crates, cliffs, and carved ruins under bright daylight",
+  "action_mood_cue": "caught in a wild forward dash between hazards",
+  "mood": [
+    "wild",
+    "cartoon",
+    "kinetic"
+  ],
+  "composition": "single runner only, one forward path, one hazard cue, bright jungle depth, and no crowd",
+  "memory_hook": "lane-based jungle sprinting, crate hazard rhythm, and wild mascot-platformer energy",
+  "legal_watchouts": [
+    "avoid exact Crash face and hair silhouette",
+    "avoid Aku Aku mask likeness",
+    "avoid official crate markings",
+    "avoid franchise logos"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Platformer game.\n\nA small orange marsupial-like runner with fingerless-glove-like hands and oversized sneakers in a jungle path of crates, cliffs, and carved ruins under bright daylight, caught in a wild forward dash between hazards.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- wild, cartoon, kinetic\n\nComposition:\n- single runner only, one forward path, one hazard cue, bright jungle depth, and no crowd\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid exact Crash face and hair silhouette, avoid Aku Aku mask likeness, avoid official crate markings, avoid franchise logos, avoid resemblance to crash",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "pixel art illustration only",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+    "render_policy": "always_pixel_art"
+  },
+  "status": "READY_FOR_REVIEW"
+}

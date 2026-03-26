@@ -1,0 +1,18 @@
+{
+  "game_id": "wario-land-4-game-boy-advance",
+  "slug": "wario-land-4-game-boy-advance",
+  "title": "Wario Land 4",
+  "platform": "Game Boy Advance",
+  "year": 2001,
+  "genre_primary": "Platformer",
+  "genre_secondary": "Playful",
+  "bucket": "platformer_cartoon",
+  "platform_style": "gba_bright_action",
+  "illustration_class": "object",
+  "risk_level": "medium",
+  "composition_type": "object",
+  "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Wario Land 4\n- Platform: Game Boy Advance\n- Release year: 2001\n- Genre: Platformer, Playful\n- Mood: playful, kinetic, bright\n- Context world: a playful platform world with layered terrain, readable obstacles, and bright depth cues\n- Central object: artifact\n- Supporting objects: artifact, spring, coin-like token, toy block\n- Genre signal: playful traversal and momentum\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- portable action illustration, saturated but controlled colors, clean handheld readability\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+  "negative_prompt": "avoid any mascot-like facial or costume elements, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "legal_notes": "Risk level medium; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

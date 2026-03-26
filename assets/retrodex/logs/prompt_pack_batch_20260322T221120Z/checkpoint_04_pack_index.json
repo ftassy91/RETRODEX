@@ -1,0 +1,63 @@
+{
+  "run_id": "prompt_pack_batch_20260322T221120Z",
+  "prompt_version": "prompt_formula_v1_production",
+  "pack_count": 7,
+  "packs": [
+    {
+      "game_id": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/super-metroid-super-nintendo.json",
+      "md_path": "packs/super-metroid-super-nintendo.md"
+    },
+    {
+      "game_id": "resident-evil-2-playstation",
+      "title": "Resident Evil 2",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/resident-evil-2-playstation.json",
+      "md_path": "packs/resident-evil-2-playstation.md"
+    },
+    {
+      "game_id": "metroid-zero-mission-game-boy-advance",
+      "title": "Metroid: Zero Mission",
+      "platform": "Game Boy Advance",
+      "risk_level": "high",
+      "json_path": "packs/metroid-zero-mission-game-boy-advance.json",
+      "md_path": "packs/metroid-zero-mission-game-boy-advance.md"
+    },
+    {
+      "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+      "title": "The Legend of Zelda: Link's Awakening",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/the-legend-of-zelda-links-awakening-game-boy.json",
+      "md_path": "packs/the-legend-of-zelda-links-awakening-game-boy.md"
+    },
+    {
+      "game_id": "shinobi-iii-sega-genesis",
+      "title": "Shinobi III",
+      "platform": "Sega Genesis",
+      "risk_level": "low",
+      "json_path": "packs/shinobi-iii-sega-genesis.json",
+      "md_path": "packs/shinobi-iii-sega-genesis.md"
+    },
+    {
+      "game_id": "castlevania-bloodlines-sega-genesis",
+      "title": "Castlevania: Bloodlines",
+      "platform": "Sega Genesis",
+      "risk_level": "high",
+      "json_path": "packs/castlevania-bloodlines-sega-genesis.json",
+      "md_path": "packs/castlevania-bloodlines-sega-genesis.md"
+    },
+    {
+      "game_id": "wario-land-super-mario-land-3-game-boy",
+      "title": "Wario Land: Super Mario Land 3",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/wario-land-super-mario-land-3-game-boy.json",
+      "md_path": "packs/wario-land-super-mario-land-3-game-boy.md"
+    }
+  ]
+}

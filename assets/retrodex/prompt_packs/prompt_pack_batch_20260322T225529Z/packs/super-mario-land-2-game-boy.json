@@ -1,0 +1,49 @@
+{
+  "game_id": "super-mario-land-2-game-boy",
+  "title": "Super Mario Land 2: 6 Golden Coins",
+  "platform": "Game Boy",
+  "year": 1992,
+  "genre_primary": "Platformer",
+  "genre_secondary": "Playful",
+  "bucket": "platformer_cartoon",
+  "risk_level": "high",
+  "risk_reasons": [
+    "mario"
+  ],
+  "platform_style_id": "gameboy_monochrome_story",
+  "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+  "palette_hint": [
+    "#0f380f",
+    "#306230",
+    "#8bac0f",
+    "#cadc9f"
+  ],
+  "memory_rule_id": "super_mario_land_2_coin_world",
+  "main_subject": "a short stocky jumper with a round nose, thick mustache, simple cap, and bright overalls",
+  "environment": "a compact Game Boy platform course with oversized coins, rounded blocks, and one tall toy-like landmark in the distance",
+  "action_mood_cue": "caught in a buoyant leap toward the next platform",
+  "mood": [
+    "playful",
+    "portable",
+    "bright"
+  ],
+  "composition": "single jumper only, side-view read, one clean jump arc, chunky portable terrain, and very strong Game Boy value separation",
+  "memory_hook": "portable Mario-like jump rhythm, giant-coin world energy, and compact handheld platforming",
+  "legal_watchouts": [
+    "avoid exact Mario face or costume details",
+    "avoid official enemy silhouettes",
+    "avoid exact coin iconography",
+    "avoid franchise logos"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Platformer game.\n\nA short stocky jumper with a round nose, thick mustache, simple cap, and bright overalls in a compact Game Boy platform course with oversized coins, rounded blocks, and one tall toy-like landmark in the distance, caught in a buoyant leap toward the next platform.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- playful, portable, bright\n\nComposition:\n- single jumper only, side-view read, one clean jump arc, chunky portable terrain, and very strong Game Boy value separation\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid exact Mario face or costume details, avoid official enemy silhouettes, avoid exact coin iconography, avoid franchise logos, avoid resemblance to mario",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

@@ -1,0 +1,362 @@
+[
+  {
+    "game_id": "castlevania-nintendo-entertainment-system",
+    "title": "Castlevania",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\castlevania-nintendo-entertainment-system.png",
+    "revised_prompt": "An original pixel art scene inspired by a retro platform game. Visualize a lone gothic adventurer, standing in front of a castle under the moonlight. The adventurer, brandishing a blade, is silhouetted against the stormy, heavy stonewalls o",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-RkcklejYNUu4IG1c5ve5BHiV.png?st=2026-03-22T22%3A15%3A22Z&se=2026-03-23T00%3A15%3A22Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=0ec745ad-3d9b-4d43-86db-87a2c9b420f1&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T03%3A18%3A25Z&ske=2026-03-23T03%3A18%3A25Z&sks=b&skv=2026-02-06&sig=77mZ6xRzydnwPOdYkXtKyfZKA3djDrBLYFxqhbH0H/U%3D"
+  },
+  {
+    "game_id": "castlevania-symphony-of-the-night-playstation",
+    "title": "Castlevania: Symphony of the Night",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\castlevania-symphony-of-the-night-playstation.png",
+    "revised_prompt": "Create an original illustration using pixel art inspired by Gothic action-RPG aesthetics found in late 90s console games. Render a solitary, moonlit castle hall harboring a lone, pale swordsman standing with an imposing demeanor. The swords",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-EZRDdZTtQtwgA2PK2nGIM6ZK.png?st=2026-03-22T22%3A15%3A38Z&se=2026-03-23T00%3A15%3A38Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=67205dde-9780-4119-bbff-6343b48e42b6&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T01%3A33%3A14Z&ske=2026-03-23T01%3A33%3A14Z&sks=b&skv=2026-02-06&sig=P7xa9sCdBeCL1Q46/zCAAuIcmSU3ofmWqLebv8hOIpU%3D"
+  },
+  {
+    "game_id": "contra-nintendo-entertainment-system",
+    "title": "Contra",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\contra-nintendo-entertainment-system.png",
+    "revised_prompt": "An original illustration inspired by vintage run and gun games. The focus is a lone silhouette of a Caucasian male commando, armed with a heavy rifle, outlined against a desolate urban or military landscape. He stands under an alien-illumin",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-8ARYAnwxZrKF15z798GUXD0T.png?st=2026-03-22T22%3A16%3A11Z&se=2026-03-23T00%3A16%3A11Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=92b997d6-f0dd-439d-8087-b26c74d72365&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T02%3A10%3A25Z&ske=2026-03-23T02%3A10%3A25Z&sks=b&skv=2026-02-06&sig=U7U2tOB0n2ejBJhOCEyo0LF4fHHFuEWLqYtU9L032c8%3D"
+  },
+  {
+    "game_id": "crash-bandicoot-playstation",
+    "title": "Crash Bandicoot",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\crash-bandicoot-playstation.png",
+    "revised_prompt": "Create a vivid pixel art image in a 90s Playstation era style. The image portrays an orange marsupial-like creature in the middle of a wild dash along a jungle path amidst crates, cliffs, and ancient ruins. This small runner character, ador",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-eRsG7fPNWqDkNDjtBUujK6vz.png?st=2026-03-22T22%3A16%3A26Z&se=2026-03-23T00%3A16%3A26Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=c4071b20-fbe5-4cbe-8e48-4476b70c6a90&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T04%3A05%3A24Z&ske=2026-03-23T04%3A05%3A24Z&sks=b&skv=2026-02-06&sig=oPA0upGSEtrRujK08CTr/CLyqITq4kR9SxK0qsLORL0%3D"
+  },
+  {
+    "game_id": "donkey-kong-country-2-super-nintendo",
+    "title": "Donkey Kong Country 2",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\donkey-kong-country-2-super-nintendo.png",
+    "revised_prompt": "Render a high-clarity, strong contrast pixel art featuring a single mine cart racing along a broken track engulfed in a dense jungle ravine. The scene should illustrate a moment just before the cart launches over a broken section of the tra",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-NhpFtG7f8MR4CLhQBkM2ZwiL.png?st=2026-03-22T22%3A16%3A43Z&se=2026-03-23T00%3A16%3A43Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=52f8f7b3-ca8d-4b21-9807-8b9df114d84c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T14%3A00%3A35Z&ske=2026-03-23T14%3A00%3A35Z&sks=b&skv=2026-02-06&sig=zenRar/A4Ci86quQk8RTIheH3tR3gwzmA3YllwJWwtA%3D"
+  },
+  {
+    "game_id": "donkey-kong-country-super-nintendo",
+    "title": "Donkey Kong Country",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\donkey-kong-country-super-nintendo.png",
+    "revised_prompt": "Create an original illustration that captures the essence of a retro platformer game. Visualize a single mine cart, one beat away from launching into the air, speeding on a broken jungle track amidst a dense jungle ravine, with wooden rails",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-SM1TYoovo3Ro2HkDDxeyb953.png?st=2026-03-22T22%3A16%3A58Z&se=2026-03-23T00%3A16%3A58Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=1726b4ce-fee1-450b-8b92-1731ad8745f6&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T13%3A01%3A37Z&ske=2026-03-23T13%3A01%3A37Z&sks=b&skv=2026-02-06&sig=SwNwiAmGVBBBuKcfpwMwzrBFrnqrjWfmdzjNtiLYeYs%3D"
+  },
+  {
+    "game_id": "duck-tales-nintendo-entertainment-system",
+    "title": "DuckTales",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\duck-tales-nintendo-entertainment-system.png",
+    "revised_prompt": "Imagine a joyful scene inspired by a retro arcade platform game. A small, adventurous silhouette resembling a duck holds a cane, bouncing across ledges in a luminous cavern buzzing with the promise of treasure. Coins sparkle sporadically al",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-flIFtMgzTRPlDIvpxoXp5OZz.png?st=2026-03-22T22%3A17%3A16Z&se=2026-03-23T00%3A17%3A16Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=1726b4ce-fee1-450b-8b92-1731ad8745f6&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T02%3A12%3A09Z&ske=2026-03-23T02%3A12%3A09Z&sks=b&skv=2026-02-06&sig=NJgngObGpZk0/p113/RPEDXKCvP6izm/jsKA0yOc27Y%3D"
+  },
+  {
+    "game_id": "earthbound-super-nintendo",
+    "title": "EarthBound",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\earthbound-super-nintendo.png",
+    "revised_prompt": "Generate an image showcasing a pixel-art aesthetic inspired by the style of retro 16-bit RPG games. The scene should depict a single silhouette of a small suburban White male child holding a simple bat-like object, standing on a quiet night",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-FAR9lKjowmvbrlq852J3pIND.png?st=2026-03-22T22%3A17%3A31Z&se=2026-03-23T00%3A17%3A31Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=67205dde-9780-4119-bbff-6343b48e42b6&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T04%3A08%3A35Z&ske=2026-03-23T04%3A08%3A35Z&sks=b&skv=2026-02-06&sig=46VfPkLcoWPBO/EeLkkKQe2878pwCT1JLFcJer%2BlcQE%3D"
+  },
+  {
+    "game_id": "final-fantasy-tactics-playstation",
+    "title": "Final Fantasy Tactics",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\final-fantasy-tactics-playstation.png",
+    "revised_prompt": "Create a pixel art illustration of a solitary knight with a visible silhouette, standing alone on a grassy ridge. The knight is depicted as a young person of South Asian descent with a calm and resolved demeanor, clutching a simple sword ne",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-zBs8PkpvWi5nhySHRqBfW10F.png?st=2026-03-22T22%3A17%3A48Z&se=2026-03-23T00%3A17%3A48Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=c4071b20-fbe5-4cbe-8e48-4476b70c6a90&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T02%3A52%3A56Z&ske=2026-03-23T02%3A52%3A56Z&sks=b&skv=2026-02-06&sig=NDxNRfv21S5gwGVPiv8owFVviYNYiAhtwGR96pUfmx0%3D"
+  },
+  {
+    "game_id": "final-fantasy-vi-super-nintendo",
+    "title": "Final Fantasy VI",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\final-fantasy-vi-super-nintendo.png",
+    "revised_prompt": "Imagine a pixel art scene, clearly inspired by the atmosphere and aesthetics of retro SNES RPG games, yet totally original. Visualise an armored walking machine with its rider silhouetted against a dusky skyline. This machine traverses a wi",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-wlRX59fIM4jhtfuFsbdXSa0S.png?st=2026-03-22T22%3A18%3A10Z&se=2026-03-23T00%3A18%3A10Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=0ec745ad-3d9b-4d43-86db-87a2c9b420f1&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T03%3A17%3A46Z&ske=2026-03-23T03%3A17%3A46Z&sks=b&skv=2026-02-06&sig=fBL4cit9vsH93HX3O1s1p7i58voBEDi9%2BtOt7hZVlz8%3D"
+  },
+  {
+    "game_id": "final-fantasy-vii-playstation",
+    "title": "Final Fantasy VII",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\final-fantasy-vii-playstation.png",
+    "revised_prompt": "Imagine a scene reminiscent of retro RPG games, a pixel art creation inspired by 90s aesthetics. In a wide, snowy landscape at dusk, a solitary walking machine maneuvers its way through the thick layer of snow. It is armored and has a rider",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-xOvYlihkiCGZ8MrkLyvym74P.png?st=2026-03-22T22%3A18%3A27Z&se=2026-03-23T00%3A18%3A27Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=92b997d6-f0dd-439d-8087-b26c74d72365&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T05%3A15%3A53Z&ske=2026-03-23T05%3A15%3A53Z&sks=b&skv=2026-02-06&sig=dIPqq3Cg2VBegWBF4Wh0YIynCrdy5dmxSsrh2u68BIw%3D"
+  },
+  {
+    "game_id": "final-fantasy-viii-playstation",
+    "title": "Final Fantasy VIII",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\final-fantasy-viii-playstation.png",
+    "revised_prompt": "Generate a pixel art image depicting an original, late-90s RPG game-inspired scene. The scene takes place at dusk in a snowy ridge, with a heavily armored walking machine and its silhouetted rider being the focal point. The machine is advan",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-l2kFAT5tEOQK6DWDXuTp3vho.png?st=2026-03-22T22%3A18%3A46Z&se=2026-03-23T00%3A18%3A46Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=e12db1aa-1007-44fd-8388-3a70fd6a4956&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T02%3A54%3A17Z&ske=2026-03-23T02%3A54%3A17Z&sks=b&skv=2026-02-06&sig=S2MWo%2BSLR0x0V/UXBUkaviKGRDYOoscQD3kDzZUZR2c%3D"
+  },
+  {
+    "game_id": "kirby-adventure-nintendo-entertainment-system",
+    "title": "Kirby's Adventure",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\kirby-adventure-nintendo-entertainment-system.png",
+    "revised_prompt": "Create a pixel art of a small, round character with simplistic feet and bright eyes. This character is navigating through a side-scrolling dream sky filled with rounded clouds and a multi-layered horizon painted in pastel colors. The charac",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-xSH8gRnWrd35YsxIrAEKjkXP.png?st=2026-03-22T22%3A19%3A12Z&se=2026-03-23T00%3A19%3A12Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=c4071b20-fbe5-4cbe-8e48-4476b70c6a90&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T03%3A18%3A21Z&ske=2026-03-23T03%3A18%3A21Z&sks=b&skv=2026-02-06&sig=7z%2B%2B4yeXYYKHkyU3JjMf8TJ4XWrtgdNhPa%2BuWTfHPR0%3D"
+  },
+  {
+    "game_id": "mega-man-2-nintendo-entertainment-system",
+    "title": "Mega Man 2",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\mega-man-2-nintendo-entertainment-system.png",
+    "revised_prompt": "Create a highly recognizable retro pixel art illustration reminiscent of a classic platform video game. Visualize an evening skyline with a small, blue android armed with a round blaster standing solo on a city rooftop. The android is geare",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-EcjGO2A1YKvL5CekkCQbawNE.png?st=2026-03-22T22%3A19%3A41Z&se=2026-03-23T00%3A19%3A41Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=52f8f7b3-ca8d-4b21-9807-8b9df114d84c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T04%3A58%3A38Z&ske=2026-03-23T04%3A58%3A38Z&sks=b&skv=2026-02-06&sig=lQlya21JgeQ1i55jDmKtSsBsb4PrdpYSp0/cQiwz1vc%3D"
+  },
+  {
+    "game_id": "metal-gear-ghost-babel-game-boy",
+    "title": "Metal Gear: Ghost Babel",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\metal-gear-ghost-babel-game-boy.png",
+    "revised_prompt": "A creative interpretation of a pixel art styled scene, representing the excitement and tension of the retro Action-Stealth game genre. Focus on a lone silhouette of an undercover operative, decked out in compact equipment, as they traverse ",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-vVqMWqfFEupMPVBE1FFWm2SZ.png?st=2026-03-22T22%3A19%3A57Z&se=2026-03-23T00%3A19%3A57Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T07%3A34%3A03Z&ske=2026-03-23T07%3A34%3A03Z&sks=b&skv=2026-02-06&sig=HPuTUcFZ9ORE8nUuLy3hUFwo/jj7rcp4qxt18O8xz4o%3D"
+  },
+  {
+    "game_id": "metal-gear-solid-playstation",
+    "title": "Metal Gear Solid",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\metal-gear-solid-playstation.png",
+    "revised_prompt": "Create an original pixel art image that draws inspiration from the atmosphere and genre of a retro Action-Stealth game from the late-90s PlayStation era. The scene should portray a lone covert operative, clearly silhouetted and equipped wit",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-is8EuZ3RylFGWPMooH2t4SdF.png?st=2026-03-22T22%3A20%3A14Z&se=2026-03-23T00%3A20%3A14Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=67205dde-9780-4119-bbff-6343b48e42b6&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T04%3A39%3A32Z&ske=2026-03-23T04%3A39%3A32Z&sks=b&skv=2026-02-06&sig=1Z/15erCTyl5Z6PTkPMX6uDAVC6U0dOISrdVJa/XU60%3D"
+  },
+  {
+    "game_id": "metroid-nintendo-entertainment-system",
+    "title": "Metroid",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\metroid-nintendo-entertainment-system.png",
+    "revised_prompt": "Generate an original pixel art image that captures the essence  of a vintage action-adventure video game. Present a scene with an isolated, mysterious, alien ambiance where a lone explorer dressed in armor stands in an alien cavern. The cav",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-zC9NlCiLA0Rr1dFWoyrdW7Hg.png?st=2026-03-22T22%3A20%3A38Z&se=2026-03-23T00%3A20%3A38Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=92b997d6-f0dd-439d-8087-b26c74d72365&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T03%3A23%3A06Z&ske=2026-03-23T03%3A23%3A06Z&sks=b&skv=2026-02-06&sig=j4123NVgMulLuRZMpI5IN5Aw%2BIDeykX29CiKhre4mEI%3D"
+  },
+  {
+    "game_id": "mike-tysons-punch-out-nintendo-entertainment-system",
+    "title": "Mike Tyson's Punch-Out!!",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\mike-tysons-punch-out-nintendo-entertainment-system.png",
+    "revised_prompt": "Illustration influenced by the retro aesthetic of the NES era. Portray a short, determined boxer of Hispanic descent in boxing gloves framed by the corner of a brightly lit boxing ring. There's a looming silhouette of a substantial opponent",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-DvRQcTnMSvLwl7bGTtgI3ZQZ.png?st=2026-03-22T22%3A20%3A56Z&se=2026-03-23T00%3A20%3A56Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T08%3A16%3A22Z&ske=2026-03-23T08%3A16%3A22Z&sks=b&skv=2026-02-06&sig=ZdQs1bvlbySNHbALPk0DeRjaEHTCoX0CZCZ4e3kn%2BjY%3D"
+  },
+  {
+    "game_id": "oracle-of-ages-game-boy",
+    "title": "The Legend of Zelda: Oracle of Ages",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\oracle-of-ages-game-boy.png",
+    "revised_prompt": "Create a pixel art image reminiscent of a vintage, monochrome Game Boy game. The scene should depict an adventurer (with a nondescript appearance to maintain originality) wielding a basic sword and round shield, standing alone in a windswep",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-TNcBKOQydaimaMsfy6WMCaNK.png?st=2026-03-22T22%3A21%3A20Z&se=2026-03-23T00%3A21%3A20Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=92b997d6-f0dd-439d-8087-b26c74d72365&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T03%3A23%3A06Z&ske=2026-03-23T03%3A23%3A06Z&sks=b&skv=2026-02-06&sig=SV1YCEv8h1JxbCcIpj2LzxQvYFy%2BNgxDhIqfoqUJu2A%3D"
+  },
+  {
+    "game_id": "oracle-of-seasons-game-boy",
+    "title": "The Legend of Zelda: Oracle of Seasons",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\oracle-of-seasons-game-boy.png",
+    "revised_prompt": "Create a pixel art illustration inspired by the essence of retro Action-Adventure games. Depict a courageous, solo adventurer of Caucasian descent, equipped with a straightforward sword and a round shield. They stand alone in a windswept, m",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-PJLK8Jz9jvuJ5VSWDau3j6vr.png?st=2026-03-22T22%3A21%3A37Z&se=2026-03-23T00%3A21%3A37Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=52f8f7b3-ca8d-4b21-9807-8b9df114d84c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T05%3A22%3A15Z&ske=2026-03-23T05%3A22%3A15Z&sks=b&skv=2026-02-06&sig=WK3DBTKxGbgnG9ZbpJC1SgRsiLy4jNkwDmniJreDStU%3D"
+  },
+  {
+    "game_id": "pokemon-gold-game-boy",
+    "title": "Pokémon Gold",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\pokemon-gold-game-boy.png",
+    "revised_prompt": "Create an original pixel art illustration inspired by a retro RPG game aesthetic, capturing the essence of a lone wanderer standing beside a glowing relic against a backdrop of expansive ruins under a broad sacred horizon. This scene captur",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-2oftq6wH338VdYcdZtR38ICp.png?st=2026-03-22T22%3A21%3A52Z&se=2026-03-23T00%3A21%3A52Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=e12db1aa-1007-44fd-8388-3a70fd6a4956&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T04%3A17%3A48Z&ske=2026-03-23T04%3A17%3A48Z&sks=b&skv=2026-02-06&sig=NFYwl9i0wcDzjDXjwgUMZ/RGU3QCUS33RrhnEYNJ2Hs%3D"
+  },
+  {
+    "game_id": "pokemon-red-game-boy",
+    "title": "Pokémon Red",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\pokemon-red-game-boy.png",
+    "revised_prompt": "Create an original piece of pixel art inspired by the aesthetic of vintage Game Boy games. The scene should depict an epic, melancholic, and legendary scenario: a lone wanderer, identifiable by their strong silhouette, standing beside a glo",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-kIYK1p5N2zFXQtd2ac17wsxa.png?st=2026-03-22T22%3A22%3A09Z&se=2026-03-23T00%3A22%3A09Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=0ec745ad-3d9b-4d43-86db-87a2c9b420f1&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T17%3A19%3A06Z&ske=2026-03-23T17%3A19%3A06Z&sks=b&skv=2026-02-06&sig=qukqr6QyRi11rBPmLdcvCDQt0SGtbThPzxmrh4%2BGGAE%3D"
+  },
+  {
+    "game_id": "pokemon-silver-game-boy",
+    "title": "Pokémon Silver",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\pokemon-silver-game-boy.png",
+    "revised_prompt": "Create an original pixel art scene with a vintage RPG game vibe. This scene depicts a lone wanderer, identifiable by their strong silhouette, standing next to a softly glowing relic. They are in the expansive ruins of a sacred landscape fil",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-GpDf7lqd58rezCAALlW5evDu.png?st=2026-03-22T22%3A22%3A26Z&se=2026-03-23T00%3A22%3A26Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=92b997d6-f0dd-439d-8087-b26c74d72365&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T03%3A23%3A06Z&ske=2026-03-23T03%3A23%3A06Z&sks=b&skv=2026-02-06&sig=sHjmrk3XptDAbdYwJzxLAUH0i7rrD283KrjRmBSsSVI%3D"
+  },
+  {
+    "game_id": "resident-evil-2-playstation",
+    "title": "Resident Evil 2",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\resident-evil-2-playstation.png",
+    "revised_prompt": "Create an original pixel art illustration that captures the retro survival horror game aesthetic from the late 90s Playstation era, focusing on one single figure. The figure, indistinct in gender, race, or outfit, is caught in a dark, oppre",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-OkJHKzW1iaGXhEUaO03UQAiX.png?st=2026-03-22T22%3A22%3A41Z&se=2026-03-23T00%3A22%3A41Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=75dd98d5-7f83-456f-ae8d-a58a7fba1b61&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T00%3A08%3A46Z&ske=2026-03-23T00%3A08%3A46Z&sks=b&skv=2026-02-06&sig=UJddl7ydjCnSoiba8pTxP6K0Bj1WRbsLf9tkIMKotys%3D"
+  },
+  {
+    "game_id": "secret-of-mana-super-nintendo",
+    "title": "Secret of Mana",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\secret-of-mana-super-nintendo.png",
+    "revised_prompt": "Create an image illustrating a youthful adventurer, carrying a plain sword and standing in awe in a radiant forest clearing, one gigantic aged tree stump and soft enchanting light streaming through the leaves. The adventurer is preparing to",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-rmkBDOFvNaDreZYyuPwQCFYU.png?st=2026-03-22T22%3A23%3A02Z&se=2026-03-23T00%3A23%3A02Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=52f8f7b3-ca8d-4b21-9807-8b9df114d84c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T10%3A33%3A52Z&ske=2026-03-23T10%3A33%3A52Z&sks=b&skv=2026-02-06&sig=QiAgnlcS3xIYbN2xFBGPKxA7oFrzyxUfTQN9/47L0z8%3D"
+  },
+  {
+    "game_id": "silent-hill-playstation",
+    "title": "Silent Hill",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\silent-hill-playstation.png",
+    "revised_prompt": "Imagine a scene inspired by a retro survival horror video game. Visualize a lone figure, of ambiguous gender and race, holding a flashlight in a dark corridor. The flashlight beam cuts sharply through the surrounding darkness, highlighting ",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-FTPyT12VQvmMUnWzVdWcvVym.png?st=2026-03-22T22%3A23%3A18Z&se=2026-03-23T00%3A23%3A18Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=0ec745ad-3d9b-4d43-86db-87a2c9b420f1&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T16%3A58%3A54Z&ske=2026-03-23T16%3A58%3A54Z&sks=b&skv=2026-02-06&sig=jrVnsBHaajVkIpUyYw9I7JuCqKyYXKYstxGIOB5df/4%3D"
+  },
+  {
+    "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+    "title": "Super Mario Bros. 3",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\super-mario-bros-3-nintendo-entertainment-system.png",
+    "revised_prompt": "Create an original illustration inspired by vintage platformer video games. The scene should depict an agile character in a side view, mid-leap over a gap in a side-scrolling platformer environment composed of layered block islands and open",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-rJNUNPR3Dst2fbirqTRn3xZb.png?st=2026-03-22T22%3A23%3A42Z&se=2026-03-23T00%3A23%3A42Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=75dd98d5-7f83-456f-ae8d-a58a7fba1b61&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T17%3A41%3A04Z&ske=2026-03-23T17%3A41%3A04Z&sks=b&skv=2026-02-06&sig=jacw/CiwAI4xQOk1K0uv0MH8DAc0IxS/%2B6Dseh3Q9HY%3D"
+  },
+  {
+    "game_id": "super-mario-bros-nintendo-entertainment-system",
+    "title": "Super Mario Bros.",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\super-mario-bros-nintendo-entertainment-system.png",
+    "revised_prompt": "Create a pixel art illustration of an original platformer video game scene. The scene should feature a small nimble explorer, seen in mid-jump, navigating a bright, layered terrainscape with a clear path forward. The palette is limited to s",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-YwRkQcDwwqDgVhhAVnHXUgnl.png?st=2026-03-22T22%3A24%3A06Z&se=2026-03-23T00%3A24%3A06Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=0ec745ad-3d9b-4d43-86db-87a2c9b420f1&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T16%3A58%3A54Z&ske=2026-03-23T16%3A58%3A54Z&sks=b&skv=2026-02-06&sig=IcWYpqfJnQWI8DAE2wPTsDQ68iy7FdiFuIhuTTuDpYc%3D"
+  },
+  {
+    "game_id": "super-mario-kart-super-nintendo",
+    "title": "Super Mario Kart",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\super-mario-kart-super-nintendo.png",
+    "revised_prompt": "Let's imagine a scene inspired by the retro racing atmosphere of the Super Nintendo Entertainment System era. A cartoonish, short and stout racer, perhaps of South Asian descent, is seated low in a tiny racing kart. They don a simple cap an",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-natWu9k0VD1IH17jpOrclz2Y.png?st=2026-03-22T22%3A24%3A30Z&se=2026-03-23T00%3A24%3A30Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=c4071b20-fbe5-4cbe-8e48-4476b70c6a90&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T02%3A43%3A10Z&ske=2026-03-23T02%3A43%3A10Z&sks=b&skv=2026-02-06&sig=UZHO9dJI9FHrkTsRie2dWOX2%2B/cbdppDO9XEWoJJSLI%3D"
+  },
+  {
+    "game_id": "super-mario-land-2-game-boy",
+    "title": "Super Mario Land 2: 6 Golden Coins",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\super-mario-land-2-game-boy.png",
+    "revised_prompt": "Create an entirely original illustration that gives a nod to the aesthetics of vintage platformer games from the Game Boy era. The central focus of this image should be a short, robust character in mid-leap. This character should have a rou",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-MRqkzQ6wGuvdeJfvyCvew7CE.png?st=2026-03-22T22%3A24%3A49Z&se=2026-03-23T00%3A24%3A49Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=c4071b20-fbe5-4cbe-8e48-4476b70c6a90&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T17%3A19%3A15Z&ske=2026-03-23T17%3A19%3A15Z&sks=b&skv=2026-02-06&sig=ND0hgOrMJgewyMFzQ3EMdgSTJ2A3kc/ym44H0nK7qG0%3D"
+  },
+  {
+    "game_id": "super-mario-world-super-nintendo",
+    "title": "Super Mario World",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\super-mario-world-super-nintendo.png",
+    "revised_prompt": "Create a detailed, bright and playful pixel art image of an agile explorer character in a retro side-scrolling platformer game scenario. The setting should consist of rounded grassy hills and chunky ledges with a clear path of platforms lea",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-4KyLSGCxtIF0R0W1qTMzZdLM.png?st=2026-03-22T22%3A25%3A05Z&se=2026-03-23T00%3A25%3A05Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=1726b4ce-fee1-450b-8b92-1731ad8745f6&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T09%3A16%3A56Z&ske=2026-03-23T09%3A16%3A56Z&sks=b&skv=2026-02-06&sig=N9zZqenOrDQfzfYl%2B%2BzoDnAlDTvBQJZYd%2BZ%2BykOXwgE%3D"
+  },
+  {
+    "game_id": "super-metroid-super-nintendo",
+    "title": "Super Metroid",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\super-metroid-super-nintendo.png",
+    "revised_prompt": "Create an original illustration capturing the ambience of a retro action-adventure game. The scene consists of a single explorer, armored and equipped with an arm-mounted tool, standing in a vast alien cavern. The cavern has a biomechanical",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-TToNWNi7ZiiFgX6qXHcn9rlW.png?st=2026-03-22T22%3A25%3A21Z&se=2026-03-23T00%3A25%3A21Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=52f8f7b3-ca8d-4b21-9807-8b9df114d84c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T05%3A50%3A21Z&ske=2026-03-23T05%3A50%3A21Z&sks=b&skv=2026-02-06&sig=qdi1mNNw3rgAuNwCTi5Z%2BA6rDE7cJkAjz%2B2TXZ1SfVk%3D"
+  },
+  {
+    "game_id": "tekken-3-playstation",
+    "title": "Tekken 3",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\tekken-3-playstation.png",
+    "revised_prompt": "Imagine an image revealing a solitary figure embodying a street fighter character, adopting a defensive stance on a neon-glowing rooftop or in an industrial setting during night time. The scene is underlined by a single harsh backlight, whi",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-QTeU7BufmFKddFzjtnXxd9dJ.png?st=2026-03-22T22%3A25%3A36Z&se=2026-03-23T00%3A25%3A36Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=1726b4ce-fee1-450b-8b92-1731ad8745f6&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T06%3A01%3A57Z&ske=2026-03-23T06%3A01%3A57Z&sks=b&skv=2026-02-06&sig=lAIZOnueqKkwIPCu5jHjmWLFL2ekhKFxywT%2BDa5NXQ0%3D"
+  },
+  {
+    "game_id": "tetris-dx-game-boy",
+    "title": "Tetris DX",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\tetris-dx-game-boy.png",
+    "revised_prompt": "Create an original pixel art inspired by retro Puzzle games. The scene should depict a nearly complete wall of interlocking blocks with one piece falling above a tight gap in a tall, glowing playfield, viewed head-on as if it were a handhel",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-aAaiqf0G0b0wjFr6BfVl6ECl.png?st=2026-03-22T22%3A26%3A05Z&se=2026-03-23T00%3A26%3A05Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=e12db1aa-1007-44fd-8388-3a70fd6a4956&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T03%3A53%3A45Z&ske=2026-03-23T03%3A53%3A45Z&sks=b&skv=2026-02-06&sig=3dnMLSk7NMQEjTPsmTfT1pHAHWecRMSnk8OLjv%2BPJ3U%3D"
+  },
+  {
+    "game_id": "tetris-game-boy",
+    "title": "Tetris",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\tetris-game-boy.png",
+    "revised_prompt": "Create an image inspired by the style and aesthetic of retro handheld puzzle games. Picture a nearly complete playfield filled with interlocking block puzzles, with one piece lit up as it descends towards a gap. The artwork should emanate a",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-uvh2f71rzM1IWfi3WTIGqspc.png?st=2026-03-22T22%3A26%3A28Z&se=2026-03-23T00%3A26%3A28Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=e12db1aa-1007-44fd-8388-3a70fd6a4956&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T02%3A30%3A50Z&ske=2026-03-23T02%3A30%3A50Z&sks=b&skv=2026-02-06&sig=jgeKlFcnzsXw389a4/jzYIXhjQ9527GgsB47gsuKz1o%3D"
+  },
+  {
+    "game_id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+    "title": "The Legend of Zelda: A Link to the Past",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\the-legend-of-zelda-a-link-to-the-past-super-nintendo.png",
+    "revised_prompt": "Imagine an original illustration inspired by a classic Action-Adventure game in the retro style of the Super Nintendo Entertainment System. The scene consists of a solitary adventurer who's tiny in size, armed with a basic sword and a round",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-51CNRGelvaZmOzg3W8aG3OWn.png?st=2026-03-22T22%3A26%3A48Z&se=2026-03-23T00%3A26%3A48Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=0ec745ad-3d9b-4d43-86db-87a2c9b420f1&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T02%3A42%3A19Z&ske=2026-03-23T02%3A42%3A19Z&sks=b&skv=2026-02-06&sig=sP21TrQYhsKDF7KoLqOBqm8qZc3cY/4CnEPsEjaiXqQ%3D"
+  },
+  {
+    "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+    "title": "The Legend of Zelda: Link's Awakening",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\the-legend-of-zelda-links-awakening-game-boy.png",
+    "revised_prompt": "Create an original pixel art illustration inspired by retro action-adventure games. The scene focuses on a child-sized adventurer, seen from behind in the lower-left foreground on a calm island shoreline. The character is holding a short sw",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-7BnA96B1SqO7qU99yCCrUUiK.png?st=2026-03-22T22%3A27%3A04Z&se=2026-03-23T00%3A27%3A04Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=e12db1aa-1007-44fd-8388-3a70fd6a4956&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T03%3A48%3A27Z&ske=2026-03-23T03%3A48%3A27Z&sks=b&skv=2026-02-06&sig=G0/LeU9r2Vbhway30q6sj1/ROmtCvyOOjbONE2NOGVI%3D"
+  },
+  {
+    "game_id": "the-legend-of-zelda-nintendo-entertainment-system",
+    "title": "The Legend of Zelda",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\the-legend-of-zelda-nintendo-entertainment-system.png",
+    "revised_prompt": "Create a pixel art visual of an unknown lone adventurer, appearing small-size in the foreground. This adventurous figure, packed with a simple sword and a round shield, is standing alone in a windswept fantasy field or shoreline. Their gaze",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-qbtF6pW18gMfQpSd2ac8F1eJ.png?st=2026-03-22T22%3A27%3A29Z&se=2026-03-23T00%3A27%3A29Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=92b997d6-f0dd-439d-8087-b26c74d72365&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T04%3A30%3A50Z&ske=2026-03-23T04%3A30%3A50Z&sks=b&skv=2026-02-06&sig=oMMW722IWdas3NwCdBZFRKvIzjmc6j7MpL/KpzwzB1I%3D"
+  },
+  {
+    "game_id": "vagrant-story-playstation",
+    "title": "Vagrant Story",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\vagrant-story-playstation.png",
+    "revised_prompt": "Generate an image of a lone rogue silhouetted against a torchlit city-state ruin. The corridor is designed with stone arches and chains, and has scattered narrow shafts of light. The rogue, armed with a compact blade, is carefully advancing",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-kHIsMvF5V3YkyHktEWC76GT3.png?st=2026-03-22T22%3A27%3A51Z&se=2026-03-23T00%3A27%3A51Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=0ec745ad-3d9b-4d43-86db-87a2c9b420f1&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T16%3A58%3A54Z&ske=2026-03-23T16%3A58%3A54Z&sks=b&skv=2026-02-06&sig=eTl/vC248mb4DbNvfBqzQLZ1pWs1epTEcVRPtnwM5gc%3D"
+  },
+  {
+    "game_id": "yoshi-island-super-nintendo",
+    "title": "Super Mario World 2: Yoshi's Island",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T231504Z\\yoshi-island-super-nintendo.png",
+    "revised_prompt": "Create a pixel art illustration inspired by the aesthetic of retro platformer video games, particularly resembling the style of SNES. The scene should depict a side view of a nimble, agile explorer in the midst of a forward leap from one le",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-sUGftUgNboKKAbWRBxH0i9WW.png?st=2026-03-22T22%3A28%3A10Z&se=2026-03-23T00%3A28%3A10Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=75dd98d5-7f83-456f-ae8d-a58a7fba1b61&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T10%3A39%3A44Z&ske=2026-03-23T10%3A39%3A44Z&sks=b&skv=2026-02-06&sig=GIJloOMkMeCSQr1EDV%2BOLkH69WpQA88bcVO7YYUwiA8%3D"
+  }
+]

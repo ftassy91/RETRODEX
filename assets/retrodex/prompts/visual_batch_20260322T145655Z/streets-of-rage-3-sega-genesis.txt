@@ -1,0 +1,40 @@
+Create an original editorial illustration for a retro video game database entry.
+
+Game metadata:
+- Title: Streets of Rage 3
+- Platform: Sega Genesis
+- Release year: 1994
+- Genre: Adventure, Mystery
+- Mood: mysterious, heroic, mythic
+- Setting: ruins, path, distant landmark
+- Key objects: sword, lantern, stone relic
+
+Visual goal:
+- Represent the game's atmosphere, genre, and collectible identity
+- Produce a unique, original image suitable for a premium database card
+- The image must feel iconic, readable, and emotionally evocative
+
+Composition:
+- One archetypal, faceless silhouette or totemic figure, never resembling an official character, placed against strong atmosphere and generous negative space
+- Designed for use in a GameDetail header / hero illustration
+
+Style system:
+- Use the visual language associated with energetic arcade action poster feel, stronger contrast, bold diagonals, speed and attitude
+- Apply the RetroDex art direction: premium collectible editorial art, readable, elegant, atmospheric
+
+Strict legal and safety constraints:
+- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite
+- Do NOT imitate exact copyrighted visual designs
+- Do NOT include any trademarked logo or title text inside the image
+- Evoke only the atmosphere, archetypes, objects, and genre cues
+- The result must be fully original and non-infringing in appearance
+
+Output:
+- High detail
+- Premium editorial game-card illustration
+- No text
+- No watermark
+- Clean readable lighting
+
+Negative constraints:
+no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text

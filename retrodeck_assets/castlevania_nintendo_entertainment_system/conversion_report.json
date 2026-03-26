@@ -1,0 +1,19 @@
+﻿{
+    "output":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\retrodeck_assets\\castlevania_nintendo_entertainment_system\\sprite.png",
+    "opaque_ratio":  0.2886,
+    "source":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\retrodeck_assets\\_cache\\source_images\\wikipedia_en_thumb_7_7d_cvgos_simon_belmont_png_330px_cvgos_simon_belmont_png.png",
+    "bbox":  {
+                 "y":  5,
+                 "width":  42,
+                 "height":  38,
+                 "x":  3
+             },
+    "colors_used":  [
+                        "#9BBC0F",
+                        "#8BAC0F",
+                        "#306230",
+                        "#0F380F"
+                    ],
+    "work_size":  48,
+    "canvas_size":  128
+}

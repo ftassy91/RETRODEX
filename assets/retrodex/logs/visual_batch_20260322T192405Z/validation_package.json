@@ -1,0 +1,106 @@
+{
+  "run_id": "visual_batch_20260322T192405Z",
+  "batch_size": 10,
+  "generated_items": [
+    {
+      "game_id": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+      "title": "The Legend of Zelda: Ocarina of Time",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/visual_batch_20260322T192405Z/nintendo-64/the-legend-of-zelda-ocarina-of-time-nintendo-64_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "tony-hawks-pro-skater-2-playstation",
+      "title": "Tony Hawk's Pro Skater 2",
+      "platform": "PlayStation",
+      "render_path": "assets/retrodex/renders/visual_batch_20260322T192405Z/playstation/tony-hawks-pro-skater-2-playstation_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "soul-calibur-dreamcast",
+      "title": "Soul Calibur",
+      "platform": "Dreamcast",
+      "render_path": "assets/retrodex/renders/visual_batch_20260322T192405Z/dreamcast/soul-calibur-dreamcast_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "castlevania-rondo-of-blood-turbografx-16",
+      "title": "Castlevania: Rondo of Blood",
+      "platform": "TurboGrafx-16",
+      "render_path": "assets/retrodex/renders/visual_batch_20260322T192405Z/turbografx-16/castlevania-rondo-of-blood-turbografx-16_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "perfect-dark-nintendo-64",
+      "title": "Perfect Dark",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/visual_batch_20260322T192405Z/nintendo-64/perfect-dark-nintendo-64_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "tetris-game-boy",
+      "title": "Tetris",
+      "platform": "Game Boy",
+      "render_path": "assets/retrodex/renders/visual_batch_20260322T192405Z/game-boy/tetris-game-boy_b01_r02.png",
+      "qa_score": 86,
+      "status": "flagged"
+    },
+    {
+      "game_id": "super-mario-64-nintendo-64",
+      "title": "Super Mario 64",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/visual_batch_20260322T192405Z/nintendo-64/super-mario-64-nintendo-64_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "platform": "Super Nintendo",
+      "render_path": "assets/retrodex/renders/visual_batch_20260322T192405Z/super-nintendo/super-metroid-super-nintendo_b01_r02.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+      "title": "Super Mario Bros. 3",
+      "platform": "Nintendo Entertainment System",
+      "render_path": "assets/retrodex/renders/visual_batch_20260322T192405Z/nintendo-entertainment-system/super-mario-bros-3-nintendo-entertainment-system_b01_r02.png",
+      "qa_score": 80,
+      "status": "flagged"
+    },
+    {
+      "game_id": "tekken-3-playstation",
+      "title": "Tekken 3",
+      "platform": "PlayStation",
+      "render_path": "assets/retrodex/renders/visual_batch_20260322T192405Z/playstation/tekken-3-playstation_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    }
+  ],
+  "flagged_items": [
+    {
+      "game_id": "tetris-game-boy",
+      "render_path": "assets/retrodex/renders/visual_batch_20260322T192405Z/game-boy/tetris-game-boy_b01_r02.png",
+      "failure_reasons": [
+        "ui_overlay_usable"
+      ],
+      "retry_count": 2
+    },
+    {
+      "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+      "render_path": "assets/retrodex/renders/visual_batch_20260322T192405Z/nintendo-entertainment-system/super-mario-bros-3-nintendo-entertainment-system_b01_r02.png",
+      "failure_reasons": [
+        "subject_readable"
+      ],
+      "retry_count": 2
+    }
+  ],
+  "next_batch_ready": [],
+  "contact_sheet": "assets/retrodex/logs/visual_batch_20260322T192405Z/validation_contact_sheet_batch_001.png"
+}

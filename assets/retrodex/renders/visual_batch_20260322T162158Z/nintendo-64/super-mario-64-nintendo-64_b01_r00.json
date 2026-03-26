@@ -1,0 +1,45 @@
+{
+  "game_id": "super-mario-64-nintendo-64",
+  "title": "Super Mario 64",
+  "platform": "Nintendo 64",
+  "retry_count": 0,
+  "classification": {
+    "bucket": "platformer_cartoon",
+    "risk_level": "high",
+    "illustration_class": "object",
+    "composition_type": "object"
+  },
+  "prompt": "Original illustration inspired by a retro Platformer game.\n\nA small agile explorer in a playful platform world with layered terrain, readable obstacles, and bright depth cues, caught in a forward-moving leap through layered terrain.\n\nGame metadata:\n- Title: Super Mario 64\n- Platform: Nintendo 64\n- Release year: 1996\n- Secondary genre signal: Action\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- colorful stylized 3D collectible render, playful volume, toy-like readability\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- playful, kinetic, bright\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "avoid resemblance to mario, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "render": {
+    "path": "assets/retrodex/renders/visual_batch_20260322T162158Z/nintendo-64/super-mario-64-nintendo-64_b01_r00.png",
+    "subject_bbox": [
+      320,
+      189,
+      736,
+      783
+    ],
+    "subject_label": "agile_explorer"
+  },
+  "qa": {
+    "checks": {
+      "no_text_detected": true,
+      "no_logo_detected": true,
+      "no_character_likeness": true,
+      "subject_readable": true,
+      "ui_overlay_usable": true,
+      "no_copyright_replication": true,
+      "platform_style_match": true
+    },
+    "qa_score": 100,
+    "status": "generated",
+    "failure_reasons": [],
+    "metrics": {
+      "area_ratio": 0.1716,
+      "subject_contrast": 80.57,
+      "overlay_mean": 46.51,
+      "overlay_std": 13.07
+    }
+  },
+  "generated_at": "2026-03-22T16:21:59Z"
+}

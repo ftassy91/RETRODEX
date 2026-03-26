@@ -1,0 +1,47 @@
+{
+  "game_id": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+  "title": "The Legend of Zelda: Ocarina of Time",
+  "platform": "Nintendo 64",
+  "year": 1998,
+  "genre_primary": "Action-Adventure",
+  "genre_secondary": "Fantasy",
+  "bucket": "fantasy_adventure",
+  "risk_level": "high",
+  "risk_reasons": [
+    "zelda"
+  ],
+  "platform_style_id": "n64_color_volume",
+  "platform_style_description": "Nintendo 64 aesthetic, colorful stylized 3D, playful volume, and rounded readable shapes",
+  "palette_hint": [
+    "#1b1b3a",
+    "#693668",
+    "#f84aa7",
+    "#5dfdcb"
+  ],
+  "main_subject": "small heroic adventurer with a sword and a round shield",
+  "environment": "a windswept fantasy field or island shoreline facing an ancient landmark",
+  "action_mood_cue": "standing still as the wind moves across grass and water",
+  "mood": [
+    "mysterious",
+    "heroic",
+    "dreamlike"
+  ],
+  "composition": "centered or slightly offset subject with a large readable landmark in the distance",
+  "memory_hook": "solitary adventure, overworld discovery, and mythic destination",
+  "legal_watchouts": [
+    "avoid Link likeness",
+    "avoid Triforce-like symbols",
+    "avoid official shield patterns"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA small heroic adventurer with a sword and a round shield in a windswept fantasy field or island shoreline facing an ancient landmark, standing still as the wind moves across grass and water.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- Nintendo 64 aesthetic, colorful stylized 3D, playful volume, and rounded readable shapes\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- mysterious, heroic, dreamlike\n\nComposition:\n- centered or slightly offset subject with a large readable landmark in the distance\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Link likeness, avoid Triforce-like symbols, avoid official shield patterns, avoid resemblance to zelda",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

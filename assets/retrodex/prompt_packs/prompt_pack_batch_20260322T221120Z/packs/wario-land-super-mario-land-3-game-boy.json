@@ -1,0 +1,48 @@
+{
+  "game_id": "wario-land-super-mario-land-3-game-boy",
+  "title": "Wario Land: Super Mario Land 3",
+  "platform": "Game Boy",
+  "year": 1994,
+  "genre_primary": "Platformer",
+  "genre_secondary": "Playful",
+  "bucket": "platformer_cartoon",
+  "risk_level": "high",
+  "risk_reasons": [
+    "mario"
+  ],
+  "platform_style_id": "gameboy_monochrome_story",
+  "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+  "palette_hint": [
+    "#0f380f",
+    "#306230",
+    "#8bac0f",
+    "#cadc9f"
+  ],
+  "memory_rule_id": "wario_land_treasure_hunter",
+  "main_subject": "a stout treasure hunter in side view carrying a sack",
+  "environment": "a compact ruin or cliffside path with coins, bricks, and a visible drop below",
+  "action_mood_cue": "planting their feet before pushing deeper toward treasure",
+  "mood": [
+    "greedy",
+    "heavy",
+    "playful"
+  ],
+  "composition": "single stout explorer only, side-view platform read, one treasure cue, chunky foreground shapes",
+  "memory_hook": "weighty movement, treasure pursuit, and compact portable platforming",
+  "legal_watchouts": [
+    "avoid Wario likeness",
+    "avoid official hat and mustache codes",
+    "avoid exact coin iconography"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Platformer game.\n\nA stout treasure hunter in side view carrying a sack in a compact ruin or cliffside path with coins, bricks, and a visible drop below, planting their feet before pushing deeper toward treasure.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- greedy, heavy, playful\n\nComposition:\n- single stout explorer only, side-view platform read, one treasure cue, chunky foreground shapes\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Wario likeness, avoid official hat and mustache codes, avoid exact coin iconography, avoid resemblance to mario",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

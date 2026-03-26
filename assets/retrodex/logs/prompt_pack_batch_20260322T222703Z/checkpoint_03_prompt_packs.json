@@ -1,0 +1,270 @@
+[
+  {
+    "game_id": "super-metroid-super-nintendo",
+    "slug": "super-metroid-super-nintendo",
+    "title": "Super Metroid",
+    "platform": "Super Nintendo",
+    "year": 1994,
+    "developer": "Nintendo",
+    "metascore": 96,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Action-Adventure",
+    "genre_secondary": "Fantasy",
+    "bucket": "sci_fi_action",
+    "priority": 984,
+    "platform_style_id": "snes_storybook_16bit",
+    "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+    "palette_hint": [
+      "#1f2041",
+      "#4b3f72",
+      "#ffc857",
+      "#f4f1de"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "metroid"
+    ],
+    "memory_rule_id": "metroid_hostile_passage",
+    "main_subject": "a lone armored explorer with an arm-mounted tool",
+    "environment": "an alien cavern with massive biomechanical pillars, acid glow, and a dark passage ahead",
+    "action_mood_cue": "aiming the arm-mounted tool into the dark in hostile silence",
+    "mood": [
+      "isolated",
+      "mysterious",
+      "alien"
+    ],
+    "composition": "single explorer foreground, one clear passage, deep cavern layers, sparse readable glow",
+    "memory_hook": "exploration, alien solitude, and hostile vertical space",
+    "legal_watchouts": [
+      "avoid Samus suit likeness",
+      "avoid Metroid creature silhouette",
+      "avoid Chozo-like symbols",
+      "avoid sword-like weapon silhouettes"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA lone armored explorer with an arm-mounted tool in an alien cavern with massive biomechanical pillars, acid glow, and a dark passage ahead, aiming the arm-mounted tool into the dark in hostile silence.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- isolated, mysterious, alien\n\nComposition:\n- single explorer foreground, one clear passage, deep cavern layers, sparse readable glow\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Samus suit likeness, avoid Metroid creature silhouette, avoid Chozo-like symbols, avoid sword-like weapon silhouettes, avoid resemblance to metroid",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "illustrative pixel art or stylized retro render",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+    "slug": "super-mario-bros-3-nintendo-entertainment-system",
+    "title": "Super Mario Bros. 3",
+    "platform": "Nintendo Entertainment System",
+    "year": 1990,
+    "developer": "Nintendo R&D4",
+    "metascore": 97,
+    "rarity": "COMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Playful",
+    "bucket": "platformer_cartoon",
+    "priority": 980,
+    "platform_style_id": "nes_restrained_poster",
+    "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+    "palette_hint": [
+      "#0d1b2a",
+      "#415a77",
+      "#c8d5b9",
+      "#f4d35e"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "mario"
+    ],
+    "memory_rule_id": "super_mario_bros_3_stage_read",
+    "main_subject": "a small agile explorer in side view",
+    "environment": "a theatrical side-scrolling platform course with layered block islands, suspended platforms, and open sky",
+    "action_mood_cue": "caught in a clean upward leap over a gap",
+    "mood": [
+      "playful",
+      "nimble",
+      "bright"
+    ],
+    "composition": "single explorer only, side-view read, one jump arc, no crowd, no abstract stripes",
+    "memory_hook": "2D jump rhythm, stage-like worlds, and forward platform momentum",
+    "legal_watchouts": [
+      "avoid Mario likeness",
+      "avoid mustache and hat codes",
+      "avoid official mushrooms or stars",
+      "avoid purely graphic stripe backgrounds"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Platformer game.\n\nA small agile explorer in side view in a theatrical side-scrolling platform course with layered block islands, suspended platforms, and open sky, caught in a clean upward leap over a gap.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- playful, nimble, bright\n\nComposition:\n- single explorer only, side-view read, one jump arc, no crowd, no abstract stripes\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Mario likeness, avoid mustache and hat codes, avoid official mushrooms or stars, avoid purely graphic stripe backgrounds, avoid resemblance to mario",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "illustrative pixel art or stylized retro render",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "metroid-zero-mission-game-boy-advance",
+    "slug": "metroid-zero-mission-game-boy-advance",
+    "title": "Metroid: Zero Mission",
+    "platform": "Game Boy Advance",
+    "year": 2004,
+    "developer": "Nintendo R&D1",
+    "metascore": 89,
+    "rarity": "COMMON",
+    "genre_primary": "Action-Adventure",
+    "genre_secondary": "Fantasy",
+    "bucket": "sci_fi_action",
+    "priority": 914,
+    "platform_style_id": "gba_bright_action",
+    "platform_style_description": "Game Boy Advance aesthetic, bright controlled colors, portable action framing, and clean pixel readability",
+    "palette_hint": [
+      "#0c1821",
+      "#324a5f",
+      "#f7b267",
+      "#84dcc6"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "metroid"
+    ],
+    "memory_rule_id": "metroid_hostile_passage",
+    "main_subject": "a lone armored explorer with an arm-mounted tool",
+    "environment": "an alien cavern with massive biomechanical pillars, acid glow, and a dark passage ahead",
+    "action_mood_cue": "aiming the arm-mounted tool into the dark in hostile silence",
+    "mood": [
+      "isolated",
+      "mysterious",
+      "alien"
+    ],
+    "composition": "single explorer foreground, one clear passage, deep cavern layers, sparse readable glow",
+    "memory_hook": "exploration, alien solitude, and hostile vertical space",
+    "legal_watchouts": [
+      "avoid Samus suit likeness",
+      "avoid Metroid creature silhouette",
+      "avoid Chozo-like symbols",
+      "avoid sword-like weapon silhouettes"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA lone armored explorer with an arm-mounted tool in an alien cavern with massive biomechanical pillars, acid glow, and a dark passage ahead, aiming the arm-mounted tool into the dark in hostile silence.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy Advance aesthetic, bright controlled colors, portable action framing, and clean pixel readability\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- isolated, mysterious, alien\n\nComposition:\n- single explorer foreground, one clear passage, deep cavern layers, sparse readable glow\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Samus suit likeness, avoid Metroid creature silhouette, avoid Chozo-like symbols, avoid sword-like weapon silhouettes, avoid resemblance to metroid",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "illustrative pixel art or stylized retro render",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "shinobi-iii-sega-genesis",
+    "slug": "shinobi-iii-sega-genesis",
+    "title": "Shinobi III",
+    "platform": "Sega Genesis",
+    "year": 1993,
+    "developer": "Sega",
+    "metascore": 85,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Adventure",
+    "genre_secondary": "Mystery",
+    "bucket": "fantasy_adventure",
+    "priority": 873,
+    "platform_style_id": "genesis_arcade_energy",
+    "platform_style_description": "Genesis aesthetic, bold contrast, arcade energy, harder shadows, and punchy action framing",
+    "palette_hint": [
+      "#14080e",
+      "#49475b",
+      "#e9eb9e",
+      "#f06543"
+    ],
+    "risk_level": "low",
+    "risk_reasons": [
+      "generic_atmosphere_safe"
+    ],
+    "memory_rule_id": "shinobi_moonlit_rooftop",
+    "main_subject": "a lone ninja on a slanted rooftop",
+    "environment": "a moonlit city roofline with layered temple and city silhouettes in the distance",
+    "action_mood_cue": "pausing in stealth before the next leap",
+    "mood": [
+      "stealthy",
+      "tense",
+      "athletic"
+    ],
+    "composition": "single ninja only, strong rooftop diagonal, moonlight outline, sparse skyline",
+    "memory_hook": "roofline traversal, stealth tension, and fast ninja momentum",
+    "legal_watchouts": [
+      "avoid official ninja costume likeness",
+      "avoid specific scarf or weapon designs",
+      "avoid franchise insignia"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Adventure game.\n\nA lone ninja on a slanted rooftop in a moonlit city roofline with layered temple and city silhouettes in the distance, pausing in stealth before the next leap.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Genesis aesthetic, bold contrast, arcade energy, harder shadows, and punchy action framing\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- stealthy, tense, athletic\n\nComposition:\n- single ninja only, strong rooftop diagonal, moonlight outline, sparse skyline\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official ninja costume likeness, avoid specific scarf or weapon designs, avoid franchise insignia",
+    "legal_notes": "Risk level: low. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "illustrative pixel art or stylized retro render",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "castlevania-bloodlines-sega-genesis",
+    "slug": "castlevania-bloodlines-sega-genesis",
+    "title": "Castlevania: Bloodlines",
+    "platform": "Sega Genesis",
+    "year": 1994,
+    "developer": "Konami",
+    "metascore": 83,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Action-Adventure",
+    "genre_secondary": "Fantasy",
+    "bucket": "fantasy_adventure",
+    "priority": 854,
+    "platform_style_id": "genesis_arcade_energy",
+    "platform_style_description": "Genesis aesthetic, bold contrast, arcade energy, harder shadows, and punchy action framing",
+    "palette_hint": [
+      "#14080e",
+      "#49475b",
+      "#e9eb9e",
+      "#f06543"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "castlevania"
+    ],
+    "memory_rule_id": "",
+    "main_subject": "a lone gothic adventurer with a blade",
+    "environment": "a stormy castle approach with moonlight and heavy stone forms",
+    "action_mood_cue": "standing before the ascent in a moment of tension",
+    "mood": [
+      "gothic",
+      "heroic",
+      "threatening"
+    ],
+    "composition": "single adventurer foreground, castle silhouette distance, strong moonlit contrast",
+    "memory_hook": "castle ascent, gothic action, and dangerous nobility",
+    "legal_watchouts": [
+      "avoid Belmont likeness",
+      "avoid whip-specific silhouettes",
+      "avoid Dracula iconography"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA lone gothic adventurer with a blade in a stormy castle approach with moonlight and heavy stone forms, standing before the ascent in a moment of tension.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Genesis aesthetic, bold contrast, arcade energy, harder shadows, and punchy action framing\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- gothic, heroic, threatening\n\nComposition:\n- single adventurer foreground, castle silhouette distance, strong moonlit contrast\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Belmont likeness, avoid whip-specific silhouettes, avoid Dracula iconography, avoid resemblance to castlevania",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "illustrative pixel art or stylized retro render",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+    },
+    "status": "READY_FOR_REVIEW"
+  }
+]

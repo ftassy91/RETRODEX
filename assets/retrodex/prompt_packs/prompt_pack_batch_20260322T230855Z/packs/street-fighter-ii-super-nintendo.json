@@ -1,0 +1,50 @@
+{
+  "game_id": "street-fighter-ii-super-nintendo",
+  "title": "Street Fighter II",
+  "platform": "Super Nintendo",
+  "year": 1992,
+  "genre_primary": "Fighting",
+  "genre_secondary": "Combat",
+  "bucket": "fighting",
+  "risk_level": "high",
+  "risk_reasons": [
+    "street fighter"
+  ],
+  "platform_style_id": "snes_storybook_16bit",
+  "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+  "palette_hint": [
+    "#1f2041",
+    "#4b3f72",
+    "#ffc857",
+    "#f4f1de"
+  ],
+  "memory_rule_id": "street_fighter_ii_dojo_faceoff",
+  "main_subject": "two martial artists in a side-on faceoff with clear contrasting stances",
+  "environment": "a simple open-air dojo or street-side arena with one flat floor plane and a distant backdrop",
+  "action_mood_cue": "frozen a split second before the opening strike",
+  "mood": [
+    "charged",
+    "focused",
+    "arcade"
+  ],
+  "composition": "two fighters only, side-view read, one clean arena line, no crowd, and strong 16-bit contrast",
+  "memory_hook": "classic versus read, mirrored stances, and immediate arcade fighting-game tension",
+  "legal_watchouts": [
+    "avoid exact roster likeness",
+    "avoid signature headbands or uniforms",
+    "avoid official background recreations",
+    "avoid franchise UI"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Fighting game.\n\nA two martial artists in a side-on faceoff with clear contrasting stances in a simple open-air dojo or street-side arena with one flat floor plane and a distant backdrop, frozen a split second before the opening strike.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- charged, focused, arcade\n\nComposition:\n- two fighters only, side-view read, one clean arena line, no crowd, and strong 16-bit contrast\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid exact roster likeness, avoid signature headbands or uniforms, avoid official background recreations, avoid franchise UI, avoid resemblance to street fighter",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "pixel art illustration only",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+    "render_policy": "always_pixel_art"
+  },
+  "status": "READY_FOR_REVIEW"
+}

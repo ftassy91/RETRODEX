@@ -1,0 +1,61 @@
+[
+  {
+    "game_id": "castlevania-bloodlines-sega-genesis",
+    "title": "Castlevania: Bloodlines",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T221417Z\\castlevania-bloodlines-sega-genesis.png",
+    "revised_prompt": "Create an original illustration in the style of a retro Action-Adventure game. Depict a solitary adventurer in gothic attire, poised before a foreboding storm-swept castle, his silhouette highlighted dramatically in the moonlight. The adven",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-DfBVTxz69Tz5gEoJTHUJZpba.png?st=2026-03-22T21%3A14%3A32Z&se=2026-03-22T23%3A14%3A32Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=7daae675-7b42-4e2e-ab4c-8d8419a28d99&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T02%3A12%3A45Z&ske=2026-03-23T02%3A12%3A45Z&sks=b&skv=2026-02-06&sig=KpXjn8tmuI%2BPGiHVamUaRHC%2B%2BYwS8j6VOFg99whmvh0%3D"
+  },
+  {
+    "game_id": "metroid-zero-mission-game-boy-advance",
+    "title": "Metroid: Zero Mission",
+    "status": "error",
+    "error": "Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************MdQA. You c",
+    "output_path": null
+  },
+  {
+    "game_id": "resident-evil-2-playstation",
+    "title": "Resident Evil 2",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T221417Z\\resident-evil-2-playstation.png",
+    "revised_prompt": "Create an original illustration that captures the essence of a retro Survival Horror video game. Picture a solitary figure, potentially of Black descent and female, poised in a eerie corridor holding a flashlight. The beam of light cuts thr",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-G5khemAw5wsvchfeKQ6FkoDh.png?st=2026-03-22T21%3A14%3A49Z&se=2026-03-22T23%3A14%3A49Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=35890473-cca8-4a54-8305-05a39e0bc9c3&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T02%3A02%3A08Z&ske=2026-03-23T02%3A02%3A08Z&sks=b&skv=2026-02-06&sig=0IPefQDk9Ipn7giOml8cIYKCAlR/PpcLdK5mTHKRtuw%3D"
+  },
+  {
+    "game_id": "shinobi-iii-sega-genesis",
+    "title": "Shinobi III",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T221417Z\\shinobi-iii-sega-genesis.png",
+    "revised_prompt": "Imagine an original digital artwork taking influence from retro adventure games. The scene centers on a single ninja, standing stealthily atop a slanting rooftop. The city's layered temple silhouettes pepper the skyline under the moonlight,",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-zBgOWJl7WoB74e6lOfpSFfED.png?st=2026-03-22T21%3A15%3A07Z&se=2026-03-22T23%3A15%3A07Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=9346e9b9-5d29-4d37-a0a9-c6f95f09f79d&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T14%3A36%3A32Z&ske=2026-03-23T14%3A36%3A32Z&sks=b&skv=2026-02-06&sig=3mr%2BBdzJG2lcKKow%2B83fvFmXbhqaL2VWYzrEUs9qXD8%3D"
+  },
+  {
+    "game_id": "super-metroid-super-nintendo",
+    "title": "Super Metroid",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T221417Z\\super-metroid-super-nintendo.png",
+    "revised_prompt": "Imagine a highly detailed, original illustration that feels like it is from a retro, 16-bit action-adventure video game. The scene depicts a lone, melee explorer wearing stylized, non-specific armor and an arm-mounted tool, standing in a my",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-RHYY0wTHqQkwR62P0qVH5w77.png?st=2026-03-22T21%3A15%3A26Z&se=2026-03-22T23%3A15%3A26Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=ed3ea2f9-5e38-44be-9a1b-7c1e65e4d54f&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T03%3A17%3A56Z&ske=2026-03-23T03%3A17%3A56Z&sks=b&skv=2026-02-06&sig=gCQm8hkerTtWdJ%2Bcm82vI0xxgZFUPKSZOWrYeeQ0kIg%3D"
+  },
+  {
+    "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+    "title": "The Legend of Zelda: Link's Awakening",
+    "status": "ok",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T221417Z\\the-legend-of-zelda-links-awakening-game-boy.png",
+    "revised_prompt": "Illustrate an image reminiscent of a retro Action-Adventure game with a game boy aesthetic, using a green monochrome palette and stylized pixel art forms. The scene should set a lonely, dreamlike, adventurous mood. Place a small figure, dep",
+    "dalle_url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-K3N6Kgsh2pJlpsJGRQvHKGY3/user-hryZt5gcGsgnEJL1nGwyTfa8/img-zuIovDgycaGJXUMfGQKAqooQ.png?st=2026-03-22T21%3A15%3A43Z&se=2026-03-22T23%3A15%3A43Z&sp=r&sv=2026-02-06&sr=b&rscd=inline&rsct=image/png&skoid=cc612491-d948-4d2e-9821-2683df3719f5&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-03-22T08%3A29%3A54Z&ske=2026-03-23T08%3A29%3A54Z&sks=b&skv=2026-02-06&sig=PswVgVVJ4sJmtze7hxLa2XhHeroHLCq6ugwo4RAppvo%3D"
+  },
+  {
+    "game_id": "wario-land-super-mario-land-3-game-boy",
+    "title": "Wario Land: Super Mario Land 3",
+    "status": "error",
+    "error": "Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************MdQA. You c",
+    "output_path": null
+  }
+]

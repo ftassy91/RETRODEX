@@ -1,0 +1,6 @@
+{
+    "game_id":  "castlevania-rondo-of-blood-turbografx-16",
+    "title":  "Castlevania: Rondo of Blood",
+    "prompt":  "Original pixel art illustration inspired by a 16-bit gothic action platformer. A lone vampire hunter with a long coat and a chain whip stands on stone stairs facing a towering cursed castle under a red moon, wind moving the cape. Visual focus: one clear hunter silhouette, one castle landmark, readable in 1 second. Style: high-quality 16-bit pixel art, TurboGrafx-CD era mood, rich but crisp pixel clusters, strong silhouette, dramatic moonlight, limited palette, no blur. Mood: gothic, heroic, ominous. Composition: foreground hunter, midground stairs, background castle, no clutter. Important: do not replicate official Castlevania characters, costumes, logo, UI, or box art. Must feel original but clearly evoke gothic vampire hunting.",
+    "negative_prompt":  "official Castlevania character design, Dracula likeness, logo, text, UI, exact key art composition, realistic painting, 3D render"
+}

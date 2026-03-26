@@ -1,0 +1,30 @@
+[
+  {
+    "game_id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+    "filename": "alttp-light-world.png",
+    "source": "https://ian-albert.com/games/legend_of_zelda_a_link_to_the_past_maps/light_world-1.png",
+    "label": "ALttP — Monde de la Lumière (overworld pixel-perfect)",
+    "license": "Libre (ian-albert.com)"
+  },
+  {
+    "game_id": "the-legend-of-zelda-nintendo-entertainment-system",
+    "filename": "zelda-nes-overworld.png",
+    "source": "https://ian-albert.com/games/legend_of_zelda_maps/overworld.png",
+    "label": "Zelda NES — Overworld complet",
+    "license": "Libre (ian-albert.com)"
+  },
+  {
+    "game_id": "super-mario-world-super-nintendo",
+    "filename": "smw-yoshi-island-1.png",
+    "source": "https://ian-albert.com/games/super_mario_world_maps/yoshi_island_1.png",
+    "label": "Super Mario World — Yoshi's Island 1",
+    "license": "Libre (ian-albert.com)"
+  },
+  {
+    "game_id": "super-metroid-super-nintendo",
+    "filename": "super-metroid-brinstar.png",
+    "source": "https://ian-albert.com/games/super_metroid_maps/brinstar.png",
+    "label": "Super Metroid — Brinstar",
+    "license": "Libre (ian-albert.com)"
+  }
+]

@@ -1,0 +1,19 @@
+﻿{
+    "output":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\assets\\generated_gb\\marble-madness.png",
+    "opaque_ratio":  0.5112,
+    "source":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\retrodeck_assets\\marble_madness_nintendo_entertainment_system\\sprite.png",
+    "bbox":  {
+                 "y":  6,
+                 "width":  47,
+                 "height":  59,
+                 "x":  11
+             },
+    "colors_used":  [
+                        "#9BBC0F",
+                        "#8BAC0F",
+                        "#306230",
+                        "#0F380F"
+                    ],
+    "work_size":  72,
+    "canvas_size":  180
+}

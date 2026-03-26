@@ -1,0 +1,8 @@
+﻿"game_id","title","platform","risk_level","status","decision","decision_reason","reviewer_notes","prompt_pack_json","prompt_pack_md","selected_for_generation"
+"super-metroid-super-nintendo","Super Metroid","Super Nintendo","high","RETRY","RETRY","","","packs/super-metroid-super-nintendo.json","packs/super-metroid-super-nintendo.md",""
+"resident-evil-2-playstation","Resident Evil 2","PlayStation","high","REJECTED","REJECT","","","packs/resident-evil-2-playstation.json","packs/resident-evil-2-playstation.md",""
+"metroid-zero-mission-game-boy-advance","Metroid: Zero Mission","Game Boy Advance","high","RETRY","RETRY","","","packs/metroid-zero-mission-game-boy-advance.json","packs/metroid-zero-mission-game-boy-advance.md",""
+"the-legend-of-zelda-links-awakening-game-boy","The Legend of Zelda: Link's Awakening","Game Boy","high","REJECTED","REJECT","","","packs/the-legend-of-zelda-links-awakening-game-boy.json","packs/the-legend-of-zelda-links-awakening-game-boy.md",""
+"shinobi-iii-sega-genesis","Shinobi III","Sega Genesis","low","RETRY","RETRY","","","packs/shinobi-iii-sega-genesis.json","packs/shinobi-iii-sega-genesis.md",""
+"castlevania-bloodlines-sega-genesis","Castlevania: Bloodlines","Sega Genesis","high","RETRY","RETRY","","","packs/castlevania-bloodlines-sega-genesis.json","packs/castlevania-bloodlines-sega-genesis.md",""
+"wario-land-super-mario-land-3-game-boy","Wario Land: Super Mario Land 3","Game Boy","high","APPROVED","APPROVED","","","packs/wario-land-super-mario-land-3-game-boy.json","packs/wario-land-super-mario-land-3-game-boy.md","1"

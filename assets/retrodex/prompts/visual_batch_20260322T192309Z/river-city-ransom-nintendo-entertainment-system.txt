@@ -1,0 +1,43 @@
+Original illustration inspired by a retro Adventure game.
+
+A small heroic adventurer with a sword in a windswept fantasy landscape with ruins, a distant landmark, and a traversable path, standing still as the wind crosses the scene.
+
+Game metadata:
+- Title: River City Ransom
+- Platform: Nintendo Entertainment System
+- Release year: 1990
+- Secondary genre signal: Mystery
+
+Visual focus:
+- one clear subject
+- strong silhouette
+- readable in 1 second
+
+Style:
+- restrained retro poster aesthetic, simple shapes, limited palette, readable silhouettes, 8-bit spirit without actual sprites
+- pixel art or stylized rendering depending on platform
+- clean and modern interpretation of retro limitations
+- limited color palette when relevant
+
+Mood:
+- mysterious, heroic, mythic
+
+Composition:
+- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately
+- simple background
+- no clutter
+
+Important:
+- Do NOT replicate any official character, logo, or design
+- Do NOT imitate exact game assets
+- Must feel original but clearly inspired by the game's genre and atmosphere
+
+Output:
+- high clarity
+- strong contrast
+- minimal noise
+- no text
+- no watermark
+
+Negative constraints:
+no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background

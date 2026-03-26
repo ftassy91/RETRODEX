@@ -1,0 +1,40 @@
+{
+  "game": "Rad Racer",
+  "game_id": "rad-racer-nintendo-entertainment-system",
+  "console": "Nintendo Entertainment System",
+  "year": 1987,
+  "asset_type": "cover_art",
+  "asset_name": "Rad Racer",
+  "source_type": "wikipedia_inferred",
+  "image_reference": "Rad Racer",
+  "selection_reason": "Fallback to official game cover art because no better sprite-grade source was available",
+  "episode_number": null,
+  "publisher": "Square",
+  "title_font": "Press Start 2P",
+  "display_layout": "sprite_identity_card",
+  "sprite_path": "retrodeck_assets/rad_racer_nintendo_entertainment_system/sprite.png",
+  "source_path": "retrodeck_assets/_cache/source_images/wikipedia_en_4_49_rad_racer_box_front_jpg.jpg",
+  "asset_dir": "retrodeck_assets/rad_racer_nintendo_entertainment_system",
+  "palette": [
+    "#0F380F",
+    "#306230",
+    "#8BAC0F",
+    "#9BBC0F"
+  ],
+  "validation": {
+    "specific_game_reference": true,
+    "low_res_readable": true,
+    "gb_palette_ready": true,
+    "opaque_ratio": 0.5512,
+    "bbox": {
+      "y": 3,
+      "width": 31,
+      "height": 42,
+      "x": 8
+    }
+  },
+  "created_at": "2026-03-13T21:47:00Z",
+  "fallback_conditions": [
+    "inferred_title_fallback"
+  ]
+}

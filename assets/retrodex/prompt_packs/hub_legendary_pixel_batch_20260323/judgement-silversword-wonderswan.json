@@ -1,0 +1,6 @@
+{
+    "game_id":  "judgement-silversword-wonderswan",
+    "title":  "Judgement Silversword",
+    "prompt":  "Original pixel art illustration inspired by a handheld vertical shoot em up. A sleek silver starfighter climbs through a dense pattern of glowing projectiles toward a colossal geometric enemy core above a dark sky. Visual focus: one ship, one boss core, readable in 1 second. Style: premium monochrome pixel art with handheld-era limitations, crisp sprite shading, WonderSwan-inspired portable screen feeling, strong contrast, no blur. Mood: intense, futuristic, precise. Composition: vertical action framed within a compact scene, minimal clutter beyond bullet patterns. Important: do not replicate official Judgement Silversword ship art, logos, UI, or exact boss designs. Must feel original but clearly evoke elite handheld shmup action.",
+    "negative_prompt":  "official Judgement Silversword art, logo, text, exact ship design, exact bullet pattern, realistic 3D"
+}

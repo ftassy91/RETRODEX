@@ -1,0 +1,18 @@
+{
+  "game_id": "phantasy-star-sega-master-system",
+  "slug": "phantasy-star-sega-master-system",
+  "title": "Phantasy Star",
+  "platform": "Sega Master System",
+  "year": 1987,
+  "genre_primary": "RPG",
+  "genre_secondary": "Epic",
+  "bucket": "sci_fi_action",
+  "platform_style": "sms_clean_arcade",
+  "illustration_class": "hero",
+  "risk_level": "low",
+  "composition_type": "hero",
+  "prompt": "Create an original editorial illustration for a retro video game database entry.\n\nGame metadata:\n- Title: Phantasy Star\n- Platform: Sega Master System\n- Release year: 1987\n- Genre: RPG, Epic\n- Mood: futuristic, urgent, cold, focused\n- Setting: starfield, reactor space, industrial skyline, industrial glow\n- Key objects: visor, energy core, drone-like beacon\n\nVisual goal:\n- Represent the game's atmosphere, genre, and collectible identity\n- Produce a unique, original image suitable for a premium database card\n- The image must feel iconic, readable, and emotionally evocative\n\nComposition:\n- One archetypal, faceless silhouette or totemic figure, never resembling an official character, placed against strong atmosphere and generous negative space\n- Designed for use in a GameDetail header / hero illustration\n\nStyle system:\n- Use the visual language associated with clean arcade illustration, simple geometry, high contrast shapes, restrained palette\n- Apply the RetroDex art direction: premium collectible editorial art, readable, elegant, atmospheric\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, archetypes, objects, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial game-card illustration\n- No text\n- No watermark\n- Clean readable lighting",
+  "negative_prompt": "no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text",
+  "legal_notes": "Risk level low; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

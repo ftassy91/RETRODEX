@@ -1,0 +1,15 @@
+{
+  "run_id": "prompt_pack_batch_20260322T212800Z",
+  "prompt_version": "prompt_formula_v1_production",
+  "pack_count": 1,
+  "packs": [
+    {
+      "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+      "title": "The Legend of Zelda: Link's Awakening",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/the-legend-of-zelda-links-awakening-game-boy.json",
+      "md_path": "packs/the-legend-of-zelda-links-awakening-game-boy.md"
+    }
+  ]
+}

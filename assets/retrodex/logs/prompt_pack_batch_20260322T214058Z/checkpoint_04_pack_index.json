@@ -1,0 +1,63 @@
+{
+  "run_id": "prompt_pack_batch_20260322T214058Z",
+  "prompt_version": "prompt_formula_v1_production",
+  "pack_count": 7,
+  "packs": [
+    {
+      "game_id": "soul-calibur-dreamcast",
+      "title": "Soul Calibur",
+      "platform": "Dreamcast",
+      "risk_level": "medium",
+      "json_path": "packs/soul-calibur-dreamcast.json",
+      "md_path": "packs/soul-calibur-dreamcast.md"
+    },
+    {
+      "game_id": "perfect-dark-nintendo-64",
+      "title": "Perfect Dark",
+      "platform": "Nintendo 64",
+      "risk_level": "medium",
+      "json_path": "packs/perfect-dark-nintendo-64.json",
+      "md_path": "packs/perfect-dark-nintendo-64.md"
+    },
+    {
+      "game_id": "tetris-game-boy",
+      "title": "Tetris",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/tetris-game-boy.json",
+      "md_path": "packs/tetris-game-boy.md"
+    },
+    {
+      "game_id": "super-mario-64-nintendo-64",
+      "title": "Super Mario 64",
+      "platform": "Nintendo 64",
+      "risk_level": "high",
+      "json_path": "packs/super-mario-64-nintendo-64.json",
+      "md_path": "packs/super-mario-64-nintendo-64.md"
+    },
+    {
+      "game_id": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/super-metroid-super-nintendo.json",
+      "md_path": "packs/super-metroid-super-nintendo.md"
+    },
+    {
+      "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+      "title": "Super Mario Bros. 3",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "high",
+      "json_path": "packs/super-mario-bros-3-nintendo-entertainment-system.json",
+      "md_path": "packs/super-mario-bros-3-nintendo-entertainment-system.md"
+    },
+    {
+      "game_id": "tekken-3-playstation",
+      "title": "Tekken 3",
+      "platform": "PlayStation",
+      "risk_level": "high",
+      "json_path": "packs/tekken-3-playstation.json",
+      "md_path": "packs/tekken-3-playstation.md"
+    }
+  ]
+}

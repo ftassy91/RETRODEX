@@ -1,0 +1,43 @@
+Original illustration inspired by a retro RPG game.
+
+A lone wanderer beside a glowing relic in a mythic horizon with ancient structures, sacred sky, and story-scale depth, facing a mythic horizon with quiet determination.
+
+Game metadata:
+- Title: Skies of Arcadia
+- Platform: Dreamcast
+- Release year: 2000
+- Secondary genre signal: Epic
+
+Visual focus:
+- one clear subject
+- strong silhouette
+- readable in 1 second
+
+Style:
+- clean futurist editorial art, airy space, modern arcade tone, bright accent lighting
+- pixel art or stylized rendering depending on platform
+- clean and modern interpretation of retro limitations
+- limited color palette when relevant
+
+Mood:
+- epic, melancholic, legendary
+
+Composition:
+- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately
+- simple background
+- no clutter
+
+Important:
+- Do NOT replicate any official character, logo, or design
+- Do NOT imitate exact game assets
+- Must feel original but clearly inspired by the game's genre and atmosphere
+
+Output:
+- high clarity
+- strong contrast
+- minimal noise
+- no text
+- no watermark
+
+Negative constraints:
+no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background

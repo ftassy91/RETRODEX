@@ -1,0 +1,21 @@
+{
+  "game_id": "astro-boy-omega-factor-game-boy-advance",
+  "slug": "astro-boy-omega-factor-game-boy-advance",
+  "title": "Astro Boy: Omega Factor",
+  "platform": "Game Boy Advance",
+  "year": 2004,
+  "genre_primary": "Adventure",
+  "genre_secondary": "Mystery",
+  "bucket": "fantasy_adventure",
+  "platform_style": "gba_bright_action",
+  "illustration_class": "object",
+  "risk_level": "low",
+  "subject_key": "heroic_adventurer",
+  "main_subject": "small heroic adventurer with a sword",
+  "action_mood_cue": "standing still as the wind crosses the scene",
+  "composition_type": "object",
+  "prompt": "Original illustration inspired by a retro Adventure game.\n\nA small heroic adventurer with a sword in a windswept fantasy landscape with ruins, a distant landmark, and a traversable path, standing still as the wind crosses the scene.\n\nGame metadata:\n- Title: Astro Boy: Omega Factor\n- Platform: Game Boy Advance\n- Release year: 2004\n- Secondary genre signal: Mystery\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- portable action illustration, saturated but controlled colors, clean handheld readability\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- mysterious, heroic, mythic\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "legal_notes": "Risk level low; use generic subject archetypes, readable environments, and platform-coded style only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

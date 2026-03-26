@@ -1,0 +1,87 @@
+{
+  "run_id": "prompt_pack_batch_20260322T230855Z",
+  "prompt_version": "prompt_formula_v1_production",
+  "pack_count": 10,
+  "packs": [
+    {
+      "game_id": "kirby-adventure-nintendo-entertainment-system",
+      "title": "Kirby's Adventure",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "high",
+      "json_path": "packs/kirby-adventure-nintendo-entertainment-system.json",
+      "md_path": "packs/kirby-adventure-nintendo-entertainment-system.md"
+    },
+    {
+      "game_id": "street-fighter-ii-super-nintendo",
+      "title": "Street Fighter II",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/street-fighter-ii-super-nintendo.json",
+      "md_path": "packs/street-fighter-ii-super-nintendo.md"
+    },
+    {
+      "game_id": "secret-of-mana-super-nintendo",
+      "title": "Secret of Mana",
+      "platform": "Super Nintendo",
+      "risk_level": "low",
+      "json_path": "packs/secret-of-mana-super-nintendo.json",
+      "md_path": "packs/secret-of-mana-super-nintendo.md"
+    },
+    {
+      "game_id": "super-castlevania-iv-super-nintendo",
+      "title": "Super Castlevania IV",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/super-castlevania-iv-super-nintendo.json",
+      "md_path": "packs/super-castlevania-iv-super-nintendo.md"
+    },
+    {
+      "game_id": "donkey-kong-game-boy",
+      "title": "Donkey Kong",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/donkey-kong-game-boy.json",
+      "md_path": "packs/donkey-kong-game-boy.md"
+    },
+    {
+      "game_id": "super-mario-kart-super-nintendo",
+      "title": "Super Mario Kart",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/super-mario-kart-super-nintendo.json",
+      "md_path": "packs/super-mario-kart-super-nintendo.md"
+    },
+    {
+      "game_id": "f-zero-super-nintendo",
+      "title": "F-Zero",
+      "platform": "Super Nintendo",
+      "risk_level": "medium",
+      "json_path": "packs/f-zero-super-nintendo.json",
+      "md_path": "packs/f-zero-super-nintendo.md"
+    },
+    {
+      "game_id": "super-mario-land-2-game-boy",
+      "title": "Super Mario Land 2: 6 Golden Coins",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/super-mario-land-2-game-boy.json",
+      "md_path": "packs/super-mario-land-2-game-boy.md"
+    },
+    {
+      "game_id": "castlevania-iii-draculas-curse-nintendo-entertainment-system",
+      "title": "Castlevania III: Dracula's Curse",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "high",
+      "json_path": "packs/castlevania-iii-draculas-curse-nintendo-entertainment-system.json",
+      "md_path": "packs/castlevania-iii-draculas-curse-nintendo-entertainment-system.md"
+    },
+    {
+      "game_id": "ninja-gaiden-nintendo-entertainment-system",
+      "title": "Ninja Gaiden",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "low",
+      "json_path": "packs/ninja-gaiden-nintendo-entertainment-system.json",
+      "md_path": "packs/ninja-gaiden-nintendo-entertainment-system.md"
+    }
+  ]
+}

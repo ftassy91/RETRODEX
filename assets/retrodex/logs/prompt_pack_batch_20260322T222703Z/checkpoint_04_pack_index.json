@@ -1,0 +1,47 @@
+{
+  "run_id": "prompt_pack_batch_20260322T222703Z",
+  "prompt_version": "prompt_formula_v1_production",
+  "pack_count": 5,
+  "packs": [
+    {
+      "game_id": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/super-metroid-super-nintendo.json",
+      "md_path": "packs/super-metroid-super-nintendo.md"
+    },
+    {
+      "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+      "title": "Super Mario Bros. 3",
+      "platform": "Nintendo Entertainment System",
+      "risk_level": "high",
+      "json_path": "packs/super-mario-bros-3-nintendo-entertainment-system.json",
+      "md_path": "packs/super-mario-bros-3-nintendo-entertainment-system.md"
+    },
+    {
+      "game_id": "metroid-zero-mission-game-boy-advance",
+      "title": "Metroid: Zero Mission",
+      "platform": "Game Boy Advance",
+      "risk_level": "high",
+      "json_path": "packs/metroid-zero-mission-game-boy-advance.json",
+      "md_path": "packs/metroid-zero-mission-game-boy-advance.md"
+    },
+    {
+      "game_id": "shinobi-iii-sega-genesis",
+      "title": "Shinobi III",
+      "platform": "Sega Genesis",
+      "risk_level": "low",
+      "json_path": "packs/shinobi-iii-sega-genesis.json",
+      "md_path": "packs/shinobi-iii-sega-genesis.md"
+    },
+    {
+      "game_id": "castlevania-bloodlines-sega-genesis",
+      "title": "Castlevania: Bloodlines",
+      "platform": "Sega Genesis",
+      "risk_level": "high",
+      "json_path": "packs/castlevania-bloodlines-sega-genesis.json",
+      "md_path": "packs/castlevania-bloodlines-sega-genesis.md"
+    }
+  ]
+}

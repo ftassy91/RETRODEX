@@ -1,0 +1,126 @@
+{
+  "previous_run": "visual_batch_20260322T145725Z",
+  "current_run": "visual_batch_20260322T154329Z",
+  "items": [
+    {
+      "game_id": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+      "title": "The Legend of Zelda: Ocarina of Time",
+      "platform": "Nintendo 64",
+      "old_class": "environment",
+      "new_class": "object",
+      "old_bucket": "fantasy_adventure",
+      "new_bucket": "fantasy_adventure",
+      "new_object": "sword",
+      "new_context": "a windswept fantasy landscape with ruins, a distant landmark, and a traversable path",
+      "new_genre_signal": "heroic fantasy exploration"
+    },
+    {
+      "game_id": "tony-hawks-pro-skater-2-playstation",
+      "title": "Tony Hawk's Pro Skater 2",
+      "platform": "PlayStation",
+      "old_class": "hero",
+      "new_class": "object",
+      "old_bucket": "sports",
+      "new_bucket": "sports",
+      "new_object": "vehicle",
+      "new_context": "a stadium or competition ground with lights, field markers, and focused event framing",
+      "new_genre_signal": "competitive event focus"
+    },
+    {
+      "game_id": "soul-calibur-dreamcast",
+      "title": "Soul Calibur",
+      "platform": "Dreamcast",
+      "old_class": "object",
+      "new_class": "object",
+      "old_bucket": "fighting",
+      "new_bucket": "fighting",
+      "new_object": "weapon",
+      "new_context": "an arena or duel space with impact energy, banners, and confrontation framing",
+      "new_genre_signal": "combat readiness and duel pressure"
+    },
+    {
+      "game_id": "castlevania-rondo-of-blood-turbografx-16",
+      "title": "Castlevania: Rondo of Blood",
+      "platform": "TurboGrafx-16",
+      "old_class": "environment",
+      "new_class": "object",
+      "old_bucket": "fantasy_adventure",
+      "new_bucket": "fantasy_adventure",
+      "new_object": "sword",
+      "new_context": "a windswept fantasy landscape with ruins, a distant landmark, and a traversable path",
+      "new_genre_signal": "heroic fantasy exploration"
+    },
+    {
+      "game_id": "perfect-dark-nintendo-64",
+      "title": "Perfect Dark",
+      "platform": "Nintendo 64",
+      "old_class": "object",
+      "new_class": "object",
+      "old_bucket": "shooter_arcade",
+      "new_bucket": "shooter_arcade",
+      "new_object": "weapon",
+      "new_context": "a deep space lane or combat tunnel with velocity and incoming threat",
+      "new_genre_signal": "arcade velocity and projectile threat"
+    },
+    {
+      "game_id": "tetris-game-boy",
+      "title": "Tetris",
+      "platform": "Game Boy",
+      "old_class": "abstract",
+      "new_class": "object",
+      "old_bucket": "puzzle_abstract",
+      "new_bucket": "puzzle_abstract",
+      "new_object": "tile_stack",
+      "new_context": "a physical puzzle space with stacked pieces, spatial logic, and grounded surfaces",
+      "new_genre_signal": "spatial problem-solving with physical pieces"
+    },
+    {
+      "game_id": "super-mario-64-nintendo-64",
+      "title": "Super Mario 64",
+      "platform": "Nintendo 64",
+      "old_class": "object",
+      "new_class": "object",
+      "old_bucket": "platformer_cartoon",
+      "new_bucket": "platformer_cartoon",
+      "new_object": "artifact",
+      "new_context": "a playful platform world with layered terrain, readable obstacles, and bright depth cues",
+      "new_genre_signal": "playful traversal and momentum"
+    },
+    {
+      "game_id": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "platform": "Super Nintendo",
+      "old_class": "environment",
+      "new_class": "object",
+      "old_bucket": "sci_fi_action",
+      "new_bucket": "sci_fi_action",
+      "new_object": "helmet",
+      "new_context": "a futuristic industrial skyline or reactor zone with cold light and scale",
+      "new_genre_signal": "futuristic danger and combat technology"
+    },
+    {
+      "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+      "title": "Super Mario Bros. 3",
+      "platform": "Nintendo Entertainment System",
+      "old_class": "object",
+      "new_class": "object",
+      "old_bucket": "platformer_cartoon",
+      "new_bucket": "platformer_cartoon",
+      "new_object": "artifact",
+      "new_context": "a playful platform world with layered terrain, readable obstacles, and bright depth cues",
+      "new_genre_signal": "playful traversal and momentum"
+    },
+    {
+      "game_id": "tekken-3-playstation",
+      "title": "Tekken 3",
+      "platform": "PlayStation",
+      "old_class": "object",
+      "new_class": "object",
+      "old_bucket": "fighting",
+      "new_bucket": "fighting",
+      "new_object": "weapon",
+      "new_context": "an arena or duel space with impact energy, banners, and confrontation framing",
+      "new_genre_signal": "combat readiness and duel pressure"
+    }
+  ]
+}

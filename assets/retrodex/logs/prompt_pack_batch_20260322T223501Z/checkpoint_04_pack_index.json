@@ -1,0 +1,87 @@
+{
+  "run_id": "prompt_pack_batch_20260322T223501Z",
+  "prompt_version": "prompt_formula_v1_production",
+  "pack_count": 10,
+  "packs": [
+    {
+      "game_id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+      "title": "The Legend of Zelda: A Link to the Past",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/the-legend-of-zelda-a-link-to-the-past-super-nintendo.json",
+      "md_path": "packs/the-legend-of-zelda-a-link-to-the-past-super-nintendo.md"
+    },
+    {
+      "game_id": "super-mario-world-super-nintendo",
+      "title": "Super Mario World",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/super-mario-world-super-nintendo.json",
+      "md_path": "packs/super-mario-world-super-nintendo.md"
+    },
+    {
+      "game_id": "earthbound-super-nintendo",
+      "title": "EarthBound",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/earthbound-super-nintendo.json",
+      "md_path": "packs/earthbound-super-nintendo.md"
+    },
+    {
+      "game_id": "final-fantasy-vi-super-nintendo",
+      "title": "Final Fantasy VI",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/final-fantasy-vi-super-nintendo.json",
+      "md_path": "packs/final-fantasy-vi-super-nintendo.md"
+    },
+    {
+      "game_id": "advance-wars-game-boy-advance",
+      "title": "Advance Wars",
+      "platform": "Game Boy Advance",
+      "risk_level": "low",
+      "json_path": "packs/advance-wars-game-boy-advance.json",
+      "md_path": "packs/advance-wars-game-boy-advance.md"
+    },
+    {
+      "game_id": "mega-man-x-super-nintendo",
+      "title": "Mega Man X",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/mega-man-x-super-nintendo.json",
+      "md_path": "packs/mega-man-x-super-nintendo.md"
+    },
+    {
+      "game_id": "donkey-kong-country-super-nintendo",
+      "title": "Donkey Kong Country",
+      "platform": "Super Nintendo",
+      "risk_level": "high",
+      "json_path": "packs/donkey-kong-country-super-nintendo.json",
+      "md_path": "packs/donkey-kong-country-super-nintendo.md"
+    },
+    {
+      "game_id": "contra-iii-alien-wars-super-nintendo",
+      "title": "Contra III: The Alien Wars",
+      "platform": "Super Nintendo",
+      "risk_level": "low",
+      "json_path": "packs/contra-iii-alien-wars-super-nintendo.json",
+      "md_path": "packs/contra-iii-alien-wars-super-nintendo.md"
+    },
+    {
+      "game_id": "sonic-the-hedgehog-2-sega-genesis",
+      "title": "Sonic the Hedgehog 2",
+      "platform": "Sega Genesis",
+      "risk_level": "high",
+      "json_path": "packs/sonic-the-hedgehog-2-sega-genesis.json",
+      "md_path": "packs/sonic-the-hedgehog-2-sega-genesis.md"
+    },
+    {
+      "game_id": "kirby-dream-land-game-boy",
+      "title": "Kirby's Dream Land",
+      "platform": "Game Boy",
+      "risk_level": "high",
+      "json_path": "packs/kirby-dream-land-game-boy.json",
+      "md_path": "packs/kirby-dream-land-game-boy.md"
+    }
+  ]
+}

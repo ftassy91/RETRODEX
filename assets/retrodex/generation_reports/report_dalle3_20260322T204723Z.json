@@ -1,0 +1,82 @@
+[
+  {
+    "game_id": "castlevania-rondo-of-blood-turbografx-16",
+    "title": "Castlevania: Rondo of Blood",
+    "status": "dry_run",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T204723Z\\castlevania-rondo-of-blood-turbografx-16.png",
+    "prompt_preview": "Original illustration inspired by a retro Action-Platformer game.\n\nA a lone gothic adventurer with a blade in a stormy castle approach with moonlight and heavy "
+  },
+  {
+    "game_id": "perfect-dark-nintendo-64",
+    "title": "Perfect Dark",
+    "status": "dry_run",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T204723Z\\perfect-dark-nintendo-64.png",
+    "prompt_preview": "Original illustration inspired by a retro FPS game.\n\nA a lone covert operative silhouette with compact gear in a tense high-tech corridor or facility edge, movi"
+  },
+  {
+    "game_id": "soul-calibur-dreamcast",
+    "title": "Soul Calibur",
+    "status": "dry_run",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T204723Z\\soul-calibur-dreamcast.png",
+    "prompt_preview": "Original illustration inspired by a retro Fighting game.\n\nA a lone martial artist or duelist silhouette in an arena or duel space with energy and crowd suggesti"
+  },
+  {
+    "game_id": "super-mario-64-nintendo-64",
+    "title": "Super Mario 64",
+    "status": "dry_run",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T204723Z\\super-mario-64-nintendo-64.png",
+    "prompt_preview": "Original illustration inspired by a retro Platformer game.\n\nA a small agile explorer in a bright platform world with layered terrain and a clear route forward, "
+  },
+  {
+    "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+    "title": "Super Mario Bros. 3",
+    "status": "dry_run",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T204723Z\\super-mario-bros-3-nintendo-entertainment-system.png",
+    "prompt_preview": "Original illustration inspired by a retro Platformer game.\n\nA a small agile explorer in a bright platform world with layered terrain and a clear route forward, "
+  },
+  {
+    "game_id": "super-metroid-super-nintendo",
+    "title": "Super Metroid",
+    "status": "dry_run",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T204723Z\\super-metroid-super-nintendo.png",
+    "prompt_preview": "Original illustration inspired by a retro Action-Adventure game.\n\nA a lone armored explorer in an alien cavern with organic pillars and cold glowing elements, s"
+  },
+  {
+    "game_id": "tekken-3-playstation",
+    "title": "Tekken 3",
+    "status": "dry_run",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T204723Z\\tekken-3-playstation.png",
+    "prompt_preview": "Original illustration inspired by a retro Fighting game.\n\nA a lone martial artist or duelist silhouette in an arena or duel space with energy and crowd suggesti"
+  },
+  {
+    "game_id": "tetris-game-boy",
+    "title": "Tetris",
+    "status": "dry_run",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T204723Z\\tetris-game-boy.png",
+    "prompt_preview": "Original illustration inspired by a retro Puzzle game.\n\nA stacked falling blocks in a grounded puzzle space or playfield with gravity and alignment, caught in a"
+  },
+  {
+    "game_id": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+    "title": "The Legend of Zelda: Ocarina of Time",
+    "status": "dry_run",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T204723Z\\the-legend-of-zelda-ocarina-of-time-nintendo-64.png",
+    "prompt_preview": "Original illustration inspired by a retro Action-Adventure game.\n\nA small heroic adventurer with a sword and a round shield in a windswept fantasy field or isla"
+  },
+  {
+    "game_id": "tony-hawks-pro-skater-2-playstation",
+    "title": "Tony Hawk's Pro Skater 2",
+    "status": "dry_run",
+    "error": null,
+    "output_path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\RETRODEXseedV0\\prototype_v0\\assets\\covers\\dalle3_20260322T204723Z\\tony-hawks-pro-skater-2-playstation.png",
+    "prompt_preview": "Original illustration inspired by a retro Sports game.\n\nA a single skateboarder silhouette in a concrete skate scene with a rail, ramp, or ledge, captured mid-m"
+  }
+]

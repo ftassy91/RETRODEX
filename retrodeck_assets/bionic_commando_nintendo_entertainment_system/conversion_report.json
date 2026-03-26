@@ -1,0 +1,19 @@
+﻿{
+    "output":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\retrodeck_assets\\bionic_commando_nintendo_entertainment_system\\sprite.png",
+    "opaque_ratio":  0.5286,
+    "source":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\retrodeck_assets\\_cache\\source_images\\wikipedia_en_thumb_1_1e_bioniccommando_jpg_250px_bioniccommando_jpg.jpg",
+    "bbox":  {
+                 "y":  3,
+                 "width":  29,
+                 "height":  42,
+                 "x":  9
+             },
+    "colors_used":  [
+                        "#306230",
+                        "#0F380F",
+                        "#8BAC0F",
+                        "#9BBC0F"
+                    ],
+    "work_size":  48,
+    "canvas_size":  128
+}

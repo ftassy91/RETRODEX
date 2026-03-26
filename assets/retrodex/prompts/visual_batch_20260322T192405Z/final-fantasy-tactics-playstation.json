@@ -1,0 +1,21 @@
+{
+  "game_id": "final-fantasy-tactics-playstation",
+  "slug": "final-fantasy-tactics-playstation",
+  "title": "Final Fantasy Tactics",
+  "platform": "PlayStation",
+  "year": 1997,
+  "genre_primary": "Tactical RPG",
+  "genre_secondary": "Strategy",
+  "bucket": "strategy_tactics",
+  "platform_style": "ps1_lowpoly_editorial",
+  "illustration_class": "object",
+  "risk_level": "high",
+  "subject_key": "commander",
+  "main_subject": "lone commander at a tactical table",
+  "action_mood_cue": "studying the field with disciplined focus",
+  "composition_type": "object",
+  "prompt": "Original illustration inspired by a retro Tactical RPG game.\n\nA lone commander at a tactical table in a campaign table, battlefield edge, or tactical ground with markers and territorial cues, studying the field with disciplined focus.\n\nGame metadata:\n- Title: Final Fantasy Tactics\n- Platform: PlayStation\n- Release year: 1997\n- Secondary genre signal: Strategy\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- early 3D editorial look, low-poly-inspired forms, moody lighting, late-90s techno-fantasy atmosphere\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- strategic, measured, disciplined, dreamlike\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "avoid resemblance to final fantasy, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "legal_notes": "Risk level high; use generic subject archetypes, readable environments, and platform-coded style only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

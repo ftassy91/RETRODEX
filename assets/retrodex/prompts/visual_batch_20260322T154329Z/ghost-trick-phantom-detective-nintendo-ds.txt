@@ -1,0 +1,45 @@
+Create an original GameDetail hero illustration for a retro video game database entry.
+
+Game metadata:
+- Title: Ghost Trick: Phantom Detective
+- Platform: Nintendo DS
+- Release year: 2010
+- Genre: Puzzle, Aventure
+- Mood: curious, quiet, investigative, tense
+- Context world: an archive room, hidden passage, or investigative interior with clues in the space
+- Central object: key
+- Supporting objects: key, notebook, sealed envelope, book
+- Genre signal: investigation, secrecy, and hidden meaning
+
+Visual goal:
+- Deliver one image that reads in under two seconds
+- Make the central object immediately readable and clearly tied to a game world
+- Convey the genre instantly through the object, the environment, and the lighting
+- Build a premium hero visual for a RetroDex GameDetail page
+
+Composition:
+- Place one large central object in the foreground, anchored in a readable world with depth layers and a dark, calm overlay-safe side
+- One strong focal point only
+- No decorative geometry
+- No empty backdrop
+
+Platform style:
+- portable mystery illustration, clean shapes, layered panels, modernized handheld mood
+
+Strict legal and safety constraints:
+- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite
+- Do NOT imitate exact copyrighted visual designs
+- Do NOT include any trademarked logo or title text inside the image
+- Evoke only the atmosphere, object language, environment, and genre cues
+- The result must be fully original and non-infringing in appearance
+
+Output:
+- High detail
+- Premium editorial hero illustration
+- No text
+- No watermark
+- Strong silhouette readability
+- Clean overlay-safe lighting
+
+Negative constraints:
+no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background

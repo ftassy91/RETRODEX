@@ -1,0 +1,19 @@
+﻿{
+    "output":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\assets\\generated_gb\\the-legend-of-zelda.png",
+    "opaque_ratio":  0.4612,
+    "source":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\retrodeck_assets\\the_legend_of_zelda_nintendo_entertainment_system\\sprite.png",
+    "bbox":  {
+                 "y":  6,
+                 "width":  41,
+                 "height":  59,
+                 "x":  15
+             },
+    "colors_used":  [
+                        "#306230",
+                        "#8BAC0F",
+                        "#9BBC0F",
+                        "#0F380F"
+                    ],
+    "work_size":  72,
+    "canvas_size":  180
+}

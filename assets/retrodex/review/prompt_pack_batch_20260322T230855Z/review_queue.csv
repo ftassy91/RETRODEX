@@ -1,0 +1,11 @@
+game_id,title,platform,risk_level,status,decision,decision_reason,reviewer_notes,prompt_pack_json,prompt_pack_md,selected_for_generation
+kirby-adventure-nintendo-entertainment-system,Kirby's Adventure,Nintendo Entertainment System,high,PENDING_REVIEW,,,,packs/kirby-adventure-nintendo-entertainment-system.json,packs/kirby-adventure-nintendo-entertainment-system.md,
+street-fighter-ii-super-nintendo,Street Fighter II,Super Nintendo,high,PENDING_REVIEW,,,,packs/street-fighter-ii-super-nintendo.json,packs/street-fighter-ii-super-nintendo.md,
+secret-of-mana-super-nintendo,Secret of Mana,Super Nintendo,low,PENDING_REVIEW,,,,packs/secret-of-mana-super-nintendo.json,packs/secret-of-mana-super-nintendo.md,
+super-castlevania-iv-super-nintendo,Super Castlevania IV,Super Nintendo,high,PENDING_REVIEW,,,,packs/super-castlevania-iv-super-nintendo.json,packs/super-castlevania-iv-super-nintendo.md,
+donkey-kong-game-boy,Donkey Kong,Game Boy,high,PENDING_REVIEW,,,,packs/donkey-kong-game-boy.json,packs/donkey-kong-game-boy.md,
+super-mario-kart-super-nintendo,Super Mario Kart,Super Nintendo,high,PENDING_REVIEW,,,,packs/super-mario-kart-super-nintendo.json,packs/super-mario-kart-super-nintendo.md,
+f-zero-super-nintendo,F-Zero,Super Nintendo,medium,PENDING_REVIEW,,,,packs/f-zero-super-nintendo.json,packs/f-zero-super-nintendo.md,
+super-mario-land-2-game-boy,Super Mario Land 2: 6 Golden Coins,Game Boy,high,PENDING_REVIEW,,,,packs/super-mario-land-2-game-boy.json,packs/super-mario-land-2-game-boy.md,
+castlevania-iii-draculas-curse-nintendo-entertainment-system,Castlevania III: Dracula's Curse,Nintendo Entertainment System,high,PENDING_REVIEW,,,,packs/castlevania-iii-draculas-curse-nintendo-entertainment-system.json,packs/castlevania-iii-draculas-curse-nintendo-entertainment-system.md,
+ninja-gaiden-nintendo-entertainment-system,Ninja Gaiden,Nintendo Entertainment System,low,PENDING_REVIEW,,,,packs/ninja-gaiden-nintendo-entertainment-system.json,packs/ninja-gaiden-nintendo-entertainment-system.md,

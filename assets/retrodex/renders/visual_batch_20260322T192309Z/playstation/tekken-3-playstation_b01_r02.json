@@ -1,0 +1,47 @@
+{
+  "game_id": "tekken-3-playstation",
+  "title": "Tekken 3",
+  "platform": "PlayStation",
+  "retry_count": 2,
+  "classification": {
+    "bucket": "fighting",
+    "risk_level": "high",
+    "illustration_class": "object",
+    "composition_type": "object_adjusted"
+  },
+  "prompt": "Original illustration inspired by a retro Fighting game.\n\nA lone martial artist silhouette in an arena or duel space with impact energy, banners, and confrontation framing, holding a focused pre-fight stance in a charged arena.\n\nGame metadata:\n- Title: Tekken 3\n- Platform: PlayStation\n- Release year: 1998\n- Secondary genre signal: Combat\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- early 3D editorial look, low-poly-inspired forms, moody lighting, late-90s techno-fantasy atmosphere\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- intense, dramatic, charged, aggressive\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark\n\nAdjustment: enlarge the central subject, reduce clutter, strengthen contrast, and keep the background supportive but secondary.",
+  "negative_prompt": "avoid resemblance to tekken, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background, simplify background detail, no humanoid face, no mascot proportions",
+  "render": {
+    "path": "assets/retrodex/renders/visual_batch_20260322T192309Z/playstation/tekken-3-playstation_b01_r02.png",
+    "subject_bbox": [
+      455,
+      405,
+      745,
+      855
+    ],
+    "subject_label": "duelist"
+  },
+  "qa": {
+    "checks": {
+      "no_text_detected": true,
+      "no_logo_detected": true,
+      "no_character_likeness": true,
+      "subject_readable": true,
+      "ui_overlay_usable": false,
+      "no_copyright_replication": true,
+      "platform_style_match": true
+    },
+    "qa_score": 86,
+    "status": "flagged",
+    "failure_reasons": [
+      "ui_overlay_usable"
+    ],
+    "metrics": {
+      "area_ratio": 0.0906,
+      "subject_contrast": 52.83,
+      "overlay_mean": 122.17,
+      "overlay_std": 37.82
+    }
+  },
+  "generated_at": "2026-03-22T19:23:10Z"
+}

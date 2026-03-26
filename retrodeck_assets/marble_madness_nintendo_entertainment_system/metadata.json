@@ -1,0 +1,40 @@
+{
+  "game": "Marble Madness",
+  "game_id": "marble-madness-nintendo-entertainment-system",
+  "console": "Nintendo Entertainment System",
+  "year": 1986,
+  "asset_type": "cover_art",
+  "asset_name": "Marble Madness",
+  "source_type": "wikipedia_inferred",
+  "image_reference": "Marble Madness",
+  "selection_reason": "Fallback to official game cover art because no better sprite-grade source was available",
+  "episode_number": null,
+  "publisher": "Atari Games",
+  "title_font": "Press Start 2P",
+  "display_layout": "sprite_identity_card",
+  "sprite_path": "retrodeck_assets/marble_madness_nintendo_entertainment_system/sprite.png",
+  "source_path": "retrodeck_assets/_cache/source_images/wikipedia_en_thumb_1_17_marblemadness_arcadeflyer_png_250px_marblemadness_arcadeflyer_png.png",
+  "asset_dir": "retrodeck_assets/marble_madness_nintendo_entertainment_system",
+  "palette": [
+    "#0F380F",
+    "#306230",
+    "#8BAC0F",
+    "#9BBC0F"
+  ],
+  "validation": {
+    "specific_game_reference": true,
+    "low_res_readable": true,
+    "gb_palette_ready": true,
+    "opaque_ratio": 0.5612,
+    "bbox": {
+      "y": 3,
+      "width": 33,
+      "height": 42,
+      "x": 7
+    }
+  },
+  "created_at": "2026-03-13T21:46:55Z",
+  "fallback_conditions": [
+    "inferred_title_fallback"
+  ]
+}

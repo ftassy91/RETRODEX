@@ -1,0 +1,45 @@
+{
+  "game_id": "goldeneye-007-nintendo-64",
+  "title": "GoldenEye 007",
+  "platform": "Nintendo 64",
+  "retry_count": 0,
+  "classification": {
+    "bucket": "shooter_arcade",
+    "risk_level": "medium",
+    "illustration_class": "object",
+    "composition_type": "object"
+  },
+  "prompt": "Create an original editorial illustration for a retro video game database entry.\n\nGame metadata:\n- Title: GoldenEye 007\n- Platform: Nintendo 64\n- Release year: 1997\n- Genre: FPS, Action\n- Mood: aggressive, fast, arcade\n- Setting: star lane, energy tunnel, combat haze\n- Key objects: craft silhouette, energy bolt, shield disc\n\nVisual goal:\n- Represent the game's atmosphere, genre, and collectible identity\n- Produce a unique, original image suitable for a premium database card\n- The image must feel iconic, readable, and emotionally evocative\n\nComposition:\n- A single symbolic prop or machine-inspired form, centered or slightly offset, with strong collectible-card readability\n- Designed for use in a GameDetail header / hero illustration\n\nStyle system:\n- Use the visual language associated with colorful stylized 3D collectible render, playful volume, toy-like readability\n- Apply the RetroDex art direction: premium collectible editorial art, readable, elegant, atmospheric\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, archetypes, objects, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial game-card illustration\n- No text\n- No watermark\n- Clean readable lighting",
+  "negative_prompt": "avoid resemblance to goldeneye, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text",
+  "render": {
+    "path": "assets/retrodex/renders/nintendo-64/goldeneye-007-nintendo-64_b01_r00.png",
+    "subject_bbox": [
+      160,
+      198,
+      544,
+      648
+    ],
+    "subject_label": "orb"
+  },
+  "qa": {
+    "checks": {
+      "no_text_detected": true,
+      "no_logo_detected": true,
+      "no_character_likeness": true,
+      "subject_readable": true,
+      "ui_overlay_usable": true,
+      "no_copyright_replication": true,
+      "platform_style_match": true
+    },
+    "qa_score": 100,
+    "status": "generated",
+    "failure_reasons": [],
+    "metrics": {
+      "area_ratio": 0.12,
+      "subject_contrast": 100.95,
+      "overlay_mean": 22.59,
+      "overlay_std": 4.3
+    }
+  },
+  "generated_at": "2026-03-22T14:57:26Z"
+}

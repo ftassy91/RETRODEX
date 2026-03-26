@@ -1,0 +1,50 @@
+{
+  "game_id": "mega-man-2-nintendo-entertainment-system",
+  "title": "Mega Man 2",
+  "platform": "Nintendo Entertainment System",
+  "year": 1989,
+  "genre_primary": "Platformer",
+  "genre_secondary": "Playful",
+  "bucket": "platformer_cartoon",
+  "risk_level": "high",
+  "risk_reasons": [
+    "mega man"
+  ],
+  "platform_style_id": "nes_restrained_poster",
+  "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+  "palette_hint": [
+    "#0d1b2a",
+    "#415a77",
+    "#c8d5b9",
+    "#f4d35e"
+  ],
+  "memory_rule_id": "mega_man_classic_rooftop",
+  "main_subject": "a small blue armored android with a rounded arm blaster",
+  "environment": "a night city rooftop stage with simple industrial towers and one moonlit skyline line",
+  "action_mood_cue": "standing ready before advancing into a robot-threatened city",
+  "mood": [
+    "heroic",
+    "arcade",
+    "mechanical"
+  ],
+  "composition": "single blue android only, one rooftop path, one skyline line, crisp NES readability, and no crowd",
+  "memory_hook": "robot-master stage energy, rooftop action-platforming, and immediate hero-vs-machines readability",
+  "legal_watchouts": [
+    "avoid exact Mega Man face and helmet design",
+    "avoid official enemy silhouettes",
+    "avoid exact blaster shape",
+    "avoid franchise logos"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Platformer game.\n\nA small blue armored android with a rounded arm blaster in a night city rooftop stage with simple industrial towers and one moonlit skyline line, standing ready before advancing into a robot-threatened city.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- heroic, arcade, mechanical\n\nComposition:\n- single blue android only, one rooftop path, one skyline line, crisp NES readability, and no crowd\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid exact Mega Man face and helmet design, avoid official enemy silhouettes, avoid exact blaster shape, avoid franchise logos, avoid resemblance to mega man",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "pixel art illustration only",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+    "render_policy": "always_pixel_art"
+  },
+  "status": "READY_FOR_REVIEW"
+}

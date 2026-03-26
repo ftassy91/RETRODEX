@@ -1,0 +1,18 @@
+{
+  "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+  "slug": "the-legend-of-zelda-links-awakening-game-boy",
+  "title": "The Legend of Zelda: Link's Awakening",
+  "platform": "Game Boy",
+  "year": 1993,
+  "genre_primary": "Action-Adventure",
+  "genre_secondary": "Fantasy",
+  "bucket": "fantasy_adventure",
+  "platform_style": "gameboy_monochrome_story",
+  "illustration_class": "object",
+  "risk_level": "high",
+  "composition_type": "object",
+  "prompt": "Create an original GameDetail hero illustration for a retro video game database entry.\n\nGame metadata:\n- Title: The Legend of Zelda: Link's Awakening\n- Platform: Game Boy\n- Release year: 1993\n- Genre: Action-Adventure, Fantasy\n- Mood: mysterious, heroic, mythic\n- Context world: a windswept fantasy landscape with ruins, a distant landmark, and a traversable path\n- Central object: sword\n- Supporting objects: sword, lantern, stone relic, artifact\n- Genre signal: heroic fantasy exploration\n\nVisual goal:\n- Deliver one image that reads in under two seconds\n- Make the central object immediately readable and clearly tied to a game world\n- Convey the genre instantly through the object, the environment, and the lighting\n- Build a premium hero visual for a RetroDex GameDetail page\n\nComposition:\n- Place one large central object slightly left of center, isolate its silhouette clearly, and support it with a context scene that instantly explains the genre\n- One strong focal point only\n- No decorative geometry\n- No empty backdrop\n\nPlatform style:\n- monochrome handheld illustration, limited green palette, crisp pixel-informed shapes, nostalgic portable mood\n\nStrict legal and safety constraints:\n- Do NOT reproduce any official character, logo, box art, UI, screenshot, or sprite\n- Do NOT imitate exact copyrighted visual designs\n- Do NOT include any trademarked logo or title text inside the image\n- Evoke only the atmosphere, object language, environment, and genre cues\n- The result must be fully original and non-infringing in appearance\n\nOutput:\n- High detail\n- Premium editorial hero illustration\n- No text\n- No watermark\n- Strong silhouette readability\n- Clean overlay-safe lighting",
+  "negative_prompt": "avoid resemblance to link, avoid resemblance to zelda, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "legal_notes": "Risk level high; use atmosphere, objects, and environments only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

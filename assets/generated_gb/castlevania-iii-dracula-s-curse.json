@@ -1,0 +1,19 @@
+﻿{
+    "output":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\assets\\generated_gb\\castlevania-iii-dracula-s-curse.png",
+    "opaque_ratio":  0.2737,
+    "source":  "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEX VERSION OK\\retrodex_v2_checkpoint_20260313_1722\\prototype_v2\\retrodeck_assets\\castlevania_iii_draculas_curse_nintendo_entertainment_system\\sprite.png",
+    "bbox":  {
+                 "y":  6,
+                 "width":  42,
+                 "height":  59,
+                 "x":  14
+             },
+    "colors_used":  [
+                        "#9BBC0F",
+                        "#8BAC0F",
+                        "#306230",
+                        "#0F380F"
+                    ],
+    "work_size":  72,
+    "canvas_size":  180
+}

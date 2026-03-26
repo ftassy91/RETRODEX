@@ -1,0 +1,16 @@
+{
+  "title": "RETRODEX - HQ - Mise a jour globale - 2026-03-22",
+  "source_markdown": "data/notion_exports/RETRODEX_HQ_UPDATE_2026-03-22.md",
+  "attachments": [
+    "STACK_TECHNIQUE_ONBOARDING_RETRODEX.md",
+    "assets/retrodex/logs/visual_batch_20260322T154329Z/comparison_report.md",
+    "assets/retrodex/logs/visual_batch_20260322T154329Z/validation_contact_sheet_batch_001.png",
+    "assets/retrodex/logs/visual_batch_20260322T154329Z/comparison_contact_sheet.png",
+    "assets/retrodex/logs/visual_batch_20260322T154329Z/validation_package.json"
+  ],
+  "notes": [
+    "Import manuel Notion requis dans ce workspace.",
+    "Le document de synthese HQ suppose un prototype local sans backend actif.",
+    "Le batch visuel de reference est visual_batch_20260322T154329Z."
+  ]
+}

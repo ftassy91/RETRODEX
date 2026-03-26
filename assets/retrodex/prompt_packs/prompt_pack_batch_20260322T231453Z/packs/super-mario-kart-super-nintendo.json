@@ -1,0 +1,50 @@
+{
+  "game_id": "super-mario-kart-super-nintendo",
+  "title": "Super Mario Kart",
+  "platform": "Super Nintendo",
+  "year": 1992,
+  "genre_primary": "Racing",
+  "genre_secondary": "Competition",
+  "bucket": "racing",
+  "risk_level": "high",
+  "risk_reasons": [
+    "mario"
+  ],
+  "platform_style_id": "snes_storybook_16bit",
+  "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+  "palette_hint": [
+    "#1f2041",
+    "#4b3f72",
+    "#ffc857",
+    "#f4f1de"
+  ],
+  "memory_rule_id": "super_mario_kart_track_pack",
+  "main_subject": "a short stocky cartoon racer in a tiny kart with a simple cap and overalls silhouette",
+  "environment": "a bright Mode 7-style track bend with bold curbs, coins, and drifting dust",
+  "action_mood_cue": "sliding through the turn with the kart angled dramatically across the lane",
+  "mood": [
+    "playful",
+    "competitive",
+    "arcade"
+  ],
+  "composition": "single kart only, one bold track curve, top-down depth cues, bright SNES colors, and no rival crowd",
+  "memory_hook": "Mode 7 drift energy, small kart silhouette, and bright competitive chaos reduced to one clean turn",
+  "legal_watchouts": [
+    "avoid exact Mario face or costume details",
+    "avoid official kart body shapes",
+    "avoid item iconography",
+    "avoid franchise logos"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Racing game.\n\nA short stocky cartoon racer in a tiny kart with a simple cap and overalls silhouette in a bright Mode 7-style track bend with bold curbs, coins, and drifting dust, sliding through the turn with the kart angled dramatically across the lane.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- playful, competitive, arcade\n\nComposition:\n- single kart only, one bold track curve, top-down depth cues, bright SNES colors, and no rival crowd\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid exact Mario face or costume details, avoid official kart body shapes, avoid item iconography, avoid franchise logos, avoid resemblance to mario",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "pixel art illustration only",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+    "render_policy": "always_pixel_art"
+  },
+  "status": "READY_FOR_REVIEW"
+}

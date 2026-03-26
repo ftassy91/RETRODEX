@@ -1,0 +1,47 @@
+{
+  "game_id": "tekken-3-playstation",
+  "title": "Tekken 3",
+  "platform": "PlayStation",
+  "year": 1998,
+  "genre_primary": "Fighting",
+  "genre_secondary": "Combat",
+  "bucket": "fighting",
+  "risk_level": "high",
+  "risk_reasons": [
+    "tekken"
+  ],
+  "platform_style_id": "ps1_lowpoly_editorial",
+  "platform_style_description": "PlayStation aesthetic, early 3D look, moody lighting, low-poly atmosphere, and strong late-90s contrast",
+  "palette_hint": [
+    "#11151c",
+    "#364156",
+    "#d66853",
+    "#f3dfa2"
+  ],
+  "main_subject": "a lone martial artist or duelist silhouette",
+  "environment": "an arena or duel space with energy and crowd suggestion kept abstract",
+  "action_mood_cue": "holding a pre-impact combat stance under dramatic light",
+  "mood": [
+    "charged",
+    "focused",
+    "dramatic"
+  ],
+  "composition": "single fighter, clear pose, readable stance, background secondary",
+  "memory_hook": "versus tension, stance readability, and arena pressure",
+  "legal_watchouts": [
+    "avoid roster character likeness",
+    "avoid franchise costumes",
+    "avoid signature weapons or hairstyles"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Fighting game.\n\nA a lone martial artist or duelist silhouette in an arena or duel space with energy and crowd suggestion kept abstract, holding a pre-impact combat stance under dramatic light.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- PlayStation aesthetic, early 3D look, moody lighting, low-poly atmosphere, and strong late-90s contrast\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- charged, focused, dramatic\n\nComposition:\n- single fighter, clear pose, readable stance, background secondary\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid roster character likeness, avoid franchise costumes, avoid signature weapons or hairstyles, avoid resemblance to tekken",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

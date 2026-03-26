@@ -1,0 +1,21 @@
+{
+  "game_id": "999-nine-hours-nine-persons-nine-doors-nintendo-ds",
+  "slug": "999-nine-hours-nine-persons-nine-doors-nintendo-ds",
+  "title": "999: Nine Hours, Nine Persons, Nine Doors",
+  "platform": "Nintendo DS",
+  "year": 2009,
+  "genre_primary": "Visual Novel",
+  "genre_secondary": "Puzzle",
+  "bucket": "mystery_adventure",
+  "platform_style": "nds_clean_dual_panel",
+  "illustration_class": "environment",
+  "risk_level": "low",
+  "subject_key": "investigator",
+  "main_subject": "lone investigator with a notebook",
+  "action_mood_cue": "studying clues inside a quiet room",
+  "composition_type": "environment",
+  "prompt": "Original illustration inspired by a retro Visual Novel game.\n\nA lone investigator with a notebook in an archive room, hidden passage, or investigative interior with clues in the space, studying clues inside a quiet room.\n\nGame metadata:\n- Title: 999: Nine Hours, Nine Persons, Nine Doors\n- Platform: Nintendo DS\n- Release year: 2009\n- Secondary genre signal: Puzzle\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- portable mystery illustration, clean shapes, layered panels, modernized handheld mood\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- curious, quiet, investigative\n\nComposition:\n- one subject framed by a readable world, with the subject still dominant and the background strictly secondary\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "legal_notes": "Risk level low; use generic subject archetypes, readable environments, and platform-coded style only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

@@ -1,0 +1,49 @@
+{
+  "game_id": "mega-man-x-super-nintendo",
+  "title": "Mega Man X",
+  "platform": "Super Nintendo",
+  "year": 1993,
+  "genre_primary": "Adventure",
+  "genre_secondary": "Mystery",
+  "bucket": "fantasy_adventure",
+  "risk_level": "high",
+  "risk_reasons": [
+    "mega man"
+  ],
+  "platform_style_id": "snes_storybook_16bit",
+  "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+  "palette_hint": [
+    "#1f2041",
+    "#4b3f72",
+    "#ffc857",
+    "#f4f1de"
+  ],
+  "memory_rule_id": "mega_man_x_highway_ruins",
+  "main_subject": "a compact armored android with an arm-mounted blaster",
+  "environment": "a ruined elevated highway at dusk with broken road slabs, warning lights, and a burning skyline",
+  "action_mood_cue": "standing ready before a charge into the collapsing route ahead",
+  "mood": [
+    "urgent",
+    "heroic",
+    "mechanical"
+  ],
+  "composition": "single android only, one broken highway path, one clear horizon, and sharp industrial contrast",
+  "memory_hook": "intro-stage urgency, ruined future highways, and fast action-platformer pressure",
+  "legal_watchouts": [
+    "avoid Mega Man X armor likeness",
+    "avoid exact helmet fins",
+    "avoid official blaster design",
+    "avoid sigma-like villain silhouettes"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Adventure game.\n\nA compact armored android with an arm-mounted blaster in a ruined elevated highway at dusk with broken road slabs, warning lights, and a burning skyline, standing ready before a charge into the collapsing route ahead.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- urgent, heroic, mechanical\n\nComposition:\n- single android only, one broken highway path, one clear horizon, and sharp industrial contrast\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Mega Man X armor likeness, avoid exact helmet fins, avoid official blaster design, avoid sigma-like villain silhouettes, avoid resemblance to mega man",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

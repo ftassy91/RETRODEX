@@ -1,0 +1,21 @@
+{
+  "game_id": "puyo-pop-wonderswan",
+  "slug": "puyo-pop-wonderswan",
+  "title": "Puyo Pop",
+  "platform": "WonderSwan",
+  "year": 1999,
+  "genre_primary": "Puzzle",
+  "genre_secondary": "Abstract",
+  "bucket": "puzzle_abstract",
+  "platform_style": "wonderswan_mono_modern",
+  "illustration_class": "object",
+  "risk_level": "low",
+  "subject_key": "tile_stack",
+  "main_subject": "stacked falling blocks",
+  "action_mood_cue": "locked in a precise falling moment above a grounded puzzle space",
+  "composition_type": "object",
+  "prompt": "Original illustration inspired by a retro Puzzle game.\n\nA stacked falling blocks in a physical puzzle space with stacked pieces, spatial logic, and grounded surfaces, locked in a precise falling moment above a grounded puzzle space.\n\nGame metadata:\n- Title: Puyo Pop\n- Platform: WonderSwan\n- Release year: 1999\n- Secondary genre signal: Abstract\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- minimal handheld illustration, clean geometry, sparse composition, collector-friendly balance\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- precise, calm, cerebral\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "legal_notes": "Risk level low; use generic subject archetypes, readable environments, and platform-coded style only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

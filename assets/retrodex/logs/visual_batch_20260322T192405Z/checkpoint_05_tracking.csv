@@ -1,0 +1,11 @@
+game_id,status,risk_level,illustration_class,retries,qa_score
+the-legend-of-zelda-ocarina-of-time-nintendo-64,generated,high,object,0,100
+tony-hawks-pro-skater-2-playstation,generated,low,object,0,100
+soul-calibur-dreamcast,generated,medium,object,0,100
+castlevania-rondo-of-blood-turbografx-16,generated,high,object,0,100
+perfect-dark-nintendo-64,generated,medium,object,0,100
+tetris-game-boy,flagged,high,object,2,86
+super-mario-64-nintendo-64,generated,high,object,0,100
+super-metroid-super-nintendo,generated,high,object,2,100
+super-mario-bros-3-nintendo-entertainment-system,flagged,high,object,2,80
+tekken-3-playstation,generated,high,object,0,100

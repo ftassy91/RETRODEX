@@ -1,0 +1,47 @@
+{
+  "game_id": "castlevania-rondo-of-blood-turbografx-16",
+  "title": "Castlevania: Rondo of Blood",
+  "platform": "TurboGrafx-16",
+  "year": 1993,
+  "genre_primary": "Action-Platformer",
+  "genre_secondary": "Retro",
+  "bucket": "fantasy_adventure",
+  "risk_level": "high",
+  "risk_reasons": [
+    "castlevania"
+  ],
+  "platform_style_id": "turbografx_arcade_poster",
+  "platform_style_description": "TurboGrafx-16 aesthetic, bright arcade poster energy, crisp light, and expressive high-contrast shapes",
+  "palette_hint": [
+    "#231942",
+    "#9f86c0",
+    "#e0b1cb",
+    "#f7ece1"
+  ],
+  "main_subject": "a lone gothic adventurer with a blade",
+  "environment": "a stormy castle approach with moonlight and heavy stone forms",
+  "action_mood_cue": "standing before the ascent in a moment of tension",
+  "mood": [
+    "gothic",
+    "heroic",
+    "threatening"
+  ],
+  "composition": "single adventurer foreground, castle silhouette distance, strong moonlit contrast",
+  "memory_hook": "castle ascent, gothic action, and dangerous nobility",
+  "legal_watchouts": [
+    "avoid Belmont likeness",
+    "avoid whip-specific silhouettes",
+    "avoid Dracula iconography"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Action-Platformer game.\n\nA lone gothic adventurer with a blade in a stormy castle approach with moonlight and heavy stone forms, standing before the ascent in a moment of tension.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- TurboGrafx-16 aesthetic, bright arcade poster energy, crisp light, and expressive high-contrast shapes\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- gothic, heroic, threatening\n\nComposition:\n- single adventurer foreground, castle silhouette distance, strong moonlit contrast\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Belmont likeness, avoid whip-specific silhouettes, avoid Dracula iconography, avoid resemblance to castlevania",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "illustrative pixel art or stylized retro render",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast"
+  },
+  "status": "READY_FOR_REVIEW"
+}

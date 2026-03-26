@@ -1,0 +1,47 @@
+{
+  "game_id": "castlevania-rondo-of-blood-turbografx-16",
+  "title": "Castlevania: Rondo of Blood",
+  "platform": "TurboGrafx-16",
+  "retry_count": 1,
+  "classification": {
+    "bucket": "fantasy_adventure",
+    "risk_level": "high",
+    "illustration_class": "object",
+    "composition_type": "object_adjusted"
+  },
+  "prompt": "Original illustration inspired by a retro Action-Platformer game.\n\nA small heroic adventurer with a sword in a windswept fantasy landscape with ruins, a distant landmark, and a traversable path, standing on a windswept path with quiet resolve.\n\nGame metadata:\n- Title: Castlevania: Rondo of Blood\n- Platform: TurboGrafx-16\n- Release year: 1993\n- Secondary genre signal: Retro\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- bright arcade key art, punchy motion, crisp light, poster-like composition\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- mysterious, heroic, mythic\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark\n\nAdjustment: enlarge the central subject, reduce clutter, strengthen contrast, and keep the background supportive but secondary.",
+  "negative_prompt": "avoid resemblance to castlevania, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background, simplify background detail, no humanoid face, no mascot proportions",
+  "render": {
+    "path": "assets/retrodex/renders/visual_batch_20260322T192309Z/turbografx-16/castlevania-rondo-of-blood-turbografx-16_b01_r01.png",
+    "subject_bbox": [
+      455,
+      405,
+      745,
+      855
+    ],
+    "subject_label": "heroic_adventurer"
+  },
+  "qa": {
+    "checks": {
+      "no_text_detected": true,
+      "no_logo_detected": true,
+      "no_character_likeness": true,
+      "subject_readable": true,
+      "ui_overlay_usable": false,
+      "no_copyright_replication": true,
+      "platform_style_match": true
+    },
+    "qa_score": 86,
+    "status": "retry",
+    "failure_reasons": [
+      "ui_overlay_usable"
+    ],
+    "metrics": {
+      "area_ratio": 0.0906,
+      "subject_contrast": 47.6,
+      "overlay_mean": 143.87,
+      "overlay_std": 35.54
+    }
+  },
+  "generated_at": "2026-03-22T19:23:09Z"
+}

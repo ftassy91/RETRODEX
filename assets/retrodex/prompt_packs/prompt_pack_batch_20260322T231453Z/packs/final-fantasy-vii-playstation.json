@@ -1,0 +1,50 @@
+{
+  "game_id": "final-fantasy-vii-playstation",
+  "title": "Final Fantasy VII",
+  "platform": "PlayStation",
+  "year": 1997,
+  "genre_primary": "RPG",
+  "genre_secondary": "Epic",
+  "bucket": "rpg_epic",
+  "risk_level": "high",
+  "risk_reasons": [
+    "final fantasy"
+  ],
+  "platform_style_id": "ps1_pixel_editorial",
+  "platform_style_description": "PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels",
+  "palette_hint": [
+    "#11151c",
+    "#364156",
+    "#d66853",
+    "#f3dfa2"
+  ],
+  "memory_rule_id": "final_fantasy_vi_magitek_snow",
+  "main_subject": "a single armored walking machine with a rider silhouette",
+  "environment": "a snowy ridge at dusk with distant industrial lights and heavy cloud cover",
+  "action_mood_cue": "advancing slowly through the snow toward the glowing city below",
+  "mood": [
+    "epic",
+    "cold",
+    "foreboding"
+  ],
+  "composition": "single walking machine only, wide snow field, one distant city glow, and a strong diagonal march line",
+  "memory_hook": "snowbound opening, magitek march, and the feeling of a huge story about to unfold",
+  "legal_watchouts": [
+    "avoid official magitek walker designs",
+    "avoid Terra likeness",
+    "avoid franchise emblems",
+    "avoid exact opening shot recreation"
+  ],
+  "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro RPG game.\n\nA single armored walking machine with a rider silhouette in a snowy ridge at dusk with distant industrial lights and heavy cloud cover, advancing slowly through the snow toward the glowing city below.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- epic, cold, foreboding\n\nComposition:\n- single walking machine only, wide snow field, one distant city glow, and a strong diagonal march line\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official magitek walker designs, avoid Terra likeness, avoid franchise emblems, avoid exact opening shot recreation, avoid resemblance to final fantasy",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "pixel art illustration only",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+    "render_policy": "always_pixel_art"
+  },
+  "status": "READY_FOR_REVIEW"
+}

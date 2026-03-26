@@ -1,0 +1,6 @@
+{
+    "game_id":  "dungeons-dragons-collection-sega-saturn",
+    "title":  "Dungeons \u0026 Dragons Collection",
+    "prompt":  "Original pixel art illustration inspired by a 32-bit fantasy beat em up collection. A compact party of four adventurers enters a torchlit dungeon hall with a treasure chest, stone archways, and a looming dragon statue in the background. Visual focus: one clear group silhouette and one dungeon entrance, readable in 1 second. Style: premium pixel art, Saturn-era arcade fantasy, crisp sprite shading, warm torchlight, strong contrast, no blur. Mood: adventurous, cooperative, dangerous. Composition: party in foreground, dungeon hall receding behind, minimal clutter. Important: do not replicate official Dungeons \u0026 Dragons characters, monsters, logos, or cover art. Must feel original but evoke tabletop fantasy and arcade questing.",
+    "negative_prompt":  "official Dungeons and Dragons character likeness, logo, beholder, exact monster designs, text, UI, realistic painting"
+}

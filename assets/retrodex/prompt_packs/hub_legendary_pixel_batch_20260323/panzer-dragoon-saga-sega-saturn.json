@@ -1,0 +1,6 @@
+{
+    "game_id":  "panzer-dragoon-saga-sega-saturn",
+    "title":  "Panzer Dragoon Saga",
+    "prompt":  "Original pixel art illustration inspired by a 32-bit desert dragon-rider RPG. A lone rider on a blue armored dragon glides above ancient canyon ruins under a vast sunset sky, with ruined towers and dunes stretching into the distance. Visual focus: one rider and dragon silhouette, one ruin landmark, readable in 1 second. Style: premium Saturn-era pixel art, rich sunset palette, strong atmospheric depth, crisp sprite shading, no blur. Mood: lonely, mythic, expansive. Composition: dragon and rider in foreground flight, ruins below, open sky behind, no clutter. Important: do not replicate official Panzer Dragoon designs, logos, or box art. Must feel original but clearly evoke desert dragon fantasy.",
+    "negative_prompt":  "official Panzer Dragoon dragon design, logo, text, exact rider costume, realistic painting, 3D render"
+}

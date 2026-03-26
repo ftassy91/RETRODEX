@@ -1,0 +1,86 @@
+[
+  {
+    "id": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+    "title": "The Legend of Zelda: Ocarina of Time",
+    "console": "Nintendo 64",
+    "year": 1998,
+    "metascore": 99
+  },
+  {
+    "id": "tony-hawks-pro-skater-2-playstation",
+    "title": "Tony Hawk's Pro Skater 2",
+    "console": "PlayStation",
+    "year": 2000,
+    "metascore": 98
+  },
+  {
+    "id": "soul-calibur-dreamcast",
+    "title": "Soul Calibur",
+    "console": "Dreamcast",
+    "year": 1999,
+    "metascore": 98
+  },
+  {
+    "id": "panzer-dragoon-saga-sega-saturn",
+    "title": "Panzer Dragoon Saga",
+    "console": "Sega Saturn",
+    "year": 1998,
+    "metascore": 98
+  },
+  {
+    "id": "tetris-game-boy",
+    "title": "Tetris",
+    "console": "Game Boy",
+    "year": 1989,
+    "metascore": 98
+  },
+  {
+    "id": "perfect-dark-nintendo-64",
+    "title": "Perfect Dark",
+    "console": "Nintendo 64",
+    "year": 2000,
+    "metascore": 97
+  },
+  {
+    "id": "super-mario-64-nintendo-64",
+    "title": "Super Mario 64",
+    "console": "Nintendo 64",
+    "year": 1996,
+    "metascore": 97
+  },
+  {
+    "id": "super-mario-bros-3-nintendo-entertainment-system",
+    "title": "Super Mario Bros. 3",
+    "console": "Nintendo Entertainment System",
+    "year": 1990,
+    "metascore": 97
+  },
+  {
+    "id": "tekken-3-playstation",
+    "title": "Tekken 3",
+    "console": "PlayStation",
+    "year": 1998,
+    "metascore": 96
+  },
+  {
+    "id": "gran-turismo-playstation",
+    "title": "Gran Turismo",
+    "console": "PlayStation",
+    "year": 1997,
+    "metascore": 96
+  },
+  {
+    "id": "goldeneye-007-nintendo-64",
+    "title": "GoldenEye 007",
+    "console": "Nintendo 64",
+    "year": 1997,
+    "metascore": 96
+  },
+  {
+    "id": "yoshi-island-super-nintendo",
+    "title": "Super Mario World 2: Yoshi's Island",
+    "console": "Super Nintendo",
+    "year": 1995,
+    "metascore": 96
+  }
+]

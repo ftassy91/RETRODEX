@@ -1,0 +1,47 @@
+{
+  "game_id": "tony-hawks-pro-skater-2-playstation",
+  "title": "Tony Hawk's Pro Skater 2",
+  "platform": "PlayStation",
+  "retry_count": 1,
+  "classification": {
+    "bucket": "sports",
+    "risk_level": "low",
+    "illustration_class": "object",
+    "composition_type": "object_adjusted"
+  },
+  "prompt": "Original illustration inspired by a retro Sports game.\n\nA single skateboarder silhouette in a stadium or competition ground with lights, field markers, and focused event framing, balancing into motion on a board in a clean skate scene.\n\nGame metadata:\n- Title: Tony Hawk's Pro Skater 2\n- Platform: PlayStation\n- Release year: 2000\n- Secondary genre signal: Competition\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- early 3D editorial look, low-poly-inspired forms, moody lighting, late-90s techno-fantasy atmosphere\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- competitive, clean, focused\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark\n\nAdjustment: enlarge the central subject, reduce clutter, strengthen contrast, and keep the background supportive but secondary.",
+  "negative_prompt": "no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background, simplify background detail, no humanoid face, no mascot proportions",
+  "render": {
+    "path": "assets/retrodex/renders/visual_batch_20260322T192309Z/playstation/tony-hawks-pro-skater-2-playstation_b01_r01.png",
+    "subject_bbox": [
+      455,
+      435,
+      745,
+      860
+    ],
+    "subject_label": "skateboarder"
+  },
+  "qa": {
+    "checks": {
+      "no_text_detected": true,
+      "no_logo_detected": true,
+      "no_character_likeness": true,
+      "subject_readable": true,
+      "ui_overlay_usable": false,
+      "no_copyright_replication": true,
+      "platform_style_match": true
+    },
+    "qa_score": 86,
+    "status": "retry",
+    "failure_reasons": [
+      "ui_overlay_usable"
+    ],
+    "metrics": {
+      "area_ratio": 0.0856,
+      "subject_contrast": 70.33,
+      "overlay_mean": 120.21,
+      "overlay_std": 38.98
+    }
+  },
+  "generated_at": "2026-03-22T19:23:09Z"
+}

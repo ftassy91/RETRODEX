@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>RetroMarket QA Harness</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    iframe {
+      border: 0;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <iframe id="market-frame" src="../modules/retromarket/market.html"></iframe>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const screen = params.get('screen') || 'game';
+    const frame = document.getElementById('market-frame');
+
+    function activateScreen() {
+      const doc = frame.contentDocument;
+      if (!doc) return;
+      const button = doc.querySelector(`.rm-screen-tab[data-screen="${screen}"]`);
+      if (button) button.click();
+    }
+
+    frame.addEventListener('load', () => {
+      window.setTimeout(activateScreen, 1200);
+      window.setTimeout(activateScreen, 2200);
+    });
+  </script>
+</body>
+</html>

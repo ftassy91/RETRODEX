@@ -1,0 +1,110 @@
+{
+  "run_id": "visual_batch_20260322T145655Z",
+  "batch_size": 5,
+  "generated_items": [
+    {
+      "game_id": "panzer-dragoon-saga-sega-saturn",
+      "title": "Panzer Dragoon Saga",
+      "platform": "Sega Saturn",
+      "render_path": "assets/retrodex/renders/sega-saturn/panzer-dragoon-saga-sega-saturn_b01_r02.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+      "title": "The Legend of Zelda: Ocarina of Time",
+      "platform": "Nintendo 64",
+      "render_path": "assets/retrodex/renders/nintendo-64/the-legend-of-zelda-ocarina-of-time-nintendo-64_b01_r01.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "radiant-silvergun-sega-saturn",
+      "title": "Radiant Silvergun",
+      "platform": "Sega Saturn",
+      "render_path": "assets/retrodex/renders/sega-saturn/radiant-silvergun-sega-saturn_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "tony-hawks-pro-skater-2-playstation",
+      "title": "Tony Hawk's Pro Skater 2",
+      "platform": "PlayStation",
+      "render_path": "assets/retrodex/renders/playstation/tony-hawks-pro-skater-2-playstation_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    },
+    {
+      "game_id": "soul-calibur-dreamcast",
+      "title": "Soul Calibur",
+      "platform": "Dreamcast",
+      "render_path": "assets/retrodex/renders/dreamcast/soul-calibur-dreamcast_b01_r00.png",
+      "qa_score": 100,
+      "status": "generated"
+    }
+  ],
+  "flagged_items": [],
+  "next_batch_ready": [
+    {
+      "game_id": "castlevania-rondo-of-blood-turbografx-16",
+      "title": "Castlevania: Rondo of Blood",
+      "platform": "TurboGrafx-16",
+      "priority": 998
+    },
+    {
+      "game_id": "perfect-dark-nintendo-64",
+      "title": "Perfect Dark",
+      "platform": "Nintendo 64",
+      "priority": 990
+    },
+    {
+      "game_id": "tetris-game-boy",
+      "title": "Tetris",
+      "platform": "Game Boy",
+      "priority": 989
+    },
+    {
+      "game_id": "super-mario-64-nintendo-64",
+      "title": "Super Mario 64",
+      "platform": "Nintendo 64",
+      "priority": 986
+    },
+    {
+      "game_id": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "platform": "Super Nintendo",
+      "priority": 984
+    },
+    {
+      "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+      "title": "Super Mario Bros. 3",
+      "platform": "Nintendo Entertainment System",
+      "priority": 980
+    },
+    {
+      "game_id": "tekken-3-playstation",
+      "title": "Tekken 3",
+      "platform": "PlayStation",
+      "priority": 978
+    },
+    {
+      "game_id": "goldeneye-007-nintendo-64",
+      "title": "GoldenEye 007",
+      "platform": "Nintendo 64",
+      "priority": 977
+    },
+    {
+      "game_id": "gran-turismo-playstation",
+      "title": "Gran Turismo",
+      "platform": "PlayStation",
+      "priority": 977
+    },
+    {
+      "game_id": "final-fantasy-vi-advance-game-boy-advance",
+      "title": "Final Fantasy VI Advance",
+      "platform": "Game Boy Advance",
+      "priority": 976
+    }
+  ],
+  "contact_sheet": "assets/retrodex/logs/visual_batch_20260322T145655Z/validation_contact_sheet_batch_001.png"
+}

@@ -1,0 +1,8 @@
+game_id,title,platform,risk_level,status,decision,decision_reason,reviewer_notes,prompt_pack_json,prompt_pack_md,selected_for_generation
+soul-calibur-dreamcast,Soul Calibur,Dreamcast,medium,PENDING_REVIEW,,,,packs/soul-calibur-dreamcast.json,packs/soul-calibur-dreamcast.md,
+perfect-dark-nintendo-64,Perfect Dark,Nintendo 64,medium,PENDING_REVIEW,,,,packs/perfect-dark-nintendo-64.json,packs/perfect-dark-nintendo-64.md,
+tetris-game-boy,Tetris,Game Boy,high,PENDING_REVIEW,,,,packs/tetris-game-boy.json,packs/tetris-game-boy.md,
+super-mario-64-nintendo-64,Super Mario 64,Nintendo 64,high,PENDING_REVIEW,,,,packs/super-mario-64-nintendo-64.json,packs/super-mario-64-nintendo-64.md,
+super-metroid-super-nintendo,Super Metroid,Super Nintendo,high,PENDING_REVIEW,,,,packs/super-metroid-super-nintendo.json,packs/super-metroid-super-nintendo.md,
+super-mario-bros-3-nintendo-entertainment-system,Super Mario Bros. 3,Nintendo Entertainment System,high,PENDING_REVIEW,,,,packs/super-mario-bros-3-nintendo-entertainment-system.json,packs/super-mario-bros-3-nintendo-entertainment-system.md,
+tekken-3-playstation,Tekken 3,PlayStation,high,PENDING_REVIEW,,,,packs/tekken-3-playstation.json,packs/tekken-3-playstation.md,

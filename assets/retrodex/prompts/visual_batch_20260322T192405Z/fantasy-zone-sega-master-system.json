@@ -1,0 +1,21 @@
+{
+  "game_id": "fantasy-zone-sega-master-system",
+  "slug": "fantasy-zone-sega-master-system",
+  "title": "Fantasy Zone",
+  "platform": "Sega Master System",
+  "year": 1986,
+  "genre_primary": "Shoot'em up",
+  "genre_secondary": "Arcade",
+  "bucket": "shooter_arcade",
+  "platform_style": "sms_clean_arcade",
+  "illustration_class": "object",
+  "risk_level": "low",
+  "subject_key": "spaceship",
+  "main_subject": "single attack ship",
+  "action_mood_cue": "cutting forward through danger at full speed",
+  "composition_type": "object",
+  "prompt": "Original illustration inspired by a retro Shoot'em up game.\n\nA single attack ship in a deep space lane or combat tunnel with velocity and incoming threat, cutting forward through danger at full speed.\n\nGame metadata:\n- Title: Fantasy Zone\n- Platform: Sega Master System\n- Release year: 1986\n- Secondary genre signal: Arcade\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- clean arcade illustration, simple geometry, high contrast shapes, restrained palette\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- aggressive, fast, arcade, dreamlike\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "legal_notes": "Risk level low; use generic subject archetypes, readable environments, and platform-coded style only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

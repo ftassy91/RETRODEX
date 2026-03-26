@@ -1,0 +1,1183 @@
+{
+  "generated_at": "2026-03-23T06:57:36Z",
+  "summary": {
+    "records_missing_core_fields": 311,
+    "records_ready_for_enrichment_only": 142
+  },
+  "priority_missing_core_fields": [
+    {
+      "game_id": "tony-hawks-pro-skater-2-playstation",
+      "title": "Tony Hawk's Pro Skater 2",
+      "platform": "PlayStation",
+      "release_year": 2000,
+      "metascore": 98,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "gran-turismo-playstation",
+      "title": "Gran Turismo",
+      "platform": "PlayStation",
+      "release_year": 1997,
+      "metascore": 96,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "chrono-cross-playstation",
+      "title": "Chrono Cross",
+      "platform": "PlayStation",
+      "release_year": 2000,
+      "metascore": 94,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "final-fantasy-ix-playstation",
+      "title": "Final Fantasy IX",
+      "platform": "PlayStation",
+      "release_year": 2000,
+      "metascore": 94,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "suikoden-ii-playstation",
+      "title": "Suikoden II",
+      "platform": "PlayStation",
+      "release_year": 1998,
+      "metascore": 93,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "conkers-bad-fur-day-nintendo-64",
+      "title": "Conker's Bad Fur Day",
+      "platform": "Nintendo 64",
+      "release_year": 2001,
+      "metascore": 92,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "crash-bandicoot-3-warped-playstation",
+      "title": "Crash Bandicoot 3: Warped",
+      "platform": "PlayStation",
+      "release_year": 1998,
+      "metascore": 91,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "crash-team-racing-playstation",
+      "title": "Crash Team Racing",
+      "platform": "PlayStation",
+      "release_year": 1999,
+      "metascore": 91,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "spyro-year-of-the-dragon-playstation",
+      "title": "Spyro: Year of the Dragon",
+      "platform": "PlayStation",
+      "release_year": 2000,
+      "metascore": 91,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "tomb-raider-playstation",
+      "title": "Tomb Raider",
+      "platform": "PlayStation",
+      "release_year": 1996,
+      "metascore": 91,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "wipeout-xl-playstation",
+      "title": "Wipeout XL",
+      "platform": "PlayStation",
+      "release_year": 1996,
+      "metascore": 91,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "banjo-tooie-nintendo-64",
+      "title": "Banjo-Tooie",
+      "platform": "Nintendo 64",
+      "release_year": 2000,
+      "metascore": 90,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "mario-and-luigi-bowsers-inside-story-nintendo-ds",
+      "title": "Mario & Luigi: Bowser's Inside Story",
+      "platform": "Nintendo DS",
+      "release_year": 2009,
+      "metascore": 90,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "mega-man-x-super-nintendo",
+      "title": "Mega Man X",
+      "platform": "Super Nintendo",
+      "release_year": 1993,
+      "metascore": 90,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "f-zero-x-nintendo-64",
+      "title": "F-Zero X",
+      "platform": "Nintendo 64",
+      "release_year": 1998,
+      "metascore": 89,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "new-super-mario-bros-nintendo-ds",
+      "title": "New Super Mario Bros.",
+      "platform": "Nintendo DS",
+      "release_year": 2006,
+      "metascore": 89,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "pokemon-blue-game-boy",
+      "title": "Pok\u00e9mon Blue",
+      "platform": "Game Boy",
+      "release_year": 1998,
+      "metascore": 89,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "pokemon-crystal-game-boy",
+      "title": "Pok\u00e9mon Crystal",
+      "platform": "Game Boy",
+      "release_year": 2001,
+      "metascore": 89,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "street-fighter-ii-super-nintendo",
+      "title": "Street Fighter II",
+      "platform": "Super Nintendo",
+      "release_year": 1992,
+      "metascore": 89,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "terranigma-super-nintendo",
+      "title": "Terranigma",
+      "platform": "Super Nintendo",
+      "release_year": 1995,
+      "metascore": 89,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "twisted-metal-2-playstation",
+      "title": "Twisted Metal 2",
+      "platform": "PlayStation",
+      "release_year": 1996,
+      "metascore": 89,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "1080-snowboarding-nintendo-64",
+      "title": "1080\u00b0 Snowboarding",
+      "platform": "Nintendo 64",
+      "release_year": 1998,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "alundra-playstation",
+      "title": "Alundra",
+      "platform": "PlayStation",
+      "release_year": 1997,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "blast-corps-nintendo-64",
+      "title": "Blast Corps",
+      "platform": "Nintendo 64",
+      "release_year": 1997,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "contra-iii-alien-wars-super-nintendo",
+      "title": "Contra III: The Alien Wars",
+      "platform": "Super Nintendo",
+      "release_year": 1992,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "crash-bandicoot-2-cortex-strikes-back-playstation",
+      "title": "Crash Bandicoot 2: Cortex Strikes Back",
+      "platform": "PlayStation",
+      "release_year": 1997,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "diddy-kong-racing-nintendo-64",
+      "title": "Diddy Kong Racing",
+      "platform": "Nintendo 64",
+      "release_year": 1997,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "donkey-kong-64-nintendo-64",
+      "title": "Donkey Kong 64",
+      "platform": "Nintendo 64",
+      "release_year": 1999,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "klonoa-door-to-phantomile-playstation",
+      "title": "Klonoa: Door to Phantomile",
+      "platform": "PlayStation",
+      "release_year": 1997,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "lylat-wars-nintendo-64",
+      "title": "Lylat Wars",
+      "platform": "Nintendo 64",
+      "release_year": 1997,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "meteos-nintendo-ds",
+      "title": "Meteos",
+      "platform": "Nintendo DS",
+      "release_year": 2005,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "radiant-historia-nintendo-ds",
+      "title": "Radiant Historia",
+      "platform": "Nintendo DS",
+      "release_year": 2010,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "sonic-knuckles-sega-genesis",
+      "title": "Sonic & Knuckles",
+      "platform": "Sega Genesis",
+      "release_year": 1994,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "soul-blade-playstation",
+      "title": "Soul Blade",
+      "platform": "PlayStation",
+      "release_year": 1997,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "spyro-2-riptos-rage-playstation",
+      "title": "Spyro 2: Ripto's Rage!",
+      "platform": "PlayStation",
+      "release_year": 1999,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "star-fox-64-nintendo-64",
+      "title": "Star Fox 64",
+      "platform": "Nintendo 64",
+      "release_year": 1997,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "super-castlevania-iv-super-nintendo",
+      "title": "Super Castlevania IV",
+      "platform": "Super Nintendo",
+      "release_year": 1991,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "super-mario-all-stars-super-nintendo",
+      "title": "Super Mario All-Stars",
+      "platform": "Super Nintendo",
+      "release_year": 1993,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "tactics-ogre-super-nintendo",
+      "title": "Tactics Ogre",
+      "platform": "Super Nintendo",
+      "release_year": 1995,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "teenage-mutant-ninja-turtles-iv-super-nintendo",
+      "title": "Teenage Mutant Ninja Turtles IV",
+      "platform": "Super Nintendo",
+      "release_year": 1992,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "xenogears-playstation",
+      "title": "Xenogears",
+      "platform": "PlayStation",
+      "release_year": 1998,
+      "metascore": 88,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "animal-crossing-wild-world-nintendo-ds",
+      "title": "Animal Crossing: Wild World",
+      "platform": "Nintendo DS",
+      "release_year": 2005,
+      "metascore": 87,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "astro-boy-omega-factor-game-boy-advance",
+      "title": "Astro Boy: Omega Factor",
+      "platform": "Game Boy Advance",
+      "release_year": 2004,
+      "metascore": 87,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "castlevania-circle-of-the-moon-game-boy-advance",
+      "title": "Castlevania: Circle of the Moon",
+      "platform": "Game Boy Advance",
+      "release_year": 2001,
+      "metascore": 87,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "contra-hard-corps-sega-genesis",
+      "title": "Contra: Hard Corps",
+      "platform": "Sega Genesis",
+      "release_year": 1994,
+      "metascore": 87,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "donkey-kong-game-boy",
+      "title": "Donkey Kong",
+      "platform": "Game Boy",
+      "release_year": 1994,
+      "metascore": 87,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "dragon-force-sega-saturn",
+      "title": "Dragon Force",
+      "platform": "Sega Saturn",
+      "release_year": 1996,
+      "metascore": 87,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "dragon-quest-ix-nintendo-ds",
+      "title": "Dragon Quest IX",
+      "platform": "Nintendo DS",
+      "release_year": 2009,
+      "metascore": 87,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "f-zero-super-nintendo",
+      "title": "F-Zero",
+      "platform": "Super Nintendo",
+      "release_year": 1991,
+      "metascore": 87,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "fighters-megamix-sega-saturn",
+      "title": "Fighters Megamix",
+      "platform": "Sega Saturn",
+      "release_year": 1997,
+      "metascore": 87,
+      "core_missing_fields": [
+        "genre"
+      ],
+      "asset_references": []
+    }
+  ],
+  "priority_enrichment_candidates": [
+    {
+      "game_id": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+      "title": "The Legend of Zelda: Ocarina of Time",
+      "platform": "Nintendo 64",
+      "release_year": 1998,
+      "metascore": 99,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "panzer-dragoon-saga-sega-saturn",
+      "title": "Panzer Dragoon Saga",
+      "platform": "Sega Saturn",
+      "release_year": 1998,
+      "metascore": 98,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "soul-calibur-dreamcast",
+      "title": "Soul Calibur",
+      "platform": "Dreamcast",
+      "release_year": 1999,
+      "metascore": 98,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "perfect-dark-nintendo-64",
+      "title": "Perfect Dark",
+      "platform": "Nintendo 64",
+      "release_year": 2000,
+      "metascore": 97,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "super-mario-64-nintendo-64",
+      "title": "Super Mario 64",
+      "platform": "Nintendo 64",
+      "release_year": 1996,
+      "metascore": 97,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+      "title": "Super Mario Bros. 3",
+      "platform": "Nintendo Entertainment System",
+      "release_year": 1990,
+      "metascore": 97,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": [
+        "assets/generated_gb/super-mario-bros-3.png"
+      ]
+    },
+    {
+      "game_id": "goldeneye-007-nintendo-64",
+      "title": "GoldenEye 007",
+      "platform": "Nintendo 64",
+      "release_year": 1997,
+      "metascore": 96,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "yoshi-island-super-nintendo",
+      "title": "Super Mario World 2: Yoshi's Island",
+      "platform": "Super Nintendo",
+      "release_year": 1995,
+      "metascore": 96,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "platform": "Super Nintendo",
+      "release_year": 1994,
+      "metascore": 96,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": [
+        "assets/generated_gb/super-metroid.png"
+      ]
+    },
+    {
+      "game_id": "tekken-3-playstation",
+      "title": "Tekken 3",
+      "platform": "PlayStation",
+      "release_year": 1998,
+      "metascore": 96,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": [
+        "assets/generated_gb/tekken-3.png"
+      ]
+    },
+    {
+      "game_id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+      "title": "The Legend of Zelda: A Link to the Past",
+      "platform": "Super Nintendo",
+      "release_year": 1991,
+      "metascore": 95,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "the-legend-of-zelda-a-link-to-the-past-game-boy-advance",
+      "title": "The Legend of Zelda: A Link to the Past",
+      "platform": "Game Boy Advance",
+      "release_year": 2002,
+      "metascore": 95,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "majoras-mask-nintendo-64",
+      "title": "The Legend of Zelda: Majora's Mask",
+      "platform": "Nintendo 64",
+      "release_year": 2000,
+      "metascore": 95,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "the-legend-of-zelda-majoras-mask-nintendo-64",
+      "title": "The Legend of Zelda: Majora's Mask",
+      "platform": "Nintendo 64",
+      "release_year": 2000,
+      "metascore": 95,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "banjo-kazooie-nintendo-64",
+      "title": "Banjo-Kazooie",
+      "platform": "Nintendo 64",
+      "release_year": 1998,
+      "metascore": 94,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "castlevania-rondo-of-blood-turbografx-16",
+      "title": "Castlevania: Rondo of Blood",
+      "platform": "TurboGrafx-16",
+      "release_year": 1993,
+      "metascore": 94,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "final-fantasy-vi-advance-game-boy-advance",
+      "title": "Final Fantasy VI Advance",
+      "platform": "Game Boy Advance",
+      "release_year": 2006,
+      "metascore": 94,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "metal-gear-solid-playstation",
+      "title": "Metal Gear Solid",
+      "platform": "PlayStation",
+      "release_year": 1998,
+      "metascore": 94,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": [
+        "assets/generated_gb/metal-gear-solid.png"
+      ]
+    },
+    {
+      "game_id": "metal-slug-3-neo-geo",
+      "title": "Metal Slug 3",
+      "platform": "Neo Geo",
+      "release_year": 2000,
+      "metascore": 94,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "radiant-silvergun-sega-saturn",
+      "title": "Radiant Silvergun",
+      "platform": "Sega Saturn",
+      "release_year": 1998,
+      "metascore": 94,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "super-mario-world-super-nintendo",
+      "title": "Super Mario World",
+      "platform": "Super Nintendo",
+      "release_year": 1990,
+      "metascore": 94,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": [
+        "assets/generated_gb/super-mario-world.png"
+      ]
+    },
+    {
+      "game_id": "tony-hawks-pro-skater-2-dreamcast",
+      "title": "Tony Hawk's Pro Skater 2",
+      "platform": "Dreamcast",
+      "release_year": 2000,
+      "metascore": 94,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "castlevania-symphony-of-the-night-playstation",
+      "title": "Castlevania: Symphony of the Night",
+      "platform": "PlayStation",
+      "release_year": 1997,
+      "metascore": 93,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "earthbound-super-nintendo",
+      "title": "EarthBound",
+      "platform": "Super Nintendo",
+      "release_year": 1995,
+      "metascore": 93,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": [
+        "assets/generated_gb/earthbound.png"
+      ]
+    },
+    {
+      "game_id": "gunstar-heroes-sega-genesis",
+      "title": "Gunstar Heroes",
+      "platform": "Sega Genesis",
+      "release_year": 1993,
+      "metascore": 93,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "ikaruga-dreamcast",
+      "title": "Ikaruga",
+      "platform": "Dreamcast",
+      "release_year": 2002,
+      "metascore": 93,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "kirby-adventure-nintendo-entertainment-system",
+      "title": "Kirby's Adventure",
+      "platform": "Nintendo Entertainment System",
+      "release_year": 1993,
+      "metascore": 93,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "paper-mario-nintendo-64",
+      "title": "Paper Mario",
+      "platform": "Nintendo 64",
+      "release_year": 2001,
+      "metascore": 93,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "skies-of-arcadia-dreamcast",
+      "title": "Skies of Arcadia",
+      "platform": "Dreamcast",
+      "release_year": 2000,
+      "metascore": 93,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "the-king-of-fighters-98-neo-geo",
+      "title": "The King of Fighters '98",
+      "platform": "Neo Geo",
+      "release_year": 1998,
+      "metascore": 93,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "wave-race-64-nintendo-64",
+      "title": "Wave Race 64",
+      "platform": "Nintendo 64",
+      "release_year": 1996,
+      "metascore": 93,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "advance-wars-game-boy-advance",
+      "title": "Advance Wars",
+      "platform": "Game Boy Advance",
+      "release_year": 2001,
+      "metascore": 92,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "chrono-trigger-nintendo-ds",
+      "title": "Chrono Trigger",
+      "platform": "Nintendo DS",
+      "release_year": 2008,
+      "metascore": 92,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "final-fantasy-vi-super-nintendo",
+      "title": "Final Fantasy VI",
+      "platform": "Super Nintendo",
+      "release_year": 1994,
+      "metascore": 92,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "final-fantasy-vii-playstation",
+      "title": "Final Fantasy VII",
+      "platform": "PlayStation",
+      "release_year": 1997,
+      "metascore": 92,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": [
+        "assets/generated_gb/final-fantasy-vii.png"
+      ]
+    },
+    {
+      "game_id": "garou-mark-of-the-wolves-neo-geo",
+      "title": "Garou: Mark of the Wolves",
+      "platform": "Neo Geo",
+      "release_year": 1999,
+      "metascore": 92,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "streets-of-rage-2-sega-genesis",
+      "title": "Streets of Rage 2",
+      "platform": "Sega Genesis",
+      "release_year": 1992,
+      "metascore": 92,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "vagrant-story-playstation",
+      "title": "Vagrant Story",
+      "platform": "PlayStation",
+      "release_year": 2000,
+      "metascore": 92,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": [
+        "assets/generated_gb/vagrant-story.png"
+      ]
+    },
+    {
+      "game_id": "castlevania-aria-of-sorrow-game-boy-advance",
+      "title": "Castlevania: Aria of Sorrow",
+      "platform": "Game Boy Advance",
+      "release_year": 2003,
+      "metascore": 91,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "castlevania-symphony-of-the-night-sega-saturn",
+      "title": "Castlevania: Symphony of the Night",
+      "platform": "Sega Saturn",
+      "release_year": 1998,
+      "metascore": 91,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "donkey-kong-country-2-super-nintendo",
+      "title": "Donkey Kong Country 2",
+      "platform": "Super Nintendo",
+      "release_year": 1995,
+      "metascore": 91,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": [
+        "assets/generated_gb/donkey-kong-country-2.png"
+      ]
+    },
+    {
+      "game_id": "ghost-trick-phantom-detective-nintendo-ds",
+      "title": "Ghost Trick: Phantom Detective",
+      "platform": "Nintendo DS",
+      "release_year": 2010,
+      "metascore": 91,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "golden-sun-game-boy-advance",
+      "title": "Golden Sun",
+      "platform": "Game Boy Advance",
+      "release_year": 2001,
+      "metascore": 91,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "mario-kart-ds-nintendo-ds",
+      "title": "Mario Kart DS",
+      "platform": "Nintendo DS",
+      "release_year": 2005,
+      "metascore": 91,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "marvel-vs-capcom-2-dreamcast",
+      "title": "Marvel vs. Capcom 2",
+      "platform": "Dreamcast",
+      "release_year": 2000,
+      "metascore": 91,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "metal-slug-neo-geo",
+      "title": "Metal Slug",
+      "platform": "Neo Geo",
+      "release_year": 1996,
+      "metascore": 91,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "pokemon-gold-game-boy",
+      "title": "Pok\u00e9mon Gold",
+      "platform": "Game Boy",
+      "release_year": 2000,
+      "metascore": 91,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": [
+        "assets/generated_gb/pokemon-gold.png"
+      ]
+    },
+    {
+      "game_id": "pokemon-silver-game-boy",
+      "title": "Pok\u00e9mon Silver",
+      "platform": "Game Boy",
+      "release_year": 2000,
+      "metascore": 91,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": [
+        "assets/generated_gb/pokemon-silver.png"
+      ]
+    },
+    {
+      "game_id": "oracle-of-ages-game-boy",
+      "title": "The Legend of Zelda: Oracle of Ages",
+      "platform": "Game Boy",
+      "release_year": 2001,
+      "metascore": 91,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    },
+    {
+      "game_id": "oracle-of-seasons-game-boy",
+      "title": "The Legend of Zelda: Oracle of Seasons",
+      "platform": "Game Boy",
+      "release_year": 2001,
+      "metascore": 91,
+      "enrichment_missing_fields": [
+        "publisher",
+        "franchise"
+      ],
+      "asset_references": []
+    }
+  ]
+}

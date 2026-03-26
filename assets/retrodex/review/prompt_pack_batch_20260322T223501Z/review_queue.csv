@@ -1,0 +1,11 @@
+game_id,title,platform,risk_level,status,decision,decision_reason,reviewer_notes,prompt_pack_json,prompt_pack_md,selected_for_generation
+the-legend-of-zelda-a-link-to-the-past-super-nintendo,The Legend of Zelda: A Link to the Past,Super Nintendo,high,PENDING_REVIEW,,,,packs/the-legend-of-zelda-a-link-to-the-past-super-nintendo.json,packs/the-legend-of-zelda-a-link-to-the-past-super-nintendo.md,
+super-mario-world-super-nintendo,Super Mario World,Super Nintendo,high,PENDING_REVIEW,,,,packs/super-mario-world-super-nintendo.json,packs/super-mario-world-super-nintendo.md,
+earthbound-super-nintendo,EarthBound,Super Nintendo,high,PENDING_REVIEW,,,,packs/earthbound-super-nintendo.json,packs/earthbound-super-nintendo.md,
+final-fantasy-vi-super-nintendo,Final Fantasy VI,Super Nintendo,high,PENDING_REVIEW,,,,packs/final-fantasy-vi-super-nintendo.json,packs/final-fantasy-vi-super-nintendo.md,
+advance-wars-game-boy-advance,Advance Wars,Game Boy Advance,low,PENDING_REVIEW,,,,packs/advance-wars-game-boy-advance.json,packs/advance-wars-game-boy-advance.md,
+mega-man-x-super-nintendo,Mega Man X,Super Nintendo,high,PENDING_REVIEW,,,,packs/mega-man-x-super-nintendo.json,packs/mega-man-x-super-nintendo.md,
+donkey-kong-country-super-nintendo,Donkey Kong Country,Super Nintendo,high,PENDING_REVIEW,,,,packs/donkey-kong-country-super-nintendo.json,packs/donkey-kong-country-super-nintendo.md,
+contra-iii-alien-wars-super-nintendo,Contra III: The Alien Wars,Super Nintendo,low,PENDING_REVIEW,,,,packs/contra-iii-alien-wars-super-nintendo.json,packs/contra-iii-alien-wars-super-nintendo.md,
+sonic-the-hedgehog-2-sega-genesis,Sonic the Hedgehog 2,Sega Genesis,high,PENDING_REVIEW,,,,packs/sonic-the-hedgehog-2-sega-genesis.json,packs/sonic-the-hedgehog-2-sega-genesis.md,
+kirby-dream-land-game-boy,Kirby's Dream Land,Game Boy,high,PENDING_REVIEW,,,,packs/kirby-dream-land-game-boy.json,packs/kirby-dream-land-game-boy.md,

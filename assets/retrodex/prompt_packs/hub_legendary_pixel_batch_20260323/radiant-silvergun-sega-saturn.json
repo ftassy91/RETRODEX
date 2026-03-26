@@ -1,0 +1,6 @@
+{
+    "game_id":  "radiant-silvergun-sega-saturn",
+    "title":  "Radiant Silvergun",
+    "prompt":  "Original pixel art illustration inspired by a 32-bit vertical sci-fi shooter. A sharp silver starfighter dives toward a massive biomechanical boss above a glowing planet horizon, with a few luminous beams crossing the frame. Visual focus: one starfighter, one boss threat, readable in 1 second. Style: premium Saturn-era pixel art, high contrast, crisp sprite clusters, elegant arcade sci-fi palette, no blur. Mood: intense, apocalyptic, elite. Composition: ship foreground, boss upper center, planet horizon below, minimal clutter. Important: do not replicate official Radiant Silvergun ship art, logos, UI, or exact boss designs. Must feel original but evoke legendary arcade shooting.",
+    "negative_prompt":  "official Radiant Silvergun ship design, logo, text, exact boss art, realistic 3D, painted concept art"
+}

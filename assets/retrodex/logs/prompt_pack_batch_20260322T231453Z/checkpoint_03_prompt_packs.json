@@ -1,0 +1,2179 @@
+[
+  {
+    "game_id": "tetris-game-boy",
+    "slug": "tetris-game-boy",
+    "title": "Tetris",
+    "platform": "Game Boy",
+    "year": 1989,
+    "developer": "Nintendo R&D1",
+    "metascore": 98,
+    "rarity": "COMMON",
+    "genre_primary": "Puzzle",
+    "genre_secondary": "Retro",
+    "bucket": "puzzle_abstract",
+    "priority": 989,
+    "platform_style_id": "gameboy_monochrome_story",
+    "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+    "palette_hint": [
+      "#0f380f",
+      "#306230",
+      "#8bac0f",
+      "#cadc9f"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "tetris"
+    ],
+    "memory_rule_id": "tetris_head_on_playfield",
+    "main_subject": "a nearly complete wall of interlocking blocks with one falling piece above a tight gap",
+    "environment": "a tall glowing playfield seen head-on like a handheld puzzle screen in the dark",
+    "action_mood_cue": "caught one instant before the final drop locks into place",
+    "mood": [
+      "focused",
+      "clean",
+      "hypnotic"
+    ],
+    "composition": "single vertical playfield, one falling piece, no isometric explosion, no extra decoration",
+    "memory_hook": "falling rhythm, spatial pressure, and instant readability",
+    "legal_watchouts": [
+      "avoid official block arrangements from known promo art",
+      "avoid branded UI framing",
+      "avoid floating cube sculpture compositions"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Puzzle game.\n\nA nearly complete wall of interlocking blocks with one falling piece above a tight gap in a tall glowing playfield seen head-on like a handheld puzzle screen in the dark, caught one instant before the final drop locks into place.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- focused, clean, hypnotic\n\nComposition:\n- single vertical playfield, one falling piece, no isometric explosion, no extra decoration\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official block arrangements from known promo art, avoid branded UI framing, avoid floating cube sculpture compositions, avoid resemblance to tetris",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "super-metroid-super-nintendo",
+    "slug": "super-metroid-super-nintendo",
+    "title": "Super Metroid",
+    "platform": "Super Nintendo",
+    "year": 1994,
+    "developer": "Nintendo",
+    "metascore": 96,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Action-Adventure",
+    "genre_secondary": "Fantasy",
+    "bucket": "sci_fi_action",
+    "priority": 984,
+    "platform_style_id": "snes_storybook_16bit",
+    "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+    "palette_hint": [
+      "#1f2041",
+      "#4b3f72",
+      "#ffc857",
+      "#f4f1de"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "metroid"
+    ],
+    "memory_rule_id": "metroid_hostile_passage",
+    "main_subject": "a lone armored explorer with an arm-mounted tool",
+    "environment": "an alien cavern with massive biomechanical pillars, acid glow, and a dark passage ahead",
+    "action_mood_cue": "aiming the arm-mounted tool into the dark in hostile silence",
+    "mood": [
+      "isolated",
+      "mysterious",
+      "alien"
+    ],
+    "composition": "single explorer foreground, one clear passage, deep cavern layers, sparse readable glow",
+    "memory_hook": "exploration, alien solitude, and hostile vertical space",
+    "legal_watchouts": [
+      "avoid Samus suit likeness",
+      "avoid Metroid creature silhouette",
+      "avoid Chozo-like symbols",
+      "avoid sword-like weapon silhouettes"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA lone armored explorer with an arm-mounted tool in an alien cavern with massive biomechanical pillars, acid glow, and a dark passage ahead, aiming the arm-mounted tool into the dark in hostile silence.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- isolated, mysterious, alien\n\nComposition:\n- single explorer foreground, one clear passage, deep cavern layers, sparse readable glow\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Samus suit likeness, avoid Metroid creature silhouette, avoid Chozo-like symbols, avoid sword-like weapon silhouettes, avoid resemblance to metroid",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "super-mario-bros-3-nintendo-entertainment-system",
+    "slug": "super-mario-bros-3-nintendo-entertainment-system",
+    "title": "Super Mario Bros. 3",
+    "platform": "Nintendo Entertainment System",
+    "year": 1990,
+    "developer": "Nintendo R&D4",
+    "metascore": 97,
+    "rarity": "COMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Playful",
+    "bucket": "platformer_cartoon",
+    "priority": 980,
+    "platform_style_id": "nes_restrained_poster",
+    "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+    "palette_hint": [
+      "#0d1b2a",
+      "#415a77",
+      "#c8d5b9",
+      "#f4d35e"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "mario"
+    ],
+    "memory_rule_id": "super_mario_bros_3_stage_read",
+    "main_subject": "a small agile explorer in side view",
+    "environment": "a theatrical side-scrolling platform course with layered block islands, suspended platforms, and open sky",
+    "action_mood_cue": "caught in a clean upward leap over a gap",
+    "mood": [
+      "playful",
+      "nimble",
+      "bright"
+    ],
+    "composition": "single explorer only, side-view read, one jump arc, no crowd, no abstract stripes",
+    "memory_hook": "2D jump rhythm, stage-like worlds, and forward platform momentum",
+    "legal_watchouts": [
+      "avoid Mario likeness",
+      "avoid mustache and hat codes",
+      "avoid official mushrooms or stars",
+      "avoid purely graphic stripe backgrounds"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Platformer game.\n\nA small agile explorer in side view in a theatrical side-scrolling platform course with layered block islands, suspended platforms, and open sky, caught in a clean upward leap over a gap.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- playful, nimble, bright\n\nComposition:\n- single explorer only, side-view read, one jump arc, no crowd, no abstract stripes\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Mario likeness, avoid mustache and hat codes, avoid official mushrooms or stars, avoid purely graphic stripe backgrounds, avoid resemblance to mario",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "tekken-3-playstation",
+    "slug": "tekken-3-playstation",
+    "title": "Tekken 3",
+    "platform": "PlayStation",
+    "year": 1998,
+    "developer": "Namco",
+    "metascore": 96,
+    "rarity": "COMMON",
+    "genre_primary": "Fighting",
+    "genre_secondary": "Combat",
+    "bucket": "fighting",
+    "priority": 978,
+    "platform_style_id": "ps1_pixel_editorial",
+    "platform_style_description": "PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels",
+    "palette_hint": [
+      "#11151c",
+      "#364156",
+      "#d66853",
+      "#f3dfa2"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "tekken"
+    ],
+    "memory_rule_id": "tekken_urban_pressure",
+    "main_subject": "a lone street fighter in a tight guard stance",
+    "environment": "a neon-lit concrete rooftop or industrial training floor at night",
+    "action_mood_cue": "framed before impact under one harsh backlight",
+    "mood": [
+      "intense",
+      "athletic",
+      "urban"
+    ],
+    "composition": "single fighter only, no crowd, low camera, one dominant light source, strong shadow",
+    "memory_hook": "close-range pressure, impact timing, and urban combat attitude",
+    "legal_watchouts": [
+      "avoid roster character likeness",
+      "avoid signature hairstyles",
+      "avoid crowd scenes",
+      "avoid franchise costumes"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Fighting game.\n\nA lone street fighter in a tight guard stance in a neon-lit concrete rooftop or industrial training floor at night, framed before impact under one harsh backlight.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- intense, athletic, urban\n\nComposition:\n- single fighter only, no crowd, low camera, one dominant light source, strong shadow\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid roster character likeness, avoid signature hairstyles, avoid crowd scenes, avoid franchise costumes, avoid resemblance to tekken",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "yoshi-island-super-nintendo",
+    "slug": "yoshi-island-super-nintendo",
+    "title": "Super Mario World 2: Yoshi's Island",
+    "platform": "Super Nintendo",
+    "year": 1995,
+    "developer": "Nintendo EAD",
+    "metascore": 96,
+    "rarity": "COMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Playful",
+    "bucket": "platformer_cartoon",
+    "priority": 975,
+    "platform_style_id": "snes_storybook_16bit",
+    "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+    "palette_hint": [
+      "#1f2041",
+      "#4b3f72",
+      "#ffc857",
+      "#f4f1de"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "mario"
+    ],
+    "memory_rule_id": "super_mario_world_hill_route",
+    "main_subject": "a small agile explorer in side view",
+    "environment": "a bright side-scrolling course with rounded grassy hills, chunky ledges, and a clear path of platforms rising upward",
+    "action_mood_cue": "caught in a clean forward leap from one ledge to the next",
+    "mood": [
+      "bright",
+      "playful",
+      "nimble"
+    ],
+    "composition": "single explorer only, side-view read, one jump arc, rounded hill backdrop, and no crowd or decorative clutter",
+    "memory_hook": "clean jump rhythm, rounded hills, and cheerful forward platform momentum",
+    "legal_watchouts": [
+      "avoid Mario likeness",
+      "avoid mustache and cap codes",
+      "avoid official enemy silhouettes",
+      "avoid exact pipe or block layouts"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Platformer game.\n\nA small agile explorer in side view in a bright side-scrolling course with rounded grassy hills, chunky ledges, and a clear path of platforms rising upward, caught in a clean forward leap from one ledge to the next.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- bright, playful, nimble\n\nComposition:\n- single explorer only, side-view read, one jump arc, rounded hill backdrop, and no crowd or decorative clutter\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Mario likeness, avoid mustache and cap codes, avoid official enemy silhouettes, avoid exact pipe or block layouts, avoid resemblance to mario",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+    "slug": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+    "title": "The Legend of Zelda: A Link to the Past",
+    "platform": "Super Nintendo",
+    "year": 1991,
+    "developer": "Nintendo",
+    "metascore": 95,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Action-Adventure",
+    "genre_secondary": "Fantasy",
+    "bucket": "fantasy_adventure",
+    "priority": 971,
+    "platform_style_id": "snes_storybook_16bit",
+    "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+    "palette_hint": [
+      "#1f2041",
+      "#4b3f72",
+      "#ffc857",
+      "#f4f1de"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "link",
+      "zelda"
+    ],
+    "memory_rule_id": "zelda_mainline_horizon",
+    "main_subject": "a small solitary adventurer with a simple sword and round shield",
+    "environment": "a windswept fantasy field or shoreline facing one monumental ancient landmark on the horizon",
+    "action_mood_cue": "pausing in the wind before the journey continues",
+    "mood": [
+      "mysterious",
+      "heroic",
+      "dreamlike"
+    ],
+    "composition": "small foreground subject, one dominant distant landmark, broad open space, clean sky and very low clutter",
+    "memory_hook": "solitary overworld discovery, mythic destination, and horizon-driven adventure",
+    "legal_watchouts": [
+      "avoid Link likeness",
+      "avoid Triforce-like symbols",
+      "avoid official shield patterns"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA small solitary adventurer with a simple sword and round shield in a windswept fantasy field or shoreline facing one monumental ancient landmark on the horizon, pausing in the wind before the journey continues.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- mysterious, heroic, dreamlike\n\nComposition:\n- small foreground subject, one dominant distant landmark, broad open space, clean sky and very low clutter\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Link likeness, avoid Triforce-like symbols, avoid official shield patterns, avoid resemblance to link, avoid resemblance to zelda",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "metal-gear-solid-playstation",
+    "slug": "metal-gear-solid-playstation",
+    "title": "Metal Gear Solid",
+    "platform": "PlayStation",
+    "year": 1998,
+    "developer": "Konami",
+    "metascore": 94,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Action-Stealth",
+    "genre_secondary": "Retro",
+    "bucket": "sci_fi_action",
+    "priority": 968,
+    "platform_style_id": "ps1_pixel_editorial",
+    "platform_style_description": "PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels",
+    "palette_hint": [
+      "#11151c",
+      "#364156",
+      "#d66853",
+      "#f3dfa2"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "metal gear"
+    ],
+    "memory_rule_id": "",
+    "main_subject": "a lone covert operative silhouette with compact gear",
+    "environment": "a tense high-tech corridor or facility edge",
+    "action_mood_cue": "moving carefully through hard shadow and cold light",
+    "mood": [
+      "stealthy",
+      "tense",
+      "controlled"
+    ],
+    "composition": "single silhouette, corridor depth, strong light break, minimal props",
+    "memory_hook": "stealth, infiltration, and intelligence thriller mood",
+    "legal_watchouts": [
+      "avoid specific spy likeness",
+      "avoid weapon replicas",
+      "avoid franchise logos or device designs"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-Stealth game.\n\nA lone covert operative silhouette with compact gear in a tense high-tech corridor or facility edge, moving carefully through hard shadow and cold light.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- stealthy, tense, controlled\n\nComposition:\n- single silhouette, corridor depth, strong light break, minimal props\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid specific spy likeness, avoid weapon replicas, avoid franchise logos or device designs, avoid resemblance to metal gear",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "castlevania-symphony-of-the-night-playstation",
+    "slug": "castlevania-symphony-of-the-night-playstation",
+    "title": "Castlevania: Symphony of the Night",
+    "platform": "PlayStation",
+    "year": 1997,
+    "developer": "Konami",
+    "metascore": 93,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Action-RPG",
+    "genre_secondary": "Retro",
+    "bucket": "fantasy_adventure",
+    "priority": 957,
+    "platform_style_id": "ps1_pixel_editorial",
+    "platform_style_description": "PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels",
+    "palette_hint": [
+      "#11151c",
+      "#364156",
+      "#d66853",
+      "#f3dfa2"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "castlevania"
+    ],
+    "memory_rule_id": "castlevania_sotn_window_moon",
+    "main_subject": "a lone pale swordsman silhouette in a long coat",
+    "environment": "a moonlit castle hall with one towering gothic window and drifting mist",
+    "action_mood_cue": "standing still in eerie confidence before moving deeper into the castle",
+    "mood": [
+      "gothic",
+      "elegant",
+      "ominous"
+    ],
+    "composition": "single swordsman only, one giant window, one moon glow, sparse stone detail, and strong late-90s pixel mood",
+    "memory_hook": "castle solitude, elegant darkness, and a single iconic moonlit interior",
+    "legal_watchouts": [
+      "avoid Alucard likeness",
+      "avoid exact coat and hair details",
+      "avoid official sword shapes",
+      "avoid Dracula iconography"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-RPG game.\n\nA lone pale swordsman silhouette in a long coat in a moonlit castle hall with one towering gothic window and drifting mist, standing still in eerie confidence before moving deeper into the castle.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- gothic, elegant, ominous\n\nComposition:\n- single swordsman only, one giant window, one moon glow, sparse stone detail, and strong late-90s pixel mood\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Alucard likeness, avoid exact coat and hair details, avoid official sword shapes, avoid Dracula iconography, avoid resemblance to castlevania",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "kirby-adventure-nintendo-entertainment-system",
+    "slug": "kirby-adventure-nintendo-entertainment-system",
+    "title": "Kirby's Adventure",
+    "platform": "Nintendo Entertainment System",
+    "year": 1993,
+    "developer": "HAL Laboratory",
+    "metascore": 93,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Playful",
+    "bucket": "platformer_cartoon",
+    "priority": 953,
+    "platform_style_id": "nes_restrained_poster",
+    "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+    "palette_hint": [
+      "#0d1b2a",
+      "#415a77",
+      "#c8d5b9",
+      "#f4d35e"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "kirby"
+    ],
+    "memory_rule_id": "kirby_adventure_star_jump",
+    "main_subject": "a tiny round traveler with simple feet and bright eyes riding a star-like trail",
+    "environment": "a soft side-scrolling dream sky with rounded clouds and a layered pastel horizon",
+    "action_mood_cue": "gliding joyfully through the air in a clean arc",
+    "mood": [
+      "light",
+      "cheerful",
+      "dreamlike"
+    ],
+    "composition": "single round traveler only, one star trail, wide sky, very low clutter, and clean side-view readability",
+    "memory_hook": "floaty dreamland movement, star ride energy, and cheerful handheld-to-console charm",
+    "legal_watchouts": [
+      "avoid exact Kirby face proportions",
+      "avoid Warp Star exact shape",
+      "avoid official enemy silhouettes",
+      "avoid franchise logos"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Platformer game.\n\nA tiny round traveler with simple feet and bright eyes riding a star-like trail in a soft side-scrolling dream sky with rounded clouds and a layered pastel horizon, gliding joyfully through the air in a clean arc.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- light, cheerful, dreamlike\n\nComposition:\n- single round traveler only, one star trail, wide sky, very low clutter, and clean side-view readability\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid exact Kirby face proportions, avoid Warp Star exact shape, avoid official enemy silhouettes, avoid franchise logos, avoid resemblance to kirby",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "super-mario-world-super-nintendo",
+    "slug": "super-mario-world-super-nintendo",
+    "title": "Super Mario World",
+    "platform": "Super Nintendo",
+    "year": 1990,
+    "developer": "Nintendo",
+    "metascore": 94,
+    "rarity": "COMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Playful",
+    "bucket": "platformer_cartoon",
+    "priority": 950,
+    "platform_style_id": "snes_storybook_16bit",
+    "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+    "palette_hint": [
+      "#1f2041",
+      "#4b3f72",
+      "#ffc857",
+      "#f4f1de"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "mario"
+    ],
+    "memory_rule_id": "super_mario_world_hill_route",
+    "main_subject": "a small agile explorer in side view",
+    "environment": "a bright side-scrolling course with rounded grassy hills, chunky ledges, and a clear path of platforms rising upward",
+    "action_mood_cue": "caught in a clean forward leap from one ledge to the next",
+    "mood": [
+      "bright",
+      "playful",
+      "nimble"
+    ],
+    "composition": "single explorer only, side-view read, one jump arc, rounded hill backdrop, and no crowd or decorative clutter",
+    "memory_hook": "clean jump rhythm, rounded hills, and cheerful forward platform momentum",
+    "legal_watchouts": [
+      "avoid Mario likeness",
+      "avoid mustache and cap codes",
+      "avoid official enemy silhouettes",
+      "avoid exact pipe or block layouts"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Platformer game.\n\nA small agile explorer in side view in a bright side-scrolling course with rounded grassy hills, chunky ledges, and a clear path of platforms rising upward, caught in a clean forward leap from one ledge to the next.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- bright, playful, nimble\n\nComposition:\n- single explorer only, side-view read, one jump arc, rounded hill backdrop, and no crowd or decorative clutter\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Mario likeness, avoid mustache and cap codes, avoid official enemy silhouettes, avoid exact pipe or block layouts, avoid resemblance to mario",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "earthbound-super-nintendo",
+    "slug": "earthbound-super-nintendo",
+    "title": "EarthBound",
+    "platform": "Super Nintendo",
+    "year": 1995,
+    "developer": "HAL Laboratory",
+    "metascore": 93,
+    "rarity": "EPIC",
+    "genre_primary": "RPG",
+    "genre_secondary": "Epic",
+    "bucket": "rpg_epic",
+    "priority": 950,
+    "platform_style_id": "snes_storybook_16bit",
+    "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+    "palette_hint": [
+      "#1f2041",
+      "#4b3f72",
+      "#ffc857",
+      "#f4f1de"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "earthbound"
+    ],
+    "memory_rule_id": "earthbound_suburban_meteor",
+    "main_subject": "a small suburban kid silhouette with a simple bat-like shape held low",
+    "environment": "a quiet neighborhood street at night with one glowing crater or meteor-like light source ahead",
+    "action_mood_cue": "approaching the strange glow with cautious curiosity",
+    "mood": [
+      "weird",
+      "curious",
+      "quiet"
+    ],
+    "composition": "single kid silhouette only, one suburban street read, one glowing crater landmark, and lots of quiet negative space",
+    "memory_hook": "ordinary suburb disrupted by cosmic weirdness and the beginning of an odd journey",
+    "legal_watchouts": [
+      "avoid Ness likeness",
+      "avoid striped shirt codes",
+      "avoid Mr. Saturn or enemy silhouettes",
+      "avoid exact meteor framing from official art"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro RPG game.\n\nA small suburban kid silhouette with a simple bat-like shape held low in a quiet neighborhood street at night with one glowing crater or meteor-like light source ahead, approaching the strange glow with cautious curiosity.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- weird, curious, quiet\n\nComposition:\n- single kid silhouette only, one suburban street read, one glowing crater landmark, and lots of quiet negative space\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Ness likeness, avoid striped shirt codes, avoid Mr. Saturn or enemy silhouettes, avoid exact meteor framing from official art, avoid resemblance to earthbound",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "vagrant-story-playstation",
+    "slug": "vagrant-story-playstation",
+    "title": "Vagrant Story",
+    "platform": "PlayStation",
+    "year": 2000,
+    "developer": "Square",
+    "metascore": 92,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Action-RPG",
+    "genre_secondary": "Retro",
+    "bucket": "rpg_epic",
+    "priority": 950,
+    "platform_style_id": "ps1_pixel_editorial",
+    "platform_style_description": "PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels",
+    "palette_hint": [
+      "#11151c",
+      "#364156",
+      "#d66853",
+      "#f3dfa2"
+    ],
+    "risk_level": "low",
+    "risk_reasons": [
+      "generic_atmosphere_safe"
+    ],
+    "memory_rule_id": "vagrant_story_ruined_city",
+    "main_subject": "a lone rogue silhouette with a compact blade",
+    "environment": "a torchlit ruined city corridor of stone arches, chains, and narrow light shafts",
+    "action_mood_cue": "advancing carefully through a forgotten city-state ruin",
+    "mood": [
+      "tense",
+      "gothic",
+      "investigative"
+    ],
+    "composition": "single rogue only, one corridor path, one torch or light shaft focus, and layered ruin depth",
+    "memory_hook": "solitary infiltration, ruined stone city, and dense late-PS1 atmosphere",
+    "legal_watchouts": [
+      "avoid Ashley likeness",
+      "avoid exact blade or crossbow designs",
+      "avoid official city iconography",
+      "avoid franchise logos"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-RPG game.\n\nA lone rogue silhouette with a compact blade in a torchlit ruined city corridor of stone arches, chains, and narrow light shafts, advancing carefully through a forgotten city-state ruin.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- tense, gothic, investigative\n\nComposition:\n- single rogue only, one corridor path, one torch or light shaft focus, and layered ruin depth\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Ashley likeness, avoid exact blade or crossbow designs, avoid official city iconography, avoid franchise logos",
+    "legal_notes": "Risk level: low. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "final-fantasy-vi-super-nintendo",
+    "slug": "final-fantasy-vi-super-nintendo",
+    "title": "Final Fantasy VI",
+    "platform": "Super Nintendo",
+    "year": 1994,
+    "developer": "Square",
+    "metascore": 92,
+    "rarity": "UNCOMMON",
+    "genre_primary": "RPG",
+    "genre_secondary": "Epic",
+    "bucket": "rpg_epic",
+    "priority": 944,
+    "platform_style_id": "snes_storybook_16bit",
+    "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+    "palette_hint": [
+      "#1f2041",
+      "#4b3f72",
+      "#ffc857",
+      "#f4f1de"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "final fantasy"
+    ],
+    "memory_rule_id": "final_fantasy_vi_magitek_snow",
+    "main_subject": "a single armored walking machine with a rider silhouette",
+    "environment": "a snowy ridge at dusk with distant industrial lights and heavy cloud cover",
+    "action_mood_cue": "advancing slowly through the snow toward the glowing city below",
+    "mood": [
+      "epic",
+      "cold",
+      "foreboding"
+    ],
+    "composition": "single walking machine only, wide snow field, one distant city glow, and a strong diagonal march line",
+    "memory_hook": "snowbound opening, magitek march, and the feeling of a huge story about to unfold",
+    "legal_watchouts": [
+      "avoid official magitek walker designs",
+      "avoid Terra likeness",
+      "avoid franchise emblems",
+      "avoid exact opening shot recreation"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro RPG game.\n\nA single armored walking machine with a rider silhouette in a snowy ridge at dusk with distant industrial lights and heavy cloud cover, advancing slowly through the snow toward the glowing city below.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- epic, cold, foreboding\n\nComposition:\n- single walking machine only, wide snow field, one distant city glow, and a strong diagonal march line\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official magitek walker designs, avoid Terra likeness, avoid franchise emblems, avoid exact opening shot recreation, avoid resemblance to final fantasy",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "the-legend-of-zelda-nintendo-entertainment-system",
+    "slug": "the-legend-of-zelda-nintendo-entertainment-system",
+    "title": "The Legend of Zelda",
+    "platform": "Nintendo Entertainment System",
+    "year": 1987,
+    "developer": "Nintendo R&D4",
+    "metascore": 93,
+    "rarity": "COMMON",
+    "genre_primary": "Action-Adventure",
+    "genre_secondary": "Fantasy",
+    "bucket": "fantasy_adventure",
+    "priority": 937,
+    "platform_style_id": "nes_restrained_poster",
+    "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+    "palette_hint": [
+      "#0d1b2a",
+      "#415a77",
+      "#c8d5b9",
+      "#f4d35e"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "zelda"
+    ],
+    "memory_rule_id": "zelda_mainline_horizon",
+    "main_subject": "a small solitary adventurer with a simple sword and round shield",
+    "environment": "a windswept fantasy field or shoreline facing one monumental ancient landmark on the horizon",
+    "action_mood_cue": "pausing in the wind before the journey continues",
+    "mood": [
+      "mysterious",
+      "heroic",
+      "dreamlike"
+    ],
+    "composition": "small foreground subject, one dominant distant landmark, broad open space, clean sky and very low clutter",
+    "memory_hook": "solitary overworld discovery, mythic destination, and horizon-driven adventure",
+    "legal_watchouts": [
+      "avoid Link likeness",
+      "avoid Triforce-like symbols",
+      "avoid official shield patterns"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA small solitary adventurer with a simple sword and round shield in a windswept fantasy field or shoreline facing one monumental ancient landmark on the horizon, pausing in the wind before the journey continues.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- mysterious, heroic, dreamlike\n\nComposition:\n- small foreground subject, one dominant distant landmark, broad open space, clean sky and very low clutter\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Link likeness, avoid Triforce-like symbols, avoid official shield patterns, avoid resemblance to zelda",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "final-fantasy-vii-playstation",
+    "slug": "final-fantasy-vii-playstation",
+    "title": "Final Fantasy VII",
+    "platform": "PlayStation",
+    "year": 1997,
+    "developer": "Square",
+    "metascore": 92,
+    "rarity": "COMMON",
+    "genre_primary": "RPG",
+    "genre_secondary": "Epic",
+    "bucket": "rpg_epic",
+    "priority": 937,
+    "platform_style_id": "ps1_pixel_editorial",
+    "platform_style_description": "PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels",
+    "palette_hint": [
+      "#11151c",
+      "#364156",
+      "#d66853",
+      "#f3dfa2"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "final fantasy"
+    ],
+    "memory_rule_id": "final_fantasy_vi_magitek_snow",
+    "main_subject": "a single armored walking machine with a rider silhouette",
+    "environment": "a snowy ridge at dusk with distant industrial lights and heavy cloud cover",
+    "action_mood_cue": "advancing slowly through the snow toward the glowing city below",
+    "mood": [
+      "epic",
+      "cold",
+      "foreboding"
+    ],
+    "composition": "single walking machine only, wide snow field, one distant city glow, and a strong diagonal march line",
+    "memory_hook": "snowbound opening, magitek march, and the feeling of a huge story about to unfold",
+    "legal_watchouts": [
+      "avoid official magitek walker designs",
+      "avoid Terra likeness",
+      "avoid franchise emblems",
+      "avoid exact opening shot recreation"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro RPG game.\n\nA single armored walking machine with a rider silhouette in a snowy ridge at dusk with distant industrial lights and heavy cloud cover, advancing slowly through the snow toward the glowing city below.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- epic, cold, foreboding\n\nComposition:\n- single walking machine only, wide snow field, one distant city glow, and a strong diagonal march line\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official magitek walker designs, avoid Terra likeness, avoid franchise emblems, avoid exact opening shot recreation, avoid resemblance to final fantasy",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "oracle-of-ages-game-boy",
+    "slug": "oracle-of-ages-game-boy",
+    "title": "The Legend of Zelda: Oracle of Ages",
+    "platform": "Game Boy",
+    "year": 2001,
+    "developer": "Capcom",
+    "metascore": 91,
+    "rarity": "COMMON",
+    "genre_primary": "Action-Adventure",
+    "genre_secondary": "Fantasy",
+    "bucket": "fantasy_adventure",
+    "priority": 931,
+    "platform_style_id": "gameboy_monochrome_story",
+    "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+    "palette_hint": [
+      "#0f380f",
+      "#306230",
+      "#8bac0f",
+      "#cadc9f"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "zelda"
+    ],
+    "memory_rule_id": "zelda_mainline_horizon",
+    "main_subject": "a small solitary adventurer with a simple sword and round shield",
+    "environment": "a windswept fantasy field or shoreline facing one monumental ancient landmark on the horizon",
+    "action_mood_cue": "pausing in the wind before the journey continues",
+    "mood": [
+      "mysterious",
+      "heroic",
+      "dreamlike"
+    ],
+    "composition": "small foreground subject, one dominant distant landmark, broad open space, clean sky and very low clutter",
+    "memory_hook": "solitary overworld discovery, mythic destination, and horizon-driven adventure",
+    "legal_watchouts": [
+      "avoid Link likeness",
+      "avoid Triforce-like symbols",
+      "avoid official shield patterns"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA small solitary adventurer with a simple sword and round shield in a windswept fantasy field or shoreline facing one monumental ancient landmark on the horizon, pausing in the wind before the journey continues.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- mysterious, heroic, dreamlike\n\nComposition:\n- small foreground subject, one dominant distant landmark, broad open space, clean sky and very low clutter\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Link likeness, avoid Triforce-like symbols, avoid official shield patterns, avoid resemblance to zelda",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "oracle-of-seasons-game-boy",
+    "slug": "oracle-of-seasons-game-boy",
+    "title": "The Legend of Zelda: Oracle of Seasons",
+    "platform": "Game Boy",
+    "year": 2001,
+    "developer": "Capcom",
+    "metascore": 91,
+    "rarity": "COMMON",
+    "genre_primary": "Action-Adventure",
+    "genre_secondary": "Fantasy",
+    "bucket": "fantasy_adventure",
+    "priority": 931,
+    "platform_style_id": "gameboy_monochrome_story",
+    "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+    "palette_hint": [
+      "#0f380f",
+      "#306230",
+      "#8bac0f",
+      "#cadc9f"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "zelda"
+    ],
+    "memory_rule_id": "zelda_mainline_horizon",
+    "main_subject": "a small solitary adventurer with a simple sword and round shield",
+    "environment": "a windswept fantasy field or shoreline facing one monumental ancient landmark on the horizon",
+    "action_mood_cue": "pausing in the wind before the journey continues",
+    "mood": [
+      "mysterious",
+      "heroic",
+      "dreamlike"
+    ],
+    "composition": "small foreground subject, one dominant distant landmark, broad open space, clean sky and very low clutter",
+    "memory_hook": "solitary overworld discovery, mythic destination, and horizon-driven adventure",
+    "legal_watchouts": [
+      "avoid Link likeness",
+      "avoid Triforce-like symbols",
+      "avoid official shield patterns"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA small solitary adventurer with a simple sword and round shield in a windswept fantasy field or shoreline facing one monumental ancient landmark on the horizon, pausing in the wind before the journey continues.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- mysterious, heroic, dreamlike\n\nComposition:\n- small foreground subject, one dominant distant landmark, broad open space, clean sky and very low clutter\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Link likeness, avoid Triforce-like symbols, avoid official shield patterns, avoid resemblance to zelda",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "pokemon-gold-game-boy",
+    "slug": "pokemon-gold-game-boy",
+    "title": "Pokémon Gold",
+    "platform": "Game Boy",
+    "year": 2000,
+    "developer": "Game Freak",
+    "metascore": 91,
+    "rarity": "COMMON",
+    "genre_primary": "RPG",
+    "genre_secondary": "Epic",
+    "bucket": "rpg_epic",
+    "priority": 930,
+    "platform_style_id": "gameboy_monochrome_story",
+    "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+    "palette_hint": [
+      "#0f380f",
+      "#306230",
+      "#8bac0f",
+      "#cadc9f"
+    ],
+    "risk_level": "low",
+    "risk_reasons": [
+      "generic_atmosphere_safe"
+    ],
+    "memory_rule_id": "",
+    "main_subject": "a lone wanderer beside a glowing relic",
+    "environment": "a broad sacred horizon with ruins and story-scale depth",
+    "action_mood_cue": "standing in a calm moment before a larger quest",
+    "mood": [
+      "epic",
+      "melancholic",
+      "legendary"
+    ],
+    "composition": "single subject foreground, relic secondary, layered horizon",
+    "memory_hook": "scale, myth, and world-spanning stakes",
+    "legal_watchouts": [],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro RPG game.\n\nA lone wanderer beside a glowing relic in a broad sacred horizon with ruins and story-scale depth, standing in a calm moment before a larger quest.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- epic, melancholic, legendary\n\nComposition:\n- single subject foreground, relic secondary, layered horizon\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark",
+    "legal_notes": "Risk level: low. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "pokemon-silver-game-boy",
+    "slug": "pokemon-silver-game-boy",
+    "title": "Pokémon Silver",
+    "platform": "Game Boy",
+    "year": 2000,
+    "developer": "Game Freak",
+    "metascore": 91,
+    "rarity": "COMMON",
+    "genre_primary": "RPG",
+    "genre_secondary": "Epic",
+    "bucket": "rpg_epic",
+    "priority": 930,
+    "platform_style_id": "gameboy_monochrome_story",
+    "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+    "palette_hint": [
+      "#0f380f",
+      "#306230",
+      "#8bac0f",
+      "#cadc9f"
+    ],
+    "risk_level": "low",
+    "risk_reasons": [
+      "generic_atmosphere_safe"
+    ],
+    "memory_rule_id": "",
+    "main_subject": "a lone wanderer beside a glowing relic",
+    "environment": "a broad sacred horizon with ruins and story-scale depth",
+    "action_mood_cue": "standing in a calm moment before a larger quest",
+    "mood": [
+      "epic",
+      "melancholic",
+      "legendary"
+    ],
+    "composition": "single subject foreground, relic secondary, layered horizon",
+    "memory_hook": "scale, myth, and world-spanning stakes",
+    "legal_watchouts": [],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro RPG game.\n\nA lone wanderer beside a glowing relic in a broad sacred horizon with ruins and story-scale depth, standing in a calm moment before a larger quest.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- epic, melancholic, legendary\n\nComposition:\n- single subject foreground, relic secondary, layered horizon\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark",
+    "legal_notes": "Risk level: low. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "mike-tysons-punch-out-nintendo-entertainment-system",
+    "slug": "mike-tysons-punch-out-nintendo-entertainment-system",
+    "title": "Mike Tyson's Punch-Out!!",
+    "platform": "Nintendo Entertainment System",
+    "year": 1987,
+    "developer": "Nintendo R&D3",
+    "metascore": 91,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Sport",
+    "genre_secondary": "Combat",
+    "bucket": "sports",
+    "priority": 927,
+    "platform_style_id": "nes_restrained_poster",
+    "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+    "palette_hint": [
+      "#0d1b2a",
+      "#415a77",
+      "#c8d5b9",
+      "#f4d35e"
+    ],
+    "risk_level": "low",
+    "risk_reasons": [
+      "generic_atmosphere_safe"
+    ],
+    "memory_rule_id": "punch_out_corner_faceoff",
+    "main_subject": "a short determined boxer in gloves seen from the ring corner",
+    "environment": "a bright boxing ring with one huge opponent silhouette looming across the ropes",
+    "action_mood_cue": "bouncing lightly just before the opening bell",
+    "mood": [
+      "tense",
+      "arcade",
+      "underdog"
+    ],
+    "composition": "one small boxer foreground, one large opponent silhouette background, ring ropes framing the space, and no crowd detail",
+    "memory_hook": "size contrast, ring pressure, and the feeling of an impossible title fight",
+    "legal_watchouts": [
+      "avoid official boxer likeness",
+      "avoid exact roster proportions",
+      "avoid franchise UI",
+      "avoid branded trunks or gloves"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Sport game.\n\nA short determined boxer in gloves seen from the ring corner in a bright boxing ring with one huge opponent silhouette looming across the ropes, bouncing lightly just before the opening bell.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- tense, arcade, underdog\n\nComposition:\n- one small boxer foreground, one large opponent silhouette background, ring ropes framing the space, and no crowd detail\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official boxer likeness, avoid exact roster proportions, avoid franchise UI, avoid branded trunks or gloves",
+    "legal_notes": "Risk level: low. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "donkey-kong-country-2-super-nintendo",
+    "slug": "donkey-kong-country-2-super-nintendo",
+    "title": "Donkey Kong Country 2",
+    "platform": "Super Nintendo",
+    "year": 1995,
+    "developer": "Rare",
+    "metascore": 91,
+    "rarity": "COMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Playful",
+    "bucket": "platformer_cartoon",
+    "priority": 925,
+    "platform_style_id": "snes_storybook_16bit",
+    "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+    "palette_hint": [
+      "#1f2041",
+      "#4b3f72",
+      "#ffc857",
+      "#f4f1de"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "donkey kong"
+    ],
+    "memory_rule_id": "donkey_kong_country_mine_cart",
+    "main_subject": "a single mine cart racing along a broken jungle track",
+    "environment": "a dense jungle ravine with wooden rails, deep foliage, and a bright gap ahead",
+    "action_mood_cue": "caught one beat before the cart launches over a broken section",
+    "mood": [
+      "wild",
+      "kinetic",
+      "jungle"
+    ],
+    "composition": "single mine cart only, one clear rail path, layered jungle depth, and no character crowding the frame",
+    "memory_hook": "jungle platforming speed, mine cart danger, and heavy momentum over a gap",
+    "legal_watchouts": [
+      "avoid Kong likeness",
+      "avoid official barrel logos",
+      "avoid exact cart sprite shapes",
+      "avoid franchise lettering"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Platformer game.\n\nA single mine cart racing along a broken jungle track in a dense jungle ravine with wooden rails, deep foliage, and a bright gap ahead, caught one beat before the cart launches over a broken section.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- wild, kinetic, jungle\n\nComposition:\n- single mine cart only, one clear rail path, layered jungle depth, and no character crowding the frame\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Kong likeness, avoid official barrel logos, avoid exact cart sprite shapes, avoid franchise lettering, avoid resemblance to donkey kong",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "resident-evil-2-playstation",
+    "slug": "resident-evil-2-playstation",
+    "title": "Resident Evil 2",
+    "platform": "PlayStation",
+    "year": 1998,
+    "developer": "Capcom",
+    "metascore": 89,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Survival Horror",
+    "genre_secondary": "Horror",
+    "bucket": "survival_horror",
+    "priority": 918,
+    "platform_style_id": "ps1_pixel_editorial",
+    "platform_style_description": "PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels",
+    "palette_hint": [
+      "#11151c",
+      "#364156",
+      "#d66853",
+      "#f3dfa2"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "resident evil"
+    ],
+    "memory_rule_id": "",
+    "main_subject": "lone figure holding a flashlight",
+    "environment": "a dark corridor or threatening interior with one visible threshold",
+    "action_mood_cue": "with the light cutting sharply through the darkness",
+    "mood": [
+      "tense",
+      "oppressive",
+      "unknown"
+    ],
+    "composition": "corridor perspective with the figure dominant and the beam shaping the scene",
+    "memory_hook": "survival tension, keys, doors, and dread beyond the frame",
+    "legal_watchouts": [
+      "avoid official protagonists",
+      "avoid zombie designs",
+      "avoid iconic mansion symbols"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Survival Horror game.\n\nA lone figure holding a flashlight in a dark corridor or threatening interior with one visible threshold, with the light cutting sharply through the darkness.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- tense, oppressive, unknown\n\nComposition:\n- corridor perspective with the figure dominant and the beam shaping the scene\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official protagonists, avoid zombie designs, avoid iconic mansion symbols, avoid resemblance to resident evil",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "tetris-dx-game-boy",
+    "slug": "tetris-dx-game-boy",
+    "title": "Tetris DX",
+    "platform": "Game Boy",
+    "year": 1998,
+    "developer": "Nintendo R&D1",
+    "metascore": 90,
+    "rarity": "COMMON",
+    "genre_primary": "Puzzle",
+    "genre_secondary": "Retro",
+    "bucket": "puzzle_abstract",
+    "priority": 918,
+    "platform_style_id": "gameboy_monochrome_story",
+    "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+    "palette_hint": [
+      "#0f380f",
+      "#306230",
+      "#8bac0f",
+      "#cadc9f"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "tetris"
+    ],
+    "memory_rule_id": "tetris_head_on_playfield",
+    "main_subject": "a nearly complete wall of interlocking blocks with one falling piece above a tight gap",
+    "environment": "a tall glowing playfield seen head-on like a handheld puzzle screen in the dark",
+    "action_mood_cue": "caught one instant before the final drop locks into place",
+    "mood": [
+      "focused",
+      "clean",
+      "hypnotic"
+    ],
+    "composition": "single vertical playfield, one falling piece, no isometric explosion, no extra decoration",
+    "memory_hook": "falling rhythm, spatial pressure, and instant readability",
+    "legal_watchouts": [
+      "avoid official block arrangements from known promo art",
+      "avoid branded UI framing",
+      "avoid floating cube sculpture compositions"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Puzzle game.\n\nA nearly complete wall of interlocking blocks with one falling piece above a tight gap in a tall glowing playfield seen head-on like a handheld puzzle screen in the dark, caught one instant before the final drop locks into place.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- focused, clean, hypnotic\n\nComposition:\n- single vertical playfield, one falling piece, no isometric explosion, no extra decoration\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official block arrangements from known promo art, avoid branded UI framing, avoid floating cube sculpture compositions, avoid resemblance to tetris",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "the-legend-of-zelda-links-awakening-game-boy",
+    "slug": "the-legend-of-zelda-links-awakening-game-boy",
+    "title": "The Legend of Zelda: Link's Awakening",
+    "platform": "Game Boy",
+    "year": 1993,
+    "developer": "Nintendo EAD",
+    "metascore": 90,
+    "rarity": "COMMON",
+    "genre_primary": "Action-Adventure",
+    "genre_secondary": "Fantasy",
+    "bucket": "fantasy_adventure",
+    "priority": 913,
+    "platform_style_id": "gameboy_monochrome_story",
+    "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+    "palette_hint": [
+      "#0f380f",
+      "#306230",
+      "#8bac0f",
+      "#cadc9f"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "link",
+      "zelda"
+    ],
+    "memory_rule_id": "zelda_handheld_links_awakening",
+    "main_subject": "a small child-sized adventurer seen from behind on the left foreground with a short sword at their side",
+    "environment": "a calm island shoreline looking across open water toward a single steep mountain island placed on the right side, with a smooth egg-shaped shrine integrated at its summit",
+    "action_mood_cue": "standing still after reaching the shore, facing the distant island in sea wind",
+    "mood": [
+      "lonely",
+      "dreamlike",
+      "adventurous"
+    ],
+    "composition": "small child-sized figure anchored in the lower-left foreground, broad reflective water across the center, one dominant mountain island on the right third, a clear egg-shaped summit, simple clouds, screen-like framing, and strong negative space",
+    "memory_hook": "portable island adventure, quiet arrival after the shore, and a single egg-crowned destination on the horizon",
+    "legal_watchouts": [
+      "avoid Link likeness",
+      "avoid exact island mountain shapes from official art",
+      "avoid official shield and hat details",
+      "avoid title-screen text or logos",
+      "avoid exact Wind Fish egg iconography"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA small child-sized adventurer seen from behind on the left foreground with a short sword at their side in a calm island shoreline looking across open water toward a single steep mountain island placed on the right side, with a smooth egg-shaped shrine integrated at its summit, standing still after reaching the shore, facing the distant island in sea wind.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- lonely, dreamlike, adventurous\n\nComposition:\n- small child-sized figure anchored in the lower-left foreground, broad reflective water across the center, one dominant mountain island on the right third, a clear egg-shaped summit, simple clouds, screen-like framing, and strong negative space\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Link likeness, avoid exact island mountain shapes from official art, avoid official shield and hat details, avoid title-screen text or logos, avoid exact Wind Fish egg iconography, avoid resemblance to link, avoid resemblance to zelda",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "metal-gear-ghost-babel-game-boy",
+    "slug": "metal-gear-ghost-babel-game-boy",
+    "title": "Metal Gear: Ghost Babel",
+    "platform": "Game Boy",
+    "year": 2000,
+    "developer": "Konami",
+    "metascore": 88,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Action-Stealth",
+    "genre_secondary": "Retro",
+    "bucket": "sci_fi_action",
+    "priority": 910,
+    "platform_style_id": "gameboy_monochrome_story",
+    "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+    "palette_hint": [
+      "#0f380f",
+      "#306230",
+      "#8bac0f",
+      "#cadc9f"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "metal gear"
+    ],
+    "memory_rule_id": "",
+    "main_subject": "a lone covert operative silhouette with compact gear",
+    "environment": "a tense high-tech corridor or facility edge",
+    "action_mood_cue": "moving carefully through hard shadow and cold light",
+    "mood": [
+      "stealthy",
+      "tense",
+      "controlled"
+    ],
+    "composition": "single silhouette, corridor depth, strong light break, minimal props",
+    "memory_hook": "stealth, infiltration, and intelligence thriller mood",
+    "legal_watchouts": [
+      "avoid specific spy likeness",
+      "avoid weapon replicas",
+      "avoid franchise logos or device designs"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-Stealth game.\n\nA lone covert operative silhouette with compact gear in a tense high-tech corridor or facility edge, moving carefully through hard shadow and cold light.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- stealthy, tense, controlled\n\nComposition:\n- single silhouette, corridor depth, strong light break, minimal props\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid specific spy likeness, avoid weapon replicas, avoid franchise logos or device designs, avoid resemblance to metal gear",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "mega-man-2-nintendo-entertainment-system",
+    "slug": "mega-man-2-nintendo-entertainment-system",
+    "title": "Mega Man 2",
+    "platform": "Nintendo Entertainment System",
+    "year": 1989,
+    "developer": "Capcom",
+    "metascore": 90,
+    "rarity": "COMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Playful",
+    "bucket": "platformer_cartoon",
+    "priority": 909,
+    "platform_style_id": "nes_restrained_poster",
+    "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+    "palette_hint": [
+      "#0d1b2a",
+      "#415a77",
+      "#c8d5b9",
+      "#f4d35e"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "mega man"
+    ],
+    "memory_rule_id": "mega_man_classic_rooftop",
+    "main_subject": "a small blue armored android with a rounded arm blaster",
+    "environment": "a night city rooftop stage with simple industrial towers and one moonlit skyline line",
+    "action_mood_cue": "standing ready before advancing into a robot-threatened city",
+    "mood": [
+      "heroic",
+      "arcade",
+      "mechanical"
+    ],
+    "composition": "single blue android only, one rooftop path, one skyline line, crisp NES readability, and no crowd",
+    "memory_hook": "robot-master stage energy, rooftop action-platforming, and immediate hero-vs-machines readability",
+    "legal_watchouts": [
+      "avoid exact Mega Man face and helmet design",
+      "avoid official enemy silhouettes",
+      "avoid exact blaster shape",
+      "avoid franchise logos"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Platformer game.\n\nA small blue armored android with a rounded arm blaster in a night city rooftop stage with simple industrial towers and one moonlit skyline line, standing ready before advancing into a robot-threatened city.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- heroic, arcade, mechanical\n\nComposition:\n- single blue android only, one rooftop path, one skyline line, crisp NES readability, and no crowd\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid exact Mega Man face and helmet design, avoid official enemy silhouettes, avoid exact blaster shape, avoid franchise logos, avoid resemblance to mega man",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "pokemon-red-game-boy",
+    "slug": "pokemon-red-game-boy",
+    "title": "Pokémon Red",
+    "platform": "Game Boy",
+    "year": 1998,
+    "developer": "Game Freak",
+    "metascore": 89,
+    "rarity": "COMMON",
+    "genre_primary": "RPG",
+    "genre_secondary": "Epic",
+    "bucket": "rpg_epic",
+    "priority": 908,
+    "platform_style_id": "gameboy_monochrome_story",
+    "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+    "palette_hint": [
+      "#0f380f",
+      "#306230",
+      "#8bac0f",
+      "#cadc9f"
+    ],
+    "risk_level": "low",
+    "risk_reasons": [
+      "generic_atmosphere_safe"
+    ],
+    "memory_rule_id": "",
+    "main_subject": "a lone wanderer beside a glowing relic",
+    "environment": "a broad sacred horizon with ruins and story-scale depth",
+    "action_mood_cue": "standing in a calm moment before a larger quest",
+    "mood": [
+      "epic",
+      "melancholic",
+      "legendary"
+    ],
+    "composition": "single subject foreground, relic secondary, layered horizon",
+    "memory_hook": "scale, myth, and world-spanning stakes",
+    "legal_watchouts": [],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro RPG game.\n\nA lone wanderer beside a glowing relic in a broad sacred horizon with ruins and story-scale depth, standing in a calm moment before a larger quest.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- epic, melancholic, legendary\n\nComposition:\n- single subject foreground, relic secondary, layered horizon\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark",
+    "legal_notes": "Risk level: low. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "silent-hill-playstation",
+    "slug": "silent-hill-playstation",
+    "title": "Silent Hill",
+    "platform": "PlayStation",
+    "year": 1999,
+    "developer": "Konami",
+    "metascore": 86,
+    "rarity": "RARE",
+    "genre_primary": "Survival Horror",
+    "genre_secondary": "Horror",
+    "bucket": "survival_horror",
+    "priority": 904,
+    "platform_style_id": "ps1_pixel_editorial",
+    "platform_style_description": "PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels",
+    "palette_hint": [
+      "#11151c",
+      "#364156",
+      "#d66853",
+      "#f3dfa2"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "silent hill"
+    ],
+    "memory_rule_id": "",
+    "main_subject": "lone figure holding a flashlight",
+    "environment": "a dark corridor or threatening interior with one visible threshold",
+    "action_mood_cue": "with the light cutting sharply through the darkness",
+    "mood": [
+      "tense",
+      "oppressive",
+      "unknown"
+    ],
+    "composition": "corridor perspective with the figure dominant and the beam shaping the scene",
+    "memory_hook": "survival tension, keys, doors, and dread beyond the frame",
+    "legal_watchouts": [
+      "avoid official protagonists",
+      "avoid zombie designs",
+      "avoid iconic mansion symbols"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Survival Horror game.\n\nA lone figure holding a flashlight in a dark corridor or threatening interior with one visible threshold, with the light cutting sharply through the darkness.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- tense, oppressive, unknown\n\nComposition:\n- corridor perspective with the figure dominant and the beam shaping the scene\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official protagonists, avoid zombie designs, avoid iconic mansion symbols, avoid resemblance to silent hill",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "crash-bandicoot-playstation",
+    "slug": "crash-bandicoot-playstation",
+    "title": "Crash Bandicoot",
+    "platform": "PlayStation",
+    "year": 1996,
+    "developer": "Naughty Dog",
+    "metascore": 88,
+    "rarity": "COMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Playful",
+    "bucket": "platformer_cartoon",
+    "priority": 896,
+    "platform_style_id": "ps1_pixel_editorial",
+    "platform_style_description": "PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels",
+    "palette_hint": [
+      "#11151c",
+      "#364156",
+      "#d66853",
+      "#f3dfa2"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "crash"
+    ],
+    "memory_rule_id": "crash_jungle_dash",
+    "main_subject": "a small orange marsupial-like runner with fingerless-glove-like hands and oversized sneakers",
+    "environment": "a jungle path of crates, cliffs, and carved ruins under bright daylight",
+    "action_mood_cue": "caught in a wild forward dash between hazards",
+    "mood": [
+      "wild",
+      "cartoon",
+      "kinetic"
+    ],
+    "composition": "single runner only, one forward path, one hazard cue, bright jungle depth, and no crowd",
+    "memory_hook": "lane-based jungle sprinting, crate hazard rhythm, and wild mascot-platformer energy",
+    "legal_watchouts": [
+      "avoid exact Crash face and hair silhouette",
+      "avoid Aku Aku mask likeness",
+      "avoid official crate markings",
+      "avoid franchise logos"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Platformer game.\n\nA small orange marsupial-like runner with fingerless-glove-like hands and oversized sneakers in a jungle path of crates, cliffs, and carved ruins under bright daylight, caught in a wild forward dash between hazards.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- wild, cartoon, kinetic\n\nComposition:\n- single runner only, one forward path, one hazard cue, bright jungle depth, and no crowd\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid exact Crash face and hair silhouette, avoid Aku Aku mask likeness, avoid official crate markings, avoid franchise logos, avoid resemblance to crash",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "super-mario-bros-nintendo-entertainment-system",
+    "slug": "super-mario-bros-nintendo-entertainment-system",
+    "title": "Super Mario Bros.",
+    "platform": "Nintendo Entertainment System",
+    "year": 1985,
+    "developer": "Nintendo R&D4",
+    "metascore": 89,
+    "rarity": "COMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Playful",
+    "bucket": "platformer_cartoon",
+    "priority": 895,
+    "platform_style_id": "nes_restrained_poster",
+    "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+    "palette_hint": [
+      "#0d1b2a",
+      "#415a77",
+      "#c8d5b9",
+      "#f4d35e"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "mario"
+    ],
+    "memory_rule_id": "",
+    "main_subject": "a small agile explorer",
+    "environment": "a bright platform world with layered terrain and a clear route forward",
+    "action_mood_cue": "caught in a clean upward leap through the scene",
+    "mood": [
+      "playful",
+      "bright",
+      "buoyant"
+    ],
+    "composition": "single explorer, one readable jump arc, layered platforms, simple sky, no abstract geometry-first layout",
+    "memory_hook": "jump rhythm, forward momentum, and playful platform discovery",
+    "legal_watchouts": [
+      "avoid Mario likeness",
+      "avoid mustache and hat codes",
+      "avoid official mushrooms or stars",
+      "avoid abstract geometry-first layouts"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Platformer game.\n\nA small agile explorer in a bright platform world with layered terrain and a clear route forward, caught in a clean upward leap through the scene.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- playful, bright, buoyant\n\nComposition:\n- single explorer, one readable jump arc, layered platforms, simple sky, no abstract geometry-first layout\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Mario likeness, avoid mustache and hat codes, avoid official mushrooms or stars, avoid abstract geometry-first layouts, avoid resemblance to mario",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "donkey-kong-country-super-nintendo",
+    "slug": "donkey-kong-country-super-nintendo",
+    "title": "Donkey Kong Country",
+    "platform": "Super Nintendo",
+    "year": 1994,
+    "developer": "Rare",
+    "metascore": 88,
+    "rarity": "COMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Playful",
+    "bucket": "platformer_cartoon",
+    "priority": 894,
+    "platform_style_id": "snes_storybook_16bit",
+    "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+    "palette_hint": [
+      "#1f2041",
+      "#4b3f72",
+      "#ffc857",
+      "#f4f1de"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "donkey kong"
+    ],
+    "memory_rule_id": "donkey_kong_country_mine_cart",
+    "main_subject": "a single mine cart racing along a broken jungle track",
+    "environment": "a dense jungle ravine with wooden rails, deep foliage, and a bright gap ahead",
+    "action_mood_cue": "caught one beat before the cart launches over a broken section",
+    "mood": [
+      "wild",
+      "kinetic",
+      "jungle"
+    ],
+    "composition": "single mine cart only, one clear rail path, layered jungle depth, and no character crowding the frame",
+    "memory_hook": "jungle platforming speed, mine cart danger, and heavy momentum over a gap",
+    "legal_watchouts": [
+      "avoid Kong likeness",
+      "avoid official barrel logos",
+      "avoid exact cart sprite shapes",
+      "avoid franchise lettering"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Platformer game.\n\nA single mine cart racing along a broken jungle track in a dense jungle ravine with wooden rails, deep foliage, and a bright gap ahead, caught one beat before the cart launches over a broken section.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- wild, kinetic, jungle\n\nComposition:\n- single mine cart only, one clear rail path, layered jungle depth, and no character crowding the frame\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Kong likeness, avoid official barrel logos, avoid exact cart sprite shapes, avoid franchise lettering, avoid resemblance to donkey kong",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "secret-of-mana-super-nintendo",
+    "slug": "secret-of-mana-super-nintendo",
+    "title": "Secret of Mana",
+    "platform": "Super Nintendo",
+    "year": 1993,
+    "developer": "Square",
+    "metascore": 88,
+    "rarity": "COMMON",
+    "genre_primary": "Action-RPG",
+    "genre_secondary": "Retro",
+    "bucket": "fantasy_adventure",
+    "priority": 893,
+    "platform_style_id": "snes_storybook_16bit",
+    "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+    "palette_hint": [
+      "#1f2041",
+      "#4b3f72",
+      "#ffc857",
+      "#f4f1de"
+    ],
+    "risk_level": "low",
+    "risk_reasons": [
+      "generic_atmosphere_safe"
+    ],
+    "memory_rule_id": "secret_of_mana_forest_clear",
+    "main_subject": "a small young adventurer with a plain sword held low",
+    "environment": "a bright forest clearing with one giant ancient tree stump and soft magical light filtering through leaves",
+    "action_mood_cue": "pausing in wonder before stepping deeper into the forest",
+    "mood": [
+      "magical",
+      "gentle",
+      "adventurous"
+    ],
+    "composition": "single young adventurer only, one large tree landmark, layered forest depth, and soft 16-bit light with low clutter",
+    "memory_hook": "bright forest mystery, youthful quest energy, and an iconic sacred clearing",
+    "legal_watchouts": [
+      "avoid official hero likeness",
+      "avoid Mana Tree exact design",
+      "avoid mascot creature silhouettes",
+      "avoid franchise emblems"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-RPG game.\n\nA small young adventurer with a plain sword held low in a bright forest clearing with one giant ancient tree stump and soft magical light filtering through leaves, pausing in wonder before stepping deeper into the forest.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- magical, gentle, adventurous\n\nComposition:\n- single young adventurer only, one large tree landmark, layered forest depth, and soft 16-bit light with low clutter\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official hero likeness, avoid Mana Tree exact design, avoid mascot creature silhouettes, avoid franchise emblems",
+    "legal_notes": "Risk level: low. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "super-mario-kart-super-nintendo",
+    "slug": "super-mario-kart-super-nintendo",
+    "title": "Super Mario Kart",
+    "platform": "Super Nintendo",
+    "year": 1992,
+    "developer": "Nintendo EAD",
+    "metascore": 87,
+    "rarity": "COMMON",
+    "genre_primary": "Racing",
+    "genre_secondary": "Competition",
+    "bucket": "racing",
+    "priority": 882,
+    "platform_style_id": "snes_storybook_16bit",
+    "platform_style_description": "SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere",
+    "palette_hint": [
+      "#1f2041",
+      "#4b3f72",
+      "#ffc857",
+      "#f4f1de"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "mario"
+    ],
+    "memory_rule_id": "super_mario_kart_track_pack",
+    "main_subject": "a short stocky cartoon racer in a tiny kart with a simple cap and overalls silhouette",
+    "environment": "a bright Mode 7-style track bend with bold curbs, coins, and drifting dust",
+    "action_mood_cue": "sliding through the turn with the kart angled dramatically across the lane",
+    "mood": [
+      "playful",
+      "competitive",
+      "arcade"
+    ],
+    "composition": "single kart only, one bold track curve, top-down depth cues, bright SNES colors, and no rival crowd",
+    "memory_hook": "Mode 7 drift energy, small kart silhouette, and bright competitive chaos reduced to one clean turn",
+    "legal_watchouts": [
+      "avoid exact Mario face or costume details",
+      "avoid official kart body shapes",
+      "avoid item iconography",
+      "avoid franchise logos"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Racing game.\n\nA short stocky cartoon racer in a tiny kart with a simple cap and overalls silhouette in a bright Mode 7-style track bend with bold curbs, coins, and drifting dust, sliding through the turn with the kart angled dramatically across the lane.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- SNES aesthetic, rich pixel art, layered backgrounds, soft gradients, and readable 16-bit atmosphere\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- playful, competitive, arcade\n\nComposition:\n- single kart only, one bold track curve, top-down depth cues, bright SNES colors, and no rival crowd\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid exact Mario face or costume details, avoid official kart body shapes, avoid item iconography, avoid franchise logos, avoid resemblance to mario",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "contra-nintendo-entertainment-system",
+    "slug": "contra-nintendo-entertainment-system",
+    "title": "Contra",
+    "platform": "Nintendo Entertainment System",
+    "year": 1988,
+    "developer": "Konami",
+    "metascore": 87,
+    "rarity": "COMMON",
+    "genre_primary": "Run & Gun",
+    "genre_secondary": "Retro",
+    "bucket": "shooter_arcade",
+    "priority": 878,
+    "platform_style_id": "nes_restrained_poster",
+    "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+    "palette_hint": [
+      "#0d1b2a",
+      "#415a77",
+      "#c8d5b9",
+      "#f4d35e"
+    ],
+    "risk_level": "low",
+    "risk_reasons": [
+      "generic_atmosphere_safe"
+    ],
+    "memory_rule_id": "contra_iii_alien_skyline",
+    "main_subject": "a lone commando silhouette with a heavy rifle",
+    "environment": "a blasted urban or military skyline under an alien-lit night sky with smoke and debris",
+    "action_mood_cue": "bracing for the next wave under impossible pressure",
+    "mood": [
+      "explosive",
+      "urgent",
+      "heroic"
+    ],
+    "composition": "single commando only, one weapon read, one skyline, broad smoke shapes, and no squad or crowd",
+    "memory_hook": "run-and-gun pressure, impossible odds, and pure arcade escalation",
+    "legal_watchouts": [
+      "avoid official commando likeness",
+      "avoid signature alien boss silhouettes",
+      "avoid franchise weapon replicas",
+      "avoid exact logo compositions"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Run & Gun game.\n\nA lone commando silhouette with a heavy rifle in a blasted urban or military skyline under an alien-lit night sky with smoke and debris, bracing for the next wave under impossible pressure.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- explosive, urgent, heroic\n\nComposition:\n- single commando only, one weapon read, one skyline, broad smoke shapes, and no squad or crowd\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official commando likeness, avoid signature alien boss silhouettes, avoid franchise weapon replicas, avoid exact logo compositions",
+    "legal_notes": "Risk level: low. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "duck-tales-nintendo-entertainment-system",
+    "slug": "duck-tales-nintendo-entertainment-system",
+    "title": "DuckTales",
+    "platform": "Nintendo Entertainment System",
+    "year": 1989,
+    "developer": "Capcom",
+    "metascore": 85,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Playful",
+    "bucket": "platformer_cartoon",
+    "priority": 869,
+    "platform_style_id": "nes_restrained_poster",
+    "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+    "palette_hint": [
+      "#0d1b2a",
+      "#415a77",
+      "#c8d5b9",
+      "#f4d35e"
+    ],
+    "risk_level": "medium",
+    "risk_reasons": [
+      "bucket_sensitive_visual_identity"
+    ],
+    "memory_rule_id": "ducktales_treasure_cane",
+    "main_subject": "a small duck-like treasure hunter silhouette with a cane",
+    "environment": "a bright treasure-cave or ruin platform path with coins, ledges, and one chest in the distance",
+    "action_mood_cue": "poised in mid-hop as if bouncing deeper toward treasure",
+    "mood": [
+      "playful",
+      "adventurous",
+      "arcade"
+    ],
+    "composition": "single treasure hunter only, one clear path, one cane read, one treasure cue, and crisp NES readability",
+    "memory_hook": "cane-bounce movement, treasure hunt energy, and cheerful platforming adventure",
+    "legal_watchouts": [
+      "avoid Scrooge likeness",
+      "avoid Disney costume details",
+      "avoid official cane pose from promo art",
+      "avoid franchise logos"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Platformer game.\n\nA small duck-like treasure hunter silhouette with a cane in a bright treasure-cave or ruin platform path with coins, ledges, and one chest in the distance, poised in mid-hop as if bouncing deeper toward treasure.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- playful, adventurous, arcade\n\nComposition:\n- single treasure hunter only, one clear path, one cane read, one treasure cue, and crisp NES readability\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Scrooge likeness, avoid Disney costume details, avoid official cane pose from promo art, avoid franchise logos",
+    "legal_notes": "Risk level: medium. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "final-fantasy-viii-playstation",
+    "slug": "final-fantasy-viii-playstation",
+    "title": "Final Fantasy VIII",
+    "platform": "PlayStation",
+    "year": 1999,
+    "developer": "Square",
+    "metascore": 85,
+    "rarity": "COMMON",
+    "genre_primary": "RPG",
+    "genre_secondary": "Epic",
+    "bucket": "rpg_epic",
+    "priority": 869,
+    "platform_style_id": "ps1_pixel_editorial",
+    "platform_style_description": "PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels",
+    "palette_hint": [
+      "#11151c",
+      "#364156",
+      "#d66853",
+      "#f3dfa2"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "final fantasy"
+    ],
+    "memory_rule_id": "final_fantasy_vi_magitek_snow",
+    "main_subject": "a single armored walking machine with a rider silhouette",
+    "environment": "a snowy ridge at dusk with distant industrial lights and heavy cloud cover",
+    "action_mood_cue": "advancing slowly through the snow toward the glowing city below",
+    "mood": [
+      "epic",
+      "cold",
+      "foreboding"
+    ],
+    "composition": "single walking machine only, wide snow field, one distant city glow, and a strong diagonal march line",
+    "memory_hook": "snowbound opening, magitek march, and the feeling of a huge story about to unfold",
+    "legal_watchouts": [
+      "avoid official magitek walker designs",
+      "avoid Terra likeness",
+      "avoid franchise emblems",
+      "avoid exact opening shot recreation"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro RPG game.\n\nA single armored walking machine with a rider silhouette in a snowy ridge at dusk with distant industrial lights and heavy cloud cover, advancing slowly through the snow toward the glowing city below.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- epic, cold, foreboding\n\nComposition:\n- single walking machine only, wide snow field, one distant city glow, and a strong diagonal march line\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official magitek walker designs, avoid Terra likeness, avoid franchise emblems, avoid exact opening shot recreation, avoid resemblance to final fantasy",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "castlevania-nintendo-entertainment-system",
+    "slug": "castlevania-nintendo-entertainment-system",
+    "title": "Castlevania",
+    "platform": "Nintendo Entertainment System",
+    "year": 1987,
+    "developer": "Konami",
+    "metascore": 86,
+    "rarity": "COMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Playful",
+    "bucket": "fantasy_adventure",
+    "priority": 867,
+    "platform_style_id": "nes_restrained_poster",
+    "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+    "palette_hint": [
+      "#0d1b2a",
+      "#415a77",
+      "#c8d5b9",
+      "#f4d35e"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "castlevania"
+    ],
+    "memory_rule_id": "",
+    "main_subject": "a lone gothic adventurer with a blade",
+    "environment": "a stormy castle approach with moonlight and heavy stone forms",
+    "action_mood_cue": "standing before the ascent in a moment of tension",
+    "mood": [
+      "gothic",
+      "heroic",
+      "threatening"
+    ],
+    "composition": "single adventurer foreground, castle silhouette distance, strong moonlit contrast",
+    "memory_hook": "castle ascent, gothic action, and dangerous nobility",
+    "legal_watchouts": [
+      "avoid Belmont likeness",
+      "avoid whip-specific silhouettes",
+      "avoid Dracula iconography"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Platformer game.\n\nA lone gothic adventurer with a blade in a stormy castle approach with moonlight and heavy stone forms, standing before the ascent in a moment of tension.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- gothic, heroic, threatening\n\nComposition:\n- single adventurer foreground, castle silhouette distance, strong moonlit contrast\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Belmont likeness, avoid whip-specific silhouettes, avoid Dracula iconography, avoid resemblance to castlevania",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "super-mario-land-2-game-boy",
+    "slug": "super-mario-land-2-game-boy",
+    "title": "Super Mario Land 2: 6 Golden Coins",
+    "platform": "Game Boy",
+    "year": 1992,
+    "developer": "Nintendo R&D1",
+    "metascore": 85,
+    "rarity": "COMMON",
+    "genre_primary": "Platformer",
+    "genre_secondary": "Playful",
+    "bucket": "platformer_cartoon",
+    "priority": 862,
+    "platform_style_id": "gameboy_monochrome_story",
+    "platform_style_description": "Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation",
+    "palette_hint": [
+      "#0f380f",
+      "#306230",
+      "#8bac0f",
+      "#cadc9f"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "mario"
+    ],
+    "memory_rule_id": "super_mario_land_2_coin_world",
+    "main_subject": "a short stocky jumper with a round nose, thick mustache, simple cap, and bright overalls",
+    "environment": "a compact Game Boy platform course with oversized coins, rounded blocks, and one tall toy-like landmark in the distance",
+    "action_mood_cue": "caught in a buoyant leap toward the next platform",
+    "mood": [
+      "playful",
+      "portable",
+      "bright"
+    ],
+    "composition": "single jumper only, side-view read, one clean jump arc, chunky portable terrain, and very strong Game Boy value separation",
+    "memory_hook": "portable Mario-like jump rhythm, giant-coin world energy, and compact handheld platforming",
+    "legal_watchouts": [
+      "avoid exact Mario face or costume details",
+      "avoid official enemy silhouettes",
+      "avoid exact coin iconography",
+      "avoid franchise logos"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Platformer game.\n\nA short stocky jumper with a round nose, thick mustache, simple cap, and bright overalls in a compact Game Boy platform course with oversized coins, rounded blocks, and one tall toy-like landmark in the distance, caught in a buoyant leap toward the next platform.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- Game Boy aesthetic, green monochrome palette, crisp pixel forms, portable mood, and very clean value separation\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- playful, portable, bright\n\nComposition:\n- single jumper only, side-view read, one clean jump arc, chunky portable terrain, and very strong Game Boy value separation\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid exact Mario face or costume details, avoid official enemy silhouettes, avoid exact coin iconography, avoid franchise logos, avoid resemblance to mario",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "final-fantasy-tactics-playstation",
+    "slug": "final-fantasy-tactics-playstation",
+    "title": "Final Fantasy Tactics",
+    "platform": "PlayStation",
+    "year": 1997,
+    "developer": "Square",
+    "metascore": 83,
+    "rarity": "UNCOMMON",
+    "genre_primary": "Tactical RPG",
+    "genre_secondary": "Retro",
+    "bucket": "strategy_tactics",
+    "priority": 857,
+    "platform_style_id": "ps1_pixel_editorial",
+    "platform_style_description": "PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels",
+    "palette_hint": [
+      "#11151c",
+      "#364156",
+      "#d66853",
+      "#f3dfa2"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "final fantasy"
+    ],
+    "memory_rule_id": "final_fantasy_tactics_hill_banner",
+    "main_subject": "a lone young knight silhouette holding a plain sword beside a banner",
+    "environment": "a high grassy ridge overlooking a tiled battlefield and a distant medieval city",
+    "action_mood_cue": "looking down over the coming conflict with calm resolve",
+    "mood": [
+      "strategic",
+      "melancholic",
+      "noble"
+    ],
+    "composition": "single knight only, one banner, one battlefield read below, broad sky, and no crowd",
+    "memory_hook": "political war, tactical elevation, and one young knight facing a larger conflict",
+    "legal_watchouts": [
+      "avoid Ramza likeness",
+      "avoid exact zodiac iconography",
+      "avoid official job costumes",
+      "avoid grid overlays or UI"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Tactical RPG game.\n\nA lone young knight silhouette holding a plain sword beside a banner in a high grassy ridge overlooking a tiled battlefield and a distant medieval city, looking down over the coming conflict with calm resolve.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- PlayStation-inspired pixel art, moody lighting, low-poly-era color language, and strong late-90s contrast translated into crisp pixels\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- strategic, melancholic, noble\n\nComposition:\n- single knight only, one banner, one battlefield read below, broad sky, and no crowd\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Ramza likeness, avoid exact zodiac iconography, avoid official job costumes, avoid grid overlays or UI, avoid resemblance to final fantasy",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  },
+  {
+    "game_id": "metroid-nintendo-entertainment-system",
+    "slug": "metroid-nintendo-entertainment-system",
+    "title": "Metroid",
+    "platform": "Nintendo Entertainment System",
+    "year": 1987,
+    "developer": "Nintendo R&D1",
+    "metascore": 82,
+    "rarity": "COMMON",
+    "genre_primary": "Action-Adventure",
+    "genre_secondary": "Fantasy",
+    "bucket": "sci_fi_action",
+    "priority": 827,
+    "platform_style_id": "nes_restrained_poster",
+    "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+    "palette_hint": [
+      "#0d1b2a",
+      "#415a77",
+      "#c8d5b9",
+      "#f4d35e"
+    ],
+    "risk_level": "high",
+    "risk_reasons": [
+      "metroid"
+    ],
+    "memory_rule_id": "metroid_hostile_passage",
+    "main_subject": "a lone armored explorer with an arm-mounted tool",
+    "environment": "an alien cavern with massive biomechanical pillars, acid glow, and a dark passage ahead",
+    "action_mood_cue": "aiming the arm-mounted tool into the dark in hostile silence",
+    "mood": [
+      "isolated",
+      "mysterious",
+      "alien"
+    ],
+    "composition": "single explorer foreground, one clear passage, deep cavern layers, sparse readable glow",
+    "memory_hook": "exploration, alien solitude, and hostile vertical space",
+    "legal_watchouts": [
+      "avoid Samus suit likeness",
+      "avoid Metroid creature silhouette",
+      "avoid Chozo-like symbols",
+      "avoid sword-like weapon silhouettes"
+    ],
+    "prompt_version": "prompt_formula_v1_production",
+    "prompt": "Original illustration inspired by a retro Action-Adventure game.\n\nA lone armored explorer with an arm-mounted tool in an alien cavern with massive biomechanical pillars, acid glow, and a dark passage ahead, aiming the arm-mounted tool into the dark in hostile silence.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- isolated, mysterious, alien\n\nComposition:\n- single explorer foreground, one clear passage, deep cavern layers, sparse readable glow\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+    "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid Samus suit likeness, avoid Metroid creature silhouette, avoid Chozo-like symbols, avoid sword-like weapon silhouettes, avoid resemblance to metroid",
+    "legal_notes": "Risk level: high. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+    "generation_notes": {
+      "format": "16:9 hero visual",
+      "overlay_safe_side": "right",
+      "preferred_render_mode": "pixel art illustration only",
+      "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+      "render_policy": "always_pixel_art"
+    },
+    "status": "READY_FOR_REVIEW"
+  }
+]

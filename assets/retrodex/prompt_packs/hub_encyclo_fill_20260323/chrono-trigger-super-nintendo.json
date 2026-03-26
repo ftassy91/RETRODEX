@@ -1,0 +1,6 @@
+{
+  "game_id": "chrono-trigger-super-nintendo",
+  "title": "Chrono Trigger",
+  "prompt": "Original pixel art illustration inspired by a 16-bit time-travel JRPG. A young spiky-haired swordsman stands on a grassy cliff before a glowing clock portal and distant floating clouds, with wind pulling his scarf and one futuristic dome on the horizon. Visual focus: one clear adventurer silhouette, one luminous time portal, readable in one second. Style: Super Nintendo pixel art, colorful 16-bit palette, polished sprite-era shading, clean outlines, layered skies, strong contrast, no painterly rendering. Mood: adventurous, mysterious, hopeful. Composition: hero slightly left of center, portal and horizon clearly visible, simple foreground, minimal clutter. Important: no logos, no text, no exact official character design, no direct copying of promotional art, keep it original but immediately evocative.",
+  "negative_prompt": "text, logo, watermark, official chrono trigger character design, exact hair or costume replication, Akira Toriyama style imitation, box art recreation, realistic painting"
+}

@@ -1,0 +1,40 @@
+{
+  "game": "Zelda II: The Adventure of Link",
+  "game_id": "zelda-ii-the-adventure-of-link-nintendo-entertainment-system",
+  "console": "Nintendo Entertainment System",
+  "year": 1988,
+  "asset_type": "cover_art",
+  "asset_name": "Princess Zelda",
+  "source_type": "wikipedia_curated_reference",
+  "image_reference": "Princess_Zelda",
+  "selection_reason": "Fallback to official game cover art because no better sprite-grade source was available",
+  "episode_number": 2,
+  "publisher": "Nintendo R&D4",
+  "title_font": "Georgia",
+  "display_layout": "sprite_identity_card",
+  "sprite_path": "retrodeck_assets/zelda_ii_the_adventure_of_link_nintendo_entertainment_system/sprite.png",
+  "source_path": "retrodeck_assets/_cache/source_images/wikipedia_en_thumb_6_6e_link_to_the_past_zelda_png_120px_link_to_the_past_zelda_png.png",
+  "asset_dir": "retrodeck_assets/zelda_ii_the_adventure_of_link_nintendo_entertainment_system",
+  "palette": [
+    "#0F380F",
+    "#306230",
+    "#8BAC0F",
+    "#9BBC0F"
+  ],
+  "validation": {
+    "specific_game_reference": true,
+    "low_res_readable": true,
+    "gb_palette_ready": true,
+    "opaque_ratio": 0.2721,
+    "bbox": {
+      "y": 3,
+      "width": 23,
+      "height": 42,
+      "x": 12
+    }
+  },
+  "created_at": "2026-03-13T21:47:08Z",
+  "fallback_conditions": [
+    "no_specific_sprite_candidate"
+  ]
+}

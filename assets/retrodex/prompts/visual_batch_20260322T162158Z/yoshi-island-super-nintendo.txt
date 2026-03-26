@@ -1,0 +1,43 @@
+Original illustration inspired by a retro Platformer game.
+
+A small agile explorer in a playful platform world with layered terrain, readable obstacles, and bright depth cues, caught in a forward-moving leap through layered terrain.
+
+Game metadata:
+- Title: Super Mario World 2: Yoshi's Island
+- Platform: Super Nintendo
+- Release year: 1995
+- Secondary genre signal: Action
+
+Visual focus:
+- one clear subject
+- strong silhouette
+- readable in 1 second
+
+Style:
+- colorful 16-bit-inspired fantasy illustration, richer gradients, polished sprite-era composition
+- pixel art or stylized rendering depending on platform
+- clean and modern interpretation of retro limitations
+- limited color palette when relevant
+
+Mood:
+- playful, kinetic, bright
+
+Composition:
+- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately
+- simple background
+- no clutter
+
+Important:
+- Do NOT replicate any official character, logo, or design
+- Do NOT imitate exact game assets
+- Must feel original but clearly inspired by the game's genre and atmosphere
+
+Output:
+- high clarity
+- strong contrast
+- minimal noise
+- no text
+- no watermark
+
+Negative constraints:
+avoid resemblance to mario, no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background

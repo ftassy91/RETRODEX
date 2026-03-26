@@ -1,0 +1,21 @@
+{
+  "game_id": "phantasy-star-sega-master-system",
+  "slug": "phantasy-star-sega-master-system",
+  "title": "Phantasy Star",
+  "platform": "Sega Master System",
+  "year": 1987,
+  "genre_primary": "RPG",
+  "genre_secondary": "Epic",
+  "bucket": "sci_fi_action",
+  "platform_style": "sms_clean_arcade",
+  "illustration_class": "object",
+  "risk_level": "low",
+  "subject_key": "armored_explorer",
+  "main_subject": "lone armored explorer",
+  "action_mood_cue": "standing alert in cold alien light",
+  "composition_type": "object",
+  "prompt": "Original illustration inspired by a retro RPG game.\n\nA lone armored explorer in a futuristic industrial skyline or reactor zone with cold light and scale, standing alert in cold alien light.\n\nGame metadata:\n- Title: Phantasy Star\n- Platform: Sega Master System\n- Release year: 1987\n- Secondary genre signal: Epic\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n\nStyle:\n- clean arcade illustration, simple geometry, high contrast shapes, restrained palette\n- pixel art or stylized rendering depending on platform\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- futuristic, urgent, cold, focused\n\nComposition:\n- one subject slightly left of center, with a clean silhouette and a world behind it that explains the genre immediately\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no copyrighted costume replication, no original enemy designs, no game logo, no UI elements, no screenshot recreation, no exact box art composition, no branded symbols, no text, no abstract shapes, no decorative geometry, no empty background",
+  "legal_notes": "Risk level low; use generic subject archetypes, readable environments, and platform-coded style only. Downgrade if likeness risk rises.",
+  "status": "queued"
+}

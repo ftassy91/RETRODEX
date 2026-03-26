@@ -1,0 +1,6 @@
+{
+  "game_id": "castlevania-dracula-x-super-nintendo",
+  "title": "Castlevania: Dracula X",
+  "prompt": "Original pixel art illustration inspired by a 16-bit gothic action platformer. A lone vampire hunter with a long coat and a raised whip stands in a moonlit castle window hall, facing a towering gothic arch and distant storm clouds. Visual focus: one clear hero silhouette, one haunted castle landmark, dramatic moonlight, readable in one second. Style: Super Nintendo pixel art, rich 16-bit palette, crisp sprite-like shading, clean silhouette, layered background depth, no blur, no painterly rendering. Mood: ominous, heroic, nocturnal. Composition: centered hunter in foreground, cathedral window and moon behind, minimal clutter. Important: no logos, no text, no exact official character costume, no direct copying of game art, keep it original but strongly evocative.",
+  "negative_prompt": "text, logo, watermark, official castlevania character design, exact costume replication, box art recreation, realistic painting, blurry modern illustration"
+}

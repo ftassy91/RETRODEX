@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" role="img" aria-label="Retro CRT computer terminal frame">
+  <defs>
+    <linearGradient id="desk" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#b9a275"/>
+      <stop offset="1" stop-color="#8b6e43"/>
+    </linearGradient>
+    <linearGradient id="case" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#d6c4a1"/>
+      <stop offset="0.45" stop-color="#b79a6f"/>
+      <stop offset="1" stop-color="#8d724a"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#183328"/>
+      <stop offset="1" stop-color="#07140f"/>
+    </linearGradient>
+    <radialGradient id="screenGlow" cx="50%" cy="42%" r="65%">
+      <stop offset="0" stop-color="#8bac0f" stop-opacity="0.22"/>
+      <stop offset="0.6" stop-color="#306230" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#0f380f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="1200" fill="#0b0a08"/>
+  <rect y="880" width="1600" height="320" fill="url(#desk)"/>
+  <g transform="translate(210 70)">
+    <rect x="120" y="40" width="940" height="760" rx="42" fill="url(#case)" stroke="#725734" stroke-width="10"/>
+    <rect x="170" y="92" width="840" height="545" rx="26" fill="#5b4630" stroke="#2c2012" stroke-width="12"/>
+    <rect x="218" y="138" width="744" height="454" rx="20" fill="url(#glass)" stroke="#1d140b" stroke-width="8"/>
+    <rect x="232" y="152" width="716" height="426" rx="16" fill="#0f1913"/>
+    <rect x="232" y="152" width="716" height="426" rx="16" fill="url(#screenGlow)"/>
+    <rect x="218" y="650" width="744" height="92" rx="10" fill="#9a7f54"/>
+    <circle cx="328" cy="697" r="16" fill="#564125"/>
+    <rect x="390" y="681" width="216" height="32" rx="8" fill="#6e5635"/>
+    <rect x="642" y="681" width="106" height="32" rx="8" fill="#6e5635"/>
+    <circle cx="876" cy="696" r="13" fill="#6e5635"/>
+    <circle cx="916" cy="696" r="13" fill="#6e5635"/>
+    <rect x="468" y="760" width="244" height="84" rx="18" fill="#9c8054"/>
+    <rect x="500" y="828" width="178" height="136" rx="10" fill="#a88d63"/>
+    <rect x="482" y="940" width="214" height="62" rx="10" fill="#8f734b"/>
+    <rect x="748" y="828" width="296" height="174" rx="16" fill="#d1b88c" stroke="#7a603b" stroke-width="8"/>
+    <g fill="#806540">
+      <rect x="780" y="858" width="236" height="20" rx="5"/>
+      <rect x="780" y="896" width="236" height="20" rx="5"/>
+      <rect x="780" y="934" width="236" height="20" rx="5"/>
+    </g>
+  </g>
+</svg>

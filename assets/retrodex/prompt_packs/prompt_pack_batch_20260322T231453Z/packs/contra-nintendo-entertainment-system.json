@@ -1,0 +1,50 @@
+{
+  "game_id": "contra-nintendo-entertainment-system",
+  "title": "Contra",
+  "platform": "Nintendo Entertainment System",
+  "year": 1988,
+  "genre_primary": "Run & Gun",
+  "genre_secondary": "Retro",
+  "bucket": "shooter_arcade",
+  "risk_level": "low",
+  "risk_reasons": [
+    "generic_atmosphere_safe"
+  ],
+  "platform_style_id": "nes_restrained_poster",
+  "platform_style_description": "NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability",
+  "palette_hint": [
+    "#0d1b2a",
+    "#415a77",
+    "#c8d5b9",
+    "#f4d35e"
+  ],
+  "memory_rule_id": "contra_iii_alien_skyline",
+  "main_subject": "a lone commando silhouette with a heavy rifle",
+  "environment": "a blasted urban or military skyline under an alien-lit night sky with smoke and debris",
+  "action_mood_cue": "bracing for the next wave under impossible pressure",
+  "mood": [
+    "explosive",
+    "urgent",
+    "heroic"
+  ],
+  "composition": "single commando only, one weapon read, one skyline, broad smoke shapes, and no squad or crowd",
+  "memory_hook": "run-and-gun pressure, impossible odds, and pure arcade escalation",
+  "legal_watchouts": [
+    "avoid official commando likeness",
+    "avoid signature alien boss silhouettes",
+    "avoid franchise weapon replicas",
+    "avoid exact logo compositions"
+  ],
+  "legal_notes": "Risk level: low. Use generic archetypes, avoid franchise-identifiable costume or symbol language, and preserve recognizability through atmosphere, scene memory, and gameplay cues only.",
+  "prompt_version": "prompt_formula_v1_production",
+  "prompt": "Original illustration inspired by a retro Run & Gun game.\n\nA lone commando silhouette with a heavy rifle in a blasted urban or military skyline under an alien-lit night sky with smoke and debris, bracing for the next wave under impossible pressure.\n\nVisual focus:\n- one clear subject\n- strong silhouette\n- readable in 1 second\n- exactly one primary focal subject\n- no crowd, no collage, no multi-character scene\n\nStyle:\n- NES aesthetic, limited palette, simple iconic forms, crisp outlines, and strong silhouette readability\n- always rendered as pixel art\n- crisp pixel edges, readable sprite-like shading, and controlled dithering when useful\n- clean and modern interpretation of retro limitations\n- limited color palette when relevant\n\nMood:\n- explosive, urgent, heroic\n\nComposition:\n- single commando only, one weapon read, one skyline, broad smoke shapes, and no squad or crowd\n- simple background\n- no clutter\n\nImportant:\n- Do NOT replicate any official character, logo, or design\n- Do NOT imitate exact game assets\n- Must feel original but clearly inspired by the game's genre and atmosphere\n\nOutput:\n- high clarity\n- strong contrast\n- minimal noise\n- pixel art only\n- no text\n- no watermark",
+  "negative_prompt": "no official character likeness, no logo, no box art recreation, no screenshot recreation, no UI elements, no sprite rip, no direct copy of official costume or weapon design, no franchise text, no watermark, avoid official commando likeness, avoid signature alien boss silhouettes, avoid franchise weapon replicas, avoid exact logo compositions",
+  "generation_notes": {
+    "format": "16:9 hero visual",
+    "overlay_safe_side": "right",
+    "preferred_render_mode": "pixel art illustration only",
+    "detail_policy": "rich enough to feel desirable, simple enough to read fast",
+    "render_policy": "always_pixel_art"
+  },
+  "status": "READY_FOR_REVIEW"
+}
