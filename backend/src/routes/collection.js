@@ -13,20 +13,12 @@ process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
 process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
 const { db } = require('../../db_supabase')
 const { handleAsync } = require('../helpers/query')
+const {
+  getHydratedGameById,
+  getHydratedGamesByIds,
+} = require('../services/game-read-service')
 
 const router = Router()
-
-CollectionItem.belongsTo(Game, {
-  foreignKey: 'gameId',
-  targetKey: 'id',
-  as: 'game',
-})
-
-Game.hasMany(CollectionItem, {
-  foreignKey: 'gameId',
-  sourceKey: 'id',
-  as: 'collectionItems',
-})
 
 const VALID_COLLECTION_CONDITIONS = new Set(['Loose', 'CIB', 'Mint'])
 const VALID_COLLECTION_LIST_TYPES = new Set(['owned', 'wanted', 'for_sale'])
@@ -161,19 +153,54 @@ function serializeCollectionItem(item) {
     purchase_date: item?.purchase_date || null,
     personal_note: item?.personal_note || null,
     addedAt: item?.addedAt || null,
-    game: item?.game ? {
-      id: item.game.id,
-      title: item.game.title,
-      console: item.game.console,
-      platform: item.game.console,
-      year: item.game.year,
-      image: item.game.image || null,
-      rarity: item.game.rarity,
-      loosePrice: item.game.loosePrice,
-      cibPrice: item.game.cibPrice,
-      mintPrice: item.game.mintPrice,
-    } : null,
+    game: toCollectionGamePayload(item?.game),
   }
+}
+
+function toCollectionGamePayload(game) {
+  if (!game) {
+    return null
+  }
+
+  return {
+    id: game.id,
+    title: game.title,
+    console: game.console,
+    platform: game.console,
+    year: game.year,
+    slug: game.slug || null,
+    image: game.image || null,
+    coverImage: game.coverImage || game.cover_url || null,
+    rarity: game.rarity,
+    metascore: game.metascore ?? null,
+    summary: game.summary || game.synopsis || null,
+    loosePrice: game.loosePrice ?? game.loose_price ?? null,
+    cibPrice: game.cibPrice ?? game.cib_price ?? null,
+    mintPrice: game.mintPrice ?? game.mint_price ?? null,
+    quality: game.quality || null,
+    market: game.market || null,
+  }
+}
+
+async function enrichCollectionItems(items) {
+  const plainItems = (items || []).map((item) => (
+    typeof item?.get === 'function' ? item.get({ plain: true }) : item
+  ))
+  const gameIds = plainItems
+    .map((item) => item?.gameId || item?.game_id || item?.id)
+    .filter(Boolean)
+  const hydratedGames = await getHydratedGamesByIds(gameIds, {
+    preserveOrder: false,
+  })
+  const gamesById = new Map(hydratedGames.map((game) => [String(game.id), game]))
+
+  return plainItems.map((item) => {
+    const gameId = item?.gameId || item?.game_id || item?.id
+    return {
+      ...item,
+      game: gamesById.get(String(gameId)) || item?.game || null,
+    }
+  })
 }
 
 function supabaseConditionFromApi(value) {
@@ -210,6 +237,7 @@ function serializeSupabaseCollectionItem(item, game) {
       console: game.console,
       platform: game.console,
       year: game.year,
+      coverImage: game.cover_url || null,
       image: game.image || null,
       rarity: game.rarity,
       loosePrice: game.loosePrice ?? game.loose_price ?? null,
@@ -227,7 +255,7 @@ async function fetchSupabaseGamesMap(gameIds) {
 
   const { data, error } = await db
     .from('games')
-    .select('id,title,console,year,rarity,loose_price,cib_price,mint_price')
+    .select('id,title,console,year,rarity,cover_url,loose_price,cib_price,mint_price')
     .in('id', uniqueIds)
 
   if (error) {
@@ -265,7 +293,25 @@ async function fetchSupabaseCollectionItem(gameId) {
   return Array.isArray(data) ? (data[0] || null) : null
 }
 
-async function listSupabaseCollectionItems(listType) {
+async function listSupabaseCollectionItems(listType = null) {
+  // Fallback to Sequelize if Supabase JS client is unavailable
+  const { mode } = require('../../db_supabase')
+  if (mode !== 'supabase') {
+    const where = {}
+    if (listType) where.list_type = listType
+    const items = await CollectionItem.findAll({
+      where,
+      include: [{
+        model: Game,
+        as: 'game',
+        attributes: ['id', 'title', 'console', 'rarity', 'loosePrice', 'cibPrice', 'mintPrice', 'cover_url'],
+      }],
+      order: [['addedAt', 'DESC']],
+    })
+    const enrichedItems = await enrichCollectionItems(items)
+    return enrichedItems.map((item) => serializeCollectionItem(item))
+  }
+
   const rows = await fetchSupabaseCollectionRows()
   const filteredRows = rows.filter((row) => {
     if (!listType) {
@@ -336,8 +382,9 @@ async function listCollectionItems(listType) {
     include: GAME_INCLUDE,
     order: [['gameId', 'ASC']],
   })
+  const enrichedItems = await enrichCollectionItems(items)
 
-  return items
+  return enrichedItems
     .map(serializeCollectionItem)
     .sort((left, right) => String(left.game?.title || left.gameId || '').localeCompare(String(right.game?.title || right.gameId || '')))
 }
@@ -380,7 +427,7 @@ router.post('/collection', handleAsync(async (req, res) => {
     return res.status(400).json({ ok: false, error: 'purchase_date must use YYYY-MM-DD' })
   }
 
-  const game = await Game.findByPk(payload.gameId)
+  const game = await getHydratedGameById(payload.gameId)
 
   if (!game) {
     return res.status(404).json({ ok: false, error: 'Game not found' })
@@ -449,6 +496,34 @@ router.post('/api/collection', handleAsync(async (req, res) => {
     return res.status(400).json({ ok: false, error: 'purchase_date must use YYYY-MM-DD' })
   }
 
+  const { mode } = require('../../db_supabase')
+  if (mode !== 'supabase') {
+    const game = await getHydratedGameById(payload.gameId)
+    if (!game) {
+      return res.status(404).json({ ok: false, error: 'Game not found' })
+    }
+
+    const existing = await CollectionItem.findByPk(payload.gameId)
+    if (existing) {
+      return res.status(409).json({ ok: false, error: 'Game is already in your collection' })
+    }
+
+    await CollectionItem.create({
+      gameId: payload.gameId,
+      condition: payload.condition || 'Loose',
+      list_type: payload.list_type || 'owned',
+      price_paid: payload.price_paid || null,
+      purchase_date: payload.purchase_date || null,
+      personal_note: payload.personal_note || null,
+      price_threshold: payload.price_threshold || null,
+      addedAt: new Date().toISOString(),
+    }, {
+      validate: false,
+    })
+
+    return res.json({ ok: true })
+  }
+
   const game = await fetchSupabaseGame(payload.gameId)
 
   if (!game) {
@@ -478,6 +553,17 @@ router.post('/api/collection', handleAsync(async (req, res) => {
 }))
 
 router.delete('/api/collection/:id', handleAsync(async (req, res) => {
+  const { mode } = require('../../db_supabase')
+  if (mode !== 'supabase') {
+    const item = await CollectionItem.findByPk(req.params.id)
+    if (!item) {
+      return res.status(404).json({ ok: false, error: 'Collection item not found' })
+    }
+
+    await CollectionItem.destroy({ where: { gameId: req.params.id } })
+    return res.json({ ok: true })
+  }
+
   const item = await fetchSupabaseCollectionItem(req.params.id)
 
   if (!item) {
@@ -498,6 +584,70 @@ router.delete('/api/collection/:id', handleAsync(async (req, res) => {
 }))
 
 router.patch('/api/collection/:id', handleAsync(async (req, res) => {
+  const { mode } = require('../../db_supabase')
+  if (mode !== 'supabase') {
+    const item = await CollectionItem.findByPk(req.params.id)
+    if (!item) {
+      return res.status(404).json({ ok: false, error: 'Collection item not found' })
+    }
+
+    const nextValues = {}
+
+    if (hasOwnField(req.body, 'condition')) {
+      const condition = normalizeCollectionCondition(req.body?.condition)
+      if (!VALID_COLLECTION_CONDITIONS.has(condition)) {
+        return res.status(400).json({ ok: false, error: 'condition must be one of Loose, CIB or Mint' })
+      }
+      nextValues.condition = condition
+    }
+
+    if (hasOwnField(req.body, 'list_type')) {
+      const listType = normalizeCollectionListType(req.body?.list_type)
+      if (!VALID_COLLECTION_LIST_TYPES.has(listType)) {
+        return res.status(400).json({ ok: false, error: 'list_type must be one of owned, wanted or for_sale' })
+      }
+      nextValues.list_type = listType
+    }
+
+    if (hasOwnField(req.body, 'price_threshold')) {
+      const priceThreshold = normalizePriceThreshold(req.body?.price_threshold)
+      if (priceThreshold !== null && (!Number.isFinite(priceThreshold) || priceThreshold <= 0)) {
+        return res.status(400).json({ ok: false, error: 'price_threshold must be a positive number' })
+      }
+      nextValues.price_threshold = priceThreshold
+    }
+
+    if (hasOwnField(req.body, 'price_paid')) {
+      const pricePaid = normalizePricePaid(req.body?.price_paid)
+      if (pricePaid !== null && (!Number.isFinite(pricePaid) || pricePaid <= 0)) {
+        return res.status(400).json({ ok: false, error: 'price_paid must be a positive number' })
+      }
+      nextValues.price_paid = pricePaid
+    }
+
+    if (hasOwnField(req.body, 'purchase_date')) {
+      const purchaseDate = req.body?.purchase_date ? String(req.body.purchase_date).trim() : null
+      if (purchaseDate && !/^\d{4}-\d{2}-\d{2}$/.test(purchaseDate)) {
+        return res.status(400).json({ ok: false, error: 'purchase_date must use YYYY-MM-DD' })
+      }
+      nextValues.purchase_date = purchaseDate
+    }
+
+    if (hasOwnField(req.body, 'personal_note')) {
+      nextValues.personal_note = String(req.body.personal_note ?? '').trim() || null
+    }
+
+    if (hasOwnField(req.body, 'notes')) {
+      nextValues.notes = String(req.body.notes ?? '').trim() || null
+    }
+
+    await CollectionItem.update(nextValues, {
+      where: { gameId: req.params.id },
+      validate: false,
+    })
+    return res.json({ ok: true })
+  }
+
   const item = await fetchSupabaseCollectionItem(req.params.id)
   if (!item) {
     return res.status(404).json({ ok: false, error: 'Collection item not found' })
@@ -584,28 +734,10 @@ router.get('/api/collection/public', handleAsync(async (_req, res) => {
     }],
     order: [['gameId', 'ASC']],
   })
+  const enrichedItems = await enrichCollectionItems(items)
 
-  const serializedItems = items
-    .map((item) => ({
-      id: item.gameId,
-      gameId: item.gameId,
-      condition: item.condition || 'Loose',
-      notes: item.notes || null,
-      list_type: item.list_type || 'for_sale',
-      price_paid: item.price_paid ?? null,
-      price_threshold: item.price_threshold ?? null,
-      purchase_date: item.purchase_date || null,
-      personal_note: item.personal_note || null,
-      addedAt: item.addedAt || null,
-      game: item.game ? {
-        id: item.game.id,
-        title: item.game.title,
-        platform: item.game.console,
-        console: item.game.console,
-        year: item.game.year,
-        rarity: item.game.rarity,
-      } : null,
-    }))
+  const serializedItems = enrichedItems
+    .map((item) => serializeCollectionItem(item))
     .sort((left, right) => String(left.game?.title || left.gameId || '').localeCompare(String(right.game?.title || right.gameId || '')))
 
   res.json({
@@ -628,8 +760,9 @@ router.get('/api/collection/stats', handleAsync(async (_req, res) => {
     }],
     order: [['gameId', 'ASC']],
   })
+  const enrichedItems = await enrichCollectionItems(items)
 
-  const ownedItems = items.filter((item) => item.game)
+  const ownedItems = enrichedItems.filter((item) => item.game)
   const byPlatformMap = new Map()
 
   let totalLoose = 0

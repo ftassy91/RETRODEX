@@ -27,6 +27,10 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Impact produit : `games-list`, `hub`, `home`, `stats` et les apercus franchise consomment des listes coherentes avec la couche canonique sans changer leur contrat front principal.
 - Reste a faire sur ce sous-chantier : terminer la bascule des surfaces liste encore dependantes de comportements legacy plus anciens, puis traiter le push / merge Git a part a cause du working tree sale hors perimetre.
 - Audit structure genere et versionne sous `data/audit/`, avec couverture jeux / consoles / marche exploitable directement.
+- Bascule de lecture poursuivie : `games-detail` (similaires + franchise), `global-search`, `market`, `collection` et `console-service` lisent maintenant la couche canonique pour les champs critiques au lieu de dependre directement des colonnes legacy `games`.
+- Regle d'architecture formalisee : `canonical first, legacy fallback`, avec matrice d'ownership ajoutee dans `docs/data-architecture.md`.
+- Nouveau rapport de divergence `legacy/canonical` ajoute dans l'audit pour mesurer les ecarts de prix, d'editorial et de references media, expose via `GET /api/audit/divergence` et versionne dans `data/audit/`.
+- Etape Git encore volontairement separee : aucune tentative de merge vers `main` depuis le worktree sale ; preparation d'un worktree propre d'integration reste la prochaine action.
 - Base canonique initiale creee via migration `20260326_001_canonical_core`, sans casser le read-model public legacy.
 - Pipeline catalogue conforme ajoute : `backend/scripts/import-catalog.js`, idempotent par recherche d'existant, journalise dans `enrichment_runs`.
 - Nouveau passage de durcissement data : backfill canonique complet depuis le legacy `games` et `price_history`, audit relie a la couche canonique, provenance explicite sur les jeux et consoles, et index runtime d'idempotence pour les observations.
@@ -448,3 +452,52 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - le working tree global du repo reste tres sale hors perimetre `backend/`, ce qui bloque toujours un push prudent vers `main`
 - Next step:
   - commit de ce lot catalogue/listes, puis verifier la divergence Git avant toute action sur `main`
+
+## [2026-03-26 15:14]
+- Sprint / phase : Phase data continuee - fin de bascule des lectures publiques et mesure de divergence legacy/canonique
+- Actions completed:
+  - extension de `backend/src/services/game-read-service.js` avec lookup hydrate par slug/id, lecture batch par ids, lecture par console et lecture par franchise
+  - bascule de `backend/src/routes/games-detail.js` pour servir les listes secondaires `similar` et `franchise` via les lectures canoniques hydratees
+  - bascule de `backend/src/routes/global-search.js` pour les jeux et consoles via `listHydratedGames` et `listConsoleItems`
+  - bascule de `backend/src/services/console-service.js` sur les jeux hydratés canoniques pour les compteurs, notables, signaux marché et payloads detail
+  - bascule de `backend/src/routes/collection.js` pour hydrater les objets `game` renvoyes dans `api/collection`, `api/collection/public` et `api/collection/stats`
+  - bascule de `backend/src/routes/market.js` pour `api/stats`, `api/search`, `api/items`, `api/items/:id` et les endpoints console vers la couche canonique ou les services dedies
+  - ajout d'un rapport `legacy/canonical divergence` dans `backend/src/services/audit-service.js`, exposition via `backend/src/routes/audit.js` et regeneration des rapports sous `data/audit/2026-03-26T14-18-02-622Z_*`
+  - formalisation dans `docs/data-architecture.md` de la regle `canonical first, legacy fallback` et d'une matrice d'ownership des champs
+- Files modified:
+  - `backend/src/services/game-read-service.js`
+  - `backend/src/routes/games-detail.js`
+  - `backend/src/routes/global-search.js`
+  - `backend/src/services/console-service.js`
+  - `backend/src/routes/collection.js`
+  - `backend/src/routes/market.js`
+  - `backend/src/services/audit-service.js`
+  - `backend/src/routes/audit.js`
+  - `docs/data-architecture.md`
+  - `docs/retrodex_execution_log.md`
+  - `data/audit/2026-03-26T14-18-02-622Z_summary.json`
+  - `data/audit/2026-03-26T14-18-02-622Z_games.json`
+  - `data/audit/2026-03-26T14-18-02-622Z_consoles.json`
+  - `data/audit/2026-03-26T14-18-02-622Z_market.json`
+  - `data/audit/2026-03-26T14-18-02-622Z_priorities.json`
+  - `data/audit/2026-03-26T14-18-02-622Z_divergence.json`
+- Schema or data changes:
+  - aucun changement destructif de schema
+  - aucune migration supplementaire
+  - regeneration des rapports d'audit avec une nouvelle vue sur l'heterogeneite legacy/canonique
+- Sources evaluated:
+  - aucune nouvelle source externe
+- Compliance notes:
+  - aucune extension de perimetre source
+  - aucune copie locale d'asset ajoutee
+  - le rapport de divergence sert uniquement a piloter la migration de lecture et le nettoyage des fallback legacy
+- Quality score impact:
+  - les surfaces publiques critiques lisent maintenant prioritairement `market_snapshots`, `game_editorial`, `media_references` et `quality_records`
+  - `api/audit/divergence` mesure actuellement surtout de la couverture editoriale canonique supplementaire (`canonical_only`) plutot que des conflits de valeur
+- Commits:
+  - en preparation
+- Issues:
+  - le fichier `backend/src/routes/collection.js` avait deja un delta local hors HEAD ; le commit devra rester cible au lot data courant
+  - la divergence Git avec `origin/main` reste intacte et doit etre traitee dans un worktree propre
+- Next step:
+  - commit du lot lecture/audit, puis creation d'un worktree d'integration propre depuis `origin/main`

@@ -1,8 +1,6 @@
 'use strict'
 
 const { Router } = require('express')
-const { Op } = require('sequelize')
-const Game = require('../models/Game')
 require('../models/associations')
 const Franchise = require('../models/Franchise')
 const CommunityReport = require('../../models/CommunityReport')
@@ -16,7 +14,10 @@ process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUP
 
 const { handleAsync } = require('../helpers/query')
 const { buildPriceHistoryPayload } = require('../helpers/priceHistory')
-const { getHydratedGameById } = require('../services/game-read-service')
+const {
+  getHydratedGameById,
+  listHydratedGamesByConsole,
+} = require('../services/game-read-service')
 const {
   toGameSummary,
   parseStoredJson,
@@ -119,43 +120,24 @@ router.get('/api/games/:id/encyclopedia', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games/:id/similar', handleAsync(async (req, res) => {
-  const currentGame = await Game.findByPk(req.params.id, {
-    attributes: ['id', 'console', 'rarity'],
-  })
+  const currentGame = await getHydratedGameById(req.params.id)
 
   if (!currentGame) {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
 
-  const sameConsoleSameRarity = await Game.findAll({
-    where: {
-      type: 'game',
-      id: { [Op.ne]: currentGame.id },
-      console: currentGame.console,
-      rarity: currentGame.rarity,
-    },
-    attributes: ['id', 'title', 'console', 'year', 'rarity', 'loosePrice'],
-    order: [['loosePrice', 'DESC'], ['title', 'ASC']],
-    limit: 6,
+  const consoleBundle = await listHydratedGamesByConsole({
+    id: currentGame.consoleId || null,
+  }, {
+    nameVariants: [currentGame.console].filter(Boolean),
+    limit: 5000,
+    sort: 'price_desc',
   })
 
-  const selectedGames = [...sameConsoleSameRarity]
-
-  if (selectedGames.length < 6) {
-    const fallbackGames = await Game.findAll({
-      where: {
-        type: 'game',
-        id: { [Op.notIn]: [currentGame.id, ...selectedGames.map((game) => game.id)] },
-        console: currentGame.console,
-        rarity: { [Op.ne]: currentGame.rarity },
-      },
-      attributes: ['id', 'title', 'console', 'year', 'rarity', 'loosePrice'],
-      order: [['loosePrice', 'DESC'], ['title', 'ASC']],
-      limit: 6 - selectedGames.length,
-    })
-
-    selectedGames.push(...fallbackGames)
-  }
+  const pool = (consoleBundle.items || []).filter((game) => game.id !== currentGame.id)
+  const sameConsoleSameRarity = pool.filter((game) => game.rarity === currentGame.rarity)
+  const fallbackGames = pool.filter((game) => game.rarity !== currentGame.rarity)
+  const selectedGames = [...sameConsoleSameRarity, ...fallbackGames].slice(0, 6)
 
   return res.json({
     ok: true,
@@ -172,9 +154,7 @@ router.get('/api/games/:id/similar', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games/:id/franchise', handleAsync(async (req, res) => {
-  const game = await Game.findByPk(req.params.id, {
-    attributes: ['id', 'franch_id'],
-  })
+  const game = await getHydratedGameById(req.params.id)
 
   if (!game) {
     return res.status(404).json({ ok: false, error: 'Game not found' })

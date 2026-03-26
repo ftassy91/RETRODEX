@@ -8,6 +8,7 @@ const {
   getGameAuditEntries,
   getConsoleAuditEntries,
   getMarketAudit,
+  getLegacyCanonicalDivergenceReport,
   getPriorityQueue,
 } = require('../services/audit-service')
 
@@ -41,6 +42,12 @@ router.get('/api/audit/consoles', handleAsync(async (req, res) => {
 router.get('/api/audit/market', handleAsync(async (_req, res) => {
   const market = await getMarketAudit()
   res.json({ ok: true, market })
+}))
+
+router.get('/api/audit/divergence', handleAsync(async (req, res) => {
+  const limit = parseLimit(req.query.limit, 250, 5000)
+  const report = await getLegacyCanonicalDivergenceReport({ limit })
+  res.json({ ok: true, ...report })
 }))
 
 router.get('/api/audit/priorities', handleAsync(async (req, res) => {

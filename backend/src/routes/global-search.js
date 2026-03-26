@@ -1,13 +1,12 @@
 'use strict'
 
 const { Router } = require('express')
-const { Op, fn, col, where: sqlWhere, QueryTypes } = require('sequelize')
+const { Op, fn, col, where: sqlWhere } = require('sequelize')
 
-const Game = require('../models/Game')
-const Console = require('../models/Console')
 const Franchise = require('../models/Franchise')
-const { sequelize } = require('../database')
 const { handleAsync, parseLimit } = require('../helpers/query')
+const { listHydratedGames } = require('../services/game-read-service')
+const { listConsoleItems } = require('../services/console-service')
 
 const router = Router()
 
@@ -91,59 +90,6 @@ function compareResults(left, right) {
     || String(left.title || '').localeCompare(String(right.title || ''), 'fr', { sensitivity: 'base' })
 }
 
-async function loadConsoleCounts() {
-  const rows = await Game.findAll({
-    attributes: ['consoleId', 'console', [fn('COUNT', col('id')), 'gameCount']],
-    where: { type: 'game' },
-    group: ['consoleId', 'console'],
-    raw: true,
-  })
-
-  const byConsoleId = new Map()
-  const byConsoleName = new Map()
-
-  for (const row of rows) {
-    const count = Number(row.gameCount || 0)
-    if (row.consoleId) {
-      byConsoleId.set(String(row.consoleId), count)
-    }
-    if (row.console) {
-      byConsoleName.set(String(row.console), count)
-    }
-  }
-
-  return { byConsoleId, byConsoleName }
-}
-
-async function loadQualityMap(entityType, entityIds = []) {
-  const ids = Array.from(new Set(entityIds.filter(Boolean).map((value) => String(value))))
-  if (!ids.length) {
-    return new Map()
-  }
-
-  try {
-    const rows = await sequelize.query(
-      `SELECT entity_id AS entityId,
-              overall_score AS overallScore,
-              tier
-       FROM quality_records
-       WHERE entity_type = :entityType
-         AND entity_id IN (:ids)`,
-      {
-        replacements: {
-          entityType,
-          ids,
-        },
-        type: QueryTypes.SELECT,
-      }
-    )
-
-    return new Map(rows.map((row) => [String(row.entityId), row]))
-  } catch (_error) {
-    return new Map()
-  }
-}
-
 function createGameResult(game, context, quality = null) {
   const marketHref = `/stats.html?q=${encodeURIComponent(game.title)}`
   const detailHref = `/game-detail.html?id=${encodeURIComponent(game.id)}`
@@ -219,45 +165,13 @@ async function fetchGameResults(query, context, limit) {
     return []
   }
 
-  const rows = await Game.findAll({
-    attributes: [
-      'id',
-      'title',
-      'console',
-      'year',
-      'genre',
-      'developer',
-      'metascore',
-      'rarity',
-      'summary',
-      'synopsis',
-      'cover_url',
-      'coverImage',
-      'loosePrice',
-      'cibPrice',
-      'mintPrice',
-      'loose_price',
-      'cib_price',
-      'mint_price',
-    ],
-    where: {
-      type: 'game',
-      [Op.or]: [
-        buildLike('title', query),
-        buildLike('console', query),
-        buildLike('developer', query),
-        buildLike('genre', query),
-        buildLike('summary', query),
-        buildLike('synopsis', query),
-      ],
-    },
+  const payload = await listHydratedGames({
+    search: query,
     limit: Math.max(limit * 3, 20),
+    offset: 0,
   })
 
-  const plainRows = rows.map((game) => game.get({ plain: true }))
-  const qualityMap = await loadQualityMap('game', plainRows.map((game) => game.id))
-
-  return plainRows.map((game) => createGameResult(game, context, qualityMap.get(String(game.id)) || null))
+  return (payload.items || []).map((game) => createGameResult(game, context, game.quality || null))
 }
 
 async function fetchConsoleResults(query, limit) {
@@ -265,30 +179,30 @@ async function fetchConsoleResults(query, limit) {
     return []
   }
 
-  const [rows, counts] = await Promise.all([
-    Console.findAll({
-      attributes: ['id', 'name', 'manufacturer', 'generation', 'releaseYear', 'slug'],
-      where: {
-        [Op.or]: [
-          buildLike('name', query),
-          buildLike('manufacturer', query),
-          buildLike('slug', query),
-        ],
-      },
-      limit: Math.max(limit, 10),
-    }),
-    loadConsoleCounts(),
-  ])
+  const normalizedQuery = tokenize(query).join(' ')
+  const items = await listConsoleItems()
 
-  const plainRows = rows.map((consoleItem) => consoleItem.get({ plain: true }))
-  const qualityMap = await loadQualityMap('console', plainRows.map((consoleItem) => consoleItem.id))
+  return items
+    .filter((consoleItem) => {
+      const haystack = tokenize([
+        consoleItem.name,
+        consoleItem.manufacturer,
+        consoleItem.generation,
+        consoleItem.summary,
+        consoleItem.slug,
+      ].filter(Boolean).join(' ')).join(' ')
 
-  return plainRows.map((plain) => {
-    const count = counts.byConsoleId.get(String(plain.id))
-      || counts.byConsoleName.get(String(plain.name))
-      || 0
-    return createConsoleResult(plain, count, qualityMap.get(String(plain.id)) || null)
-  })
+      return haystack.includes(normalizedQuery)
+    })
+    .slice(0, Math.max(limit, 10))
+    .map((consoleItem) => createConsoleResult(
+      consoleItem,
+      consoleItem.gamesCount || 0,
+      consoleItem.quality ? {
+        overallScore: consoleItem.quality.score,
+        tier: consoleItem.quality.tier,
+      } : null
+    ))
 }
 
 async function fetchFranchiseResults(query, limit) {

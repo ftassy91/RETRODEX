@@ -44,6 +44,23 @@
 - `games` stays the public compatibility table for existing routes.
 - New normalized tables become the source of truth for new enrichment and audit flows.
 - Existing public routes read through adapters until the public surface can move to the canonical layer safely.
+- Transitional rule: **canonical first, legacy fallback**.
+- Legacy columns in `games` remain readable only to preserve runtime compatibility while migration completes.
+- No new enrichment should write product-critical values directly into legacy-only fields unless the canonical owner is also updated.
+
+## Compatibility ownership matrix
+
+| Field family | Canonical owner | Legacy compatibility field | Runtime rule |
+| --- | --- | --- | --- |
+| Game identity | `games`, `releases` | `games.title`, `games.console`, `games.year`, `games.slug` | Read allowed, canonical release layer extends identity |
+| Editorial summary / synopsis / lore | `game_editorial` | `games.summary`, `games.synopsis`, `games.lore` | Canonical first, legacy fallback only |
+| Contributors | `people`, `game_people` | `games.dev_team`, `games.ost_composers`, `games.developer` | Canonical first, legacy strings are fallback only |
+| Company links | `companies`, `game_companies` | `games.developer`, `games.publisher` | Canonical first, legacy strings are fallback only |
+| Market snapshot | `market_snapshots` | `games.loosePrice`, `games.cibPrice`, `games.mintPrice` | Canonical first, legacy prices are fallback only |
+| Market history | `price_observations` | legacy `price_history` | Canonical first, legacy history remains transitional |
+| Media references | `media_references` | `games.cover_url`, `games.coverImage`, `games.manual_url` | Canonical first, legacy URLs are fallback only |
+| Source traceability | `source_records`, `field_provenance` | `games.source_confidence` | Canonical first, legacy confidence is fallback only |
+| Quality / readiness | `quality_records` | none | Canonical only |
 
 ## Backfill policy
 
@@ -71,6 +88,7 @@
 - `price_observations` owns the auditable historical market layer.
 - `media_references` owns asset pointers and compliance status; no product route should infer local asset ownership from a bare URL alone.
 - `source_records` and `field_provenance` own the explanation of where a field came from and whether it can be trusted.
+- `games.loosePrice`, `games.cibPrice`, `games.mintPrice`, `games.summary`, `games.synopsis`, `games.cover_url`, `games.coverImage`, `games.manual_url`, `games.dev_team`, and `games.ost_composers` are now **fallback-only** for public runtime compatibility.
 
 ## Non-negotiable rules
 

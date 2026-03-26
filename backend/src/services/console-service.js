@@ -3,8 +3,11 @@
 const { Op } = require('sequelize')
 
 const Console = require('../models/Console')
-const Game = require('../models/Game')
 const { getConsoleById, getRelatedConsoles, normalizeConsoleKey } = require('../lib/consoles')
+const {
+  listHydratedGames,
+  listHydratedGamesByConsole,
+} = require('./game-read-service')
 
 const NAME_VARIANTS = {
   amiga: ['Amiga'],
@@ -245,46 +248,15 @@ async function findConsoleRecord(idOrSlug) {
 
 async function loadConsoleGames(consoleRecord, knowledgeEntry, limit = 24) {
   const names = buildNameVariants(consoleRecord, knowledgeEntry)
-  const whereOr = [{ consoleId: consoleRecord.id }]
-
-  if (names.length) {
-    whereOr.push({ console: { [Op.in]: names } })
-  }
-
-  const games = await Game.findAll({
-    attributes: [
-      'id',
-      'title',
-      'console',
-      'year',
-      'developer',
-      'metascore',
-      'rarity',
-      'summary',
-      'cover_url',
-      'coverImage',
-      'loosePrice',
-      'cibPrice',
-      'mintPrice',
-    ],
-    where: {
-      type: 'game',
-      [Op.or]: whereOr,
-    },
-    order: [['year', 'ASC'], ['title', 'ASC']],
+  const payload = await listHydratedGamesByConsole(consoleRecord, {
+    nameVariants: names,
     limit,
-  })
-
-  const total = await Game.count({
-    where: {
-      type: 'game',
-      [Op.or]: whereOr,
-    },
+    sort: 'year_asc',
   })
 
   return {
-    total,
-    items: games.map((game) => toGamePayload(game.get({ plain: true }))),
+    total: payload.total,
+    items: (payload.items || []).map((game) => toGamePayload(game)),
   }
 }
 
@@ -429,23 +401,33 @@ async function listConsoleItems() {
     attributes: ['id', 'name', 'manufacturer', 'generation', 'releaseYear', 'slug'],
     order: [['name', 'ASC']],
   })
-
-  const rows = await Game.findAll({
-    attributes: ['consoleId', 'console', [Game.sequelize.fn('COUNT', Game.sequelize.col('id')), 'gameCount']],
-    where: { type: 'game' },
-    group: ['consoleId', 'console'],
-    raw: true,
+  const catalog = await listHydratedGames({
+    limit: 5000,
+    offset: 0,
   })
+  const games = catalog.items || []
 
   const countsById = new Map()
   const countsByName = new Map()
-  for (const row of rows) {
-    const count = Number(row.gameCount || 0)
-    if (row.consoleId) {
-      countsById.set(String(row.consoleId), count)
+  const pricedById = new Map()
+  const pricedByName = new Map()
+
+  for (const game of games) {
+    const isPriced = Number(game.loosePrice || game.cibPrice || game.mintPrice) > 0
+    if (game.consoleId) {
+      const key = String(game.consoleId)
+      countsById.set(key, (countsById.get(key) || 0) + 1)
+      if (isPriced) {
+        pricedById.set(key, (pricedById.get(key) || 0) + 1)
+      }
     }
-    if (row.console) {
-      countsByName.set(String(row.console), count)
+
+    if (game.console) {
+      const key = String(game.console)
+      countsByName.set(key, (countsByName.get(key) || 0) + 1)
+      if (isPriced) {
+        pricedByName.set(key, (pricedByName.get(key) || 0) + 1)
+      }
     }
   }
 
@@ -456,12 +438,16 @@ async function listConsoleItems() {
       || countsByName.get(String(plain.name))
       || countsByName.get(String((NAME_VARIANTS[plain.id] || [])[0] || ''))
       || 0
-    const sources = buildSourcesPayload(plain, knowledgeEntry, { pricedGames: 0 })
+    const pricedGamesCount = pricedById.get(String(plain.id))
+      || pricedByName.get(String(plain.name))
+      || pricedByName.get(String((NAME_VARIANTS[plain.id] || [])[0] || ''))
+      || 0
+    const sources = buildSourcesPayload(plain, knowledgeEntry, { pricedGames: pricedGamesCount })
     const quality = computeConsoleQuality({
       consoleRecord: plain,
       knowledgeEntry,
       gamesCount,
-      pricedGamesCount: 0,
+      pricedGamesCount,
       sources,
     })
 

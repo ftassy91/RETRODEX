@@ -1,6 +1,6 @@
 'use strict'
 
-const { QueryTypes } = require('sequelize')
+const { Op, QueryTypes } = require('sequelize')
 
 const Game = require('../models/Game')
 const { sequelize } = require('../database')
@@ -589,6 +589,14 @@ async function listHydratedGames(options = {}) {
   if (options.consoleName) {
     where.console = String(options.consoleName)
   }
+  if (options.franchiseId) {
+    where.franch_id = String(options.franchiseId)
+  }
+  if (Array.isArray(options.ids) && options.ids.length) {
+    where.id = {
+      [Op.in]: Array.from(new Set(options.ids.filter(Boolean).map((value) => String(value)))),
+    }
+  }
   if (options.rarity) {
     where.rarity = String(options.rarity)
   }
@@ -645,6 +653,105 @@ async function getHydratedGameById(gameId) {
   return mergeGameRecord(record.get({ plain: true }), supplement)
 }
 
+async function getHydratedGameByLookup(lookup) {
+  const needle = String(lookup || '').trim()
+  if (!needle) {
+    return null
+  }
+
+  const record = await Game.findOne({
+    where: {
+      [Op.or]: [
+        { id: needle },
+        { slug: needle },
+      ],
+    },
+    attributes: BASE_GAME_ATTRIBUTES,
+  })
+
+  if (!record) {
+    return null
+  }
+
+  const supplement = await loadCanonicalSupplements(record.id)
+  return mergeGameRecord(record.get({ plain: true }), supplement)
+}
+
+async function getHydratedGamesByIds(gameIds = [], { preserveOrder = true } = {}) {
+  const ids = Array.from(new Set((gameIds || []).filter(Boolean).map((value) => String(value))))
+  if (!ids.length) {
+    return []
+  }
+
+  const rows = await Game.findAll({
+    where: {
+      id: {
+        [Op.in]: ids,
+      },
+    },
+    attributes: BASE_GAME_ATTRIBUTES,
+  })
+
+  const hydratedRows = await hydrateGameRows(rows)
+  if (!preserveOrder) {
+    return hydratedRows
+  }
+
+  const byId = new Map(hydratedRows.map((row) => [String(row.id), row]))
+  return ids.map((id) => byId.get(String(id))).filter(Boolean)
+}
+
+async function listHydratedGamesByConsole(consoleRecord, options = {}) {
+  const consoleId = consoleRecord?.id ? String(consoleRecord.id) : null
+  const nameVariants = Array.from(new Set((options.nameVariants || [])
+    .filter(Boolean)
+    .map((value) => String(value))))
+  const whereOr = []
+
+  if (consoleId) {
+    whereOr.push({ consoleId })
+  }
+  if (nameVariants.length) {
+    whereOr.push({ console: { [Op.in]: nameVariants } })
+  }
+
+  if (!whereOr.length) {
+    return {
+      items: [],
+      returned: 0,
+      total: 0,
+    }
+  }
+
+  const rows = await Game.findAll({
+    where: {
+      type: 'game',
+      [Op.or]: whereOr,
+    },
+    attributes: BASE_GAME_ATTRIBUTES,
+  })
+
+  let items = await hydrateGameRows(rows)
+  items.sort((left, right) => compareGamesForSort(left, right, options.sort))
+
+  const offset = Math.max(0, Number(options.offset || 0) || 0)
+  const limit = Math.max(1, Math.min(Number(options.limit || 24) || 24, 5000))
+  const total = items.length
+
+  return {
+    items: items.slice(offset, offset + limit),
+    returned: Math.max(0, Math.min(limit, total - offset)),
+    total,
+  }
+}
+
+async function listHydratedGamesByFranchise(franchiseId, options = {}) {
+  return listHydratedGames({
+    ...options,
+    franchiseId,
+  })
+}
+
 module.exports = {
   BASE_GAME_ATTRIBUTES,
   parseMaybeJson,
@@ -653,4 +760,8 @@ module.exports = {
   listHydratedGames,
   getRandomHydratedGame,
   getHydratedGameById,
+  getHydratedGameByLookup,
+  getHydratedGamesByIds,
+  listHydratedGamesByConsole,
+  listHydratedGamesByFranchise,
 }
