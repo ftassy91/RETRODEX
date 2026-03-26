@@ -60,6 +60,7 @@ function tableNamesMatch(tableName, target) {
 }
 
 let tableNamesPromise = null
+let gameColumnsPromise = null
 
 async function getTableNames() {
   if (!tableNamesPromise) {
@@ -75,6 +76,29 @@ async function getTableNames() {
 async function tableExists(target) {
   const tables = await getTableNames()
   return tables.has(String(target || '').toLowerCase())
+}
+
+async function getGameColumnNames() {
+  if (!gameColumnsPromise) {
+    gameColumnsPromise = sequelize.getQueryInterface()
+      .describeTable('games')
+      .then((columns) => new Set(Object.keys(columns || {}).map((name) => String(name || '').toLowerCase())))
+      .catch(() => new Set())
+  }
+
+  return gameColumnsPromise
+}
+
+async function getSelectableGameAttributes(attributes = BASE_GAME_ATTRIBUTES) {
+  const columns = await getGameColumnNames()
+  if (!columns.size) {
+    return attributes.filter((attribute) => attribute !== 'coverImage')
+  }
+
+  return attributes.filter((attribute) => {
+    const field = Game.rawAttributes?.[attribute]?.field || attribute
+    return columns.has(String(field || '').toLowerCase())
+  })
 }
 
 function buildPeopleBuckets(rows) {
@@ -582,6 +606,7 @@ async function listHydratedGames(options = {}) {
   const limit = Math.max(1, Math.min(Number(options.limit || 20) || 20, 5000))
   const offset = Math.max(0, Number(options.offset || 0) || 0)
   const where = { type: 'game' }
+  const selectableAttributes = await getSelectableGameAttributes(BASE_GAME_ATTRIBUTES)
 
   if (options.consoleId) {
     where.consoleId = String(options.consoleId)
@@ -603,7 +628,7 @@ async function listHydratedGames(options = {}) {
 
   const rows = await Game.findAll({
     where,
-    attributes: BASE_GAME_ATTRIBUTES,
+    attributes: selectableAttributes,
   })
 
   let games = await hydrateGameRows(rows)
@@ -644,7 +669,11 @@ async function getRandomHydratedGame(options = {}) {
 }
 
 async function getHydratedGameById(gameId) {
-  const record = await Game.findByPk(gameId)
+  const selectableAttributes = await getSelectableGameAttributes(BASE_GAME_ATTRIBUTES)
+  const record = await Game.findOne({
+    where: { id: gameId },
+    attributes: selectableAttributes,
+  })
   if (!record) {
     return null
   }
@@ -659,6 +688,8 @@ async function getHydratedGameByLookup(lookup) {
     return null
   }
 
+  const selectableAttributes = await getSelectableGameAttributes(BASE_GAME_ATTRIBUTES)
+
   const record = await Game.findOne({
     where: {
       [Op.or]: [
@@ -666,7 +697,7 @@ async function getHydratedGameByLookup(lookup) {
         { slug: needle },
       ],
     },
-    attributes: BASE_GAME_ATTRIBUTES,
+    attributes: selectableAttributes,
   })
 
   if (!record) {
@@ -683,13 +714,15 @@ async function getHydratedGamesByIds(gameIds = [], { preserveOrder = true } = {}
     return []
   }
 
+  const selectableAttributes = await getSelectableGameAttributes(BASE_GAME_ATTRIBUTES)
+
   const rows = await Game.findAll({
     where: {
       id: {
         [Op.in]: ids,
       },
     },
-    attributes: BASE_GAME_ATTRIBUTES,
+    attributes: selectableAttributes,
   })
 
   const hydratedRows = await hydrateGameRows(rows)
@@ -723,12 +756,14 @@ async function listHydratedGamesByConsole(consoleRecord, options = {}) {
     }
   }
 
+  const selectableAttributes = await getSelectableGameAttributes(BASE_GAME_ATTRIBUTES)
+
   const rows = await Game.findAll({
     where: {
       type: 'game',
       [Op.or]: whereOr,
     },
-    attributes: BASE_GAME_ATTRIBUTES,
+    attributes: selectableAttributes,
   })
 
   let items = await hydrateGameRows(rows)
@@ -754,6 +789,7 @@ async function listHydratedGamesByFranchise(franchiseId, options = {}) {
 
 module.exports = {
   BASE_GAME_ATTRIBUTES,
+  getSelectableGameAttributes,
   parseMaybeJson,
   mergeGameRecord,
   hydrateGameRows,

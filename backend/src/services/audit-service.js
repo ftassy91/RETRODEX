@@ -10,6 +10,7 @@ const Game = require('../models/Game')
 const Console = require('../models/Console')
 const { getConsoleById } = require('../lib/consoles')
 const { getSourcePolicy } = require('../config/source-policy')
+const { getSelectableGameAttributes } = require('./game-read-service')
 const {
   freshnessScoreFromDate,
   scoreGameEntity,
@@ -338,33 +339,35 @@ async function upsertQualityRecord(entry) {
 }
 
 async function getGameAuditEntries({ limit = 250, persist = false } = {}) {
+  const gameAuditAttributes = await getSelectableGameAttributes([
+    'id',
+    'title',
+    'console',
+    'consoleId',
+    'year',
+    'developer',
+    'genre',
+    'metascore',
+    'rarity',
+    'summary',
+    'synopsis',
+    'dev_team',
+    'ost_composers',
+    'franch_id',
+    'slug',
+    'source_confidence',
+    'loosePrice',
+    'cibPrice',
+    'mintPrice',
+    'cover_url',
+    'coverImage',
+    'manual_url',
+  ])
+
   const [games, priceSupportMap, sourceCountMap, duplicateMap, editorialMap, canonicalPeopleMap, marketSnapshotMap] = await Promise.all([
     Game.findAll({
       where: { type: 'game' },
-      attributes: [
-        'id',
-        'title',
-        'console',
-        'consoleId',
-        'year',
-        'developer',
-        'genre',
-        'metascore',
-        'rarity',
-        'summary',
-        'synopsis',
-        'dev_team',
-        'ost_composers',
-        'franch_id',
-        'slug',
-        'source_confidence',
-        'loosePrice',
-        'cibPrice',
-        'mintPrice',
-        'cover_url',
-        'coverImage',
-        'manual_url',
-      ],
+      attributes: gameAuditAttributes,
     }),
     loadPriceSupportMap(),
     loadSourceCountMap('game'),
@@ -573,22 +576,24 @@ async function getMarketAudit() {
 }
 
 async function getLegacyCanonicalDivergenceReport({ limit = 250 } = {}) {
+  const divergenceAttributes = await getSelectableGameAttributes([
+    'id',
+    'title',
+    'console',
+    'year',
+    'summary',
+    'synopsis',
+    'cover_url',
+    'coverImage',
+    'loosePrice',
+    'cibPrice',
+    'mintPrice',
+  ])
+
   const [games, editorialMap, snapshotMap, mediaMap] = await Promise.all([
     Game.findAll({
       where: { type: 'game' },
-      attributes: [
-        'id',
-        'title',
-        'console',
-        'year',
-        'summary',
-        'synopsis',
-        'cover_url',
-        'coverImage',
-        'loosePrice',
-        'cibPrice',
-        'mintPrice',
-      ],
+      attributes: divergenceAttributes,
       order: [['title', 'ASC']],
     }),
     loadEditorialMap(),
