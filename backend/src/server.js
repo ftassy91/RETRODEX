@@ -1,5 +1,6 @@
 'use strict'
 
+const fs = require('fs')
 const path = require('path')
 
 require('dotenv').config({
@@ -39,6 +40,7 @@ function getLegacyRuntime() {
   const { sequelize, storagePath, databaseMode, databaseTarget } = require('./database')
   const Game = require('./models/Game')
   const Franchise = require('./models/Franchise')
+  const Console = require('./models/Console')
   const RetrodexIndex = require('../models/RetrodexIndex')
   const { syncGamesFromPrototype } = require('./syncGames')
 
@@ -56,6 +58,7 @@ function getLegacyRuntime() {
     databaseTarget,
     Game,
     Franchise,
+    Console,
     syncGamesFromPrototype,
   }
 
@@ -130,6 +133,78 @@ async function ensurePriceHistoryTable() {
     CREATE INDEX IF NOT EXISTS idx_ph_sale_date
     ON price_history(sale_date)
   `)
+}
+
+function parseConsoleGeneration(value) {
+  const raw = String(value || '').trim()
+  if (!raw) {
+    return null
+  }
+
+  const numeric = Number.parseInt(raw, 10)
+  if (Number.isInteger(numeric)) {
+    return numeric
+  }
+
+  const normalized = raw.toLowerCase()
+  const map = new Map([
+    ['first', 1],
+    ['second', 2],
+    ['third', 3],
+    ['fourth', 4],
+    ['fifth', 5],
+    ['sixth', 6],
+    ['seventh', 7],
+    ['eighth', 8],
+    ['ninth', 9],
+  ])
+
+  for (const [token, rank] of map.entries()) {
+    if (normalized.includes(token)) {
+      return rank
+    }
+  }
+
+  return null
+}
+
+async function ensureConsolesSeeded() {
+  const { Console } = getLegacyRuntime()
+
+  const existingCount = await Console.count().catch(() => 0)
+  if (existingCount > 0) {
+    return
+  }
+
+  const seedPath = path.join(__dirname, '..', '..', 'data', 'consoles.json')
+  const raw = await fs.promises.readFile(seedPath, 'utf8').catch(() => null)
+  if (!raw) {
+    return
+  }
+
+  const items = JSON.parse(raw)
+  if (!Array.isArray(items) || !items.length) {
+    return
+  }
+
+  const rows = items
+    .map((item) => ({
+      id: String(item.id || '').trim(),
+      slug: String(item.id || item.slug || '').trim(),
+      name: String(item.name || '').trim(),
+      manufacturer: String(item.manufacturer || 'Unknown').trim(),
+      generation: parseConsoleGeneration(item.generation),
+      releaseYear: Number.isInteger(Number(item.release_year)) ? Number(item.release_year) : null,
+    }))
+    .filter((item) => item.id && item.slug && item.name)
+
+  if (!rows.length) {
+    return
+  }
+
+  await Console.bulkCreate(rows, {
+    ignoreDuplicates: true,
+  })
 }
 
 const app = express()
@@ -277,6 +352,8 @@ async function startServer(portOverride) {
   if (shouldBootstrap) {
     await syncGamesFromPrototype()
   }
+
+  await ensureConsolesSeeded()
 
   const PORT = Number(portOverride || process.env.PORT || 3000)
 
