@@ -686,3 +686,29 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - la validation finale de production depend encore de la propagation Vercel
 - Next step:
   - commit, push `main`, puis verifier le redeploiement externe
+
+## [2026-03-26 17:31]
+- Sprint / phase : Hotfix production - mode Vercel SQLite lecture seule
+- Actions completed:
+  - identification d'un risque specifique Vercel : le runtime canonique pouvait tenter de `sync` ou migrer SQLite au cold start, ce qui n'est pas une hypothese saine sur un filesystem serverless
+  - ajout d'un garde-fou dans `server.js` : en mode `VERCEL` + `sqlite`, initialiser le runtime sans ecriture ni migration destructrice
+  - revalidation locale en mode Vercel simule : `GET /api/health`, `GET /api/games`, `GET /api/stats`, `GET /api/search/global` restent tous `200`
+- Files modified:
+  - `backend/src/server.js`
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement de schema
+  - aucune migration executee sur SQLite serverless
+- Sources evaluated:
+  - aucune
+- Compliance notes:
+  - aucun impact source/compliance
+- Quality score impact:
+  - moins de risque de crash au cold start sur environnement serverless
+  - comportement plus sûr entre SQLite embarqué et Postgres
+- Commits:
+  - a venir apres staging du correctif final
+- Issues:
+  - la validation definitive depend encore du redeploiement Vercel public
+- Next step:
+  - commit, push `main`, puis re-test des endpoints distants
