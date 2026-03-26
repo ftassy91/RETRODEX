@@ -825,3 +825,33 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - la presence effective de vrai boxart en prod depend encore des URLs reelles stockees en base Supabase
 - Next step:
   - commit cible, push sur `main`, puis re-test live de `search.html?q=zelda`, `games-list.html`, `game-detail.html?id=metal-slug-neo-geo`, `/api/games/:id/archive` et `/api/games/:id/encyclopedia`
+
+## [2026-03-26 19:12]
+- Sprint / phase:
+  - correction de donnees prod pour les surfaces publiques serverless
+- Actions completed:
+  - analyse du schema Supabase live : la table `games` n'avait pas les colonnes encyclopediques `lore`, `gameplay_description`, `characters`, `ost_composers`, `ost_notable_tracks`, `manual_url`, `avg_duration_*`, `speedrun_wr`
+  - verification de l'ecart local/prod : SQLite local contient deja les covers et une partie des donnees encyclopediques qui manquent en prod
+  - ajout d'un script reexecutabe `backend/scripts/sync-supabase-ui-fields.js`
+  - le script ajoute les colonnes manquantes cote Supabase puis remplit uniquement les champs vides depuis SQLite local et la couche canonique (`game_editorial`, `game_people`, `media_references`)
+- Files modified:
+  - `backend/scripts/sync-supabase-ui-fields.js`
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - ajout non destructif des colonnes encyclopediques manquantes sur `public.games` en prod Supabase
+  - sync cible des champs UI : cover, synopsis/sommaire, lore, personnages, casting dev, OST, astuces/codes, notice, duree, speedrun
+- Sources evaluated:
+  - aucune nouvelle source externe
+  - source de verite = SQLite locale et couche canonique deja construites dans le projet
+- Compliance notes:
+  - aucune ingestion nouvelle
+  - aucune copie d'asset binaire
+  - uniquement des URL externes et du texte deja present dans la base locale du projet
+- Quality score impact:
+  - restauration attendue des boxarts et de la profondeur encyclopedique sur le runtime prod Vercel
+- Commits:
+  - en attente
+- Issues:
+  - toutes les fiches n'ont pas encore de duree de vie localement ; la section s'affichera quand la donnee existe
+- Next step:
+  - executer le script en dry-run, appliquer le sync, verifier les endpoints live et pousser le correctif de traçabilite
