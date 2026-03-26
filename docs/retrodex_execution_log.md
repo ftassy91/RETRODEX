@@ -596,3 +596,35 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - le merge d'integration n'est pas encore commit/push ; il ne faut pas toucher `main` tant que cette etape n'est pas finalisee
 - Next step:
   - commit du merge dans `codex/integration-main-retrodex`, push de la branche d'integration et preparation d'une integration propre vers `main`
+
+## [2026-03-26 17:13]
+- Sprint / phase : Hotfix production - routes serverless RetroMarket / search
+- Actions completed:
+  - reproduction du bug sur Vercel : `GET /api/search?q=ze`, `GET /api/games?q=ze&limit=12` et `GET /api/franchises` renvoyaient `500`
+  - suppression dans `db_supabase.js` d'une dependance SQL non sure a la colonne PostgreSQL `"coverImage"` ; le read-model Sequelize utilise maintenant `cover_url` comme source canonique d'image
+  - simplification du filtre de recherche SQL Sequelize pour ne plus dependre de colonnes optionnelles legacy comme `lore` et `gameplay_description`
+  - ajout dans `serverless.js` d'une degradation propre quand `retrodex_search_index` ou `franchise_entries` sont absentes du schema cache Supabase
+  - ajout d'un vrai fallback `games` dans `/api/search` quand l'index de recherche manque ou ne retourne rien
+  - durcissement des routes `/api/franchises`, `/api/franchises/:slug`, `/api/franchises/:slug/games` et `/api/stats` pour ne plus tomber en `500` si les tables franchise ne sont pas disponibles
+- Files modified:
+  - `backend/db_supabase.js`
+  - `backend/src/routes/serverless.js`
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement de schema
+  - aucun changement destructif de donnees
+- Sources evaluated:
+  - aucune nouvelle source externe
+  - verification runtime sur le deploiement Vercel existant
+- Compliance notes:
+  - correctif purement runtime
+  - aucun nouvel usage de donnees tierces
+- Quality score impact:
+  - meilleur niveau de resilience du runtime serverless
+  - moins de couplage aux colonnes et tables optionnelles du schema legacy
+- Commits:
+  - a venir apres staging cible du hotfix
+- Issues:
+  - la validation finale du correctif en production depend du redeploiement Vercel apres push
+- Next step:
+  - commit ciblé du hotfix, push sur `main`, puis verification des endpoints de production
