@@ -744,3 +744,35 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - la verification finale depend du redeploiement Vercel de `main`
 - Next step:
   - commit du hotfix, integrer dans le worktree propre, pousser `main`, puis re-tester la prod publique
+
+## [2026-03-26 18:14]
+- Sprint / phase : Hotfix production - completion du runtime Supabase public
+- Actions completed:
+  - verification apres redeploiement partiel : `GET /api/health` et `GET /api/stats` etaient revenus en `200`, mais `GET /api/games` restait en `500` et `GET /api/search/global` en `404`
+  - identification de la cause sur `GET /api/games` : `backend/db_supabase.js` appelait encore `require('./src/database')` dans `queryGames()`, ce qui reintroduisait le chargement SQLite a la premiere requete
+  - correction de `queryGames()` pour utiliser uniquement `_sequelizeOverride` quand le runtime canonique est explicitement initialise, et rester 100% Supabase sinon
+  - ajout d'une implementation compatible de `GET /api/search/global` dans `backend/src/routes/serverless.js`, avec resultats `game`, `console`, `franchise` et contrat `items/count/label` compatible front
+  - revalidation locale :
+    - `node --check` sur `backend/db_supabase.js` et `backend/src/routes/serverless.js`
+    - chargement de `backend/src/server.js` en mode `VERCEL=1` + Supabase-only sans crash bootstrap
+- Files modified:
+  - `backend/db_supabase.js`
+  - `backend/src/routes/serverless.js`
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement de schema
+  - aucune donnee modifiee
+- Sources evaluated:
+  - aucune nouvelle source
+  - verification de production sur `retrodex-beryl.vercel.app`
+- Compliance notes:
+  - aucun impact source/compliance
+- Quality score impact:
+  - suppression du dernier chemin qui rechargeait SQLite sur `/api/games`
+  - restauration du contrat de recherche globale attendu par le front en runtime Supabase
+- Commits:
+  - a venir apres staging cible et push `main`
+- Issues:
+  - la verification finale depend de la propagation Vercel du nouveau commit
+- Next step:
+  - push du correctif sur `main`, puis re-test live des endpoints publics

@@ -15,6 +15,7 @@ const {
 const { handleAsync, parseLimit } = require('../helpers/query')
 const { dedupeSearchResults } = require('../helpers/search')
 const { buildPriceHistoryPayload } = require('../helpers/priceHistory')
+const { listConsoles, normalizeConsoleKey } = require('../lib/consoles')
 
 const router = Router()
 // SYNC: SC-5 - routes Search Core confirmees pour le runtime serverless
@@ -42,6 +43,14 @@ const DEX_RARITY_ORDER = {
   RARE: 2,
   UNCOMMON: 3,
   COMMON: 4,
+}
+
+const SEARCH_CONTEXT_LABELS = {
+  all: 'TOUS',
+  retrodex: 'RETRODEX',
+  retromarket: 'RETROMARKET',
+  collection: 'COLLECTION',
+  neoretro: 'NEORETRO',
 }
 
 function normalizeGameRecord(game) {
@@ -565,6 +574,141 @@ function scoreResult(result, query) {
   return 10
 }
 
+function compareGlobalResults(left, right) {
+  return (right.score || 0) - (left.score || 0)
+    || String(left.title || '').localeCompare(String(right.title || ''), 'fr', {
+      sensitivity: 'base',
+    })
+}
+
+function createGlobalGameResult(game, context = 'all') {
+  const item = normalizeGameRecord(game)
+  const marketHref = `/stats.html?q=${encodeURIComponent(item.title || '')}`
+  const detailHref = `/game-detail.html?id=${encodeURIComponent(item.id || '')}`
+
+  return {
+    id: item.id,
+    type: 'game',
+    title: item.title || '',
+    subtitle: [item.console, item.year].filter(Boolean).join(' · '),
+    href: context === 'retromarket' ? marketHref : detailHref,
+    marketHref,
+    detailHref,
+    product: context === 'retromarket' ? 'retromarket' : 'retrodex',
+    meta: {
+      console: item.console || null,
+      year: item.year ?? null,
+      genre: item.genre || null,
+      developer: item.developer || null,
+      metascore: item.metascore ?? null,
+      rarity: item.rarity || null,
+      summary: item.summary || item.synopsis || null,
+      synopsis: item.synopsis || null,
+      coverImage: item.coverImage || item.cover_url || null,
+      loosePrice: item.loosePrice ?? item.loose_price ?? null,
+      cibPrice: item.cibPrice ?? item.cib_price ?? null,
+      mintPrice: item.mintPrice ?? item.mint_price ?? null,
+      qualityScore: Number(item.source_confidence || 0) || null,
+    },
+  }
+}
+
+function createGlobalConsoleResult(consoleItem, gamesCount = 0) {
+  const releaseYear = consoleItem.releaseYear ?? consoleItem.release_year ?? null
+
+  return {
+    id: `console-${consoleItem.id}`,
+    type: 'console',
+    title: consoleItem.name || '',
+    subtitle: [consoleItem.manufacturer, releaseYear, gamesCount ? `${gamesCount} jeux` : null]
+      .filter(Boolean)
+      .join(' · '),
+    href: `/console-detail.html?id=${encodeURIComponent(consoleItem.id || '')}`,
+    marketHref: `/stats.html?q=${encodeURIComponent(consoleItem.name || '')}`,
+    product: 'retrodex',
+    meta: {
+      manufacturer: consoleItem.manufacturer || null,
+      console: consoleItem.name || null,
+      year: releaseYear,
+      gamesCount,
+    },
+  }
+}
+
+function createGlobalFranchiseResult(franchise) {
+  return {
+    id: `franchise-${franchise.slug || franchise.id}`,
+    type: 'franchise',
+    title: franchise.name || '',
+    subtitle: [franchise.developer, franchise.first_game_year, franchise.last_game_year ? `→ ${franchise.last_game_year}` : null]
+      .filter(Boolean)
+      .join(' · '),
+    href: `/franchises.html?slug=${encodeURIComponent(franchise.slug || franchise.id || '')}`,
+    product: 'retrodex',
+    meta: {
+      developer: franchise.developer || null,
+      summary: franchise.synopsis || null,
+    },
+  }
+}
+
+async function fetchGlobalConsoleResults(query, limit) {
+  const normalizedQuery = String(query || '').trim().toLowerCase()
+  if (!normalizedQuery) {
+    return []
+  }
+
+  const consoles = listConsoles()
+  const games = await fetchAllSupabaseGames()
+  const counts = new Map()
+
+  games.forEach((game) => {
+    const key = normalizeConsoleKey(game.console)
+    if (!key) {
+      return
+    }
+    counts.set(key, (counts.get(key) || 0) + 1)
+  })
+
+  return consoles
+    .filter((consoleItem) => {
+      const haystack = [
+        consoleItem.id,
+        consoleItem.name,
+        consoleItem.manufacturer,
+        consoleItem.generation,
+        consoleItem.summary,
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase()
+
+      return haystack.includes(normalizedQuery)
+    })
+    .slice(0, Math.max(limit, 10))
+    .map((consoleItem) => {
+      const countKey = normalizeConsoleKey(consoleItem.id || consoleItem.name)
+      return createGlobalConsoleResult(consoleItem, counts.get(countKey) || 0)
+    })
+}
+
+async function fetchGlobalFranchiseResults(query, limit) {
+  const { data, error } = await db
+    .from('franchise_entries')
+    .select('slug,name,synopsis,first_game_year,last_game_year,developer')
+    .ilike('name', `%${query}%`)
+    .limit(Math.max(limit, 10))
+
+  if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return []
+    }
+    throw new Error(error.message)
+  }
+
+  return (data || []).map(createGlobalFranchiseResult)
+}
+
 function median(values) {
   if (!values.length) {
     return 0
@@ -913,6 +1057,58 @@ router.get('/api/search', handleAsync(async (req, res) => {
     items: results,
     count: results.length,
     query: q,
+  })
+}))
+
+router.get('/api/search/global', handleAsync(async (req, res) => {
+  const q = String(req.query.q || '').trim()
+  const context = String(req.query.context || 'all').trim().toLowerCase()
+  const limit = parseLimit(req.query.limit, 20, 60)
+
+  if (q.length < 2) {
+    return res.json({
+      ok: true,
+      query: q,
+      context,
+      label: SEARCH_CONTEXT_LABELS[context] || SEARCH_CONTEXT_LABELS.all,
+      items: [],
+      count: 0,
+    })
+  }
+
+  const [gamesPayload, consoles, franchises] = await Promise.all([
+    queryGames({
+      search: q,
+      sort: 'title_asc',
+      limit: Math.max(limit * 3, 20),
+      offset: 0,
+    }),
+    fetchGlobalConsoleResults(q, limit),
+    fetchGlobalFranchiseResults(q, limit),
+  ])
+
+  let items = [
+    ...((gamesPayload.items || []).map((game) => createGlobalGameResult(game, context))),
+    ...consoles,
+    ...franchises,
+  ]
+
+  if (context === 'retromarket' || context === 'collection') {
+    items = items.filter((item) => item.type === 'game')
+  }
+
+  items = items
+    .map((item) => ({ ...item, score: scoreResult(item, q) }))
+    .sort(compareGlobalResults)
+    .slice(0, limit)
+
+  res.json({
+    ok: true,
+    query: q,
+    context,
+    label: SEARCH_CONTEXT_LABELS[context] || SEARCH_CONTEXT_LABELS.all,
+    items,
+    count: items.length,
   })
 }))
 
