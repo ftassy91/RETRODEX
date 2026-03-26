@@ -26,6 +26,8 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Audit structure genere et versionne sous `data/audit/`, avec couverture jeux / consoles / marche exploitable directement.
 - Base canonique initiale creee via migration `20260326_001_canonical_core`, sans casser le read-model public legacy.
 - Pipeline catalogue conforme ajoute : `backend/scripts/import-catalog.js`, idempotent par recherche d'existant, journalise dans `enrichment_runs`.
+- Nouveau passage de durcissement data : backfill canonique complet depuis le legacy `games` et `price_history`, audit relie a la couche canonique, provenance explicite sur les jeux et consoles, et index runtime d'idempotence pour les observations.
+- Impact qualite immediat : attribution source manquante tombee a zero, summaries manquants tombes a 75, dev team manquante a 255, compositeurs manquants a 465, snapshots marche fiables a 1005.
 - Risques restants explicites : read-model `games` encore heterogene, 3DS sans source locale conforme, attribution source encore absente sur la majorite du catalogue historique.
 
 ## [2026-03-26 00:45]
@@ -320,3 +322,50 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - le working tree global du repo reste tres sale hors perimetre `backend/`
 - Next step:
   - commit documentaire final de cloture
+
+## [2026-03-26 08:56]
+- Sprint / phase : Phase data continuee - backfill canonique et audit branche sur la couche normalisee
+- Actions completed:
+  - ajout du script `backend/scripts/backfill-canonical.js` pour remapper le legacy `games` et `price_history` vers `releases`, `game_editorial`, `people`, `game_people`, `game_companies`, `market_snapshots`, `price_observations`, `media_references`, `source_records`, `field_provenance`
+  - ajout de la migration `20260326_002_canonical_runtime_indexes` pour rendre le backfill `price_observations` idempotent et exploitable en runtime
+  - adaptation de `backend/src/services/audit-service.js` pour preferer `game_editorial`, `game_people`, `market_snapshots` et `price_observations` quand ces tables existent
+  - execution du backfill complet sur 1491 jeux, 25 consoles et 136895 observations legacy
+  - regeneration complete des rapports d'audit et des `quality_records`
+  - identification et prise en charge explicite d'une dependance console locale non versionnee auparavant : `backend/src/lib/consoles.js` avec `data/consoles.json`
+- Files modified:
+  - `backend/scripts/backfill-canonical.js`
+  - `backend/migrations/20260326_002_canonical_runtime_indexes.js`
+  - `backend/src/services/audit-service.js`
+  - `docs/data-architecture.md`
+  - `docs/enrichment-pipeline.md`
+  - `docs/source-compliance-matrix.md`
+  - `docs/retrodex_execution_log.md`
+  - `data/audit/2026-03-26T07-55-52-025Z_summary.json`
+  - `data/audit/2026-03-26T07-55-52-025Z_games.json`
+  - `data/audit/2026-03-26T07-55-52-025Z_consoles.json`
+  - `data/audit/2026-03-26T07-55-52-025Z_market.json`
+- Schema or data changes:
+  - canonical tables hydratees a grande echelle depuis le legacy
+  - `price_observations` passe de 0 a 235731 lignes
+  - `market_snapshots` passe a 1491 lignes
+  - `source_records` passe a 5414 lignes
+  - `field_provenance` passe a 15075 lignes
+- Sources evaluated:
+  - aucune nouvelle source externe
+  - qualification explicite de la source interne / registre legacy comme provenance `approved` mais non verifiee au sens externe
+- Compliance notes:
+  - les assets restent en reference externe uniquement
+  - le backfill legacy marque volontairement l'amont comme `internal` quand la source detaillee a ete perdue dans le dataset historique
+  - le 3DS reste bloque tant qu'une source approuvee n'est pas branchee
+- Quality score impact:
+  - `Tier A` passe a 975 jeux
+  - source attribution manquante passe de 1491 a 0
+  - trust faible passe de 1491 a 0 selon le scoring actuel
+  - marche fiable calcule sur 1005 jeux avec historique exploitable
+- Commits:
+  - en preparation
+- Issues:
+  - `backend/src/lib/consoles.js` et `data/consoles.json` existent localement et sont consommes en runtime mais n'etaient pas encore sous suivi Git
+  - le read-model public `games` reste encore la source de lecture de plusieurs routes legacy
+- Next step:
+  - versionner le registre console local, relancer le serveur, verifier les routes shell/consoles/audit, puis commit ce lot data

@@ -1,0 +1,206 @@
+{
+  "games": {
+    "total": 1491,
+    "byPlatform": {
+      "Nintendo DS": 74,
+      "PlayStation": 190,
+      "Sega Saturn": 117,
+      "Super Nintendo": 184,
+      "Sega Genesis": 176,
+      "Nintendo 64": 151,
+      "WonderSwan": 15,
+      "Game Boy Advance": 90,
+      "Neo Geo": 20,
+      "TurboGrafx-16": 20,
+      "Dreamcast": 25,
+      "Nintendo Entertainment System": 45,
+      "Game Boy": 141,
+      "Sega CD": 1,
+      "Sega Master System": 20,
+      "NES": 84,
+      "PlayStation 2": 42,
+      "Game Boy Color": 61,
+      "Game Gear": 20,
+      "Atari Lynx": 15
+    },
+    "byQualityTier": {
+      "Tier A": 975,
+      "Tier C": 244,
+      "Tier B": 272
+    },
+    "missingPrices": 486,
+    "missingSummaries": 75,
+    "missingDevTeam": 255,
+    "missingComposers": 465,
+    "missingSourceAttribution": 0,
+    "weakTrust": 0
+  },
+  "consoles": {
+    "total": 25,
+    "byQualityTier": {
+      "Tier C": 5,
+      "Tier B": 7,
+      "Tier A": 13
+    },
+    "completeness": [
+      {
+        "id": "amiga",
+        "title": "Amiga",
+        "completenessScore": 50,
+        "tier": "Tier C"
+      },
+      {
+        "id": "atari2600",
+        "title": "Atari 2600",
+        "completenessScore": 100,
+        "tier": "Tier B"
+      },
+      {
+        "id": "lynx",
+        "title": "Atari Lynx",
+        "completenessScore": 50,
+        "tier": "Tier B"
+      },
+      {
+        "id": "atarist",
+        "title": "Atari ST",
+        "completenessScore": 50,
+        "tier": "Tier C"
+      },
+      {
+        "id": "c64",
+        "title": "Commodore 64",
+        "completenessScore": 50,
+        "tier": "Tier C"
+      },
+      {
+        "id": "gb",
+        "title": "Game Boy",
+        "completenessScore": 100,
+        "tier": "Tier A"
+      },
+      {
+        "id": "gba",
+        "title": "Game Boy Advance",
+        "completenessScore": 100,
+        "tier": "Tier A"
+      },
+      {
+        "id": "gbc",
+        "title": "Game Boy Color",
+        "completenessScore": 100,
+        "tier": "Tier A"
+      },
+      {
+        "id": "gg",
+        "title": "Game Gear",
+        "completenessScore": 50,
+        "tier": "Tier B"
+      },
+      {
+        "id": "gc",
+        "title": "GameCube",
+        "completenessScore": 50,
+        "tier": "Tier C"
+      },
+      {
+        "id": "msx",
+        "title": "MSX",
+        "completenessScore": 50,
+        "tier": "Tier C"
+      },
+      {
+        "id": "nes",
+        "title": "NES",
+        "completenessScore": 100,
+        "tier": "Tier A"
+      },
+      {
+        "id": "neogeo",
+        "title": "Neo Geo",
+        "completenessScore": 100,
+        "tier": "Tier A"
+      },
+      {
+        "id": "n64",
+        "title": "Nintendo 64",
+        "completenessScore": 100,
+        "tier": "Tier A"
+      },
+      {
+        "id": "nds",
+        "title": "Nintendo DS",
+        "completenessScore": 50,
+        "tier": "Tier B"
+      },
+      {
+        "id": "ps1",
+        "title": "PlayStation",
+        "completenessScore": 100,
+        "tier": "Tier A"
+      },
+      {
+        "id": "ps2",
+        "title": "PlayStation 2",
+        "completenessScore": 100,
+        "tier": "Tier A"
+      },
+      {
+        "id": "snes",
+        "title": "SNES",
+        "completenessScore": 100,
+        "tier": "Tier A"
+      },
+      {
+        "id": "scd",
+        "title": "Sega CD",
+        "completenessScore": 50,
+        "tier": "Tier B"
+      },
+      {
+        "id": "dc",
+        "title": "Sega Dreamcast",
+        "completenessScore": 100,
+        "tier": "Tier A"
+      },
+      {
+        "id": "sms",
+        "title": "Sega Master System",
+        "completenessScore": 50,
+        "tier": "Tier B"
+      },
+      {
+        "id": "md",
+        "title": "Sega Mega Drive",
+        "completenessScore": 100,
+        "tier": "Tier A"
+      },
+      {
+        "id": "sat",
+        "title": "Sega Saturn",
+        "completenessScore": 100,
+        "tier": "Tier A"
+      },
+      {
+        "id": "tg16",
+        "title": "TurboGrafx-16",
+        "completenessScore": 100,
+        "tier": "Tier A"
+      },
+      {
+        "id": "ws",
+        "title": "WonderSwan",
+        "completenessScore": 50,
+        "tier": "Tier B"
+      }
+    ],
+    "priceReadiness": 19,
+    "linkedToGames": 19
+  },
+  "market": {
+    "usablePriceHistories": 1005,
+    "reliablePriceSummaries": 1005,
+    "weakMarketEntries": 486,
+    "totalObservations": 235731
+  }
+}

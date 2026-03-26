@@ -9,6 +9,23 @@
 
 ## Approved
 
+### RETRODEX internal / legacy registry
+
+- Status: `approved`
+- Allowed use:
+  - canonical backfill from the legacy SQLite read-model
+  - console knowledge registry stored in the repo
+  - internal derived market snapshots when upstream source detail has already been reduced in legacy storage
+- Restrictions:
+  - must be marked as internal provenance, not as external verification
+  - must explicitly note when upstream source detail is unresolved
+  - cannot be used to overstate trust of market signals beyond the surviving evidence
+- Product scope:
+  - `source_records`
+  - `field_provenance`
+  - console overview / identity provenance
+  - canonical backfill of legacy entities
+
 ### Wikidata
 
 - Status: `approved`

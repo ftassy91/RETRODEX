@@ -69,6 +69,89 @@ async function loadSourceCountMap(entityType) {
   return new Map(rows.map((row) => [String(row.entityId), Number(row.sourceCount || 0)]))
 }
 
+async function loadEditorialMap() {
+  if (!(await tableExists('game_editorial'))) {
+    return new Map()
+  }
+
+  const rows = await sequelize.query(
+    `SELECT game_id AS gameId,
+            summary,
+            synopsis,
+            lore,
+            dev_notes AS devNotes,
+            cheat_codes AS cheatCodes
+     FROM game_editorial`,
+    { type: QueryTypes.SELECT }
+  )
+
+  return new Map(rows.map((row) => [String(row.gameId), row]))
+}
+
+async function loadCanonicalPeopleMap() {
+  if (!(await tableExists('game_people')) || !(await tableExists('people'))) {
+    return new Map()
+  }
+
+  const rows = await sequelize.query(
+    `SELECT gp.game_id AS gameId,
+            gp.role AS role,
+            gp.billing_order AS billingOrder,
+            gp.confidence AS confidence,
+            p.name AS name
+     FROM game_people gp
+     INNER JOIN people p ON p.id = gp.person_id
+     ORDER BY gp.game_id ASC, COALESCE(gp.billing_order, 9999) ASC, p.name ASC`,
+    { type: QueryTypes.SELECT }
+  )
+
+  const map = new Map()
+  for (const row of rows) {
+    const gameId = String(row.gameId)
+    if (!map.has(gameId)) {
+      map.set(gameId, { devTeam: [], composers: [] })
+    }
+
+    const bucket = map.get(gameId)
+    const normalizedRole = String(row.role || '').toLowerCase()
+    const entry = {
+      name: row.name,
+      role: row.role,
+      confidence: Number(row.confidence || 0),
+    }
+
+    if (normalizedRole.includes('composer') || normalizedRole.includes('music')) {
+      bucket.composers.push(entry)
+    } else {
+      bucket.devTeam.push(entry)
+    }
+  }
+
+  return map
+}
+
+async function loadMarketSnapshotMap() {
+  if (!(await tableExists('market_snapshots'))) {
+    return new Map()
+  }
+
+  const rows = await sequelize.query(
+    `SELECT game_id AS gameId,
+            loose_price AS loosePrice,
+            cib_price AS cibPrice,
+            mint_price AS mintPrice,
+            observation_count AS observationCount,
+            last_observed_at AS lastObservedAt,
+            trend_signal AS trendSignal,
+            confidence_score AS confidenceScore,
+            source_coverage AS sourceCoverage
+     FROM market_snapshots`,
+    { type: QueryTypes.SELECT }
+  )
+
+  return new Map(rows.map((row) => [String(row.gameId), row]))
+}
+
 async function loadDuplicateMap() {
   const rows = await sequelize.query(
     `SELECT title, console, year, COUNT(*) AS duplicateCount
@@ -191,7 +274,7 @@ async function upsertQualityRecord(entry) {
 }
 
 async function getGameAuditEntries({ limit = 250, persist = false } = {}) {
-  const [games, priceSupportMap, sourceCountMap, duplicateMap] = await Promise.all([
+  const [games, priceSupportMap, sourceCountMap, duplicateMap, editorialMap, canonicalPeopleMap, marketSnapshotMap] = await Promise.all([
     Game.findAll({
       where: { type: 'game' },
       attributes: [
@@ -222,30 +305,55 @@ async function getGameAuditEntries({ limit = 250, persist = false } = {}) {
     loadPriceSupportMap(),
     loadSourceCountMap('game'),
     loadDuplicateMap(),
+    loadEditorialMap(),
+    loadCanonicalPeopleMap(),
+    loadMarketSnapshotMap(),
   ])
 
   const entries = []
 
   for (const gameRecord of games) {
     const game = gameRecord.get({ plain: true })
+    const editorial = editorialMap.get(String(game.id)) || {}
+    const people = canonicalPeopleMap.get(String(game.id)) || { devTeam: [], composers: [] }
+    const snapshot = marketSnapshotMap.get(String(game.id)) || {}
     const priceSupport = priceSupportMap.get(String(game.id)) || { observationCount: 0, lastObservedAt: null }
     const duplicateCount = duplicateMap.get(`${game.title}::${game.console}::${game.year}`) || 1
+    const canonicalGame = {
+      ...game,
+      summary: game.summary || editorial.summary || null,
+      synopsis: game.synopsis || editorial.synopsis || editorial.lore || null,
+      lore: game.lore || editorial.lore || null,
+      cheat_codes: game.cheat_codes || editorial.cheatCodes || null,
+      dev_team: game.dev_team || (people.devTeam.length ? JSON.stringify(people.devTeam) : null),
+      ost_composers: game.ost_composers || (people.composers.length ? JSON.stringify(people.composers) : null),
+      loosePrice: game.loosePrice ?? snapshot.loosePrice ?? null,
+      cibPrice: game.cibPrice ?? snapshot.cibPrice ?? null,
+      mintPrice: game.mintPrice ?? snapshot.mintPrice ?? null,
+    }
+    const canonicalPriceSupport = {
+      observationCount: Math.max(
+        Number(priceSupport.observationCount || 0),
+        Number(snapshot.observationCount || 0)
+      ),
+      lastObservedAt: snapshot.lastObservedAt || priceSupport.lastObservedAt || null,
+    }
     const policySupport = resolvePolicySupport(detectGameSourceKeys(game))
-    const entry = scoreGameEntity(game, {
-      priceObservationCount: priceSupport.observationCount,
-      lastObservedAt: priceSupport.lastObservedAt,
-      freshnessScore: freshnessScoreFromDate(priceSupport.lastObservedAt),
-      hasCoherentHistory: priceSupport.observationCount >= 3,
+    const entry = scoreGameEntity(canonicalGame, {
+      priceObservationCount: canonicalPriceSupport.observationCount,
+      lastObservedAt: canonicalPriceSupport.lastObservedAt,
+      freshnessScore: freshnessScoreFromDate(canonicalPriceSupport.lastObservedAt),
+      hasCoherentHistory: canonicalPriceSupport.observationCount >= 3,
       sourceRecordCount: sourceCountMap.get(String(game.id)) || 0,
       duplicateCount,
       legalFeasibility: policySupport.legalFeasibility,
       sourceAvailability: policySupport.sourceAvailability,
     })
 
-    entry.metascore = game.metascore ?? null
-    entry.rarity = game.rarity || null
-    entry.observationCount = priceSupport.observationCount
-    entry.lastObservedAt = priceSupport.lastObservedAt
+    entry.metascore = canonicalGame.metascore ?? null
+    entry.rarity = canonicalGame.rarity || null
+    entry.observationCount = canonicalPriceSupport.observationCount
+    entry.lastObservedAt = canonicalPriceSupport.lastObservedAt
     entry.policies = policySupport.policies
 
     if (persist) {
@@ -332,33 +440,63 @@ async function getConsoleAuditEntries({ persist = false } = {}) {
 }
 
 async function getMarketAudit() {
+  const hasPriceObservations = await tableExists('price_observations')
+  const hasMarketSnapshots = await tableExists('market_snapshots')
+
   const [summaryRows, weakRows, snapshotRows] = await Promise.all([
-    sequelize.query(
-      `SELECT COUNT(DISTINCT game_id) AS usableHistories,
-              SUM(CASE WHEN sale_date IS NOT NULL THEN 1 ELSE 0 END) AS totalObservations
-       FROM price_history`,
-      { type: QueryTypes.SELECT }
-    ).catch(() => [{ usableHistories: 0, totalObservations: 0 }]),
-    sequelize.query(
-      `SELECT COUNT(*) AS weakEntries
-       FROM games
-       WHERE type = 'game'
-         AND COALESCE(loose_price, 0) = 0
-         AND COALESCE(cib_price, 0) = 0
-         AND COALESCE(mint_price, 0) = 0`,
-      { type: QueryTypes.SELECT }
-    ),
-    sequelize.query(
-      `SELECT COUNT(*) AS reliableSnapshots
-       FROM games
-       WHERE type = 'game'
-         AND (
-           COALESCE(loose_price, 0) > 0
-           OR COALESCE(cib_price, 0) > 0
-           OR COALESCE(mint_price, 0) > 0
-         )`,
-      { type: QueryTypes.SELECT }
-    ),
+    (hasPriceObservations
+      ? sequelize.query(
+        `SELECT COUNT(DISTINCT game_id) AS usableHistories,
+                COUNT(*) AS totalObservations
+         FROM price_observations`,
+        { type: QueryTypes.SELECT }
+      )
+      : sequelize.query(
+        `SELECT COUNT(DISTINCT game_id) AS usableHistories,
+                SUM(CASE WHEN sale_date IS NOT NULL THEN 1 ELSE 0 END) AS totalObservations
+         FROM price_history`,
+        { type: QueryTypes.SELECT }
+      )).catch(() => [{ usableHistories: 0, totalObservations: 0 }]),
+    (hasMarketSnapshots
+      ? sequelize.query(
+        `SELECT COUNT(*) AS weakEntries
+         FROM games g
+         LEFT JOIN market_snapshots ms ON ms.game_id = g.id
+         WHERE g.type = 'game'
+           AND COALESCE(ms.loose_price, g.loose_price, 0) = 0
+           AND COALESCE(ms.cib_price, g.cib_price, 0) = 0
+           AND COALESCE(ms.mint_price, g.mint_price, 0) = 0`,
+        { type: QueryTypes.SELECT }
+      )
+      : sequelize.query(
+        `SELECT COUNT(*) AS weakEntries
+         FROM games
+         WHERE type = 'game'
+           AND COALESCE(loose_price, 0) = 0
+           AND COALESCE(cib_price, 0) = 0
+           AND COALESCE(mint_price, 0) = 0`,
+        { type: QueryTypes.SELECT }
+      )),
+    (hasMarketSnapshots
+      ? sequelize.query(
+        `SELECT COUNT(*) AS reliableSnapshots
+         FROM market_snapshots
+         WHERE COALESCE(loose_price, 0) > 0
+            OR COALESCE(cib_price, 0) > 0
+            OR COALESCE(mint_price, 0) > 0`,
+        { type: QueryTypes.SELECT }
+      )
+      : sequelize.query(
+        `SELECT COUNT(*) AS reliableSnapshots
+         FROM games
+         WHERE type = 'game'
+           AND (
+             COALESCE(loose_price, 0) > 0
+             OR COALESCE(cib_price, 0) > 0
+             OR COALESCE(mint_price, 0) > 0
+           )`,
+        { type: QueryTypes.SELECT }
+      )),
   ])
 
   const summary = summaryRows[0] || {}
