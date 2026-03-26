@@ -17,13 +17,6 @@ const express = require('express')
 const cors = require('cors')
 const { mode: supabaseMode, db: supabaseDb } = require('../db_supabase')
 const { handleAsync } = require('./helpers/query')
-
-const pricesRouter = require('./routes/prices')
-const contextualSearchRouter = require('./routes/contextual-search')
-const globalSearchRouter = require('./routes/global-search')
-const consolesRouter = require('./routes/consoles')
-const marketplaceRouter = require('./routes/marketplace')
-const auditRouter = require('./routes/audit')
 const { runMigrations } = require('./services/migration-runner')
 
 const hasServerlessSupabaseEnv = Boolean(process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL)
@@ -33,7 +26,6 @@ const useSupabaseServerlessRoutes = Boolean(
   && hasServerlessSupabaseEnv
   && !hasDatabaseUrl
   && supabaseMode === 'supabase'
-  && process.env.FORCE_SUPABASE_SERVERLESS === '1'
 )
 
 let legacyRuntime = null
@@ -46,6 +38,7 @@ function getLegacyRuntime() {
 
   const { DataTypes } = require('sequelize')
   const { sequelize, storagePath, databaseMode, databaseTarget } = require('./database')
+  require('./models/associations')
   const Game = require('./models/Game')
   const Franchise = require('./models/Franchise')
   const Console = require('./models/Console')
@@ -72,8 +65,6 @@ function getLegacyRuntime() {
 
   return legacyRuntime
 }
-
-require('./models/associations')
 
 async function ensureRuntimeReady() {
   if (runtimeReadyPromise) {
@@ -296,6 +287,7 @@ app.use(cors({
     : '*',
 }))
 app.use(express.json())
+app.use(express.static(path.join(__dirname, '..', 'public')))
 
 app.use(handleAsync(async (_req, _res, next) => {
   if (!process.env.VERCEL || useSupabaseServerlessRoutes) {
@@ -305,13 +297,6 @@ app.use(handleAsync(async (_req, _res, next) => {
   await ensureRuntimeReady()
   return next()
 }))
-
-app.use('/', consolesRouter)
-app.use('/', marketplaceRouter)
-app.use(globalSearchRouter)
-app.use(auditRouter)
-app.use(express.static(path.join(__dirname, '..', 'public')))
-app.use(contextualSearchRouter)
 
 app.get('/', (_req, res) => {
   res.json({
@@ -379,13 +364,19 @@ app.get('/api/health', handleAsync(async (_req, res) => {
 }))
 
 if (useSupabaseServerlessRoutes) {
+  app.use(require('./routes/contextual-search'))
   app.use(require('./routes/serverless'))
-  app.use('/api/prices', pricesRouter)
+  app.use('/api/prices', require('./routes/prices'))
 } else {
+  app.use('/', require('./routes/consoles'))
+  app.use('/', require('./routes/marketplace'))
+  app.use(require('./routes/global-search'))
+  app.use(require('./routes/audit'))
+  app.use(require('./routes/contextual-search'))
   app.use(require('./routes/games'))
   app.use(require('./routes/collection'))
   app.use(require('./routes/market'))
-  app.use('/api/prices', pricesRouter)
+  app.use('/api/prices', require('./routes/prices'))
   app.use(require('./routes/franchises'))
   app.use(require('./routes/sync'))
 }

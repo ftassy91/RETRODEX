@@ -12,16 +12,25 @@ process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
 process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key;
 
 const { db, mode } = require('../../db_supabase');
-const { sequelize, databaseMode } = require('../database');
 
 const router = Router();
 const USE_SUPABASE = mode === 'supabase';
+let runtimeDb = null;
+
+function getRuntimeDb() {
+  if (!runtimeDb) {
+    runtimeDb = require('../database');
+  }
+
+  return runtimeDb;
+}
 
 function tableNamesMatch(tableName, target) {
   return String(tableName || '').replace(/"/g, '').toLowerCase() === String(target).toLowerCase();
 }
 
 async function tableExists(target) {
+  const { sequelize } = getRuntimeDb();
   const tables = await sequelize.getQueryInterface().showAllTables();
   return (tables || []).some((tableName) => tableNamesMatch(tableName, target));
 }
@@ -55,6 +64,8 @@ function getCutoffStr(months) {
 }
 
 async function ensureLocalPriceHistoryTable() {
+  const { sequelize, databaseMode } = getRuntimeDb();
+
   if (databaseMode !== 'sqlite') {
     return;
   }
@@ -75,6 +86,8 @@ async function ensureLocalPriceHistoryTable() {
 }
 
 async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {
+  const { sequelize } = getRuntimeDb();
+
   if (await tableExists('price_observations')) {
     return sequelize.query(
       `SELECT price,
@@ -109,6 +122,7 @@ async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {
 }
 
 async function queryLocalPriceSales(gameId, condition = null, limit = 200) {
+  const { sequelize } = getRuntimeDb();
   const replacements = { gameId, limit };
   let conditionClause = '';
   if (condition) {
