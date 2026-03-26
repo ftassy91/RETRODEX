@@ -23,6 +23,9 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Phase 2 engagee : consoles stabilisees comme entites produit avec un contrat backend unique, un hero fixe, des accord eons et des scores de qualite visibles.
 - Phase 3 et 4 engagees : migrations versionnees, tables canoniques, scoring qualite, routes d'audit et priorisation d'enrichissement actives.
 - Phase 5 engagee : pipeline d'import `identity-first` pose, DS valide en dry-run conforme, 3DS explicitement bloque tant qu'aucune source approuvee n'est branchee.
+- Suite du read-model canonique : les routes catalogue/listes `games`, `api/games`, `api/games/random` et `api/franchises/:slug/games` lisent maintenant les snapshots, l'editorial, les references media et la qualite canoniques.
+- Impact produit : `games-list`, `hub`, `home`, `stats` et les apercus franchise consomment des listes coherentes avec la couche canonique sans changer leur contrat front principal.
+- Reste a faire sur ce sous-chantier : terminer la bascule des surfaces liste encore dependantes de comportements legacy plus anciens, puis traiter le push / merge Git a part a cause du working tree sale hors perimetre.
 - Audit structure genere et versionne sous `data/audit/`, avec couverture jeux / consoles / marche exploitable directement.
 - Base canonique initiale creee via migration `20260326_001_canonical_core`, sans casser le read-model public legacy.
 - Pipeline catalogue conforme ajoute : `backend/scripts/import-catalog.js`, idempotent par recherche d'existant, journalise dans `enrichment_runs`.
@@ -416,3 +419,32 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - le repo reste sale hors perimetre
 - Next step:
   - commit du read-model canonique, puis poursuivre sur les routes catalogue/listes si le run continue
+
+## [2026-03-26 14:03]
+- Sprint / phase : Phase data continuee - bascule des routes catalogue/listes restantes
+- Actions completed:
+  - extension de `backend/src/services/game-read-service.js` avec un hydratateur batch, un lecteur de liste canonique et un selecteur aleatoire canonique
+  - bascule de `backend/src/routes/games-list.js` pour servir `GET /games`, `GET /api/games` et `GET /api/games/random` depuis la couche canonique quand on est dans les flux catalogue/listes
+  - bascule de `backend/src/routes/franchises.js` pour hydrater la liste `GET /api/franchises/:slug/games` avec snapshots marche, references media et qualite canonique
+  - redemarrage du serveur et verification HTTP sur `games-list.html`, `hub.html`, `/games`, `/api/games`, `/api/games/random` et `/api/franchises/castlevania/games`
+- Files modified:
+  - `backend/src/services/game-read-service.js`
+  - `backend/src/routes/games-list.js`
+  - `backend/src/routes/franchises.js`
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement de schema
+  - aucune ecriture de donnees supplementaire ; lecture uniquement sur les tables canoniques existantes
+- Sources evaluated:
+  - aucune nouvelle source
+- Compliance notes:
+  - aucun nouvel usage de source externe ; ce lot ne fait que rebrancher les lectures publiques sur des couches deja tracees
+- Quality score impact:
+  - le catalogue et les listes exposent maintenant directement `quality`, `market` et les champs editoriaux hydrates depuis les tables canoniques
+  - la coherence des resultats entre Hub, catalogue, detail et franchises est amelioree
+- Commits:
+  - en preparation
+- Issues:
+  - le working tree global du repo reste tres sale hors perimetre `backend/`, ce qui bloque toujours un push prudent vers `main`
+- Next step:
+  - commit de ce lot catalogue/listes, puis verifier la divergence Git avant toute action sur `main`

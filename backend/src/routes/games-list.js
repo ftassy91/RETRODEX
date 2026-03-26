@@ -14,13 +14,40 @@ process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
   || process.env.SUPERDATA_SERVICE_KEY
 process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
 
-const { handleAsync, parseLimit, buildGameWhere } = require('../helpers/query')
-const { normalizeGameRecord } = require('./games-helpers')
+const { handleAsync, parseLimit } = require('../helpers/query')
+const {
+  listHydratedGames,
+  getRandomHydratedGame,
+} = require('../services/game-read-service')
 
 const router = Router()
 
 router.get('/games', handleAsync(async (req, res) => {
   const { consoleId, genreId } = req.query
+
+  if (!genreId) {
+    let consoleName = String(req.query.console || '').trim()
+
+    if (!consoleName && consoleId) {
+      const consoleRecord = await Console.findByPk(String(consoleId), {
+        attributes: ['id', 'name'],
+      })
+      consoleName = consoleRecord?.get('name') || ''
+    }
+
+    const payload = await listHydratedGames({
+      search: String(req.query.q || '').trim(),
+      consoleId: consoleId ? String(consoleId) : null,
+      consoleName,
+      rarity: String(req.query.rarity || '').trim(),
+      genreName: String(req.query.genre || '').trim(),
+      limit: parseLimit(req.query.limit, 20, 5000),
+      offset: Math.max(0, Number.parseInt(String(req.query.offset || '0'), 10) || 0),
+      sort: String(req.query.sort || 'title_asc'),
+    })
+
+    return res.json(payload.items)
+  }
 
   const where = {}
   if (consoleId) where.consoleId = consoleId
@@ -58,87 +85,32 @@ router.get('/games/:id', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games', handleAsync(async (req, res) => {
-  const sequelize = req.app.locals.sequelize || require('../database').sequelize
-  const limit = parseLimit(req.query.limit, 20, 5000)
-  const offset = Math.max(0, Number.parseInt(String(req.query.offset || '0'), 10) || 0)
-  const search = (req.query.q || '').trim()
-  const consoleName = (req.query.console || '').trim()
-  const rarity = (req.query.rarity || '').trim()
-  const sort = req.query.sort || 'title_asc'
+  const payload = await listHydratedGames({
+    search: String(req.query.q || '').trim(),
+    consoleName: String(req.query.console || '').trim(),
+    rarity: String(req.query.rarity || '').trim(),
+    genreName: String(req.query.genre || '').trim(),
+    limit: parseLimit(req.query.limit, 20, 5000),
+    offset: Math.max(0, Number.parseInt(String(req.query.offset || '0'), 10) || 0),
+    sort: String(req.query.sort || 'title_asc'),
+  })
 
-  let where = `WHERE type = 'game'`
-  const replacements = {}
-
-  if (consoleName) {
-    where += ` AND "console" = :console`
-    replacements.console = consoleName
-  }
-  if (rarity) {
-    where += ` AND rarity = :rarity`
-    replacements.rarity = rarity
-  }
-  if (search) {
-    where += ` AND (
-      LOWER(title) LIKE LOWER(:search)
-      OR LOWER(COALESCE(developer,'')) LIKE LOWER(:search)
-      OR LOWER(COALESCE("console",'')) LIKE LOWER(:search)
-      OR LOWER(COALESCE(genre,'')) LIKE LOWER(:search)
-      OR LOWER(COALESCE(lore,'')) LIKE LOWER(:search)
-      OR LOWER(COALESCE(gameplay_description,'')) LIKE LOWER(:search)
-    )`
-    replacements.search = `%${search}%`
-  }
-
-  const sortMap = {
-    title_asc: 'title ASC',
-    title_desc: 'title DESC',
-    price_asc: 'loose_price ASC NULLS LAST',
-    price_desc: 'loose_price DESC NULLS LAST',
-    year_asc: 'year ASC NULLS LAST',
-    year_desc: 'year DESC NULLS LAST',
-    meta_desc: 'metascore DESC NULLS LAST',
-    meta_asc: 'metascore ASC NULLS LAST',
-    rarity_desc: `CASE rarity WHEN 'LEGENDARY' THEN 1 WHEN 'EPIC' THEN 2 WHEN 'RARE' THEN 3 WHEN 'UNCOMMON' THEN 4 ELSE 5 END`,
-  }
-  const orderBy = sortMap[sort] || 'title ASC'
-
-  const [rows] = await sequelize.query(
-    `SELECT *,
-      cover_url as "coverImage",
-      loose_price as "loosePrice",
-      cib_price as "cibPrice",
-      mint_price as "mintPrice"
-     FROM games
-     ${where}
-     ORDER BY ${orderBy}
-     LIMIT 5000`,
-    { replacements }
-  )
-
-  const total = rows.length
-  const games = rows
-    .map(normalizeGameRecord)
-    .slice(offset, offset + limit)
-
-  res.json({ items: games, returned: games.length, total })
+  res.json(payload)
 }))
 
 router.get('/api/games/random', handleAsync(async (req, res) => {
-  const where = buildGameWhere(req.query)
-  const count = await Game.count({ where })
+  const game = await getRandomHydratedGame({
+    search: String(req.query.q || '').trim(),
+    consoleName: String(req.query.console || '').trim(),
+    rarity: String(req.query.rarity || '').trim(),
+    genreName: String(req.query.genre || '').trim(),
+  })
 
-  if (count === 0) {
+  if (!game) {
     return res.status(404).json({ ok: false, error: 'No game found for the current filter' })
   }
 
-  const offset = Math.floor(Math.random() * count)
-  const items = await Game.findAll({ where, order: [['title', 'ASC']], limit: 1, offset })
-
-  if (!items.length) {
-    return res.status(404).json({ ok: false, error: 'No game found for the current filter' })
-  }
-
-  return res.json(items[0])
+  return res.json(game)
 }))
 
 module.exports = router
