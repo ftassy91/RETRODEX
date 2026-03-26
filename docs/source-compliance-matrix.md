@@ -9,6 +9,24 @@
 
 ## Approved
 
+### Wikidata
+
+- Status: `approved`
+- Allowed use:
+  - identity metadata
+  - company names
+  - release year / platform metadata
+  - minimal editorial references when explicitly sourced
+- Restrictions:
+  - conserver le champ source et la date d'ingestion
+  - ne pas confondre metadata librement reutilisable et contenu protege tiers
+  - tout enrichissement editorial derive doit rester marque comme tel
+- Product scope:
+  - `games`
+  - `releases`
+  - `source_records`
+  - identity-first imports DS / 3DS
+
 ### eBay Developer APIs
 
 - Status: `approved`

@@ -21,6 +21,8 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Phase 0 en cours : documentation de conformite, architecture cible, scoring et pipeline poses dans `docs/`.
 - Phase 1 en cours : Hub reduit a une entree minimale et recherche globale basculee vers une API backend-first `GET /api/search/global`.
 - Phase 2 engagee : consoles stabilisees comme entites produit avec un contrat backend unique, un hero fixe, des accord eons et des scores de qualite visibles.
+- Phase 3 et 4 engagees : migrations versionnees, tables canoniques, scoring qualite, routes d'audit et priorisation d'enrichissement actives.
+- Phase 5 engagee : pipeline d'import `identity-first` pose, DS valide en dry-run conforme, 3DS explicitement bloque tant qu'aucune source approuvee n'est branchee.
 
 ## [2026-03-26 00:45]
 - Sprint en cours : Sprint 1 - audit cible, suivi, simplification globale
@@ -198,7 +200,7 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Quality score impact:
   - aucun calcul encore branche, mais le modele est documente et fige
 - Commits:
-  - en preparation
+  - `3a87415` - `feat(shell): add backend-first global search and compliance baseline`
 - Issues:
   - l'encodage legacy de certains fichiers publics reste heterogene
   - la couche consoles front/back reste incoherente et sera traitee au sprint suivant
@@ -235,8 +237,59 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Quality score impact:
   - premier score console expose dans le payload, en attendant la couche d'audit globale
 - Commits:
-  - en preparation
+  - `7f8f020` - `feat(console): promote consoles to first-class searchable entities`
 - Issues:
   - certaines consoles restent pauvres en notes curateurs ; elles tombent donc en Tier C/D de maniere explicite
 - Next step:
   - commit Phase 2, puis ajouter migrations versionnees, couche canonique minimale, scoring global et routes d'audit
+
+## [2026-03-26 08:06]
+- Sprint / phase : Phase 3 + Phase 4 + Phase 5 - migrations, audit, priorisation, pipeline
+- Actions completed:
+  - ajout d'un registre source executable `source-policy` pour relier conformite, disponibilite et priorisation
+  - ajout d'un runner de migrations versionnees et d'une migration canonique creant les tables `releases`, `game_editorial`, `people`, `game_people`, `game_companies`, `price_observations`, `market_snapshots`, `media_references`, `source_records`, `field_provenance`, `quality_records`, `enrichment_runs`
+  - branchement automatique des migrations au demarrage serveur
+  - creation du moteur de scoring qualite et de priorisation pour jeux et consoles
+  - creation des routes `/api/audit/summary`, `/api/audit/games`, `/api/audit/consoles`, `/api/audit/market`
+  - generation d'un audit structure dans `data/audit/`
+  - creation d'un importeur catalogue conforme et relancable `backend/scripts/import-catalog.js`
+  - validation dry-run du catalogue Nintendo DS avec source `wikidata`
+  - validation du garde-fou conformite : Nintendo 3DS reste bloque quand la source est `pending`
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+  - `docs/source-compliance-matrix.md`
+  - `docs/enrichment-pipeline.md`
+  - `backend/src/config/source-policy.js`
+  - `backend/migrations/20260326_001_canonical_core.js`
+  - `backend/src/services/migration-runner.js`
+  - `backend/src/services/quality-scoring.js`
+  - `backend/src/services/audit-service.js`
+  - `backend/src/routes/audit.js`
+  - `backend/src/server.js`
+  - `backend/scripts/run-audit.js`
+  - `backend/scripts/import-catalog.js`
+  - `data/strategic_catalogs.json`
+  - `data/audit/2026-03-26T07-05-03-670Z_summary.json`
+  - `data/audit/2026-03-26T07-05-03-670Z_games.json`
+  - `data/audit/2026-03-26T07-05-03-670Z_consoles.json`
+  - `data/audit/2026-03-26T07-05-03-670Z_market.json`
+- Schema or data changes:
+  - premiere couche canonique creee via migration versionnee
+  - `quality_records` et `enrichment_runs` commencent a porter l'audit et la traçabilite produit
+- Sources evaluated:
+  - matrice existante completee avec `wikidata`
+  - `data/raw/game` comme entree locale de type metadata libre
+- Compliance notes:
+  - `wikidata` passe en `approved` pour metadata identitaire
+  - `Nintendo DS` importable en `identity-first`
+  - `Nintendo 3DS` reste `blocked_pending_source` tant qu'aucune entree conforme n'est fournie
+- Quality score impact:
+  - scoring calcule et expose sur 1491 jeux et 25 consoles
+  - premiers constats majeurs : 1491 jeux sans attribution source explicite, 1012 sans summary, 1481 sans dev team, 486 sans prix
+- Commits:
+  - lot data en preparation
+- Issues:
+  - le read-model `games` legacy reste heterogene et oblige encore certains calculs d'audit a faire des hypotheses de compatibilite
+  - le catalogue 3DS n'a pas encore de source locale conforme branchee
+- Next step:
+  - commit du lot data, puis faire un passage final de coherence shell/navigation et livrer un resume propre

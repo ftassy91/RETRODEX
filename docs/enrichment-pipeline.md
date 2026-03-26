@@ -38,6 +38,8 @@
 - summary JSON under `data/audit/`
 - affected entity IDs
 - counts by inserted / updated / skipped / blocked
+- strategic manifest under `data/strategic_catalogs.json`
+- import CLI: `backend/scripts/import-catalog.js`
 
 ## Catalog policy
 

@@ -22,6 +22,8 @@ const contextualSearchRouter = require('./routes/contextual-search')
 const globalSearchRouter = require('./routes/global-search')
 const consolesRouter = require('./routes/consoles')
 const marketplaceRouter = require('./routes/marketplace')
+const auditRouter = require('./routes/audit')
+const { runMigrations } = require('./services/migration-runner')
 
 const hasServerlessSupabaseEnv = Boolean(process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL)
 const isServerlessSupabaseRuntime = Boolean(process.env.VERCEL && hasServerlessSupabaseEnv)
@@ -141,6 +143,7 @@ app.use(express.json())
 app.use('/', consolesRouter)
 app.use('/', marketplaceRouter)
 app.use(globalSearchRouter)
+app.use(auditRouter)
 app.use(express.static(path.join(__dirname, '..', 'public')))
 app.use(contextualSearchRouter)
 
@@ -260,6 +263,7 @@ async function startServer(portOverride) {
 
   await ensureGameEncyclopediaColumns()
   await ensurePriceHistoryTable()
+  await runMigrations(sequelize)
   await Franchise.sync({ alter: effectiveAlter })
 
   let shouldBootstrap = true
