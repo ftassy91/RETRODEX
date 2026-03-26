@@ -3,6 +3,7 @@
 // Décision source : SYNC.md § A6
 
 const { Router } = require('express');
+const { QueryTypes } = require('sequelize');
 
 process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL;
 process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
@@ -11,24 +12,18 @@ process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
 process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key;
 
 const { db, mode } = require('../../db_supabase');
+const { sequelize, databaseMode } = require('../database');
+
 const router = Router();
 const USE_SUPABASE = mode === 'supabase';
-let legacyDatabase = null;
 
-function getLegacyDatabase() {
-  if (USE_SUPABASE) {
-    return null;
-  }
+function tableNamesMatch(tableName, target) {
+  return String(tableName || '').replace(/"/g, '').toLowerCase() === String(target).toLowerCase();
+}
 
-  if (legacyDatabase) {
-    return legacyDatabase;
-  }
-
-  const { QueryTypes } = require('sequelize');
-  const { sequelize, databaseMode } = require('../database');
-
-  legacyDatabase = { QueryTypes, sequelize, databaseMode };
-  return legacyDatabase;
+async function tableExists(target) {
+  const tables = await sequelize.getQueryInterface().showAllTables();
+  return (tables || []).some((tableName) => tableNamesMatch(tableName, target));
 }
 
 function isMissingPriceHistoryTable(error) {
@@ -60,13 +55,11 @@ function getCutoffStr(months) {
 }
 
 async function ensureLocalPriceHistoryTable() {
-  const legacyDb = getLegacyDatabase();
-
-  if (!legacyDb || legacyDb.databaseMode !== 'sqlite') {
+  if (databaseMode !== 'sqlite') {
     return;
   }
 
-  await legacyDb.sequelize.query(`
+  await sequelize.query(`
     CREATE TABLE IF NOT EXISTS price_history (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       game_id TEXT NOT NULL,
@@ -82,14 +75,26 @@ async function ensureLocalPriceHistoryTable() {
 }
 
 async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {
-  const legacyDb = getLegacyDatabase();
-  if (!legacyDb) {
-    return [];
+  if (await tableExists('price_observations')) {
+    return sequelize.query(
+      `SELECT price,
+              LOWER(condition) AS condition,
+              observed_at AS sale_date
+       FROM price_observations
+       WHERE game_id = :gameId
+         AND observed_at >= :cutoffStr
+       ORDER BY observed_at DESC
+       LIMIT :limit`,
+      {
+        replacements: { gameId, cutoffStr, limit },
+        type: QueryTypes.SELECT,
+      }
+    );
   }
 
   await ensureLocalPriceHistoryTable();
 
-  return legacyDb.sequelize.query(
+  return sequelize.query(
     `SELECT price, condition, sale_date
      FROM price_history
      WHERE game_id = :gameId
@@ -98,7 +103,52 @@ async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {
      LIMIT :limit`,
     {
       replacements: { gameId, cutoffStr, limit },
-      type: legacyDb.QueryTypes.SELECT,
+      type: QueryTypes.SELECT,
+    }
+  );
+}
+
+async function queryLocalPriceSales(gameId, condition = null, limit = 200) {
+  const replacements = { gameId, limit };
+  let conditionClause = '';
+  if (condition) {
+    conditionClause = ' AND condition = :condition';
+    replacements.condition = condition;
+  }
+
+  if (await tableExists('price_observations')) {
+    return sequelize.query(
+      `SELECT id,
+              game_id,
+              price,
+              LOWER(condition) AS condition,
+              observed_at AS sale_date,
+              source_name AS source,
+              listing_url,
+              listing_reference AS listing_title,
+              observed_at AS created_at
+       FROM price_observations
+       WHERE game_id = :gameId${conditionClause}
+       ORDER BY observed_at DESC
+       LIMIT :limit`,
+      {
+        replacements,
+        type: QueryTypes.SELECT,
+      }
+    );
+  }
+
+  await ensureLocalPriceHistoryTable();
+
+  return sequelize.query(
+    `SELECT id, game_id, price, condition, sale_date, source, listing_url, listing_title, created_at
+     FROM price_history
+     WHERE game_id = :gameId${conditionClause}
+     ORDER BY sale_date DESC
+     LIMIT :limit`,
+    {
+      replacements,
+      type: QueryTypes.SELECT,
     }
   );
 }
@@ -260,27 +310,34 @@ router.get('/:gameId', async (req, res) => {
   const allowedCondition = ['loose', 'cib', 'mint'].includes(condition) ? condition : null;
 
   try {
-    let query = db
-      .from('price_history')
-      .select('id,game_id,price,condition,sale_date,source,listing_url,listing_title,created_at')
-      .eq('game_id', gameId)
-      .order('sale_date', { ascending: false })
-      .limit(limit);
+    let sales = [];
 
-    if (allowedCondition) {
-      query = query.eq('condition', allowedCondition);
-    }
+    if (USE_SUPABASE) {
+      let query = db
+        .from('price_history')
+        .select('id,game_id,price,condition,sale_date,source,listing_url,listing_title,created_at')
+        .eq('game_id', gameId)
+        .order('sale_date', { ascending: false })
+        .limit(limit);
 
-    const { data, error } = await query;
-    if (error) {
-      throw new Error(error.message);
+      if (allowedCondition) {
+        query = query.eq('condition', allowedCondition);
+      }
+
+      const { data, error } = await query;
+      if (error) {
+        throw new Error(error.message);
+      }
+      sales = data || [];
+    } else {
+      sales = await queryLocalPriceSales(gameId, allowedCondition, limit);
     }
 
     return res.json({
       ok: true,
       gameId,
-      count: (data || []).length,
-      sales: data || [],
+      count: sales.length,
+      sales,
     });
   } catch (error) {
     if (isMissingPriceHistoryTable(error)) {

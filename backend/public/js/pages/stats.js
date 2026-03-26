@@ -1,37 +1,41 @@
 'use strict'
 
-const TOTAL_SYNOPSIS_TARGET = 1296
-const RARITY_ORDER = ['LEGENDARY', 'EPIC', 'RARE', 'UNCOMMON', 'COMMON']
-
-const overviewTotalGamesEl = document.getElementById('overview-total-games')
-const overviewPlatformTotalEl = document.getElementById('overview-platform-total')
-const overviewPricedTotalEl = document.getElementById('overview-priced-total')
-const rarityGridEl = document.getElementById('rarity-grid')
-const platformBarsEl = document.getElementById('platform-bars')
-const marketT1El = document.getElementById('market-t1-count')
-const marketT3El = document.getElementById('market-t3-count')
-const marketT4El = document.getElementById('market-t4-count')
-const marketMostExpensiveEl = document.getElementById('market-most-expensive')
-const marketLeastExpensiveEl = document.getElementById('market-least-expensive')
-const marketNoteEl = document.getElementById('market-note')
-const encycloSynopsisEl = document.getElementById('encyclo-synopsis-count')
-const encycloFranchiseEl = document.getElementById('encyclo-franchise-count')
-const priceMedianLooseEl = document.getElementById('price-median-loose')
-const statsErrorEl = document.getElementById('stats-error')
-const marketSearchInputEl = document.getElementById('market-search-input')
-const marketSearchCountEl = document.getElementById('market-search-count')
-const marketSearchResultsEl = document.getElementById('market-search-results')
-const marketSearchPreviewEl = document.getElementById('market-search-preview')
-const marketPreviewTitleEl = document.getElementById('market-preview-title')
-const marketPreviewMetaEl = document.getElementById('market-preview-meta')
-const marketPreviewPriceEl = document.getElementById('market-preview-price')
-const marketPreviewSignalEl = document.getElementById('market-preview-signal')
-const marketPreviewStatsEl = document.getElementById('market-preview-stats')
-const marketPreviewLinksEl = document.getElementById('market-preview-links')
-
 const urlParams = new URLSearchParams(window.location.search)
-let marketSearchTimer = null
-let marketPreviewToken = 0
+
+const breadcrumbNameEl = document.getElementById('market-breadcrumb-name')
+const searchInputEl = document.getElementById('market-search-input')
+const searchCountEl = document.getElementById('market-search-count')
+const heroSummaryEl = document.getElementById('market-hero-summary')
+const searchHeaderEl = document.getElementById('market-search-header')
+const searchResultsEl = document.getElementById('market-search-results')
+const graphShellEl = document.getElementById('market-graph-shell')
+const graphContentEl = document.getElementById('market-graph-content')
+const compareShellEl = document.getElementById('market-compare-shell')
+const compareContentEl = document.getElementById('market-compare-content')
+const marketShellEl = document.getElementById('market-market-shell')
+const marketContentEl = document.getElementById('market-market-content')
+const buyShellEl = document.getElementById('market-buy-shell')
+const buyContentEl = document.getElementById('market-buy-content')
+const tradeShellEl = document.getElementById('market-trade-shell')
+const tradeContentEl = document.getElementById('market-trade-content')
+
+const state = {
+  query: urlParams.get('q') || '',
+  results: [],
+  currentGame: null,
+  currentSummary: null,
+  currentSales: [],
+  currentListings: [],
+  compareQuery: '',
+  compareResults: [],
+  compareGame: null,
+  compareSummary: null,
+}
+
+let searchTimer = null
+let compareTimer = null
+let selectionToken = 0
+let compareToken = 0
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -44,38 +48,43 @@ function escapeHtml(value) {
 
 function formatCurrency(value) {
   const number = Number(value)
-  return Number.isFinite(number)
-    ? `$${number.toFixed(2).replace(/\\.00$/, '')}`
-    : '$0'
-}
-
-async function fetchJson(url) {
-  const response = await fetch(url)
-  if (!response.ok) {
-    throw new Error(`${response.status} ${response.statusText}`)
+  if (!Number.isFinite(number) || number <= 0) {
+    return '&mdash;'
   }
-  return response.json()
+  return `$${number.toFixed(2).replace(/\\.00$/, '')}`
 }
 
-function marketSignalLabel(signal) {
-  if (signal === 'premium') return 'PREMIUM'
-  if (signal === 'watch') return 'WATCH'
-  return 'BASELINE'
-}
-
-function marketSignalClass(signal) {
-  if (signal === 'premium') return 'trend-up'
-  if (signal === 'watch') return 'trend-flat'
-  return ''
-}
-
-function formatCompactDate(value) {
+function formatDate(value) {
   if (!value) return 'n/a'
   const date = new Date(value)
-  if (!Number.isFinite(date.getTime())) return String(value)
+  if (!Number.isFinite(date.getTime())) return escapeHtml(value)
   const day = String(date.getDate()).padStart(2, '0')
   const month = String(date.getMonth() + 1).padStart(2, '0')
   return `${day}/${month}/${date.getFullYear()}`
+}
+
+function formatRelease(game) {
+  if (game.releaseDate) {
+    return formatDate(game.releaseDate)
+  }
+  return escapeHtml(game.year || 'n/a')
+}
+
+function fetchJson(url, options = undefined) {
+  return fetch(url, options).then((response) => {
+    if (!response.ok) {
+      throw new Error(`${response.status} ${response.statusText}`)
+    }
+    return response.json()
+  })
+}
+
+function metascoreMarkup(score, variant = 'micro') {
+  if (window.RetroDexMetascore?.renderBadge && score != null) {
+    return window.RetroDexMetascore.renderBadge(score, variant).outerHTML
+  }
+  const value = Number(score)
+  return `<span class="market-meta-fallback">${Number.isFinite(value) ? Math.round(value) : '&mdash;'}</span>`
 }
 
 function getConditionSummary(summary, condition) {
@@ -83,338 +92,597 @@ function getConditionSummary(summary, condition) {
   return summary.byCondition.find((item) => item.condition === condition) || null
 }
 
-function renderMarketPreviewStats(summary) {
-  if (!marketPreviewStatsEl) return
-  marketPreviewStatsEl.classList.add('surface-signal-grid')
-
-  if (!summary || !summary.totalSales) {
-    marketPreviewStatsEl.innerHTML = `
-      <div class="surface-signal-card is-wide">
-        <span class="surface-signal-label">Serie 24M</span>
-        <span class="surface-signal-value is-muted">Aucune donnee exploitable</span>
-      </div>
-    `
-    return
-  }
-
-  const loose = getConditionSummary(summary, 'loose')
-  const cib = getConditionSummary(summary, 'cib')
-  const mint = getConditionSummary(summary, 'mint')
-
-  marketPreviewStatsEl.innerHTML = `
-    <div class="surface-signal-card">
-      <span class="surface-signal-label">Ventes 24M</span>
-      <span class="surface-signal-value">${escapeHtml(summary.totalSales)}</span>
-    </div>
-    <div class="surface-signal-card">
-      <span class="surface-signal-label">Derniere vente</span>
-      <span class="surface-signal-value">${escapeHtml(formatCompactDate(summary.lastSale))}</span>
-    </div>
-    <div class="surface-signal-card">
-      <span class="surface-signal-label">Loose median</span>
-      <span class="surface-signal-value is-alert">${escapeHtml(loose ? formatCurrency(loose.median) : 'n/a')}</span>
-    </div>
-    <div class="surface-signal-card">
-      <span class="surface-signal-label">CIB median</span>
-      <span class="surface-signal-value">${escapeHtml(cib ? formatCurrency(cib.median) : 'n/a')}</span>
-    </div>
-    <div class="surface-signal-card">
-      <span class="surface-signal-label">Mint median</span>
-      <span class="surface-signal-value">${escapeHtml(mint ? formatCurrency(mint.median) : 'n/a')}</span>
-    </div>
-  `
+function averagePrice(rows) {
+  const values = rows
+    .map((row) => Number(row.price))
+    .filter((value) => Number.isFinite(value) && value > 0)
+  if (!values.length) return null
+  return values.reduce((sum, value) => sum + value, 0) / values.length
 }
 
-function renderMarketSearchEmpty(message) {
-  if (!marketSearchResultsEl) return
+function buildTrendState(sales = []) {
+  const ranked = sales
+    .filter((row) => Number.isFinite(Number(row.price)))
+    .sort((left, right) => new Date(left.sale_date) - new Date(right.sale_date))
 
-  marketSearchResultsEl.innerHTML = `
-    <div class="terminal-empty-state search-empty">
-      <div class="terminal-empty-title">Recherche RetroMarket</div>
-      <div class="terminal-empty-copy">${escapeHtml(message)}</div>
-    </div>
-  `
-  if (marketSearchPreviewEl) {
-    marketSearchPreviewEl.style.display = 'none'
+  const looseRows = ranked.filter((row) => String(row.condition || '').toLowerCase() === 'loose')
+  const sample = looseRows.length >= 4 ? looseRows : ranked
+
+  if (sample.length < 4) {
+    return { symbol: '•', label: 'Stable', className: 'is-stable', deltaText: 'signal limite' }
   }
-  if (marketPreviewStatsEl) {
-    marketPreviewStatsEl.innerHTML = ''
+
+  const segmentSize = Math.max(2, Math.floor(sample.length / 3))
+  const firstAvg = averagePrice(sample.slice(0, segmentSize))
+  const lastAvg = averagePrice(sample.slice(-segmentSize))
+
+  if (!firstAvg || !lastAvg) {
+    return { symbol: '•', label: 'Stable', className: 'is-stable', deltaText: 'signal limite' }
+  }
+
+  const delta = (lastAvg - firstAvg) / firstAvg
+  if (delta >= 0.12) {
+    return { symbol: '↗', label: 'Hausse', className: 'is-up', deltaText: `+${Math.round(delta * 100)}%` }
+  }
+  if (delta <= -0.08) {
+    return { symbol: '↘', label: 'Repli', className: 'is-down', deltaText: `${Math.round(delta * 100)}%` }
+  }
+  return { symbol: '•', label: 'Stable', className: 'is-stable', deltaText: `${Math.round(delta * 100)}%` }
+}
+
+function normalizeGame(game) {
+  return {
+    ...game,
+    loosePrice: game.loosePrice ?? game.loose_price ?? 0,
+    cibPrice: game.cibPrice ?? game.cib_price ?? 0,
+    mintPrice: game.mintPrice ?? game.mint_price ?? 0,
+    coverImage: game.coverImage || game.cover_url || null,
   }
 }
 
-async function showMarketSearchPreview(item) {
-  if (!marketSearchPreviewEl) return
-
-  const previewToken = ++marketPreviewToken
-  marketSearchPreviewEl.style.display = 'block'
-  marketPreviewTitleEl.textContent = item.title || '-'
-  marketPreviewMetaEl.className = 'terminal-preview-row surface-identity-meta'
-  marketPreviewMetaEl.innerHTML = `
-    <span><span class="pv-label">Console </span><span class="pv-val">${escapeHtml(item.console || '-')}</span></span>
-    <span><span class="pv-label">Annee </span><span class="pv-val">${escapeHtml(item.year || '-')}</span></span>
-    <span><span class="pv-label">Genre </span><span class="pv-val">${escapeHtml(item.genre || '-')}</span></span>
-    <span><span class="pv-label">Rarete </span><span class="pv-val">${escapeHtml(item.rarity || '-')}</span></span>
-  `
-  marketPreviewPriceEl.innerHTML = `
-    <div class="surface-signal-grid is-compact">
-      <div class="surface-signal-card">
-        <span class="surface-signal-label">Loose</span>
-        <span class="surface-signal-value is-alert">${escapeHtml(formatCurrency(item.loosePrice || 0))}</span>
-      </div>
-      <div class="surface-signal-card">
-        <span class="surface-signal-label">CIB</span>
-        <span class="surface-signal-value">${escapeHtml(formatCurrency(item.cibPrice || 0))}</span>
-      </div>
-      <div class="surface-signal-card">
-        <span class="surface-signal-label">Mint</span>
-        <span class="surface-signal-value">${escapeHtml(formatCurrency(item.mintPrice || 0))}</span>
-      </div>
-    </div>
-  `
-  if (marketPreviewSignalEl) {
-    marketPreviewSignalEl.className = 'terminal-preview-row surface-chip-row'
-    marketPreviewSignalEl.innerHTML = `
-      <span class="surface-chip is-hot">${escapeHtml(marketSignalLabel(item.signal))}</span>
-      <span class="surface-chip">${escapeHtml(item.rarity || 'ARCHIVE')}</span>
-      <span class="surface-chip">prix | rarete | historique</span>
-    `
-    if (item.metascore && window.RetroDexMetascore) {
-      const metaWrap = document.createElement('span')
-      metaWrap.className = 'surface-chip is-primary market-preview-inline-score'
-      metaWrap.appendChild(window.RetroDexMetascore.renderInline(item.metascore))
-      marketPreviewSignalEl.appendChild(metaWrap)
-    }
-  }
-  renderMarketPreviewStats(null)
-  marketPreviewLinksEl.className = 'terminal-preview-row surface-action-row'
-  marketPreviewLinksEl.innerHTML = `
-    <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}">Ouvrir fiche marche -></a>
-    <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(item.id)}#price-history-section">Ouvrir price trace -></a>
-    <a class="terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(item.id)}">Ouvrir RetroDex -></a>
-  `
-
-  try {
-    const summary = await fetchJson(`/api/prices/${encodeURIComponent(item.id)}/summary?months=24`)
-    if (previewToken !== marketPreviewToken) return
-    renderMarketPreviewStats(summary)
-  } catch (error) {
-    if (previewToken !== marketPreviewToken) return
-    renderMarketPreviewStats(null)
-  }
+function updateUrl() {
+  const params = new URLSearchParams(window.location.search)
+  const query = String(state.query || '').trim()
+  if (query) params.set('q', query)
+  else params.delete('q')
+  const next = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`
+  window.history.replaceState({}, '', next)
 }
 
-function renderMarketSearchResults(items) {
-  if (!marketSearchResultsEl) return
-
-  if (!items.length) {
-    renderMarketSearchEmpty('Aucun signal marche pour cette requete.')
-    if (marketSearchCountEl) {
-      marketSearchCountEl.textContent = '0 resultat'
-    }
-    return
-  }
-
-  marketSearchResultsEl.innerHTML = ''
-  items.forEach((item, index) => {
-    const row = document.createElement('button')
-    row.type = 'button'
-    row.className = 'terminal-row'
-    row.style.gridTemplateColumns = '1fr 120px 80px 80px 80px 90px'
-    row.innerHTML = `
-      <span style="color:var(--text-primary)">${escapeHtml(item.title)}</span>
-      <span class="result-meta">${escapeHtml(item.console || '-')} | ${escapeHtml(item.year || '-')}</span>
-      <span style="text-align:right;color:var(--text-alert)">${escapeHtml(formatCurrency(item.loosePrice || 0))}</span>
-      <span style="text-align:right">${escapeHtml(formatCurrency(item.cibPrice || 0))}</span>
-      <span style="text-align:right">${escapeHtml(formatCurrency(item.mintPrice || 0))}</span>
-      <span style="text-align:center" class="${marketSignalClass(item.signal)}">${escapeHtml(marketSignalLabel(item.signal))}</span>
-    `
-    if (window.RetroDexAssets && item.console) {
-      const img = window.RetroDexAssets.createSupportImg(item.console, 16)
-      row.insertBefore(img, row.firstChild)
-    }
-    const titleEl = row.querySelector('span')
-    if (titleEl && item.metascore && window.RetroDexMetascore) {
-      titleEl.appendChild(document.createTextNode(' '))
-      titleEl.appendChild(window.RetroDexMetascore.renderBadge(item.metascore, 'micro'))
-    }
-    row.setAttribute('aria-label', `${item.title} ${item.console || ''} ${marketSignalLabel(item.signal)}`)
-    row.addEventListener('click', () => {
-      marketSearchResultsEl.querySelectorAll('.terminal-row').forEach((node) => node.classList.remove('selected'))
-      row.classList.add('selected')
-      showMarketSearchPreview(item)
-    })
-    row.addEventListener('dblclick', () => {
-      window.location.href = `/game-detail.html?id=${encodeURIComponent(item.id)}`
-    })
-    marketSearchResultsEl.appendChild(row)
-
-    if (index === 0) {
-      row.classList.add('selected')
-      showMarketSearchPreview(item)
-    }
+function setSecondaryShellVisibility(visible) {
+  ;[graphShellEl, compareShellEl, marketShellEl, buyShellEl, tradeShellEl].forEach((shell) => {
+    if (shell) shell.hidden = !visible
   })
-
-  if (marketSearchCountEl) {
-    marketSearchCountEl.textContent = `${items.length} resultat(s)`
-  }
 }
 
-async function performMarketSearch() {
-  if (!marketSearchInputEl) return
-  const query = String(marketSearchInputEl.value || '').trim()
+function renderSearchResults() {
+  if (!searchResultsEl || !searchHeaderEl || !searchCountEl) return
 
-  const nextParams = new URLSearchParams(window.location.search)
-  query ? nextParams.set('q', query) : nextParams.delete('q')
-  window.history.replaceState({}, '',
-    `${window.location.pathname}${nextParams.toString() ? `?${nextParams.toString()}` : ''}`)
-
-  if (query.length < 2) {
-    if (marketSearchCountEl) marketSearchCountEl.textContent = ''
-    renderMarketSearchEmpty('Saisissez au moins 2 caracteres pour lire les signaux de valeur.')
+  if (state.query.length < 2) {
+    searchHeaderEl.hidden = true
+    searchCountEl.textContent = ''
+    searchResultsEl.innerHTML = ''
     return
   }
-  if (marketSearchCountEl) marketSearchCountEl.textContent = 'Recherche...'
 
-  try {
-    let items
-    if (window.RetroDexSearch) {
-      const results = await window.RetroDexSearch.search(query, {}, 'retromarket', 12)
-      items = results.map((result) => ({
-        id: result.id,
-        title: result.title,
-        console: result.meta?.console,
-        year: result.meta?.year,
-        genre: result.meta?.genre,
-        rarity: result.meta?.rarity,
-        metascore: result.meta?.metascore,
-        loosePrice: result.meta?.loosePrice,
-        cibPrice: result.meta?.cibPrice,
-        mintPrice: result.meta?.mintPrice,
-        signal: ['LEGENDARY', 'EPIC'].includes(result.meta?.rarity) ? 'premium'
-          : result.meta?.rarity === 'RARE' ? 'watch' : 'baseline',
-      }))
-    } else {
-      const payload = await fetchJson(`/api/games?q=${encodeURIComponent(query)}&limit=12`)
-      items = (payload.items || []).map((game) => ({
-        id: game.id,
-        title: game.title,
-        console: game.console,
-        year: game.year,
-        genre: game.genre,
-        rarity: game.rarity,
-        metascore: game.metascore,
-        loosePrice: game.loosePrice,
-        cibPrice: game.cibPrice,
-        mintPrice: game.mintPrice,
-        signal: ['LEGENDARY', 'EPIC'].includes(game.rarity) ? 'premium'
-          : game.rarity === 'RARE' ? 'watch' : 'baseline',
-      }))
-    }
-    renderMarketSearchResults(items)
-  } catch (error) {
-    renderMarketSearchEmpty(`Recherche indisponible (${error.message}).`)
+  if (!state.results.length) {
+    searchHeaderEl.hidden = true
+    searchCountEl.textContent = '0 resultat'
+    searchResultsEl.innerHTML = `
+      <div class="terminal-empty-state search-empty">
+        <div class="terminal-empty-title">Recherche</div>
+        <div class="terminal-empty-copy">Aucun jeu trouve.</div>
+      </div>
+    `
+    return
   }
-}
 
-function bindMarketSearch() {
-  if (!marketSearchInputEl) return
-
-  const initialQuery = urlParams.get('q') || ''
-  marketSearchInputEl.value = initialQuery
-  marketSearchInputEl.addEventListener('input', () => {
-    window.clearTimeout(marketSearchTimer)
-    marketSearchTimer = window.setTimeout(performMarketSearch, 200)
-  })
-
-  if (initialQuery) {
-    performMarketSearch()
-  } else {
-    renderMarketSearchEmpty('Recherche contextuelle RetroMarket : selectionnez un jeu pour lire les stats prix 24 mois et ouvrir la fiche marche.')
-  }
-}
-
-function renderRarityDistribution(byRarity, totalGames) {
-  rarityGridEl.innerHTML = RARITY_ORDER.map((rarity) => {
-    const count = Number(byRarity?.[rarity] || 0)
-    const pct = totalGames ? ((count / totalGames) * 100).toFixed(1) : '0.0'
-
+  searchHeaderEl.hidden = false
+  searchCountEl.textContent = `${state.results.length} resultat(s)`
+  searchResultsEl.innerHTML = state.results.map((game) => {
+    const isSelected = state.currentGame?.id === game.id
     return `
-      <article class="rarity-item rarity-${escapeHtml(rarity.toLowerCase())}">
-        <span class="rarity-name">${escapeHtml(rarity)}</span>
-        <span class="rarity-count">${escapeHtml(count)}</span>
-        <span class="rarity-pct">${escapeHtml(pct)}%</span>
+      <button type="button" class="market-search-row${isSelected ? ' is-selected' : ''}" data-game-id="${escapeHtml(game.id)}">
+        <span class="market-result-main">
+          <span class="market-result-title">${escapeHtml(game.title)}</span>
+          <span class="market-result-meta">${escapeHtml(game.console || 'n/a')}</span>
+          <a href="/game-detail.html?id=${encodeURIComponent(game.id)}" class="terminal-action-link market-result-link" onclick="event.stopPropagation()">Voir fiche -></a>
+        </span>
+        <span class="market-result-year">${escapeHtml(game.year || 'n/a')}</span>
+        <span class="market-result-price is-alert">${formatCurrency(game.loosePrice || 0)}</span>
+        <span class="market-result-price">${formatCurrency(game.cibPrice || 0)}</span>
+        <span class="market-result-price">${formatCurrency(game.mintPrice || 0)}</span>
+        <span class="market-result-score">${metascoreMarkup(game.metascore, 'micro')}</span>
+      </button>
+    `
+  }).join('')
+
+  searchResultsEl.querySelectorAll('[data-game-id]').forEach((button) => {
+    button.addEventListener('click', () => {
+      selectGame(button.dataset.gameId)
+    })
+  })
+}
+
+function renderHeroSummary() {
+  if (!heroSummaryEl || !breadcrumbNameEl) return
+
+  if (!state.currentGame) {
+    breadcrumbNameEl.textContent = 'MARCHE'
+    heroSummaryEl.innerHTML = `
+      <div class="market-empty-card">
+        <div class="market-empty-title">RetroMarket</div>
+        <div class="market-empty-copy">Prix, tendance, comparaison.</div>
+      </div>
+    `
+    return
+  }
+
+  const game = state.currentGame
+  const publisher = game.publisher || game.publisherName || game.developer || 'n/a'
+  const developer = game.developer || 'n/a'
+  const trend = buildTrendState(state.currentSales)
+  const cover = game.coverImage
+    ? `<img src="${escapeHtml(game.coverImage)}" alt="" class="market-cover" width="144" height="144" />`
+    : `<span class="market-cover-placeholder">${escapeHtml(String(game.title || '?').slice(0, 2).toUpperCase())}</span>`
+
+  breadcrumbNameEl.textContent = game.title || 'MARCHE'
+  heroSummaryEl.innerHTML = `
+    <div class="market-hero-layout">
+      <div class="detail-cover-slot market-cover-slot">${cover}</div>
+      <div class="market-hero-copy">
+        <h1 class="detail-title market-hero-title">${escapeHtml(game.title || 'RetroMarket')}</h1>
+        <div class="detail-hero-chips market-hero-chips" id="market-hero-chips">
+          <span class="chip chip--console">${escapeHtml(game.console || 'n/a')}</span>
+          <span class="chip">Sortie ${formatRelease(game)}</span>
+          <span class="chip">Editeur ${escapeHtml(publisher)}</span>
+          <span class="chip">Dev ${escapeHtml(developer)}</span>
+        </div>
+        <div class="terminal-summary-bar market-price-summary">
+          <div class="terminal-summary-cell">
+            <div class="terminal-summary-label">Loose</div>
+            <div class="terminal-summary-value is-alert">${formatCurrency(game.loosePrice || 0)}</div>
+          </div>
+          <div class="terminal-summary-cell">
+            <div class="terminal-summary-label">CIB</div>
+            <div class="terminal-summary-value">${formatCurrency(game.cibPrice || 0)}</div>
+          </div>
+          <div class="terminal-summary-cell">
+            <div class="terminal-summary-label">Mint</div>
+            <div class="terminal-summary-value">${formatCurrency(game.mintPrice || 0)}</div>
+          </div>
+          <div class="terminal-summary-cell">
+            <div class="terminal-summary-label">Tendance</div>
+            <div class="terminal-summary-value">
+              <span class="market-trend-badge ${trend.className}">
+                <span class="market-trend-symbol">${trend.symbol}</span>
+                <span>${escapeHtml(trend.label)}</span>
+                <span class="market-trend-delta">${escapeHtml(trend.deltaText)}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="surface-action-row market-hero-actions">
+          <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(game.id)}">Voir fiche -></a>
+        </div>
+      </div>
+    </div>
+  `
+
+  const heroChipsEl = document.getElementById('market-hero-chips')
+  if (heroChipsEl) {
+    const scoreWrap = document.createElement('span')
+    scoreWrap.className = 'chip market-score-chip'
+    scoreWrap.innerHTML = metascoreMarkup(game.metascore, 'micro')
+    heroChipsEl.appendChild(scoreWrap)
+  }
+}
+
+function renderGraphContent() {
+  if (!graphContentEl || !state.currentGame) return
+
+  const sales = state.currentSales
+    .filter((row) => Number.isFinite(Number(row.price)))
+    .sort((left, right) => new Date(right.sale_date) - new Date(left.sale_date))
+    .slice(0, 12)
+  const summary = state.currentSummary || { totalSales: 0, lastSale: null }
+
+  if (!sales.length) {
+    graphContentEl.innerHTML = '<div class="market-empty-copy">Aucune observation exploitable.</div>'
+    return
+  }
+
+  const maxPrice = Math.max(...sales.map((row) => Number(row.price) || 0), 1)
+  graphContentEl.innerHTML = `
+    <div class="terminal-summary-bar detail-stats-bar">
+      <div class="terminal-summary-cell">
+        <div class="terminal-summary-label">Ventes 24M</div>
+        <div class="terminal-summary-value">${escapeHtml(summary.totalSales || sales.length)}</div>
+      </div>
+      <div class="terminal-summary-cell">
+        <div class="terminal-summary-label">Derniere obs.</div>
+        <div class="terminal-summary-value">${formatDate(summary.lastSale)}</div>
+      </div>
+      <div class="terminal-summary-cell">
+        <div class="terminal-summary-label">Plage</div>
+        <div class="terminal-summary-value">${formatCurrency(summary.minPrice)} / ${formatCurrency(summary.maxPrice)}</div>
+      </div>
+    </div>
+    <div class="market-graph-list">
+      ${sales.map((row) => `
+        <div class="market-graph-row">
+          <span class="market-graph-date">${formatDate(row.sale_date)}</span>
+          <span class="market-graph-condition">${escapeHtml(String(row.condition || 'loose').toUpperCase())}</span>
+          <span class="market-graph-bar"><span class="market-graph-fill" style="width:${Math.max(8, Math.round((Number(row.price) / maxPrice) * 100))}%"></span></span>
+          <span class="market-graph-price">${formatCurrency(row.price)}</span>
+        </div>
+      `).join('')}
+    </div>
+  `
+}
+
+function renderMarketContent() {
+  if (!marketContentEl || !state.currentGame) return
+
+  const summary = state.currentSummary || { byCondition: [] }
+  const confidence = Number(state.currentGame.source_confidence || 0)
+  const rows = ['loose', 'cib', 'mint'].map((condition) => {
+    const data = getConditionSummary(summary, condition)
+    return `
+      <div class="market-condition-row">
+        <span>${escapeHtml(condition.toUpperCase())}</span>
+        <span>${escapeHtml(data?.count || 0)}</span>
+        <span>${formatCurrency(data?.median)}</span>
+        <span>${formatCurrency(data?.min)}</span>
+        <span>${formatCurrency(data?.max)}</span>
+      </div>
+    `
+  }).join('')
+
+  marketContentEl.innerHTML = `
+    <div class="terminal-summary-bar detail-stats-bar">
+      <div class="terminal-summary-cell">
+        <div class="terminal-summary-label">Ventes 24M</div>
+        <div class="terminal-summary-value">${escapeHtml(summary.totalSales || 0)}</div>
+      </div>
+      <div class="terminal-summary-cell">
+        <div class="terminal-summary-label">Derniere obs.</div>
+        <div class="terminal-summary-value">${formatDate(summary.lastSale)}</div>
+      </div>
+      <div class="terminal-summary-cell">
+        <div class="terminal-summary-label">Min</div>
+        <div class="terminal-summary-value">${formatCurrency(summary.minPrice)}</div>
+      </div>
+      <div class="terminal-summary-cell">
+        <div class="terminal-summary-label">Max</div>
+        <div class="terminal-summary-value">${formatCurrency(summary.maxPrice)}</div>
+      </div>
+      <div class="terminal-summary-cell">
+        <div class="terminal-summary-label">Confiance</div>
+        <div class="terminal-summary-value">${Number.isFinite(confidence) && confidence > 0 ? `${Math.round(confidence * 100)}%` : 'n/a'}</div>
+      </div>
+    </div>
+    <div class="market-condition-table">
+      <div class="market-condition-row market-condition-header">
+        <span>Etat</span>
+        <span>Ventes</span>
+        <span>Median</span>
+        <span>Min</span>
+        <span>Max</span>
+      </div>
+      ${rows}
+    </div>
+  `
+}
+
+function renderBuyContent() {
+  if (!buyContentEl || !state.currentGame) return
+
+  if (!state.currentListings.length) {
+    buyContentEl.innerHTML = '<div class="market-empty-copy">Aucune annonce active.</div>'
+    return
+  }
+
+  buyContentEl.innerHTML = `
+    <div class="market-buy-list">
+      ${state.currentListings.map((listing) => `
+        <div class="market-buy-row">
+          <span class="market-buy-condition">${escapeHtml(listing.condition || 'n/a')}</span>
+          <span class="market-buy-price">${formatCurrency(listing.price)}</span>
+          <span class="market-buy-currency">${escapeHtml(listing.currency || 'USD')}</span>
+          <span class="market-buy-status">${escapeHtml(String(listing.status || 'active').toUpperCase())}</span>
+        </div>
+      `).join('')}
+    </div>
+  `
+}
+
+function renderTradeContent() {
+  if (!tradeContentEl || !state.currentGame) return
+  tradeContentEl.innerHTML = '<div class="market-empty-copy">Structure prete. Echanges a brancher.</div>'
+}
+
+function renderCompareCards() {
+  if (!state.currentGame || !state.compareGame || !state.compareSummary) {
+    return ''
+  }
+
+  const left = state.currentGame
+  const right = state.compareGame
+  const leftSummary = state.currentSummary || {}
+  const rightSummary = state.compareSummary || {}
+  const rows = [
+    ['Sortie', formatRelease(left), formatRelease(right)],
+    ['Metascore', left.metascore || 'n/a', right.metascore || 'n/a'],
+    ['Loose', formatCurrency(left.loosePrice), formatCurrency(right.loosePrice)],
+    ['CIB', formatCurrency(left.cibPrice), formatCurrency(right.cibPrice)],
+    ['Mint', formatCurrency(left.mintPrice), formatCurrency(right.mintPrice)],
+    ['Ventes 24M', leftSummary.totalSales || 0, rightSummary.totalSales || 0],
+  ]
+
+  return `
+    <div class="market-compare-grid">
+      <article class="market-compare-card">
+        <div class="market-compare-card-title">${escapeHtml(left.title)}</div>
+        <div class="market-compare-card-meta">${escapeHtml(left.console || 'n/a')} | ${escapeHtml(left.year || 'n/a')}</div>
       </article>
-    `
-  }).join('')
-}
-
-function renderTopPlatforms(platforms) {
-  const max = Math.max(...platforms.map((item) => Number(item.count) || 0), 1)
-
-  platformBarsEl.innerHTML = platforms.map((item) => {
-    const count = Number(item.count) || 0
-    const bar = '#'.repeat(Math.max(1, Math.round((count / max) * 22)))
-
-    return `
-      <div class="platform-row">
-        <div class="platform-name">${escapeHtml(item.platform)}</div>
-        <div class="platform-ascii">${bar}</div>
-        <div class="platform-count">${escapeHtml(count)}</div>
+      <article class="market-compare-card">
+        <div class="market-compare-card-title">${escapeHtml(right.title)}</div>
+        <div class="market-compare-card-meta">${escapeHtml(right.console || 'n/a')} | ${escapeHtml(right.year || 'n/a')}</div>
+      </article>
+    </div>
+    <div class="market-compare-table">
+      <div class="market-compare-row market-compare-header">
+        <span>Signal</span>
+        <span>${escapeHtml(left.title)}</span>
+        <span>${escapeHtml(right.title)}</span>
       </div>
-    `
-  }).join('')
-}
-
-function renderGameSpot(element, game, fallbackTitle, fallbackMeta) {
-  if (!game) {
-    element.href = '/games-list.html'
-    element.innerHTML = `
-      <span class="game-spot-title">${escapeHtml(fallbackTitle)}</span>
-      <span class="game-spot-meta">${escapeHtml(fallbackMeta)}</span>
-      <span class="game-spot-price">&mdash;</span>
-    `
-    return
-  }
-
-  element.href = `/game-detail.html?id=${encodeURIComponent(game.id)}`
-  element.innerHTML = `
-    <span class="game-spot-title">${escapeHtml(game.title)}</span>
-    <span class="game-spot-meta">${escapeHtml(game.platform || 'Console inconnue')} | ${escapeHtml(game.year || 'n/a')}</span>
-    <span class="game-spot-price">${escapeHtml(formatCurrency(game.loosePrice))}</span>
+      ${rows.map(([label, leftValue, rightValue]) => `
+        <div class="market-compare-row">
+          <span>${escapeHtml(label)}</span>
+          <span>${escapeHtml(leftValue)}</span>
+          <span>${escapeHtml(rightValue)}</span>
+        </div>
+      `).join('')}
+    </div>
   `
 }
 
-async function loadStats() {
-  try {
-    const payload = await fetchJson('/api/stats')
+function renderCompareContent() {
+  if (!compareContentEl || !state.currentGame) return
 
-    overviewTotalGamesEl.textContent = String(payload.total_games || 0)
-    overviewPlatformTotalEl.textContent = String(payload.total_platforms || 0)
-    overviewPricedTotalEl.textContent = String(payload.priced_games || 0)
-    encycloSynopsisEl.textContent = `${payload.encyclopedia_stats?.with_synopsis || 0} / ${Math.max(payload.total_games || 0, TOTAL_SYNOPSIS_TARGET)}`
-    encycloFranchiseEl.textContent = String(payload.encyclopedia_stats?.total_franchises || 0)
-    priceMedianLooseEl.textContent = formatCurrency(payload.price_stats?.median_loose || 0)
+  compareContentEl.innerHTML = `
+    <div class="terminal-query-line market-search-shell market-compare-search">
+      <span class="terminal-query-label">COMPARE :</span>
+      <input
+        type="text"
+        id="market-compare-input"
+        class="terminal-query-input"
+        value="${escapeHtml(state.compareQuery)}"
+        placeholder="second jeu"
+        autocomplete="off"
+      />
+      <span class="terminal-query-count" id="market-compare-count">${state.compareResults.length ? `${state.compareResults.length} resultat(s)` : ''}</span>
+    </div>
+    <div id="market-compare-results" class="market-compare-results">
+      ${state.compareQuery.length >= 2 && !state.compareResults.length
+        ? '<div class="market-empty-copy">Aucun jeu de comparaison.</div>'
+        : state.compareResults.map((game) => `
+          <button type="button" class="market-compare-result" data-compare-id="${escapeHtml(game.id)}">
+            <span>${escapeHtml(game.title)}</span>
+            <span>${escapeHtml(game.console || 'n/a')} | ${escapeHtml(game.year || 'n/a')}</span>
+          </button>
+        `).join('')}
+    </div>
+    ${renderCompareCards()}
+  `
 
-    renderRarityDistribution(payload.by_rarity || {}, Number(payload.total_games || 0))
-    renderTopPlatforms((payload.by_platform || []).slice(0, 10))
-
-    marketT1El.textContent = String(payload.trust_stats?.t1 || 0)
-    marketT3El.textContent = String(payload.trust_stats?.t3 || 0)
-    marketT4El.textContent = String(payload.trust_stats?.t4 || 0)
-
-    renderGameSpot(marketMostExpensiveEl, payload.expensive_game, 'Aucune donnee', 'Jeu le plus cher')
-    renderGameSpot(marketLeastExpensiveEl, payload.cheapest_game, 'Aucune donnee', 'Jeu le moins cher')
-
-    marketNoteEl.textContent =
-      `Moyenne loose: ${formatCurrency(payload.price_stats?.avg_loose || 0)} | Min: ${formatCurrency(payload.price_stats?.min_loose || 0)} | Max: ${formatCurrency(payload.price_stats?.max_loose || 0)}`
-  } catch (error) {
-    statsErrorEl.hidden = false
-    statsErrorEl.textContent = `Lecture stats indisponible (${error.message}).`
-    marketNoteEl.textContent = 'Analyse RetroMarket indisponible.'
-    console.error('Stats page failed:', error)
+  const compareInputEl = document.getElementById('market-compare-input')
+  const compareResultsEl = document.getElementById('market-compare-results')
+  if (compareInputEl) {
+    compareInputEl.addEventListener('input', () => {
+      window.clearTimeout(compareTimer)
+      state.compareQuery = compareInputEl.value.trim()
+      compareTimer = window.setTimeout(() => searchCompareGames(state.compareQuery), 200)
+    })
+  }
+  if (compareResultsEl) {
+    compareResultsEl.querySelectorAll('[data-compare-id]').forEach((button) => {
+      button.addEventListener('click', () => {
+        selectCompareGame(button.dataset.compareId)
+      })
+    })
   }
 }
 
-loadStats()
-bindMarketSearch()
+function renderAll() {
+  renderHeroSummary()
+  renderSearchResults()
 
+  const hasGame = Boolean(state.currentGame)
+  setSecondaryShellVisibility(hasGame)
+  if (!hasGame) {
+    if (graphContentEl) graphContentEl.innerHTML = ''
+    if (compareContentEl) compareContentEl.innerHTML = ''
+    if (marketContentEl) marketContentEl.innerHTML = ''
+    if (buyContentEl) buyContentEl.innerHTML = ''
+    if (tradeContentEl) tradeContentEl.innerHTML = ''
+    return
+  }
+
+  renderGraphContent()
+  renderCompareContent()
+  renderMarketContent()
+  renderBuyContent()
+  renderTradeContent()
+}
+
+async function searchGames(query, { autoSelectFirst = false } = {}) {
+  state.query = String(query || '').trim()
+  updateUrl()
+
+  if (state.query.length < 2) {
+    state.results = []
+    renderAll()
+    return
+  }
+
+  if (searchCountEl) {
+    searchCountEl.textContent = 'Recherche...'
+  }
+
+  try {
+    const payload = await fetchJson(`/api/games?q=${encodeURIComponent(state.query)}&limit=12`)
+    state.results = (payload.items || []).map(normalizeGame)
+    renderAll()
+    if (autoSelectFirst && state.results.length) {
+      await selectGame(state.results[0].id)
+    }
+  } catch (error) {
+    state.results = []
+    if (searchHeaderEl) searchHeaderEl.hidden = true
+    if (searchCountEl) searchCountEl.textContent = 'Erreur'
+    if (searchResultsEl) {
+      searchResultsEl.innerHTML = `
+        <div class="terminal-empty-state search-empty">
+          <div class="terminal-empty-title">Recherche</div>
+          <div class="terminal-empty-copy">${escapeHtml(error.message)}</div>
+        </div>
+      `
+    }
+  }
+}
+
+async function selectGame(gameId) {
+  const token = ++selectionToken
+
+  const [gameResult, summaryResult, salesResult, listingsResult] = await Promise.allSettled([
+    fetchJson(`/api/games/${encodeURIComponent(gameId)}`),
+    fetchJson(`/api/prices/${encodeURIComponent(gameId)}/summary?months=24`),
+    fetchJson(`/api/prices/${encodeURIComponent(gameId)}?limit=24`),
+    fetchJson(`/marketplace?status=active&gameId=${encodeURIComponent(gameId)}&limit=12`),
+  ])
+
+  if (token !== selectionToken) {
+    return
+  }
+
+  if (gameResult.status !== 'fulfilled') {
+    if (heroSummaryEl) {
+      heroSummaryEl.innerHTML = '<div class="market-empty-card">Chargement indisponible.</div>'
+    }
+    return
+  }
+
+  state.currentGame = normalizeGame(gameResult.value)
+  state.query = state.currentGame.title || state.query
+  if (searchInputEl) {
+    searchInputEl.value = state.query
+  }
+  state.currentSummary = summaryResult.status === 'fulfilled'
+    ? summaryResult.value
+    : { totalSales: 0, lastSale: null, minPrice: null, maxPrice: null, byCondition: [] }
+  state.currentSales = salesResult.status === 'fulfilled'
+    ? (salesResult.value.sales || [])
+    : []
+  state.currentListings = listingsResult.status === 'fulfilled'
+    ? (Array.isArray(listingsResult.value) ? listingsResult.value : listingsResult.value.listings || [])
+    : []
+  state.compareQuery = ''
+  state.compareResults = []
+  state.compareGame = null
+  state.compareSummary = null
+  updateUrl()
+  renderAll()
+}
+
+async function searchCompareGames(query) {
+  state.compareQuery = String(query || '').trim()
+  if (state.compareQuery.length < 2) {
+    state.compareResults = []
+    state.compareGame = null
+    state.compareSummary = null
+    renderCompareContent()
+    return
+  }
+
+  try {
+    const payload = await fetchJson(`/api/games?q=${encodeURIComponent(state.compareQuery)}&limit=8`)
+    state.compareResults = (payload.items || [])
+      .map(normalizeGame)
+      .filter((game) => game.id !== state.currentGame?.id)
+    renderCompareContent()
+  } catch (_error) {
+    state.compareResults = []
+    renderCompareContent()
+  }
+}
+
+async function selectCompareGame(gameId) {
+  const token = ++compareToken
+  const [gameResult, summaryResult] = await Promise.allSettled([
+    fetchJson(`/api/games/${encodeURIComponent(gameId)}`),
+    fetchJson(`/api/prices/${encodeURIComponent(gameId)}/summary?months=24`),
+  ])
+
+  if (token !== compareToken || gameResult.status !== 'fulfilled') {
+    return
+  }
+
+  state.compareGame = normalizeGame(gameResult.value)
+  state.compareSummary = summaryResult.status === 'fulfilled'
+    ? summaryResult.value
+    : { totalSales: 0, byCondition: [] }
+  state.compareQuery = state.compareGame.title || state.compareQuery
+  state.compareResults = []
+  renderCompareContent()
+}
+
+function initAccordions() {
+  document.querySelectorAll('.detail-accordion').forEach((section) => {
+    const button = section.querySelector('.detail-accordion-toggle')
+    const content = section.querySelector('.detail-accordion-content')
+    if (!button || !content || button.dataset.bound === 'true') {
+      return
+    }
+
+    button.dataset.bound = 'true'
+    button.addEventListener('click', () => {
+      const expanded = button.getAttribute('aria-expanded') === 'true'
+      button.setAttribute('aria-expanded', String(!expanded))
+      const indicator = button.querySelector('.detail-accordion-indicator')
+      if (indicator) {
+        indicator.textContent = expanded ? '+' : '−'
+      }
+      content.hidden = expanded
+    })
+  })
+}
+
+function bindSearchInput() {
+  if (!searchInputEl) return
+
+  searchInputEl.value = state.query
+  searchInputEl.addEventListener('input', () => {
+    window.clearTimeout(searchTimer)
+    const nextQuery = searchInputEl.value.trim()
+    searchTimer = window.setTimeout(() => searchGames(nextQuery), 200)
+  })
+}
+
+async function boot() {
+  initAccordions()
+  bindSearchInput()
+  renderAll()
+
+  if (state.query.length >= 2) {
+    await searchGames(state.query, { autoSelectFirst: true })
+  }
+}
+
+boot().catch((error) => {
+  console.error('[RetroMarket]', error)
+  if (heroSummaryEl) {
+    heroSummaryEl.innerHTML = `<div class="market-empty-card">${escapeHtml(error.message)}</div>`
+  }
+})

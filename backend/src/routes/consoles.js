@@ -1,26 +1,43 @@
-const { Router } = require("express");
-const Game = require("../models/Game");
-const { handleAsync } = require("../helpers/query");
+const { Router } = require('express')
+const Console = require('../models/Console')
+const { handleAsync } = require('../helpers/query')
+const {
+  buildConsolePayload,
+  listConsoleItems,
+} = require('../services/console-service')
 
-const router = Router();
+const router = Router()
 
-router.get("/api/consoles", handleAsync(async (_req, res) => {
-  const games = await Game.findAll({
-    attributes: ["console"],
-    order: [["console", "ASC"], ["title", "ASC"]],
-  });
+router.get('/consoles', async (_req, res) => {
+  try {
+    const consoles = await Console.findAll({
+      attributes: ['id', 'name', 'manufacturer', 'generation', 'releaseYear', 'slug'],
+      order: [['generation', 'ASC'], ['name', 'ASC']],
+    })
+    res.json(consoles)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
 
-  const counts = new Map();
-  for (const game of games) {
-    counts.set(game.console, (counts.get(game.console) || 0) + 1);
+router.get('/api/consoles', handleAsync(async (_req, res) => {
+  const items = await listConsoleItems()
+  res.json({ ok: true, items, count: items.length })
+}))
+
+router.get('/api/consoles/:id', handleAsync(async (req, res) => {
+  const payload = await buildConsolePayload(req.params.id, {
+    gamesLimit: 24,
+  })
+
+  if (!payload) {
+    return res.status(404).json({ ok: false, error: 'Console not found' })
   }
 
   res.json({
-    items: Array.from(counts.entries()).map(([name, gamesCount]) => ({
-      name,
-      gamesCount,
-    })),
-  });
-}));
+    ok: true,
+    ...payload,
+  })
+}))
 
-module.exports = router;
+module.exports = router

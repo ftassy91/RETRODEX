@@ -5,6 +5,10 @@ const { Op } = require('sequelize')
 const Franchise = require('../models/Franchise')
 const Game = require('../models/Game')
 const { handleAsync } = require('../helpers/query')
+const {
+  BASE_GAME_ATTRIBUTES,
+  hydrateGameRows,
+} = require('../services/game-read-service')
 
 const router = Router()
 
@@ -106,13 +110,15 @@ router.get('/api/franchises/:slug/games', handleAsync(async (req, res) => {
         },
       })),
     },
-    attributes: ['id', 'title', 'console', 'year', 'genre', 'rarity', 'slug', 'loosePrice', 'cibPrice', 'mintPrice'],
+    attributes: BASE_GAME_ATTRIBUTES,
     order: [['title', 'ASC']],
   })
 
+  const hydratedGames = await hydrateGameRows(games)
+
   return res.json({
     ok: true,
-    games: games.map((game) => ({
+    games: hydratedGames.map((game) => ({
       id: game.id,
       title: game.title,
       platform: game.console,

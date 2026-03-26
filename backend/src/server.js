@@ -1,5 +1,6 @@
 'use strict'
 
+const fs = require('fs')
 const path = require('path')
 
 require('dotenv').config({
@@ -19,6 +20,11 @@ const { handleAsync } = require('./helpers/query')
 
 const pricesRouter = require('./routes/prices')
 const contextualSearchRouter = require('./routes/contextual-search')
+const globalSearchRouter = require('./routes/global-search')
+const consolesRouter = require('./routes/consoles')
+const marketplaceRouter = require('./routes/marketplace')
+const auditRouter = require('./routes/audit')
+const { runMigrations } = require('./services/migration-runner')
 
 const hasServerlessSupabaseEnv = Boolean(process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL)
 const isServerlessSupabaseRuntime = Boolean(process.env.VERCEL && hasServerlessSupabaseEnv)
@@ -34,6 +40,7 @@ function getLegacyRuntime() {
   const { sequelize, storagePath, databaseMode, databaseTarget } = require('./database')
   const Game = require('./models/Game')
   const Franchise = require('./models/Franchise')
+  const Console = require('./models/Console')
   const RetrodexIndex = require('../models/RetrodexIndex')
   const { syncGamesFromPrototype } = require('./syncGames')
 
@@ -51,11 +58,14 @@ function getLegacyRuntime() {
     databaseTarget,
     Game,
     Franchise,
+    Console,
     syncGamesFromPrototype,
   }
 
   return legacyRuntime
 }
+
+require('./models/associations')
 
 async function countSupabaseGames() {
   const { count, error } = await supabaseDb
@@ -93,6 +103,110 @@ async function ensureGameEncyclopediaColumns() {
   }
 }
 
+async function ensurePriceHistoryTable() {
+  const { sequelize, databaseMode } = getLegacyRuntime()
+
+  if (databaseMode !== 'sqlite') {
+    return
+  }
+
+  await sequelize.query(`
+    CREATE TABLE IF NOT EXISTS price_history (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      game_id TEXT NOT NULL,
+      price REAL NOT NULL,
+      condition TEXT CHECK(condition IN ('loose','cib','mint')) DEFAULT 'loose',
+      sale_date TEXT,
+      source TEXT DEFAULT 'seed',
+      listing_title TEXT,
+      created_at TEXT DEFAULT (datetime('now')),
+      FOREIGN KEY(game_id) REFERENCES games(id) ON DELETE CASCADE
+    )
+  `)
+
+  await sequelize.query(`
+    CREATE INDEX IF NOT EXISTS idx_ph_game_id
+    ON price_history(game_id)
+  `)
+
+  await sequelize.query(`
+    CREATE INDEX IF NOT EXISTS idx_ph_sale_date
+    ON price_history(sale_date)
+  `)
+}
+
+function parseConsoleGeneration(value) {
+  const raw = String(value || '').trim()
+  if (!raw) {
+    return null
+  }
+
+  const numeric = Number.parseInt(raw, 10)
+  if (Number.isInteger(numeric)) {
+    return numeric
+  }
+
+  const normalized = raw.toLowerCase()
+  const map = new Map([
+    ['first', 1],
+    ['second', 2],
+    ['third', 3],
+    ['fourth', 4],
+    ['fifth', 5],
+    ['sixth', 6],
+    ['seventh', 7],
+    ['eighth', 8],
+    ['ninth', 9],
+  ])
+
+  for (const [token, rank] of map.entries()) {
+    if (normalized.includes(token)) {
+      return rank
+    }
+  }
+
+  return null
+}
+
+async function ensureConsolesSeeded() {
+  const { Console } = getLegacyRuntime()
+
+  const existingCount = await Console.count().catch(() => 0)
+  if (existingCount > 0) {
+    return
+  }
+
+  const seedPath = path.join(__dirname, '..', '..', 'data', 'consoles.json')
+  const raw = await fs.promises.readFile(seedPath, 'utf8').catch(() => null)
+  if (!raw) {
+    return
+  }
+
+  const items = JSON.parse(raw)
+  if (!Array.isArray(items) || !items.length) {
+    return
+  }
+
+  const rows = items
+    .map((item) => ({
+      id: String(item.id || '').trim(),
+      slug: String(item.id || item.slug || '').trim(),
+      name: String(item.name || '').trim(),
+      manufacturer: String(item.manufacturer || 'Unknown').trim(),
+      generation: parseConsoleGeneration(item.generation),
+      releaseYear: Number.isInteger(Number(item.release_year)) ? Number(item.release_year) : null,
+    }))
+    .filter((item) => item.id && item.slug && item.name)
+
+  if (!rows.length) {
+    return
+  }
+
+  await Console.bulkCreate(rows, {
+    ignoreDuplicates: true,
+  })
+}
+
 const app = express()
 
 app.use(cors({
@@ -101,6 +215,10 @@ app.use(cors({
     : '*',
 }))
 app.use(express.json())
+app.use('/', consolesRouter)
+app.use('/', marketplaceRouter)
+app.use(globalSearchRouter)
+app.use(auditRouter)
 app.use(express.static(path.join(__dirname, '..', 'public')))
 app.use(contextualSearchRouter)
 
@@ -195,6 +313,14 @@ async function startServer(portOverride) {
     Game,
     syncGamesFromPrototype,
   } = getLegacyRuntime()
+  // Patch db_supabase with the correct sequelize instance
+  const dbSupabase = require('../db_supabase')
+  if (dbSupabase.setSequelize) {
+    dbSupabase.setSequelize(sequelize)
+  }
+  // Store the correct Sequelize instance on app.locals for route handlers
+  app.locals.sequelize = sequelize
+  app.locals.databaseMode = databaseMode
   const shouldAlterSchema = process.env.NODE_ENV !== 'production'
   let effectiveAlter = shouldAlterSchema
 
@@ -211,6 +337,8 @@ async function startServer(portOverride) {
   }
 
   await ensureGameEncyclopediaColumns()
+  await ensurePriceHistoryTable()
+  await runMigrations(sequelize)
   await Franchise.sync({ alter: effectiveAlter })
 
   let shouldBootstrap = true
@@ -224,6 +352,8 @@ async function startServer(portOverride) {
   if (shouldBootstrap) {
     await syncGamesFromPrototype()
   }
+
+  await ensureConsolesSeeded()
 
   const PORT = Number(portOverride || process.env.PORT || 3000)
 

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "nds",
+    "platform": "Nintendo DS",
+    "consoleId": "nds",
+    "mode": "identity-first",
+    "status": "ready",
+    "source": "wikidata",
+    "input": "data/raw/game",
+    "notes": "Approved metadata source. Import through backend/scripts/import-catalog.js with dry-run first."
+  },
+  {
+    "id": "3ds",
+    "platform": "Nintendo 3DS",
+    "consoleId": "3ds",
+    "mode": "identity-first",
+    "status": "blocked_pending_source",
+    "source": "pending",
+    "input": null,
+    "notes": "No approved local catalog input staged yet. Keep blocked until a compliant structured source is documented."
+  }
+]

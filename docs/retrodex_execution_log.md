@@ -1,0 +1,598 @@
+# Execution RetroDex / RetroMarket
+
+Document de suivi de la refonte UX executee sur l'application servie sous `backend/public`.
+
+# Resume maintenance depuis 23h
+
+- Reprise du chantier sur l'application active `backend/public`, perimetre confirme hors `RETRODEXseedV0/prototype_v0`.
+- Audit des surfaces `game-detail`, `stats`, `style.css`, routes de prix et marketplace.
+- Decision d'isoler strictement les commits UX et le document de suivi, sans embarquer le working tree deja sale hors perimetre.
+- Refonte prevue en 5 sprints : copy/structure, finalisation RetroDex, navigation, refonte RetroMarket, harmonisation/QA.
+- Sprint 1 : simplification de la microcopy RetroDex / RetroMarket et retrait des textes redondants les plus visibles.
+- Sprint 2 : fiche RetroDex recentree sur un bloc principal fixe, accordeons unifies et panneau encyclopedique fusionne avec equipe + compositeurs.
+- Sprint 3 : passerelles RetroDex <-> RetroMarket clarifiees avec CTA uniques et pre-remplissage URL fiabilise.
+- Sprint 4 : RetroMarket recompose autour d'un bloc principal valeur et de cinq accordeons utiles.
+- QA finale : routes prix verifiees en SQLite, pages `game-detail.html` et `stats.html` servies en HTTP 200, etat vide `Buy` confirme quand aucun listing n'est disponible.
+- Etat de completion : Sprint 1 a 4 termines, Sprint 5 clos par harmonisation finale, QA ciblee et synthese.
+- Nouveau chantier ouvert a 07:12 : extension du perimetre vers la plateforme produit + data, avec Hub minimal, recherche globale unifiee, consoles de premier rang, architecture canonique SQLite, scoring qualite, audit et pipeline d'enrichissement conforme.
+- Decision de travail figee : `backend/` est la seule application cible ; `RETRODEXseedV0/prototype_v0` reste hors scope execution.
+- Decision data figee : SQLite devient la base canonique pendant la refonte ; Supabase reste une cible miroir/compatibilite tant que les migrations et l'audit ne sont pas stabilises.
+- Decision catalogues figee : DS / 3DS seront traites en `identity-first`, sans ingestion de masse avant provenance, scoring et controles de duplication.
+- Phase 0 en cours : documentation de conformite, architecture cible, scoring et pipeline poses dans `docs/`.
+- Phase 1 en cours : Hub reduit a une entree minimale et recherche globale basculee vers une API backend-first `GET /api/search/global`.
+- Phase 2 engagee : consoles stabilisees comme entites produit avec un contrat backend unique, un hero fixe, des accord eons et des scores de qualite visibles.
+- Phase 3 et 4 engagees : migrations versionnees, tables canoniques, scoring qualite, routes d'audit et priorisation d'enrichissement actives.
+- Phase 5 engagee : pipeline d'import `identity-first` pose, DS valide en dry-run conforme, 3DS explicitement bloque tant qu'aucune source approuvee n'est branchee.
+- Lot d'integration suivant ouvert : audit du worktree propre vers `main`, conflits UI/runtime deja inventories, et correction d'un point bloquant structurel ou des modeles utilises au boot (`associations`, `MarketplaceListing`, tables de genres/regions) existaient localement sans etre suivis dans Git.
+- Le worktree propre d'integration demarre maintenant sans dependre du worktree sale : modeles requis au boot commits, lectures canoniques rendues tolerantes aux colonnes legacy optionnelles, et table `consoles` auto-seedee sur SQLite fraiche depuis `data/consoles.json`.
+- Suite du read-model canonique : les routes catalogue/listes `games`, `api/games`, `api/games/random` et `api/franchises/:slug/games` lisent maintenant les snapshots, l'editorial, les references media et la qualite canoniques.
+- Impact produit : `games-list`, `hub`, `home`, `stats` et les apercus franchise consomment des listes coherentes avec la couche canonique sans changer leur contrat front principal.
+- Reste a faire sur ce sous-chantier : terminer la bascule des surfaces liste encore dependantes de comportements legacy plus anciens, puis traiter le push / merge Git a part a cause du working tree sale hors perimetre.
+- Audit structure genere et versionne sous `data/audit/`, avec couverture jeux / consoles / marche exploitable directement.
+- Bascule de lecture poursuivie : `games-detail` (similaires + franchise), `global-search`, `market`, `collection` et `console-service` lisent maintenant la couche canonique pour les champs critiques au lieu de dependre directement des colonnes legacy `games`.
+- Regle d'architecture formalisee : `canonical first, legacy fallback`, avec matrice d'ownership ajoutee dans `docs/data-architecture.md`.
+- Nouveau rapport de divergence `legacy/canonical` ajoute dans l'audit pour mesurer les ecarts de prix, d'editorial et de references media, expose via `GET /api/audit/divergence` et versionne dans `data/audit/`.
+- Etape Git traitee proprement : `codex/next-work` poussee, worktree propre `RETRODEXseed_integration_main` cree depuis `origin/main`, merge test execute puis abort, avec inventaire de conflits concentre sur les surfaces UI publiques et `routes/prices`.
+- Base canonique initiale creee via migration `20260326_001_canonical_core`, sans casser le read-model public legacy.
+- Pipeline catalogue conforme ajoute : `backend/scripts/import-catalog.js`, idempotent par recherche d'existant, journalise dans `enrichment_runs`.
+- Nouveau passage de durcissement data : backfill canonique complet depuis le legacy `games` et `price_history`, audit relie a la couche canonique, provenance explicite sur les jeux et consoles, et index runtime d'idempotence pour les observations.
+- Impact qualite immediat : attribution source manquante tombee a zero, summaries manquants tombes a 75, dev team manquante a 255, compositeurs manquants a 465, snapshots marche fiables a 1005.
+- Nouveau passage read-model : `api/games/:id`, `api/games/:id/encyclopedia`, `api/games/:id/archive`, `api/games/:id/summary`, `api/games/:id/price-history`, `api/prices/*` et la recherche globale commencent a lire la couche canonique plutot que le seul legacy brut.
+- Sortie de priorisation exposee explicitement via `api/audit/priorities` et artefact versionne `*_priorities.json`.
+- Risques restants explicites : read-model `games` encore heterogene, 3DS sans source locale conforme, attribution source encore absente sur la majorite du catalogue historique.
+
+## [2026-03-26 00:45]
+- Sprint en cours : Sprint 1 - audit cible, suivi, simplification globale
+- Actions realisees :
+  - audit du repo actif et confirmation du perimetre `backend/public`
+  - audit de `game-detail.html`, `game-detail.js`, `stats.html`, `stats.js`, `style.css`
+  - audit des routes/backend utiles : prix, historique, marketplace, encyclopedie
+  - cadrage de la comparaison RetroMarket sur une comparaison 2 jeux dans la meme page
+- Fichiers modifies :
+  - `docs/retrodex_execution_log.md`
+- Commits effectues :
+  - aucun
+- Blocages :
+  - aucun blocage technique a ce stade
+- Prochaine etape :
+  - simplifier la microcopy RetroDex / RetroMarket et preparer le premier commit
+
+## [2026-03-26 00:47]
+- Sprint en cours : Sprint 1 - audit cible, suivi, simplification globale
+- Actions realisees :
+  - simplification de la meta et du chargement sur `game-detail.html`
+  - simplification de l'en-tete et de la surface de recherche sur `stats.html`
+  - suppression du bloc d'univers redondant sur `stats.html`
+  - simplification des textes d'etat et des CTA dans `stats.js`
+- Fichiers modifies :
+  - `backend/public/game-detail.html`
+  - `backend/public/stats.html`
+  - `backend/public/js/pages/stats.js`
+  - `docs/retrodex_execution_log.md`
+- Commits effectues :
+  - en preparation
+- Blocages :
+  - aucun
+- Prochaine etape :
+  - commit Sprint 1 puis refonte structurelle de la fiche RetroDex
+
+## [2026-03-26 01:08]
+- Sprint en cours : Sprint 2 - finalisation RetroDex
+- Actions realisees :
+  - fusion des donnees encyclopediques et archive dans le panneau `RetroDex / Encyclopedie`
+  - integration de l'equipe et des compositeurs avec plafond d'affichage a 10 personnes
+  - suppression du resume en bloc autonome au profit du resume integre au hero
+  - conservation d'un hero sans prix et de quatre accord eons secondaires homogenes
+  - correction de la normalisation front des donnees encyclopediques pour eviter les erreurs runtime
+- Fichiers modifies :
+  - `backend/public/js/pages/game-detail.js`
+  - `backend/public/game-detail.html`
+  - `docs/retrodex_execution_log.md`
+- Commits effectues :
+  - en preparation
+- Blocages :
+  - aucun blocage structurel, validation navigateur a refaire apres check JS
+- Prochaine etape :
+  - verifier la fiche RetroDex, committer Sprint 2, puis attaquer les ponts de navigation et la refonte RetroMarket
+
+## [2026-03-26 01:16]
+- Sprint en cours : Sprint 3 - ponts de navigation
+- Actions realisees :
+  - suppression du doublon de CTA RetroDex dans le preview RetroMarket
+  - ajout d'un lien `Voir fiche ->` directement dans chaque resultat marche
+  - fiabilisation du pre-remplissage `stats.html?q=` avec declenchement automatique de la recherche
+- Fichiers modifies :
+  - `backend/public/js/pages/stats.js`
+  - `backend/public/stats.html`
+  - `docs/retrodex_execution_log.md`
+- Commits effectues :
+  - en preparation
+- Blocages :
+  - aucun
+- Prochaine etape :
+  - valider la recherche contextuelle puis lancer la refonte structurelle RetroMarket
+
+## [2026-03-26 01:42]
+- Sprint en cours : Sprint 4 - refonte structurelle RetroMarket
+- Actions realisees :
+  - remplacement de `stats.html` par une page marche contextuelle avec un bloc principal fixe
+  - refonte complete de `stats.js` autour d'une recherche, d'un hero valeur et de cinq accordeons : Graph, Compare, Market, Buy, Trade / Echanges
+  - ajout d'une comparaison 2 jeux dans la meme page sans nouvelle route dediee
+  - ajout d'un fallback SQLite sur `/api/prices/:gameId` pour exploiter l'historique local
+  - ajout du filtre `gameId` sur `/marketplace` pour alimenter l'accordeon `Buy`
+  - harmonisation CSS de RetroMarket sur la logique visuelle de RetroDex
+- Fichiers modifies :
+  - `backend/public/stats.html`
+  - `backend/public/js/pages/stats.js`
+  - `backend/public/style.css`
+  - `backend/src/routes/prices.js`
+  - `backend/src/routes/marketplace.js`
+  - `docs/retrodex_execution_log.md`
+- Commits effectues :
+  - en preparation
+- Blocages :
+  - pas de blocage technique ; aucun listing actif pour le jeu de test, l'accordeon `Buy` tombe donc proprement en etat vide
+- Prochaine etape :
+  - commit Sprint 4, puis finir l'harmonisation finale et le resume de cloture
+
+## [2026-03-26 01:53]
+- Sprint en cours : Sprint 5 - harmonisation finale, QA, synthese
+- Actions realisees :
+  - verification HTTP de `game-detail.html` et `stats.html` sur le jeu de reference
+  - verification API de `/api/prices/:gameId/summary`, `/api/prices/:gameId` et `/marketplace?gameId=...`
+  - consolidation du journal d'execution et du resume cumule depuis 23h
+- Fichiers modifies :
+  - `docs/retrodex_execution_log.md`
+- Commits effectues :
+  - en preparation
+- Blocages :
+  - aucun blocage runtime restant sur le perimetre UX travaille
+- Prochaine etape :
+  - commit final de cloture documentaire puis resume final
+
+## [2026-03-26 07:12]
+- Sprint / phase : Phase 0 - conformite, architecture cible, shell produit
+- Actions completed:
+  - audit du shell actif `hub`, `search`, `consoles`, `console-detail`
+  - audit du schema SQLite reel, du schema Supabase legacy et des scripts d'enrichissement existants
+  - confirmation des faiblesses structurelles : Hub trop bruyant, recherche non unifiee, consoles front/back incoherents, table `games` trop melangee, scripts data trop ad hoc
+  - formalisation du plan d'execution plateforme produit + data
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement ecrit a ce stade
+- Sources evaluated:
+  - eBay Developer
+  - PriceCharting
+  - IGDB / Twitch
+  - Internet Archive
+- Compliance notes:
+  - eBay valide comme source API officielle pour listings et observations minimales
+  - PriceCharting a traiter uniquement sous licence/API payante et citation explicite
+  - IGDB a traiter comme `approved_with_review` pour metadata + URLs externes
+  - Internet Archive a traiter en `reference_only` tant qu'aucune revue juridique explicite n'est faite
+- Quality score impact:
+  - aucun score encore implemente, seulement le cadrage
+- Commits:
+  - aucun
+- Issues:
+  - working tree tres sale hors perimetre
+  - secrets visibles dans les artefacts locaux a traiter sans embarquer les valeurs
+- Next step:
+  - creer la documentation de reference, minimaliser Hub, basculer la recherche vers une API globale backend-first, puis committer le premier lot
+
+## [2026-03-26 07:25]
+- Sprint / phase : Phase 0 + Phase 1 - documentation, Hub, recherche globale
+- Actions completed:
+  - creation des docs `source-compliance-matrix`, `data-architecture`, `enrichment-pipeline`, `audit-scoring-model`
+  - creation du dossier `backend/migrations/` pour geler le principe de migrations versionnees
+  - ajout d'une route backend-first `GET /api/search/global`
+  - remplacement du Hub par une entree minimale : titre + search bar uniquement
+  - simplification de `search.html` autour d'un seul champ et de resultats globaux
+  - bascule de `search-core.js` de l'index navigateur vers l'API backend
+  - validation runtime de `/api/search/global`, `/hub.html` et `/search.html`
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+  - `docs/source-compliance-matrix.md`
+  - `docs/data-architecture.md`
+  - `docs/enrichment-pipeline.md`
+  - `docs/audit-scoring-model.md`
+  - `backend/migrations/README.md`
+  - `backend/public/hub.html`
+  - `backend/public/search.html`
+  - `backend/public/js/core/search-core.js`
+  - `backend/public/js/pages/search.js`
+  - `backend/src/routes/global-search.js`
+  - `backend/src/server.js`
+- Schema or data changes:
+  - aucun changement de schema ecrit, seulement la preparation documentaire et le point d'entree `backend/migrations/`
+- Sources evaluated:
+  - eBay Developer
+  - PriceCharting
+  - IGDB / Twitch
+  - Internet Archive
+- Compliance notes:
+  - matrice source explicite ajoutee
+  - politique `approved` / `approved_with_review` / `reference_only` / `blocked` formalisee
+- Quality score impact:
+  - aucun calcul encore branche, mais le modele est documente et fige
+- Commits:
+  - `3a87415` - `feat(shell): add backend-first global search and compliance baseline`
+- Issues:
+  - l'encodage legacy de certains fichiers publics reste heterogene
+  - la couche consoles front/back reste incoherente et sera traitee au sprint suivant
+- Next step:
+  - commit du lot Phase 0 + Phase 1, puis stabilisation de l'entite console et de ses payloads
+
+## [2026-03-26 07:48]
+- Sprint / phase : Phase 2 - consoles de premier rang
+- Actions completed:
+  - creation d'un service backend `console-service` pour unifier la lecture console, les jeux lies, le signal marche, les sources et la qualite
+  - correction du contrat `/api/consoles` vers `{ ok, items, count }`
+  - refonte de `/api/consoles/:id` vers un payload compose : `console`, `overview`, `market`, `games`, `hardware`, `quality`, `sources`, `relatedConsoles`, `notableGames`
+  - remplacement des contournements front par un renderer partage `console-surface.js`
+  - realignement de `consoles.html` et `console-detail.html` sur un bloc principal fixe + accord eons
+  - verification HTTP de `/api/consoles`, `/api/consoles/sat`, `/consoles.html?id=sat` et `/console-detail.html?id=sat`
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+  - `backend/src/services/console-service.js`
+  - `backend/src/routes/consoles.js`
+  - `backend/public/js/features/console-surface.js`
+  - `backend/public/js/pages/consoles.js`
+  - `backend/public/js/pages/console-detail.js`
+  - `backend/public/consoles.html`
+  - `backend/public/console-detail.html`
+  - `backend/public/style.css`
+- Schema or data changes:
+  - aucun changement de schema ecrit dans ce lot
+- Sources evaluated:
+  - `data/consoles.json`
+  - table `consoles`
+  - table `games`
+- Compliance notes:
+  - aucun nouvel asset stocke localement ; uniquement references externes et donnees internes
+- Quality score impact:
+  - premier score console expose dans le payload, en attendant la couche d'audit globale
+- Commits:
+  - `7f8f020` - `feat(console): promote consoles to first-class searchable entities`
+- Issues:
+  - certaines consoles restent pauvres en notes curateurs ; elles tombent donc en Tier C/D de maniere explicite
+- Next step:
+  - commit Phase 2, puis ajouter migrations versionnees, couche canonique minimale, scoring global et routes d'audit
+
+## [2026-03-26 08:06]
+- Sprint / phase : Phase 3 + Phase 4 + Phase 5 - migrations, audit, priorisation, pipeline
+- Actions completed:
+  - ajout d'un registre source executable `source-policy` pour relier conformite, disponibilite et priorisation
+  - ajout d'un runner de migrations versionnees et d'une migration canonique creant les tables `releases`, `game_editorial`, `people`, `game_people`, `game_companies`, `price_observations`, `market_snapshots`, `media_references`, `source_records`, `field_provenance`, `quality_records`, `enrichment_runs`
+  - branchement automatique des migrations au demarrage serveur
+  - creation du moteur de scoring qualite et de priorisation pour jeux et consoles
+  - creation des routes `/api/audit/summary`, `/api/audit/games`, `/api/audit/consoles`, `/api/audit/market`
+  - generation d'un audit structure dans `data/audit/`
+  - creation d'un importeur catalogue conforme et relancable `backend/scripts/import-catalog.js`
+  - validation dry-run du catalogue Nintendo DS avec source `wikidata`
+  - validation du garde-fou conformite : Nintendo 3DS reste bloque quand la source est `pending`
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+  - `docs/source-compliance-matrix.md`
+  - `docs/enrichment-pipeline.md`
+  - `backend/src/config/source-policy.js`
+  - `backend/migrations/20260326_001_canonical_core.js`
+  - `backend/src/services/migration-runner.js`
+  - `backend/src/services/quality-scoring.js`
+  - `backend/src/services/audit-service.js`
+  - `backend/src/routes/audit.js`
+  - `backend/src/server.js`
+  - `backend/scripts/run-audit.js`
+  - `backend/scripts/import-catalog.js`
+  - `data/strategic_catalogs.json`
+  - `data/audit/2026-03-26T07-05-03-670Z_summary.json`
+  - `data/audit/2026-03-26T07-05-03-670Z_games.json`
+  - `data/audit/2026-03-26T07-05-03-670Z_consoles.json`
+  - `data/audit/2026-03-26T07-05-03-670Z_market.json`
+- Schema or data changes:
+  - premiere couche canonique creee via migration versionnee
+  - `quality_records` et `enrichment_runs` commencent a porter l'audit et la traçabilite produit
+- Sources evaluated:
+  - matrice existante completee avec `wikidata`
+  - `data/raw/game` comme entree locale de type metadata libre
+- Compliance notes:
+  - `wikidata` passe en `approved` pour metadata identitaire
+  - `Nintendo DS` importable en `identity-first`
+  - `Nintendo 3DS` reste `blocked_pending_source` tant qu'aucune entree conforme n'est fournie
+- Quality score impact:
+  - scoring calcule et expose sur 1491 jeux et 25 consoles
+  - premiers constats majeurs : 1491 jeux sans attribution source explicite, 1012 sans summary, 1481 sans dev team, 486 sans prix
+- Commits:
+  - `cf9971c` - `feat(audit): add canonical migrations scoring and compliant import pipeline`
+- Issues:
+  - le read-model `games` legacy reste heterogene et oblige encore certains calculs d'audit a faire des hypotheses de compatibilite
+  - le catalogue 3DS n'a pas encore de source locale conforme branchee
+- Next step:
+  - commit du lot data, puis faire un passage final de coherence shell/navigation et livrer un resume propre
+
+## [2026-03-26 08:09]
+- Sprint / phase : Cloture de run - coherence finale et traçabilite
+- Actions completed:
+  - validation transversale du shell : `hub.html`, `search.html`, `game-detail.html`, `stats.html`, `console-detail.html`, `consoles.html`
+  - validation runtime des routes `api/search/global`, `api/consoles`, `api/consoles/:id`, `api/audit/*`
+  - consolidation finale du journal avec les hashes reels des commits
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement supplementaire
+- Sources evaluated:
+  - aucune nouvelle source
+- Compliance notes:
+  - aucun nouvel assouplissement ; le 3DS reste volontairement bloque faute de source approuvee
+- Quality score impact:
+  - aucun recalcul supplementaire, seulement validation de l'exposition
+- Commits:
+  - en preparation pour cloture documentaire
+- Issues:
+  - le working tree global du repo reste tres sale hors perimetre `backend/`
+- Next step:
+  - commit documentaire final de cloture
+
+## [2026-03-26 08:56]
+- Sprint / phase : Phase data continuee - backfill canonique et audit branche sur la couche normalisee
+- Actions completed:
+  - ajout du script `backend/scripts/backfill-canonical.js` pour remapper le legacy `games` et `price_history` vers `releases`, `game_editorial`, `people`, `game_people`, `game_companies`, `market_snapshots`, `price_observations`, `media_references`, `source_records`, `field_provenance`
+  - ajout de la migration `20260326_002_canonical_runtime_indexes` pour rendre le backfill `price_observations` idempotent et exploitable en runtime
+  - adaptation de `backend/src/services/audit-service.js` pour preferer `game_editorial`, `game_people`, `market_snapshots` et `price_observations` quand ces tables existent
+  - execution du backfill complet sur 1491 jeux, 25 consoles et 136895 observations legacy
+  - regeneration complete des rapports d'audit et des `quality_records`
+  - identification et prise en charge explicite d'une dependance console locale non versionnee auparavant : `backend/src/lib/consoles.js` avec `data/consoles.json`
+- Files modified:
+  - `backend/scripts/backfill-canonical.js`
+  - `backend/migrations/20260326_002_canonical_runtime_indexes.js`
+  - `backend/src/services/audit-service.js`
+  - `docs/data-architecture.md`
+  - `docs/enrichment-pipeline.md`
+  - `docs/source-compliance-matrix.md`
+  - `docs/retrodex_execution_log.md`
+  - `data/audit/2026-03-26T07-55-52-025Z_summary.json`
+  - `data/audit/2026-03-26T07-55-52-025Z_games.json`
+  - `data/audit/2026-03-26T07-55-52-025Z_consoles.json`
+  - `data/audit/2026-03-26T07-55-52-025Z_market.json`
+- Schema or data changes:
+  - canonical tables hydratees a grande echelle depuis le legacy
+  - `price_observations` passe de 0 a 235731 lignes
+  - `market_snapshots` passe a 1491 lignes
+  - `source_records` passe a 5414 lignes
+  - `field_provenance` passe a 15075 lignes
+- Sources evaluated:
+  - aucune nouvelle source externe
+  - qualification explicite de la source interne / registre legacy comme provenance `approved` mais non verifiee au sens externe
+- Compliance notes:
+  - les assets restent en reference externe uniquement
+  - le backfill legacy marque volontairement l'amont comme `internal` quand la source detaillee a ete perdue dans le dataset historique
+  - le 3DS reste bloque tant qu'une source approuvee n'est pas branchee
+- Quality score impact:
+  - `Tier A` passe a 975 jeux
+  - source attribution manquante passe de 1491 a 0
+  - trust faible passe de 1491 a 0 selon le scoring actuel
+  - marche fiable calcule sur 1005 jeux avec historique exploitable
+- Commits:
+  - en preparation
+- Issues:
+  - `backend/src/lib/consoles.js` et `data/consoles.json` existent localement et sont consommes en runtime mais n'etaient pas encore sous suivi Git
+  - le read-model public `games` reste encore la source de lecture de plusieurs routes legacy
+- Next step:
+  - versionner le registre console local, relancer le serveur, verifier les routes shell/consoles/audit, puis commit ce lot data
+
+## [2026-03-26 09:06]
+- Sprint / phase : Phase data continuee - read-model public branche sur la couche canonique
+- Actions completed:
+  - ajout de `backend/src/services/game-read-service.js` pour hydrater une fiche jeu depuis `game_editorial`, `game_people`, `market_snapshots`, `media_references`, `quality_records` et `releases`
+  - rebranchement de `backend/src/routes/games-detail.js` sur ce service pour les endpoints detail, archive, encyclopedie, summary et price-history
+  - bascule du lecteur local `backend/src/routes/prices.js` de `price_history` vers `price_observations` avec fallback legacy
+  - ajout d'un signal qualite dans `backend/src/routes/global-search.js` pour les jeux et consoles via `quality_records`
+  - correction de la migration `20260326_002_canonical_runtime_indexes` pour dedupliquer `price_observations` avant creation de l'index unique
+  - ajout de `backend/src/routes/audit.js` + `backend/src/services/audit-service.js` pour exposer `api/audit/priorities` et ecrire `*_priorities.json`
+  - regeneration de l'audit apres deduplication et validation runtime du shell, des consoles, de l'audit, du detail jeu et des prix
+- Files modified:
+  - `backend/src/services/game-read-service.js`
+  - `backend/src/routes/games-detail.js`
+  - `backend/src/routes/prices.js`
+  - `backend/src/routes/global-search.js`
+  - `backend/src/routes/audit.js`
+  - `backend/src/services/audit-service.js`
+  - `backend/migrations/20260326_002_canonical_runtime_indexes.js`
+  - `docs/retrodex_execution_log.md`
+  - `data/audit/2026-03-26T08-05-27-313Z_summary.json`
+  - `data/audit/2026-03-26T08-05-27-313Z_games.json`
+  - `data/audit/2026-03-26T08-05-27-313Z_consoles.json`
+  - `data/audit/2026-03-26T08-05-27-313Z_market.json`
+  - `data/audit/2026-03-26T08-08-31-393Z_priorities.json`
+- Schema or data changes:
+  - deduplication des `price_observations` a 136895 lignes uniques
+  - index runtime d'unicite pose sur `(source_name, listing_reference)`
+  - aucune perte fonctionnelle sur les routes publiques ; changement uniquement de la source de lecture
+- Sources evaluated:
+  - aucune nouvelle source externe
+- Compliance notes:
+  - aucune extension de droits ; uniquement lecture et requalification de donnees deja presentes
+  - la recherche globale expose maintenant implicitement la qualite, mais pas de nouvelle promesse de verification
+- Quality score impact:
+  - `totalObservations` d'audit aligne sur la valeur dedupee 136895
+  - detail jeu et recherche exploitent des tiers et scores issus de la couche canonique
+  - la priorisation d'enrichissement est maintenant disponible directement cote API pour pilotage des prochains runs
+- Commits:
+  - en preparation
+- Issues:
+  - plusieurs routes liste/catalogue lisent encore `games` directement sans adaptateur canonique
+  - le repo reste sale hors perimetre
+- Next step:
+  - commit du read-model canonique, puis poursuivre sur les routes catalogue/listes si le run continue
+
+## [2026-03-26 14:03]
+- Sprint / phase : Phase data continuee - bascule des routes catalogue/listes restantes
+- Actions completed:
+  - extension de `backend/src/services/game-read-service.js` avec un hydratateur batch, un lecteur de liste canonique et un selecteur aleatoire canonique
+  - bascule de `backend/src/routes/games-list.js` pour servir `GET /games`, `GET /api/games` et `GET /api/games/random` depuis la couche canonique quand on est dans les flux catalogue/listes
+  - bascule de `backend/src/routes/franchises.js` pour hydrater la liste `GET /api/franchises/:slug/games` avec snapshots marche, references media et qualite canonique
+  - redemarrage du serveur et verification HTTP sur `games-list.html`, `hub.html`, `/games`, `/api/games`, `/api/games/random` et `/api/franchises/castlevania/games`
+- Files modified:
+  - `backend/src/services/game-read-service.js`
+  - `backend/src/routes/games-list.js`
+  - `backend/src/routes/franchises.js`
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement de schema
+  - aucune ecriture de donnees supplementaire ; lecture uniquement sur les tables canoniques existantes
+- Sources evaluated:
+  - aucune nouvelle source
+- Compliance notes:
+  - aucun nouvel usage de source externe ; ce lot ne fait que rebrancher les lectures publiques sur des couches deja tracees
+- Quality score impact:
+  - le catalogue et les listes exposent maintenant directement `quality`, `market` et les champs editoriaux hydrates depuis les tables canoniques
+  - la coherence des resultats entre Hub, catalogue, detail et franchises est amelioree
+- Commits:
+  - en preparation
+- Issues:
+  - le working tree global du repo reste tres sale hors perimetre `backend/`, ce qui bloque toujours un push prudent vers `main`
+- Next step:
+  - commit de ce lot catalogue/listes, puis verifier la divergence Git avant toute action sur `main`
+
+## [2026-03-26 15:14]
+- Sprint / phase : Phase data continuee - fin de bascule des lectures publiques et mesure de divergence legacy/canonique
+- Actions completed:
+  - extension de `backend/src/services/game-read-service.js` avec lookup hydrate par slug/id, lecture batch par ids, lecture par console et lecture par franchise
+  - bascule de `backend/src/routes/games-detail.js` pour servir les listes secondaires `similar` et `franchise` via les lectures canoniques hydratees
+  - bascule de `backend/src/routes/global-search.js` pour les jeux et consoles via `listHydratedGames` et `listConsoleItems`
+  - bascule de `backend/src/services/console-service.js` sur les jeux hydratés canoniques pour les compteurs, notables, signaux marché et payloads detail
+  - bascule de `backend/src/routes/collection.js` pour hydrater les objets `game` renvoyes dans `api/collection`, `api/collection/public` et `api/collection/stats`
+  - bascule de `backend/src/routes/market.js` pour `api/stats`, `api/search`, `api/items`, `api/items/:id` et les endpoints console vers la couche canonique ou les services dedies
+  - ajout d'un rapport `legacy/canonical divergence` dans `backend/src/services/audit-service.js`, exposition via `backend/src/routes/audit.js` et regeneration des rapports sous `data/audit/2026-03-26T14-18-02-622Z_*`
+  - formalisation dans `docs/data-architecture.md` de la regle `canonical first, legacy fallback` et d'une matrice d'ownership des champs
+- Files modified:
+  - `backend/src/services/game-read-service.js`
+  - `backend/src/routes/games-detail.js`
+  - `backend/src/routes/global-search.js`
+  - `backend/src/services/console-service.js`
+  - `backend/src/routes/collection.js`
+  - `backend/src/routes/market.js`
+  - `backend/src/services/audit-service.js`
+  - `backend/src/routes/audit.js`
+  - `docs/data-architecture.md`
+  - `docs/retrodex_execution_log.md`
+  - `data/audit/2026-03-26T14-18-02-622Z_summary.json`
+  - `data/audit/2026-03-26T14-18-02-622Z_games.json`
+  - `data/audit/2026-03-26T14-18-02-622Z_consoles.json`
+  - `data/audit/2026-03-26T14-18-02-622Z_market.json`
+  - `data/audit/2026-03-26T14-18-02-622Z_priorities.json`
+  - `data/audit/2026-03-26T14-18-02-622Z_divergence.json`
+- Schema or data changes:
+  - aucun changement destructif de schema
+  - aucune migration supplementaire
+  - regeneration des rapports d'audit avec une nouvelle vue sur l'heterogeneite legacy/canonique
+- Sources evaluated:
+  - aucune nouvelle source externe
+- Compliance notes:
+  - aucune extension de perimetre source
+  - aucune copie locale d'asset ajoutee
+  - le rapport de divergence sert uniquement a piloter la migration de lecture et le nettoyage des fallback legacy
+- Quality score impact:
+  - les surfaces publiques critiques lisent maintenant prioritairement `market_snapshots`, `game_editorial`, `media_references` et `quality_records`
+  - `api/audit/divergence` mesure actuellement surtout de la couverture editoriale canonique supplementaire (`canonical_only`) plutot que des conflits de valeur
+- Commits:
+  - en preparation
+- Issues:
+  - le fichier `backend/src/routes/collection.js` avait deja un delta local hors HEAD ; le commit devra rester cible au lot data courant
+  - la divergence Git avec `origin/main` reste intacte et doit etre traitee dans un worktree propre
+- Next step:
+  - commit du lot lecture/audit, puis creation d'un worktree d'integration propre depuis `origin/main`
+
+## [2026-03-26 15:22]
+- Sprint / phase : Phase Git - preparation propre de l'integration vers `main`
+- Actions completed:
+  - push de `codex/next-work` vers `origin/codex/next-work` avec le commit `2dddbc2`
+  - creation du worktree propre `C:/Users/ftass/OneDrive/Bureau/RETRODEXseed_integration_main` sur la branche `codex/integration-main-retrodex`, basee sur `origin/main`
+  - execution d'un merge test `origin/codex/next-work -> codex/integration-main-retrodex` sans commit
+  - inventaire des conflits reellement restants, puis `git merge --abort` pour laisser le worktree d'integration propre
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun
+- Sources evaluated:
+  - aucune nouvelle source
+- Compliance notes:
+  - aucun impact conformite ; phase purement Git / integration
+- Quality score impact:
+  - aucun recalcul
+- Commits:
+  - `2dddbc2` deja pousse sur `origin/codex/next-work`
+- Issues:
+  - conflits identifies dans `backend/public/consoles.html`, `backend/public/game-detail.html`, `backend/public/hub.html`, `backend/public/js/core/search-core.js`, `backend/public/js/pages/consoles.js`, `backend/public/js/pages/game-detail.js`, `backend/public/js/pages/search.js`, `backend/public/js/pages/stats.js`, `backend/public/search.html`, `backend/public/stats.html`, `backend/public/style.css`, `backend/src/helpers/priceHistory.js`, `backend/src/routes/prices.js`
+  - aucun conflit dans le worktree d'integration apres abort ; l'etat est propre pour une reprise de resolution dediee
+- Next step:
+  - commit de suivi documentaire, puis resoudre ces conflits directement dans le worktree propre d'integration si on poursuit la mise sur `main`
+
+## [2026-03-26 15:33]
+- Sprint / phase : Phase Git/runtime - fermeture du boot blocker dans la branche d'integration
+- Actions completed:
+  - verification du worktree d'integration relance apres merge : les conflits UI/runtime restants sont resolus, mais le boot serveur n'etait pas autoportant
+  - identification du vrai blocage : `backend/src/server.js` charge `backend/src/models/associations.js`, qui depend de `MarketplaceListing`, `Genre`, `SubGenre`, `GameGenre` et `GameRegion` ; ces fichiers existaient localement dans le worktree principal mais n'etaient pas suivis par Git
+  - verification que `WishlistItem`, `Edition`, `PriceHistory` et `marketSignals` ne sont pas requis au boot de ce lot et restent donc hors perimetre
+  - validation syntaxique des six fichiers minimaux a embarquer pour rendre la branche d'integration autoportante
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement de schema
+  - aucun changement de donnees
+- Sources evaluated:
+  - aucune nouvelle source
+- Compliance notes:
+  - aucun impact conformite ; correction purement structurelle pour aligner Git avec le runtime effectif
+- Quality score impact:
+  - aucun recalcul
+  - impact indirect positif : la branche d'integration devient verifiable dans un worktree propre au lieu de dependre de fichiers locaux non traces
+- Commits:
+  - en preparation
+- Issues:
+  - la branche `codex/next-work` n'est pas encore autoportante tant que ces six fichiers requis au boot ne sont pas commit/push
+  - l'integration vers `main` ne doit pas reprendre avant que ce point soit corrige
+- Next step:
+  - commit cible des six fichiers modeles/associations sur `codex/next-work`, push, puis injection de ce lot dans `codex/integration-main-retrodex` pour revalidation serveur
+
+## [2026-03-26 15:40]
+- Sprint / phase : Phase Git/runtime - validation du worktree propre d'integration
+- Actions completed:
+  - commit et push sur `codex/next-work` des fichiers runtime manquants utilises au boot : `associations`, `MarketplaceListing`, `Genre`, `SubGenre`, `GameGenre`, `GameRegion`
+  - correction du service canonique et de l'audit pour ne plus exiger des colonnes optionnelles legacy absentes comme `games.coverImage` dans certaines bases SQLite locales
+  - ajout d'un bootstrap `consoles` au demarrage serveur pour peupler automatiquement la table depuis `data/consoles.json` quand la base SQLite est fraiche
+  - reinjection de ces correctifs dans `codex/integration-main-retrodex`, redemarrage serveur et validation sur un worktree propre
+  - revalidation des endpoints critiques : `api/health`, `api/search/global`, `api/stats`, `api/audit/divergence`, `api/consoles`, `api/consoles/sega-saturn`
+- Files modified:
+  - `backend/src/models/MarketplaceListing.js`
+  - `backend/src/models/Genre.js`
+  - `backend/src/models/SubGenre.js`
+  - `backend/src/models/GameGenre.js`
+  - `backend/src/models/GameRegion.js`
+  - `backend/src/models/associations.js`
+  - `backend/src/services/game-read-service.js`
+  - `backend/src/services/audit-service.js`
+  - `backend/src/server.js`
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement destructif de schema
+  - seed automatique non destructif de la table `consoles` depuis `data/consoles.json` si la table est vide
+- Sources evaluated:
+  - aucune nouvelle source externe
+  - reutilisation du fichier interne `data/consoles.json` comme source de bootstrap SQLite
+- Compliance notes:
+  - aucun nouvel usage de donnees tierces
+  - aucune copie d'asset supplementaire
+- Quality score impact:
+  - le worktree propre d'integration produit maintenant des payloads consoles coherents sur base fraiche
+  - l'audit et la recherche globale ne dependent plus d'une forme de schema SQLite local plus riche que prevu
+- Commits:
+  - `66a2f71` `fix(runtime): track required association models for clean integration`
+  - `db5c29e` `fix(data): tolerate optional legacy game columns in canonical reads`
+  - `0f66345` `fix(bootstrap): seed consoles on fresh sqlite runtime`
+- Issues:
+  - warning Supabase non bloquant toujours present si `@supabase/supabase-js` n'est pas installe dans le worktree propre
+  - le merge d'integration n'est pas encore commit/push ; il ne faut pas toucher `main` tant que cette etape n'est pas finalisee
+- Next step:
+  - commit du merge dans `codex/integration-main-retrodex`, push de la branche d'integration et preparation d'une integration propre vers `main`

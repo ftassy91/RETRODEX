@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -10,9 +10,9 @@
     <meta name="apple-mobile-web-app-title" content="RetroDex" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <title>RetroDex - Catalogue</title>
-    <meta name="description" content="1500+ jeux rétro indexés avec prix vérifiés, rareté et contenu éditorial." />
+    <meta name="description" content="1500+ jeux rÃ©tro indexÃ©s avec prix vÃ©rifiÃ©s, raretÃ© et contenu Ã©ditorial." />
     <meta property="og:title" content="Catalogue | RetroDex" />
-    <meta property="og:description" content="1500+ jeux rétro indexés avec prix vérifiés, rareté et contenu éditorial." />
+    <meta property="og:description" content="1500+ jeux rÃ©tro indexÃ©s avec prix vÃ©rifiÃ©s, raretÃ© et contenu Ã©ditorial." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
     <link rel="stylesheet" href="/style.css" />
@@ -24,19 +24,19 @@
       <div class="global-product-links">
         <a class="global-product-link is-market" href="/stats.html">
           <span class="nav-label">RetroMarket</span>
-          <span class="nav-copy">prix | confiance | signaux</span>
+          <span class="nav-copy">prix | tendances | marché</span>
         </a>
         <a class="global-product-link is-active" href="/games-list.html">
           <span class="nav-label">RetroDex</span>
-          <span class="nav-copy">catalogue | savoir | archives</span>
+          <span class="nav-copy">fiches | lore | encyclopédie</span>
         </a>
         <a class="global-product-link" href="/collection.html">
           <span class="nav-label">Collections</span>
-          <span class="nav-copy">etagere | wishlist | suivi</span>
+          <span class="nav-copy">étagère | wishlist | suivi</span>
         </a>
         <a class="global-product-link" href="/search.html">
           <span class="nav-label">Recherche</span>
-          <span class="nav-copy">entree transverse</span>
+          <span class="nav-copy">recherche universelle</span>
         </a>
       </div>
     </nav>
@@ -178,21 +178,26 @@
                     <label for="year-max">Annee max</label>
                     <input id="year-max" type="number" min="1970" max="2012" placeholder="2012" />
                   </div>
-                    <div class="field">
-                      <label for="sort-by">Trier par</label>
-                      <select id="sort-by">
-                        <option value="rarity_desc" selected>Rarity ↓</option>
-                        <option value="title_asc">Title A-Z</option>
-                        <option value="title_desc">Title Z-A</option>
-                        <option value="loose_asc">Price Loose ↑</option>
-                        <option value="loose_desc">Price Loose ↓</option>
-                      <option value="mint_asc">Price Mint ↑</option>
-                      <option value="mint_desc">Price Mint ↓</option>
-                      <option value="meta_asc">Metascore ↑</option>
-                      <option value="meta_desc">Metascore ↓</option>
-                      <option value="year_asc">Year ↑</option>
-                      <option value="year_desc">Year ↓</option>
+                  <div class="field">
+                    <label for="sort-by">Trier par</label>
+                    <select id="sort-by">
+                      <option value="rarity_desc" selected>Rarity â†“</option>
+                      <option value="title_asc">Title A-Z</option>
+                      <option value="title_desc">Title Z-A</option>
+                      <option value="loose_asc">Price Loose â†‘</option>
+                      <option value="loose_desc">Price Loose â†“</option>
+                      <option value="mint_asc">Price Mint â†‘</option>
+                      <option value="mint_desc">Price Mint â†“</option>
+                      <option value="meta_asc">Metascore â†‘</option>
+                      <option value="meta_desc">Metascore â†“</option>
+                      <option value="metascore_asc">Metascore â†‘</option>
+                      <option value="metascore_desc">Metascore â†“</option>
+                      <option value="year_asc">Year â†‘</option>
+                      <option value="year_desc">Year â†“</option>
                     </select>
+                    <div class="catalog-sort-shortcuts">
+                      <button id="sort-metascore-desc" type="button" class="filter-btn" title="Trier par note">MS â†“</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -245,3 +250,4 @@
     </div>
   </body>
 </html>
+

@@ -490,11 +490,12 @@
       <span class="terminal-row-indicator">></span>
       <span style="color:var(--text-primary)">${escapeHtml(game.title || '?')}</span>
       <span style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '-')}</span>
-      <span style="font-size:9px;border:1px solid var(--border);padding:1px 4px;text-align:center">${escapeHtml(item.condition || '-')}</span>
+      <span class="condition-badge badge--condition" data-condition="${escapeHtml(item.condition || '')}" style="font-size:9px;border:1px solid var(--border);padding:1px 4px;text-align:center">${escapeHtml(item.condition || '-')}</span>
       <span style="text-align:right;color:var(--text-alert)">${loosePrice ? formatCurrency(loosePrice) : '-'}</span>
       <span style="text-align:right;color:var(--text-muted)">${paid ? formatCurrency(paid) : '-'}</span>
       <span style="text-align:right" class="${gainClass}">${gainStr}</span>
     `
+    window.RetroDexAssets?.decorateConditionBadges?.(row)
     row.addEventListener('click', () => selectCollectionItem(item, row))
     row.addEventListener('dblclick', openSelectedItem)
     return row

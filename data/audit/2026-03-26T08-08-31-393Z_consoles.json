@@ -1,0 +1,674 @@
+[
+  {
+    "entityType": "console",
+    "entityId": "amiga",
+    "title": "Amiga",
+    "platform": "Amiga",
+    "completenessScore": 50,
+    "confidenceScore": 73,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 52,
+    "tier": "Tier C",
+    "missingCriticalFields": [
+      "overview"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 70,
+      "editorial": 0,
+      "structural": 75
+    },
+    "priorityScore": 0.5,
+    "gamesCount": 0,
+    "pricedGamesCount": 0,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "atari2600",
+    "title": "Atari 2600",
+    "platform": "Atari 2600",
+    "completenessScore": 100,
+    "confidenceScore": 88,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 73,
+    "tier": "Tier B",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 75
+    },
+    "priorityScore": 0.45,
+    "gamesCount": 0,
+    "pricedGamesCount": 0,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "lynx",
+    "title": "Atari Lynx",
+    "platform": "Atari Lynx",
+    "completenessScore": 50,
+    "confidenceScore": 85,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 74,
+    "tier": "Tier B",
+    "missingCriticalFields": [
+      "overview"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 70,
+      "editorial": 0,
+      "structural": 100
+    },
+    "priorityScore": 0.43,
+    "gamesCount": 15,
+    "pricedGamesCount": 15,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "atarist",
+    "title": "Atari ST",
+    "platform": "Atari ST",
+    "completenessScore": 50,
+    "confidenceScore": 73,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 52,
+    "tier": "Tier C",
+    "missingCriticalFields": [
+      "overview"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 70,
+      "editorial": 0,
+      "structural": 75
+    },
+    "priorityScore": 0.5,
+    "gamesCount": 0,
+    "pricedGamesCount": 0,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "c64",
+    "title": "Commodore 64",
+    "platform": "Commodore 64",
+    "completenessScore": 50,
+    "confidenceScore": 73,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 52,
+    "tier": "Tier C",
+    "missingCriticalFields": [
+      "overview"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 70,
+      "editorial": 0,
+      "structural": 75
+    },
+    "priorityScore": 0.5,
+    "gamesCount": 0,
+    "pricedGamesCount": 0,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "gb",
+    "title": "Game Boy",
+    "platform": "Game Boy",
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 95,
+    "tier": "Tier A",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "priorityScore": 0.57,
+    "gamesCount": 141,
+    "pricedGamesCount": 82,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "gba",
+    "title": "Game Boy Advance",
+    "platform": "Game Boy Advance",
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 95,
+    "tier": "Tier A",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "priorityScore": 0.48,
+    "gamesCount": 90,
+    "pricedGamesCount": 63,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "gbc",
+    "title": "Game Boy Color",
+    "platform": "Game Boy Color",
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 95,
+    "tier": "Tier A",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "priorityScore": 0.48,
+    "gamesCount": 61,
+    "pricedGamesCount": 31,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "gg",
+    "title": "Game Gear",
+    "platform": "Game Gear",
+    "completenessScore": 50,
+    "confidenceScore": 85,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 74,
+    "tier": "Tier B",
+    "missingCriticalFields": [
+      "overview"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 70,
+      "editorial": 0,
+      "structural": 100
+    },
+    "priorityScore": 0.43,
+    "gamesCount": 20,
+    "pricedGamesCount": 20,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "gc",
+    "title": "GameCube",
+    "platform": "GameCube",
+    "completenessScore": 50,
+    "confidenceScore": 73,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 52,
+    "tier": "Tier C",
+    "missingCriticalFields": [
+      "overview"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 70,
+      "editorial": 0,
+      "structural": 75
+    },
+    "priorityScore": 0.5,
+    "gamesCount": 0,
+    "pricedGamesCount": 0,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "msx",
+    "title": "MSX",
+    "platform": "MSX",
+    "completenessScore": 50,
+    "confidenceScore": 73,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 52,
+    "tier": "Tier C",
+    "missingCriticalFields": [
+      "overview"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 0,
+      "sourceTrust": 70,
+      "editorial": 0,
+      "structural": 75
+    },
+    "priorityScore": 0.5,
+    "gamesCount": 0,
+    "pricedGamesCount": 0,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "nes",
+    "title": "NES",
+    "platform": "NES",
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 95,
+    "tier": "Tier A",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "priorityScore": 0.48,
+    "gamesCount": 45,
+    "pricedGamesCount": 45,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "neogeo",
+    "title": "Neo Geo",
+    "platform": "Neo Geo",
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 95,
+    "tier": "Tier A",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "priorityScore": 0.39,
+    "gamesCount": 20,
+    "pricedGamesCount": 20,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "n64",
+    "title": "Nintendo 64",
+    "platform": "Nintendo 64",
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 95,
+    "tier": "Tier A",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "priorityScore": 0.57,
+    "gamesCount": 151,
+    "pricedGamesCount": 93,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "nds",
+    "title": "Nintendo DS",
+    "platform": "Nintendo DS",
+    "completenessScore": 50,
+    "confidenceScore": 85,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 74,
+    "tier": "Tier B",
+    "missingCriticalFields": [
+      "overview"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 70,
+      "editorial": 0,
+      "structural": 100
+    },
+    "priorityScore": 0.58,
+    "gamesCount": 74,
+    "pricedGamesCount": 61,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "ps1",
+    "title": "PlayStation",
+    "platform": "PlayStation",
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 95,
+    "tier": "Tier A",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "priorityScore": 0.57,
+    "gamesCount": 190,
+    "pricedGamesCount": 128,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "ps2",
+    "title": "PlayStation 2",
+    "platform": "PlayStation 2",
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 95,
+    "tier": "Tier A",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "priorityScore": 0.48,
+    "gamesCount": 42,
+    "pricedGamesCount": 24,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "snes",
+    "title": "SNES",
+    "platform": "SNES",
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 95,
+    "tier": "Tier A",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "priorityScore": 0.57,
+    "gamesCount": 184,
+    "pricedGamesCount": 120,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "scd",
+    "title": "Sega CD",
+    "platform": "Sega CD",
+    "completenessScore": 50,
+    "confidenceScore": 85,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 74,
+    "tier": "Tier B",
+    "missingCriticalFields": [
+      "overview"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 70,
+      "editorial": 0,
+      "structural": 100
+    },
+    "priorityScore": 0.43,
+    "gamesCount": 1,
+    "pricedGamesCount": 1,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "dc",
+    "title": "Sega Dreamcast",
+    "platform": "Sega Dreamcast",
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 95,
+    "tier": "Tier A",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "priorityScore": 0.39,
+    "gamesCount": 25,
+    "pricedGamesCount": 25,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "sms",
+    "title": "Sega Master System",
+    "platform": "Sega Master System",
+    "completenessScore": 50,
+    "confidenceScore": 85,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 74,
+    "tier": "Tier B",
+    "missingCriticalFields": [
+      "overview"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 70,
+      "editorial": 0,
+      "structural": 100
+    },
+    "priorityScore": 0.43,
+    "gamesCount": 20,
+    "pricedGamesCount": 20,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "md",
+    "title": "Sega Mega Drive",
+    "platform": "Sega Mega Drive",
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 95,
+    "tier": "Tier A",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "priorityScore": 0.57,
+    "gamesCount": 176,
+    "pricedGamesCount": 116,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "sat",
+    "title": "Sega Saturn",
+    "platform": "Sega Saturn",
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 95,
+    "tier": "Tier A",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "priorityScore": 0.57,
+    "gamesCount": 117,
+    "pricedGamesCount": 76,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "tg16",
+    "title": "TurboGrafx-16",
+    "platform": "TurboGrafx-16",
+    "completenessScore": 100,
+    "confidenceScore": 100,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 95,
+    "tier": "Tier A",
+    "missingCriticalFields": [],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 100,
+      "editorial": 100,
+      "structural": 100
+    },
+    "priorityScore": 0.39,
+    "gamesCount": 20,
+    "pricedGamesCount": 20,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  },
+  {
+    "entityType": "console",
+    "entityId": "ws",
+    "title": "WonderSwan",
+    "platform": "WonderSwan",
+    "completenessScore": 50,
+    "confidenceScore": 85,
+    "sourceCoverageScore": 100,
+    "freshnessScore": null,
+    "overallScore": 74,
+    "tier": "Tier B",
+    "missingCriticalFields": [
+      "overview"
+    ],
+    "breakdown": {
+      "identity": 100,
+      "market": 80,
+      "sourceTrust": 70,
+      "editorial": 0,
+      "structural": 100
+    },
+    "priorityScore": 0.43,
+    "gamesCount": 15,
+    "pricedGamesCount": 15,
+    "policies": [
+      "RETRODEX internal"
+    ]
+  }
+]

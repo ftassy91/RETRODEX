@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -11,9 +11,9 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <title>RetroDex &mdash; Fiche jeu</title>
-    <meta name="description" content="Fiche RetroDex d'un jeu rétro : prix vérifiés, rareté, encyclopédie et signaux collectionneur." />
+    <meta name="description" content="Fiche RetroDex d'un jeu rÃ©tro : raretÃ©, encyclopÃ©die et collection." />
     <meta property="og:title" content="Fiche jeu | RetroDex" />
-    <meta property="og:description" content="Fiche RetroDex d'un jeu rétro : prix vérifiés, rareté, encyclopédie et signaux collectionneur." />
+    <meta property="og:description" content="Fiche RetroDex d'un jeu rÃ©tro : raretÃ©, encyclopÃ©die et collection." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
     <link rel="stylesheet" href="/style.css" />
@@ -24,19 +24,19 @@
       <div class="global-product-links">
         <a class="global-product-link is-market" href="/stats.html">
           <span class="nav-label">RetroMarket</span>
-          <span class="nav-copy">prix | confiance | signaux</span>
+          <span class="nav-copy">prix | tendances | marché</span>
         </a>
         <a class="global-product-link is-active" href="/games-list.html">
           <span class="nav-label">RetroDex</span>
-          <span class="nav-copy">catalogue | savoir | archives</span>
+          <span class="nav-copy">catalogue | fiches | prix</span>
         </a>
         <a class="global-product-link" href="/collection.html">
           <span class="nav-label">Collections</span>
-          <span class="nav-copy">etagere | wishlist | suivi</span>
+          <span class="nav-copy">étagère | wishlist | suivi</span>
         </a>
         <a class="global-product-link" href="/search.html">
           <span class="nav-label">Recherche</span>
-          <span class="nav-copy">entree transverse</span>
+          <span class="nav-copy">recherche universelle</span>
         </a>
       </div>
     </nav>
@@ -50,118 +50,88 @@
       </nav>
 
       <section id="hero" class="hero-card">
-        <div class="loading-card">Chargement de la fiche...</div>
+        <div class="loading-card">Chargement...</div>
       </section>
 
-      <section class="summary-card">
-        <h2>Resume</h2>
-        <div id="summary" class="summary-text">Lecture du dossier...</div>
+      <section id="editorial-shell" class="editorial-card detail-accordion" hidden>
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="editorial-content">
+          <span>RetroDex / Encyclopédie</span>
+          <span class="detail-accordion-indicator">+</span>
+        </button>
+        <div id="editorial-content" class="detail-accordion-content" hidden></div>
       </section>
 
-      <section class="stats-card">
-        <h2>Statistiques</h2>
-        <div id="stats-row" class="stats-grid"></div>
-      </section>
-
-      <section class="collection-card">
-        <h2>Collection</h2>
-        <div class="collection-row">
-          <div class="collection-state-block">
-            <div id="collection-state" class="collection-state">Lecture de la collection...</div>
-            <div id="collection-current-meta" class="collection-current-meta"></div>
-          </div>
-          <div class="collection-action-group">
-            <button id="collection-button" type="button" class="btn" disabled>Chargement</button>
-            <button id="wishlist-button" type="button" class="btn" disabled>Wishlist</button>
-            <button id="collection-remove-button" type="button" class="btn btn-danger" hidden>Retirer</button>
-          </div>
+      <section class="stats-card detail-accordion">
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="stats-content">
+          <span>Statistiques</span>
+          <span class="detail-accordion-indicator">+</span>
+        </button>
+        <div id="stats-content" class="detail-accordion-content" hidden>
+          <div id="stats-row" class="stats-grid"></div>
         </div>
-        <div id="collection-form" class="collection-form">
-          <div class="collection-controls">
-            <select id="collection-condition" class="collection-condition-select" aria-label="Etat du jeu">
-              <option value="Loose">Loose</option>
-              <option value="CIB">CIB</option>
-              <option value="Mint">Mint</option>
-            </select>
-            <input
-              id="collection-price-paid"
-              class="collection-condition-select"
-              type="number"
-              min="0"
-              step="0.01"
-              inputmode="decimal"
-              placeholder="Prix d'achat"
-              aria-label="Prix d'achat"
-            />
-            <input
-              id="collection-purchase-date"
-              class="collection-condition-select"
-              type="date"
-              aria-label="Date d'achat"
-            />
-          </div>
-          <textarea
-            id="collection-notes"
-            class="collection-note-input"
-            maxlength="320"
-            rows="2"
-            placeholder="Notes personnelles ou contexte d'achat..."
-          ></textarea>
-        </div>
-        <div id="collection-status" class="status-text"></div>
       </section>
 
-      <section id="editorial-shell" class="editorial-card" hidden>
-        <div class="detail-section-head">
-          <div>
-            <div class="detail-kicker">EDITORIAL ARCHIVE</div>
-            <h2>Encyclopedie</h2>
+      <section class="collection-card detail-accordion">
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="collection-content">
+          <span>Collection</span>
+          <span class="detail-accordion-indicator">+</span>
+        </button>
+        <div id="collection-content" class="detail-accordion-content" hidden>
+          <div class="collection-row">
+            <div class="collection-state-block">
+              <div id="collection-state" class="collection-state"></div>
+              <div id="collection-current-meta" class="collection-current-meta"></div>
+            </div>
+            <div class="collection-action-group">
+              <button id="collection-button" type="button" class="btn" disabled>Chargement</button>
+              <button id="wishlist-button" type="button" class="btn" disabled>Wishlist</button>
+              <button id="collection-remove-button" type="button" class="btn btn-danger" hidden>Retirer</button>
+            </div>
           </div>
-          <p class="detail-section-copy">
-            Synopsis, equipe, anecdotes et codes archives pour cette fiche.
-          </p>
+          <div id="collection-form" class="collection-form">
+            <div class="collection-controls">
+              <select id="collection-condition" class="collection-condition-select" aria-label="Etat">
+                <option value="Loose">Loose</option>
+                <option value="CIB">CIB</option>
+                <option value="Mint">Mint</option>
+              </select>
+              <input
+                id="collection-price-paid"
+                class="collection-condition-select"
+                type="number"
+                min="0"
+                step="0.01"
+                inputmode="decimal"
+                placeholder="Prix"
+                aria-label="Prix"
+              />
+              <input
+                id="collection-purchase-date"
+                class="collection-condition-select"
+                type="date"
+                aria-label="Date"
+              />
+            </div>
+            <textarea
+              id="collection-notes"
+              class="collection-note-input"
+              maxlength="320"
+              rows="2"
+              placeholder="Notes"
+            ></textarea>
+          </div>
+          <div id="collection-status" class="status-text"></div>
         </div>
-        <div id="editorial-content"></div>
       </section>
 
-      <section id="related-shell" class="related-card" hidden>
-        <div class="detail-section-head">
-          <div>
-            <div class="detail-kicker">NEXT EXPLORATION</div>
-            <h2>Autres pistes</h2>
-          </div>
-          <p class="detail-section-copy">
-            Versions proches, jeux similaires et passerelles de collection.
-          </p>
-        </div>
-        <div id="related-content"></div>
+      <section id="related-shell" class="related-card detail-accordion" hidden>
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="related-content">
+          <span>Exploration</span>
+          <span class="detail-accordion-indicator">+</span>
+        </button>
+        <div id="related-content" class="detail-accordion-content" hidden></div>
       </section>
 
-      <section class="contribute-section">
-        <h3>CONTRIBUER UN PRIX</h3>
-        <p class="contribute-desc">
-          Vous avez achete ou vendu ce jeu ? Partagez le prix.
-        </p>
-        <div class="contribute-form">
-          <select id="contrib-condition">
-            <option value="Loose">Loose</option>
-            <option value="CIB">CIB</option>
-            <option value="Mint">Mint</option>
-          </select>
-          <input type="number" id="contrib-price" placeholder="Prix en $ (ex: 45)" min="1" step="0.01" />
-          <select id="contrib-context">
-            <option value="ebay">eBay</option>
-            <option value="vinted">Vinted</option>
-            <option value="brocante">Brocante</option>
-            <option value="leboncoin">Leboncoin</option>
-            <option value="autre">Autre</option>
-          </select>
-          <input type="date" id="contrib-date" />
-          <textarea id="contrib-note" placeholder="Note optionnelle..." rows="2"></textarea>
-          <button id="contrib-submit" type="button">SOUMETTRE</button>
-        </div>
-        <div id="contrib-feedback" class="hidden"></div>
-      </section>
     </main>
 
     <script src="/js/core/config.js"></script>
@@ -171,7 +141,7 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/game-detail.js?v=20260324b"></script>
+    <script src="/js/pages/game-detail.js?v=20260326b"></script>
     <script src="/js/features/experience-layer.js"></script>
     <div class="footer-attribution">
       Covers :
@@ -179,3 +149,4 @@
     </div>
   </body>
 </html>
+
