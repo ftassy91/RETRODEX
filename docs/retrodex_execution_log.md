@@ -24,6 +24,7 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Phase 3 et 4 engagees : migrations versionnees, tables canoniques, scoring qualite, routes d'audit et priorisation d'enrichissement actives.
 - Phase 5 engagee : pipeline d'import `identity-first` pose, DS valide en dry-run conforme, 3DS explicitement bloque tant qu'aucune source approuvee n'est branchee.
 - Lot d'integration suivant ouvert : audit du worktree propre vers `main`, conflits UI/runtime deja inventories, et correction d'un point bloquant structurel ou des modeles utilises au boot (`associations`, `MarketplaceListing`, tables de genres/regions) existaient localement sans etre suivis dans Git.
+- Le worktree propre d'integration demarre maintenant sans dependre du worktree sale : modeles requis au boot commits, lectures canoniques rendues tolerantes aux colonnes legacy optionnelles, et table `consoles` auto-seedee sur SQLite fraiche depuis `data/consoles.json`.
 - Suite du read-model canonique : les routes catalogue/listes `games`, `api/games`, `api/games/random` et `api/franchises/:slug/games` lisent maintenant les snapshots, l'editorial, les references media et la qualite canoniques.
 - Impact produit : `games-list`, `hub`, `home`, `stats` et les apercus franchise consomment des listes coherentes avec la couche canonique sans changer leur contrat front principal.
 - Reste a faire sur ce sous-chantier : terminer la bascule des surfaces liste encore dependantes de comportements legacy plus anciens, puis traiter le push / merge Git a part a cause du working tree sale hors perimetre.
@@ -554,3 +555,44 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - l'integration vers `main` ne doit pas reprendre avant que ce point soit corrige
 - Next step:
   - commit cible des six fichiers modeles/associations sur `codex/next-work`, push, puis injection de ce lot dans `codex/integration-main-retrodex` pour revalidation serveur
+
+## [2026-03-26 15:40]
+- Sprint / phase : Phase Git/runtime - validation du worktree propre d'integration
+- Actions completed:
+  - commit et push sur `codex/next-work` des fichiers runtime manquants utilises au boot : `associations`, `MarketplaceListing`, `Genre`, `SubGenre`, `GameGenre`, `GameRegion`
+  - correction du service canonique et de l'audit pour ne plus exiger des colonnes optionnelles legacy absentes comme `games.coverImage` dans certaines bases SQLite locales
+  - ajout d'un bootstrap `consoles` au demarrage serveur pour peupler automatiquement la table depuis `data/consoles.json` quand la base SQLite est fraiche
+  - reinjection de ces correctifs dans `codex/integration-main-retrodex`, redemarrage serveur et validation sur un worktree propre
+  - revalidation des endpoints critiques : `api/health`, `api/search/global`, `api/stats`, `api/audit/divergence`, `api/consoles`, `api/consoles/sega-saturn`
+- Files modified:
+  - `backend/src/models/MarketplaceListing.js`
+  - `backend/src/models/Genre.js`
+  - `backend/src/models/SubGenre.js`
+  - `backend/src/models/GameGenre.js`
+  - `backend/src/models/GameRegion.js`
+  - `backend/src/models/associations.js`
+  - `backend/src/services/game-read-service.js`
+  - `backend/src/services/audit-service.js`
+  - `backend/src/server.js`
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement destructif de schema
+  - seed automatique non destructif de la table `consoles` depuis `data/consoles.json` si la table est vide
+- Sources evaluated:
+  - aucune nouvelle source externe
+  - reutilisation du fichier interne `data/consoles.json` comme source de bootstrap SQLite
+- Compliance notes:
+  - aucun nouvel usage de donnees tierces
+  - aucune copie d'asset supplementaire
+- Quality score impact:
+  - le worktree propre d'integration produit maintenant des payloads consoles coherents sur base fraiche
+  - l'audit et la recherche globale ne dependent plus d'une forme de schema SQLite local plus riche que prevu
+- Commits:
+  - `66a2f71` `fix(runtime): track required association models for clean integration`
+  - `db5c29e` `fix(data): tolerate optional legacy game columns in canonical reads`
+  - `0f66345` `fix(bootstrap): seed consoles on fresh sqlite runtime`
+- Issues:
+  - warning Supabase non bloquant toujours present si `@supabase/supabase-js` n'est pas installe dans le worktree propre
+  - le merge d'integration n'est pas encore commit/push ; il ne faut pas toucher `main` tant que cette etape n'est pas finalisee
+- Next step:
+  - commit du merge dans `codex/integration-main-retrodex`, push de la branche d'integration et preparation d'une integration propre vers `main`
