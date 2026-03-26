@@ -103,6 +103,10 @@ async function ensureRuntimeReady() {
       return
     }
 
+    if (process.env.VERCEL && databaseMode === 'sqlite') {
+      return
+    }
+
     const shouldAlterSchema = process.env.NODE_ENV !== 'production'
     let effectiveAlter = shouldAlterSchema
 
