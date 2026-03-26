@@ -267,18 +267,16 @@ async function queryGamesViaSequelize(sequelize, filters) {
   if (search) {
     whereClause += ` AND (
       title ILIKE :search OR
-      developer ILIKE :search OR
-      "console" ILIKE :search OR
-      genre ILIKE :search OR
-      lore ILIKE :search OR
-      gameplay_description ILIKE :search
+      COALESCE(developer, '') ILIKE :search OR
+      COALESCE("console", '') ILIKE :search OR
+      COALESCE(genre, '') ILIKE :search
     )`;
     replacements.search = `%${search}%`;
   }
 
   const [rows] = await sequelize.query(
     `SELECT *,
-      COALESCE("coverImage", cover_url) as "coverImage",
+      cover_url as "coverImage",
       cover_url,
       loose_price as "loosePrice",
       cib_price as "cibPrice",

@@ -142,6 +142,15 @@ async function fetchRowsInBatches(table, columns, configure, orderBy) {
   return rows
 }
 
+function isMissingSupabaseRelationError(error) {
+  const message = String(error?.message || error || '').toLowerCase()
+  return (
+    message.includes('schema cache') ||
+    message.includes('could not find the table') ||
+    (message.includes('relation') && message.includes('does not exist'))
+  )
+}
+
 async function fetchAllSupabaseGames() {
   return fetchRowsInBatches(
     'games',
@@ -466,6 +475,9 @@ async function fetchSearchIndexResults(query, limit) {
     .limit(limit)
 
   if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return []
+    }
     throw new Error(error.message)
   }
 
@@ -517,17 +529,20 @@ async function fetchSearchFallbackResults(
 
   const [gamesResults, franchisesResult] = await Promise.all(requests)
   const [titleMatchesResult, yearMatchesResult] = gamesResults
+  const safeFranchisesResult = franchisesResult?.error && isMissingSupabaseRelationError(franchisesResult.error)
+    ? { data: [], error: null }
+    : franchisesResult
 
   if (titleMatchesResult.error) throw new Error(titleMatchesResult.error.message)
   if (yearMatchesResult.error) throw new Error(yearMatchesResult.error.message)
-  if (franchisesResult.error) throw new Error(franchisesResult.error.message)
+  if (safeFranchisesResult.error) throw new Error(safeFranchisesResult.error.message)
 
   return {
     games: dedupeSearchResults([
       ...((titleMatchesResult.data || []).map(normalizeSearchGameRow)),
       ...((yearMatchesResult.data || []).map(normalizeSearchGameRow)),
     ]),
-    franchises: (franchisesResult.data || []).map((row) => normalizeSearchFranchiseRow({
+    franchises: (safeFranchisesResult.data || []).map((row) => normalizeSearchFranchiseRow({
       id: row.slug,
       slug: row.slug,
       name: row.name,
@@ -842,6 +857,19 @@ router.get('/api/search', handleAsync(async (req, res) => {
       .map((row) => (row._type === 'franchise'
         ? normalizeSearchFranchiseRow(row)
         : normalizeSearchGameRow(row)))
+    if (!results.length) {
+      const fallback = await fetchSearchFallbackResults(
+        q,
+        type,
+        requestedGamesLimit,
+        requestedFranchisesLimit,
+        numericYear
+      )
+      results = [
+        ...fallback.franchises,
+        ...dedupeSearchResults(fallback.games).slice(0, requestedGamesLimit),
+      ]
+    }
   } catch (_error) {
     const fallback = await fetchSearchFallbackResults(
       q,
@@ -910,6 +938,14 @@ router.get('/api/franchises', handleAsync(async (_req, res) => {
     .order('name', { ascending: true })
 
   if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return res.json({
+        ok: true,
+        items: [],
+        franchises: [],
+        count: 0,
+      })
+    }
     throw new Error(error.message)
   }
 
@@ -934,7 +970,11 @@ router.get('/api/franchises/:slug', handleAsync(async (req, res) => {
     .eq('slug', slug)
     .single()
 
-  if (error || !data) {
+  if ((error && isMissingSupabaseRelationError(error)) || !data) {
+    return res.status(404).json({ ok: false, error: 'Franchise not found' })
+  }
+
+  if (error) {
     return res.status(404).json({ ok: false, error: 'Franchise not found' })
   }
 
@@ -949,17 +989,21 @@ router.get('/api/franchises/:slug', handleAsync(async (req, res) => {
 
 router.get('/api/franchises/:slug/games', handleAsync(async (req, res) => {
   const slug = String(req.params.slug || '').trim()
-  const { data: franchise, error: franchiseError } = await db
+  let { data: franchise, error: franchiseError } = await db
     .from('franchise_entries')
     .select('slug,game_ids')
     .eq('slug', slug)
     .single()
 
-  if (franchiseError || !franchise) {
+  if (franchiseError && !isMissingSupabaseRelationError(franchiseError)) {
     return res.status(404).json({ ok: false, error: 'Franchise not found' })
   }
 
-  const parsedIds = parseStoredJson(franchise.game_ids)
+  if (franchiseError && isMissingSupabaseRelationError(franchiseError)) {
+    franchise = null
+  }
+
+  const parsedIds = parseStoredJson(franchise?.game_ids)
   let games = []
 
   if (Array.isArray(parsedIds) && parsedIds.length) {
@@ -1225,13 +1269,14 @@ router.get('/api/collection/stats', handleAsync(async (_req, res) => {
 router.get('/api/stats', handleAsync(async (_req, res) => {
   const statsBase = await getStats().catch(() => ({}))
   const games = await fetchAllSupabaseGames()
-  const { count: franchiseCount, error: franchiseError } = await db
+  const { count: rawFranchiseCount, error: franchiseError } = await db
     .from('franchise_entries')
     .select('*', { count: 'exact', head: true })
 
-  if (franchiseError) {
+  if (franchiseError && !isMissingSupabaseRelationError(franchiseError)) {
     throw new Error(franchiseError.message)
   }
+  const franchiseCount = franchiseError ? 0 : rawFranchiseCount
 
   const byRarity = {
     LEGENDARY: 0,
