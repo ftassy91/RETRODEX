@@ -30,7 +30,7 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Bascule de lecture poursuivie : `games-detail` (similaires + franchise), `global-search`, `market`, `collection` et `console-service` lisent maintenant la couche canonique pour les champs critiques au lieu de dependre directement des colonnes legacy `games`.
 - Regle d'architecture formalisee : `canonical first, legacy fallback`, avec matrice d'ownership ajoutee dans `docs/data-architecture.md`.
 - Nouveau rapport de divergence `legacy/canonical` ajoute dans l'audit pour mesurer les ecarts de prix, d'editorial et de references media, expose via `GET /api/audit/divergence` et versionne dans `data/audit/`.
-- Etape Git encore volontairement separee : aucune tentative de merge vers `main` depuis le worktree sale ; preparation d'un worktree propre d'integration reste la prochaine action.
+- Etape Git traitee proprement : `codex/next-work` poussee, worktree propre `RETRODEXseed_integration_main` cree depuis `origin/main`, merge test execute puis abort, avec inventaire de conflits concentre sur les surfaces UI publiques et `routes/prices`.
 - Base canonique initiale creee via migration `20260326_001_canonical_core`, sans casser le read-model public legacy.
 - Pipeline catalogue conforme ajoute : `backend/scripts/import-catalog.js`, idempotent par recherche d'existant, journalise dans `enrichment_runs`.
 - Nouveau passage de durcissement data : backfill canonique complet depuis le legacy `games` et `price_history`, audit relie a la couche canonique, provenance explicite sur les jeux et consoles, et index runtime d'idempotence pour les observations.
@@ -501,3 +501,28 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - la divergence Git avec `origin/main` reste intacte et doit etre traitee dans un worktree propre
 - Next step:
   - commit du lot lecture/audit, puis creation d'un worktree d'integration propre depuis `origin/main`
+
+## [2026-03-26 15:22]
+- Sprint / phase : Phase Git - preparation propre de l'integration vers `main`
+- Actions completed:
+  - push de `codex/next-work` vers `origin/codex/next-work` avec le commit `2dddbc2`
+  - creation du worktree propre `C:/Users/ftass/OneDrive/Bureau/RETRODEXseed_integration_main` sur la branche `codex/integration-main-retrodex`, basee sur `origin/main`
+  - execution d'un merge test `origin/codex/next-work -> codex/integration-main-retrodex` sans commit
+  - inventaire des conflits reellement restants, puis `git merge --abort` pour laisser le worktree d'integration propre
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun
+- Sources evaluated:
+  - aucune nouvelle source
+- Compliance notes:
+  - aucun impact conformite ; phase purement Git / integration
+- Quality score impact:
+  - aucun recalcul
+- Commits:
+  - `2dddbc2` deja pousse sur `origin/codex/next-work`
+- Issues:
+  - conflits identifies dans `backend/public/consoles.html`, `backend/public/game-detail.html`, `backend/public/hub.html`, `backend/public/js/core/search-core.js`, `backend/public/js/pages/consoles.js`, `backend/public/js/pages/game-detail.js`, `backend/public/js/pages/search.js`, `backend/public/js/pages/stats.js`, `backend/public/search.html`, `backend/public/stats.html`, `backend/public/style.css`, `backend/src/helpers/priceHistory.js`, `backend/src/routes/prices.js`
+  - aucun conflit dans le worktree d'integration apres abort ; l'etat est propre pour une reprise de resolution dediee
+- Next step:
+  - commit de suivi documentaire, puis resoudre ces conflits directement dans le worktree propre d'integration si on poursuit la mise sur `main`
