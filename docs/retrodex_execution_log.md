@@ -11,6 +11,7 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Sprint 1 : simplification de la microcopy RetroDex / RetroMarket et retrait des textes redondants les plus visibles.
 - Sprint 2 : fiche RetroDex recentree sur un bloc principal fixe, accordeons unifies et panneau encyclopedique fusionne avec equipe + compositeurs.
 - Sprint 3 : passerelles RetroDex <-> RetroMarket clarifiees avec CTA uniques et pre-remplissage URL fiabilise.
+- Sprint 4 : RetroMarket recompose autour d'un bloc principal valeur et de cinq accordeons utiles.
 
 ## [2026-03-26 00:45]
 - Sprint en cours : Sprint 1 - audit cible, suivi, simplification globale
@@ -82,3 +83,26 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - aucun
 - Prochaine etape :
   - valider la recherche contextuelle puis lancer la refonte structurelle RetroMarket
+
+## [2026-03-26 01:42]
+- Sprint en cours : Sprint 4 - refonte structurelle RetroMarket
+- Actions realisees :
+  - remplacement de `stats.html` par une page marche contextuelle avec un bloc principal fixe
+  - refonte complete de `stats.js` autour d'une recherche, d'un hero valeur et de cinq accordeons : Graph, Compare, Market, Buy, Trade / Echanges
+  - ajout d'une comparaison 2 jeux dans la meme page sans nouvelle route dediee
+  - ajout d'un fallback SQLite sur `/api/prices/:gameId` pour exploiter l'historique local
+  - ajout du filtre `gameId` sur `/marketplace` pour alimenter l'accordeon `Buy`
+  - harmonisation CSS de RetroMarket sur la logique visuelle de RetroDex
+- Fichiers modifies :
+  - `backend/public/stats.html`
+  - `backend/public/js/pages/stats.js`
+  - `backend/public/style.css`
+  - `backend/src/routes/prices.js`
+  - `backend/src/routes/marketplace.js`
+  - `docs/retrodex_execution_log.md`
+- Commits effectues :
+  - en preparation
+- Blocages :
+  - pas de blocage technique ; aucun listing actif pour le jeu de test, l'accordeon `Buy` tombe donc proprement en etat vide
+- Prochaine etape :
+  - commit Sprint 4, puis finir l'harmonisation finale et le resume de cloture

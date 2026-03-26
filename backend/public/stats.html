@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -10,10 +10,10 @@
     <meta name="apple-mobile-web-app-title" content="RetroDex" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
-    <title>RetroMarket - Valeur</title>
-    <meta name="description" content="Prix, tendance et comparaison pour les jeux rÃ©tro." />
+    <title>RetroMarket - Marche</title>
+    <meta name="description" content="Prix, tendance et comparaison des jeux retro." />
     <meta property="og:title" content="RetroMarket | RetroDex" />
-    <meta property="og:description" content="Prix, tendance et comparaison pour les jeux rÃ©tro." />
+    <meta property="og:description" content="Prix, tendance et comparaison des jeux retro." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
     <link rel="stylesheet" href="/style.css" />
@@ -24,7 +24,7 @@
       <div class="global-product-links">
         <a class="global-product-link is-market is-active" href="/stats.html">
           <span class="nav-label">RetroMarket</span>
-          <span class="nav-copy">prix | tendances | marché</span>
+          <span class="nav-copy">prix | tendances | marche</span>
         </a>
         <a class="global-product-link" href="/games-list.html">
           <span class="nav-label">RetroDex</span>
@@ -32,7 +32,7 @@
         </a>
         <a class="global-product-link" href="/collection.html">
           <span class="nav-label">Collections</span>
-          <span class="nav-copy">étagère | wishlist | suivi</span>
+          <span class="nav-copy">etagere | wishlist | suivi</span>
         </a>
         <a class="global-product-link" href="/search.html">
           <span class="nav-label">Recherche</span>
@@ -40,220 +40,95 @@
         </a>
       </div>
     </nav>
-    <main class="stats-shell stats-shell-refined">
-      <header class="stats-page-head">
-        <div class="stats-head-copy">
-          <nav class="breadcrumb">
-            <a href="/hub.html">HUB</a>
-            <span class="sep">&rsaquo;</span>
-            <span class="section">RETROMARKET</span>
-            <span class="sep">&rsaquo;</span>
-            <span class="current">STATISTIQUES</span>
-          </nav>
-          <h1 class="page-title">RETROMARKET</h1>
-          <p class="page-subtitle">Prix, tendance et comparaison.</p>
-        </div>
 
-        <div class="stats-head-tools">
-          <div class="page-nav-inline">
-            <a href="/games-list.html">Catalogue</a>
-            <span>&middot;</span>
-            <a href="/encyclopedia.html">Encyclopedie</a>
-            <span>&middot;</span>
-            <a href="/collection.html">Collection</a>
-          </div>
-        </div>
-      </header>
+    <main class="detail-shell market-detail-shell">
+      <nav class="breadcrumb">
+        <a href="/hub.html">HUB</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="section">RETROMARKET</span>
+        <span class="sep">&rsaquo;</span>
+        <span class="current" id="market-breadcrumb-name">MARCHE</span>
+      </nav>
 
-      <section class="stats-panel">
-        <div class="stats-section-head">
-          <div>
-            <h2 class="stats-section-title">Recherche</h2>
-          </div>
-        </div>
-
+      <section id="market-hero" class="hero-card market-hero-card">
+        <div class="detail-file-label">RETROMARKET</div>
         <div class="terminal-query-line market-search-shell surface-query-shell">
           <span class="terminal-query-label">QUERY :</span>
           <input
             type="text"
             id="market-search-input"
             class="terminal-query-input"
-            placeholder="titre, console, annee..."
+            placeholder="titre, console, annee"
             autocomplete="off"
           />
           <span class="terminal-query-count" id="market-search-count"></span>
         </div>
-        <div class="market-search-helper">Sélectionner un jeu.</div>
-
+        <div id="market-hero-summary" class="market-hero-summary">
+          <div class="loading-card market-empty-card">Selectionner un jeu.</div>
+        </div>
         <div
-          class="terminal-table-header"
-          style="grid-template-columns: 1fr 120px 80px 80px 80px 90px"
+          id="market-search-header"
+          class="terminal-table-header market-search-header"
+          style="grid-template-columns: 1fr 90px 90px 90px 90px 80px"
+          hidden
         >
           <span>JEU</span>
-          <span>CONSOLE</span>
+          <span>ANNEE</span>
           <span style="text-align:right">LOOSE</span>
           <span style="text-align:right">CIB</span>
           <span style="text-align:right">MINT</span>
-          <span style="text-align:center">SIGNAL</span>
+          <span style="text-align:center">META</span>
         </div>
-
-        <div id="market-search-results"></div>
-
-        <div class="terminal-preview-panel surface-preview-panel" id="market-search-preview" style="display:none">
-          <div class="terminal-preview-label">MARCHÉ</div>
-          <div class="terminal-preview-title" id="market-preview-title">-</div>
-          <div class="terminal-preview-row" id="market-preview-meta"></div>
-          <div class="terminal-preview-row" id="market-preview-price"></div>
-          <div class="terminal-preview-row" id="market-preview-signal"></div>
-          <div class="market-preview-stats" id="market-preview-stats"></div>
-          <div class="terminal-preview-row" id="market-preview-links"></div>
-        </div>
+        <div id="market-search-results" class="market-search-results"></div>
       </section>
 
-      <div id="stats-error" class="stats-error" hidden></div>
-
-      <section class="stats-panel stats-panel-primary">
-        <div class="stats-section-head">
-          <div>
-            <div class="detail-kicker">GLOBAL READOUT</div>
-            <h2 class="stats-section-title">Vue d'ensemble</h2>
-          </div>
-          <div class="stats-section-copy">Signaux principaux du catalogue et de la base active.</div>
-        </div>
-
-        <div class="stats-cards stats-cards-primary">
-          <article class="stats-card">
-            <span class="stats-card-label">Total jeux en base</span>
-            <span id="overview-total-games" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Catalogue jouable indexe</span>
-          </article>
-          <article class="stats-card">
-            <span class="stats-card-label">Plateformes exposees</span>
-            <span id="overview-platform-total" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Comptees dans l'API stats</span>
-          </article>
-          <article class="stats-card">
-            <span class="stats-card-label">Jeux prices</span>
-            <span id="overview-priced-total" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Entrees avec donnees marche</span>
-          </article>
-        </div>
-
-        <div class="stats-subsection">
-          <div class="subsection-title">Repartition par rarete</div>
-          <div id="rarity-grid" class="rarity-grid"></div>
-        </div>
-
-        <div class="stats-subsection">
-          <div class="subsection-title">Top plateformes</div>
-          <div id="platform-bars" class="platform-bars"></div>
-        </div>
+      <section id="market-graph-shell" class="stats-card detail-accordion" hidden>
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-graph-content">
+          <span>Graph</span>
+          <span class="detail-accordion-indicator">+</span>
+        </button>
+        <div id="market-graph-content" class="detail-accordion-content" hidden></div>
       </section>
 
-      <section class="stats-panel">
-        <div class="stats-section-head">
-          <div>
-            <div class="detail-kicker">MARKET INTELLIGENCE</div>
-            <h2 class="stats-section-title">Indice marche</h2>
-          </div>
-          <div class="stats-section-copy">Confiance des tiers et reperes de valeur utiles a la lecture collector.</div>
-        </div>
-
-        <div class="stats-cards stats-cards-secondary">
-          <article class="stats-card">
-            <span class="stats-card-label">T1 verifies</span>
-            <span id="market-t1-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Entrees les plus solides</span>
-          </article>
-          <article class="stats-card">
-            <span class="stats-card-label">T3 indicatifs</span>
-            <span id="market-t3-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Fourchettes encore utiles</span>
-          </article>
-          <article class="stats-card">
-            <span class="stats-card-label">T4 estimes</span>
-            <span id="market-t4-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">A lire avec prudence</span>
-          </article>
-        </div>
-
-        <div class="market-grid">
-          <a id="market-most-expensive" class="game-spot" href="/games-list.html">
-            <span class="game-spot-title">Lecture du signal...</span>
-            <span class="game-spot-meta">Jeu le plus cher</span>
-            <span class="game-spot-price">&mdash;</span>
-          </a>
-          <a id="market-least-expensive" class="game-spot" href="/games-list.html">
-            <span class="game-spot-title">Lecture du signal...</span>
-            <span class="game-spot-meta">Jeu le moins cher</span>
-            <span class="game-spot-price">&mdash;</span>
-          </a>
-        </div>
-
-        <div id="market-note" class="section-note">Analyse du marche en cours...</div>
+      <section id="market-compare-shell" class="stats-card detail-accordion" hidden>
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-compare-content">
+          <span>Compare</span>
+          <span class="detail-accordion-indicator">+</span>
+        </button>
+        <div id="market-compare-content" class="detail-accordion-content" hidden></div>
       </section>
 
-      <section class="stats-panel">
-        <div class="stats-section-head">
-          <div>
-            <div class="detail-kicker">EDITORIAL COVERAGE</div>
-            <h2 class="stats-section-title">Encyclopedie</h2>
-          </div>
-          <div class="stats-section-copy">Mesure de la couche memoire : synopsis, franchises et repere median.</div>
-        </div>
-
-        <div class="stats-cards stats-cards-secondary">
-          <article class="stats-card">
-            <span class="stats-card-label">Jeux avec synopsis</span>
-            <span id="encyclo-synopsis-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Couverture narrative</span>
-          </article>
-          <article class="stats-card">
-            <span class="stats-card-label">Franchises indexees</span>
-            <span id="encyclo-franchise-count" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Licences documentees</span>
-          </article>
-          <article class="stats-card">
-            <span class="stats-card-label">Median loose</span>
-            <span id="price-median-loose" class="stats-card-value">&mdash;</span>
-            <span class="stats-card-sub">Point d'equilibre du catalogue</span>
-          </article>
-        </div>
-
-        <a class="encyclopedia-link terminal-action-link" href="/franchises.html">Ouvrir les franchises -></a>
+      <section id="market-market-shell" class="stats-card detail-accordion" hidden>
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-market-content">
+          <span>Market</span>
+          <span class="detail-accordion-indicator">+</span>
+        </button>
+        <div id="market-market-content" class="detail-accordion-content" hidden></div>
       </section>
 
-      <section class="stats-panel" id="marketplace-panel">
-        <div class="stats-section-head">
-          <div>
-            <div class="detail-kicker">BROCANTE RETRO</div>
-            <h2 class="stats-section-title">Annonces actives</h2>
-          </div>
-          <div class="stats-section-copy">Listings vendeurs de la communaute RetroDex.</div>
-        </div>
+      <section id="market-buy-shell" class="stats-card detail-accordion" hidden>
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-buy-content">
+          <span>Buy</span>
+          <span class="detail-accordion-indicator">+</span>
+        </button>
+        <div id="market-buy-content" class="detail-accordion-content" hidden></div>
+      </section>
 
-        <div class="terminal-table-header" style="grid-template-columns: 2fr 140px 80px 80px 90px">
-          <span>JEU</span>
-          <span>ETAT</span>
-          <span style="text-align:right">PRIX</span>
-          <span style="text-align:right">DEVISE</span>
-          <span style="text-align:center">STATUT</span>
-        </div>
-
-        <div id="marketplace-listings"></div>
-        <div id="marketplace-empty" class="market-search-helper" hidden>
-          Aucune annonce active pour le moment.
-        </div>
+      <section id="market-trade-shell" class="stats-card detail-accordion" hidden>
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-trade-content">
+          <span>Trade / Echanges</span>
+          <span class="detail-accordion-indicator">+</span>
+        </button>
+        <div id="market-trade-content" class="detail-accordion-content" hidden></div>
       </section>
     </main>
 
     <script src="/js/core/search-core.js?v=20260324"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/stats.js?v=20260326a"></script>
+    <script src="/js/pages/stats.js?v=20260326b"></script>
     <div class="footer-attribution">
       Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
     </div>
   </body>
 </html>
-

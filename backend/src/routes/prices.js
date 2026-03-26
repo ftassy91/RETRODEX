@@ -82,6 +82,29 @@ async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {
   );
 }
 
+async function queryLocalPriceSales(gameId, condition = null, limit = 200) {
+  await ensureLocalPriceHistoryTable();
+
+  const replacements = { gameId, limit };
+  let conditionClause = '';
+  if (condition) {
+    conditionClause = ' AND condition = :condition';
+    replacements.condition = condition;
+  }
+
+  return sequelize.query(
+    `SELECT id, game_id, price, condition, sale_date, source, listing_url, listing_title, created_at
+     FROM price_history
+     WHERE game_id = :gameId${conditionClause}
+     ORDER BY sale_date DESC
+     LIMIT :limit`,
+    {
+      replacements,
+      type: QueryTypes.SELECT,
+    }
+  );
+}
+
 async function fetchGamesMap(gameIds) {
   const uniqueIds = Array.from(new Set(gameIds.filter(Boolean)));
   if (!uniqueIds.length) {
@@ -239,27 +262,34 @@ router.get('/:gameId', async (req, res) => {
   const allowedCondition = ['loose', 'cib', 'mint'].includes(condition) ? condition : null;
 
   try {
-    let query = db
-      .from('price_history')
-      .select('id,game_id,price,condition,sale_date,source,listing_url,listing_title,created_at')
-      .eq('game_id', gameId)
-      .order('sale_date', { ascending: false })
-      .limit(limit);
+    let sales = [];
 
-    if (allowedCondition) {
-      query = query.eq('condition', allowedCondition);
-    }
+    if (USE_SUPABASE) {
+      let query = db
+        .from('price_history')
+        .select('id,game_id,price,condition,sale_date,source,listing_url,listing_title,created_at')
+        .eq('game_id', gameId)
+        .order('sale_date', { ascending: false })
+        .limit(limit);
 
-    const { data, error } = await query;
-    if (error) {
-      throw new Error(error.message);
+      if (allowedCondition) {
+        query = query.eq('condition', allowedCondition);
+      }
+
+      const { data, error } = await query;
+      if (error) {
+        throw new Error(error.message);
+      }
+      sales = data || [];
+    } else {
+      sales = await queryLocalPriceSales(gameId, allowedCondition, limit);
     }
 
     return res.json({
       ok: true,
       gameId,
-      count: (data || []).length,
-      sales: data || [],
+      count: sales.length,
+      sales,
     });
   } catch (error) {
     if (isMissingPriceHistoryTable(error)) {

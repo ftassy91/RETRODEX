@@ -698,7 +698,7 @@ label {
 
       .compare-row {
         display: grid;
-        grid-template-columns: 2fr 1fr 0.7fr 0.7fr 0.8fr;
+        grid-template-columns: 2fr 0.7fr 1fr 0.7fr 0.9fr;
         gap: 0.5rem;
         padding: 0.4rem 0;
         border-bottom: 1px solid #1a3a1a;
@@ -904,7 +904,7 @@ label {
         }
 
         .compare-row {
-          grid-template-columns: 1.5fr 1fr 0.8fr 0.8fr 0.9fr;
+          grid-template-columns: 1.5fr 0.7fr 1fr 0.7fr 0.9fr;
           font-size: 0.65rem;
         }
       }
@@ -4781,6 +4781,51 @@ body {
     radial-gradient(circle at top right, rgba(155, 188, 15, 0.03), transparent 26%);
 }
 
+.detail-accordion {
+  margin-top: 14px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.detail-accordion-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+  cursor: pointer;
+}
+
+.detail-accordion.is-open .detail-accordion-toggle {
+  background: rgba(12, 16, 12, 0.72);
+  box-shadow: inset 0 -1px 0 rgba(67, 95, 60, 0.42);
+}
+
+.detail-accordion-toggle:hover {
+  background: rgba(12, 16, 12, 0.62);
+}
+
+.detail-accordion-indicator {
+  color: var(--text-alert);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55rem;
+  flex-shrink: 0;
+}
+
+.detail-accordion-content {
+  padding: 12px 18px 18px;
+  border-top: 1px solid rgba(67, 95, 60, 0.42);
+}
+
 .detail-hero-shell {
   display: flex;
   flex-direction: column;
@@ -4973,7 +5018,7 @@ body {
 .game-header-copy {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .hero-title {
@@ -4983,10 +5028,32 @@ body {
   letter-spacing: 0.06em;
 }
 
+.detail-hero-meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  margin-top: -2px;
+}
+
 .game-tagline-shell {
   padding: 10px 12px;
   border-left: 2px solid rgba(155, 188, 15, 0.48);
   background: rgba(10, 14, 10, 0.62);
+}
+
+.hero-summary-shell {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 2px solid rgba(67, 95, 60, 0.58);
+  background: rgba(10, 14, 10, 0.62);
+}
+
+.hero-summary {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.75;
 }
 
 .game-tagline {
@@ -5001,6 +5068,40 @@ body {
 
 .hero-meta {
   margin-bottom: 0;
+}
+
+.detail-hero-chip-row {
+  margin-top: 2px;
+}
+
+.detail-hero-summary-bar,
+.detail-stats-bar {
+  margin-top: 2px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8, 12, 8, 0.78);
+}
+
+.detail-hero-summary-bar .terminal-summary-cell,
+.detail-stats-bar .terminal-summary-cell {
+  min-width: 0;
+}
+
+.detail-hero-summary-bar .terminal-summary-value,
+.detail-stats-bar .terminal-summary-value {
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.detail-market-bridge {
+  margin-top: 2px;
+  padding: 12px 14px;
+  border: 1px solid rgba(67, 95, 60, 0.58);
+}
+
+.detail-market-bridge .terminal-preview-label {
+  margin-bottom: 6px;
 }
 
 .pill {
@@ -5048,7 +5149,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  min-height: 18px;
+  min-height: 0;
 }
 
 .price-panel {
@@ -5212,20 +5313,34 @@ body {
   gap: 10px;
 }
 
+.detail-stats-chip-row {
+  margin-top: 12px;
+}
+
+.detail-stats-chip-row .surface-chip {
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.detail-stats-chip-row .surface-chip strong {
+  font-weight: normal;
+  color: var(--text-primary);
+}
+
 .stat-cell {
   border-radius: 0;
   background: rgba(10, 14, 10, 0.7);
 }
 
 .collection-row {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .detail-editorial-tabs {
   display: flex;
   flex-wrap: wrap;
   gap: 0;
-  margin: 16px 0 14px;
+  margin: 10px 0 12px;
   border-bottom: 1px solid rgba(67, 95, 60, 0.42);
 }
 
@@ -5282,13 +5397,13 @@ body {
 }
 
 .related-module {
-  padding-top: 16px;
-  border-top: 1px solid rgba(67, 95, 60, 0.42);
+  padding: 14px 16px;
+  border: 1px solid rgba(67, 95, 60, 0.42);
+  background: rgba(8, 12, 8, 0.72);
 }
 
 .related-module:first-child {
-  padding-top: 0;
-  border-top: 0;
+  padding-top: 14px;
 }
 
 .related-module-head {
@@ -5296,7 +5411,7 @@ body {
   justify-content: space-between;
   gap: 18px;
   align-items: flex-start;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .compare-table {
@@ -5316,10 +5431,29 @@ body {
   background: rgba(13, 18, 13, 0.88);
 }
 
+.compare-score-cell {
+  display: flex;
+  align-items: center;
+}
+
 .similar-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   padding: 12px;
   background: rgba(8, 12, 8, 0.78);
   border-radius: 0;
+}
+
+.similar-item-main {
+  min-width: 0;
+}
+
+.similar-side {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 
 .price-history {
@@ -8197,7 +8331,7 @@ body::-webkit-scrollbar-thumb,
 
 .collection-form {
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .collection-controls {
@@ -8211,6 +8345,16 @@ body::-webkit-scrollbar-thumb,
 .status-text {
   min-height: 18px;
   line-height: 1.6;
+}
+
+.collection-state {
+  min-height: 0;
+}
+
+.collection-current-meta:empty,
+.collection-state:empty,
+.status-text:empty {
+  display: none;
 }
 
 .collection-condition-select,
@@ -9692,5 +9836,404 @@ body.hub-page .product-universe-frame {
   font-size: 0.7rem;
   color: #486648;
   letter-spacing: 0.04em;
+}
+
+.market-detail-shell {
+  padding-bottom: 3rem;
+}
+
+.market-hero-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.market-empty-card {
+  padding: 1rem;
+  border: 1px solid rgba(155, 188, 15, 0.14);
+  background: rgba(155, 188, 15, 0.03);
+}
+
+.market-empty-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.72rem;
+  color: #9bbc0f;
+  letter-spacing: 0.08em;
+}
+
+.market-empty-copy {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.74rem;
+  color: #7a9a7a;
+}
+
+.market-search-header {
+  margin-top: 0.25rem;
+}
+
+.market-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.market-search-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 90px 90px 90px 90px 80px;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid rgba(155, 188, 15, 0.1);
+  background: rgba(155, 188, 15, 0.02);
+  color: inherit;
+  text-align: left;
+}
+
+.market-search-row:hover,
+.market-search-row.is-selected {
+  border-color: rgba(155, 188, 15, 0.28);
+  background: rgba(155, 188, 15, 0.05);
+}
+
+.market-result-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.market-result-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.58rem;
+  color: #9bbc0f;
+  line-height: 1.6;
+}
+
+.market-result-meta,
+.market-result-year {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.74rem;
+  color: #7a9a7a;
+}
+
+.market-result-link {
+  width: fit-content;
+}
+
+.market-result-price {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.78rem;
+  color: #a8c8a8;
+  text-align: right;
+}
+
+.market-result-price.is-alert {
+  color: #f1c45c;
+}
+
+.market-result-score {
+  display: flex;
+  justify-content: center;
+}
+
+.market-hero-summary {
+  display: flex;
+  flex-direction: column;
+}
+
+.market-hero-layout {
+  display: grid;
+  grid-template-columns: 144px minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.market-cover-slot {
+  width: 144px;
+  min-width: 144px;
+  height: 144px;
+}
+
+.market-cover {
+  width: 144px;
+  height: 144px;
+  object-fit: cover;
+  border: 1px solid rgba(155, 188, 15, 0.25);
+  display: block;
+}
+
+.market-cover-placeholder {
+  width: 144px;
+  height: 144px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(155, 188, 15, 0.18);
+  background: rgba(155, 188, 15, 0.04);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1rem;
+  color: #9bbc0f;
+}
+
+.market-hero-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.market-hero-title {
+  margin: 0;
+}
+
+.market-hero-chips {
+  gap: 0.45rem;
+}
+
+.market-score-chip {
+  display: inline-flex;
+  align-items: center;
+}
+
+.market-price-summary {
+  margin-top: 0.1rem;
+}
+
+.market-hero-actions {
+  padding-top: 0.15rem;
+}
+
+.market-trend-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.market-trend-badge.is-up {
+  color: #f16c5c;
+}
+
+.market-trend-badge.is-down {
+  color: #f1c45c;
+}
+
+.market-trend-badge.is-stable {
+  color: #9bbc0f;
+}
+
+.market-trend-symbol {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.62rem;
+}
+
+.market-trend-delta {
+  color: #7a9a7a;
+}
+
+.market-graph-list,
+.market-condition-table,
+.market-buy-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.market-graph-row {
+  display: grid;
+  grid-template-columns: 90px 70px 1fr 90px;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.45rem 0;
+  border-top: 1px solid rgba(155, 188, 15, 0.08);
+}
+
+.market-graph-date,
+.market-graph-condition,
+.market-graph-price {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: #7a9a7a;
+}
+
+.market-graph-price {
+  color: #a8c8a8;
+  text-align: right;
+}
+
+.market-graph-bar {
+  display: block;
+  height: 8px;
+  border: 1px solid rgba(155, 188, 15, 0.12);
+  background: rgba(155, 188, 15, 0.03);
+}
+
+.market-graph-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(155, 188, 15, 0.65), rgba(241, 196, 92, 0.75));
+}
+
+.market-condition-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 0.55rem 0;
+  border-top: 1px solid rgba(155, 188, 15, 0.08);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.74rem;
+  color: #a8c8a8;
+}
+
+.market-condition-header {
+  color: #7a9a7a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.market-compare-search {
+  margin-bottom: 0.75rem;
+}
+
+.market-compare-results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.9rem;
+}
+
+.market-compare-result {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid rgba(155, 188, 15, 0.1);
+  background: rgba(155, 188, 15, 0.02);
+  color: inherit;
+  text-align: left;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.74rem;
+}
+
+.market-compare-result:hover {
+  border-color: rgba(155, 188, 15, 0.28);
+}
+
+.market-compare-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.market-compare-card {
+  padding: 0.8rem;
+  border: 1px solid rgba(155, 188, 15, 0.12);
+  background: rgba(155, 188, 15, 0.03);
+}
+
+.market-compare-card-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55rem;
+  color: #9bbc0f;
+  line-height: 1.6;
+}
+
+.market-compare-card-meta {
+  margin-top: 0.35rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: #7a9a7a;
+}
+
+.market-compare-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.market-compare-row {
+  display: grid;
+  grid-template-columns: 150px 1fr 1fr;
+  gap: 0.75rem;
+  padding: 0.55rem 0;
+  border-top: 1px solid rgba(155, 188, 15, 0.08);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.74rem;
+  color: #a8c8a8;
+}
+
+.market-compare-header {
+  color: #7a9a7a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.market-buy-row {
+  display: grid;
+  grid-template-columns: 1fr 90px 80px 100px;
+  gap: 0.75rem;
+  padding: 0.55rem 0;
+  border-top: 1px solid rgba(155, 188, 15, 0.08);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.74rem;
+  color: #a8c8a8;
+}
+
+.market-buy-price {
+  color: #f1c45c;
+  text-align: right;
+}
+
+.market-buy-status {
+  color: #9bbc0f;
+  text-align: right;
+}
+
+.market-meta-fallback {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55rem;
+  color: #9bbc0f;
+}
+
+@media (max-width: 960px) {
+  .market-hero-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .market-cover-slot,
+  .market-cover,
+  .market-cover-placeholder {
+    width: 112px;
+    min-width: 112px;
+    height: 112px;
+  }
+
+  .market-search-header {
+    display: none;
+  }
+
+  .market-search-row,
+  .market-graph-row,
+  .market-condition-row,
+  .market-compare-row,
+  .market-buy-row {
+    grid-template-columns: 1fr;
+  }
+
+  .market-result-price,
+  .market-buy-price,
+  .market-buy-status,
+  .market-result-score {
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .market-compare-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
