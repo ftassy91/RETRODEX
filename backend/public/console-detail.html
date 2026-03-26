@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RetroDex &mdash; Console</title>
-    <link rel="stylesheet" href="/style.css" />
+    <title>RetroDex - Console</title>
+    <link rel="stylesheet" href="/style.css?v=20260326c" />
   </head>
   <body>
     <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
@@ -16,7 +16,7 @@
         </a>
         <a class="global-product-link is-active" href="/games-list.html">
           <span class="nav-label">RetroDex</span>
-          <span class="nav-copy">fiches | lore | encyclopédie</span>
+          <span class="nav-copy">catalogue | fiches | prix</span>
         </a>
         <a class="global-product-link" href="/collection.html">
           <span class="nav-label">Collections</span>
@@ -29,62 +29,14 @@
       </div>
     </nav>
 
-    <main class="detail-shell">
-      <nav class="breadcrumb detail-breadcrumb">
-        <a href="/hub.html">HUB</a>
-        <span class="sep">&rsaquo;</span>
-        <a href="/consoles.html">CONSOLES</a>
-        <span class="sep">&rsaquo;</span>
-        <span id="console-breadcrumb-name" class="current">&mdash;</span>
-      </nav>
-
-      <section id="console-hero" class="hero-card">
-        <div class="detail-kicker">HARDWARE ARCHIVE</div>
-        <div class="detail-hero-layout">
-          <div id="console-cover-slot" class="detail-cover-slot">
-            <span class="detail-cover-placeholder" id="console-cover-placeholder">?</span>
-          </div>
-          <div class="detail-hero-main">
-            <div class="detail-file-label">CONSOLE FILE</div>
-            <h1 id="console-name" class="detail-title">&mdash;</h1>
-            <div class="detail-hero-chips">
-              <span id="console-maker" class="chip chip--console">&mdash;</span>
-              <span id="console-gen" class="chip">&mdash;</span>
-              <span id="console-type" class="chip">&mdash;</span>
-            </div>
-            <div id="console-years" class="detail-hero-meta"></div>
-          </div>
-        </div>
-      </section>
-
-      <div class="detail-section-separator">
-        <span class="detail-section-label">CATALOGUE</span>
-        <span class="detail-section-hint">jeux indexés · prix · rareté</span>
-      </div>
-
-      <section id="console-stats" class="stats-card">
-        <div class="stats-cards stats-cards-primary" id="console-stats-grid">
-        </div>
-      </section>
-
-      <section id="console-games" class="related-card">
-        <div class="detail-section-head">
-          <div class="detail-inline-label" id="console-games-count">Chargement...</div>
-        </div>
-
-        <div class="terminal-table-header" style="grid-template-columns: 60px 1fr 100px 70px 70px 90px">
-          <span></span>
-          <span>JEU</span>
-          <span>ANNÉE</span>
-          <span style="text-align:right">LOOSE</span>
-          <span style="text-align:right">MINT</span>
-          <span style="text-align:center">RARETÉ</span>
-        </div>
-
-        <div id="console-games-list"></div>
+    <main class="console-shell console-shell--detail">
+      <section id="console-detail-root" class="console-detail-page-root surface-preview-panel">
+        <div class="console-detail-empty">Chargement de la fiche console.</div>
       </section>
     </main>
 
-    <script src="/js/pages/console-detail.js?v=20260325a"></script>
+    <script src="/js/features/console-ui.js?v=20260326c"></script>
+    <script src="/js/features/console-surface.js?v=20260326c"></script>
+    <script src="/js/pages/console-detail.js?v=20260326c"></script>
   </body>
 </html>

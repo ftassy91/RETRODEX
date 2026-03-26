@@ -6762,6 +6762,29 @@ body {
   margin-top: 10px;
 }
 
+.console-detail-page-root,
+.console-detail-page-shell {
+  width: min(1180px, calc(100vw - 40px));
+  margin: 24px auto 40px;
+}
+
+.console-detail-panel-shell {
+  min-height: 480px;
+}
+
+.console-market-quick-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.console-accordion-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .console-section {
   padding-top: 16px;
   border-top: 1px solid rgba(45, 61, 41, 0.42);
@@ -6827,6 +6850,10 @@ body {
   .console-detail-panel {
     max-height: none;
   }
+
+  .console-market-quick-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 768px) {
@@ -6843,6 +6870,10 @@ body {
 
   .console-game-meta {
     text-align: left;
+  }
+
+  .console-market-quick-grid {
+    grid-template-columns: 1fr;
   }
 }
 

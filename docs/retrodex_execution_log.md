@@ -20,6 +20,7 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Decision catalogues figee : DS / 3DS seront traites en `identity-first`, sans ingestion de masse avant provenance, scoring et controles de duplication.
 - Phase 0 en cours : documentation de conformite, architecture cible, scoring et pipeline poses dans `docs/`.
 - Phase 1 en cours : Hub reduit a une entree minimale et recherche globale basculee vers une API backend-first `GET /api/search/global`.
+- Phase 2 engagee : consoles stabilisees comme entites produit avec un contrat backend unique, un hero fixe, des accord eons et des scores de qualite visibles.
 
 ## [2026-03-26 00:45]
 - Sprint en cours : Sprint 1 - audit cible, suivi, simplification globale
@@ -203,3 +204,39 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - la couche consoles front/back reste incoherente et sera traitee au sprint suivant
 - Next step:
   - commit du lot Phase 0 + Phase 1, puis stabilisation de l'entite console et de ses payloads
+
+## [2026-03-26 07:48]
+- Sprint / phase : Phase 2 - consoles de premier rang
+- Actions completed:
+  - creation d'un service backend `console-service` pour unifier la lecture console, les jeux lies, le signal marche, les sources et la qualite
+  - correction du contrat `/api/consoles` vers `{ ok, items, count }`
+  - refonte de `/api/consoles/:id` vers un payload compose : `console`, `overview`, `market`, `games`, `hardware`, `quality`, `sources`, `relatedConsoles`, `notableGames`
+  - remplacement des contournements front par un renderer partage `console-surface.js`
+  - realignement de `consoles.html` et `console-detail.html` sur un bloc principal fixe + accord eons
+  - verification HTTP de `/api/consoles`, `/api/consoles/sat`, `/consoles.html?id=sat` et `/console-detail.html?id=sat`
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+  - `backend/src/services/console-service.js`
+  - `backend/src/routes/consoles.js`
+  - `backend/public/js/features/console-surface.js`
+  - `backend/public/js/pages/consoles.js`
+  - `backend/public/js/pages/console-detail.js`
+  - `backend/public/consoles.html`
+  - `backend/public/console-detail.html`
+  - `backend/public/style.css`
+- Schema or data changes:
+  - aucun changement de schema ecrit dans ce lot
+- Sources evaluated:
+  - `data/consoles.json`
+  - table `consoles`
+  - table `games`
+- Compliance notes:
+  - aucun nouvel asset stocke localement ; uniquement references externes et donnees internes
+- Quality score impact:
+  - premier score console expose dans le payload, en attendant la couche d'audit globale
+- Commits:
+  - en preparation
+- Issues:
+  - certaines consoles restent pauvres en notes curateurs ; elles tombent donc en Tier C/D de maniere explicite
+- Next step:
+  - commit Phase 2, puis ajouter migrations versionnees, couche canonique minimale, scoring global et routes d'audit
