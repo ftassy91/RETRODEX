@@ -658,3 +658,31 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - validation definitive depend du redeploiement Vercel avec ce nouveau commit sur `main`
 - Next step:
   - commit du correctif runtime, push sur `main`, puis re-test des endpoints publics de production
+
+## [2026-03-26 17:28]
+- Sprint / phase : Hotfix production - retrait du chemin Supabase-only par defaut sur Vercel
+- Actions completed:
+  - confirmation locale en mode Vercel simule que le backend restait casse tant que `serverless.js` etait selectionne par simple presence de variables Supabase
+  - changement de strategie : Vercel n'utilise plus les routes Supabase-only par defaut ; elles ne sont actives que si `FORCE_SUPABASE_SERVERLESS=1`
+  - conservation d'une seule logique de runtime par defaut : runtime canonique initialise via Sequelize + migrations
+  - validation locale apres patch en mode `VERCEL=1` : `GET /api/health`, `GET /api/games`, `GET /api/stats`, `GET /api/search/global` repondent tous `200`
+- Files modified:
+  - `backend/src/server.js`
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement de schema
+  - aucune donnee modifiee
+- Sources evaluated:
+  - aucune nouvelle source
+  - validation runtime locale en mode serverless simule
+- Compliance notes:
+  - aucun impact source/compliance
+- Quality score impact:
+  - suppression du backend dual par defaut
+  - meilleur determinisme entre local, integration et Vercel
+- Commits:
+  - a venir apres staging du durcissement final
+- Issues:
+  - la validation finale de production depend encore de la propagation Vercel
+- Next step:
+  - commit, push `main`, puis verifier le redeploiement externe
