@@ -628,3 +628,33 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - la validation finale du correctif en production depend du redeploiement Vercel apres push
 - Next step:
   - commit ciblé du hotfix, push sur `main`, puis verification des endpoints de production
+
+## [2026-03-26 17:24]
+- Sprint / phase : Hotfix production - unification du runtime Vercel
+- Actions completed:
+  - identification du vrai mapping Vercel : `/api/*` est servi par `backend/src/server.js`, pas par `backend/src/routes/serverless.js` directement
+  - constat d'un backend mixte en prod : Vercel montait les routes Supabase serverless des qu'une variable Supabase etait presente, meme quand `DATABASE_URL` etait disponible
+  - ajout dans `server.js` d'une initialisation runtime au cold start pour Vercel quand `DATABASE_URL` existe : authentification Sequelize, migrations canoniques, wiring `db_supabase.setSequelize`, exposition de `app.locals`
+  - changement de selection des routes : si `DATABASE_URL` est present, Vercel utilise maintenant les routes canoniques (`games`, `market`, `collection`, `franchises`) au lieu du chemin legacy `serverless`
+  - correction de `/api/health` pour qu'il remonte l'etat du runtime canonique quand Postgres est disponible au lieu d'interroger Supabase par defaut
+- Files modified:
+  - `backend/src/server.js`
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement de schema
+  - execution des migrations canoniques au cold start Vercel quand le runtime canonique est selectionne
+- Sources evaluated:
+  - aucune nouvelle source externe
+  - audit du mapping Vercel via `vercel.json` racine
+- Compliance notes:
+  - aucun nouvel usage de donnees tierces
+  - correctif purement architecture/runtime
+- Quality score impact:
+  - suppression du double backend incoherent entre local et Vercel
+  - reduction du risque de 500 lies a un schema Supabase partiel alors que le runtime produit attend deja Postgres + read-model canonique
+- Commits:
+  - a venir apres staging cible du correctif runtime
+- Issues:
+  - validation definitive depend du redeploiement Vercel avec ce nouveau commit sur `main`
+- Next step:
+  - commit du correctif runtime, push sur `main`, puis re-test des endpoints publics de production

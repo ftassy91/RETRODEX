@@ -27,9 +27,11 @@ const auditRouter = require('./routes/audit')
 const { runMigrations } = require('./services/migration-runner')
 
 const hasServerlessSupabaseEnv = Boolean(process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL)
-const isServerlessSupabaseRuntime = Boolean(process.env.VERCEL && hasServerlessSupabaseEnv)
+const hasDatabaseUrl = Boolean(process.env.DATABASE_URL)
+const useSupabaseServerlessRoutes = Boolean(process.env.VERCEL && hasServerlessSupabaseEnv && !hasDatabaseUrl)
 
 let legacyRuntime = null
+let runtimeReadyPromise = null
 
 function getLegacyRuntime() {
   if (legacyRuntime) {
@@ -66,6 +68,75 @@ function getLegacyRuntime() {
 }
 
 require('./models/associations')
+
+async function ensureRuntimeReady() {
+  if (runtimeReadyPromise) {
+    return runtimeReadyPromise
+  }
+
+  runtimeReadyPromise = (async () => {
+    const {
+      sequelize,
+      databaseMode,
+      Franchise,
+      Game,
+      syncGamesFromPrototype,
+    } = getLegacyRuntime()
+
+    const dbSupabase = require('../db_supabase')
+    if (dbSupabase.setSequelize) {
+      dbSupabase.setSequelize(sequelize)
+    }
+
+    app.locals.sequelize = sequelize
+    app.locals.databaseMode = databaseMode
+
+    if (databaseMode === 'postgres') {
+      await sequelize.authenticate()
+      await runMigrations(sequelize)
+      return
+    }
+
+    const shouldAlterSchema = process.env.NODE_ENV !== 'production'
+    let effectiveAlter = shouldAlterSchema
+
+    try {
+      await sequelize.sync({ alter: effectiveAlter })
+    } catch (error) {
+      if (effectiveAlter && databaseMode === 'sqlite') {
+        console.warn('[DB] alter sync failed on SQLite, retrying with alter:false')
+        effectiveAlter = false
+        await sequelize.sync({ alter: false })
+      } else {
+        throw error
+      }
+    }
+
+    await ensureGameEncyclopediaColumns()
+    await ensurePriceHistoryTable()
+    await runMigrations(sequelize)
+    await Franchise.sync({ alter: effectiveAlter })
+
+    let shouldBootstrap = true
+
+    try {
+      shouldBootstrap = databaseMode === 'sqlite' && (await Game.count()) === 0
+    } catch (_error) {
+      shouldBootstrap = databaseMode === 'sqlite'
+    }
+
+    if (shouldBootstrap) {
+      await syncGamesFromPrototype()
+    }
+
+    await ensureConsolesSeeded()
+  })().catch((error) => {
+    runtimeReadyPromise = null
+    throw error
+  })
+
+  return runtimeReadyPromise
+}
 
 async function countSupabaseGames() {
   const { count, error } = await supabaseDb
@@ -215,6 +286,16 @@ app.use(cors({
     : '*',
 }))
 app.use(express.json())
+
+app.use(handleAsync(async (_req, _res, next) => {
+  if (!process.env.VERCEL || useSupabaseServerlessRoutes) {
+    return next()
+  }
+
+  await ensureRuntimeReady()
+  return next()
+}))
+
 app.use('/', consolesRouter)
 app.use('/', marketplaceRouter)
 app.use(globalSearchRouter)
@@ -247,7 +328,18 @@ app.get('/api/health', handleAsync(async (_req, res) => {
   let db = process.env.DATABASE_URL ? 'postgres' : 'sqlite'
   let storage = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL || null
 
-  if (supabaseMode === 'supabase') {
+  if (hasDatabaseUrl) {
+    const {
+      Game,
+      storagePath,
+      databaseMode,
+      databaseTarget,
+    } = getLegacyRuntime()
+
+    games = await Game.count().catch(() => 0)
+    database = databaseMode
+    storage = databaseTarget || storagePath
+  } else if (supabaseMode === 'supabase') {
     games = await countSupabaseGames()
     db = 'supabase'
   } else {
@@ -276,7 +368,7 @@ app.get('/api/health', handleAsync(async (_req, res) => {
   })
 }))
 
-if (isServerlessSupabaseRuntime) {
+if (useSupabaseServerlessRoutes) {
   app.use(require('./routes/serverless'))
   app.use('/api/prices', pricesRouter)
 } else {
