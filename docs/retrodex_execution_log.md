@@ -23,6 +23,7 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Phase 2 engagee : consoles stabilisees comme entites produit avec un contrat backend unique, un hero fixe, des accord eons et des scores de qualite visibles.
 - Phase 3 et 4 engagees : migrations versionnees, tables canoniques, scoring qualite, routes d'audit et priorisation d'enrichissement actives.
 - Phase 5 engagee : pipeline d'import `identity-first` pose, DS valide en dry-run conforme, 3DS explicitement bloque tant qu'aucune source approuvee n'est branchee.
+- Lot d'integration suivant ouvert : audit du worktree propre vers `main`, conflits UI/runtime deja inventories, et correction d'un point bloquant structurel ou des modeles utilises au boot (`associations`, `MarketplaceListing`, tables de genres/regions) existaient localement sans etre suivis dans Git.
 - Suite du read-model canonique : les routes catalogue/listes `games`, `api/games`, `api/games/random` et `api/franchises/:slug/games` lisent maintenant les snapshots, l'editorial, les references media et la qualite canoniques.
 - Impact produit : `games-list`, `hub`, `home`, `stats` et les apercus franchise consomment des listes coherentes avec la couche canonique sans changer leur contrat front principal.
 - Reste a faire sur ce sous-chantier : terminer la bascule des surfaces liste encore dependantes de comportements legacy plus anciens, puis traiter le push / merge Git a part a cause du working tree sale hors perimetre.
@@ -526,3 +527,30 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - aucun conflit dans le worktree d'integration apres abort ; l'etat est propre pour une reprise de resolution dediee
 - Next step:
   - commit de suivi documentaire, puis resoudre ces conflits directement dans le worktree propre d'integration si on poursuit la mise sur `main`
+
+## [2026-03-26 15:33]
+- Sprint / phase : Phase Git/runtime - fermeture du boot blocker dans la branche d'integration
+- Actions completed:
+  - verification du worktree d'integration relance apres merge : les conflits UI/runtime restants sont resolus, mais le boot serveur n'etait pas autoportant
+  - identification du vrai blocage : `backend/src/server.js` charge `backend/src/models/associations.js`, qui depend de `MarketplaceListing`, `Genre`, `SubGenre`, `GameGenre` et `GameRegion` ; ces fichiers existaient localement dans le worktree principal mais n'etaient pas suivis par Git
+  - verification que `WishlistItem`, `Edition`, `PriceHistory` et `marketSignals` ne sont pas requis au boot de ce lot et restent donc hors perimetre
+  - validation syntaxique des six fichiers minimaux a embarquer pour rendre la branche d'integration autoportante
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement de schema
+  - aucun changement de donnees
+- Sources evaluated:
+  - aucune nouvelle source
+- Compliance notes:
+  - aucun impact conformite ; correction purement structurelle pour aligner Git avec le runtime effectif
+- Quality score impact:
+  - aucun recalcul
+  - impact indirect positif : la branche d'integration devient verifiable dans un worktree propre au lieu de dependre de fichiers locaux non traces
+- Commits:
+  - en preparation
+- Issues:
+  - la branche `codex/next-work` n'est pas encore autoportante tant que ces six fichiers requis au boot ne sont pas commit/push
+  - l'integration vers `main` ne doit pas reprendre avant que ce point soit corrige
+- Next step:
+  - commit cible des six fichiers modeles/associations sur `codex/next-work`, push, puis injection de ce lot dans `codex/integration-main-retrodex` pour revalidation serveur
