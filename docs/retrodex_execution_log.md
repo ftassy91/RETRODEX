@@ -12,6 +12,8 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Sprint 2 : fiche RetroDex recentree sur un bloc principal fixe, accordeons unifies et panneau encyclopedique fusionne avec equipe + compositeurs.
 - Sprint 3 : passerelles RetroDex <-> RetroMarket clarifiees avec CTA uniques et pre-remplissage URL fiabilise.
 - Sprint 4 : RetroMarket recompose autour d'un bloc principal valeur et de cinq accordeons utiles.
+- QA finale : routes prix verifiees en SQLite, pages `game-detail.html` et `stats.html` servies en HTTP 200, etat vide `Buy` confirme quand aucun listing n'est disponible.
+- Etat de completion : Sprint 1 a 4 termines, Sprint 5 clos par harmonisation finale, QA ciblee et synthese.
 
 ## [2026-03-26 00:45]
 - Sprint en cours : Sprint 1 - audit cible, suivi, simplification globale
@@ -106,3 +108,18 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - pas de blocage technique ; aucun listing actif pour le jeu de test, l'accordeon `Buy` tombe donc proprement en etat vide
 - Prochaine etape :
   - commit Sprint 4, puis finir l'harmonisation finale et le resume de cloture
+
+## [2026-03-26 01:53]
+- Sprint en cours : Sprint 5 - harmonisation finale, QA, synthese
+- Actions realisees :
+  - verification HTTP de `game-detail.html` et `stats.html` sur le jeu de reference
+  - verification API de `/api/prices/:gameId/summary`, `/api/prices/:gameId` et `/marketplace?gameId=...`
+  - consolidation du journal d'execution et du resume cumule depuis 23h
+- Fichiers modifies :
+  - `docs/retrodex_execution_log.md`
+- Commits effectues :
+  - en preparation
+- Blocages :
+  - aucun blocage runtime restant sur le perimetre UX travaille
+- Prochaine etape :
+  - commit final de cloture documentaire puis resume final
