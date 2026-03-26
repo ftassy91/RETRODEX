@@ -5,7 +5,7 @@
 // Décision source : SYNC.md § A3
 
 const { Router } = require('express')
-const { Op } = require('sequelize')
+const { Op, fn, col, where: sqlWhere } = require('sequelize')
 const Game = require('../models/Game')
 const Accessory = require('../models/Accessory')
 const RetrodexIndex = require('../../models/RetrodexIndex')
@@ -53,6 +53,16 @@ function parseItemsOffset(value, defaultValue = 0) {
 
 function buildSearchFetchLimit(value, multiplier = 2, hardCap = 200) {
   return Math.min(Math.max(value * multiplier, value), hardCap)
+}
+
+function normalizeLikeQuery(value) {
+  return String(value || '').trim().toLowerCase()
+}
+
+function buildLike(field, query) {
+  return sqlWhere(fn('LOWER', col(field)), {
+    [Op.like]: `%${normalizeLikeQuery(query)}%`,
+  })
 }
 
 function buildItemsWhere(query = {}) {

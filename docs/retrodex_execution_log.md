@@ -712,3 +712,35 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - la validation definitive depend encore du redeploiement Vercel public
 - Next step:
   - commit, push `main`, puis re-test des endpoints distants
+
+## [2026-03-26 18:06]
+- Sprint / phase : Hotfix production - bootstrap serverless Supabase sans chargement SQLite
+- Actions completed:
+  - analyse des logs Vercel : les `500` sur `/api/health`, `/api/games`, `/api/stats` et `/api/search/global` venaient d'un crash au bootstrap avec `Error: Please install sqlite3 package manually`
+  - identification de la cause precise : `backend/src/routes/prices.js` chargeait `../database` au niveau module, ce qui initialisait Sequelize/SQLite meme en runtime Supabase-only
+  - refactor de `backend/src/routes/prices.js` pour charger `../database` de facon lazy uniquement si le chemin local/canonique est effectivement utilise
+  - correction d'une regression separee sur `backend/src/routes/market.js` : helper `buildLike()` manquant dans `/api/search`
+  - validation locale :
+    - simulation `VERCEL=1` + environnement Supabase-only => chargement de `backend/src/server.js` sans crash SQLite
+    - `GET /api/search?q=ze&limit=3` => `200`
+- Files modified:
+  - `backend/src/routes/prices.js`
+  - `backend/src/routes/market.js`
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement de schema
+  - aucune donnee modifiee
+- Sources evaluated:
+  - aucune nouvelle source
+  - exploitation des logs Vercel fournis par l'utilisateur
+- Compliance notes:
+  - aucun impact source/compliance
+- Quality score impact:
+  - suppression du crash bootstrap serverless lie au chargement accidentel de SQLite
+  - suppression d'un `500` canonique sur `/api/search`
+- Commits:
+  - a venir apres staging cible et push d'integration
+- Issues:
+  - la verification finale depend du redeploiement Vercel de `main`
+- Next step:
+  - commit du hotfix, integrer dans le worktree propre, pousser `main`, puis re-tester la prod publique
