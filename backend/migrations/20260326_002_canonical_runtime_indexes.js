@@ -5,6 +5,14 @@ module.exports = {
   description: 'Add runtime indexes for canonical provenance and observation backfills',
   up: async ({ sequelize }) => {
     await sequelize.query(
+      `DELETE FROM price_observations
+       WHERE id NOT IN (
+         SELECT MIN(id)
+         FROM price_observations
+         GROUP BY source_name, listing_reference
+       )`
+    )
+    await sequelize.query(
       'CREATE UNIQUE INDEX IF NOT EXISTS idx_price_observations_source_listing ON price_observations(source_name, listing_reference)'
     )
     await sequelize.query(

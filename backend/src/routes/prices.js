@@ -17,6 +17,15 @@ const { sequelize, databaseMode } = require('../database');
 const router = Router();
 const USE_SUPABASE = mode === 'supabase';
 
+function tableNamesMatch(tableName, target) {
+  return String(tableName || '').replace(/"/g, '').toLowerCase() === String(target).toLowerCase();
+}
+
+async function tableExists(target) {
+  const tables = await sequelize.getQueryInterface().showAllTables();
+  return (tables || []).some((tableName) => tableNamesMatch(tableName, target));
+}
+
 function isMissingPriceHistoryTable(error) {
   const message = String(error?.message || '').toLowerCase();
   return message.includes('price_history') && (
@@ -66,6 +75,23 @@ async function ensureLocalPriceHistoryTable() {
 }
 
 async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {
+  if (await tableExists('price_observations')) {
+    return sequelize.query(
+      `SELECT price,
+              LOWER(condition) AS condition,
+              observed_at AS sale_date
+       FROM price_observations
+       WHERE game_id = :gameId
+         AND observed_at >= :cutoffStr
+       ORDER BY observed_at DESC
+       LIMIT :limit`,
+      {
+        replacements: { gameId, cutoffStr, limit },
+        type: QueryTypes.SELECT,
+      }
+    );
+  }
+
   await ensureLocalPriceHistoryTable();
 
   return sequelize.query(
@@ -83,14 +109,36 @@ async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {
 }
 
 async function queryLocalPriceSales(gameId, condition = null, limit = 200) {
-  await ensureLocalPriceHistoryTable();
-
   const replacements = { gameId, limit };
   let conditionClause = '';
   if (condition) {
     conditionClause = ' AND condition = :condition';
     replacements.condition = condition;
   }
+
+  if (await tableExists('price_observations')) {
+    return sequelize.query(
+      `SELECT id,
+              game_id,
+              price,
+              LOWER(condition) AS condition,
+              observed_at AS sale_date,
+              source_name AS source,
+              listing_url,
+              listing_reference AS listing_title,
+              observed_at AS created_at
+       FROM price_observations
+       WHERE game_id = :gameId${conditionClause}
+       ORDER BY observed_at DESC
+       LIMIT :limit`,
+      {
+        replacements,
+        type: QueryTypes.SELECT,
+      }
+    );
+  }
+
+  await ensureLocalPriceHistoryTable();
 
   return sequelize.query(
     `SELECT id, game_id, price, condition, sale_date, source, listing_url, listing_title, created_at

@@ -1,11 +1,12 @@
 'use strict'
 
 const { Router } = require('express')
-const { Op, fn, col, where: sqlWhere } = require('sequelize')
+const { Op, fn, col, where: sqlWhere, QueryTypes } = require('sequelize')
 
 const Game = require('../models/Game')
 const Console = require('../models/Console')
 const Franchise = require('../models/Franchise')
+const { sequelize } = require('../database')
 const { handleAsync, parseLimit } = require('../helpers/query')
 
 const router = Router()
@@ -77,6 +78,9 @@ function scoreResult(item, query) {
   total += ({ LEGENDARY: 6, EPIC: 4, RARE: 2, UNCOMMON: 1, COMMON: 0 }[item.meta?.rarity] || 0)
   if (item.meta?.synopsis || item.meta?.summary) total += 3
   if (item.meta?.metascore) total += 2
+  if (Number(item.meta?.qualityScore) > 0) total += Math.round(Number(item.meta.qualityScore) / 20)
+  if (item.meta?.qualityTier === 'Tier A') total += 4
+  if (item.meta?.qualityTier === 'Tier B') total += 2
   if (item.type !== 'game' && total < 20) total -= 5
 
   return Math.max(0, Math.min(100, total))
@@ -111,7 +115,36 @@ async function loadConsoleCounts() {
   return { byConsoleId, byConsoleName }
 }
 
-function createGameResult(game, context) {
+async function loadQualityMap(entityType, entityIds = []) {
+  const ids = Array.from(new Set(entityIds.filter(Boolean).map((value) => String(value))))
+  if (!ids.length) {
+    return new Map()
+  }
+
+  try {
+    const rows = await sequelize.query(
+      `SELECT entity_id AS entityId,
+              overall_score AS overallScore,
+              tier
+       FROM quality_records
+       WHERE entity_type = :entityType
+         AND entity_id IN (:ids)`,
+      {
+        replacements: {
+          entityType,
+          ids,
+        },
+        type: QueryTypes.SELECT,
+      }
+    )
+
+    return new Map(rows.map((row) => [String(row.entityId), row]))
+  } catch (_error) {
+    return new Map()
+  }
+}
+
+function createGameResult(game, context, quality = null) {
   const marketHref = `/stats.html?q=${encodeURIComponent(game.title)}`
   const detailHref = `/game-detail.html?id=${encodeURIComponent(game.id)}`
 
@@ -137,11 +170,13 @@ function createGameResult(game, context) {
       loosePrice: game.loosePrice ?? game.loose_price ?? null,
       cibPrice: game.cibPrice ?? game.cib_price ?? null,
       mintPrice: game.mintPrice ?? game.mint_price ?? null,
+      qualityScore: Number(quality?.overallScore || 0) || null,
+      qualityTier: quality?.tier || null,
     },
   }
 }
 
-function createConsoleResult(consoleItem, count) {
+function createConsoleResult(consoleItem, count, quality = null) {
   return {
     id: `console-${consoleItem.id}`,
     type: 'console',
@@ -156,6 +191,8 @@ function createConsoleResult(consoleItem, count) {
       manufacturer: consoleItem.manufacturer || null,
       year: consoleItem.releaseYear ?? null,
       gamesCount: count || 0,
+      qualityScore: Number(quality?.overallScore || 0) || null,
+      qualityTier: quality?.tier || null,
     },
   }
 }
@@ -217,7 +254,10 @@ async function fetchGameResults(query, context, limit) {
     limit: Math.max(limit * 3, 20),
   })
 
-  return rows.map((game) => createGameResult(game.get({ plain: true }), context))
+  const plainRows = rows.map((game) => game.get({ plain: true }))
+  const qualityMap = await loadQualityMap('game', plainRows.map((game) => game.id))
+
+  return plainRows.map((game) => createGameResult(game, context, qualityMap.get(String(game.id)) || null))
 }
 
 async function fetchConsoleResults(query, limit) {
@@ -240,12 +280,14 @@ async function fetchConsoleResults(query, limit) {
     loadConsoleCounts(),
   ])
 
-  return rows.map((consoleItem) => {
-    const plain = consoleItem.get({ plain: true })
+  const plainRows = rows.map((consoleItem) => consoleItem.get({ plain: true }))
+  const qualityMap = await loadQualityMap('console', plainRows.map((consoleItem) => consoleItem.id))
+
+  return plainRows.map((plain) => {
     const count = counts.byConsoleId.get(String(plain.id))
       || counts.byConsoleName.get(String(plain.name))
       || 0
-    return createConsoleResult(plain, count)
+    return createConsoleResult(plain, count, qualityMap.get(String(plain.id)) || null)
   })
 }
 

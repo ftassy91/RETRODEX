@@ -14,31 +14,19 @@ process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
   || process.env.SUPERDATA_SERVICE_KEY
 process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
 
-const { getGameById } = require('../../db_supabase')
 const { handleAsync } = require('../helpers/query')
 const { buildPriceHistoryPayload } = require('../helpers/priceHistory')
+const { getHydratedGameById } = require('../services/game-read-service')
 const {
   toGameSummary,
   parseStoredJson,
-  findGameById,
   fetchSeedPriceHistory,
-  normalizeGameRecord,
 } = require('./games-helpers')
 
 const router = Router()
 
 router.get('/api/games/:id/archive', handleAsync(async (req, res) => {
-  const game = await Game.findOne({
-    where: { id: req.params.id },
-    attributes: [
-      'id', 'title',
-      'manual_url', 'lore', 'gameplay_description',
-      'characters', 'versions',
-      'ost_composers', 'ost_notable_tracks',
-      'avg_duration_main', 'avg_duration_complete',
-      'speedrun_wr'
-    ]
-  })
+  const game = await getHydratedGameById(req.params.id)
 
   if (!game) return res.status(404).json({ ok: false, error: 'Game not found' })
 
@@ -69,7 +57,7 @@ router.get('/api/games/:id/archive', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games/:id', handleAsync(async (req, res) => {
-  const game = normalizeGameRecord(await getGameById(req.params.id))
+  const game = await getHydratedGameById(req.params.id)
   if (!game) {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
@@ -78,7 +66,7 @@ router.get('/api/games/:id', handleAsync(async (req, res) => {
 
 router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
   const [game, reports, indexEntries, seedHistory] = await Promise.all([
-    findGameById(req.params.id),
+    getHydratedGameById(req.params.id),
     CommunityReport.findAll({
       where: {
         item_id: req.params.id,
@@ -105,7 +93,7 @@ router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games/:id/summary', handleAsync(async (req, res) => {
-  const game = await findGameById(req.params.id)
+  const game = await getHydratedGameById(req.params.id)
 
   if (!game) {
     return res.status(404).json({ ok: false, error: 'Game not found' })
@@ -115,9 +103,7 @@ router.get('/api/games/:id/summary', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games/:id/encyclopedia', handleAsync(async (req, res) => {
-  const game = await Game.findByPk(req.params.id, {
-    attributes: ['id', 'synopsis', 'dev_anecdotes', 'dev_team', 'cheat_codes'],
-  })
+  const game = await getHydratedGameById(req.params.id)
 
   if (!game) {
     return res.status(404).json({ ok: false, error: 'Game not found' })
