@@ -14,6 +14,12 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
 - Sprint 4 : RetroMarket recompose autour d'un bloc principal valeur et de cinq accordeons utiles.
 - QA finale : routes prix verifiees en SQLite, pages `game-detail.html` et `stats.html` servies en HTTP 200, etat vide `Buy` confirme quand aucun listing n'est disponible.
 - Etat de completion : Sprint 1 a 4 termines, Sprint 5 clos par harmonisation finale, QA ciblee et synthese.
+- Nouveau chantier ouvert a 07:12 : extension du perimetre vers la plateforme produit + data, avec Hub minimal, recherche globale unifiee, consoles de premier rang, architecture canonique SQLite, scoring qualite, audit et pipeline d'enrichissement conforme.
+- Decision de travail figee : `backend/` est la seule application cible ; `RETRODEXseedV0/prototype_v0` reste hors scope execution.
+- Decision data figee : SQLite devient la base canonique pendant la refonte ; Supabase reste une cible miroir/compatibilite tant que les migrations et l'audit ne sont pas stabilises.
+- Decision catalogues figee : DS / 3DS seront traites en `identity-first`, sans ingestion de masse avant provenance, scoring et controles de duplication.
+- Phase 0 en cours : documentation de conformite, architecture cible, scoring et pipeline poses dans `docs/`.
+- Phase 1 en cours : Hub reduit a une entree minimale et recherche globale basculee vers une API backend-first `GET /api/search/global`.
 
 ## [2026-03-26 00:45]
 - Sprint en cours : Sprint 1 - audit cible, suivi, simplification globale
@@ -123,3 +129,77 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - aucun blocage runtime restant sur le perimetre UX travaille
 - Prochaine etape :
   - commit final de cloture documentaire puis resume final
+
+## [2026-03-26 07:12]
+- Sprint / phase : Phase 0 - conformite, architecture cible, shell produit
+- Actions completed:
+  - audit du shell actif `hub`, `search`, `consoles`, `console-detail`
+  - audit du schema SQLite reel, du schema Supabase legacy et des scripts d'enrichissement existants
+  - confirmation des faiblesses structurelles : Hub trop bruyant, recherche non unifiee, consoles front/back incoherents, table `games` trop melangee, scripts data trop ad hoc
+  - formalisation du plan d'execution plateforme produit + data
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement ecrit a ce stade
+- Sources evaluated:
+  - eBay Developer
+  - PriceCharting
+  - IGDB / Twitch
+  - Internet Archive
+- Compliance notes:
+  - eBay valide comme source API officielle pour listings et observations minimales
+  - PriceCharting a traiter uniquement sous licence/API payante et citation explicite
+  - IGDB a traiter comme `approved_with_review` pour metadata + URLs externes
+  - Internet Archive a traiter en `reference_only` tant qu'aucune revue juridique explicite n'est faite
+- Quality score impact:
+  - aucun score encore implemente, seulement le cadrage
+- Commits:
+  - aucun
+- Issues:
+  - working tree tres sale hors perimetre
+  - secrets visibles dans les artefacts locaux a traiter sans embarquer les valeurs
+- Next step:
+  - creer la documentation de reference, minimaliser Hub, basculer la recherche vers une API globale backend-first, puis committer le premier lot
+
+## [2026-03-26 07:25]
+- Sprint / phase : Phase 0 + Phase 1 - documentation, Hub, recherche globale
+- Actions completed:
+  - creation des docs `source-compliance-matrix`, `data-architecture`, `enrichment-pipeline`, `audit-scoring-model`
+  - creation du dossier `backend/migrations/` pour geler le principe de migrations versionnees
+  - ajout d'une route backend-first `GET /api/search/global`
+  - remplacement du Hub par une entree minimale : titre + search bar uniquement
+  - simplification de `search.html` autour d'un seul champ et de resultats globaux
+  - bascule de `search-core.js` de l'index navigateur vers l'API backend
+  - validation runtime de `/api/search/global`, `/hub.html` et `/search.html`
+- Files modified:
+  - `docs/retrodex_execution_log.md`
+  - `docs/source-compliance-matrix.md`
+  - `docs/data-architecture.md`
+  - `docs/enrichment-pipeline.md`
+  - `docs/audit-scoring-model.md`
+  - `backend/migrations/README.md`
+  - `backend/public/hub.html`
+  - `backend/public/search.html`
+  - `backend/public/js/core/search-core.js`
+  - `backend/public/js/pages/search.js`
+  - `backend/src/routes/global-search.js`
+  - `backend/src/server.js`
+- Schema or data changes:
+  - aucun changement de schema ecrit, seulement la preparation documentaire et le point d'entree `backend/migrations/`
+- Sources evaluated:
+  - eBay Developer
+  - PriceCharting
+  - IGDB / Twitch
+  - Internet Archive
+- Compliance notes:
+  - matrice source explicite ajoutee
+  - politique `approved` / `approved_with_review` / `reference_only` / `blocked` formalisee
+- Quality score impact:
+  - aucun calcul encore branche, mais le modele est documente et fige
+- Commits:
+  - en preparation
+- Issues:
+  - l'encodage legacy de certains fichiers publics reste heterogene
+  - la couche consoles front/back reste incoherente et sera traitee au sprint suivant
+- Next step:
+  - commit du lot Phase 0 + Phase 1, puis stabilisation de l'entite console et de ses payloads

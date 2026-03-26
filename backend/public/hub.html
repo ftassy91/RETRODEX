@@ -10,279 +10,37 @@
   <meta name="apple-mobile-web-app-title" content="RetroDex">
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="icon" type="image/png" href="/icons/icon-192.png">
-  <title>RetroDex - Hub</title>
-  <meta name="description" content="Terminal du collectionneur retro. Prix marche, encyclopedie, collection personnelle.">
-  <meta property="og:title" content="Hub | RetroDex">
-  <meta property="og:description" content="Terminal du collectionneur retro. Prix marche, encyclopedie, collection personnelle.">
+  <title>RETRODEX</title>
+  <meta name="description" content="Point d'entree RetroDex.">
+  <meta property="og:title" content="RETRODEX">
+  <meta property="og:description" content="Point d'entree RetroDex.">
   <meta property="og:type" content="website">
   <meta name="robots" content="index, follow">
-  <link rel="stylesheet" href="/style.css?v=20260324d">
+  <link rel="stylesheet" href="/style.css?v=20260326b">
 </head>
 <body class="hub-page">
-  <nav class="breadcrumb hub-breadcrumb">
-    <span class="current">HUB</span>
-  </nav>
-
-  <main class="hub-page hub-orientation-page">
-    <section class="hub-orientation-head">
-      <div class="hub-identity-panel">
-        <div class="hub-kicker">COLLECTOR ORIENTATION</div>
-        <h1 class="page-title hub-page-title">RETRODEX</h1>
-        <p class="hub-intro">
-          Le terminal du collectionneur pour s'orienter rapidement entre marche, connaissance,
-          suivi personnel et exploration transverse.
-        </p>
-        <div class="hub-system-line">
-          <span class="hub-system-label">ARCHIVE STATUS</span>
-          <span id="hub-tagline">1491 jeux - prix de marche - encyclopedie - 15 franchises</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="hub-universe-grid" aria-label="Entrees principales">
-      <article class="hub-universe-card hub-universe-market">
-        <div class="hub-universe-head">
-          <div>
-            <div class="hub-universe-kicker">01 - MARKET INTELLIGENCE</div>
-            <h2 class="hub-universe-title">RETROMARKET</h2>
-          </div>
-          <div class="hub-universe-signal" id="universe-market-signal">Lecture du marche...</div>
-        </div>
-        <p class="hub-universe-copy">
-          Lire les prix, la confiance des sources, les reperes de valeur et les signaux du marche collector.
-        </p>
-        <div class="hub-universe-list">
-          <span>Prix loose, CIB, mint</span>
-          <span>Tiers de confiance T1 a T4</span>
-          <span>Lectures de rarete et reperes de valeur</span>
-        </div>
-        <div class="hub-universe-actions">
-          <a class="terminal-action-link" href="/stats.html">Ouvrir RetroMarket -></a>
-          <a class="hub-inline-link" href="/games-list.html?sort=loose_desc">Catalogue marche -></a>
-        </div>
-      </article>
-
-      <article class="hub-universe-card hub-universe-dex">
-        <div class="hub-universe-head">
-          <div>
-            <div class="hub-universe-kicker">02 - KNOWLEDGE AND MEMORY</div>
-            <h2 class="hub-universe-title">RETRODEX</h2>
-          </div>
-          <div class="hub-universe-signal" id="universe-dex-signal">Lecture des dossiers...</div>
-        </div>
-        <p class="hub-universe-copy">
-          Explorer les jeux comme des archives culturelles : synopsis, anecdotes, equipes, franchises et reperes historiques.
-        </p>
-        <div class="hub-universe-list">
-          <span>Encyclopedie des jeux enrichis</span>
-          <span>Franchises et lignages</span>
-          <span>Contextes editoriaux et trivia</span>
-        </div>
-        <div class="hub-universe-actions">
-          <a class="terminal-action-link" href="/encyclopedia.html">Ouvrir RetroDex -></a>
-          <a class="hub-inline-link" href="/franchises.html">Franchises -></a>
-        </div>
-      </article>
-
-      <article class="hub-universe-card hub-universe-collections">
-        <div class="hub-universe-head">
-          <div>
-            <div class="hub-universe-kicker">03 - PERSONAL TRACKING</div>
-            <h2 class="hub-universe-title">COLLECTIONS</h2>
-          </div>
-          <div class="hub-universe-signal" id="universe-collection-signal">Lecture de l etagere...</div>
-        </div>
-        <p class="hub-universe-copy">
-          Suivre votre collection, votre wishlist, le prix paye et la valeur estimee dans une logique d'etagere vivante.
-        </p>
-        <div class="hub-universe-list">
-          <span>Collection et wishlist</span>
-          <span>Valeur loose, CIB, mint</span>
-          <span>Suivi personnel et ecarts de prix</span>
-        </div>
-        <div class="hub-universe-actions">
-          <a class="terminal-action-link" href="/collection.html">Ouvrir Collections -></a>
-          <a class="hub-inline-link" href="/search.html">Ajouter via recherche -></a>
-        </div>
-      </article>
-
-      <article class="hub-universe-card hub-universe-search">
-        <div class="hub-universe-head">
-          <div>
-            <div class="hub-universe-kicker">04 - TRANSVERSE ENTRY</div>
-            <h2 class="hub-universe-title">RECHERCHE</h2>
-          </div>
-          <div class="hub-universe-signal" id="universe-search-signal">Lecture de l index...</div>
-        </div>
-        <p class="hub-universe-copy">
-          Entree transverse du systeme pour trouver rapidement un jeu, une franchise, un signal marche ou une piste de collection.
-        </p>
-        <form class="hub-search-form surface-query-shell" action="/search.html" method="get">
-          <input id="hub-search-input" class="hub-search-input" type="search" name="q" placeholder="titre, console, franchise, annee..." aria-label="Rechercher un jeu, une console..." autocomplete="off" spellcheck="false">
-          <button class="hub-search-button" type="submit">RECHERCHER</button>
+  <main class="page-wrapper" style="min-height:100vh;display:flex;align-items:center;justify-content:center;">
+    <section style="width:min(720px,100%);display:grid;gap:1rem;">
+      <div class="terminal-context" style="padding-left:0;">HUB</div>
+      <div class="terminal-preview-panel surface-preview-panel" style="display:block;padding:2rem;">
+        <div class="terminal-preview-label">ENTRY POINT</div>
+        <div class="terminal-preview-title" style="font-size:clamp(2rem,6vw,4rem);line-height:1;">RETRODEX</div>
+        <form class="surface-query-shell" action="/search.html" method="get" style="margin-top:1rem;">
+          <input
+            id="hub-search-input"
+            class="hub-search-input"
+            type="search"
+            name="q"
+            placeholder="titre, console, franchise..."
+            aria-label="Rechercher"
+            autocomplete="off"
+            autofocus
+            spellcheck="false"
+          >
+          <button class="hub-search-button" type="submit">ENTRER</button>
         </form>
-        <div class="surface-query-helper hub-search-helper">
-          Entree RM-1 : identite de requete, signal principal, puis redirection vers la surface la plus pertinente.
-        </div>
-        <div class="hub-universe-list is-search">
-          <span>Traverse tout RetroDex</span>
-          <span>Oriente vers marche, fiches et franchises</span>
-          <span>Point d'entree le plus rapide</span>
-        </div>
-        <div class="hub-universe-actions">
-          <a class="terminal-action-link" href="/search.html">Ouvrir Recherche -></a>
-          <a class="hub-inline-link" href="/game-detail.html?id=panzer-dragoon-saga-sega-saturn">Fiche guidee -></a>
-        </div>
-      </article>
-    </section>
-
-    <section class="hub-intent-panel" aria-label="Recommandations par profil">
-      <div class="hub-intent-head">
-        <div>
-          <div class="hub-module-kicker">START PATHS</div>
-          <h2 class="hub-module-title">Ou commencer selon votre profil</h2>
-        </div>
-        <div class="hub-module-copy">
-          Couche d'orientation rapide pour comprendre quel univers ouvre le mieux RetroDex.
-        </div>
       </div>
-
-      <div class="hub-intent-grid">
-        <div class="hub-intent-card">
-          <span class="hub-intent-label">Collectionneur</span>
-          <div class="hub-intent-copy">Commencer par la valeur, puis revenir a l'etagere personnelle.</div>
-          <div class="hub-intent-links">
-            <a href="/stats.html">RetroMarket</a>
-            <a href="/collection.html">Collections</a>
-          </div>
-        </div>
-        <div class="hub-intent-card">
-          <span class="hub-intent-label">Passionne</span>
-          <div class="hub-intent-copy">Aller vers la connaissance, les franchises et les lectures longues.</div>
-          <div class="hub-intent-links">
-            <a href="/encyclopedia.html">RetroDex</a>
-            <a href="/franchises.html">Franchises</a>
-          </div>
-        </div>
-        <div class="hub-intent-card">
-          <span class="hub-intent-label">Curieux</span>
-          <div class="hub-intent-copy">Traverser le systeme par la recherche et les signaux de decouverte.</div>
-          <div class="hub-intent-links">
-            <a href="/search.html">Recherche</a>
-            <a href="/encyclopedia.html">Decouvertes</a>
-          </div>
-        </div>
-        <div class="hub-intent-card">
-          <span class="hub-intent-label">Neophyte</span>
-          <div class="hub-intent-copy">Prendre une entree guidee avant de naviguer vers les autres univers.</div>
-          <div class="hub-intent-links">
-            <a href="/search.html">Recherche</a>
-            <a href="/game-detail.html?id=panzer-dragoon-saga-sega-saturn">Fiche guidee</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="hub-secondary-grid">
-      <div class="hub-secondary-main">
-        <section class="hub-module legendary-section">
-          <div class="hub-module-head">
-            <div>
-              <div class="hub-module-kicker">SECONDARY SPOTLIGHT</div>
-              <h2 class="hub-module-title">Top Legendary</h2>
-            </div>
-            <a href="/games-list.html" class="hub-module-link">CATALOGUE -></a>
-          </div>
-          <p class="hub-module-copy">Selection editoriale secondaire : vitrine des jeux les plus rares, utile pour explorer le haut du marche.</p>
-          <div id="legendary-grid" class="legendary-grid"></div>
-        </section>
-
-        <section class="hub-module hub-section">
-          <div class="hub-module-head">
-            <div>
-              <div class="hub-module-kicker">SECONDARY MEMORY</div>
-              <h2 class="hub-module-title">Apercu Encyclopedie</h2>
-            </div>
-            <a href="/encyclopedia.html" class="hub-module-link">RETRODEX -></a>
-          </div>
-          <p class="hub-module-copy">
-            Extraits de lecture pour ouvrir rapidement la couche connaissance sans concurrencer les entrees principales.
-          </p>
-          <div class="hub-encyclo-grid" id="hub-encyclo-preview"></div>
-        </section>
-      </div>
-
-      <aside class="hub-secondary-side">
-        <section class="hub-module hub-signals-panel">
-          <div class="hub-module-head">
-            <div>
-              <div class="hub-module-kicker">SYSTEM CREDIBILITY</div>
-              <h2 class="hub-module-title">Signaux de reference</h2>
-            </div>
-          </div>
-
-          <div class="hub-stats hub-stats-secondary">
-            <div class="hub-stat is-primary"><span class="val" id="stat-games">-</span><span class="lbl">JEUX</span></div>
-            <div class="hub-stat"><span class="val" id="stat-consoles">-</span><span class="lbl">CONSOLES</span></div>
-            <div class="hub-stat is-primary"><span class="val" id="stat-collection">-</span><span class="lbl">COLLECTION</span></div>
-            <div class="hub-stat"><span class="val" id="stat-meta">-</span><span class="lbl">AVG LOOSE</span></div>
-          </div>
-
-          <div class="hub-system-grid">
-            <div class="hub-system-row">
-              <span class="hub-system-key">Runtime</span>
-              <span class="hub-system-value" id="hub-runtime-line">Lecture du runtime...</span>
-            </div>
-            <div class="hub-system-row">
-              <span class="hub-system-key">Usage</span>
-              <span class="hub-system-value">Orientation -> action -> lecture -> suivi</span>
-            </div>
-            <div class="hub-system-row">
-              <span class="hub-system-key">Raccourci</span>
-              <span class="hub-system-value">[/] focus Recherche</span>
-            </div>
-          </div>
-          <div class="hub-system-actions">
-            <a href="/about.html" class="hub-action-inline">A PROPOS</a>
-            <a href="/api/health" class="hub-action-inline">API HEALTH</a>
-          </div>
-        </section>
-
-        <section class="hub-module collection-preview">
-          <div class="hub-module-head">
-            <div>
-              <div class="hub-module-kicker">SHELF SNAPSHOT</div>
-              <h2 class="hub-module-title">Collection actuelle</h2>
-            </div>
-            <a href="/collection.html" class="hub-module-link">COLLECTIONS -></a>
-          </div>
-          <p class="hub-module-copy">Etat secondaire de l'etagere personnelle, pour verifier rapidement ce qui est deja suivi.</p>
-          <div class="coll-items" id="coll-items"><span class="coll-empty">Lecture de l etagere...</span></div>
-        </section>
-      </aside>
     </section>
   </main>
-
-  <footer class="hub-footer-bar">
-    <span id="footer-status">RetroDex</span>
-    <span id="footer-db"></span>
-    <span class="footer-attribution hub-footer-attribution">
-      Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
-    </span>
-  </footer>
-
-  <script src="/js/core/config.js"></script>
-  <script src="/js/core/dom.js"></script>
-  <script src="/js/core/format.js"></script>
-  <script src="/js/core/api.js"></script>
-  <script src="/js/core/state.js"></script>
-  <script src="/js/core/search-core.js?v=20260324"></script>
-  <script src="/js/pages/hub.js?v=20260324c"></script>
-  <script src="/js/features/experience-layer.js"></script>
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    if (window.RetroDexSearch) window.RetroDexSearch.preload();
-  });
-  </script>
 </body>
 </html>

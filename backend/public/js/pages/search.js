@@ -115,7 +115,8 @@
     return item.meta?.tagline || item.meta?.summary || item.meta?.synopsis || '';
   }
 
-  function buildActionLabel(item) {
+  function buildActionLabel(item, context) {
+    if (context === 'retromarket' && item.type === 'game') return 'Voir le prix ->';
     if (item.type === 'franchise') return 'Voir franchise ->';
     if (item.type === 'console') return 'Voir console ->';
     return 'Voir fiche ->';
@@ -283,7 +284,7 @@
 
       const action = document.createElement('span');
       action.className = 'sc-action';
-      action.textContent = buildActionLabel(item);
+      action.textContent = buildActionLabel(item, context);
       row.appendChild(action);
 
       resultsEl.appendChild(row);

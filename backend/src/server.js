@@ -19,6 +19,7 @@ const { handleAsync } = require('./helpers/query')
 
 const pricesRouter = require('./routes/prices')
 const contextualSearchRouter = require('./routes/contextual-search')
+const globalSearchRouter = require('./routes/global-search')
 const consolesRouter = require('./routes/consoles')
 const marketplaceRouter = require('./routes/marketplace')
 
@@ -139,6 +140,7 @@ app.use(cors({
 app.use(express.json())
 app.use('/', consolesRouter)
 app.use('/', marketplaceRouter)
+app.use(globalSearchRouter)
 app.use(express.static(path.join(__dirname, '..', 'public')))
 app.use(contextualSearchRouter)
 
