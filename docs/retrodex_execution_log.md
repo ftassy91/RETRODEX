@@ -776,3 +776,52 @@ Document de suivi de la refonte UX executee sur l'application servie sous `backe
   - la verification finale depend de la propagation Vercel du nouveau commit
 - Next step:
   - push du correctif sur `main`, puis re-test live des endpoints publics
+
+## [2026-03-26 18:48]
+- Sprint / phase : Hotfix production - encyclopedie detail, covers et repositionnement UI
+- Actions completed:
+  - identification du second lot de regression en prod :
+    - `/api/games/:id/archive` et `/api/games/:id/encyclopedia` absents du runtime serverless, ce qui supprimait completement l'accordeon encyclopedie sur `game-detail.html`
+    - covers non remontees de facon robuste en runtime Supabase
+    - icone support console mal injectee dans `search.html`, `games-list.html` et le hero de `game-detail.html`, provoquant un chevauchement visuel
+  - ajout des endpoints serverless `/api/games/:id/archive` et `/api/games/:id/encyclopedia`
+  - ajout d'un fallback `media_references` pour hydrater les covers quand `cover_url` n'est pas disponible directement dans `games`
+  - normalisation des champs cover cote `db_supabase`
+  - reintroduction d'un parcours encyclopedique robuste cote front :
+    - sections `SYNOPSIS`, `LORE`, `PERSONNAGES`, `CASTING DEV`, `OST`, `ASTUCES / CODES`, `RECORD`
+    - fallback sur `currentGame` si les endpoints encyclopediques ne remontent qu'une partie des donnees
+    - duree de vie deplacee dans `SYNOPSIS`
+  - deplacement de l'icone support hors des zones de collision dans la recherche, le catalogue et le hero detail
+  - cache-busting ajoute sur `game-detail.html`, `search.html` et `games-list.html`
+- Files modified:
+  - `backend/db_supabase.js`
+  - `backend/src/routes/serverless.js`
+  - `backend/src/services/game-read-service.js`
+  - `backend/public/js/pages/game-detail.js`
+  - `backend/public/js/pages/search.js`
+  - `backend/public/js/renderGameRow.js`
+  - `backend/public/style.css`
+  - `backend/public/game-detail.html`
+  - `backend/public/search.html`
+  - `backend/public/games-list.html`
+  - `docs/retrodex_execution_log.md`
+- Schema or data changes:
+  - aucun changement de schema
+  - aucun changement destructif de donnees
+  - enrichissement runtime uniquement
+- Sources evaluated:
+  - aucune nouvelle source externe
+  - verification basee sur retours visuels utilisateur + endpoints publics
+- Compliance notes:
+  - aucun nouvel usage de source ou d'asset proteges
+  - fallback cover limite aux references deja presentes en base
+- Quality score impact:
+  - restauration de la profondeur encyclopedique attendue sur la fiche jeu
+  - diminution du risque de regressions visuelles sur recherche/catalogue/detail
+  - runtime serverless plus coherent avec le front public actuel
+- Commits:
+  - en attente
+- Issues:
+  - la presence effective de vrai boxart en prod depend encore des URLs reelles stockees en base Supabase
+- Next step:
+  - commit cible, push sur `main`, puis re-test live de `search.html?q=zelda`, `games-list.html`, `game-detail.html?id=metal-slug-neo-geo`, `/api/games/:id/archive` et `/api/games/:id/encyclopedia`

@@ -63,6 +63,92 @@ function normalizeGameRecord(game) {
     loosePrice: game.loosePrice ?? game.loose_price ?? null,
     cibPrice: game.cibPrice ?? game.cib_price ?? null,
     mintPrice: game.mintPrice ?? game.mint_price ?? null,
+    cover_url: game.cover_url ?? game.coverImage ?? game.coverimage ?? null,
+    coverImage: game.coverImage ?? game.cover_url ?? game.coverimage ?? null,
+  }
+}
+
+async function fetchGameMediaMap(gameIds = []) {
+  const uniqueIds = Array.from(new Set((gameIds || []).filter(Boolean).map((value) => String(value))))
+  if (!uniqueIds.length) {
+    return new Map()
+  }
+
+  const { data, error } = await db
+    .from('media_references')
+    .select('entity_id,media_type,url')
+    .eq('entity_type', 'game')
+    .in('entity_id', uniqueIds)
+
+  if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return new Map()
+    }
+    throw new Error(error.message)
+  }
+
+  const mediaMap = new Map()
+  for (const row of data || []) {
+    const gameId = String(row.entity_id || '')
+    if (!gameId) {
+      continue
+    }
+
+    if (!mediaMap.has(gameId)) {
+      mediaMap.set(gameId, {})
+    }
+
+    mediaMap.get(gameId)[String(row.media_type || '').toLowerCase()] = row.url
+  }
+
+  return mediaMap
+}
+
+async function hydrateGameCovers(items = []) {
+  const mediaMap = await fetchGameMediaMap(items.map((item) => item?.id))
+  return items.map((item) => {
+    const normalized = normalizeGameRecord(item)
+    const media = mediaMap.get(String(normalized?.id || '')) || {}
+    const coverUrl = media.cover || normalized.cover_url || normalized.coverImage || null
+    return {
+      ...normalized,
+      cover_url: coverUrl,
+      coverImage: coverUrl,
+    }
+  })
+}
+
+function buildArchivePayload(game) {
+  const item = normalizeGameRecord(game) || {}
+  return {
+    ok: true,
+    id: item.id,
+    title: item.title,
+    manual_url: item.manual_url || null,
+    lore: item.lore || null,
+    gameplay_description: item.gameplay_description || null,
+    characters: parseStoredJson(item.characters),
+    versions: parseStoredJson(item.versions),
+    ost: {
+      composers: parseStoredJson(item.ost_composers),
+      notable_tracks: parseStoredJson(item.ost_notable_tracks),
+    },
+    duration: {
+      main: item.avg_duration_main ?? null,
+      complete: item.avg_duration_complete ?? null,
+    },
+    speedrun_wr: parseStoredJson(item.speedrun_wr),
+  }
+}
+
+function buildEncyclopediaPayload(game) {
+  const item = normalizeGameRecord(game) || {}
+  return {
+    ok: true,
+    synopsis: item.synopsis ?? item.summary ?? null,
+    dev_anecdotes: parseStoredJson(item.dev_anecdotes) || [],
+    dev_team: parseStoredJson(item.dev_team) || [],
+    cheat_codes: parseStoredJson(item.cheat_codes) || [],
   }
 }
 
@@ -219,6 +305,8 @@ function toItemPayload(game) {
     loosePrice: item.loosePrice,
     cibPrice: item.cibPrice,
     mintPrice: item.mintPrice,
+    coverImage: item.coverImage || item.cover_url || null,
+    cover_url: item.cover_url || item.coverImage || null,
     synopsis: item.synopsis || null,
     summary: item.summary || null,
   }
@@ -768,7 +856,7 @@ async function fetchCollectionItem(gameId) {
 async function fetchCollectionGame(gameId) {
   const { data, error } = await db
     .from('games')
-    .select('id,title,console,year,rarity,loose_price,cib_price,mint_price')
+    .select('id,title,console,year,rarity,cover_url,coverImage,summary,synopsis,loose_price,cib_price,mint_price')
     .eq('id', gameId)
     .eq('type', 'game')
     .limit(1)
@@ -802,7 +890,8 @@ function serializeCollectionItem(item, game) {
       console: game.console,
       platform: game.console,
       year: game.year,
-      image: null,
+      image: game.coverImage || game.cover_url || null,
+      coverImage: game.coverImage || game.cover_url || null,
       rarity: game.rarity,
       loosePrice: game.loosePrice,
       cibPrice: game.cibPrice,
@@ -887,11 +976,11 @@ router.get('/api/games', handleAsync(async (req, res) => {
     .map(normalizeGameRecord)
     .sort((left, right) => compareGamesForSort(left, right, req.query.sort))
   const total = filteredItems.length
-  const items = filteredItems.slice(offset, offset + limit).map((item) => (
+  const items = await hydrateGameCovers(filteredItems.slice(offset, offset + limit).map((item) => (
     includeTrend
       ? { ...item, trend: null }
       : item
-  ))
+  )))
 
   res.json({
     items,
@@ -901,13 +990,33 @@ router.get('/api/games', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games/:id', handleAsync(async (req, res) => {
-  const game = normalizeGameRecord(await getGameById(req.params.id))
+  const [game] = await hydrateGameCovers([await getGameById(req.params.id)])
 
   if (!game) {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
 
   return res.json(game)
+}))
+
+router.get('/api/games/:id/archive', handleAsync(async (req, res) => {
+  const [game] = await hydrateGameCovers([await getGameById(req.params.id)])
+
+  if (!game) {
+    return res.status(404).json({ ok: false, error: 'Game not found' })
+  }
+
+  return res.json(buildArchivePayload(game))
+}))
+
+router.get('/api/games/:id/encyclopedia', handleAsync(async (req, res) => {
+  const [game] = await hydrateGameCovers([await getGameById(req.params.id)])
+
+  if (!game) {
+    return res.status(404).json({ ok: false, error: 'Game not found' })
+  }
+
+  return res.json(buildEncyclopediaPayload(game))
 }))
 
 router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
@@ -937,9 +1046,11 @@ router.get('/api/items', handleAsync(async (req, res) => {
     search: req.query.q,
   })
 
+  const hydratedItems = await hydrateGameCovers(items)
+
   res.json({
     ok: true,
-    items: items.map(toItemPayload),
+    items: hydratedItems.map(toItemPayload),
     total,
     limit,
     offset: Number.parseInt(String(req.query.offset || '0'), 10) || 0,
@@ -1087,8 +1198,10 @@ router.get('/api/search/global', handleAsync(async (req, res) => {
     fetchGlobalFranchiseResults(q, limit),
   ])
 
+  const hydratedGames = await hydrateGameCovers(gamesPayload.items || [])
+
   let items = [
-    ...((gamesPayload.items || []).map((game) => createGlobalGameResult(game, context))),
+    ...(hydratedGames.map((game) => createGlobalGameResult(game, context))),
     ...consoles,
     ...franchises,
   ]

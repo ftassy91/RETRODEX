@@ -75,6 +75,52 @@ function safeArray(value) {
   return Array.isArray(value) ? value : []
 }
 
+function parseStructuredValue(value, fallback = null) {
+  if (value == null || value === '') {
+    return fallback
+  }
+
+  if (Array.isArray(value) || typeof value === 'object') {
+    return value
+  }
+
+  if (typeof value !== 'string') {
+    return fallback
+  }
+
+  try {
+    return JSON.parse(value)
+  } catch (_error) {
+    return value
+  }
+}
+
+function parseStructuredArray(value) {
+  const parsed = parseStructuredValue(value, null)
+  if (Array.isArray(parsed)) {
+    return parsed
+  }
+  if (parsed == null || parsed === '') {
+    return []
+  }
+  return [parsed]
+}
+
+function formatDurationValue(value) {
+  const numeric = Number(value)
+  if (Number.isFinite(numeric) && numeric > 0) {
+    const rounded = Number.isInteger(numeric) ? String(numeric) : numeric.toFixed(1).replace(/\.0$/, '')
+    return `${rounded}h`
+  }
+
+  const text = String(value || '').trim()
+  if (!text) {
+    return ''
+  }
+
+  return /h$/i.test(text) ? text : `${text}h`
+}
+
 function formatPrice(value, fallback = '--') {
   const number = Number(value)
   return Number.isFinite(number) && number > 0 ? `$${Math.round(number)}` : fallback
@@ -375,12 +421,14 @@ function renderHeroSection(game) {
   `
 
   if (window.RetroDexAssets && game.console) {
-    const consoleEl = heroEl.querySelector(
-      '.game-console, .detail-console, [data-field="console"], .meta-console, .console-link.meta-value-link'
-    )
-    if (consoleEl) {
-      const img = window.RetroDexAssets.createSupportImg(game.console, 24)
-      consoleEl.insertBefore(img, consoleEl.firstChild)
+    const metaStripEl = heroEl.querySelector('.detail-hero-meta-strip')
+    if (metaStripEl) {
+      const supportWrapEl = document.createElement('span')
+      supportWrapEl.className = 'detail-console-support-wrap'
+      const img = window.RetroDexAssets.createSupportImg(game.console, 18)
+      img.classList.add('detail-console-support-icon')
+      supportWrapEl.appendChild(img)
+      metaStripEl.insertBefore(supportWrapEl, metaStripEl.firstChild)
     }
   }
 
@@ -628,80 +676,117 @@ function buildEditorialSections() {
   const sections = []
   const encyclo = currentEncyclopediaData || {}
   const archive = currentArchiveData || {}
-  const contributors = buildContributorRows(encyclo.dev_team, archive.ost?.composers)
-  const anecdotes = safeArray(encyclo.dev_anecdotes)
-  const cheatCodes = safeArray(encyclo.cheat_codes)
-  const characters = safeArray(archive.characters)
-  const tracks = safeArray(archive.ost?.notable_tracks)
+  const fallbackGame = currentGame || {}
+  const summaryText = String(
+    encyclo.synopsis
+    || fallbackGame.synopsis
+    || fallbackGame.summary
+    || ''
+  ).trim()
+  const loreText = String(archive.lore || fallbackGame.lore || '').trim()
+  const gameplayText = String(archive.gameplay_description || fallbackGame.gameplay_description || '').trim()
+  const contributors = buildContributorRows(
+    parseStructuredArray(encyclo.dev_team || fallbackGame.dev_team),
+    parseStructuredArray(archive.ost?.composers || fallbackGame.ost_composers)
+  )
+  const anecdotes = parseStructuredArray(encyclo.dev_anecdotes || fallbackGame.dev_anecdotes)
+  const cheatCodes = parseStructuredArray(encyclo.cheat_codes || fallbackGame.cheat_codes)
+  const characters = parseStructuredArray(archive.characters || fallbackGame.characters)
+  const tracks = parseStructuredArray(archive.ost?.notable_tracks || fallbackGame.ost_notable_tracks)
+  const versions = parseStructuredArray(archive.versions || fallbackGame.versions)
+  const speedrun = parseStructuredValue(archive.speedrun_wr || fallbackGame.speedrun_wr, null)
+  const mainDuration = formatDurationValue(archive.duration?.main ?? fallbackGame.avg_duration_main)
+  const completeDuration = formatDurationValue(archive.duration?.complete ?? fallbackGame.avg_duration_complete)
+  const manualUrl = archive.manual_url || fallbackGame.manual_url || ''
 
-  if (archive.lore || archive.gameplay_description) {
+  if (summaryText || gameplayText || mainDuration || completeDuration) {
     let html = ''
-    if (archive.lore) {
-      html += `<div class="archive-lore">${formatMultilineHtml(archive.lore)}</div>`
+    if (summaryText) {
+      html += `<div class="archive-lore">${formatMultilineHtml(summaryText)}</div>`
     }
-    if (archive.gameplay_description) {
-      html += `<div class="archive-gameplay"><span class="archive-label">Gameplay</span> ${formatMultilineHtml(archive.gameplay_description)}</div>`
+    if (gameplayText) {
+      html += `<div class="archive-gameplay"><span class="archive-label">Gameplay</span> ${formatMultilineHtml(gameplayText)}</div>`
     }
-    sections.push({ id: 'lore', label: 'LORE', html })
+    if (mainDuration || completeDuration) {
+      html += `<div class="archive-duration"><span class="archive-label">Duree de vie</span> ${
+        [mainDuration ? `Main ${escapeHtml(mainDuration)}` : '', completeDuration ? `Complet ${escapeHtml(completeDuration)}` : '']
+          .filter(Boolean)
+          .join(' | ')
+      }</div>`
+    }
+    sections.push({ id: 'synopsis', label: 'SYNOPSIS', html })
   }
 
-  if (contributors.length) {
+  if (loreText) {
     sections.push({
-      id: 'team',
-      label: 'EQUIPE',
-      html: contributors.map((member) => `
-        <div class="encyclo-team-row">
-          <span class="team-role">${escapeHtml(member.role || 'Equipe')}</span>
-          <span class="team-name">${escapeHtml(member.name)}</span>
-          ${member.note ? `<span class="team-note">${escapeHtml(member.note)}</span>` : ''}
-        </div>
-      `).join(''),
-    })
-  }
-
-  if (anecdotes.length) {
-    sections.push({
-      id: 'anecdotes',
-      label: 'ANECDOTES',
-      html: anecdotes.map((item, index) => `
-        <div class="encyclo-anecdote">
-          <div class="anecdote-title">${escapeHtml(item.title || `Anecdote ${index + 1}`)}</div>
-          <div class="anecdote-text">${formatMultilineHtml(item.text || item)}</div>
-        </div>
-      `).join(''),
+      id: 'lore',
+      label: 'LORE',
+      html: `<div class="archive-lore">${formatMultilineHtml(loreText)}</div>`,
     })
   }
 
   if (characters.length) {
     sections.push({
       id: 'characters',
-      label: 'PERSO',
-      html: characters.map((character) => `
-        <div class="archive-character-row">
-          <span class="archive-char-name">${escapeHtml(character.name || 'Inconnu')}</span>
-          <span class="archive-char-role">${escapeHtml(character.role || '')}</span>
-          <span class="archive-char-desc">${escapeHtml(character.description || '')}</span>
-        </div>
-      `).join(''),
+      label: 'PERSONNAGES',
+      html: characters.map((character) => {
+        const item = parseStructuredValue(character, character)
+        if (typeof item === 'string') {
+          return `<div class="archive-character-row"><span class="archive-char-name">${escapeHtml(item)}</span></div>`
+        }
+        return `
+          <div class="archive-character-row">
+            <span class="archive-char-name">${escapeHtml(item.name || 'Inconnu')}</span>
+            <span class="archive-char-role">${escapeHtml(item.role || '')}</span>
+            <span class="archive-char-desc">${escapeHtml(item.description || '')}</span>
+          </div>
+        `
+      }).join(''),
     })
   }
 
-  if (tracks.length || archive.duration?.main || archive.speedrun_wr?.time) {
+  if (contributors.length || anecdotes.length) {
     let html = ''
+    if (contributors.length) {
+      html += contributors.map((member) => `
+        <div class="encyclo-team-row">
+          <span class="team-role">${escapeHtml(member.role || 'Equipe')}</span>
+          <span class="team-name">${escapeHtml(member.name)}</span>
+          ${member.note ? `<span class="team-note">${escapeHtml(member.note)}</span>` : ''}
+        </div>
+      `).join('')
+    }
+    if (anecdotes.length) {
+      html += anecdotes.map((item, index) => {
+        const note = parseStructuredValue(item, item)
+        const title = typeof note === 'object' ? note.title : `Note ${index + 1}`
+        const text = typeof note === 'object' ? (note.text || note.note || '') : note
+        return `
+          <div class="encyclo-anecdote">
+            <div class="anecdote-title">${escapeHtml(title || `Note ${index + 1}`)}</div>
+            <div class="anecdote-text">${formatMultilineHtml(text)}</div>
+          </div>
+        `
+      }).join('')
+    }
+    sections.push({ id: 'team', label: 'CASTING DEV', html })
+  }
+
+  if (tracks.length || parseStructuredArray(archive.ost?.composers || fallbackGame.ost_composers).length) {
+    const composers = buildContributorRows([], parseStructuredArray(archive.ost?.composers || fallbackGame.ost_composers))
+    let html = ''
+    if (composers.length) {
+      html += composers.map((member) => `
+        <div class="encyclo-team-row">
+          <span class="team-role">${escapeHtml(member.role || 'Compositeur')}</span>
+          <span class="team-name">${escapeHtml(member.name)}</span>
+        </div>
+      `).join('')
+    }
     if (tracks.length) {
       html += `<div class="archive-ost-tracks"><span class="archive-label">Tracks</span><ul>${
-        tracks.map((track) => `<li>${escapeHtml(track)}</li>`).join('')
+        tracks.map((track) => `<li>${escapeHtml(typeof track === 'string' ? track : track.title || track.name || '')}</li>`).join('')
       }</ul></div>`
-    }
-    if (archive.duration?.main) {
-      html += `<div class="archive-duration"><span class="archive-label">Duree</span> Main: ${escapeHtml(archive.duration.main)}h${
-        archive.duration.complete ? ` | Complet: ${escapeHtml(archive.duration.complete)}h` : ''
-      }</div>`
-    }
-    if (archive.speedrun_wr?.time) {
-      html += `<div class="archive-speedrun"><span class="archive-label">Speedrun</span> ${escapeHtml(archive.speedrun_wr.category || 'any%')}: ${escapeHtml(archive.speedrun_wr.time)}${
-        archive.speedrun_wr.runner ? ` par ${escapeHtml(archive.speedrun_wr.runner)}` : ''
-      }</div>`
     }
     sections.push({ id: 'ost', label: 'OST', html })
   }
@@ -709,29 +794,43 @@ function buildEditorialSections() {
   if (cheatCodes.length) {
     sections.push({
       id: 'codes',
-      label: 'CODES',
-      html: cheatCodes.map((code) => `
-        <div class="encyclo-cheat-row">
-          <span class="cheat-name">${escapeHtml(code.label || code.name || 'Code')}</span>
-          <span class="cheat-code">${escapeHtml(code.code || code.value || '--')}</span>
-          <span class="cheat-effect">${escapeHtml(code.effect || 'Effet non documente')}</span>
-        </div>
-      `).join(''),
+      label: 'ASTUCES / CODES',
+      html: cheatCodes.map((code) => {
+        const item = parseStructuredValue(code, code)
+        if (typeof item === 'string') {
+          return `<div class="encyclo-cheat-row"><span class="cheat-effect">${escapeHtml(item)}</span></div>`
+        }
+        return `
+          <div class="encyclo-cheat-row">
+            <span class="cheat-name">${escapeHtml(item.label || item.name || 'Code')}</span>
+            <span class="cheat-code">${escapeHtml(item.code || item.value || '--')}</span>
+            <span class="cheat-effect">${escapeHtml(item.effect || item.description || '')}</span>
+          </div>
+        `
+      }).join(''),
     })
   }
 
-  if (archive.manual_url) {
-    sections.push({
-      id: 'notice',
-      label: 'NOTICE',
-      html: `
+  if (versions.length || manualUrl || speedrun?.time) {
+    let html = ''
+    if (speedrun?.time) {
+      html += `<div class="archive-speedrun"><span class="archive-label">WR</span> ${escapeHtml(speedrun.category || 'Any%')} : ${escapeHtml(speedrun.time)}${speedrun.runner ? ` · ${escapeHtml(speedrun.runner)}` : ''}</div>`
+    }
+    if (versions.length) {
+      html += `<div class="archive-ost-tracks"><span class="archive-label">Versions</span><ul>${
+        versions.map((version) => `<li>${escapeHtml(typeof version === 'string' ? version : version.name || version.label || '')}</li>`).join('')
+      }</ul></div>`
+    }
+    if (manualUrl) {
+      html += `
         <div class="archive-manual">
-          <a class="terminal-action-link" href="${escapeHtml(archive.manual_url)}" target="_blank" rel="noopener noreferrer">
+          <a class="terminal-action-link" href="${escapeHtml(manualUrl)}" target="_blank" rel="noopener noreferrer">
             Ouvrir la notice ->
           </a>
         </div>
-      `,
-    })
+      `
+    }
+    sections.push({ id: 'record', label: 'RECORD', html })
   }
 
   return sections
@@ -2180,12 +2279,13 @@ async function loadPage() {
     if (coverImgEl) {
       coverImgEl.alt = currentGame.title || ''
       const preferredIllustration = await getPreferredIllustrationPath(currentGame)
+      const coverUrl = currentGame.coverImage || currentGame.cover_url || ''
       coverImgEl.src = preferredIllustration
-        || currentGame.cover_url
+        || coverUrl
         || generateCoverPlaceholder(currentGame.title, currentGame.rarity, currentGame.consoleData?.name || currentGame.console)
       coverImgEl.addEventListener('error', () => {
-        if (coverImgEl.src !== currentGame.cover_url && currentGame.cover_url) {
-          coverImgEl.src = currentGame.cover_url
+        if (coverImgEl.src !== coverUrl && coverUrl) {
+          coverImgEl.src = coverUrl
           return
         }
 

@@ -187,6 +187,26 @@ function applyGameFilters(query, { console: consoleName, rarity, search }) {
   return nextQuery;
 }
 
+function normalizeCoverFields(row) {
+  if (!row || typeof row !== 'object') {
+    return row;
+  }
+
+  const coverUrl =
+    row.cover_url
+    || row.coverImage
+    || row.coverimage
+    || row.boxart_url
+    || row.image
+    || null;
+
+  return {
+    ...row,
+    cover_url: coverUrl,
+    coverImage: coverUrl,
+  };
+}
+
 async function fetchSupabaseRowsInBatches(table, columns, configure, { orderBy, batchSize = 1000 } = {}) {
   const rows = [];
   let from = 0;
@@ -205,12 +225,7 @@ async function fetchSupabaseRowsInBatches(table, columns, configure, { orderBy, 
     if (error) throw new Error(error.message);
     if (!Array.isArray(data) || data.length === 0) break;
 
-    rows.push(...data.map(row => ({
-      ...row,
-      coverImage: row.cover_url || null,
-    })));
-    // NOTE: In Supabase PostgreSQL, the canonical cover column is cover_url (snake_case).
-    // "coverImage" does not exist as a column. Always read/write cover_url.
+    rows.push(...data.map(normalizeCoverFields));
 
     if (data.length < batchSize) break;
     from += batchSize;
@@ -236,12 +251,7 @@ async function fetchSupabaseGameWindow(filters, column, options, offset, limit) 
     if (error) throw new Error(error.message);
     if (!Array.isArray(data) || data.length === 0) break;
 
-    rows.push(...data.map(row => ({
-      ...row,
-      coverImage: row.cover_url || null,
-    })));
-    // NOTE: In Supabase PostgreSQL, the canonical cover column is cover_url (snake_case).
-    // "coverImage" does not exist as a column. Always read/write cover_url.
+    rows.push(...data.map(normalizeCoverFields));
 
     if (data.length < (to - from + 1)) break;
     from = to + 1;
@@ -371,7 +381,7 @@ async function getGameById(id) {
   const { data, error } = await db.from('games').select('*').eq('id', id).single();
   if (error) throw new Error(error.message);
   if (!data) return data;
-  return { ...data, coverImage: data.cover_url || null };
+  return normalizeCoverFields(data);
 }
 
 async function getCollection(session = 'local') {

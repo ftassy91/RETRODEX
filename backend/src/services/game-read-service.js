@@ -35,6 +35,11 @@ const BASE_GAME_ATTRIBUTES = [
   'characters',
   'manual_url',
   'ost_composers',
+  'ost_notable_tracks',
+  'versions',
+  'avg_duration_main',
+  'avg_duration_complete',
+  'speedrun_wr',
   'slug',
 ]
 
@@ -445,6 +450,11 @@ function mergeGameRecord(game, supplement) {
     gameplay_description: game.gameplay_description || editorial.gameplayDescription || null,
     dev_team: people.devTeam.length ? people.devTeam : parseMaybeJson(game.dev_team) || null,
     ost_composers: people.composers.length ? people.composers : parseMaybeJson(game.ost_composers) || null,
+    ost_notable_tracks: parseMaybeJson(game.ost_notable_tracks) || null,
+    versions: parseMaybeJson(game.versions) || null,
+    avg_duration_main: game.avg_duration_main ?? null,
+    avg_duration_complete: game.avg_duration_complete ?? null,
+    speedrun_wr: parseMaybeJson(game.speedrun_wr) || null,
     loosePrice: snapshot.loosePrice ?? game.loosePrice ?? game.loose_price ?? null,
     cibPrice: snapshot.cibPrice ?? game.cibPrice ?? game.cib_price ?? null,
     mintPrice: snapshot.mintPrice ?? game.mintPrice ?? game.mint_price ?? null,
