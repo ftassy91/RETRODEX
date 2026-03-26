@@ -209,9 +209,6 @@
 
       const main = document.createElement('div');
       main.className = 'sc-main';
-      if (window.RetroDexAssets && item.meta?.console) {
-        main.appendChild(window.RetroDexAssets.createSupportImg(item.meta.console, 16));
-      }
 
       const identity = document.createElement('div');
       identity.className = 'sc-identity';
@@ -220,12 +217,21 @@
       title.className = 'sc-title';
       title.textContent = item.title;
 
+      const subline = document.createElement('div');
+      subline.className = 'sc-subline';
+      if (window.RetroDexAssets && item.meta?.console) {
+        const supportIcon = window.RetroDexAssets.createSupportImg(item.meta.console, 14);
+        supportIcon.classList.add('sc-support-icon');
+        subline.appendChild(supportIcon);
+      }
+
       const subtitle = document.createElement('span');
       subtitle.className = 'sc-sub';
       subtitle.textContent = item.subtitle || '';
 
       identity.appendChild(title);
-      identity.appendChild(subtitle);
+      subline.appendChild(subtitle);
+      identity.appendChild(subline);
       main.appendChild(identity);
 
       const secondaryCopy = buildSecondaryCopy(item);

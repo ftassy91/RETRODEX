@@ -53,7 +53,9 @@ function renderGameRow(game, options = {}) {
     <span class="result-row-indicator">&rsaquo;</span>
     <div class="result-info">
       <span class="result-title" title="${escapeHtml(game.title || '')}">${escapeHtml(game.title || '')}${showOwnedBadge ? '<span class="result-owned-badge">OWNED</span>' : ''}</span>
-      <span class="result-meta">${escapeHtml(consoleName)} &middot; ${escapeHtml(year)}${genre ? ` &middot; ${escapeHtml(genre)}` : ''}</span>
+      <span class="result-meta-row">
+        <span class="result-meta">${escapeHtml(consoleName)} &middot; ${escapeHtml(year)}${genre ? ` &middot; ${escapeHtml(genre)}` : ''}</span>
+      </span>
     </div>
     <div class="result-signal">
       ${showPrice ? `<span class="result-price">${loosePrice}</span>` : ''}
@@ -64,8 +66,9 @@ function renderGameRow(game, options = {}) {
 
   if (window.RetroDexAssets && game.console) {
     const img = window.RetroDexAssets.createSupportImg(game.console, 16)
-    const infoEl = el.querySelector('.result-info')
-    if (infoEl) infoEl.insertBefore(img, infoEl.firstChild)
+    img.classList.add('result-support-icon')
+    const metaRowEl = el.querySelector('.result-meta-row')
+    if (metaRowEl) metaRowEl.insertBefore(img, metaRowEl.firstChild)
   }
 
   if (window.RetroDexAssets) {

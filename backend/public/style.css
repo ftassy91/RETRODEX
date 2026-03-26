@@ -5100,6 +5100,17 @@ body {
   border: 1px solid rgba(67, 95, 60, 0.58);
 }
 
+.detail-console-support-wrap {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 2px;
+}
+
+.detail-console-support-icon {
+  display: block;
+  flex-shrink: 0;
+}
+
 .detail-market-bridge .terminal-preview-label {
   margin-bottom: 6px;
 }
@@ -5752,6 +5763,19 @@ body {
   color: var(--text-muted);
   font-size: 10px;
   line-height: 1.5;
+}
+
+.result-meta-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin-top: 3px;
+}
+
+.result-support-icon {
+  flex: 0 0 auto;
+  margin: 0;
 }
 
 .result-signal {
@@ -9360,6 +9384,13 @@ body.hub-page .product-universe-frame {
   min-width: 0;
 }
 
+.sc-subline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
 .sc-title {
   color: var(--text-primary);
   font-size: 13px;
@@ -9371,6 +9402,11 @@ body.hub-page .product-universe-frame {
   font-size: 10px;
   line-height: 1.6;
   min-width: 0;
+}
+
+.sc-support-icon {
+  flex: 0 0 auto;
+  margin: 0;
 }
 
 .sc-secondary {
