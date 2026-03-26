@@ -28,7 +28,13 @@ const { runMigrations } = require('./services/migration-runner')
 
 const hasServerlessSupabaseEnv = Boolean(process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL)
 const hasDatabaseUrl = Boolean(process.env.DATABASE_URL)
-const useSupabaseServerlessRoutes = Boolean(process.env.VERCEL && hasServerlessSupabaseEnv && !hasDatabaseUrl)
+const useSupabaseServerlessRoutes = Boolean(
+  process.env.VERCEL
+  && hasServerlessSupabaseEnv
+  && !hasDatabaseUrl
+  && supabaseMode === 'supabase'
+  && process.env.FORCE_SUPABASE_SERVERLESS === '1'
+)
 
 let legacyRuntime = null
 let runtimeReadyPromise = null
@@ -328,7 +334,7 @@ app.get('/api/health', handleAsync(async (_req, res) => {
   let db = process.env.DATABASE_URL ? 'postgres' : 'sqlite'
   let storage = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL || null
 
-  if (hasDatabaseUrl) {
+  if (!useSupabaseServerlessRoutes) {
     const {
       Game,
       storagePath,
