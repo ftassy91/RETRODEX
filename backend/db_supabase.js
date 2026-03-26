@@ -304,9 +304,8 @@ async function queryGames({ sort, console: consoleName, rarity, limit = 20, offs
   const filters = { console: consoleName, rarity, search };
 
   // Always use Sequelize for production — PostgREST does not expose camelCase columns
-  const { sequelize } = require('./src/database');
-  if (sequelize.options.dialect === 'postgres') {
-    return queryGamesViaSequelize(sequelize, filters);
+  if (_sequelizeOverride) {
+    return queryGamesViaSequelize(_sequelizeOverride, filters);
   }
 
   const sortMap = {
