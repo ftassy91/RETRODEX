@@ -150,12 +150,19 @@ async function countSupabaseGames() {
   return Number(count) || 0
 }
 
+let _ensuredGameEncyclopediaColumns = false
+
 async function ensureGameEncyclopediaColumns() {
+  if (_ensuredGameEncyclopediaColumns) {
+    return
+  }
+
   const { DataTypes, sequelize } = getLegacyRuntime()
   const queryInterface = sequelize.getQueryInterface()
   const columns = await queryInterface.describeTable('games').catch(() => null)
 
   if (!columns) {
+    _ensuredGameEncyclopediaColumns = true
     return
   }
 
@@ -171,12 +178,21 @@ async function ensureGameEncyclopediaColumns() {
   for (const [name, definition] of missingColumns) {
     await queryInterface.addColumn('games', name, definition)
   }
+
+  _ensuredGameEncyclopediaColumns = true
 }
 
+let _ensuredPriceHistoryTable = false
+
 async function ensurePriceHistoryTable() {
+  if (_ensuredPriceHistoryTable) {
+    return
+  }
+
   const { sequelize, databaseMode } = getLegacyRuntime()
 
   if (databaseMode !== 'sqlite') {
+    _ensuredPriceHistoryTable = true
     return
   }
 
@@ -203,6 +219,8 @@ async function ensurePriceHistoryTable() {
     CREATE INDEX IF NOT EXISTS idx_ph_sale_date
     ON price_history(sale_date)
   `)
+
+  _ensuredPriceHistoryTable = true
 }
 
 function parseConsoleGeneration(value) {
