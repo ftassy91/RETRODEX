@@ -110,6 +110,11 @@ Request → server.js → route module → service layer → Sequelize/Supabase 
 cd backend && npm run smoke    # 22-endpoint integration test on port 3100
 ```
 
+## Project Tracking (Notion)
+- **Hub**: https://www.notion.so/330e0fdcdce88181bde4ef9f927666ae
+- **Sprint Tracker**: https://www.notion.so/9e5d1a18e1d84828ae843d2cad464143
+- **Bug Tracker**: https://www.notion.so/23f9fe3cfecb427f90c585b0e8cf50ae
+
 ## Deployment
 - **Production**: https://retrodex-beryl.vercel.app/
 - **Backend**: Vercel serverless (`vercel.json` routes `/api/*` to `server.js`)
