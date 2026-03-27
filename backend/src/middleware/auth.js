@@ -2,7 +2,7 @@
 
 const crypto = require('crypto')
 
-const API_KEY = process.env.RETRODEX_API_KEY
+const API_KEY = (process.env.RETRODEX_API_KEY || '').trim()
 
 if (!API_KEY) {
   console.warn(
@@ -19,7 +19,7 @@ if (!API_KEY) {
  * - 403 if header value does not match (timing-safe comparison)
  */
 function requireApiKey(req, res, next) {
-  const configured = process.env.RETRODEX_API_KEY
+  const configured = (process.env.RETRODEX_API_KEY || '').trim()
 
   if (!configured) {
     return res.status(500).json({

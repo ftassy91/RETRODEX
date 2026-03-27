@@ -417,7 +417,6 @@ if (useSupabaseServerlessRoutes) {
   app.use(require('./routes/franchises'))
   app.use('/api/admin', requireApiKey)
   app.use(require('./routes/games-admin'))
-  app.use('/api/sync', requireApiKey)
   app.use(require('./routes/sync'))
 }
 
