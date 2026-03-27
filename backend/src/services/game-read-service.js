@@ -612,6 +612,40 @@ function matchesGenre(game, genreValue) {
   return normalizeSearchValue(game.genre).includes(genre)
 }
 
+function buildSequelizeOrder(sortKey) {
+  switch (String(sortKey || '').trim()) {
+    case 'title_asc':
+      return [['title', 'ASC']]
+    case 'title_desc':
+      return [['title', 'DESC']]
+    case 'year_asc':
+      return [['year', 'ASC'], ['title', 'ASC']]
+    case 'year_desc':
+      return [['year', 'DESC'], ['title', 'ASC']]
+    case 'meta_asc':
+    case 'metascore_asc':
+      return [['metascore', 'ASC'], ['title', 'ASC']]
+    case 'meta_desc':
+    case 'metascore_desc':
+      return [['metascore', 'DESC'], ['title', 'ASC']]
+    default:
+      return null
+  }
+}
+
+function canPushPaginationToSql(options) {
+  if (options.search || options.genreName) {
+    return false
+  }
+
+  const sortKey = String(options.sort || '').trim()
+  if (!sortKey || sortKey === 'title_asc') {
+    return true
+  }
+
+  return buildSequelizeOrder(sortKey) !== null
+}
+
 async function listHydratedGames(options = {}) {
   const limit = Math.max(1, Math.min(Number(options.limit || 20) || 20, 5000))
   const offset = Math.max(0, Number(options.offset || 0) || 0)
@@ -634,6 +668,29 @@ async function listHydratedGames(options = {}) {
   }
   if (options.rarity) {
     where.rarity = String(options.rarity)
+  }
+
+  if (canPushPaginationToSql(options)) {
+    const sequelizeOrder = buildSequelizeOrder(options.sort) || [['title', 'ASC']]
+
+    const [total, rows] = await Promise.all([
+      Game.count({ where }),
+      Game.findAll({
+        where,
+        attributes: selectableAttributes,
+        order: sequelizeOrder,
+        limit,
+        offset,
+      }),
+    ])
+
+    const items = await hydrateGameRows(rows)
+
+    return {
+      items,
+      returned: items.length,
+      total,
+    }
   }
 
   const rows = await Game.findAll({
@@ -664,18 +721,67 @@ async function listHydratedGames(options = {}) {
 }
 
 async function getRandomHydratedGame(options = {}) {
-  const payload = await listHydratedGames({
-    ...options,
-    limit: 5000,
-    offset: 0,
+  const where = { type: 'game' }
+
+  if (options.consoleId) {
+    where.consoleId = String(options.consoleId)
+  }
+  if (options.consoleName) {
+    where.console = String(options.consoleName)
+  }
+  if (options.franchiseId) {
+    where.franch_id = String(options.franchiseId)
+  }
+  if (options.rarity) {
+    where.rarity = String(options.rarity)
+  }
+
+  const needsPostFilter = Boolean(options.search || options.genreName)
+
+  if (!needsPostFilter) {
+    const total = await Game.count({ where })
+    if (total === 0) {
+      return null
+    }
+
+    const randomOffset = Math.floor(Math.random() * total)
+    const selectableAttributes = await getSelectableGameAttributes(BASE_GAME_ATTRIBUTES)
+    const rows = await Game.findAll({
+      where,
+      attributes: selectableAttributes,
+      limit: 1,
+      offset: randomOffset,
+    })
+
+    if (!rows.length) {
+      return null
+    }
+
+    const hydrated = await hydrateGameRows(rows)
+    return hydrated[0] || null
+  }
+
+  const selectableAttributes = await getSelectableGameAttributes(BASE_GAME_ATTRIBUTES)
+  const rows = await Game.findAll({
+    where,
+    attributes: selectableAttributes,
   })
 
-  if (!payload.items.length) {
+  let games = await hydrateGameRows(rows)
+
+  if (options.search) {
+    games = games.filter((game) => matchesSearch(game, options.search))
+  }
+  if (options.genreName) {
+    games = games.filter((game) => matchesGenre(game, options.genreName))
+  }
+
+  if (!games.length) {
     return null
   }
 
-  const index = Math.floor(Math.random() * payload.items.length)
-  return payload.items[index] || null
+  const index = Math.floor(Math.random() * games.length)
+  return games[index] || null
 }
 
 async function getHydratedGameById(gameId) {

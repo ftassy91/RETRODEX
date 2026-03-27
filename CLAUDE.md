@@ -60,6 +60,16 @@ The backend auto-detects its runtime:
 - **Vercel serverless**: Supabase when `VERCEL` + `SUPABASE_URL` are set, no `DATABASE_URL`
 - **Railway/Postgres**: When `DATABASE_URL` is set
 
+### Data Divergence Warning
+
+Local dev (SQLite) and production (Supabase) are **independent databases with no sync**.
+- Data created locally does NOT appear in production
+- Data in Supabase production is NOT available locally
+- The `enrich-database/` scripts modify local SQLite only
+- This is intentional for MVP — local dev is a sandbox
+
+To seed local dev with production data, use the import scripts in `backend/scripts/`.
+
 ### Key Data Flow
 
 ```
