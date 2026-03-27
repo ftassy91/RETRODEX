@@ -7910,8 +7910,8 @@ td {
 .debug-shell .page-title,
 .debug-shell .product-universe-title,
 .debug-shell .secondary-panel-title {
-  font-family: var(--font-ui);
-  letter-spacing: 0.02em;
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
   line-height: 1.18;
 }
 
