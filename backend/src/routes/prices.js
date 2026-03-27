@@ -63,10 +63,17 @@ function getCutoffStr(months) {
   return cutoff.toISOString().slice(0, 10);
 }
 
+let _ensuredLocalPriceHistoryTable = false;
+
 async function ensureLocalPriceHistoryTable() {
+  if (_ensuredLocalPriceHistoryTable) {
+    return;
+  }
+
   const { sequelize, databaseMode } = getRuntimeDb();
 
   if (databaseMode !== 'sqlite') {
+    _ensuredLocalPriceHistoryTable = true;
     return;
   }
 
@@ -83,6 +90,8 @@ async function ensureLocalPriceHistoryTable() {
       FOREIGN KEY(game_id) REFERENCES games(id) ON DELETE CASCADE
     )
   `);
+
+  _ensuredLocalPriceHistoryTable = true;
 }
 
 async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {

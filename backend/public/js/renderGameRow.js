@@ -28,6 +28,8 @@ function renderGameRow(game, options = {}) {
   el.className = 'result-row result-row-catalog'
   el.style.cursor = 'pointer'
   el.dataset.gameId = game.id || ''
+  el.setAttribute('tabindex', '0')
+  el.setAttribute('role', 'button')
 
   el.onclick = () => {
     if (typeof options.onClick === 'function') {
@@ -39,6 +41,13 @@ function renderGameRow(game, options = {}) {
       location.href = `/game-detail.html?id=${encodeURIComponent(game.id)}`
     }
   }
+
+  el.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      el.click()
+    }
+  })
 
   const rarity = game.rarity || ''
   const year = game.year || 'n/a'
