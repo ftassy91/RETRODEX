@@ -111,6 +111,7 @@ cd backend && npm run smoke    # 22-endpoint integration test on port 3100
 ```
 
 ## Deployment
+- **Production**: https://retrodex-beryl.vercel.app/
 - **Backend**: Vercel serverless (`vercel.json` routes `/api/*` to `server.js`)
 - **Frontend prototype**: Vercel static or `npx serve frontend`
 - **Database**: Supabase (prod), SQLite (local dev)
