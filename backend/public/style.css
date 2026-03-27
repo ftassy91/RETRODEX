@@ -10308,17 +10308,24 @@ body.hub-page .product-universe-frame {
   }
 }
 
-/* Accessibility — focus indicators */
-:focus-visible {
-  outline: 2px solid #9bbc0f;
-  outline-offset: 2px;
+/* Accessibility — skip link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  padding: 0.5rem 1rem;
+  background: var(--bg, #000);
+  color: var(--text-primary, #9bbc0f);
+  z-index: 9999;
+  text-decoration: none;
+  font-size: 14px;
+}
+.skip-link:focus {
+  top: 0;
 }
 
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible,
-a:focus-visible {
+/* Accessibility — focus indicators */
+:focus-visible {
   outline: 2px solid #9bbc0f;
   outline-offset: 2px;
 }
@@ -10329,6 +10336,7 @@ a:focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
