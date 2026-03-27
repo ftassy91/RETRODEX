@@ -1,4 +1,85 @@
 'use strict'
+// REFACTOR PLAN: Split this 1685-line file into 6 modules:
+//
+// 1. routes/serverless/helpers.js (lines 24-414: shared constants + pure functions)
+//    - RARITY_*_ORDER, DEX_RARITY_ORDER, SEARCH_CONTEXT_LABELS constants
+//    - normalizeGameRecord, compareNullableNumbers, compareGamesForSort
+//    - parseStoredJson, buildExcerpt, uniqueBy, scoreByQuery, scoreResult
+//    - editorialSignalCount, compareDexPriority, compareGlobalResults
+//    - median, isMissingSupabaseRelationError
+//    - toItemPayload, normalizeSearchGameRow, normalizeSearchFranchiseRow
+//    - toFranchisePayload
+//
+// 2. routes/serverless/games.js (lines 962-1036: game CRUD + detail endpoints)
+//    - GET  /api/games           (list with sort/filter/pagination)
+//    - GET  /api/games/:id       (single game detail)
+//    - GET  /api/games/:id/archive       (archive payload)
+//    - GET  /api/games/:id/encyclopedia  (encyclopedia payload)
+//    - GET  /api/games/:id/price-history (price history)
+//    - Private: fetchSeedPriceHistory, fetchAllSupabaseGames, fetchRowsInBatches
+//    - Private: fetchGameMediaMap, hydrateGameCovers
+//    - Private: buildArchivePayload, buildEncyclopediaPayload
+//
+// 3. routes/serverless/search.js (lines 1038-1241: search + global search + dex search)
+//    - GET  /api/items            (items list — overlaps with games)
+//    - GET  /api/search           (main search with index + fallback)
+//    - GET  /api/search/global    (cross-product global search)
+//    - GET  /api/dex/search       (encyclopedia-focused dex search)
+//    - Private: fetchSearchIndexResults, fetchSearchFallbackResults
+//    - Private: searchDex, fetchDexGamesByField, fetchDexGamesInBatches, serializeDexResult
+//    - Private: createGlobalGameResult, createGlobalConsoleResult, createGlobalFranchiseResult
+//    - Private: fetchGlobalConsoleResults, fetchGlobalFranchiseResults
+//
+// 4. routes/serverless/collection.js (lines 815-960, 1366-1576: collection CRUD + stats)
+//    - GET    /api/collection       (list collection items)
+//    - POST   /api/collection       (add to collection)
+//    - PATCH  /api/collection/:id   (update collection item)
+//    - DELETE /api/collection/:id   (remove from collection)
+//    - GET    /api/collection/stats (collection valuation stats)
+//    - Private: normalizeCollectionCondition, normalizeCollectionListType
+//    - Private: fetchCollectionRows, fetchCollectionItem, fetchCollectionGame
+//    - Private: serializeCollectionItem, buildCollectionInsertPayload
+//    - Private: filterCollectionRowsByListType, getCollectionValueByCondition
+//
+// 5. routes/serverless/franchises.js (lines 1243-1364: franchise endpoints)
+//    - GET  /api/franchises            (list all franchises)
+//    - GET  /api/franchises/:slug      (single franchise detail)
+//    - GET  /api/franchises/:slug/games (games in a franchise)
+//
+// 6. routes/serverless/stats.js (lines 1060-1089, 1578-1683: consoles list + catalog stats)
+//    - GET  /api/consoles  (platform list with game counts)
+//    - GET  /api/stats     (catalog-wide statistics)
+//
+// Entry point: routes/serverless/index.js — creates Router, mounts sub-routers
+//
+// Shared helpers needed (extract to helpers.js):
+//   normalizeGameRecord, parseStoredJson, buildExcerpt, uniqueBy,
+//   scoreByQuery, scoreResult, median, isMissingSupabaseRelationError,
+//   compareNullableNumbers, compareGamesForSort, compareDexPriority,
+//   editorialSignalCount, compareGlobalResults, toItemPayload,
+//   normalizeSearchGameRow, normalizeSearchFranchiseRow, toFranchisePayload,
+//   fetchRowsInBatches, fetchAllSupabaseGames, fetchGamesMap,
+//   fetchGameMediaMap, hydrateGameCovers, RARITY_*_ORDER constants
+//
+// Dependencies: db_supabase (db, queryGames, getGameById, getStats),
+//   helpers/query (handleAsync, parseLimit), helpers/search (dedupeSearchResults),
+//   helpers/priceHistory (buildPriceHistoryPayload), lib/consoles (listConsoles, normalizeConsoleKey)
+//
+// Risk: LOW-MEDIUM — routes are fully independent (no cross-route calls).
+//   Main risk is the ~15 shared helper functions that multiple route groups use.
+//   Extract helpers first, then split routes one group at a time.
+//   fetchAllSupabaseGames is used by both /api/consoles and /api/stats — keep in helpers.
+//   hydrateGameCovers is used by games + search — keep in helpers.
+//
+// Suggested migration order:
+//   Step 1: Extract helpers.js (pure functions + DB fetch utilities)
+//   Step 2: Extract collection.js (most self-contained domain)
+//   Step 3: Extract franchises.js (self-contained, small)
+//   Step 4: Extract stats.js (small, uses helpers heavily)
+//   Step 5: Extract games.js
+//   Step 6: Extract search.js (most complex, depends on most helpers)
+//   Step 7: Replace serverless.js with index.js that mounts all sub-routers
+//
 // SYNC: B1 - migre le 2026-03-23 - fallback Supabase et recherche par annee alignes avec les tests
 // Decision source : SYNC.md Â§ B1
 // SYNC: A8 - migre le 2026-03-23 - routeur Supabase dedie au runtime Vercel

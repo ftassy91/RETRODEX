@@ -1,4 +1,63 @@
 'use strict'
+// REFACTOR PLAN: Split this 805-line file into 5 modules:
+//
+// 1. routes/market/helpers.js (lines 38-231: shared constants + pure functions + DB utilities)
+//    - parseItemsLimit, parseItemsOffset, buildSearchFetchLimit
+//    - normalizeLikeQuery, buildLike, buildItemsWhere
+//    - toItemPayload, toConsolePayload, matchNotableGames
+//    - median, getFreshnessInfo
+//    - normalizeSearchGameRow, normalizeSearchFranchiseRow
+//    - fetchAllSupabaseGamesForStats, fetchSearchIndexResults, fetchSearchFallbackResults
+//
+// 2. routes/market/stats.js (lines 314-419: catalog statistics)
+//    - GET  /api/stats  (catalog-wide stats: rarity breakdown, price stats, trust stats)
+//
+// 3. routes/market/search.js (lines 421-517: search endpoint)
+//    - GET  /api/search  (unified search across games + franchises)
+//    - Private: scoreResult (local to search)
+//
+// 4. routes/market/items.js (lines 519-605: items list + detail)
+//    - GET  /api/items      (paginated item list with type/platform/rarity filters)
+//    - GET  /api/items/:id  (single item detail, with console fallback)
+//
+// 5. routes/market/catalog.js (lines 607-805: consoles, accessories, index, reports)
+//    - GET   /api/consoles            (console list with metadata)
+//    - GET   /api/consoles/:id        (console detail + games + accessories)
+//    - GET   /api/accessories/types   (accessory type list)
+//    - GET   /api/accessories         (accessory list with console titles)
+//    - GET   /api/index/:id           (retrodex price index for an item)
+//    - POST  /api/reports             (community price report submission)
+//
+// Entry point: routes/market/index.js — creates Router, mounts sub-routers
+//
+// Shared helpers needed (extract to helpers.js):
+//   parseItemsLimit, parseItemsOffset, buildSearchFetchLimit,
+//   normalizeLikeQuery, buildLike, buildItemsWhere,
+//   toItemPayload, toConsolePayload, matchNotableGames,
+//   median, getFreshnessInfo, normalizeSearchGameRow, normalizeSearchFranchiseRow,
+//   fetchAllSupabaseGamesForStats, fetchSearchIndexResults, fetchSearchFallbackResults
+//
+// Dependencies: db_supabase (db, getStats), models/Game, models/Accessory,
+//   models/RetrodexIndex, models/CommunityReport, models/Franchise,
+//   helpers/query (handleAsync), helpers/search (dedupeSearchResults),
+//   lib/consoles (getConsoleById, getRelatedConsoles, normalizeConsoleKey),
+//   services/game-read-service (getHydratedGameByLookup, listHydratedGames),
+//   services/console-service (buildConsolePayload, listConsoleItems)
+//
+// Risk: LOW — routes are independent and share only pure helper functions.
+//   The most complex piece is fetchSearchFallbackResults (parallel DB queries),
+//   but it is already self-contained. No cross-route state or side effects.
+//   The Sequelize Op/fn/col/where imports are only needed by search (buildLike)
+//   and items (buildItemsWhere) — can be scoped to those modules.
+//
+// Suggested migration order:
+//   Step 1: Extract helpers.js (pure functions + DB fetch utilities)
+//   Step 2: Extract stats.js (self-contained, uses fetchAllSupabaseGamesForStats)
+//   Step 3: Extract search.js (uses fetchSearchIndexResults, fetchSearchFallbackResults)
+//   Step 4: Extract items.js (small, uses toItemPayload + services)
+//   Step 5: Extract catalog.js (consoles/accessories/index/reports)
+//   Step 6: Replace market.js with index.js that mounts all sub-routers
+//
 // SYNC: B1 - migre le 2026-03-23 - fallback Supabase et recherche par annee alignes avec les tests
 // Decision source : SYNC.md Â§ B1
 // SYNC: A3 - migre le 2026-03-23 - recherche lue via Supabase

@@ -1,4 +1,58 @@
 'use strict'
+// REFACTOR PLAN: Split this 835-line file into 3 modules:
+//
+// 1. routes/collection/helpers.js (lines 23-266: constants + pure functions + DB utilities)
+//    - VALID_COLLECTION_CONDITIONS, VALID_COLLECTION_LIST_TYPES constants
+//    - normalizePriceThreshold, normalizeCollectionCondition, normalizeCollectionListType
+//    - normalizePricePaid, normalizeCollectionPayload, hasOwnField, toPriceNumber
+//    - getItemConditionValue, serializeCollectionItem, toCollectionGamePayload
+//    - enrichCollectionItems, supabaseConditionFromApi, apiConditionFromSupabase
+//    - serializeSupabaseCollectionItem, buildSupabaseCollectionPayload
+//    - fetchSupabaseGamesMap, fetchSupabaseCollectionRows, fetchSupabaseCollectionItem
+//    - listSupabaseCollectionItems, fetchSupabaseGame, ensureCollectionColumns
+//    - GAME_INCLUDE, listCollectionItems
+//
+// 2. routes/collection/crud.js (lines 392-722: CRUD endpoints — GET/POST/DELETE/PATCH)
+//    - GET    /collection              (legacy Sequelize list)
+//    - POST   /collection              (legacy Sequelize add)
+//    - DELETE /collection/:id          (legacy Sequelize remove)
+//    - GET    /api/collection           (Supabase-aware list)
+//    - POST   /api/collection           (Supabase-aware add, with Sequelize fallback)
+//    - DELETE /api/collection/:id       (Supabase-aware remove)
+//    - PATCH  /api/collection/:id       (Supabase-aware update)
+//
+// 3. routes/collection/extras.js (lines 724-833: public list + stats)
+//    - GET  /api/collection/public  (for_sale items, public-facing)
+//    - GET  /api/collection/stats   (owned items valuation + breakdown)
+//
+// Entry point: routes/collection/index.js — creates Router, mounts sub-routers
+//
+// Shared helpers needed (extract to helpers.js):
+//   normalizeCollectionCondition, normalizeCollectionListType,
+//   normalizePricePaid, normalizePriceThreshold, normalizeCollectionPayload,
+//   hasOwnField, toPriceNumber, getItemConditionValue,
+//   serializeCollectionItem, toCollectionGamePayload, enrichCollectionItems,
+//   supabaseConditionFromApi, apiConditionFromSupabase,
+//   serializeSupabaseCollectionItem, buildSupabaseCollectionPayload,
+//   fetchSupabaseGamesMap, fetchSupabaseCollectionRows, fetchSupabaseCollectionItem,
+//   listSupabaseCollectionItems, fetchSupabaseGame, ensureCollectionColumns,
+//   GAME_INCLUDE, listCollectionItems, VALID_COLLECTION_CONDITIONS, VALID_COLLECTION_LIST_TYPES
+//
+// Dependencies: db_supabase (db, mode), models/Game, models/CollectionItem,
+//   helpers/query (handleAsync), services/game-read-service (getHydratedGameById, getHydratedGamesByIds)
+//
+// Risk: MEDIUM — dual-backend pattern (Sequelize fallback vs Supabase) makes
+//   extraction tricky. The `mode` check from db_supabase is scattered across
+//   POST /api/collection, DELETE /api/collection/:id, and PATCH /api/collection/:id.
+//   Validation logic is duplicated between legacy /collection and /api/collection routes.
+//   Consider consolidating the Sequelize fallback before or during the split.
+//
+// Suggested migration order:
+//   Step 1: Extract helpers.js (all normalize*, serialize*, fetch* functions)
+//   Step 2: Extract extras.js (public + stats — simplest, read-only)
+//   Step 3: Extract crud.js (bulk of the file, most complex)
+//   Step 4: Replace collection.js with index.js that mounts sub-routers
+//
 // SYNC: A4 - migre le 2026-03-23 - routes /api/collection lues via Supabase
 // Décision source : SYNC.md § A4
 
