@@ -7169,6 +7169,7 @@ body {
    ======================================== */
 
 .global-product-nav {
+  display: none; /* Navigation handled by breadcrumbs + hub retro menu */
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto 16px;
   padding: 10px 12px;
@@ -7176,7 +7177,6 @@ body {
   background:
     linear-gradient(180deg, rgba(8, 12, 8, 0.98), rgba(5, 8, 5, 0.98)),
     radial-gradient(circle at top right, rgba(155, 188, 15, 0.025), transparent 32%);
-  display: flex;
   flex-wrap: wrap;
   gap: 10px 12px;
   align-items: center;
