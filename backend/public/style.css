@@ -11645,6 +11645,69 @@ body.hub-page .product-universe-frame {
 }
 
 
+/* Save button — RPG floppy disk */
+.save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: 2px solid rgba(155,188,15,0.4);
+  border-radius: 4px;
+  background: rgba(10,15,10,0.9);
+  color: var(--text-secondary);
+  font-family: var(--font-display, 'Press Start 2P', monospace);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.save-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(155,188,15,0.06);
+}
+.save-btn-icon { display: flex; width: 24px; height: 24px; }
+.save-btn-icon svg { width: 100%; height: 100%; }
+.save-btn-saving { display: none; }
+.save-dots::after {
+  content: '';
+  animation: save-dots 1s steps(3) infinite;
+}
+@keyframes save-dots {
+  0% { content: '.'; }
+  33% { content: '..'; }
+  66% { content: '...'; }
+}
+
+/* Saving state */
+.save-btn.is-saving {
+  pointer-events: none;
+  border-color: rgba(155,188,15,0.8);
+}
+.save-btn.is-saving .save-btn-text { display: none; }
+.save-btn.is-saving .save-btn-saving { display: inline; color: var(--accent); }
+.save-btn.is-saving .save-btn-icon {
+  animation: save-spin 0.8s ease-in-out;
+}
+@keyframes save-spin {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-15deg) scale(1.1); }
+  50% { transform: rotate(15deg) scale(0.9); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Saved state */
+.save-btn.is-saved {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.save-btn.is-saved .save-btn-icon {
+  filter: drop-shadow(0 0 4px rgba(155,188,15,0.5));
+}
+
+
 /* Accessibility — skip link */
 .skip-link {
   position: absolute;
@@ -11665,6 +11728,183 @@ body.hub-page .product-universe-frame {
 :focus-visible {
   outline: 2px solid #9bbc0f;
   outline-offset: 2px;
+}
+
+/* ========================================
+   UNIFIED GAME DETAIL — continuous scroll
+   ======================================== */
+
+.detail-unified {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.unified-section {
+  margin-top: 0;
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+}
+
+.unified-section:first-of-type {
+  border-top: none;
+}
+
+.unified-section-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.unified-section-body {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Synopsis + Editorial note */
+#synopsis-body,
+#editorial-note-body {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 720px;
+}
+
+#editorial-note-body {
+  font-style: italic;
+  color: var(--text-alert);
+  opacity: 0.88;
+}
+
+/* Prix Marche — 3-column grid */
+.prix-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.prix-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 14px 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.prix-card-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.prix-card-loose .prix-card-label { color: var(--condition-loose); }
+.prix-card-cib .prix-card-label { color: var(--condition-cib); }
+.prix-card-mint .prix-card-label { color: var(--condition-mint); }
+
+.prix-card-value {
+  font-family: var(--font-ui);
+  font-size: 22px;
+  color: var(--text-value);
+  line-height: 1.2;
+}
+
+.prix-card-trend {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.prix-card-trend.trend-up { color: #52e052; }
+.prix-card-trend.trend-down { color: #e05252; }
+.prix-card-trend.trend-neutral { color: var(--text-muted); }
+
+.prix-trust {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+/* SAVE button row in hero */
+.hero-save-row {
+  margin-top: 10px;
+}
+
+/* Franchise horizontal scroll */
+.franchise-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.franchise-scroll-item {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  text-decoration: none;
+  min-width: 140px;
+  max-width: 200px;
+  transition: border-color 0.15s;
+}
+
+.franchise-scroll-item:hover {
+  border-color: var(--accent-dim);
+}
+
+.franchise-scroll-title {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.franchise-scroll-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* Mobile responsive for prix grid */
+@media (max-width: 480px) {
+  .prix-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .prix-card {
+    padding: 10px 8px;
+  }
+
+  .prix-card-value {
+    font-size: 18px;
+  }
+
+  .franchise-scroll-item {
+    min-width: 120px;
+  }
 }
 
 /* Accessibility — prefers-reduced-motion */
