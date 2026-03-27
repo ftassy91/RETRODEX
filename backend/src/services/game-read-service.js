@@ -808,7 +808,10 @@ async function getHydratedGameByLookup(lookup) {
 
   const supplement = await loadCanonicalSupplements(record.id)
   const result = mergeGameRecord(record.get({ plain: true }), supplement)
-  gameCache.set(record.id, result)
+  gameCache.set(String(record.id), result)
+  if (String(needle) !== String(record.id)) {
+    gameCache.set(String(needle), result)
+  }
   return result
 }
 
@@ -891,6 +894,14 @@ async function listHydratedGamesByFranchise(franchiseId, options = {}) {
   })
 }
 
+function invalidateGameCache(gameId) {
+  if (gameId) gameCache.delete(String(gameId))
+}
+
+function clearGameCache() {
+  gameCache.clear()
+}
+
 module.exports = {
   BASE_GAME_ATTRIBUTES,
   getSelectableGameAttributes,
@@ -904,4 +915,6 @@ module.exports = {
   getHydratedGamesByIds,
   listHydratedGamesByConsole,
   listHydratedGamesByFranchise,
+  invalidateGameCache,
+  clearGameCache,
 }
