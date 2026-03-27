@@ -1446,7 +1446,15 @@ router.get('/api/franchises/:slug/games', handleAsync(async (req, res) => {
 
 router.get('/api/collection', handleAsync(async (req, res) => {
   const listType = req.query?.list_type ? normalizeCollectionListType(req.query.list_type) : null
-  const rows = filterCollectionRowsByListType(await fetchCollectionRows(), listType)
+  const allRows = filterCollectionRowsByListType(await fetchCollectionRows(), listType)
+  const seenGameIds = new Map()
+  for (const row of allRows) {
+    const existing = seenGameIds.get(row.game_id)
+    if (!existing || (row.created_at || '') > (existing.created_at || '')) {
+      seenGameIds.set(row.game_id, row)
+    }
+  }
+  const rows = Array.from(seenGameIds.values())
   const gamesMap = await fetchGamesMap(rows.map((row) => row.game_id))
   const items = rows
     .map((row) => serializeCollectionItem(row, gamesMap.get(row.game_id) || null))

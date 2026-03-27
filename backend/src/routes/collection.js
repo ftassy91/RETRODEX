@@ -367,7 +367,7 @@ async function listSupabaseCollectionItems(listType = null) {
   }
 
   const rows = await fetchSupabaseCollectionRows()
-  const filteredRows = rows.filter((row) => {
+  const allFilteredRows = rows.filter((row) => {
     if (!listType) {
       return true
     }
@@ -386,6 +386,15 @@ async function listSupabaseCollectionItems(listType = null) {
 
     return true
   })
+
+  const seenGameIds = new Map()
+  for (const row of allFilteredRows) {
+    const existing = seenGameIds.get(row.game_id)
+    if (!existing || (row.created_at || '') > (existing.created_at || '')) {
+      seenGameIds.set(row.game_id, row)
+    }
+  }
+  const filteredRows = Array.from(seenGameIds.values())
 
   const gamesMap = await fetchSupabaseGamesMap(filteredRows.map((row) => row.game_id))
 

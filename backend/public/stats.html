@@ -20,35 +20,31 @@
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
-    <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
-      <a class="global-product-home" href="/hub.html">Hub</a>
+    <nav class="global-product-nav" aria-label="Navigation RetroDex">
+      <a class="global-product-home" href="/">Hub</a>
       <div class="global-product-links">
+        <a class="global-product-link is-explorer" href="/games-list.html">
+          <span class="nav-label">Explorer</span>
+          <span class="nav-copy">catalogue · consoles · franchises</span>
+        </a>
+        <a class="global-product-link is-collection" href="/collection.html">
+          <span class="nav-label">Collectionner</span>
+          <span class="nav-copy">étagère · wishlist · suivi</span>
+        </a>
         <a class="global-product-link is-market is-active" href="/stats.html">
-          <span class="nav-label">RetroMarket</span>
-          <span class="nav-copy">prix | tendances | marche</span>
-        </a>
-        <a class="global-product-link" href="/games-list.html">
-          <span class="nav-label">RetroDex</span>
-          <span class="nav-copy">catalogue | fiches | prix</span>
-        </a>
-        <a class="global-product-link" href="/collection.html">
-          <span class="nav-label">Collections</span>
-          <span class="nav-copy">etagere | wishlist | suivi</span>
-        </a>
-        <a class="global-product-link" href="/search.html">
-          <span class="nav-label">Recherche</span>
-          <span class="nav-copy">recherche universelle</span>
+          <span class="nav-label">Marché</span>
+          <span class="nav-copy">prix · tendances · signaux</span>
         </a>
       </div>
     </nav>
 
     <main id="main-content" class="detail-shell market-detail-shell">
-      <nav class="breadcrumb">
-        <a href="/hub.html">HUB</a>
-        <span class="sep">&rsaquo;</span>
-        <span class="section">RETROMARKET</span>
-        <span class="sep">&rsaquo;</span>
-        <span class="current" id="market-breadcrumb-name">MARCHE</span>
+      <nav class="breadcrumb" aria-label="Fil d'ariane">
+        <a href="/">HUB</a>
+        <span class="sep" aria-hidden="true">›</span>
+        <a href="/stats.html">MARCHÉ</a>
+        <span class="sep" aria-hidden="true">›</span>
+        <span class="current">RETROMARKET</span>
       </nav>
 
       <section id="market-hero" class="hero-card market-hero-card">
@@ -81,7 +77,11 @@
           <span style="text-align:right">MINT</span>
           <span style="text-align:center">META</span>
         </div>
-        <div id="market-search-results" class="market-search-results"></div>
+        <div id="market-search-results" class="market-search-results" aria-live="polite">
+          <div class="terminal-empty-state search-empty" style="text-align:center;color:var(--text-muted);padding:1.5rem 0">
+            <div class="terminal-empty-copy">Rechercher un jeu pour voir les signaux marche</div>
+          </div>
+        </div>
       </section>
 
       <section id="market-graph-shell" class="stats-card detail-accordion" hidden>
@@ -89,7 +89,9 @@
           <span>Graph</span>
           <span class="detail-accordion-indicator">+</span>
         </button>
-        <div id="market-graph-content" class="detail-accordion-content" hidden></div>
+        <div id="market-graph-content" class="detail-accordion-content" hidden>
+          <p class="market-empty-copy" style="text-align:center;color:var(--text-muted);padding:1rem 0">Selectionner un jeu pour voir l&#x27;historique des prix</p>
+        </div>
       </section>
 
       <section id="market-compare-shell" class="stats-card detail-accordion" hidden>
@@ -97,7 +99,9 @@
           <span>Compare</span>
           <span class="detail-accordion-indicator">+</span>
         </button>
-        <div id="market-compare-content" class="detail-accordion-content" hidden></div>
+        <div id="market-compare-content" class="detail-accordion-content" hidden>
+          <p class="market-empty-copy" style="text-align:center;color:var(--text-muted);padding:1rem 0">Selectionner un jeu pour comparer</p>
+        </div>
       </section>
 
       <section id="market-market-shell" class="stats-card detail-accordion" hidden>
@@ -105,7 +109,9 @@
           <span>Market</span>
           <span class="detail-accordion-indicator">+</span>
         </button>
-        <div id="market-market-content" class="detail-accordion-content" hidden></div>
+        <div id="market-market-content" class="detail-accordion-content" hidden>
+          <p class="market-empty-copy" style="text-align:center;color:var(--text-muted);padding:1rem 0">Tendances et signaux du marche retro</p>
+        </div>
       </section>
 
       <section id="market-buy-shell" class="stats-card detail-accordion" hidden>
@@ -128,7 +134,7 @@
     <script src="/js/core/search-core.js?v=20260324"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/stats.js?v=20260326b"></script>
+    <script src="/js/pages/stats.js?v=20260327"></script>
     <div class="footer-attribution">
       Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
     </div>
