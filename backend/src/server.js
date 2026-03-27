@@ -336,18 +336,7 @@ app.use(handleAsync(async (_req, _res, next) => {
 }))
 
 app.get('/', (_req, res) => {
-  res.json({
-    ok: true,
-    message: 'RetroDex backend is running.',
-    docs: '/home.html',
-    consoles: '/consoles.html',
-    gamesList: '/games-list.html',
-    gameDetailExample: '/game-detail.html?id=tetris-game-boy',
-    collection: '/collection.html',
-    stats: '/stats.html',
-    debug: '/debug.html',
-    health: '/api/health',
-  })
+  res.redirect('/hub.html')
 })
 
 // SYNC: A7 - migre le 2026-03-23 - health check expose le mode DB reel

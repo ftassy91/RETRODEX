@@ -31,6 +31,15 @@ const editorialShellEl = document.getElementById('editorial-shell')
 const editorialContentEl = document.getElementById('editorial-content')
 const relatedShellEl = document.getElementById('related-shell')
 const relatedContentEl = document.getElementById('related-content')
+const synopsisSectionEl = document.getElementById('synopsis-section')
+const synopsisBodyEl = document.getElementById('synopsis-body')
+const editorialNoteSectionEl = document.getElementById('editorial-note-section')
+const editorialNoteBodyEl = document.getElementById('editorial-note-body')
+const prixSectionEl = document.getElementById('prix-section')
+const prixGridEl = document.getElementById('prix-grid')
+const prixTrustEl = document.getElementById('prix-trust')
+const franchiseSectionEl = document.getElementById('franchise-section')
+const franchiseBodyEl = document.getElementById('franchise-body')
 
 let currentGame = null
 let currentCollectionItem = null
@@ -258,6 +267,8 @@ async function getPreferredIllustrationPath(game) {
 }
 
 function buildCatalogueBackLink() {
+  if (!catalogBackLinkEl) return
+
   const params = new URLSearchParams(window.location.search)
   const source = params.get('source')
   params.delete('id')
@@ -358,15 +369,6 @@ function renderHeroSection(game) {
                 ` : ''}
               </div>
 
-              <div id="hero-summary-shell" class="hero-summary-shell"${summary ? '' : ' hidden'}>
-                <div id="hero-summary" class="hero-summary surface-summary-copy">${summary ? formatMultilineHtml(summary) : ''}</div>
-              </div>
-
-              <div class="game-tagline-shell" id="game-tagline-shell" hidden>
-                <span class="detail-inline-label">Note</span>
-                <div class="game-tagline" id="game-tagline"></div>
-              </div>
-
               <div class="hero-meta game-badges game-meta surface-chip-row detail-hero-chip-row">
                 ${visibleGenre ? `<span class="surface-chip">${escapeHtml(visibleGenre)}</span>` : ''}
                 <span class="surface-chip">${escapeHtml(meta.developerName)}</span>
@@ -396,20 +398,7 @@ function renderHeroSection(game) {
                 </div>
               </div>
 
-              <div class="surface-preview-panel detail-market-bridge">
-                <div class="terminal-preview-label">RETROMARKET</div>
-                <div class="surface-summary-copy">
-                  Prix, tendances et signal marché.
-                </div>
-                <div class="surface-action-row detail-hero-actions is-inline">
-                  <a href="/stats.html?q=${encodeURIComponent(game.title || '')}">
-                    Voir le prix ->
-                  </a>
-                  <a href="/encyclopedia.html?game=${encodeURIComponent(game.id || '')}">
-                    Ouvrir dossier ->
-                  </a>
-                </div>
-              </div>
+              <div class="hero-save-row" id="save-btn-container"></div>
 
               <div id="game-relations" class="game-relations"></div>
             </div>
@@ -920,32 +909,122 @@ async function loadFranchise(gameId) {
       return
     }
 
+    const franchise = data.franchise
+
+    // Render inline link in hero game-relations
     const relationsEl = document.getElementById('game-relations')
-    if (!relationsEl) {
-      return
+    if (relationsEl) {
+      const link = document.createElement('a')
+      link.className = 'terminal-action-link franchise-link'
+      link.href = '/franchises.html?slug=' + encodeURIComponent(franchise.slug)
+      link.textContent = 'FRANCHISE | ' + (franchise.name || 'n/a') + ' (' + (franchise.first_game || 'n/a') + '-' + (franchise.last_game || 'n/a') + ') ->'
+      relationsEl.appendChild(link)
     }
 
-    const franchise = data.franchise
-    relationsEl.innerHTML = `
-      <a class="terminal-action-link franchise-link" href="/franchises.html?slug=${encodeURIComponent(franchise.slug)}">
-        FRANCHISE | ${escapeHtml(franchise.name)} (${escapeHtml(franchise.first_game || 'n/a')}-${escapeHtml(franchise.last_game || 'n/a')}) ->
-      </a>
-    `
+    // Render franchise section
+    if (franchiseSectionEl && franchiseBodyEl) {
+      const games = safeArray(franchise.games || franchise.entries)
+        .filter((g) => g.id !== gameId)
+        .slice(0, 8)
+
+      if (games.length) {
+        franchiseSectionEl.hidden = false
+        // All values are escaped via escapeHtml
+        franchiseBodyEl.innerHTML = '<div class="franchise-scroll">'
+          + games.map((g) =>
+            '<a class="franchise-scroll-item" href="/game-detail.html?id=' + encodeURIComponent(g.id) + '">'
+            + '<span class="franchise-scroll-title">' + escapeHtml(g.title || 'n/a') + '</span>'
+            + '<span class="franchise-scroll-meta">' + escapeHtml(g.console || '') + (g.year ? ' · ' + escapeHtml(String(g.year)) : '') + '</span>'
+            + '</a>'
+          ).join('')
+          + '</div>'
+      }
+    }
   } catch (_error) {}
 }
 
 function renderSummary(game) {
-  const summaryShellEl = document.getElementById('hero-summary-shell')
-  const summaryEl = document.getElementById('hero-summary')
-  if (!summaryShellEl || !summaryEl) {
+  if (!synopsisSectionEl || !synopsisBodyEl) {
     return
   }
 
   const summary = String(game.summary || game.synopsis || '').trim()
-  summaryShellEl.hidden = !summary
-  summaryEl.innerHTML = summary
+  synopsisSectionEl.hidden = !summary
+  // formatMultilineHtml already escapes content via escapeHtml
+  synopsisBodyEl.innerHTML = summary
     ? formatMultilineHtml(summary)
     : ''
+}
+
+function renderEditorialNote(game) {
+  if (!editorialNoteSectionEl || !editorialNoteBodyEl) {
+    return
+  }
+
+  const tagline = String(game.tagline || '').trim()
+  editorialNoteSectionEl.hidden = !tagline
+  // formatMultilineHtml already escapes content via escapeHtml
+  editorialNoteBodyEl.innerHTML = tagline
+    ? formatMultilineHtml(tagline)
+    : ''
+}
+
+function renderPrixSection(data) {
+  if (!prixSectionEl || !prixGridEl || !prixTrustEl) {
+    return
+  }
+
+  const normalized = normalizeHistoryPayload(data)
+  const series = normalized.series || {}
+  const hasAny = PRICE_HISTORY_STATES.some((state) => {
+    const s = series[state.key]
+    return s && (s.current_price != null || s.available)
+  })
+
+  if (!hasAny) {
+    prixSectionEl.hidden = true
+    return
+  }
+
+  prixSectionEl.hidden = false
+
+  // All content below uses escapeHtml for safe rendering
+  prixGridEl.innerHTML = PRICE_HISTORY_STATES.map((state) => {
+    const s = series[state.key] || {}
+    const price = s.current_price != null ? s.current_price : (s.last_observation?.value ?? null)
+    const priceDisplay = price != null && Number.isFinite(Number(price)) && Number(price) > 0
+      ? '$' + Math.round(Number(price))
+      : '--'
+    const stats1y = s.periods?.['1y'] || {}
+    const variationPct = stats1y.variation_pct
+    let trendIcon = ''
+    let trendClass = 'trend-neutral'
+    if (Number.isFinite(variationPct)) {
+      if (variationPct > 2) {
+        trendIcon = '&#9650; +' + escapeHtml(String(Math.abs(variationPct).toFixed(1))) + '%'
+        trendClass = 'trend-up'
+      } else if (variationPct < -2) {
+        trendIcon = '&#9660; -' + escapeHtml(String(Math.abs(variationPct).toFixed(1))) + '%'
+        trendClass = 'trend-down'
+      } else {
+        trendIcon = '&#8212; stable'
+        trendClass = 'trend-neutral'
+      }
+    }
+
+    return '<div class="prix-card prix-card-' + escapeHtml(state.key) + '">'
+      + '<div class="prix-card-label">' + escapeHtml(state.label) + '</div>'
+      + '<div class="prix-card-value">' + priceDisplay + '</div>'
+      + (trendIcon ? '<div class="prix-card-trend ' + trendClass + '">' + trendIcon + '</div>' : '')
+      + '</div>'
+  }).join('')
+
+  const confidence = Math.max(0, ...PRICE_HISTORY_STATES.map((state) => {
+    const s = series[state.key]
+    return Number(s?.confidence_pct) || 0
+  }))
+  const trustMeta = getTrustMeta(confidence)
+  prixTrustEl.textContent = 'Confiance: ' + trustMeta.tier + ' ' + trustMeta.label.toLowerCase()
 }
 
 function renderStats(game) {
@@ -1677,7 +1756,12 @@ async function loadPriceHistory(gameId) {
     return
   }
 
-  const data = normalizeHistoryPayload(await response.json())
+  const rawData = await response.json()
+  const data = normalizeHistoryPayload(rawData)
+
+  // Render the inline prix cards in the unified section
+  renderPrixSection(rawData)
+
   const sectionEl = detailShellEl?.querySelector('.price-history') || document.querySelector('.price-history')
   const headingEl = sectionEl?.querySelector('h3')
   const legendEl = sectionEl?.querySelector('.chart-toggle')
@@ -2299,26 +2383,40 @@ async function loadPage() {
       }, { once: true })
     }
 
-    if (currentGame.tagline) {
-      const taglineShellEl = document.getElementById('game-tagline-shell')
-      const taglineEl = document.getElementById('game-tagline')
-      if (taglineEl && taglineShellEl) {
-        taglineEl.textContent = currentGame.tagline
-        taglineShellEl.hidden = false
+    renderSummary(currentGame)
+    renderEditorialNote(currentGame)
+    renderStats(currentGame)
+
+    // Wire pixel art save button
+    const saveBtnContainer = document.getElementById('save-btn-container')
+    if (saveBtnContainer && window.RetroDexSaveButton) {
+      try {
+        const collectionData = await fetchJson('/api/collection')
+        const isInCollection = safeArray(collectionData.items).some((item) => item.gameId === currentGame.id)
+        const saveBtn = window.RetroDexSaveButton.create(currentGame.id, isInCollection)
+        saveBtnContainer.innerHTML = ''
+        saveBtnContainer.appendChild(saveBtn)
+      } catch (e) {
+        const saveBtn = window.RetroDexSaveButton.create(currentGame.id, false)
+        saveBtnContainer.innerHTML = ''
+        saveBtnContainer.appendChild(saveBtn)
       }
     }
 
-    await loadFranchise(currentGame.id)
-    renderSummary(currentGame)
-    renderStats(currentGame)
     collectionButtonEl.addEventListener('click', handleCollectionAction)
     wishlistButtonEl?.addEventListener('click', handleWishlistAction)
     collectionRemoveButtonEl?.addEventListener('click', handleCollectionRemove)
-    await refreshCollectionStatus()
-    await loadEncyclopedia(currentGame.id)
-    await loadArchive(currentGame.id)
-    await loadSimilar(currentGame.id)
-    await loadRelatedGames(currentGame)
+
+    // Load all async sections in parallel where possible
+    await Promise.all([
+      loadFranchise(currentGame.id),
+      refreshCollectionStatus(),
+      loadEncyclopedia(currentGame.id),
+      loadArchive(currentGame.id),
+      loadPriceHistory(currentGame.id),
+      loadSimilar(currentGame.id),
+      loadRelatedGames(currentGame),
+    ])
   } catch (error) {
     heroEl.innerHTML = `<div class="loading-card">Impossible de charger la fiche (${escapeHtml(error.message)}).</div>`
     statsRowEl.innerHTML = ''
@@ -2335,45 +2433,12 @@ async function loadPage() {
     }
     if (editorialShellEl) editorialShellEl.hidden = true
     if (relatedShellEl) relatedShellEl.hidden = true
+    if (synopsisSectionEl) synopsisSectionEl.hidden = true
+    if (editorialNoteSectionEl) editorialNoteSectionEl.hidden = true
+    if (prixSectionEl) prixSectionEl.hidden = true
+    if (franchiseSectionEl) franchiseSectionEl.hidden = true
   }
 }
 
-function setAccordionState(sectionEl, expanded) {
-  if (!sectionEl) {
-    return
-  }
-
-  const toggleEl = sectionEl.querySelector('.detail-accordion-toggle')
-  const contentEl = sectionEl.querySelector('.detail-accordion-content')
-  if (!toggleEl || !contentEl) {
-    return
-  }
-
-  sectionEl.classList.toggle('is-open', expanded)
-  toggleEl.setAttribute('aria-expanded', expanded ? 'true' : 'false')
-  const indicatorEl = toggleEl.querySelector('.detail-accordion-indicator')
-  if (indicatorEl) {
-    indicatorEl.textContent = expanded ? '▾' : '▸'
-  }
-  contentEl.hidden = !expanded
-}
-
-function initDetailAccordions() {
-  document.querySelectorAll('.detail-accordion').forEach((sectionEl) => {
-    const toggleEl = sectionEl.querySelector('.detail-accordion-toggle')
-    if (!toggleEl || toggleEl.dataset.bound === 'true') {
-      return
-    }
-
-    toggleEl.dataset.bound = 'true'
-    setAccordionState(sectionEl, false)
-    toggleEl.addEventListener('click', () => {
-      const expanded = toggleEl.getAttribute('aria-expanded') === 'true'
-      setAccordionState(sectionEl, !expanded)
-    })
-  })
-}
-
-initDetailAccordions()
 loadPage()
 contribSubmitEl?.addEventListener('click', handleContributionSubmit)
