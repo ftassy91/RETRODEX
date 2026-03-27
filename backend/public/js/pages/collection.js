@@ -481,18 +481,20 @@
       : '-'
     const gainClass = gain === null ? '' : gain >= 0 ? 'positive' : 'negative'
 
-    const row = document.createElement('tr')
+    const row = document.createElement('div')
     row.className = 'terminal-row'
+    row.setAttribute('role', 'row')
     row.dataset.itemId = String(item.id || item.gameId || '')
     row.dataset.index = String(index)
+    row.style.gridTemplateColumns = '12px 1fr 90px 60px 70px 70px 70px'
     row.innerHTML = `
-      <td class="terminal-row-indicator">></td>
-      <td style="color:var(--text-primary)">${escapeHtml(game.title || '?')}</td>
-      <td style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '-')}</td>
-      <td class="condition-badge badge--condition" data-condition="${escapeHtml(item.condition || '')}" style="font-size:9px;border:1px solid var(--border);padding:1px 4px;text-align:center">${escapeHtml(item.condition || '-')}</td>
-      <td style="text-align:right;color:var(--text-alert)">${loosePrice ? formatCurrency(loosePrice) : '-'}</td>
-      <td style="text-align:right;color:var(--text-muted)">${paid ? formatCurrency(paid) : '-'}</td>
-      <td style="text-align:right" class="${gainClass}">${gainStr}</td>
+      <span role="cell" class="terminal-row-indicator">></span>
+      <span role="cell" style="color:var(--text-primary)">${escapeHtml(game.title || '?')}</span>
+      <span role="cell" style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '-')}</span>
+      <span role="cell" class="condition-badge badge--condition" data-condition="${escapeHtml(item.condition || '')}" style="font-size:9px;border:1px solid var(--border);padding:1px 4px;text-align:center">${escapeHtml(item.condition || '-')}</span>
+      <span role="cell" style="text-align:right;color:var(--text-alert)">${loosePrice ? formatCurrency(loosePrice) : '-'}</span>
+      <span role="cell" style="text-align:right;color:var(--text-muted)">${paid ? formatCurrency(paid) : '-'}</span>
+      <span role="cell" style="text-align:right" class="${gainClass}">${gainStr}</span>
     `
     window.RetroDexAssets?.decorateConditionBadges?.(row)
     row.addEventListener('click', () => selectCollectionItem(item, row))

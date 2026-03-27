@@ -2096,7 +2096,7 @@ a:hover {
 }
 
 @media (max-width: 480px) {
-  :root { --font-size-base: 14px; }
+  :root { --font-size-base: 12px; }
 
   #similar-grid { grid-template-columns: 1fr; }
 

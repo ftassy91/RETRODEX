@@ -120,24 +120,22 @@
         Structure RM-1 : identite, valeur estimee, signaux secondaires, puis actions directes vers la fiche, le marche et RetroDex.
       </div>
 
-      <div id="status-text" class="terminal-context terminal-status-line" role="alert" aria-live="assertive">
+      <div id="status-text" class="terminal-context terminal-status-line" role="status" aria-live="polite">
         Chargement...
       </div>
 
-      <table class="terminal-table-header" style="grid-template-columns: 12px 1fr 90px 60px 70px 70px 70px">
-        <thead>
-          <tr>
-            <th></th>
-            <th>TITRE</th>
-            <th>CONSOLE</th>
-            <th>COND.</th>
-            <th style="text-align:right">PRIX</th>
-            <th style="text-align:right">PAYE</th>
-            <th style="text-align:right">GAIN</th>
-          </tr>
-        </thead>
-        <tbody id="collection-list-container"></tbody>
-      </table>
+      <div class="terminal-table-header" role="table" aria-label="Collection" style="grid-template-columns: 12px 1fr 90px 60px 70px 70px 70px">
+        <div role="row" style="display:contents">
+          <span role="columnheader"></span>
+          <span role="columnheader">TITRE</span>
+          <span role="columnheader">CONSOLE</span>
+          <span role="columnheader">COND.</span>
+          <span role="columnheader" style="text-align:right">PRIX</span>
+          <span role="columnheader" style="text-align:right">PAYE</span>
+          <span role="columnheader" style="text-align:right">GAIN</span>
+        </div>
+      </div>
+      <div id="collection-list-container" role="rowgroup"></div>
 
       <div class="terminal-preview-panel surface-preview-panel" id="collection-detail" style="display:none">
         <div class="terminal-preview-label">SELECTION</div>
