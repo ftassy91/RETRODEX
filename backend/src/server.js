@@ -279,23 +279,31 @@ async function ensureConsolesSeeded() {
 
 const app = express()
 
-// Bug fix: CORS security - default to empty array (block all) in production if ALLOWED_ORIGINS unset
 const corsOrigin = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',').map((origin) => origin.trim())
-  : (process.env.NODE_ENV === 'production' ? [] : '*')
+  : '*'
 
-app.use(cors({
-  origin: corsOrigin,
-}))
+if (process.env.NODE_ENV === 'production' && !process.env.ALLOWED_ORIGINS) {
+  console.warn(
+    '[CORS] WARNING: ALLOWED_ORIGINS is not set in production. '
+    + 'All origins are allowed. Set ALLOWED_ORIGINS to restrict access.'
+  )
+}
+
+app.use(cors({ origin: corsOrigin }))
 app.use(express.json())
 
-// Bug fix: Rate limiting - add middleware to prevent abuse
+app.set('trust proxy', 1)
 app.use('/api/', rateLimit({
-  windowMs: 60000, // 1 minute
-  max: 100, // 100 requests per windowMs
-  standardHeaders: true, // Include RateLimit-* headers
-  legacyHeaders: false, // Disable X-RateLimit-* headers
+  windowMs: 60000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
 }))
+
+if (process.env.VERCEL) {
+  console.warn('[rate-limit] In-memory store on Vercel serverless — rate limiting is per-instance only. Consider Vercel WAF for production.')
+}
 
 app.use(express.static(path.join(__dirname, '..', 'public')))
 
