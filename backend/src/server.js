@@ -7,14 +7,12 @@ require('dotenv').config({
   path: path.join(__dirname, '..', '.env'),
 })
 
-process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL
-process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
-  || process.env.SUPABASE_SERVICE_ROLE_KEY
-  || process.env.SUPERDATA_SERVICE_KEY
-process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
+// Bug fix: Centralize env var remapping (was duplicated in 13+ files)
+require('./config/env')
 
 const express = require('express')
 const cors = require('cors')
+const rateLimit = require('express-rate-limit')
 const { mode: supabaseMode, db: supabaseDb } = require('../db_supabase')
 const { handleAsync } = require('./helpers/query')
 const { runMigrations } = require('./services/migration-runner')
@@ -281,12 +279,24 @@ async function ensureConsolesSeeded() {
 
 const app = express()
 
+// Bug fix: CORS security - default to empty array (block all) in production if ALLOWED_ORIGINS unset
+const corsOrigin = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',').map((origin) => origin.trim())
+  : (process.env.NODE_ENV === 'production' ? [] : '*')
+
 app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS
-    ? process.env.ALLOWED_ORIGINS.split(',').map((origin) => origin.trim())
-    : '*',
+  origin: corsOrigin,
 }))
 app.use(express.json())
+
+// Bug fix: Rate limiting - add middleware to prevent abuse
+app.use('/api/', rateLimit({
+  windowMs: 60000, // 1 minute
+  max: 100, // 100 requests per windowMs
+  standardHeaders: true, // Include RateLimit-* headers
+  legacyHeaders: false, // Disable X-RateLimit-* headers
+}))
+
 app.use(express.static(path.join(__dirname, '..', 'public')))
 
 app.use(handleAsync(async (_req, _res, next) => {

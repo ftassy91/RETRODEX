@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/style.css?v=20260324d" />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
       <a class="global-product-home" href="/hub.html">Hub</a>
       <div class="global-product-links">
@@ -40,7 +41,7 @@
         </a>
       </div>
     </nav>
-    <div class="page-wrapper">
+    <main id="main-content" class="page-wrapper">
       <div class="terminal-context">
         HUB > <span class="ctx-active">COLLECTIONS</span> > <span>COLLECTION</span>
       </div>
@@ -98,7 +99,7 @@
 
       <div class="terminal-filter-bar collection-toolbar surface-query-shell">
         <div class="terminal-filter-group collection-toolbar-group">
-          <input id="collection-search-input" class="collection-toolbar-input" type="search" placeholder="Filtrer par titre ou note..." />
+          <input id="collection-search-input" class="collection-toolbar-input" type="search" placeholder="Filtrer par titre ou note..." aria-label="Search games to add" />
           <select id="collection-console-filter" class="collection-toolbar-select">
             <option value="">Toutes les consoles</option>
           </select>
@@ -119,7 +120,7 @@
         Structure RM-1 : identite, valeur estimee, signaux secondaires, puis actions directes vers la fiche, le marche et RetroDex.
       </div>
 
-      <div id="status-text" class="terminal-context terminal-status-line">
+      <div id="status-text" class="terminal-context terminal-status-line" aria-live="polite">
         Chargement...
       </div>
 
@@ -195,7 +196,7 @@
       <div class="footer-igdb">
         Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
       </div>
-    </div>
+    </main>
 
     <script src="/js/core/config.js"></script>
     <script src="/js/core/dom.js"></script>

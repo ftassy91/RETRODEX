@@ -29,8 +29,8 @@ html, body {
   --bg-card:         #0a0f0a;
   --border:          #1a2a1a;
   --text-primary:    #00ff66;
-  --text-secondary:  #00994c;
-  --text-muted:      #1a5c2e;
+  --text-secondary:  #33cc66;
+  --text-muted:      #4a8a5a;
   --text-value:      #33ff99;
   --text-alert:      #ffcc00;
   --accent:          #00ff66;
@@ -10305,6 +10305,30 @@ body.hub-page .product-universe-frame {
 
   .market-compare-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Accessibility — focus indicators */
+:focus-visible {
+  outline: 2px solid #9bbc0f;
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 2px solid #9bbc0f;
+  outline-offset: 2px;
+}
+
+/* Accessibility — prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
