@@ -11735,16 +11735,7 @@ h1, h2, h3,
   border: 1px solid rgba(155,188,15,0.25);
   background: rgba(8,12,8,0.95);
 }
-.site-nav-home {
-  font-family: var(--font-display, 'Press Start 2P', monospace);
-  font-size: 10px;
-  color: var(--accent, #9bbc0f);
-  text-decoration: none;
-  padding: 6px 12px;
-  border-right: 1px solid rgba(155,188,15,0.15);
-  white-space: nowrap;
-}
-.site-nav-home:hover { color: #cfe66f; }
+/* .site-nav-home removed — RetroDex is now a regular .site-nav-link */
 .site-nav-links {
   display: flex;
   gap: 2px;
