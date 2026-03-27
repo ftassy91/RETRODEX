@@ -4,350 +4,337 @@
   const { byId, setHtml, setText } = window.RetroDexDom || {}
   const { escapeHtml, formatCurrency } = window.RetroDexFormat || {}
   const { fetchJson, getItems } = window.RetroDexApi || {}
-  const HUB_IMAGE_VERSION = '20260323b'
-  let hubImageManifestPromise = null
 
   if (!byId || !setHtml || !setText || !escapeHtml || !formatCurrency || !fetchJson || !getItems) {
     console.warn('[RetroDex] Hub bootstrap skipped: core helpers missing')
     return
   }
 
-  function loadHubImageManifest() {
-    if (!hubImageManifestPromise) {
-      hubImageManifestPromise = fetch(`/assets/hub_pixel_art/_manifest.json?v=${HUB_IMAGE_VERSION}`, { cache: 'no-store' })
-        .then((response) => (response.ok ? response.json() : []))
-        .catch(() => [])
-    }
+  /* ── Helpers ────────────────────────────────── */
 
-    return hubImageManifestPromise
-  }
-
-  async function getHubImagePath(gameId) {
-    if (!gameId) return ''
-
-    const manifest = await loadHubImageManifest()
-    if (!Array.isArray(manifest)) return ''
-
-    const entry = manifest.find((item) => item && item.game_id === gameId)
-    return entry?.file ? `/assets/hub_pixel_art/${entry.file}?v=${HUB_IMAGE_VERSION}` : ''
-  }
-
-  function hubStateMarkup(title, copy) {
+  function vizBar(label, value, pct, opts) {
+    const color = opts?.color || 'var(--accent)'
+    const suffix = opts?.suffix || ''
+    const link = opts?.link || ''
+    const labelHtml = link
+      ? `<a href="${escapeHtml(link)}" class="viz-bar-label viz-bar-label--link">${escapeHtml(label)}</a>`
+      : `<span class="viz-bar-label">${escapeHtml(label)}</span>`
     return `
-      <div class="terminal-empty-state hub-empty-state">
-        <div class="terminal-empty-title">${escapeHtml(title)}</div>
-        ${copy ? `<div class="terminal-empty-copy">${escapeHtml(copy)}</div>` : ''}
+      <div class="viz-bar">
+        ${labelHtml}
+        <div class="viz-bar-track">
+          <div class="viz-bar-fill" style="width:${Math.min(pct, 100)}%;background:${color}"></div>
+        </div>
+        <span class="viz-bar-value">${escapeHtml(String(value))}${suffix ? escapeHtml(suffix) : ''}</span>
       </div>
     `
   }
 
-  function renderCardThumb(canvas, game) {
-    const width = 120
-    const height = 68
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    canvas.width = width
-    canvas.height = height
-
-    let seed = 0
-    const source = game.id || game.title || ''
-    for (let index = 0; index < source.length; index += 1) {
-      seed = (seed * 31 + source.charCodeAt(index)) | 0
-    }
-    seed = Math.abs(seed)
-
-    const palettes = {
-      PlayStation: ['#050520', '#0f0f45', '#1a1a8b', '#4444dd'],
-      'Super Nintendo': ['#0d0d0d', '#1a3a1a', '#2d6a2d', '#7abf7a'],
-      'Sega Genesis': ['#101006', '#3a320a', '#72610f', '#d4b54d'],
-      'Sega Saturn': ['#0b120b', '#163316', '#245824', '#5db35d'],
-      'Nintendo 64': ['#08120b', '#12321a', '#1d6a32', '#57b26f'],
-      'Game Boy': ['#0f380f', '#306230', '#8bac0f', '#9bbc0f'],
-      'Game Boy Advance': ['#05101a', '#0f2535', '#1a558b', '#55aae8'],
-      'Nintendo DS': ['#05101a', '#17343a', '#2d666d', '#67bec7'],
-      Dreamcast: ['#1a1205', '#3f220c', '#8c4a18', '#e59b45'],
-      'Nintendo Entertainment System': ['#0f1410', '#263329', '#4a6b52', '#9dc2a5'],
-    }
-    const palette = palettes[game.console || game.platform] || ['#0f380f', '#306230', '#8bac0f', '#9bbc0f']
-    const style = seed % 4
-
-    ctx.fillStyle = palette[0]
-    ctx.fillRect(0, 0, width, height)
-
-    if (style === 0) {
-      ctx.fillStyle = palette[1]
-      ctx.fillRect(8, 8, width - 16, height - 24)
-      ctx.fillStyle = palette[2]
-      for (let index = 0; index < 3; index += 1) {
-        ctx.fillRect(16, 14 + index * 8, width - 32, 4)
-      }
-    } else if (style === 1) {
-      for (let y = 0; y < height; y += 4) {
-        ctx.fillStyle = palette[1]
-        ctx.globalAlpha = 0.4
-        ctx.fillRect(0, y, width, 2)
-      }
-      ctx.globalAlpha = 1
-      ctx.fillStyle = palette[2]
-      ctx.beginPath()
-      ctx.arc(width / 2, height / 2 - 8, 20, 0, Math.PI * 2)
-      ctx.fill()
-    } else if (style === 2) {
-      ctx.fillStyle = palette[1]
-      ctx.fillRect(0, 0, width, height * 0.4)
-      ctx.fillStyle = palette[3]
-      ctx.fillRect(width - 14, 4, 10, 10)
-      for (let index = 0; index < 5; index += 1) {
-        const barX = (seed * 7 + index * 23) % (width - 20) + 4
-        const barHeight = (seed * 3 + index * 17) % 16 + 6
-        ctx.fillStyle = palette[2]
-        ctx.fillRect(barX, height * 0.4 - barHeight, 12, barHeight)
-      }
-    } else {
-      ctx.fillStyle = palette[1]
-      ctx.fillRect(width * 0.15, height * 0.1, width * 0.7, height * 0.7)
-      ctx.fillStyle = palette[0]
-      ctx.fillRect(width * 0.15 + 2, height * 0.1 + 2, width * 0.7 - 4, height * 0.7 - 4)
-      ctx.fillStyle = palette[3]
-      ctx.fillRect(width * 0.35, height * 0.25, width * 0.3, 6)
-      ctx.fillRect(width * 0.35, height * 0.45, width * 0.3, 6)
-    }
-
-    ctx.fillStyle = 'rgba(0,0,0,0.6)'
-    ctx.fillRect(0, height - 14, width, 14)
-    ctx.fillStyle = palette[3]
-    ctx.font = '7px monospace'
-    ctx.fillText((game.title || '').substring(0, 18), 3, height - 4)
+  function vizRankRow(rank, label, value, opts) {
+    const link = opts?.link || ''
+    const labelHtml = link
+      ? `<a href="${escapeHtml(link)}" class="viz-rank-title viz-rank-title--link">${escapeHtml(label)}</a>`
+      : `<span class="viz-rank-title">${escapeHtml(label)}</span>`
+    return `
+      <div class="viz-rank-row">
+        <span class="viz-rank-pos">${escapeHtml(String(rank))}</span>
+        ${labelHtml}
+        <span class="viz-rank-value">${escapeHtml(String(value))}</span>
+      </div>
+    `
   }
 
-  async function loadLegendary() {
-    const grid = byId('legendary-grid')
-    if (grid) {
-      setHtml(grid, hubStateMarkup('Chargement', 'Lecture de la vitrine LEGENDARY.'))
+  function shortPlatform(name) {
+    const map = {
+      'Nintendo Entertainment System': 'NES',
+      'Super Nintendo': 'SNES',
+      'Nintendo 64': 'N64',
+      'Game Boy': 'GB',
+      'Game Boy Color': 'GBC',
+      'Game Boy Advance': 'GBA',
+      'Nintendo DS': 'NDS',
+      'Sega Genesis': 'Genesis',
+      'Sega Saturn': 'Saturn',
+      'Sega Master System': 'SMS',
+      'PlayStation': 'PS1',
+      'PlayStation 2': 'PS2',
+      'PlayStation 3': 'PS3',
+      'Dreamcast': 'DC',
+      'TurboGrafx-16': 'TG-16',
+      'Neo Geo': 'Neo Geo',
     }
-
-    try {
-      const payload = await fetchJson('/api/items?rarity=LEGENDARY&limit=6')
-      const items = getItems(payload)
-        .sort((left, right) => (Number(right.mintPrice) || 0) - (Number(left.mintPrice) || 0))
-        .slice(0, 6)
-      if (!grid) return
-
-      setHtml(grid, '')
-      if (!items.length) {
-        setHtml(grid, hubStateMarkup('Aucune entree visible', 'La vitrine LEGENDARY est vide pour cette selection.'))
-        return
-      }
-
-      for (const game of items) {
-        const card = document.createElement('div')
-        card.className = 'legendary-card'
-        card.addEventListener('click', () => {
-          window.location.href = `/game-detail.html?id=${encodeURIComponent(game.id)}`
-        })
-
-        const media = document.createElement('div')
-        media.className = 'legendary-card-media'
-
-        const imagePath = await getHubImagePath(game.id)
-        if (imagePath) {
-          const img = document.createElement('img')
-          img.src = imagePath
-          img.alt = game.title || 'Illustration'
-          img.loading = 'lazy'
-          media.appendChild(img)
-        } else {
-          const canvas = document.createElement('canvas')
-          renderCardThumb(canvas, game)
-          media.appendChild(canvas)
-        }
-
-        const info = document.createElement('div')
-        info.className = 'legendary-card-info'
-        info.innerHTML = `
-          <div class="legendary-card-title">${escapeHtml(game.title || 'Sans titre')}</div>
-          <div class="legendary-card-meta">${escapeHtml(game.console || game.platform || 'Console inconnue')} - ${escapeHtml(game.year || '-')}</div>
-          <div class="legendary-card-price">${Number.isFinite(Number(game.mintPrice)) ? `Mint ${formatCurrency(game.mintPrice)}` : 'Mint -'}</div>
-        `
-
-        card.appendChild(media)
-        card.appendChild(info)
-        grid.appendChild(card)
-      }
-    } catch (_) {
-      if (grid) {
-        setHtml(grid, hubStateMarkup('Lecture indisponible', 'Impossible de charger la vitrine LEGENDARY.'))
-      }
-    }
+    return map[name] || (name.length > 10 ? name.substring(0, 9) + '.' : name)
   }
 
-  async function loadEncyclopediaPreview() {
-    const grid = byId('hub-encyclo-preview')
-    if (grid) {
-      setHtml(grid, hubStateMarkup('Chargement', 'Lecture des dossiers RetroDex en cours.'))
-    }
+  const RARITY_COLORS = {
+    LEGENDARY: '#ffd700',
+    EPIC: '#e48855',
+    RARE: '#4ecdc4',
+    UNCOMMON: '#33cc66',
+    COMMON: '#6a8a6a',
+  }
 
-    try {
-      const payload = await fetchJson('/api/games?limit=1000&type=game')
-      let items = getItems(payload).filter((game) =>
-        game.synopsis || game.dev_team || game.dev_anecdotes || game.cheat_codes
+  /* ── Renderers ─────────────────────────────── */
+
+  function renderByConsole(container, byPlatform) {
+    if (!byPlatform || !byPlatform.length) {
+      setHtml(container, '<div class="hub-viz-empty">Aucune donnee</div>')
+      return
+    }
+    const max = byPlatform[0].count
+    const html = byPlatform.slice(0, 8).map((entry) =>
+      vizBar(
+        shortPlatform(entry.platform),
+        entry.count,
+        (entry.count / max) * 100,
+        { link: `/games-list.html?console=${encodeURIComponent(entry.platform)}` }
       )
+    ).join('')
+    setHtml(container, html)
+  }
 
-      if (items.length < 6) {
-        const response = await fetch('/games?type=game')
-        if (response.ok) {
-          const fallback = await response.json()
-          items = getItems(fallback).filter((game) =>
-            game.synopsis || game.dev_team || game.dev_anecdotes || game.cheat_codes
-          )
+  function renderByRarity(container, byRarity) {
+    if (!byRarity) {
+      setHtml(container, '<div class="hub-viz-empty">Aucune donnee</div>')
+      return
+    }
+    const order = ['LEGENDARY', 'EPIC', 'RARE', 'UNCOMMON', 'COMMON']
+    const total = order.reduce((sum, key) => sum + (byRarity[key] || 0), 0) || 1
+    const max = Math.max(...order.map((key) => byRarity[key] || 0), 1)
+    const html = order.map((key) => {
+      const count = byRarity[key] || 0
+      return vizBar(key, count, (count / max) * 100, {
+        color: RARITY_COLORS[key] || 'var(--accent)',
+        link: `/games-list.html?rarity=${key}`,
+      })
+    }).join('')
+    setHtml(container, html)
+  }
+
+  function renderByPrice(container, games) {
+    const brackets = [
+      { label: '$0 - $10', min: 0, max: 10, count: 0 },
+      { label: '$10 - $25', min: 10, max: 25, count: 0 },
+      { label: '$25 - $50', min: 25, max: 50, count: 0 },
+      { label: '$50 - $100', min: 50, max: 100, count: 0 },
+      { label: '$100 - $250', min: 100, max: 250, count: 0 },
+      { label: '$250+', min: 250, max: Infinity, count: 0 },
+    ]
+    for (const game of games) {
+      const price = Number(game.loosePrice)
+      if (!Number.isFinite(price) || price <= 0) continue
+      for (const bracket of brackets) {
+        if (price >= bracket.min && price < bracket.max) {
+          bracket.count += 1
+          break
         }
       }
-
-      if (!grid) return
-
-      setHtml(grid, '')
-      if (!items.length) {
-        setHtml(grid, hubStateMarkup('Aucun dossier visible', 'Aucune entree enrichie n est disponible pour cet apercu.'))
-        return
-      }
-
-      for (const game of items.slice(0, 6)) {
-        const card = document.createElement('div')
-        card.className = 'hub-encyclo-card'
-        card.addEventListener('click', () => {
-          window.location.href = `/encyclopedia.html?game=${encodeURIComponent(game.id)}`
-        })
-
-        const imagePath = await getHubImagePath(game.id)
-        card.innerHTML = `
-          ${imagePath ? `<div class="hub-encyclo-card-media"><img src="${escapeHtml(imagePath)}" alt="${escapeHtml(game.title || 'Illustration')}" loading="lazy"></div>` : ''}
-          <div class="hub-encyclo-card-title">${escapeHtml(game.title || 'Sans titre')}</div>
-          <div class="hub-encyclo-card-meta">${escapeHtml(game.console || '')} - ${escapeHtml(game.year || '')}</div>
-        `
-        grid.appendChild(card)
-      }
-    } catch (_) {
-      if (grid) {
-        setHtml(grid, hubStateMarkup('Archive indisponible', 'Impossible de charger l apercu encyclopedique.'))
-      }
     }
+    const max = Math.max(...brackets.map((b) => b.count), 1)
+    const html = brackets.map((b) =>
+      vizBar(b.label, b.count, (b.count / max) * 100)
+    ).join('')
+    setHtml(container, html)
   }
 
-  function setUniverseSignals({ stats, collectionItems, health, totalGames }) {
-    const avgLoose = Number(stats?.price_stats?.avg_loose || 0)
-    const collectionLoose = collectionItems.reduce((sum, item) => {
-      const loose = Number(item.game?.loosePrice || item.Game?.loosePrice || item.loosePrice || 0)
-      return sum + (Number.isFinite(loose) ? loose : 0)
-    }, 0)
-
-    setText(
-      byId('universe-market-signal'),
-      `${stats?.trust_stats?.t1 || 0} T1 | ${formatCurrency(avgLoose || 0)} avg loose`
-    )
-    setText(
-      byId('universe-dex-signal'),
-      `${stats?.encyclopedia_stats?.with_synopsis || 0} synopsis | ${stats?.encyclopedia_stats?.total_franchises || 0} franchises`
-    )
-    setText(
-      byId('universe-collection-signal'),
-      `${collectionItems.length} entrees | ${collectionItems.length ? formatCurrency(collectionLoose) : '$0'} loose`
-    )
-    setText(
-      byId('universe-search-signal'),
-      `${totalGames || health?.games || 0} jeux | ${stats?.total_platforms || 0} plateformes`
-    )
+  function renderTopExpensive(container, top5) {
+    if (!top5 || !top5.length) {
+      setHtml(container, '<div class="hub-viz-empty">Aucune donnee</div>')
+      return
+    }
+    const html = top5.map((game, idx) =>
+      vizRankRow(
+        idx + 1,
+        game.title || 'Sans titre',
+        formatCurrency(game.loosePrice),
+        { link: `/game-detail.html?id=${encodeURIComponent(game.id)}` }
+      )
+    ).join('')
+    setHtml(container, html)
   }
 
-  async function loadTopStats() {
-    let totalGames = null
-    let statsPayload = null
-    let healthPayload = null
-    let collectionItems = []
-    const collectionContainer = byId('coll-items')
-
-    if (collectionContainer) {
-      setHtml(collectionContainer, hubStateMarkup('Chargement', 'Lecture de l etagere personnelle.'))
+  function renderByDecade(container, games) {
+    const decades = {}
+    for (const game of games) {
+      const year = Number(game.year)
+      if (!year || year < 1970 || year > 2030) continue
+      const decade = Math.floor(year / 10) * 10
+      const label = `${decade}s`
+      decades[label] = (decades[label] || 0) + 1
     }
+    const entries = Object.entries(decades).sort((a, b) => a[0].localeCompare(b[0]))
+    if (!entries.length) {
+      setHtml(container, '<div class="hub-viz-empty">Aucune donnee</div>')
+      return
+    }
+    const max = Math.max(...entries.map(([, count]) => count), 1)
+    const html = entries.map(([label, count]) =>
+      vizBar(label, count, (count / max) * 100, { color: 'var(--text-secondary)' })
+    ).join('')
+    setHtml(container, html)
+  }
 
-    try {
-      const gamesPayload = await fetchJson('/api/games?limit=1&type=game')
-      totalGames = gamesPayload.total || null
-      setText(byId('stat-games'), gamesPayload.total || '-')
-      setText(byId('action-catalog-count'), gamesPayload.total ? `${gamesPayload.total} jeux` : 'Catalogue')
-      if (gamesPayload.total) {
-        setText(byId('hub-tagline'), `${gamesPayload.total} jeux - prix de marche - encyclopedie - 15 franchises`)
+  function renderByMetascore(container, games) {
+    const brackets = [
+      { label: '90 - 100', min: 90, max: 101, count: 0, color: '#52e052' },
+      { label: '80 - 89', min: 80, max: 90, count: 0, color: '#33cc66' },
+      { label: '70 - 79', min: 70, max: 80, count: 0, color: '#e0b352' },
+      { label: '60 - 69', min: 60, max: 70, count: 0, color: '#e48855' },
+      { label: '< 60', min: 0, max: 60, count: 0, color: '#e05252' },
+    ]
+    let scored = 0
+    for (const game of games) {
+      const score = Number(game.metascore)
+      if (!Number.isFinite(score) || score <= 0) continue
+      scored += 1
+      for (const bracket of brackets) {
+        if (score >= bracket.min && score < bracket.max) {
+          bracket.count += 1
+          break
+        }
       }
-    } catch (_) {}
+    }
+    if (!scored) {
+      setHtml(container, '<div class="hub-viz-empty">Aucun metascore</div>')
+      return
+    }
+    const max = Math.max(...brackets.map((b) => b.count), 1)
+    const html = brackets.map((b) =>
+      vizBar(b.label, b.count, (b.count / max) * 100, { color: b.color })
+    ).join('')
+    setHtml(container, html)
+  }
 
-    try {
-      const stats = await fetchJson('/api/stats')
-      statsPayload = stats
-      setText(byId('stat-consoles'), stats.total_platforms || '-')
-      setText(
-        byId('stat-meta'),
-        Number.isFinite(Number(stats.price_stats?.avg_loose))
-          ? formatCurrency(stats.price_stats.avg_loose)
-          : '-'
-      )
-    } catch (_) {}
+  /* ── Data Loading ──────────────────────────── */
 
+  async function loadHub() {
+    let stats = null
+    let games = []
+
+    // Fetch stats (has by_platform, by_rarity, top5_expensive, price_stats, etc.)
     try {
-      const health = await fetchJson('/api/health')
-      healthPayload = health
-      setText(byId('footer-status'), health.ok ? 'Backend OK' : 'Backend offline')
-      setText(
-        byId('footer-db'),
-        `${String(health.database || 'sqlite').toUpperCase()} - ${totalGames || health.games || 0} jeux`
-      )
-      setText(
-        byId('hub-runtime-line'),
-        health.ok
-          ? `${String(health.database || 'sqlite').toUpperCase()} / ${health.status || 'running'} / ${totalGames || health.games || '-'} jeux`
-          : 'OFFLINE'
-      )
+      stats = await fetchJson('/api/stats')
     } catch (_) {
-      setText(byId('footer-status'), 'Backend offline')
-      setText(byId('footer-db'), '')
-      setText(byId('hub-runtime-line'), 'OFFLINE')
+      console.warn('[RetroDex] Failed to fetch /api/stats')
     }
 
+    // Populate hero stat pills
+    if (stats) {
+      setText(byId('hero-stat-games'), `${stats.total_games || '?'} jeux`)
+      setText(byId('hero-stat-consoles'), `${stats.total_platforms || '?'} consoles`)
+      setText(byId('hero-stat-franchises'), `${stats.encyclopedia_stats?.total_franchises || '?'} franchises`)
+    }
+
+    // Render stats-based panels immediately
+    renderByConsole(byId('viz-by-console'), stats?.by_platform)
+    renderByRarity(byId('viz-by-rarity'), stats?.by_rarity)
+    renderTopExpensive(byId('viz-top-expensive'), stats?.top5_expensive)
+
+    // Fetch full game list for client-side aggregation (price, decade, metascore)
     try {
-      const collection = await fetchJson('/api/collection')
-      collectionItems = getItems(collection)
-      setText(byId('stat-collection'), collectionItems.length)
-      setText(byId('action-collection-count'), collectionItems.length ? `${collectionItems.length} entrees` : 'Vide')
-
-      if (!collectionContainer) return
-
-      if (!collectionItems.length) {
-        setHtml(collectionContainer, hubStateMarkup('Aucune entree suivie', 'Ouvrir Recherche pour alimenter l etagere.'))
-      } else {
-        setHtml(
-          collectionContainer,
-          collectionItems
-            .map((item) => {
-              const gameId = item.game?.id || item.Game?.id || item.gameId || item.id
-              const title = item.game?.title || item.Game?.title || item.title || item.gameId || 'Jeu'
-              return `<a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="coll-pill">${escapeHtml(title)}</a>`
-            })
-            .join('')
-        )
-      }
+      const payload = await fetchJson('/api/games?limit=2000&include_trend=0&type=game')
+      games = getItems(payload)
     } catch (_) {
-      setText(byId('stat-collection'), '-')
-      if (collectionContainer) {
-        setHtml(collectionContainer, hubStateMarkup('Collection indisponible', 'Impossible de lire l etagere pour le moment.'))
+      console.warn('[RetroDex] Failed to fetch /api/games for dataviz')
+    }
+
+    // Render game-data panels
+    renderByPrice(byId('viz-by-price'), games)
+    renderByDecade(byId('viz-by-decade'), games)
+    renderByMetascore(byId('viz-by-metascore'), games)
+  }
+
+  /* ── Retro Menu Navigation ───────────────────── */
+
+  function initRetroMenu() {
+    const menu = document.querySelector('.retro-menu')
+    if (!menu) return
+
+    const items = Array.from(menu.querySelectorAll('.retro-menu-item'))
+    if (!items.length) return
+
+    let activeIndex = 0
+
+    function setActive(index) {
+      items[activeIndex]?.classList.remove('is-active')
+      activeIndex = ((index % items.length) + items.length) % items.length
+      items[activeIndex].classList.add('is-active')
+      items[activeIndex].focus({ preventScroll: true })
+    }
+
+    // Play a subtle "click" sound via AudioContext (8-bit style)
+    function playMenuSound() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)()
+        const osc = ctx.createOscillator()
+        const gain = ctx.createGain()
+        osc.type = 'square'
+        osc.frequency.value = 880
+        gain.gain.value = 0.06
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06)
+        osc.connect(gain)
+        gain.connect(ctx.destination)
+        osc.start()
+        osc.stop(ctx.currentTime + 0.06)
+      } catch (_) {
+        // AudioContext not available — silent fallback
       }
     }
 
-    setUniverseSignals({
-      stats: statsPayload,
-      collectionItems,
-      health: healthPayload,
-      totalGames,
+    function playSelectSound() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)()
+        const osc = ctx.createOscillator()
+        const gain = ctx.createGain()
+        osc.type = 'square'
+        osc.frequency.setValueAtTime(523, ctx.currentTime)
+        osc.frequency.setValueAtTime(784, ctx.currentTime + 0.06)
+        osc.frequency.setValueAtTime(1047, ctx.currentTime + 0.12)
+        gain.gain.value = 0.08
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2)
+        osc.connect(gain)
+        gain.connect(ctx.destination)
+        osc.start()
+        osc.stop(ctx.currentTime + 0.2)
+      } catch (_) {}
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tagName = event.target?.tagName
+      const inField = tagName === 'INPUT' || tagName === 'TEXTAREA' || event.target?.isContentEditable
+
+      if (inField) return
+
+      if (event.key === 'ArrowDown') {
+        event.preventDefault()
+        playMenuSound()
+        setActive(activeIndex + 1)
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault()
+        playMenuSound()
+        setActive(activeIndex - 1)
+      } else if (event.key === 'Enter') {
+        const href = items[activeIndex]?.getAttribute('href')
+        if (href) {
+          event.preventDefault()
+          playSelectSound()
+          setTimeout(() => { window.location.href = href }, 180)
+        }
+      }
+    })
+
+    // Hover also moves cursor
+    items.forEach((item, idx) => {
+      item.addEventListener('mouseenter', () => {
+        if (idx !== activeIndex) {
+          playMenuSound()
+          setActive(idx)
+        }
+      })
     })
   }
+
+  /* ── Keyboard Shortcut ─────────────────────── */
 
   function bindKeyboardShortcut() {
     document.addEventListener('keydown', (event) => {
@@ -363,24 +350,27 @@
 
       if (event.key === 'Escape' && input && document.activeElement === input) {
         input.value = ''
+        input.blur()
       }
     })
   }
 
+  /* ── Service Worker ────────────────────────── */
+
   function registerServiceWorker() {
     if (!('serviceWorker' in navigator)) return
-
     navigator.serviceWorker
       .register('/sw.js')
       .catch((error) => console.warn('[RetroDex] SW registration failed:', error))
   }
 
+  /* ── Init ──────────────────────────────────── */
+
   function init() {
     bindKeyboardShortcut()
+    initRetroMenu()
     registerServiceWorker()
-    loadTopStats()
-    loadLegendary()
-    loadEncyclopediaPreview()
+    loadHub()
   }
 
   init()
