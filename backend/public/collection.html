@@ -120,24 +120,24 @@
         Structure RM-1 : identite, valeur estimee, signaux secondaires, puis actions directes vers la fiche, le marche et RetroDex.
       </div>
 
-      <div id="status-text" class="terminal-context terminal-status-line" aria-live="polite">
+      <div id="status-text" class="terminal-context terminal-status-line" role="alert" aria-live="assertive">
         Chargement...
       </div>
 
-      <div
-        class="terminal-table-header"
-        style="grid-template-columns: 12px 1fr 90px 60px 70px 70px 70px"
-      >
-        <span></span>
-        <span>TITRE</span>
-        <span>CONSOLE</span>
-        <span>COND.</span>
-        <span style="text-align:right">PRIX</span>
-        <span style="text-align:right">PAYE</span>
-        <span style="text-align:right">GAIN</span>
-      </div>
-
-      <div id="collection-list-container"></div>
+      <table class="terminal-table-header" style="grid-template-columns: 12px 1fr 90px 60px 70px 70px 70px">
+        <thead>
+          <tr>
+            <th></th>
+            <th>TITRE</th>
+            <th>CONSOLE</th>
+            <th>COND.</th>
+            <th style="text-align:right">PRIX</th>
+            <th style="text-align:right">PAYE</th>
+            <th style="text-align:right">GAIN</th>
+          </tr>
+        </thead>
+        <tbody id="collection-list-container"></tbody>
+      </table>
 
       <div class="terminal-preview-panel surface-preview-panel" id="collection-detail" style="display:none">
         <div class="terminal-preview-label">SELECTION</div>

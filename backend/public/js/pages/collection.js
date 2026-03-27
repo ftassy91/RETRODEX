@@ -481,19 +481,18 @@
       : '-'
     const gainClass = gain === null ? '' : gain >= 0 ? 'positive' : 'negative'
 
-    const row = document.createElement('div')
+    const row = document.createElement('tr')
     row.className = 'terminal-row'
-    row.style.gridTemplateColumns = '12px 1fr 90px 60px 70px 70px 70px'
     row.dataset.itemId = String(item.id || item.gameId || '')
     row.dataset.index = String(index)
     row.innerHTML = `
-      <span class="terminal-row-indicator">></span>
-      <span style="color:var(--text-primary)">${escapeHtml(game.title || '?')}</span>
-      <span style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '-')}</span>
-      <span class="condition-badge badge--condition" data-condition="${escapeHtml(item.condition || '')}" style="font-size:9px;border:1px solid var(--border);padding:1px 4px;text-align:center">${escapeHtml(item.condition || '-')}</span>
-      <span style="text-align:right;color:var(--text-alert)">${loosePrice ? formatCurrency(loosePrice) : '-'}</span>
-      <span style="text-align:right;color:var(--text-muted)">${paid ? formatCurrency(paid) : '-'}</span>
-      <span style="text-align:right" class="${gainClass}">${gainStr}</span>
+      <td class="terminal-row-indicator">></td>
+      <td style="color:var(--text-primary)">${escapeHtml(game.title || '?')}</td>
+      <td style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '-')}</td>
+      <td class="condition-badge badge--condition" data-condition="${escapeHtml(item.condition || '')}" style="font-size:9px;border:1px solid var(--border);padding:1px 4px;text-align:center">${escapeHtml(item.condition || '-')}</td>
+      <td style="text-align:right;color:var(--text-alert)">${loosePrice ? formatCurrency(loosePrice) : '-'}</td>
+      <td style="text-align:right;color:var(--text-muted)">${paid ? formatCurrency(paid) : '-'}</td>
+      <td style="text-align:right" class="${gainClass}">${gainStr}</td>
     `
     window.RetroDexAssets?.decorateConditionBadges?.(row)
     row.addEventListener('click', () => selectCollectionItem(item, row))
