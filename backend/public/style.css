@@ -44,7 +44,7 @@ html, body {
   --font-ui: 'BigBlueTerminal', 'Courier New', monospace;
   --font-display: 'DepartureMono', 'BigBlueTerminal', 'Courier New', monospace;
   --font-mono: var(--font-ui);
-  --font-size-base:  12px;
+  --font-size-base:  14px;
   --line-height:     1.4;
   --radius:          0px;
 }
@@ -99,7 +99,7 @@ label {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   color: #5a9a3a;
   margin-bottom: 1.25rem;
   letter-spacing: 0.05em;
@@ -2096,7 +2096,7 @@ a:hover {
 }
 
 @media (max-width: 480px) {
-  :root { --font-size-base: 11px; }
+  :root { --font-size-base: 12px; }
 
   #similar-grid { grid-template-columns: 1fr; }
 
