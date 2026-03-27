@@ -14,6 +14,15 @@
  *   node scripts/enrich/enrich_prices.js --source all --limit 50
  *   node scripts/enrich/enrich_prices.js --rarity LEGENDARY,EPIC --source all
  *
+ *   # Deep mode — scrape real price history from PriceCharting chart data
+ *   node scripts/enrich/enrich_prices.js --deep
+ *   node scripts/enrich/enrich_prices.js --deep --limit 50
+ *   node scripts/enrich/enrich_prices.js --deep --source pricecharting --limit 50
+ *   node scripts/enrich/enrich_prices.js --deep --dry-run
+ *
+ *   --deep can be combined with any --source / --limit / --rarity / --dry-run flags.
+ *   History is inserted into price_observations (source_name='pricecharting_history').
+ *
  * PriceCharting est utilisé sans scraping agressif (800ms entre requêtes).
  */
 
@@ -21,6 +30,7 @@ const { db, supabase, USE_SUPABASE } = require('./bootstrap');
 
 const args   = process.argv.slice(2);
 const DRY    = args.includes('--dry-run');
+const DEEP   = args.includes('--deep');
 const SOURCE = args.includes('--source') ? args[args.indexOf('--source')+1] : 'seed-history';
 const LIMIT  = args.includes('--limit')  ? parseInt(args[args.indexOf('--limit')+1]) : 100;
 const RARITY = args.includes('--rarity') ? args[args.indexOf('--rarity')+1].split(',') : null;
@@ -226,6 +236,302 @@ async function updateGamePrices(id, prices) {
   }
 }
 
+// ── Deep: PriceCharting history scraping ───────────────────────────────────
+// PriceCharting embeds chart data as a JS variable in the page HTML.
+// We try four extraction strategies in order, taking the first that yields data:
+//
+//   Strategy 1: var defined_chart_data = {used: [[ts,price],...], complete: [...], new: [...]}
+//   Strategy 2: var chartData = { ... }  (alternate variable name)
+//   Strategy 3: google.visualization.arrayToDataTable rows with new Date(y,m,d) entries
+//   Strategy 4: per-condition flat arrays  var used_data = [[ts,price],...];
+
+function parseChartDataFromHtml(html) {
+  // Strategy 1 — var defined_chart_data = {...}
+  const s1 = html.match(/var\s+defined_chart_data\s*=\s*(\{[\s\S]*?\})\s*;/);
+  if (s1) {
+    try {
+      const jsonStr = s1[1]
+        .replace(/(['"])?([a-z_][a-z0-9_]*)(['"])?:/gi, '"$2":')
+        .replace(/:\s*undefined/g, ':null');
+      const obj = JSON.parse(jsonStr);
+      if (obj && typeof obj === 'object') return obj;
+    } catch (_) {}
+  }
+
+  // Strategy 2 — var chartData = {...}
+  const s2 = html.match(/var\s+chartData\s*=\s*(\{[\s\S]*?\})\s*;/);
+  if (s2) {
+    try {
+      const jsonStr = s2[1]
+        .replace(/(['"])?([a-z_][a-z0-9_]*)(['"])?:/gi, '"$2":')
+        .replace(/:\s*undefined/g, ':null');
+      const obj = JSON.parse(jsonStr);
+      if (obj && typeof obj === 'object') return obj;
+    } catch (_) {}
+  }
+
+  // Strategy 3 — Google Charts arrayToDataTable with new Date(y, m, d) rows
+  const s3 = html.match(/arrayToDataTable\s*\(\s*\[([\s\S]*?)\]\s*\)/);
+  if (s3) {
+    try {
+      const rows = [];
+      const rowRe = /\[\s*new Date\((\d{4}),(\d{1,2}),(\d{1,2})\)\s*,\s*([\d.]+|null)\s*,\s*([\d.]+|null)\s*,\s*([\d.]+|null)/g;
+      let rm;
+      while ((rm = rowRe.exec(s3[1])) !== null) {
+        const year  = parseInt(rm[1]);
+        const month = parseInt(rm[2]); // 0-based JS month
+        const day   = parseInt(rm[3]);
+        const date  = new Date(Date.UTC(year, month, day)).toISOString().slice(0, 10);
+        rows.push({
+          date,
+          loose: rm[4] !== 'null' ? parseFloat(rm[4]) : null,
+          cib:   rm[5] !== 'null' ? parseFloat(rm[5]) : null,
+          mint:  rm[6] !== 'null' ? parseFloat(rm[6]) : null,
+        });
+      }
+      if (rows.length > 0) return { _googleChartRows: rows };
+    } catch (_) {}
+  }
+
+  // Strategy 4 — per-condition timestamp arrays: var used_data = [[ts,price],...]
+  const condPatterns = [
+    { key: 'loose', re: /var\s+(?:used|loose)_data\s*=\s*(\[\s*\[[\s\S]*?\]\s*\])\s*;/ },
+    { key: 'cib',   re: /var\s+(?:complete|cib)_data\s*=\s*(\[\s*\[[\s\S]*?\]\s*\])\s*;/ },
+    { key: 'mint',  re: /var\s+(?:new|mint)_data\s*=\s*(\[\s*\[[\s\S]*?\]\s*\])\s*;/ },
+  ];
+  const s4result = {};
+  let s4found = false;
+  for (const { key, re } of condPatterns) {
+    const cm = html.match(re);
+    if (cm) {
+      try {
+        s4result[key] = JSON.parse(cm[1]);
+        s4found = true;
+      } catch (_) {}
+    }
+  }
+  if (s4found) return { _tsArrays: s4result };
+
+  return null;
+}
+
+// Normalise whatever parseChartDataFromHtml returns into a uniform array:
+// [{date: 'YYYY-MM-DD', loose: number|null, cib: number|null, mint: number|null}]
+function normaliseChartData(raw) {
+  if (!raw) return [];
+
+  // Google Charts rows already in the right shape (Strategy 3)
+  if (raw._googleChartRows) return raw._googleChartRows;
+
+  // Timestamp-ms arrays keyed by condition (Strategy 4)
+  if (raw._tsArrays) {
+    const byDate = {};
+    for (const [condition, pairs] of Object.entries(raw._tsArrays)) {
+      if (!Array.isArray(pairs)) continue;
+      for (const pair of pairs) {
+        if (!Array.isArray(pair) || pair.length < 2) continue;
+        const ts    = Number(pair[0]);
+        const price = Number(pair[1]);
+        if (!ts || !price || price <= 0) continue;
+        const date = new Date(ts).toISOString().slice(0, 10);
+        if (!byDate[date]) byDate[date] = { date, loose: null, cib: null, mint: null };
+        byDate[date][condition] = price;
+      }
+    }
+    return Object.values(byDate).sort((a, b) => a.date.localeCompare(b.date));
+  }
+
+  // Strategy 1/2: object with keys like used/loose, complete/cib, new/mint
+  const condMap = {
+    used: 'loose', loose: 'loose',
+    complete: 'cib', cib: 'cib',
+    new: 'mint', mint: 'mint',
+  };
+
+  const byDate = {};
+  for (const [rawKey, pairs] of Object.entries(raw)) {
+    const condition = condMap[rawKey.toLowerCase()];
+    if (!condition || !Array.isArray(pairs)) continue;
+    for (const pair of pairs) {
+      if (!Array.isArray(pair) || pair.length < 2) continue;
+      const ts    = Number(pair[0]);
+      const price = Number(pair[1]);
+      if (!ts || !price || price <= 0) continue;
+      const date = new Date(ts).toISOString().slice(0, 10);
+      if (!byDate[date]) byDate[date] = { date, loose: null, cib: null, mint: null };
+      byDate[date][condition] = price;
+    }
+  }
+  return Object.values(byDate).sort((a, b) => a.date.localeCompare(b.date));
+}
+
+// Fetch the game page and extract price history chart data.
+// Returns an array of normalised data points, or [] if nothing found.
+async function fetchPriceChartingHistory(game) {
+  const consoleSlug = PC_SLUGS[game.console];
+  if (!consoleSlug) return [];
+
+  const slug = game.title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+
+  const url = `https://www.pricecharting.com/game/${consoleSlug}/${slug}`;
+
+  try {
+    const res = await fetch(url, {
+      headers: {
+        'User-Agent':      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept':          'text/html,application/xhtml+xml',
+        'Accept-Language': 'en-US,en;q=0.9',
+      },
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!res.ok) return [];
+    const html = await res.text();
+    const raw  = parseChartDataFromHtml(html);
+    return normaliseChartData(raw);
+  } catch (_) {
+    return [];
+  }
+}
+
+// ── Ensure price_observations table (SQLite only) ──────────────────────────
+function ensurePriceObservationsTable() {
+  if (USE_SUPABASE) return; // Table already exists via migration in Supabase
+  try {
+    db.prepare(`CREATE TABLE IF NOT EXISTS price_observations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      game_id TEXT NOT NULL,
+      edition_id TEXT,
+      condition TEXT,
+      price REAL NOT NULL,
+      currency TEXT NOT NULL DEFAULT 'USD',
+      observed_at TEXT NOT NULL,
+      source_name TEXT NOT NULL,
+      source_record_id INTEGER,
+      listing_reference TEXT,
+      listing_url TEXT,
+      confidence REAL NOT NULL DEFAULT 0.5,
+      is_verified INTEGER NOT NULL DEFAULT 0,
+      raw_payload TEXT
+    )`).run();
+    db.prepare(`CREATE INDEX IF NOT EXISTS idx_price_obs_game_id ON price_observations(game_id)`).run();
+    db.prepare(`CREATE INDEX IF NOT EXISTS idx_price_obs_listing_ref ON price_observations(listing_reference)`).run();
+  } catch (_) {}
+}
+
+// Batch-check which listing_references already exist — avoids N+1 queries.
+async function fetchExistingRefs(refs) {
+  if (!refs.length) return new Set();
+  if (USE_SUPABASE) {
+    const { data } = await supabase
+      .from('price_observations')
+      .select('listing_reference')
+      .in('listing_reference', refs);
+    return new Set((data || []).map(r => r.listing_reference));
+  }
+  const placeholders = refs.map(() => '?').join(',');
+  const rows = db.prepare(
+    `SELECT listing_reference FROM price_observations WHERE listing_reference IN (${placeholders})`
+  ).all(...refs);
+  return new Set(rows.map(r => r.listing_reference));
+}
+
+async function insertPriceObservation(obs) {
+  if (DRY) return;
+  if (USE_SUPABASE) {
+    await supabase.from('price_observations').insert([obs]);
+  } else {
+    db.prepare(
+      `INSERT INTO price_observations
+       (game_id, condition, price, currency, observed_at, source_name, listing_reference, confidence)
+       VALUES (?,?,?,?,?,?,?,?)`
+    ).run(
+      obs.game_id, obs.condition, obs.price, obs.currency,
+      obs.observed_at, obs.source_name, obs.listing_reference, obs.confidence
+    );
+  }
+}
+
+// ── Deep mode: scrape real price history for all games with existing prices ─
+async function runDeepMode(games) {
+  ensurePriceObservationsTable();
+
+  // Only process games that already have at least one price populated
+  const gamesWithPrices = games.filter(g => g.loosePrice || g.cibPrice || g.mintPrice);
+  console.log(`\n[Deep History] ${gamesWithPrices.length} games with prices to process`);
+  if (DRY) console.log('[DRY RUN]');
+
+  let gamesProcessed = 0;
+  let pointsInserted = 0;
+  let gamesNoData    = 0;
+
+  for (const game of gamesWithPrices) {
+    const rows = await fetchPriceChartingHistory(game);
+
+    if (rows.length === 0) {
+      gamesNoData++;
+      await sleep(800);
+      continue;
+    }
+
+    // Build all candidate observations for this game
+    const candidates = [];
+    for (const row of rows) {
+      for (const condition of ['loose', 'cib', 'mint']) {
+        const price = row[condition];
+        if (!price || price <= 0) continue;
+        const ref = `pc-history-${game.id}-${row.date}-${condition}`;
+        candidates.push({
+          game_id:           game.id,
+          condition,
+          price,
+          currency:          'USD',
+          observed_at:       row.date,
+          source_name:       'pricecharting_history',
+          listing_reference: ref,
+          confidence:        0.70,
+        });
+      }
+    }
+
+    if (candidates.length === 0) {
+      gamesNoData++;
+      await sleep(800);
+      continue;
+    }
+
+    // Batch dedup: skip any listing_reference already in the table
+    const allRefs     = candidates.map(c => c.listing_reference);
+    const existingSet = await fetchExistingRefs(allRefs);
+    const toInsert    = candidates.filter(c => !existingSet.has(c.listing_reference));
+
+    if (DRY) {
+      console.log(`  [DRY] ${game.title.slice(0, 30)} — ${toInsert.length} new / ${candidates.length} total history points`);
+    } else {
+      for (const obs of toInsert) {
+        await insertPriceObservation(obs);
+        pointsInserted++;
+      }
+    }
+
+    gamesProcessed++;
+    process.stdout.write(
+      `\r  ✓ ${gamesProcessed} games · ${pointsInserted} pts inserted · ✗ ${gamesNoData} no data (${game.title.slice(0, 25)})`
+    );
+
+    await sleep(800);
+  }
+
+  console.log(
+    `\n[Deep History] Done: ${gamesProcessed} games processed · ` +
+    `${pointsInserted} history points inserted · ` +
+    `${gamesNoData} games with no chart data found`
+  );
+}
+
 // ── Main ───────────────────────────────────────────────────────────────────
 async function main() {
   ensurePriceHistoryTable();
@@ -267,6 +573,11 @@ async function main() {
       }
     }
     console.log(`\n[Seed History] Done: ${histOk} games with history`);
+  }
+
+  // ── Deep history ─────────────────────────────────────────────────────────
+  if (DEEP) {
+    await runDeepMode(games);
   }
 
   console.log('\n✅ Price enrichment complete');
