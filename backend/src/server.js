@@ -16,6 +16,7 @@ const rateLimit = require('express-rate-limit')
 const { mode: supabaseMode, db: supabaseDb } = require('../db_supabase')
 const { handleAsync } = require('./helpers/query')
 const { runMigrations } = require('./services/migration-runner')
+const { requireApiKey } = require('./middleware/auth')
 
 const hasServerlessSupabaseEnv = Boolean(process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL)
 const hasDatabaseUrl = Boolean(process.env.DATABASE_URL)
@@ -414,6 +415,8 @@ if (useSupabaseServerlessRoutes) {
   app.use(require('./routes/market'))
   app.use('/api/prices', require('./routes/prices'))
   app.use(require('./routes/franchises'))
+  app.use('/api/admin', requireApiKey)
+  app.use(require('./routes/games-admin'))
   app.use(require('./routes/sync'))
 }
 
