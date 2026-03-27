@@ -10480,6 +10480,38 @@ body.hub-page .product-universe-frame {
   color: var(--text-muted);
 }
 
+/* === Hub Signals Panel === */
+.hub-signals-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid rgba(67, 95, 60, 0.42);
+}
+
+.hub-signal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(67, 95, 60, 0.42);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.hub-signal-label {
+  color: var(--text-muted);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hub-signal-value {
+  color: var(--text-secondary);
+  text-align: right;
+  line-height: 1.6;
+}
+
 /* Accessibility — skip link */
 .skip-link {
   position: absolute;

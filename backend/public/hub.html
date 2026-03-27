@@ -11,37 +11,218 @@
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="icon" type="image/png" href="/icons/icon-192.png">
   <title>RETRODEX</title>
-  <meta name="description" content="Point d'entree RetroDex.">
+  <meta name="description" content="RetroDex — catalogue retro, prix de marche, encyclopedie et collection.">
   <meta property="og:title" content="RETRODEX">
-  <meta property="og:description" content="Point d'entree RetroDex.">
+  <meta property="og:description" content="RetroDex — catalogue retro, prix de marche, encyclopedie et collection.">
   <meta property="og:type" content="website">
   <meta name="robots" content="index, follow">
-  <link rel="stylesheet" href="/style.css?v=20260326b">
+  <link rel="stylesheet" href="/style.css?v=20260327a">
 </head>
 <body class="hub-page">
   <a href="#main-content" class="skip-link">Skip to content</a>
-  <main id="main-content" class="page-wrapper" style="min-height:100vh;display:flex;align-items:center;justify-content:center;">
-    <section style="width:min(720px,100%);display:grid;gap:1rem;">
-      <div class="terminal-context" style="padding-left:0;">HUB</div>
-      <div class="terminal-preview-panel surface-preview-panel" style="display:block;padding:2rem;">
-        <div class="terminal-preview-label">ENTRY POINT</div>
-        <div class="terminal-preview-title" style="font-size:clamp(2rem,6vw,4rem);line-height:1;">RETRODEX</div>
-        <form class="surface-query-shell" action="/search.html" method="get" style="margin-top:1rem;">
-          <input
-            id="hub-search-input"
-            class="hub-search-input"
-            type="search"
-            name="q"
-            placeholder="titre, console, franchise..."
-            aria-label="Rechercher"
-            autocomplete="off"
-            autofocus
-            spellcheck="false"
-          >
-          <button class="hub-search-button" type="submit">ENTRER</button>
-        </form>
+
+  <!-- NAV BAR -->
+  <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
+    <a class="global-product-home is-active" href="/hub.html">Hub</a>
+    <div class="global-product-links">
+      <a class="global-product-link is-market" href="/stats.html">
+        <span class="nav-label">RetroMarket</span>
+        <span class="nav-copy">prix | tendances | marche</span>
+      </a>
+      <a class="global-product-link" href="/games-list.html">
+        <span class="nav-label">RetroDex</span>
+        <span class="nav-copy">fiches | lore | encyclopedie</span>
+      </a>
+      <a class="global-product-link" href="/collection.html">
+        <span class="nav-label">Collections</span>
+        <span class="nav-copy">etagere | wishlist | suivi</span>
+      </a>
+      <a class="global-product-link" href="/search.html">
+        <span class="nav-label">Recherche</span>
+        <span class="nav-copy">recherche universelle</span>
+      </a>
+    </div>
+  </nav>
+
+  <main id="main-content" class="hub-page">
+
+    <!-- COCKPIT: Identity + Search -->
+    <div class="hub-cockpit">
+      <div class="hub-cockpit-grid">
+        <!-- Left: Identity -->
+        <div class="hub-identity-panel">
+          <div class="hub-kicker">TERMINAL v0.3</div>
+          <h1 class="hub-page-title">RETRODEX</h1>
+          <p class="hub-intro" id="hub-tagline">Catalogue retro — prix de marche — encyclopedie — collection</p>
+          <div class="hub-system-line">
+            <span class="hub-system-label">RUNTIME</span>
+            <span id="hub-runtime-line">...</span>
+          </div>
+        </div>
+
+        <!-- Right: Search + Quick Actions -->
+        <div class="hub-actions-panel">
+          <div class="hub-panel-label">RECHERCHE UNIVERSELLE</div>
+          <form class="hub-search-form" action="/search.html" method="get">
+            <input
+              id="hub-search-input"
+              class="hub-search-input"
+              type="search"
+              name="q"
+              placeholder="titre, console, franchise..."
+              aria-label="Rechercher"
+              autocomplete="off"
+              autofocus
+              spellcheck="false"
+            >
+            <button class="hub-search-button" type="submit">ENTRER</button>
+          </form>
+          <div class="hub-action-grid">
+            <a href="/games-list.html" class="hub-action-card is-primary">
+              <span class="hub-action-code">CATALOGUE</span>
+              <span class="hub-action-title" id="action-catalog-count">...</span>
+              <span class="hub-action-copy">Index complet des jeux retro</span>
+            </a>
+            <a href="/stats.html" class="hub-action-card">
+              <span class="hub-action-code">RETROMARKET</span>
+              <span class="hub-action-title">Prix &amp; Marche</span>
+              <span class="hub-action-copy">Tendances, loose/CIB/mint</span>
+            </a>
+            <a href="/collection.html" class="hub-action-card">
+              <span class="hub-action-code">COLLECTION</span>
+              <span class="hub-action-title" id="action-collection-count">...</span>
+              <span class="hub-action-copy">Etagere personnelle &amp; suivi</span>
+            </a>
+            <a href="/search.html" class="hub-action-card">
+              <span class="hub-action-code">RECHERCHE</span>
+              <span class="hub-action-title">Universelle</span>
+              <span class="hub-action-copy">Recherche multi-criteres</span>
+            </a>
+          </div>
+        </div>
       </div>
-    </section>
+
+      <!-- STATS ROW -->
+      <div class="hub-stats">
+        <div class="hub-stat is-primary">
+          <span class="val" id="stat-games">...</span>
+          <span class="lbl">JEUX INDEXES</span>
+        </div>
+        <div class="hub-stat">
+          <span class="val" id="stat-consoles">...</span>
+          <span class="lbl">CONSOLES</span>
+        </div>
+        <div class="hub-stat">
+          <span class="val" id="stat-meta">...</span>
+          <span class="lbl">AVG LOOSE</span>
+        </div>
+        <div class="hub-stat">
+          <span class="val" id="stat-collection">...</span>
+          <span class="lbl">COLLECTION</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT GRID: Legendary + Collection sidebar -->
+    <div class="hub-content-grid">
+      <div class="hub-content-main">
+        <!-- Legendary Showcase -->
+        <section class="legendary-section hub-module">
+          <div class="hub-module-head">
+            <div>
+              <div class="hub-module-kicker">VITRINE</div>
+              <h2 class="hub-module-title">LEGENDARY</h2>
+            </div>
+            <a href="/games-list.html?rarity=LEGENDARY" class="hub-module-link">VOIR TOUT &rarr;</a>
+          </div>
+          <div id="legendary-grid" class="legendary-grid"></div>
+        </section>
+
+        <!-- Encyclopedia Preview -->
+        <section class="hub-module">
+          <div class="hub-module-head">
+            <div>
+              <div class="hub-module-kicker">ENCYCLOPEDIE</div>
+              <h2 class="hub-module-title">DOSSIERS RETRODEX</h2>
+            </div>
+            <a href="/encyclopedia.html" class="hub-module-link">EXPLORER &rarr;</a>
+          </div>
+          <div id="hub-encyclo-preview" class="hub-encyclo-grid" style="display:grid;"></div>
+        </section>
+      </div>
+
+      <div class="hub-content-side">
+        <!-- Collection preview -->
+        <section class="collection-preview hub-module">
+          <div class="hub-module-head">
+            <div>
+              <div class="hub-module-kicker">ETAGERE</div>
+              <h2 class="hub-module-title">COLLECTION</h2>
+            </div>
+            <a href="/collection.html" class="hub-module-link">OUVRIR &rarr;</a>
+          </div>
+          <div id="coll-items" class="coll-items" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+        </section>
+
+        <!-- Universe Signals -->
+        <section class="hub-module hub-signals-panel">
+          <div class="hub-module-head">
+            <div>
+              <div class="hub-module-kicker">SIGNAUX</div>
+              <h2 class="hub-module-title">UNIVERS</h2>
+            </div>
+          </div>
+          <div class="hub-signals-grid">
+            <div class="hub-signal-row">
+              <span class="hub-signal-label">MARCHE</span>
+              <span class="hub-signal-value" id="universe-market-signal">...</span>
+            </div>
+            <div class="hub-signal-row">
+              <span class="hub-signal-label">DEX</span>
+              <span class="hub-signal-value" id="universe-dex-signal">...</span>
+            </div>
+            <div class="hub-signal-row">
+              <span class="hub-signal-label">COLLECTION</span>
+              <span class="hub-signal-value" id="universe-collection-signal">...</span>
+            </div>
+            <div class="hub-signal-row">
+              <span class="hub-signal-label">RECHERCHE</span>
+              <span class="hub-signal-value" id="universe-search-signal">...</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- System Module -->
+        <section class="hub-module hub-system-module">
+          <div class="hub-module-head">
+            <div>
+              <div class="hub-module-kicker">SYSTEME</div>
+              <h2 class="hub-module-title">STATUS</h2>
+            </div>
+          </div>
+          <div class="hub-system-grid">
+            <div class="hub-system-row">
+              <span class="hub-system-key">BACKEND</span>
+              <span class="hub-system-value" id="footer-status">...</span>
+            </div>
+            <div class="hub-system-row">
+              <span class="hub-system-key">DATABASE</span>
+              <span class="hub-system-value" id="footer-db">...</span>
+            </div>
+          </div>
+          <div class="hub-system-actions">
+            <a href="/debug.html" class="hub-action-inline">DEBUG &rarr;</a>
+            <a href="/about.html" class="hub-action-inline">ABOUT &rarr;</a>
+          </div>
+        </section>
+      </div>
+    </div>
+
   </main>
+
+  <script src="/js/core/dom.js"></script>
+  <script src="/js/core/format.js"></script>
+  <script src="/js/core/api.js"></script>
+  <script src="/js/pages/hub.js?v=20260327a"></script>
 </body>
 </html>

@@ -274,6 +274,7 @@
       const gamesPayload = await fetchJson('/api/games?limit=1&type=game')
       totalGames = gamesPayload.total || null
       setText(byId('stat-games'), gamesPayload.total || '-')
+      setText(byId('action-catalog-count'), gamesPayload.total ? `${gamesPayload.total} jeux` : 'Catalogue')
       if (gamesPayload.total) {
         setText(byId('hub-tagline'), `${gamesPayload.total} jeux - prix de marche - encyclopedie - 15 franchises`)
       }
@@ -315,6 +316,7 @@
       const collection = await fetchJson('/api/collection')
       collectionItems = getItems(collection)
       setText(byId('stat-collection'), collectionItems.length)
+      setText(byId('action-collection-count'), collectionItems.length ? `${collectionItems.length} entrees` : 'Vide')
 
       if (!collectionContainer) return
 
