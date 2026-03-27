@@ -45,14 +45,14 @@ function normalizeGameFields(row) {
     cibPrice: row.cibPrice ?? row.cib_price ?? null,
     mintPrice: row.mintPrice ?? row.mint_price ?? null,
     // Image fields
-    coverImage: row.coverImage || row.cover_url || null,
+    coverImage: row.coverImage ?? row.cover_url ?? null,
     // Metadata fields
     sourceConfidence: row.sourceConfidence ?? row.source_confidence ?? null,
     // Developer fields
-    devAnecdotes: row.devAnecdotes || row.dev_anecdotes || null,
-    devTeam: row.devTeam || row.dev_team || null,
+    devAnecdotes: row.devAnecdotes ?? row.dev_anecdotes ?? null,
+    devTeam: row.devTeam ?? row.dev_team ?? null,
     // Content fields
-    cheatCodes: row.cheatCodes || row.cheat_codes || null,
+    cheatCodes: row.cheatCodes ?? row.cheat_codes ?? null,
     // Relationship fields
     franchId: row.franchId ?? row.franch_id ?? null,
   }

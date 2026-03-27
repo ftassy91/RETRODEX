@@ -75,7 +75,11 @@ async function getTableNames() {
     tableNamesPromise = sequelize.getQueryInterface()
       .showAllTables()
       .then((tables) => new Set((tables || []).map((tableName) => String(tableName || '').replace(/"/g, '').toLowerCase())))
-      .catch(() => new Set())
+      .catch((error) => {
+        console.error('[game-read-service] failed to load table names:', error.message || error)
+        tableNamesPromise = null
+        return new Set()
+      })
   }
 
   return tableNamesPromise
@@ -91,7 +95,11 @@ async function getGameColumnNames() {
     gameColumnsPromise = sequelize.getQueryInterface()
       .describeTable('games')
       .then((columns) => new Set(Object.keys(columns || {}).map((name) => String(name || '').toLowerCase())))
-      .catch(() => new Set())
+      .catch((error) => {
+        console.error('[game-read-service] failed to describe games table:', error.message || error)
+        gameColumnsPromise = null
+        return new Set()
+      })
   }
 
   return gameColumnsPromise
