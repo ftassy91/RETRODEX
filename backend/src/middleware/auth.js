@@ -1,4 +1,6 @@
-'use strict'
+'use strict';
+
+const crypto = require('crypto')
 
 const API_KEY = process.env.RETRODEX_API_KEY
 
@@ -14,7 +16,7 @@ if (!API_KEY) {
  *
  * - 500 if RETRODEX_API_KEY env var is missing
  * - 401 if header is absent
- * - 403 if header value does not match
+ * - 403 if header value does not match (timing-safe comparison)
  */
 function requireApiKey(req, res, next) {
   const configured = process.env.RETRODEX_API_KEY
@@ -35,7 +37,11 @@ function requireApiKey(req, res, next) {
     })
   }
 
-  if (provided !== configured) {
+  const providedBuf = Buffer.from(String(provided))
+  const configuredBuf = Buffer.from(String(configured))
+
+  if (providedBuf.length !== configuredBuf.length
+      || !crypto.timingSafeEqual(providedBuf, configuredBuf)) {
     return res.status(403).json({
       ok: false,
       error: 'Forbidden',

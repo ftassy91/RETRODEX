@@ -749,6 +749,7 @@ async function getRandomHydratedGame(options = {}) {
     const rows = await Game.findAll({
       where,
       attributes: selectableAttributes,
+      order: [['id', 'ASC']],
       limit: 1,
       offset: randomOffset,
     })
