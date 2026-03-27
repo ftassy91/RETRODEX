@@ -75,6 +75,7 @@ router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
         editorial_excluded: false,
       },
       order: [['date_estimated', 'ASC'], ['created_at', 'ASC'], ['id', 'ASC']],
+      limit: 500,
     }),
     RetrodexIndex.findAll({
       where: {

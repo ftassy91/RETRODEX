@@ -19,6 +19,7 @@
     <script src="/js/renderGameRow.js?v=20260326c"></script>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
       <a class="global-product-home" href="/hub.html">Hub</a>
       <div class="global-product-links">
@@ -40,7 +41,7 @@
         </a>
       </div>
     </nav>
-    <main class="catalog-shell catalog-page">
+    <main id="main-content" class="catalog-shell catalog-page">
       <header class="catalog-header catalog-page-head">
         <div class="catalog-page-titlezone">
           <nav class="breadcrumb">
@@ -219,7 +220,7 @@
             <div id="loading-indicator" class="status-bar"></div>
           </section>
 
-          <section id="results" class="results-list"></section>
+          <section id="results" class="results-list" aria-live="polite"></section>
 
           <div id="page-numbers" class="catalog-page-numbers"></div>
 

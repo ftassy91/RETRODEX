@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
       <a class="global-product-home" href="/hub.html">Hub</a>
       <div class="global-product-links">
@@ -41,7 +42,7 @@
       </div>
     </nav>
 
-    <main class="detail-shell market-detail-shell">
+    <main id="main-content" class="detail-shell market-detail-shell">
       <nav class="breadcrumb">
         <a href="/hub.html">HUB</a>
         <span class="sep">&rsaquo;</span>
@@ -60,6 +61,7 @@
             class="terminal-query-input"
             placeholder="titre, console, annee"
             autocomplete="off"
+            aria-label="Search market data"
           />
           <span class="terminal-query-count" id="market-search-count"></span>
         </div>
