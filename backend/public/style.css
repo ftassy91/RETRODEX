@@ -12028,6 +12028,25 @@ h1, h2, h3,
   }
 }
 
+/* Catalogue filter panel cleanup */
+.catalog-filter-panel .field label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.catalog-filter-panel .field input,
+.catalog-filter-panel .field select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
 /* Accessibility — prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
