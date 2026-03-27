@@ -11708,6 +11708,18 @@ body.hub-page .product-universe-frame {
 }
 
 
+/* Pixel font for ALL titles and headings */
+h1, h2, h3,
+.page-title, .page-title-display,
+.section-title, .unified-section-title,
+.hub-page-title, .hub-universe-title,
+.product-universe-title, .universe-hero,
+.retro-menu-label, .site-nav-home,
+.terminal-preview-title,
+.hub-viz-card-title {
+  font-family: var(--font-display) !important;
+}
+
 /* ═══════════════════════════════════════════════════════
    SITE NAV — retro menu as navigation
    Desktop: compact horizontal bar

@@ -267,6 +267,8 @@ async function getPreferredIllustrationPath(game) {
 }
 
 function buildCatalogueBackLink() {
+  if (!catalogBackLinkEl) return
+
   const params = new URLSearchParams(window.location.search)
   const source = params.get('source')
   params.delete('id')
