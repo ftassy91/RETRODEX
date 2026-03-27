@@ -161,7 +161,16 @@ function renderSearchResults() {
   if (state.query.length < 2) {
     searchHeaderEl.hidden = true
     searchCountEl.textContent = ''
-    searchResultsEl.innerHTML = ''
+    const emptyEl = document.createElement('div')
+    emptyEl.className = 'terminal-empty-state search-empty'
+    emptyEl.setAttribute('aria-live', 'polite')
+    emptyEl.style.cssText = 'text-align:center;color:var(--text-muted);padding:1.5rem 0'
+    const copyEl = document.createElement('div')
+    copyEl.className = 'terminal-empty-copy'
+    copyEl.textContent = 'Rechercher un jeu pour voir les signaux marche'
+    emptyEl.appendChild(copyEl)
+    searchResultsEl.textContent = ''
+    searchResultsEl.appendChild(emptyEl)
     return
   }
 
@@ -451,6 +460,10 @@ function renderCompareCards() {
 function renderCompareContent() {
   if (!compareContentEl || !state.currentGame) return
 
+  const comparePlaceholder = !state.compareGame
+    ? `<p class="market-empty-copy" style="text-align:center;color:var(--text-muted);margin:1rem 0">Selectionner un jeu pour comparer</p>`
+    : ''
+
   compareContentEl.innerHTML = `
     <div class="terminal-query-line market-search-shell market-compare-search">
       <span class="terminal-query-label">COMPARE :</span>
@@ -474,6 +487,7 @@ function renderCompareContent() {
           </button>
         `).join('')}
     </div>
+    ${comparePlaceholder}
     ${renderCompareCards()}
   `
 
@@ -502,11 +516,11 @@ function renderAll() {
   const hasGame = Boolean(state.currentGame)
   setSecondaryShellVisibility(hasGame)
   if (!hasGame) {
-    if (graphContentEl) graphContentEl.innerHTML = ''
-    if (compareContentEl) compareContentEl.innerHTML = ''
-    if (marketContentEl) marketContentEl.innerHTML = ''
-    if (buyContentEl) buyContentEl.innerHTML = ''
-    if (tradeContentEl) tradeContentEl.innerHTML = ''
+    if (graphContentEl) graphContentEl.textContent = ''
+    if (compareContentEl) compareContentEl.textContent = ''
+    if (marketContentEl) marketContentEl.textContent = ''
+    if (buyContentEl) buyContentEl.textContent = ''
+    if (tradeContentEl) tradeContentEl.textContent = ''
     return
   }
 
@@ -528,7 +542,21 @@ async function searchGames(query, { autoSelectFirst = false } = {}) {
   }
 
   if (searchCountEl) {
-    searchCountEl.textContent = 'Recherche...'
+    searchCountEl.textContent = 'Chargement...'
+  }
+  if (searchResultsEl) {
+    searchHeaderEl.hidden = true
+    const loadingEl = document.createElement('div')
+    loadingEl.className = 'terminal-empty-state search-empty'
+    loadingEl.setAttribute('aria-live', 'polite')
+    loadingEl.setAttribute('aria-busy', 'true')
+    loadingEl.style.cssText = 'text-align:center;color:var(--text-muted);padding:1.5rem 0'
+    const copyEl = document.createElement('div')
+    copyEl.className = 'terminal-empty-copy'
+    copyEl.textContent = 'Chargement...'
+    loadingEl.appendChild(copyEl)
+    searchResultsEl.textContent = ''
+    searchResultsEl.appendChild(loadingEl)
   }
 
   try {
@@ -555,6 +583,17 @@ async function searchGames(query, { autoSelectFirst = false } = {}) {
 
 async function selectGame(gameId) {
   const token = ++selectionToken
+
+  if (heroSummaryEl) {
+    const loadingEl = document.createElement('div')
+    loadingEl.className = 'loading-card market-empty-card'
+    loadingEl.setAttribute('aria-live', 'polite')
+    loadingEl.setAttribute('aria-busy', 'true')
+    loadingEl.style.cssText = 'text-align:center;color:var(--text-muted)'
+    loadingEl.textContent = 'Chargement...'
+    heroSummaryEl.textContent = ''
+    heroSummaryEl.appendChild(loadingEl)
+  }
 
   const [gameResult, summaryResult, salesResult, listingsResult] = await Promise.allSettled([
     fetchJson(`/api/games/${encodeURIComponent(gameId)}`),

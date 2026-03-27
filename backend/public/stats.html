@@ -81,7 +81,11 @@
           <span style="text-align:right">MINT</span>
           <span style="text-align:center">META</span>
         </div>
-        <div id="market-search-results" class="market-search-results"></div>
+        <div id="market-search-results" class="market-search-results" aria-live="polite">
+          <div class="terminal-empty-state search-empty" style="text-align:center;color:var(--text-muted);padding:1.5rem 0">
+            <div class="terminal-empty-copy">Rechercher un jeu pour voir les signaux marche</div>
+          </div>
+        </div>
       </section>
 
       <section id="market-graph-shell" class="stats-card detail-accordion" hidden>
@@ -89,7 +93,9 @@
           <span>Graph</span>
           <span class="detail-accordion-indicator">+</span>
         </button>
-        <div id="market-graph-content" class="detail-accordion-content" hidden></div>
+        <div id="market-graph-content" class="detail-accordion-content" hidden>
+          <p class="market-empty-copy" style="text-align:center;color:var(--text-muted);padding:1rem 0">Selectionner un jeu pour voir l&#x27;historique des prix</p>
+        </div>
       </section>
 
       <section id="market-compare-shell" class="stats-card detail-accordion" hidden>
@@ -97,7 +103,9 @@
           <span>Compare</span>
           <span class="detail-accordion-indicator">+</span>
         </button>
-        <div id="market-compare-content" class="detail-accordion-content" hidden></div>
+        <div id="market-compare-content" class="detail-accordion-content" hidden>
+          <p class="market-empty-copy" style="text-align:center;color:var(--text-muted);padding:1rem 0">Selectionner un jeu pour comparer</p>
+        </div>
       </section>
 
       <section id="market-market-shell" class="stats-card detail-accordion" hidden>
@@ -105,7 +113,9 @@
           <span>Market</span>
           <span class="detail-accordion-indicator">+</span>
         </button>
-        <div id="market-market-content" class="detail-accordion-content" hidden></div>
+        <div id="market-market-content" class="detail-accordion-content" hidden>
+          <p class="market-empty-copy" style="text-align:center;color:var(--text-muted);padding:1rem 0">Tendances et signaux du marche retro</p>
+        </div>
       </section>
 
       <section id="market-buy-shell" class="stats-card detail-accordion" hidden>
@@ -128,7 +138,7 @@
     <script src="/js/core/search-core.js?v=20260324"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/stats.js?v=20260326b"></script>
+    <script src="/js/pages/stats.js?v=20260327"></script>
     <div class="footer-attribution">
       Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
     </div>
