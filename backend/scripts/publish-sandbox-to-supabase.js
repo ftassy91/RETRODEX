@@ -218,6 +218,12 @@ function main() {
     [path.join(ROOT, "backend", "scripts", "run-audit.js")],
   ));
 
+  const curationArgs = [path.join(ROOT, "backend", "scripts", "run-pass1-curation.js")];
+  if (!dryRun) {
+    curationArgs.push("--apply");
+  }
+  steps.push(runCommand("curation-pass1", process.execPath, curationArgs));
+
   if (!env.hasSupabaseUrl || !env.hasSupabaseServiceKey) {
     steps.push(skippedStep(
       "publish-supabase",
@@ -247,6 +253,10 @@ function main() {
       "publish-external-assets",
       "Missing SUPABASE_URL or service key in the current environment.",
     ));
+    steps.push(skippedStep(
+      "publish-curation",
+      "Missing SUPABASE_URL or service key in the current environment.",
+    ));
   } else if (!env.hasValidSupabaseUrl) {
     steps.push(skippedStep(
       "publish-supabase",
@@ -274,6 +284,10 @@ function main() {
     ));
     steps.push(skippedStep(
       "publish-external-assets",
+      "Supabase URL is configured but is not an HTTP(S) REST URL.",
+    ));
+    steps.push(skippedStep(
+      "publish-curation",
       "Supabase URL is configured but is not an HTTP(S) REST URL.",
     ));
   } else {
@@ -318,6 +332,12 @@ function main() {
       externalAssetsArgs.push("--apply");
     }
     steps.push(runCommand("publish-external-assets", process.execPath, externalAssetsArgs));
+
+    const curationPublishArgs = [path.join(ROOT, "backend", "scripts", "publish-curation-supabase.js")];
+    if (!dryRun) {
+      curationPublishArgs.push("--apply");
+    }
+    steps.push(runCommand("publish-curation", process.execPath, curationPublishArgs));
   }
 
   const auditSummary = findLatestAuditSummary();

@@ -246,12 +246,13 @@ async function findConsoleRecord(idOrSlug) {
   )) || null
 }
 
-async function loadConsoleGames(consoleRecord, knowledgeEntry, limit = 24) {
+async function loadConsoleGames(consoleRecord, knowledgeEntry, limit = 24, { publishedOnly = false } = {}) {
   const names = buildNameVariants(consoleRecord, knowledgeEntry)
   const payload = await listHydratedGamesByConsole(consoleRecord, {
     nameVariants: names,
     limit,
     sort: 'year_asc',
+    publishedOnly,
   })
 
   return {
@@ -347,14 +348,17 @@ function buildSourcesPayload(consoleRecord, knowledgeEntry, market) {
   return sources
 }
 
-async function buildConsolePayload(idOrSlug, { gamesLimit = 24 } = {}) {
+async function buildConsolePayload(idOrSlug, { gamesLimit = 24, publishedOnly = false } = {}) {
   const consoleRecord = await findConsoleRecord(idOrSlug)
   if (!consoleRecord) {
     return null
   }
 
   const knowledgeEntry = getConsoleById(consoleRecord.slug || consoleRecord.name || consoleRecord.id)
-  const gamesBundle = await loadConsoleGames(consoleRecord, knowledgeEntry, gamesLimit)
+  const gamesBundle = await loadConsoleGames(consoleRecord, knowledgeEntry, gamesLimit, { publishedOnly })
+  if (publishedOnly && Number(gamesBundle.total || 0) <= 0) {
+    return null
+  }
   const market = buildMarketPayload(gamesBundle.items, gamesBundle.total)
   const overview = buildOverviewPayload(consoleRecord, knowledgeEntry, market)
   const hardware = buildHardwarePayload(consoleRecord, knowledgeEntry)
@@ -396,7 +400,7 @@ async function buildConsolePayload(idOrSlug, { gamesLimit = 24 } = {}) {
   }
 }
 
-async function listConsoleItems() {
+async function listConsoleItems({ publishedOnly = false } = {}) {
   const consoleRecords = await Console.findAll({
     attributes: ['id', 'name', 'manufacturer', 'generation', 'releaseYear', 'slug'],
     order: [['name', 'ASC']],
@@ -404,6 +408,7 @@ async function listConsoleItems() {
   const catalog = await listHydratedGames({
     limit: 5000,
     offset: 0,
+    publishedOnly,
   })
   const games = catalog.items || []
 
@@ -431,7 +436,7 @@ async function listConsoleItems() {
     }
   }
 
-  return consoleRecords.map((record) => {
+  const items = consoleRecords.map((record) => {
     const plain = record.get({ plain: true })
     const knowledgeEntry = getConsoleById(plain.slug || plain.name || plain.id)
     const gamesCount = countsById.get(String(plain.id))
@@ -464,6 +469,10 @@ async function listConsoleItems() {
       quality,
     }
   })
+
+  return publishedOnly
+    ? items.filter((item) => Number(item.gamesCount || 0) > 0)
+    : items
 }
 
 module.exports = {

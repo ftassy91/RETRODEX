@@ -1304,6 +1304,12 @@ function buildNotableGamesPayload(consoleItem, games = []) {
 }
 
 async function fetchPublishedConsoles() {
+  const scope = await fetchPublishedGameScope().catch(() => ({
+    enabled: false,
+    ids: [],
+    set: new Set(),
+    consoleIds: [],
+  }))
   const fallback = listConsoles().map((entry) => buildStaticConsoleRecord(entry))
   const { data, error } = await db
     .from('consoles')
@@ -1319,7 +1325,64 @@ async function fetchPublishedConsoles() {
   }
 
   const published = (data || []).map((row) => buildPublishedConsoleRecord(row))
+  const filtered = scope.enabled && scope.consoleIds.length
+    ? published.filter((row) => scope.consoleIds.includes(String(row.id || '')))
+    : published
+  if (filtered.length) {
+    return filtered
+  }
+
+  if (scope.enabled && scope.consoleIds.length) {
+    return fallback.filter((row) => scope.consoleIds.includes(String(row.id || '')))
+  }
+
   return published.length ? published : fallback
+}
+
+async function fetchPublishedGameScope() {
+  const { data, error } = await db
+    .from('console_publication_slots')
+    .select('game_id,console_id')
+    .eq('is_active', true)
+
+  if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return {
+        enabled: false,
+        ids: [],
+        set: new Set(),
+        consoleIds: [],
+      }
+    }
+
+    throw new Error(error.message)
+  }
+
+  const ids = Array.from(new Set((data || []).map((row) => String(row.game_id || '')).filter(Boolean)))
+  const consoleIds = Array.from(new Set((data || []).map((row) => String(row.console_id || '')).filter(Boolean)))
+
+  return {
+    enabled: true,
+    ids,
+    set: new Set(ids),
+    consoleIds,
+  }
+}
+
+function filterPublishedGames(games = [], scope = null) {
+  if (!scope?.enabled || !scope.ids.length) {
+    return games
+  }
+
+  return (games || []).filter((game) => scope.set.has(String(game?.id || '')))
+}
+
+function filterPublishedSearchResults(results = [], scope = null) {
+  if (!scope?.enabled || !scope.ids.length) {
+    return results
+  }
+
+  return (results || []).filter((item) => item?._type !== 'game' || scope.set.has(String(item.id || '')))
 }
 
 function buildConsoleListItem(consoleItem, games = []) {
@@ -1356,11 +1419,12 @@ async function fetchGlobalConsoleResults(query, limit) {
     return []
   }
 
-  const [consoles, games] = await Promise.all([
+  const [consoles, games, scope] = await Promise.all([
     fetchPublishedConsoles(),
     fetchAllSupabaseGames(),
+    fetchPublishedGameScope(),
   ])
-  const gamesByConsole = buildConsoleGamesMap(games)
+  const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope))
 
   return consoles
     .filter((consoleItem) => {
@@ -1645,6 +1709,7 @@ router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
 
 router.get('/api/items', handleAsync(async (req, res) => {
   const limit = parseLimit(req.query.limit, 20, 1000)
+  const scope = await fetchPublishedGameScope()
   const { items = [], total = 0 } = await queryGames({
     sort: req.query.sort || 'title_asc',
     console: req.query.console || req.query.platform,
@@ -1652,6 +1717,7 @@ router.get('/api/items', handleAsync(async (req, res) => {
     limit,
     offset: Number.parseInt(String(req.query.offset || '0'), 10) || 0,
     search: req.query.q,
+    ids: scope.enabled && scope.ids.length ? scope.ids : null,
   })
 
   const hydratedItems = await hydrateGameCovers(items)
@@ -1666,11 +1732,12 @@ router.get('/api/items', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/consoles', handleAsync(async (_req, res) => {
-  const [catalog, games] = await Promise.all([
+  const [catalog, games, scope] = await Promise.all([
     fetchPublishedConsoles(),
     fetchAllSupabaseGames(),
+    fetchPublishedGameScope(),
   ])
-  const gamesByConsole = buildConsoleGamesMap(games)
+  const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope))
   const knownKeys = new Set()
 
   const items = catalog
@@ -1711,9 +1778,10 @@ router.get('/api/consoles', handleAsync(async (_req, res) => {
 }))
 
 router.get('/api/consoles/:id', handleAsync(async (req, res) => {
-  const [catalog, games] = await Promise.all([
+  const [catalog, games, scope] = await Promise.all([
     fetchPublishedConsoles(),
     fetchAllSupabaseGames(),
+    fetchPublishedGameScope(),
   ])
   const consoleItem = findConsoleInCatalog(catalog, req.params.id)
 
@@ -1721,7 +1789,7 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: 'Console not found' })
   }
 
-  const gamesByConsole = buildConsoleGamesMap(games)
+  const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope))
   const consoleGames = await hydrateGameCovers(
     (gamesByConsole.get(getConsoleCatalogKey(consoleItem)) || [])
       .sort((left, right) => compareGamesForSort(left, right, 'year_asc'))
@@ -1771,6 +1839,7 @@ router.get('/api/search', handleAsync(async (req, res) => {
     : 'all'
   const limit = parseLimit(req.query.limit, 20, 100)
   const numericYear = /^\d{4}$/.test(q) ? Number.parseInt(q, 10) : null
+  const scope = await fetchPublishedGameScope()
 
   if (!q || q.length < 2) {
     return res.json({ ok: true, results: [], count: 0, query: q })
@@ -1783,25 +1852,25 @@ router.get('/api/search', handleAsync(async (req, res) => {
 
   try {
     const indexRows = await fetchSearchIndexResults(q, Math.min(Math.max(limit * 2, limit), 200))
-    results = indexRows
-      .filter((row) => type === 'all' || row._type === type)
-      .map((row) => (row._type === 'franchise'
-        ? normalizeSearchFranchiseRow(row)
-        : normalizeSearchGameRow(row)))
-    if (!results.length) {
-      const fallback = await fetchSearchFallbackResults(
+      results = filterPublishedSearchResults(indexRows
+        .filter((row) => type === 'all' || row._type === type)
+        .map((row) => (row._type === 'franchise'
+          ? normalizeSearchFranchiseRow(row)
+          : normalizeSearchGameRow(row))), scope)
+      if (!results.length) {
+        const fallback = await fetchSearchFallbackResults(
         q,
         type,
         requestedGamesLimit,
         requestedFranchisesLimit,
         numericYear
       )
-      results = [
-        ...fallback.franchises,
-        ...dedupeSearchResults(fallback.games).slice(0, requestedGamesLimit),
-      ]
-    }
-  } catch (_error) {
+        results = filterPublishedSearchResults([
+          ...fallback.franchises,
+          ...dedupeSearchResults(fallback.games).slice(0, requestedGamesLimit),
+        ], scope)
+      }
+    } catch (_error) {
     const fallback = await fetchSearchFallbackResults(
       q,
       type,
@@ -1809,11 +1878,11 @@ router.get('/api/search', handleAsync(async (req, res) => {
       requestedFranchisesLimit,
       numericYear
     )
-    results = [
-      ...fallback.franchises,
-      ...dedupeSearchResults(fallback.games).slice(0, requestedGamesLimit),
-    ]
-  }
+      results = filterPublishedSearchResults([
+        ...fallback.franchises,
+        ...dedupeSearchResults(fallback.games).slice(0, requestedGamesLimit),
+      ], scope)
+    }
 
   if (numericYear && (type === 'all' || type === 'game')) {
     results = results.filter((item) => item._type !== 'game' || item.year === numericYear)
@@ -1851,6 +1920,7 @@ router.get('/api/search/global', handleAsync(async (req, res) => {
   const q = String(req.query.q || '').trim()
   const context = String(req.query.context || 'all').trim().toLowerCase()
   const limit = parseLimit(req.query.limit, 20, 60)
+  const scope = await fetchPublishedGameScope()
 
   if (q.length < 2) {
     return res.json({
@@ -1869,12 +1939,13 @@ router.get('/api/search/global', handleAsync(async (req, res) => {
       sort: 'title_asc',
       limit: Math.max(limit * 3, 20),
       offset: 0,
+      ids: scope.enabled && scope.ids.length ? scope.ids : null,
     }),
     fetchGlobalConsoleResults(q, limit),
     fetchGlobalFranchiseResults(q, limit),
   ])
 
-  const hydratedGames = await hydrateGameCovers(gamesPayload.items || [])
+  const hydratedGames = await hydrateGameCovers(filterPublishedGames(gamesPayload.items || [], scope))
 
   let items = [
     ...(hydratedGames.map((game) => createGlobalGameResult(game, context))),

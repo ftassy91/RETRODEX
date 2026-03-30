@@ -21,13 +21,14 @@ router.get('/consoles', async (_req, res) => {
 })
 
 router.get('/api/consoles', handleAsync(async (_req, res) => {
-  const items = await listConsoleItems()
+  const items = await listConsoleItems({ publishedOnly: true })
   res.json({ ok: true, items, count: items.length })
 }))
 
 router.get('/api/consoles/:id', handleAsync(async (req, res) => {
   const payload = await buildConsolePayload(req.params.id, {
     gamesLimit: 24,
+    publishedOnly: true,
   })
 
   if (!payload) {

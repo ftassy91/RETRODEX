@@ -44,6 +44,7 @@ router.get('/games', handleAsync(async (req, res) => {
       limit: parseLimit(req.query.limit, 20, 5000),
       offset: Math.max(0, Number.parseInt(String(req.query.offset || '0'), 10) || 0),
       sort: String(req.query.sort || 'title_asc'),
+      publishedOnly: true,
     })
 
     return res.json(payload.items)
@@ -93,6 +94,7 @@ router.get('/api/games', handleAsync(async (req, res) => {
     limit: parseLimit(req.query.limit, 20, 5000),
     offset: Math.max(0, Number.parseInt(String(req.query.offset || '0'), 10) || 0),
     sort: String(req.query.sort || 'title_asc'),
+    publishedOnly: true,
   })
 
   res.json(payload)
@@ -104,6 +106,7 @@ router.get('/api/games/random', handleAsync(async (req, res) => {
     consoleName: String(req.query.console || '').trim(),
     rarity: String(req.query.rarity || '').trim(),
     genreName: String(req.query.genre || '').trim(),
+    publishedOnly: true,
   })
 
   if (!game) {

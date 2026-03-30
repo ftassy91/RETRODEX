@@ -4,6 +4,7 @@ const { Op, QueryTypes } = require('sequelize')
 
 const Game = require('../models/Game')
 const { sequelize } = require('../database')
+const { getPublishedGameScope } = require('./publication-service')
 
 const BASE_GAME_ATTRIBUTES = [
   'id',
@@ -618,6 +619,22 @@ function matchesGenre(game, genreValue) {
   return normalizeSearchValue(game.genre).includes(genre)
 }
 
+async function applyPublishedScope(games, options = {}) {
+  if (!options.publishedOnly) {
+    return games
+  }
+
+  const scope = await getPublishedGameScope({
+    passKey: options.passKey || null,
+  })
+
+  if (!scope.enabled || !scope.ids.length) {
+    return games
+  }
+
+  return (games || []).filter((game) => scope.set.has(String(game?.id || '')))
+}
+
 async function listHydratedGames(options = {}) {
   const limit = Math.max(1, Math.min(Number(options.limit || 20) || 20, 5000))
   const offset = Math.max(0, Number(options.offset || 0) || 0)
@@ -648,6 +665,8 @@ async function listHydratedGames(options = {}) {
   })
 
   let games = await hydrateGameRows(rows)
+
+  games = await applyPublishedScope(games, options)
 
   if (options.search) {
     games = games.filter((game) => matchesSearch(game, options.search))
@@ -783,6 +802,7 @@ async function listHydratedGamesByConsole(consoleRecord, options = {}) {
   })
 
   let items = await hydrateGameRows(rows)
+  items = await applyPublishedScope(items, options)
   items.sort((left, right) => compareGamesForSort(left, right, options.sort))
 
   const offset = Math.max(0, Number(options.offset || 0) || 0)

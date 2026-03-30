@@ -177,12 +177,19 @@ function buildSQLiteAdapter(sqlite) {
   };
 }
 
-function applyGameFilters(query, { console: consoleName, rarity, search }) {
+function applyGameFilters(query, { console: consoleName, rarity, search, ids }) {
   let nextQuery = query.eq('type', 'game');
 
   if (consoleName) nextQuery = nextQuery.eq('console', consoleName);
   if (rarity) nextQuery = nextQuery.eq('rarity', rarity);
   if (search) nextQuery = nextQuery.ilike('title', `%${search}%`);
+  if (Array.isArray(ids)) {
+    if (!ids.length) {
+      nextQuery = nextQuery.in('id', ['__retrodex_no_match__']);
+    } else {
+      nextQuery = nextQuery.in('id', ids.map((value) => String(value)));
+    }
+  }
 
   return nextQuery;
 }
@@ -261,7 +268,7 @@ async function fetchSupabaseGameWindow(filters, column, options, offset, limit) 
 }
 
 async function queryGamesViaSequelize(sequelize, filters) {
-  const { search, console: consoleName, rarity } = filters;
+  const { search, console: consoleName, rarity, ids } = filters;
 
   let whereClause = 'WHERE type = \'game\'';
   const replacements = {};
@@ -282,6 +289,13 @@ async function queryGamesViaSequelize(sequelize, filters) {
       COALESCE(genre, '') ILIKE :search
     )`;
     replacements.search = `%${search}%`;
+  }
+  if (Array.isArray(ids)) {
+    if (!ids.length) {
+      return { items: [], total: 0 };
+    }
+    whereClause += ' AND id IN (:ids)';
+    replacements.ids = ids.map((value) => String(value));
   }
 
   const [rows] = await sequelize.query(
@@ -310,8 +324,8 @@ async function queryGamesViaSequelize(sequelize, filters) {
   return { items: rows, total: rows.length };
 }
 
-async function queryGames({ sort, console: consoleName, rarity, limit = 20, offset = 0, search }) {
-  const filters = { console: consoleName, rarity, search };
+async function queryGames({ sort, console: consoleName, rarity, limit = 20, offset = 0, search, ids }) {
+  const filters = { console: consoleName, rarity, search, ids };
 
   // Always use Sequelize for production — PostgREST does not expose camelCase columns
   if (_sequelizeOverride) {

@@ -169,6 +169,7 @@ async function fetchGameResults(query, context, limit) {
     search: query,
     limit: Math.max(limit * 3, 20),
     offset: 0,
+    publishedOnly: true,
   })
 
   return (payload.items || []).map((game) => createGameResult(game, context, game.quality || null))
@@ -180,7 +181,7 @@ async function fetchConsoleResults(query, limit) {
   }
 
   const normalizedQuery = tokenize(query).join(' ')
-  const items = await listConsoleItems()
+  const items = await listConsoleItems({ publishedOnly: true })
 
   return items
     .filter((consoleItem) => {
