@@ -14,7 +14,15 @@
     "start:backend": "cd backend && node src/server.js",
     "start:frontend": "npx http-server frontend -p 8080",
     "smoke": "cd backend && npm run smoke",
-    "test": "cd backend && npm test"
+    "test": "cd backend && npm test",
+    "validate:workspace": "node scripts/audit/validate_all.js",
+    "inventory:local": "node scripts/data/build-local-inventory.js",
+    "publish:structural:plan": "node backend/scripts/publish-structural-supabase.js",
+    "publish:structural:run": "node backend/scripts/publish-structural-supabase.js --apply",
+    "publish:media:plan": "node backend/scripts/publish-media-references-supabase.js",
+    "publish:media:run": "node backend/scripts/publish-media-references-supabase.js --apply",
+    "publish:plan": "node backend/scripts/publish-sandbox-to-supabase.js --dry-run",
+    "publish:run": "node backend/scripts/publish-sandbox-to-supabase.js --write"
   },
   "keywords": [],
   "author": "",
