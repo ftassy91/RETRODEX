@@ -160,7 +160,6 @@ async function fetchLocalEditorialRow(gameId) {
               gameplay_description AS gameplayDescription,
               characters,
               dev_anecdotes AS devAnecdotes,
-              dev_notes AS devNotes,
               cheat_codes AS cheatCodes,
               versions,
               avg_duration_main AS avgDurationMain,
@@ -184,7 +183,6 @@ async function fetchLocalEditorialRow(gameId) {
                 lore,
                 gameplay_description AS gameplayDescription,
                 characters,
-                dev_notes AS devNotes,
                 cheat_codes AS cheatCodes
          FROM game_editorial
          WHERE game_id = :gameId

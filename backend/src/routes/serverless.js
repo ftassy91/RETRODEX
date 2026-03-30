@@ -156,7 +156,7 @@ async function fetchGameMediaRows(gameId) {
 async function fetchGameEditorialRow(gameId) {
   const query = db
     .from('game_editorial')
-    .select('summary,synopsis,lore,gameplay_description,characters,dev_anecdotes,dev_notes,cheat_codes,versions,avg_duration_main,avg_duration_complete,speedrun_wr')
+    .select('summary,synopsis,lore,gameplay_description,characters,dev_anecdotes,cheat_codes,versions,avg_duration_main,avg_duration_complete,speedrun_wr')
     .eq('game_id', String(gameId || ''))
     .limit(1)
     .single()
@@ -169,7 +169,7 @@ async function fetchGameEditorialRow(gameId) {
 
     const fallback = await db
       .from('game_editorial')
-      .select('summary,synopsis,lore,gameplay_description,characters,dev_notes,cheat_codes')
+      .select('summary,synopsis,lore,gameplay_description,characters,cheat_codes')
       .eq('game_id', String(gameId || ''))
       .limit(1)
       .single()
@@ -548,6 +548,7 @@ function isMissingSupabaseRelationError(error) {
     message.includes('could not find the table') ||
     message.includes('no such table') ||
     message.includes('no such column') ||
+    (message.includes('column') && message.includes('does not exist')) ||
     (message.includes('relation') && message.includes('does not exist'))
   )
 }
