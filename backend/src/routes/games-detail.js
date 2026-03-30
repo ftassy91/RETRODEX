@@ -108,12 +108,169 @@ async function fetchLocalMediaRows(gameId) {
               url,
               provider,
               compliance_status AS complianceStatus,
-              storage_mode AS storageMode
+              storage_mode AS storageMode,
+              title,
+              preview_url AS previewUrl,
+              asset_subtype AS assetSubtype,
+              license_status AS licenseStatus,
+              ui_allowed AS uiAllowed,
+              healthcheck_status AS healthcheckStatus,
+              notes,
+              source_context AS sourceContext
        FROM media_references
        WHERE entity_type = 'game'
          AND entity_id = :gameId
        ORDER BY CASE WHEN media_type = 'cover' THEN 0 WHEN media_type = 'manual' THEN 1 ELSE 2 END ASC,
                 url ASC`,
+      {
+        replacements: { gameId },
+        type: QueryTypes.SELECT,
+      }
+    )
+  } catch (_error) {
+    try {
+      return await sequelize.query(
+        `SELECT media_type AS mediaType,
+                url,
+                provider,
+                compliance_status AS complianceStatus,
+                storage_mode AS storageMode
+         FROM media_references
+         WHERE entity_type = 'game'
+           AND entity_id = :gameId
+         ORDER BY CASE WHEN media_type = 'cover' THEN 0 WHEN media_type = 'manual' THEN 1 ELSE 2 END ASC,
+                  url ASC`,
+        {
+          replacements: { gameId },
+          type: QueryTypes.SELECT,
+        }
+      )
+    } catch (_fallbackError) {
+      return []
+    }
+  }
+}
+
+async function fetchLocalEditorialRow(gameId) {
+  try {
+    const rows = await sequelize.query(
+      `SELECT summary,
+              synopsis,
+              lore,
+              gameplay_description AS gameplayDescription,
+              characters,
+              dev_anecdotes AS devAnecdotes,
+              dev_notes AS devNotes,
+              cheat_codes AS cheatCodes,
+              versions,
+              avg_duration_main AS avgDurationMain,
+              avg_duration_complete AS avgDurationComplete,
+              speedrun_wr AS speedrunWr
+       FROM game_editorial
+       WHERE game_id = :gameId
+       LIMIT 1`,
+      {
+        replacements: { gameId },
+        type: QueryTypes.SELECT,
+      }
+    )
+
+    return rows[0] || null
+  } catch (_error) {
+    try {
+      const rows = await sequelize.query(
+        `SELECT summary,
+                synopsis,
+                lore,
+                gameplay_description AS gameplayDescription,
+                characters,
+                dev_notes AS devNotes,
+                cheat_codes AS cheatCodes
+         FROM game_editorial
+         WHERE game_id = :gameId
+         LIMIT 1`,
+        {
+          replacements: { gameId },
+          type: QueryTypes.SELECT,
+        }
+      )
+      return rows[0] || null
+    } catch (_fallbackError) {
+      return null
+    }
+  }
+}
+
+async function fetchLocalPeopleRows(gameId) {
+  try {
+    return await sequelize.query(
+      `SELECT gp.role AS role,
+              gp.billing_order AS billingOrder,
+              gp.confidence AS confidence,
+              gp.is_inferred AS isInferred,
+              p.id AS personId,
+              p.name AS name,
+              p.normalized_name AS normalizedName
+       FROM game_people gp
+       INNER JOIN people p ON p.id = gp.person_id
+       WHERE gp.game_id = :gameId
+       ORDER BY COALESCE(gp.billing_order, 9999) ASC, p.name ASC`,
+      {
+        replacements: { gameId },
+        type: QueryTypes.SELECT,
+      }
+    )
+  } catch (_error) {
+    return []
+  }
+}
+
+async function fetchLocalOstRows(gameId) {
+  try {
+    return await sequelize.query(
+      `SELECT id,
+              title,
+              confidence,
+              needs_release_enrichment AS needsReleaseEnrichment
+       FROM ost
+       WHERE game_id = :gameId`,
+      {
+        replacements: { gameId },
+        type: QueryTypes.SELECT,
+      }
+    )
+  } catch (_error) {
+    try {
+      return await sequelize.query(
+        `SELECT id,
+                name AS title,
+                source_confidence AS confidence,
+                0 AS needsReleaseEnrichment
+         FROM osts
+         WHERE game_id = :gameId`,
+        {
+          replacements: { gameId },
+          type: QueryTypes.SELECT,
+        }
+      )
+    } catch (_fallbackError) {
+      return []
+    }
+  }
+}
+
+async function fetchLocalOstTracks(gameId) {
+  try {
+    return await sequelize.query(
+      `SELECT o.id AS ostId,
+              ot.track_title AS trackTitle,
+              ot.track_number AS trackNumber,
+              ot.composer_person_id AS composerPersonId,
+              ot.confidence AS confidence
+       FROM ost_tracks ot
+       INNER JOIN ost o ON o.id = ot.ost_id
+       WHERE o.game_id = :gameId
+       ORDER BY COALESCE(ot.track_number, 9999) ASC, ot.track_title ASC`,
       {
         replacements: { gameId },
         type: QueryTypes.SELECT,
@@ -128,45 +285,106 @@ async function fetchLocalOstReleases(gameId) {
   try {
     return await sequelize.query(
       `SELECT id,
-              name,
-              format,
-              track_count AS trackCount,
-              release_year AS releaseYear,
+              COALESCE(label, catalog_number, 'OST') AS name,
+              NULL AS format,
+              NULL AS trackCount,
+              NULL AS releaseYear,
               label,
               region_code AS regionCode,
-              slug,
-              source_confidence AS sourceConfidence
-       FROM osts
-       WHERE game_id = :gameId
-       ORDER BY COALESCE(release_year, 9999) ASC, name ASC`,
+              NULL AS slug,
+              confidence AS sourceConfidence
+       FROM ost_releases
+       WHERE ost_id IN (SELECT id FROM ost WHERE game_id = :gameId)
+       ORDER BY COALESCE(release_date, '9999-12-31') ASC, label ASC`,
       {
         replacements: { gameId },
         type: QueryTypes.SELECT,
       }
     )
   } catch (_error) {
-    return []
+    try {
+      return await sequelize.query(
+        `SELECT id,
+                name,
+                format,
+                track_count AS trackCount,
+                release_year AS releaseYear,
+                label,
+                region_code AS regionCode,
+                slug,
+                source_confidence AS sourceConfidence
+         FROM osts
+       WHERE game_id = :gameId
+       ORDER BY COALESCE(release_year, 9999) ASC, name ASC`,
+        {
+          replacements: { gameId },
+          type: QueryTypes.SELECT,
+        }
+      )
+    } catch (_fallbackError) {
+      return []
+    }
   }
 }
 
 async function fetchLocalKnowledgeDomains(game) {
-  const [companyRows, mediaRows, ostReleases] = await Promise.all([
+  const [companyRows, mediaRows, editorial, peopleRows, ostRows, ostTracks, ostReleases] = await Promise.all([
     fetchLocalCompanyRows(game),
     fetchLocalMediaRows(game.id),
+    fetchLocalEditorialRow(game.id),
+    fetchLocalPeopleRows(game.id),
+    fetchLocalOstRows(game.id),
+    fetchLocalOstTracks(game.id),
     fetchLocalOstReleases(game.id),
   ])
 
+  const canonicalDevTeam = peopleRows
+    .filter((entry) => !String(entry.role || '').toLowerCase().includes('composer'))
+    .map((entry) => ({
+      personId: entry.personId,
+      name: entry.name,
+      normalizedName: entry.normalizedName,
+      role: entry.role,
+      confidence: Number(entry.confidence || 0),
+      isInferred: Boolean(entry.isInferred),
+    }))
+
+  const canonicalComposers = peopleRows
+    .filter((entry) => String(entry.role || '').toLowerCase().includes('composer'))
+    .map((entry) => ({
+      personId: entry.personId,
+      name: entry.name,
+      normalizedName: entry.normalizedName,
+      role: entry.role,
+      confidence: Number(entry.confidence || 0),
+      isInferred: Boolean(entry.isInferred),
+    }))
+
   return {
+    editorial,
     production: buildProductionPayload({
       game,
       companyRows,
-      devTeam: parseStoredJson(game.dev_team, []) || [],
+      devTeam: canonicalDevTeam.length ? canonicalDevTeam : (parseStoredJson(game.dev_team, []) || []),
     }),
     media: buildMediaPayload({
       game,
       mediaRows,
     }),
-    ostReleases,
+    music: {
+      composers: canonicalComposers.length ? canonicalComposers : (parseStoredJson(game.ost_composers, []) || []),
+      tracks: ostTracks.length
+        ? ostTracks.map((entry) => ({
+          ostId: entry.ostId,
+          title: entry.trackTitle,
+          trackNumber: entry.trackNumber,
+          composerPersonId: entry.composerPersonId,
+          confidence: Number(entry.confidence || 0),
+        }))
+        : (parseStoredJson(game.ost_notable_tracks, []) || []),
+      releases: ostReleases,
+      ostRows,
+    },
   }
 }
 
@@ -174,13 +392,15 @@ router.get('/api/games/:id/archive', handleAsync(async (req, res) => {
   const game = await getHydratedGameById(req.params.id)
 
   if (!game) return res.status(404).json({ ok: false, error: 'Game not found' })
-  const { production, media, ostReleases } = await fetchLocalKnowledgeDomains(game)
+  const { editorial, production, media, music } = await fetchLocalKnowledgeDomains(game)
 
   res.json(buildArchivePayload({
     game,
+    editorial,
     production,
     media,
-    ostReleases,
+    music,
+    ostReleases: music.releases,
   }))
 }))
 
@@ -237,7 +457,14 @@ router.get('/api/games/:id/encyclopedia', handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
 
-  return res.json(buildEncyclopediaPayload(game))
+  const { editorial, production, music } = await fetchLocalKnowledgeDomains(game)
+
+  return res.json(buildEncyclopediaPayload({
+    game,
+    editorial,
+    production,
+    music,
+  }))
 }))
 
 router.get('/api/games/:id/similar', handleAsync(async (req, res) => {

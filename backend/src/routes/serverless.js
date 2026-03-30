@@ -123,7 +123,7 @@ async function fetchGameMediaMap(gameIds = []) {
 async function fetchGameMediaRows(gameId) {
   const query = db
     .from('media_references')
-    .select('media_type,url,provider,compliance_status,storage_mode')
+    .select('media_type,url,provider,compliance_status,storage_mode,title,preview_url,asset_subtype,license_status,ui_allowed,healthcheck_status,notes,source_context')
     .eq('entity_type', 'game')
     .eq('entity_id', String(gameId || ''))
 
@@ -136,7 +136,7 @@ async function fetchGameMediaRows(gameId) {
 
     const fallback = await db
       .from('media_references')
-      .select('media_type,url')
+      .select('media_type,url,provider,compliance_status,storage_mode')
       .eq('entity_type', 'game')
       .eq('entity_id', String(gameId || ''))
 
@@ -151,6 +151,65 @@ async function fetchGameMediaRows(gameId) {
   }
 
   return Array.isArray(data) ? data : []
+}
+
+async function fetchGameEditorialRow(gameId) {
+  const query = db
+    .from('game_editorial')
+    .select('summary,synopsis,lore,gameplay_description,characters,dev_anecdotes,dev_notes,cheat_codes,versions,avg_duration_main,avg_duration_complete,speedrun_wr')
+    .eq('game_id', String(gameId || ''))
+    .limit(1)
+    .single()
+
+  const { data, error } = await query
+  if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return null
+    }
+
+    const fallback = await db
+      .from('game_editorial')
+      .select('summary,synopsis,lore,gameplay_description,characters,dev_notes,cheat_codes')
+      .eq('game_id', String(gameId || ''))
+      .limit(1)
+      .single()
+
+    if (fallback.error) {
+      if (isMissingSupabaseRelationError(fallback.error)) {
+        return null
+      }
+      throw new Error(fallback.error.message)
+    }
+
+    return fallback.data || null
+  }
+
+  return data || null
+}
+
+async function fetchGamePeopleRows(gameId) {
+  const { data, error } = await db
+    .from('game_people')
+    .select('person_id,role,billing_order,confidence,is_inferred,people(id,name,normalized_name)')
+    .eq('game_id', String(gameId || ''))
+    .order('billing_order', { ascending: true })
+
+  if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return []
+    }
+    throw new Error(error.message)
+  }
+
+  return (data || []).map((entry) => ({
+    personId: entry.person_id,
+    role: entry.role,
+    billingOrder: entry.billing_order,
+    confidence: entry.confidence,
+    isInferred: entry.is_inferred,
+    name: entry.people?.name || null,
+    normalizedName: entry.people?.normalized_name || null,
+  })).filter((entry) => entry.name)
 }
 
 async function fetchGameCompanyRows(game) {
@@ -220,11 +279,79 @@ async function fetchGameCompanyRows(game) {
 
 async function fetchGameOstReleases(gameId) {
   const { data, error } = await db
-    .from('osts')
-    .select('id,name,format,track_count,release_year,label,region_code,slug,source_confidence')
+    .from('ost_releases')
+    .select('id,ost_id,region_code,release_date,catalog_number,label,confidence,ost!inner(id,game_id,title)')
+    .eq('ost.game_id', String(gameId || ''))
+    .order('release_date', { ascending: true })
+    .order('label', { ascending: true })
+
+  if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      const legacy = await db
+        .from('osts')
+        .select('id,name,format,track_count,release_year,label,region_code,slug,source_confidence')
+        .eq('game_id', String(gameId || ''))
+        .order('release_year', { ascending: true })
+        .order('name', { ascending: true })
+
+      if (legacy.error) {
+        if (isMissingSupabaseRelationError(legacy.error)) {
+          return []
+        }
+        throw new Error(legacy.error.message)
+      }
+
+      return (legacy.data || []).map((entry) => ({
+        id: entry.id,
+        name: entry.name,
+        format: entry.format || null,
+        trackCount: entry.track_count ?? null,
+        releaseYear: entry.release_year ?? null,
+        label: entry.label || null,
+        regionCode: entry.region_code || null,
+        slug: entry.slug || null,
+        sourceConfidence: entry.source_confidence ?? null,
+      }))
+    }
+    throw new Error(error.message)
+  }
+
+  return (data || []).map((entry) => ({
+    id: entry.id,
+    name: entry.ost?.title || null,
+    format: null,
+    trackCount: null,
+    releaseYear: entry.release_date ? Number(String(entry.release_date).slice(0, 4)) : null,
+    label: entry.label || null,
+    regionCode: entry.region_code || null,
+    slug: null,
+    sourceConfidence: entry.confidence ?? null,
+  }))
+}
+
+async function fetchGameOstRows(gameId) {
+  const { data, error } = await db
+    .from('ost')
+    .select('id,title,confidence,needs_release_enrichment')
     .eq('game_id', String(gameId || ''))
-    .order('release_year', { ascending: true })
-    .order('name', { ascending: true })
+
+  if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return []
+    }
+    throw new Error(error.message)
+  }
+
+  return Array.isArray(data) ? data : []
+}
+
+async function fetchGameOstTracks(gameId) {
+  const { data, error } = await db
+    .from('ost_tracks')
+    .select('id,ost_id,track_title,track_number,composer_person_id,confidence,ost!inner(game_id)')
+    .eq('ost.game_id', String(gameId || ''))
+    .order('track_number', { ascending: true })
+    .order('track_title', { ascending: true })
 
   if (error) {
     if (isMissingSupabaseRelationError(error)) {
@@ -234,36 +361,64 @@ async function fetchGameOstReleases(gameId) {
   }
 
   return (data || []).map((entry) => ({
-    id: entry.id,
-    name: entry.name,
-    format: entry.format || null,
-    trackCount: entry.track_count ?? null,
-    releaseYear: entry.release_year ?? null,
-    label: entry.label || null,
-    regionCode: entry.region_code || null,
-    slug: entry.slug || null,
-    sourceConfidence: entry.source_confidence ?? null,
+    ostId: entry.ost_id,
+    title: entry.track_title,
+    trackNumber: entry.track_number,
+    composerPersonId: entry.composer_person_id || null,
+    confidence: entry.confidence ?? null,
   }))
 }
 
 async function fetchGameKnowledgeDomains(game) {
-  const [companyRows, mediaRows, ostReleases] = await Promise.all([
+  const [companyRows, mediaRows, editorial, peopleRows, ostRows, ostTracks, ostReleases] = await Promise.all([
     fetchGameCompanyRows(game),
     fetchGameMediaRows(game?.id),
+    fetchGameEditorialRow(game?.id),
+    fetchGamePeopleRows(game?.id),
+    fetchGameOstRows(game?.id),
+    fetchGameOstTracks(game?.id),
     fetchGameOstReleases(game?.id),
   ])
 
+  const canonicalDevTeam = peopleRows
+    .filter((entry) => !String(entry.role || '').toLowerCase().includes('composer'))
+    .map((entry) => ({
+      personId: entry.personId,
+      name: entry.name,
+      normalizedName: entry.normalizedName,
+      role: entry.role,
+      confidence: Number(entry.confidence || 0),
+      isInferred: Boolean(entry.isInferred),
+    }))
+
+  const canonicalComposers = peopleRows
+    .filter((entry) => String(entry.role || '').toLowerCase().includes('composer'))
+    .map((entry) => ({
+      personId: entry.personId,
+      name: entry.name,
+      normalizedName: entry.normalizedName,
+      role: entry.role,
+      confidence: Number(entry.confidence || 0),
+      isInferred: Boolean(entry.isInferred),
+    }))
+
   return {
+    editorial,
     production: buildProductionPayload({
       game,
       companyRows,
-      devTeam: parseStoredJson(game?.dev_team) || [],
+      devTeam: canonicalDevTeam.length ? canonicalDevTeam : (parseStoredJson(game?.dev_team) || []),
     }),
     media: buildMediaPayload({
       game,
       mediaRows,
     }),
-    ostReleases,
+    music: {
+      composers: canonicalComposers.length ? canonicalComposers : (parseStoredJson(game?.ost_composers) || []),
+      tracks: ostTracks.length ? ostTracks : (parseStoredJson(game?.ost_notable_tracks) || []),
+      releases: ostReleases,
+      ostRows,
+    },
   }
 }
 
@@ -281,12 +436,24 @@ async function hydrateGameCovers(items = []) {
   })
 }
 
-function buildArchivePayload(game) {
-  return buildKnowledgeArchivePayload({ game: normalizeGameRecord(game) || {} })
+function buildArchivePayload(game, domains = {}) {
+  return buildKnowledgeArchivePayload({
+    game: normalizeGameRecord(game) || {},
+    editorial: domains.editorial,
+    production: domains.production,
+    media: domains.media,
+    music: domains.music,
+    ostReleases: domains.music?.releases || [],
+  })
 }
 
-function buildEncyclopediaPayload(game) {
-  return buildKnowledgeEncyclopediaPayload(normalizeGameRecord(game) || {})
+function buildEncyclopediaPayload(game, domains = {}) {
+  return buildKnowledgeEncyclopediaPayload({
+    game: normalizeGameRecord(game) || {},
+    editorial: domains.editorial,
+    production: domains.production,
+    music: domains.music,
+  })
 }
 
 function compareNullableNumbers(left, right, ascending = true) {
@@ -1442,14 +1609,9 @@ router.get('/api/games/:id/archive', handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
 
-  const { production, media, ostReleases } = await fetchGameKnowledgeDomains(game)
+  const domains = await fetchGameKnowledgeDomains(game)
 
-  return res.json(buildKnowledgeArchivePayload({
-    game: normalizeGameRecord(game) || {},
-    production,
-    media,
-    ostReleases,
-  }))
+  return res.json(buildArchivePayload(game, domains))
 }))
 
 router.get('/api/games/:id/encyclopedia', handleAsync(async (req, res) => {
@@ -1459,7 +1621,9 @@ router.get('/api/games/:id/encyclopedia', handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
 
-  return res.json(buildEncyclopediaPayload(game))
+  const domains = await fetchGameKnowledgeDomains(game)
+
+  return res.json(buildEncyclopediaPayload(game, domains))
 }))
 
 router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {

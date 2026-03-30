@@ -37,6 +37,24 @@ const SOURCE_POLICY = {
     legalFeasibility: 0.5,
     sourceAvailability: 0.85,
   },
+  vgmaps: {
+    name: 'VGMaps',
+    status: 'reference_only',
+    legalFeasibility: 0.5,
+    sourceAvailability: 0.75,
+  },
+  vgmuseum: {
+    name: 'VGMuseum',
+    status: 'reference_only',
+    legalFeasibility: 0.5,
+    sourceAvailability: 0.75,
+  },
+  pixel_warehouse: {
+    name: 'Pixel Warehouse',
+    status: 'approved_with_review',
+    legalFeasibility: 0.8,
+    sourceAvailability: 0.8,
+  },
   wikidata: {
     name: 'Wikidata',
     status: 'approved',

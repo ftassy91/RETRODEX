@@ -222,6 +222,9 @@ function detectProviderFromUrl(url) {
     return 'unknown'
   }
 
+  if (value.includes('vgmaps.com')) return 'vgmaps'
+  if (value.includes('vgmuseum.com')) return 'vgmuseum'
+  if (value.includes('pixel.garoux.net')) return 'pixel_warehouse'
   if (value.includes('archive.org')) return 'internet_archive'
   if (value.includes('youtube.com') || value.includes('youtu.be')) return 'youtube'
   if (value.includes('igdb.com')) return 'igdb'
@@ -292,15 +295,25 @@ function normalizeMediaItem(entry) {
     providerKey
   )
   const storageMode = String(entry.storageMode || entry.storage_mode || 'external_reference').trim() || 'external_reference'
+  const uiAllowed = parseBooleanish(entry.uiAllowed ?? entry.ui_allowed)
+  const healthcheckStatus = String(entry.healthcheckStatus || entry.healthcheck_status || 'unchecked').trim().toLowerCase() || 'unchecked'
 
   return {
     mediaType,
     url: String(entry.url).trim(),
+    title: String(entry.title || '').trim() || null,
+    previewUrl: String(entry.previewUrl || entry.preview_url || entry.url || '').trim() || null,
+    assetSubtype: String(entry.assetSubtype || entry.asset_subtype || '').trim() || null,
     provider: providerKey,
     providerLabel: policy.name || String(entry.provider || providerKey),
     complianceStatus,
     complianceTone: complianceTone(complianceStatus),
+    licenseStatus: normalizeSourceKey(entry.licenseStatus || entry.license_status) || 'reference_only',
     storageMode,
+    uiAllowed: uiAllowed == null ? false : uiAllowed,
+    healthcheckStatus,
+    notes: parseStoredJson(entry.notes, null),
+    sourceContext: parseStoredJson(entry.sourceContext || entry.source_context, null),
     isExternalReference: storageMode !== 'local_copy',
   }
 }
@@ -361,13 +374,21 @@ function buildMediaPayload({ game, mediaRows = [] }) {
 
   const covers = items.filter((entry) => entry.mediaType === 'cover')
   const manuals = items.filter((entry) => entry.mediaType === 'manual')
+  const maps = items.filter((entry) => entry.mediaType === 'map')
+  const sprites = items.filter((entry) => entry.mediaType === 'sprite_sheet')
   const screenshots = items.filter((entry) => entry.mediaType.includes('screen'))
+  const scans = items.filter((entry) => entry.mediaType === 'scan')
+  const endings = items.filter((entry) => entry.mediaType === 'ending')
   const references = items.filter((entry) => (
     entry.mediaType === 'archive_item' || entry.mediaType === 'youtube_video'
   ))
   const variants = items.filter((entry) => {
     if (
       entry.mediaType === 'manual'
+      || entry.mediaType === 'map'
+      || entry.mediaType === 'sprite_sheet'
+      || entry.mediaType === 'scan'
+      || entry.mediaType === 'ending'
       || entry.mediaType === 'archive_item'
       || entry.mediaType === 'youtube_video'
     ) {
@@ -386,7 +407,11 @@ function buildMediaPayload({ game, mediaRows = [] }) {
     items,
     covers,
     manuals,
+    maps,
+    sprites,
     screenshots,
+    scans,
+    endings,
     references,
     variants,
     complianceSummary,
@@ -394,13 +419,15 @@ function buildMediaPayload({ game, mediaRows = [] }) {
   }
 }
 
-function buildArchivePayload({ game, production, media, ostReleases = [] }) {
+function buildArchivePayload({ game, production, media, editorial, music, ostReleases = [] }) {
   const item = game || {}
   const normalizedMedia = media || buildMediaPayload({ game: item })
   const normalizedProduction = production || buildProductionPayload({
     game: item,
     devTeam: parseStoredJson(item.dev_team, []) || [],
   })
+  const normalizedEditorial = editorial || {}
+  const normalizedMusic = music || {}
 
   return {
     ok: true,
@@ -413,35 +440,56 @@ function buildArchivePayload({ game, production, media, ostReleases = [] }) {
       archive_id: getRecordValue(item, ['archive_id', 'archiveId']) || null,
       archive_verified: parseBooleanish(getRecordValue(item, ['archive_verified', 'archiveVerified'])),
     },
-    lore: item.lore || null,
-    gameplay_description: item.gameplay_description || null,
-    characters: parseStoredJson(item.characters),
-    versions: parseStoredJson(item.versions),
+    lore: normalizedEditorial.lore ?? item.lore ?? null,
+    gameplay_description: normalizedEditorial.gameplay_description ?? normalizedEditorial.gameplayDescription ?? item.gameplay_description ?? null,
+    characters: parseStoredJson(normalizedEditorial.characters, null) ?? parseStoredJson(item.characters),
+    versions: parseStoredJson(normalizedEditorial.versions, null) ?? parseStoredJson(item.versions),
     ost: {
-      composers: parseStoredJson(item.ost_composers),
-      notable_tracks: parseStoredJson(item.ost_notable_tracks),
-      releases: safeArray(ostReleases),
+      composers: safeArray(normalizedMusic.composers).length
+        ? safeArray(normalizedMusic.composers)
+        : parseStoredJson(item.ost_composers),
+      notable_tracks: safeArray(normalizedMusic.tracks).length
+        ? safeArray(normalizedMusic.tracks)
+        : parseStoredJson(item.ost_notable_tracks),
+      releases: safeArray(normalizedMusic.releases).length
+        ? safeArray(normalizedMusic.releases)
+        : safeArray(ostReleases),
     },
     duration: {
-      main: item.avg_duration_main ?? null,
-      complete: item.avg_duration_complete ?? null,
+      main: normalizedEditorial.avg_duration_main ?? item.avg_duration_main ?? null,
+      complete: normalizedEditorial.avg_duration_complete ?? item.avg_duration_complete ?? null,
     },
-    speedrun_wr: parseStoredJson(item.speedrun_wr),
+    speedrun_wr: parseStoredJson(normalizedEditorial.speedrun_wr, null) ?? parseStoredJson(item.speedrun_wr),
     production: normalizedProduction,
     media: normalizedMedia,
   }
 }
 
-function buildEncyclopediaPayload(game) {
-  const item = game || {}
+function buildEncyclopediaPayload(input) {
+  const envelope = input && typeof input === 'object' && Object.prototype.hasOwnProperty.call(input, 'game')
+    ? input
+    : { game: input }
+  const item = envelope.game || {}
+  const editorial = envelope.editorial || {}
+  const production = envelope.production || null
+  const music = envelope.music || null
 
   return {
     ok: true,
-    summary: item.summary ?? null,
-    synopsis: item.synopsis ?? item.summary ?? null,
-    dev_anecdotes: parseStoredJson(item.dev_anecdotes) || [],
-    dev_team: parseStoredJson(item.dev_team) || [],
-    cheat_codes: parseStoredJson(item.cheat_codes) || [],
+    summary: editorial.summary ?? item.summary ?? null,
+    synopsis: editorial.synopsis ?? item.synopsis ?? editorial.summary ?? item.summary ?? null,
+    lore: editorial.lore ?? item.lore ?? null,
+    gameplay_description: editorial.gameplay_description ?? editorial.gameplayDescription ?? item.gameplay_description ?? null,
+    characters: parseStoredJson(editorial.characters, null) ?? parseStoredJson(item.characters) ?? [],
+    dev_anecdotes: (parseStoredJson(editorial.dev_anecdotes ?? editorial.devNotes, null) ?? parseStoredJson(item.dev_anecdotes) ?? []),
+    dev_team: safeArray(production?.dev_team).length ? safeArray(production.dev_team) : (parseStoredJson(item.dev_team) || []),
+    cheat_codes: (parseStoredJson(editorial.cheat_codes ?? editorial.cheatCodes, null) ?? parseStoredJson(item.cheat_codes) ?? []),
+    versions: parseStoredJson(editorial.versions, null) ?? parseStoredJson(item.versions) ?? [],
+    avg_duration_main: editorial.avg_duration_main ?? item.avg_duration_main ?? null,
+    avg_duration_complete: editorial.avg_duration_complete ?? item.avg_duration_complete ?? null,
+    speedrun_wr: parseStoredJson(editorial.speedrun_wr, null) ?? parseStoredJson(item.speedrun_wr) ?? null,
+    ost_composers: safeArray(music?.composers).length ? safeArray(music.composers) : (parseStoredJson(item.ost_composers) || []),
+    ost_notable_tracks: safeArray(music?.tracks).length ? safeArray(music.tracks) : (parseStoredJson(item.ost_notable_tracks) || []),
   }
 }
 
