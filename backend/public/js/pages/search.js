@@ -9,6 +9,7 @@
     || document.querySelector('input[placeholder*="titre"], input[placeholder*="console"], input[type="search"]');
   const resultsEl = document.getElementById('search-core-results');
   const countEl = document.getElementById('search-core-count');
+  const bannerEl = document.getElementById('search-curation-banner');
   const tabEls = document.querySelectorAll('.ctx-tab[data-ctx]');
 
   if (!inputEl || !resultsEl) {
@@ -86,6 +87,39 @@
     chip.className = `sc-chip${modifier ? ` ${modifier}` : ''}`;
     chip.textContent = label;
     return chip;
+  }
+
+  function appendPresenceChips(container, item) {
+    if (item.curation?.isPublished) container.appendChild(createChip('PASS 1 curated', 'is-primary'));
+    if (item.signals?.hasMaps) container.appendChild(createChip('MAP'));
+    if (item.signals?.hasManuals) container.appendChild(createChip('MANUAL'));
+    if (item.signals?.hasSprites) container.appendChild(createChip('SPRITE'));
+    if (item.signals?.hasEndings) container.appendChild(createChip('ENDING'));
+  }
+
+  function renderPublicationBanner(publication) {
+    if (!bannerEl) return;
+    if (!publication) {
+      bannerEl.textContent = 'Surface publique curee PASS 1. Recherche limitee aux jeux publies.';
+      return;
+    }
+
+    const published = Number(publication.publishedGamesCount || 0);
+    const consoles = Number(publication.consoleCount || 0);
+    const total = Number(publication.catalogGamesCount || 0);
+    const totalCopy = total > 0 ? ` sur ${total} jeux en base` : '';
+    bannerEl.textContent = `${publication.label || 'PASS 1 curated'} | ${published} jeux publies | ${consoles} consoles | selection validee${totalCopy}.`;
+  }
+
+  async function preloadPublicationBanner() {
+    if (!bannerEl) return;
+    try {
+      const response = await fetch('/api/items?limit=1');
+      const payload = await response.json();
+      renderPublicationBanner(payload.publication || null);
+    } catch (_error) {
+      renderPublicationBanner(null);
+    }
   }
 
   function buildSecondaryCopy(item) {
@@ -283,6 +317,10 @@
         chipRow.appendChild(createChip(`MS ${item.meta.metascore}`));
       }
 
+      if (item.type === 'game') {
+        appendPresenceChips(chipRow, item);
+      }
+
       main.appendChild(chipRow);
 
       row.appendChild(main);
@@ -310,6 +348,7 @@
 
     try {
       const results = await window.RetroDexSearch.search(query, {}, context, 30);
+      renderPublicationBanner(window.RetroDexSearch.lastPayload?.()?.publication || null);
       renderResults(results, context);
       syncUrl(query, context);
     } catch (error) {
@@ -370,6 +409,7 @@
   inputEl.value = currentQuery;
   setActiveTab(currentContext);
   window.RetroDexSearch?.preload?.();
+  preloadPublicationBanner();
 
   if (currentQuery.length >= 2) doSearch(currentQuery, currentContext);
   else showIdleState();

@@ -59,6 +59,9 @@ const SEARCH_CONTEXT_LABELS = {
   neoretro: 'NEORETRO',
 }
 
+const PUBLICATION_MEDIA_TYPES = ['map', 'manual', 'sprite_sheet', 'ending']
+const DEFAULT_PUBLICATION_PASS_KEY = 'PASS 1 curated'
+
 function normalizeGameRecord(game) {
   if (!game || typeof game !== 'object') {
     return game
@@ -82,6 +85,10 @@ function getRecordValue(record, fields = []) {
   }
 
   return null
+}
+
+function uniqueStrings(values = []) {
+  return Array.from(new Set((values || []).map((value) => String(value || '')).filter(Boolean)))
 }
 
 async function fetchGameMediaMap(gameIds = []) {
@@ -616,7 +623,196 @@ function toItemPayload(game) {
     cover_url: item.cover_url || item.coverImage || null,
     synopsis: item.synopsis || null,
     summary: item.summary || null,
+    developer: item.developer || null,
+    metascore: item.metascore ?? null,
+    trend: item.trend || null,
+    curation: {
+      status: item.curation?.status || null,
+      isPublished: Boolean(item.curation?.isPublished),
+      passKey: item.curation?.passKey || null,
+    },
+    signals: {
+      hasMaps: Boolean(item.signals?.hasMaps),
+      hasManuals: Boolean(item.signals?.hasManuals),
+      hasSprites: Boolean(item.signals?.hasSprites),
+      hasEndings: Boolean(item.signals?.hasEndings),
+    },
   }
+}
+
+function buildPublicationSummary(scope = null, statsBase = null, extra = {}) {
+  return {
+    label: DEFAULT_PUBLICATION_PASS_KEY,
+    passKey: scope?.passKey || DEFAULT_PUBLICATION_PASS_KEY,
+    publishedGamesCount: Array.isArray(scope?.ids) ? scope.ids.length : 0,
+    consoleCount: Array.isArray(scope?.consoleIds) ? scope.consoleIds.length : 0,
+    catalogGamesCount: Number(statsBase?.total_games) || null,
+    ...extra,
+  }
+}
+
+function buildEmptySignals() {
+  return {
+    hasMaps: false,
+    hasManuals: false,
+    hasSprites: false,
+    hasEndings: false,
+  }
+}
+
+function buildEmptyCuration(scope = null, gameId = null) {
+  const stringId = String(gameId || '')
+  const isPublished = Boolean(scope?.set?.has(stringId))
+  return {
+    status: isPublished ? 'published' : null,
+    isPublished,
+    passKey: isPublished ? (scope?.passKey || DEFAULT_PUBLICATION_PASS_KEY) : null,
+  }
+}
+
+async function fetchGameVisibilitySignals(gameIds = []) {
+  const uniqueIds = uniqueStrings(gameIds)
+  const signalMap = new Map(uniqueIds.map((gameId) => [gameId, buildEmptySignals()]))
+
+  if (!uniqueIds.length) {
+    return signalMap
+  }
+
+  let response = await db
+    .from('media_references')
+    .select('entity_id,media_type,ui_allowed,license_status')
+    .eq('entity_type', 'game')
+    .in('entity_id', uniqueIds)
+    .in('media_type', PUBLICATION_MEDIA_TYPES)
+
+  if (response.error) {
+    if (!isMissingSupabaseRelationError(response.error)) {
+      throw new Error(response.error.message)
+    }
+
+    response = await db
+      .from('media_references')
+      .select('entity_id,media_type')
+      .eq('entity_type', 'game')
+      .in('entity_id', uniqueIds)
+      .in('media_type', PUBLICATION_MEDIA_TYPES)
+
+    if (response.error) {
+      if (isMissingSupabaseRelationError(response.error)) {
+        return signalMap
+      }
+      throw new Error(response.error.message)
+    }
+  }
+
+  for (const row of response.data || []) {
+    const gameId = String(row.entity_id || '')
+    if (!signalMap.has(gameId)) {
+      signalMap.set(gameId, buildEmptySignals())
+    }
+
+    if (row.ui_allowed === false) {
+      continue
+    }
+
+    if (String(row.license_status || '').toLowerCase() === 'blocked') {
+      continue
+    }
+
+    const bucket = signalMap.get(gameId)
+    const mediaType = String(row.media_type || '').toLowerCase()
+    if (mediaType === 'map') bucket.hasMaps = true
+    if (mediaType === 'manual') bucket.hasManuals = true
+    if (mediaType === 'sprite_sheet') bucket.hasSprites = true
+    if (mediaType === 'ending') bucket.hasEndings = true
+  }
+
+  return signalMap
+}
+
+async function fetchGameCurationStates(gameIds = [], scope = null) {
+  const uniqueIds = uniqueStrings(gameIds)
+  const curationMap = new Map(uniqueIds.map((gameId) => [gameId, buildEmptyCuration(scope, gameId)]))
+
+  if (!uniqueIds.length) {
+    return curationMap
+  }
+
+  const { data, error } = await db
+    .from('game_curation_states')
+    .select('game_id,status,pass_key,published_at')
+    .in('game_id', uniqueIds)
+
+  if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return curationMap
+    }
+    throw new Error(error.message)
+  }
+
+  for (const row of data || []) {
+    const gameId = String(row.game_id || '')
+    if (!gameId) {
+      continue
+    }
+
+    const fallback = curationMap.get(gameId) || buildEmptyCuration(scope, gameId)
+    const status = row.status || fallback.status || null
+    curationMap.set(gameId, {
+      status,
+      isPublished: fallback.isPublished || status === 'published' || row.published_at != null,
+      passKey: row.pass_key || fallback.passKey || null,
+    })
+  }
+
+  return curationMap
+}
+
+function attachVisibilityMetadata(games = [], signalsMap = new Map(), curationMap = new Map(), scope = null) {
+  return (games || []).map((game) => {
+    const normalized = normalizeGameRecord(game)
+    const gameId = String(normalized?.id || '')
+    return {
+      ...normalized,
+      signals: signalsMap.get(gameId) || buildEmptySignals(),
+      curation: curationMap.get(gameId) || buildEmptyCuration(scope, gameId),
+    }
+  })
+}
+
+function buildConsoleDemoGamesPayload(consoleItem, games = [], scope = null) {
+  const consoleId = String(consoleItem?.id || '')
+  const gameMap = new Map((games || []).map((game) => [String(game?.id || ''), game]))
+  const slotRows = Array.isArray(scope?.slotRows)
+    ? scope.slotRows
+      .filter((row) => String(row.console_id || '') === consoleId)
+      .sort((left, right) => Number(left.slot_rank || 999) - Number(right.slot_rank || 999))
+    : []
+
+  const orderedGames = slotRows.length
+    ? slotRows.map((row) => gameMap.get(String(row.game_id || ''))).filter(Boolean)
+    : [...(games || [])]
+
+  return orderedGames.slice(0, 5).map((game, index) => ({
+    id: game.id,
+    title: game.title,
+    year: game.year ?? null,
+    rarity: game.rarity || null,
+    console: game.console || null,
+    coverImage: game.coverImage || game.cover_url || null,
+    slotRank: index + 1,
+    signals: {
+      hasMaps: Boolean(game.signals?.hasMaps),
+      hasManuals: Boolean(game.signals?.hasManuals),
+      hasSprites: Boolean(game.signals?.hasSprites),
+      hasEndings: Boolean(game.signals?.hasEndings),
+    },
+    curation: {
+      status: game.curation?.status || null,
+      isPublished: Boolean(game.curation?.isPublished),
+      passKey: game.curation?.passKey || null,
+    },
+  }))
 }
 
 function normalizeSearchGameRow(row) {
@@ -1125,6 +1321,17 @@ function createGlobalGameResult(game, context = 'all') {
       mintPrice: item.mintPrice ?? item.mint_price ?? null,
       qualityScore: Number(item.source_confidence || 0) || null,
     },
+    curation: {
+      status: item.curation?.status || null,
+      isPublished: Boolean(item.curation?.isPublished),
+      passKey: item.curation?.passKey || null,
+    },
+    signals: {
+      hasMaps: Boolean(item.signals?.hasMaps),
+      hasManuals: Boolean(item.signals?.hasManuals),
+      hasSprites: Boolean(item.signals?.hasSprites),
+      hasEndings: Boolean(item.signals?.hasEndings),
+    },
   }
 }
 
@@ -1510,7 +1717,7 @@ async function fetchPublishedConsoles() {
 async function fetchPublishedGameScope() {
   const { data, error } = await db
     .from('console_publication_slots')
-    .select('game_id,console_id')
+    .select('game_id,console_id,slot_rank,pass_key')
     .eq('is_active', true)
 
   if (error) {
@@ -1520,20 +1727,36 @@ async function fetchPublishedGameScope() {
         ids: [],
         set: new Set(),
         consoleIds: [],
+        slotRows: [],
+        passKey: DEFAULT_PUBLICATION_PASS_KEY,
       }
     }
 
     throw new Error(error.message)
   }
 
-  const ids = Array.from(new Set((data || []).map((row) => String(row.game_id || '')).filter(Boolean)))
-  const consoleIds = Array.from(new Set((data || []).map((row) => String(row.console_id || '')).filter(Boolean)))
+  const slotRows = (data || [])
+    .map((row) => ({
+      game_id: String(row.game_id || ''),
+      console_id: String(row.console_id || ''),
+      slot_rank: Number(row.slot_rank || 999),
+      pass_key: String(row.pass_key || '').trim() || DEFAULT_PUBLICATION_PASS_KEY,
+    }))
+    .filter((row) => row.game_id && row.console_id)
+    .sort((left, right) => Number(left.slot_rank || 999) - Number(right.slot_rank || 999)
+      || left.console_id.localeCompare(right.console_id)
+      || left.game_id.localeCompare(right.game_id))
+  const ids = uniqueStrings(slotRows.map((row) => row.game_id))
+  const consoleIds = uniqueStrings(slotRows.map((row) => row.console_id))
+  const passKeys = uniqueStrings(slotRows.map((row) => row.pass_key))
 
   return {
     enabled: true,
     ids,
     set: new Set(ids),
     consoleIds,
+    slotRows,
+    passKey: passKeys[0] || DEFAULT_PUBLICATION_PASS_KEY,
   }
 }
 
@@ -1878,32 +2101,43 @@ router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
 router.get('/api/items', handleAsync(async (req, res) => {
   const limit = parseLimit(req.query.limit, 20, 1000)
   const scope = await fetchPublishedGameScope()
-  const { items = [], total = 0 } = await queryGames({
-    sort: req.query.sort || 'title_asc',
-    console: req.query.console || req.query.platform,
-    rarity: req.query.rarity,
-    limit,
-    offset: Number.parseInt(String(req.query.offset || '0'), 10) || 0,
-    search: req.query.q,
-    ids: scope.enabled && scope.ids.length ? scope.ids : null,
-  })
+  const offset = Number.parseInt(String(req.query.offset || '0'), 10) || 0
+  const [{ items = [], total = 0 }, statsBase] = await Promise.all([
+    queryGames({
+      sort: req.query.sort || 'title_asc',
+      console: req.query.console || req.query.platform,
+      rarity: req.query.rarity,
+      limit,
+      offset,
+      search: req.query.q,
+      ids: scope.enabled && scope.ids.length ? scope.ids : null,
+    }),
+    getStats().catch(() => ({})),
+  ])
 
   const hydratedItems = await hydrateGameCovers(items)
+  const [signalsMap, curationMap] = await Promise.all([
+    fetchGameVisibilitySignals(hydratedItems.map((item) => item?.id)),
+    fetchGameCurationStates(hydratedItems.map((item) => item?.id), scope),
+  ])
+  const visibleItems = attachVisibilityMetadata(hydratedItems, signalsMap, curationMap, scope)
 
   res.json({
     ok: true,
-    items: hydratedItems.map(toItemPayload),
+    items: visibleItems.map(toItemPayload),
     total,
     limit,
-    offset: Number.parseInt(String(req.query.offset || '0'), 10) || 0,
+    offset,
+    publication: buildPublicationSummary(scope, statsBase),
   })
 }))
 
 router.get('/api/consoles', handleAsync(async (_req, res) => {
-  const [catalog, games, scope] = await Promise.all([
+  const [catalog, games, scope, statsBase] = await Promise.all([
     fetchPublishedConsoles(),
     fetchAllSupabaseGames(),
     fetchPublishedGameScope(),
+    getStats().catch(() => ({})),
   ])
   const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope), catalog)
   const knownKeys = new Set()
@@ -1942,14 +2176,16 @@ router.get('/api/consoles', handleAsync(async (_req, res) => {
     items,
     consoles: items,
     count: items.length,
+    publication: buildPublicationSummary(scope, statsBase),
   })
 }))
 
 router.get('/api/consoles/:id', handleAsync(async (req, res) => {
-  const [catalog, games, scope] = await Promise.all([
+  const [catalog, games, scope, statsBase] = await Promise.all([
     fetchPublishedConsoles(),
     fetchAllSupabaseGames(),
     fetchPublishedGameScope(),
+    getStats().catch(() => ({})),
   ])
   const consoleItem = findConsoleInCatalog(catalog, req.params.id)
 
@@ -1962,9 +2198,15 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
     (gamesByConsole.get(getConsoleCatalogKey(consoleItem)) || [])
       .sort((left, right) => compareGamesForSort(left, right, 'year_asc'))
   )
-  const market = buildConsoleMarketPayload(consoleGames)
+  const [signalsMap, curationMap] = await Promise.all([
+    fetchGameVisibilitySignals(consoleGames.map((game) => game?.id)),
+    fetchGameCurationStates(consoleGames.map((game) => game?.id), scope),
+  ])
+  const visibleConsoleGames = attachVisibilityMetadata(consoleGames, signalsMap, curationMap, scope)
+  const market = buildConsoleMarketPayload(visibleConsoleGames)
   const quality = buildConsoleQualityPayload(consoleItem, market)
   const overview = buildConsoleOverviewPayload(consoleItem, market)
+  const demoGames = buildConsoleDemoGamesPayload(consoleItem, visibleConsoleGames, scope)
 
   res.json({
     ok: true,
@@ -1978,7 +2220,7 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
     },
     overview,
     market,
-    games: consoleGames.map((game) => ({
+    games: visibleConsoleGames.map((game) => ({
       id: game.id,
       title: game.title,
       console: game.console,
@@ -1991,12 +2233,28 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
       mintPrice: game.mintPrice ?? null,
       developer: game.developer || null,
       summary: game.summary || null,
+      curation: {
+        status: game.curation?.status || null,
+        isPublished: Boolean(game.curation?.isPublished),
+        passKey: game.curation?.passKey || null,
+      },
+      signals: {
+        hasMaps: Boolean(game.signals?.hasMaps),
+        hasManuals: Boolean(game.signals?.hasManuals),
+        hasSprites: Boolean(game.signals?.hasSprites),
+        hasEndings: Boolean(game.signals?.hasEndings),
+      },
     })),
+    demoGames,
     hardware: buildConsoleHardwarePayload(consoleItem),
     quality,
     sources: buildConsoleSourcesPayload(consoleItem, market),
     relatedConsoles: buildRelatedConsolePayload(catalog, consoleItem),
-    notableGames: buildNotableGamesPayload(consoleItem, consoleGames),
+    notableGames: buildNotableGamesPayload(consoleItem, visibleConsoleGames),
+    publication: buildPublicationSummary(scope, statsBase, {
+      demoGamesCount: demoGames.length,
+      underfilled: demoGames.length < 3,
+    }),
   })
 }))
 
@@ -2098,10 +2356,11 @@ router.get('/api/search/global', handleAsync(async (req, res) => {
       label: SEARCH_CONTEXT_LABELS[context] || SEARCH_CONTEXT_LABELS.all,
       items: [],
       count: 0,
+      publication: buildPublicationSummary(scope, await getStats().catch(() => ({}))),
     })
   }
 
-  const [gamesPayload, consoles, franchises] = await Promise.all([
+  const [gamesPayload, consoles, franchises, statsBase] = await Promise.all([
     queryGames({
       search: q,
       sort: 'title_asc',
@@ -2111,6 +2370,7 @@ router.get('/api/search/global', handleAsync(async (req, res) => {
     }),
     fetchGlobalConsoleResults(q, limit),
     fetchGlobalFranchiseResults(q, limit),
+    getStats().catch(() => ({})),
   ])
 
   let hydratedGames = await hydrateGameCovers(filterPublishedGames(gamesPayload.items || [], scope))
@@ -2139,6 +2399,12 @@ router.get('/api/search/global', handleAsync(async (req, res) => {
       .map((entry) => entry.game)
   }
 
+  const [signalsMap, curationMap] = await Promise.all([
+    fetchGameVisibilitySignals(hydratedGames.map((game) => game?.id)),
+    fetchGameCurationStates(hydratedGames.map((game) => game?.id), scope),
+  ])
+  hydratedGames = attachVisibilityMetadata(hydratedGames, signalsMap, curationMap, scope)
+
   let items = [
     ...(hydratedGames.map((game) => createGlobalGameResult(game, context))),
     ...consoles,
@@ -2161,6 +2427,7 @@ router.get('/api/search/global', handleAsync(async (req, res) => {
     label: SEARCH_CONTEXT_LABELS[context] || SEARCH_CONTEXT_LABELS.all,
     items,
     count: items.length,
+    publication: buildPublicationSummary(scope, statsBase),
   })
 }))
 

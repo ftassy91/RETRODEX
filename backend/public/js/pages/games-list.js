@@ -19,6 +19,7 @@ const pageIndicatorEl = document.getElementById('page-indicator')
 const prevButtonEl = document.getElementById('prev-button')
 const nextButtonEl = document.getElementById('next-button')
 const subtitleEl = document.getElementById('catalog-subtitle')
+const curationBannerEl = document.getElementById('catalog-curation-banner')
 const advancedFiltersEl = document.getElementById('advanced-filters')
 const toggleAdvancedEl = document.getElementById('toggle-advanced')
 const filtersMobileToggleEl = document.getElementById('filters-mobile-toggle')
@@ -35,6 +36,7 @@ let fetchedGames = []
 let filteredGames = []
 let selectedGameId = ''
 let collectionIndex = null
+let publicationSummary = null
 
 const RARITY_DESC_ORDER = {
   LEGENDARY: 0,
@@ -61,6 +63,44 @@ const esc = (value) => String(value ?? '')
 
 const num = (value) => Number(value) || 0
 const textCmp = (left, right) => String(left || '').localeCompare(String(right || ''), 'fr', { sensitivity: 'base' })
+
+function mediaSignalLabels(game) {
+  const labels = []
+  if (game?.curation?.isPublished) labels.push('PASS 1 curated')
+  if (game?.signals?.hasMaps) labels.push('MAP')
+  if (game?.signals?.hasManuals) labels.push('MANUAL')
+  if (game?.signals?.hasSprites) labels.push('SPRITE')
+  if (game?.signals?.hasEndings) labels.push('ENDING')
+  return labels
+}
+
+function renderSignalChips(labels = [], classes = 'surface-chip') {
+  return labels.length
+    ? `<div class="surface-chip-row">${labels.map((label, index) => `<span class="${classes}${index === 0 && label === 'PASS 1 curated' ? ' is-primary' : ''}">${esc(label)}</span>`).join('')}</div>`
+    : ''
+}
+
+function setCatalogPublicationCopy(summary = null) {
+  if (!summary) {
+    if (subtitleEl) subtitleEl.textContent = `${totalGames} jeux en base`
+    if (curationBannerEl) {
+      curationBannerEl.textContent = 'Surface publique curee PASS 1. Chargement des signaux de publication.'
+    }
+    return
+  }
+
+  publicationSummary = summary
+  const published = Number(summary.publishedGamesCount || 0)
+  const consoles = Number(summary.consoleCount || 0)
+  const total = Number(summary.catalogGamesCount || totalGames || 0)
+  const label = summary.label || 'PASS 1 curated'
+  if (subtitleEl) {
+    subtitleEl.textContent = `${published} jeux publies | ${consoles} consoles | ${label}`
+  }
+  if (curationBannerEl) {
+    curationBannerEl.textContent = `${label} : ${published} jeux publies sur ${total} jeux en base. La surface visible est une selection validee, pas l integralite du fonds.`
+  }
+}
 
 function normalizeSortKey(value) {
   const sortKey = String(value || '').trim()
@@ -319,6 +359,7 @@ function quickDetailMarkup(game, currentState) {
   const collectionState = getCollectionState(game.id)
   const detailHref = detailUrl(game.id, currentState)
   const visibleGenre = game.genre && game.genre !== 'Other' ? game.genre : ''
+  const signalMarkup = renderSignalChips(mediaSignalLabels(game))
   return `
     <div class="detail-content">
       <div class="detail-title">${esc(game.title || 'Sans titre')}</div>
@@ -347,6 +388,7 @@ function quickDetailMarkup(game, currentState) {
         <span class="surface-chip">${esc(game.rarity || 'ARCHIVE')}</span>
         ${game.metascore ? `<span class="surface-chip is-hot">MS ${esc(game.metascore)}</span>` : '<span class="surface-chip">NO SCORE</span>'}
       </div>
+      ${signalMarkup}
       <div id="preview-metascore" class="preview-metascore"></div>
       ${description ? `<div class="detail-description surface-summary-copy">${description}</div>` : ''}
       <div class="detail-link-group surface-action-row">
@@ -407,11 +449,20 @@ function previewQuickDetail(game, currentState) {
 
 function renderSummary(currentState, total) {
   const pills = [
+    publicationSummary?.passKey
+      ? `<span class="summary-pill active">${esc(publicationSummary.label || 'PASS 1 curated')}</span>`
+      : '',
+    publicationSummary?.publishedGamesCount
+      ? `<span class="summary-pill active">${esc(publicationSummary.publishedGamesCount)} publies</span>`
+      : '',
+    publicationSummary?.consoleCount
+      ? `<span class="summary-pill active">${esc(publicationSummary.consoleCount)} consoles</span>`
+      : '',
     `<span class="summary-pill active">${total} jeux</span>`,
     `<span class="summary-pill ${currentState.console ? 'active' : ''}">console: ${esc(currentState.console || 'Toutes')}</span>`,
     `<span class="summary-pill ${currentState.rarity ? 'active' : ''}">rarete: ${esc(currentState.rarity || 'Toutes')}</span>`,
     `<span class="summary-pill ${currentState.genre ? 'active' : ''}">genre: ${esc(currentState.genre || 'Tous')}</span>`,
-  ]
+  ].filter(Boolean)
 
   if (currentState.trend) {
     pills.push(`<span class="summary-pill active">tendance: ${esc(currentState.trend)}</span>`)
@@ -585,17 +636,14 @@ function populateGenres(source) {
 
 async function loadMeta() {
   try {
-    const [statsPayload, gamesPayload] = await Promise.all([
-      fetchJson('/api/stats'),
-      fetchJson('/games?type=game'),
-    ])
-    totalGames = statsPayload.total_games || statsPayload.totals?.games || (Array.isArray(gamesPayload) ? gamesPayload.length : totalGames)
-    masterGames = Array.isArray(gamesPayload) ? gamesPayload : []
+    const statsPayload = await fetchJson('/api/stats')
+    totalGames = statsPayload.total_games || statsPayload.totals?.games || totalGames
   } catch (_) {
     masterGames = masterGames || []
   }
 
-  subtitleEl.textContent = `${totalGames} jeux retro`
+  subtitleEl.textContent = `${totalGames} jeux en base`
+  setCatalogPublicationCopy(publicationSummary)
   populateGenres()
 }
 
@@ -608,13 +656,17 @@ async function loadGames() {
   const params = new URLSearchParams()
   if (currentState.q) params.set('q', currentState.q)
   if (currentState.console) params.set('console', currentState.console)
-  params.set('type', 'game')
-  params.set('limit', String(Math.max(totalGames || 507, 507)))
-  params.set('include_trend', '1')
+  params.set('limit', '1000')
+  params.set('sort', 'title_asc')
 
   try {
-    const payload = await fetchJson(`/api/games?${params.toString()}`)
+    const payload = await fetchJson(`/api/items?${params.toString()}`)
     fetchedGames = Array.isArray(payload.items) ? payload.items : []
+    publicationSummary = payload.publication || publicationSummary
+    setCatalogPublicationCopy(publicationSummary)
+    if (!masterGames.length || (!currentState.q && !currentState.console)) {
+      masterGames = fetchedGames.slice()
+    }
     populateGenres(fetchedGames)
     applyFilters(currentState)
 

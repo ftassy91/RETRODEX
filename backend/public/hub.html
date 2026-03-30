@@ -16,7 +16,7 @@
   <meta property="og:description" content="Point d'entree RetroDex.">
   <meta property="og:type" content="website">
   <meta name="robots" content="index, follow">
-  <link rel="stylesheet" href="/style.css?v=20260326b">
+  <link rel="stylesheet" href="/style.css?v=20260330b">
 </head>
 <body class="hub-page">
   <main class="page-wrapper" style="min-height:100vh;display:flex;align-items:center;justify-content:center;">
@@ -25,6 +25,8 @@
       <div class="terminal-preview-panel surface-preview-panel" style="display:block;padding:2rem;">
         <div class="terminal-preview-label">ENTRY POINT</div>
         <div class="terminal-preview-title" style="font-size:clamp(2rem,6vw,4rem);line-height:1;">RETRODEX</div>
+        <p id="hub-curation-banner" class="pass1-surface-banner">PASS 1 curated | chargement des signaux de publication.</p>
+        <p class="surface-query-helper">Surface publique curee, details enrichis, extension progressive vers l ensemble de la base.</p>
         <form class="surface-query-shell" action="/search.html" method="get" style="margin-top:1rem;">
           <input
             id="hub-search-input"
@@ -39,8 +41,17 @@
           >
           <button class="hub-search-button" type="submit">ENTRER</button>
         </form>
+        <div class="page-nav-inline">
+          <a href="/games-list.html">Catalogue</a>
+          <span>&middot;</span>
+          <a href="/consoles.html">Consoles</a>
+          <span>&middot;</span>
+          <a href="/search.html">Recherche</a>
+        </div>
       </div>
     </section>
   </main>
+  <script src="/js/core/api.js"></script>
+  <script src="/js/pages/hub-curated.js?v=20260330a"></script>
 </body>
 </html>

@@ -9,6 +9,23 @@ function escapeHtml(value) {
     .replaceAll("'", '&#039;')
 }
 
+function renderPresenceBadges(game) {
+  const signals = game?.signals || {}
+  const badges = []
+
+  if (game?.curation?.isPublished) {
+    badges.push('<span class="presence-badge is-curated">PASS 1 curated</span>')
+  }
+  if (signals.hasMaps) badges.push('<span class="presence-badge">MAP</span>')
+  if (signals.hasManuals) badges.push('<span class="presence-badge">MANUAL</span>')
+  if (signals.hasSprites) badges.push('<span class="presence-badge">SPRITE</span>')
+  if (signals.hasEndings) badges.push('<span class="presence-badge">ENDING</span>')
+
+  return badges.length
+    ? `<span class="result-presence-row">${badges.join('')}</span>`
+    : ''
+}
+
 function renderGameRow(game, options = {}) {
   const {
     linkTo = 'game-detail',
@@ -56,6 +73,7 @@ function renderGameRow(game, options = {}) {
       <span class="result-meta-row">
         <span class="result-meta">${escapeHtml(consoleName)} &middot; ${escapeHtml(year)}${genre ? ` &middot; ${escapeHtml(genre)}` : ''}</span>
       </span>
+      ${renderPresenceBadges(game)}
     </div>
     <div class="result-signal">
       ${showPrice ? `<span class="result-price">${loosePrice}</span>` : ''}

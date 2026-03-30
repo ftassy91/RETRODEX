@@ -6039,6 +6039,31 @@ body {
   margin-top: 3px;
 }
 
+.result-presence-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.presence-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border: 1px solid rgba(67, 95, 60, 0.58);
+  background: rgba(8, 12, 8, 0.82);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.presence-badge.is-curated {
+  color: var(--text-primary);
+  border-color: rgba(155, 188, 15, 0.42);
+}
+
 .result-support-icon {
   flex: 0 0 auto;
   margin: 0;
@@ -9399,6 +9424,61 @@ body::-webkit-scrollbar-thumb,
   font-size: 12px;
 }
 
+.console-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.console-demo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid rgba(67, 95, 60, 0.58);
+  background: rgba(8, 12, 8, 0.82);
+  color: inherit;
+  text-decoration: none;
+}
+
+.console-demo-card:hover,
+.console-demo-card:focus-visible {
+  background: rgba(12, 16, 12, 0.92);
+  border-color: rgba(155, 188, 15, 0.42);
+}
+
+.console-demo-title {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.console-demo-meta {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.console-demo-signal-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.console-demo-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border: 1px solid rgba(67, 95, 60, 0.58);
+  background: rgba(5, 15, 5, 0.96);
+  color: var(--terminal-green-mid);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .console-game-head {
   display: inline-flex;
   align-items: center;
@@ -9721,6 +9801,17 @@ body.hub-page .product-universe-frame {
 .sc-chip.is-hot {
   color: var(--text-alert);
   border-color: rgba(228, 136, 85, 0.5);
+}
+
+.pass1-surface-banner {
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(67, 95, 60, 0.58);
+  background: rgba(8, 12, 8, 0.82);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
 }
 
 .sc-action {
