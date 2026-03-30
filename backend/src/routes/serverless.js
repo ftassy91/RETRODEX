@@ -720,6 +720,93 @@ function scoreByQuery(query, values = []) {
   return 10
 }
 
+function normalizeGlobalSearchText(value) {
+  return String(value || '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+}
+
+function tokenizeGlobalSearchText(value) {
+  return normalizeGlobalSearchText(value)
+    .split(/\s+/)
+    .filter(Boolean)
+}
+
+function levenshteinDistance(left, right) {
+  const a = String(left || '')
+  const b = String(right || '')
+
+  if (!a) return b.length
+  if (!b) return a.length
+
+  const previous = new Array(b.length + 1)
+  const current = new Array(b.length + 1)
+
+  for (let column = 0; column <= b.length; column += 1) {
+    previous[column] = column
+  }
+
+  for (let row = 1; row <= a.length; row += 1) {
+    current[0] = row
+
+    for (let column = 1; column <= b.length; column += 1) {
+      const cost = a[row - 1] === b[column - 1] ? 0 : 1
+      current[column] = Math.min(
+        previous[column] + 1,
+        current[column - 1] + 1,
+        previous[column - 1] + cost
+      )
+    }
+
+    for (let column = 0; column <= b.length; column += 1) {
+      previous[column] = current[column]
+    }
+  }
+
+  return previous[b.length]
+}
+
+function isNearSearchTokenMatch(token, candidate) {
+  const queryToken = String(token || '')
+  const candidateToken = String(candidate || '')
+  if (!queryToken || !candidateToken) {
+    return false
+  }
+
+  if (candidateToken === queryToken) {
+    return true
+  }
+
+  if (candidateToken.startsWith(queryToken) || queryToken.startsWith(candidateToken)) {
+    return true
+  }
+
+  const maxLength = Math.max(queryToken.length, candidateToken.length)
+  if (maxLength < 4) {
+    return false
+  }
+
+  const maxDistance = maxLength >= 8 ? 2 : 1
+  return levenshteinDistance(queryToken, candidateToken) <= maxDistance
+}
+
+function collectGlobalSearchTokens(result) {
+  return tokenizeGlobalSearchText([
+    result?.name,
+    result?.title,
+    result?.subtitle,
+    result?.meta?.console,
+    result?.meta?.genre,
+    result?.meta?.developer,
+    result?.meta?.manufacturer,
+    result?.meta?.summary,
+    result?.meta?.synopsis,
+  ].filter(Boolean).join(' '))
+}
+
 function editorialSignalCount(game) {
   const item = normalizeGameRecord(game)
   return [
@@ -958,15 +1045,48 @@ async function fetchSearchFallbackResults(
 }
 
 function scoreResult(result, query) {
-  const normalizedQuery = query.toLowerCase().trim()
-  const name = String(result.name || result.title || '').toLowerCase()
-  if (name === normalizedQuery) return 0
-  if (name.startsWith(`${normalizedQuery} `)) return 1
-  if (name.startsWith(normalizedQuery)) return 2
-  if (name.endsWith(` ${normalizedQuery}`)) return 2
-  if (name.includes(` ${normalizedQuery}`)) return 3
-  if (name.includes(normalizedQuery)) return 4
-  return 10
+  const normalizedQuery = normalizeGlobalSearchText(query)
+  const title = normalizeGlobalSearchText(result?.name || result?.title || '')
+  if (!normalizedQuery || !title) return 0
+
+  if (title === normalizedQuery) return 100
+  if (title.startsWith(`${normalizedQuery} `)) return 96
+  if (title.startsWith(normalizedQuery)) return 94
+  if (title.endsWith(` ${normalizedQuery}`)) return 92
+  if (title.includes(` ${normalizedQuery}`)) return 88
+  if (title.includes(normalizedQuery)) return 84
+
+  const queryTokens = tokenizeGlobalSearchText(normalizedQuery)
+  const haystackTokens = collectGlobalSearchTokens(result)
+  const titleTokens = tokenizeGlobalSearchText(title)
+  let score = 0
+
+  for (const token of queryTokens) {
+    if (titleTokens.includes(token)) {
+      score += 36
+      continue
+    }
+
+    if (titleTokens.some((candidate) => candidate.startsWith(token))) {
+      score += 28
+      continue
+    }
+
+    if (haystackTokens.some((candidate) => candidate.includes(token))) {
+      score += 16
+      continue
+    }
+
+    if (haystackTokens.some((candidate) => isNearSearchTokenMatch(token, candidate))) {
+      score += 22
+    }
+  }
+
+  if (queryTokens.length === 1 && titleTokens.some((candidate) => isNearSearchTokenMatch(queryTokens[0], candidate))) {
+    score = Math.max(score, 72)
+  }
+
+  return Math.min(score, 99)
 }
 
 function compareGlobalResults(left, right) {
@@ -1472,7 +1592,7 @@ async function fetchGlobalConsoleResults(query, limit) {
     fetchAllSupabaseGames(),
     fetchPublishedGameScope(),
   ])
-  const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope), catalog)
+  const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope), consoles)
 
   return consoles
     .filter((consoleItem) => {
@@ -1837,7 +1957,7 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: 'Console not found' })
   }
 
-  const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope), consoles)
+  const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope), catalog)
   const consoleGames = await hydrateGameCovers(
     (gamesByConsole.get(getConsoleCatalogKey(consoleItem)) || [])
       .sort((left, right) => compareGamesForSort(left, right, 'year_asc'))
@@ -1937,7 +2057,7 @@ router.get('/api/search', handleAsync(async (req, res) => {
   }
 
   results.sort((a, b) => {
-    const diff = scoreResult(a, q) - scoreResult(b, q)
+    const diff = scoreResult(b, q) - scoreResult(a, q)
     if (diff !== 0) return diff
 
     const aName = String(a.name || a.title || '').toLowerCase()
@@ -1993,7 +2113,31 @@ router.get('/api/search/global', handleAsync(async (req, res) => {
     fetchGlobalFranchiseResults(q, limit),
   ])
 
-  const hydratedGames = await hydrateGameCovers(filterPublishedGames(gamesPayload.items || [], scope))
+  let hydratedGames = await hydrateGameCovers(filterPublishedGames(gamesPayload.items || [], scope))
+  if (!hydratedGames.length && q.length >= 4) {
+    const fuzzyGamesPayload = await queryGames({
+      sort: 'title_asc',
+      limit: 5000,
+      offset: 0,
+      ids: scope.enabled && scope.ids.length ? scope.ids : null,
+    })
+
+    hydratedGames = (await hydrateGameCovers(filterPublishedGames(fuzzyGamesPayload.items || [], scope)))
+      .map((game) => {
+        const result = createGlobalGameResult(game, context)
+        return {
+          game,
+          score: scoreResult(result, q),
+        }
+      })
+      .filter((entry) => entry.score >= 60)
+      .sort((left, right) => right.score - left.score
+        || String(left.game?.title || '').localeCompare(String(right.game?.title || ''), 'fr', {
+          sensitivity: 'base',
+        }))
+      .slice(0, Math.max(limit * 3, 20))
+      .map((entry) => entry.game)
+  }
 
   let items = [
     ...(hydratedGames.map((game) => createGlobalGameResult(game, context))),
