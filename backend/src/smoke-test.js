@@ -56,6 +56,7 @@ async function main() {
   const port = Number(process.env.SMOKE_PORT || 3100);
   const server = await startServer(port);
   const baseUrl = `http://127.0.0.1:${port}`;
+  const smokeGameId = "tetris-game-boy";
   let createdCollectionItemId = null;
 
   try {
@@ -66,17 +67,23 @@ async function main() {
     const beginnerDetail = await fetchJson(`${baseUrl}/games/tetris-game-boy`);
     const games = await fetchJson(`${baseUrl}/api/games?console=Game%20Boy&limit=3`);
     const backendSearch = await fetchJson(`${baseUrl}/api/games?q=zelda&limit=2`);
-    const detail = await fetchJson(`${baseUrl}/api/games/tetris-game-boy`);
-    const summary = await fetchJson(`${baseUrl}/api/games/tetris-game-boy/summary`);
+    const detail = await fetchJson(`${baseUrl}/api/games/${smokeGameId}`);
+    const summary = await fetchJson(`${baseUrl}/api/games/${smokeGameId}/summary`);
     const random = await fetchJson(`${baseUrl}/api/games/random?console=Game%20Boy`);
     const consoles = await fetchJson(`${baseUrl}/api/consoles`);
+    const initialCollection = await fetchJson(`${baseUrl}/api/collection`);
+
+    if ((initialCollection.items || []).some((item) => String(item?.gameId || item?.id) === smokeGameId)) {
+      await deleteJson(`${baseUrl}/api/collection/${smokeGameId}`);
+    }
+
     const collectionBefore = await fetchJson(`${baseUrl}/api/collection`);
     const createdCollectionItem = await postJson(`${baseUrl}/api/collection`, {
-      gameId: "tetris-game-boy",
+      gameId: smokeGameId,
       condition: "Loose",
       notes: "Smoke test insert",
     });
-    createdCollectionItemId = createdCollectionItem.item?.id ?? createdCollectionItem.item?.gameId ?? null;
+    createdCollectionItemId = createdCollectionItem.item?.id ?? createdCollectionItem.item?.gameId ?? smokeGameId;
     const collectionAfter = await fetchJson(`${baseUrl}/api/collection`);
     const deletedCollectionItem = await deleteJson(
       `${baseUrl}/api/collection/${createdCollectionItemId}`
@@ -88,7 +95,7 @@ async function main() {
     const consolesPage = await fetchText(`${baseUrl}/consoles.html`);
     const debugPage = await fetchText(`${baseUrl}/debug.html`);
     const gamesListPage = await fetchText(`${baseUrl}/games-list.html`);
-    const gameDetailPage = await fetchText(`${baseUrl}/game-detail.html?id=tetris-game-boy`);
+    const gameDetailPage = await fetchText(`${baseUrl}/game-detail.html?id=${smokeGameId}`);
 
     console.log(
       JSON.stringify(
@@ -109,7 +116,7 @@ async function main() {
           randomTitle: random.title,
           consolesCount: consoles.items.length,
           collectionCountBefore: collectionBefore.total,
-          collectionCreatedId: createdCollectionItem.item?.id ?? null,
+          collectionCreatedId: createdCollectionItem.item?.id ?? createdCollectionItem.item?.gameId ?? smokeGameId,
           collectionCountAfter: collectionAfter.total,
           collectionDeletedId: deletedCollectionItem.deletedId ?? null,
           collectionCountAfterDelete: collectionAfterDelete.total,
