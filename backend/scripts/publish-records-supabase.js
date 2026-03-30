@@ -6,6 +6,7 @@ const {
   createRemoteClient,
   openReadonlySqlite,
   normalizeText,
+  normalizeTimestamp,
   parseJsonLike,
   stringifyJson,
   buildSourceRecordKey,
@@ -102,8 +103,8 @@ function sourceRecordNeedsUpdate(remoteRow, localRow) {
     normalizeText(remoteRow.source_url) !== normalizeText(localRow.source_url)
     || normalizeText(remoteRow.source_license) !== normalizeText(localRow.source_license)
     || String(remoteRow.compliance_status || '') !== String(localRow.compliance_status || '')
-    || normalizeText(remoteRow.ingested_at) !== normalizeText(localRow.ingested_at)
-    || normalizeText(remoteRow.last_verified_at) !== normalizeText(localRow.last_verified_at)
+    || normalizeTimestamp(remoteRow.ingested_at) !== normalizeTimestamp(localRow.ingested_at)
+    || normalizeTimestamp(remoteRow.last_verified_at) !== normalizeTimestamp(localRow.last_verified_at)
     || Number(remoteRow.confidence_level || 0) !== Number(localRow.confidence_level || 0)
     || normalizeText(remoteRow.notes) !== normalizeText(localRow.notes)
   );
@@ -115,7 +116,7 @@ function fieldProvenanceNeedsUpdate(remoteRow, localRow) {
     || normalizeText(remoteRow.value_hash) !== normalizeText(localRow.value_hash)
     || Number(remoteRow.is_inferred || 0) !== Number(localRow.is_inferred || 0)
     || Number(remoteRow.confidence_level || 0) !== Number(localRow.confidence_level || 0)
-    || normalizeText(remoteRow.verified_at) !== normalizeText(localRow.verified_at)
+    || normalizeTimestamp(remoteRow.verified_at) !== normalizeTimestamp(localRow.verified_at)
   );
 }
 
@@ -130,7 +131,7 @@ function qualityRecordNeedsUpdate(remoteRow, localRow) {
     || stringifyJson(parseJsonLike(remoteRow.missing_critical_fields, null)) !== localRow.missing_critical_fields
     || stringifyJson(parseJsonLike(remoteRow.breakdown_json, null)) !== localRow.breakdown_json
     || Number(remoteRow.priority_score || 0) !== Number(localRow.priority_score || 0)
-    || normalizeText(remoteRow.updated_at) !== normalizeText(localRow.updated_at)
+    || normalizeTimestamp(remoteRow.updated_at) !== normalizeTimestamp(localRow.updated_at)
   );
 }
 

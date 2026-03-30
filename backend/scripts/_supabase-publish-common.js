@@ -73,6 +73,28 @@ function normalizeText(value) {
   return text || null;
 }
 
+function normalizeTimestamp(value) {
+  if (value == null || value === '') {
+    return null;
+  }
+
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+
+  const normalized = normalizeText(value);
+  if (!normalized) {
+    return null;
+  }
+
+  const parsed = new Date(normalized);
+  if (!Number.isNaN(parsed.getTime())) {
+    return parsed.toISOString();
+  }
+
+  return normalized;
+}
+
 function normalizeKeyPart(value) {
   return String(value == null ? '' : value).trim();
 }
@@ -97,11 +119,28 @@ function parseJsonLike(value, fallback = null) {
   }
 }
 
+function sortJsonValue(value) {
+  if (Array.isArray(value)) {
+    return value.map(sortJsonValue);
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.keys(value)
+      .sort()
+      .reduce((acc, key) => {
+        acc[key] = sortJsonValue(value[key]);
+        return acc;
+      }, {});
+  }
+
+  return value;
+}
+
 function stringifyJson(value) {
   if (value == null) {
     return null;
   }
-  return JSON.stringify(value);
+  return JSON.stringify(sortJsonValue(value));
 }
 
 function coerceBoolean(value) {
@@ -343,6 +382,7 @@ module.exports = {
   createRemoteClient,
   openReadonlySqlite,
   normalizeText,
+  normalizeTimestamp,
   normalizeKeyPart,
   parseJsonLike,
   stringifyJson,

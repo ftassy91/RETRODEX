@@ -420,6 +420,16 @@ async function fetchRemoteRows(client, tableName, columns) {
   return (await client.query(`SELECT ${columns.join(', ')} FROM public.${tableName}`)).rows;
 }
 
+async function fetchRemoteGameIdSet(client) {
+  const { rows } = await client.query(`
+    SELECT id
+    FROM public.games
+    WHERE type = 'game'
+  `);
+
+  return new Set(rows.map((row) => String(row.id)));
+}
+
 function peopleNeedsUpdate(remoteRow, localRow) {
   return (
     normalizeText(remoteRow.name) !== normalizeText(localRow.name)
@@ -588,6 +598,8 @@ async function main() {
       await ensureRemoteSchema(client);
     }
 
+    const remoteGameIds = await fetchRemoteGameIdSet(client);
+
     const remoteSourceRows = await fetchRemoteSourceRecords(client).catch(() => []);
     const remoteSourceMap = mapBy(remoteSourceRows, buildSourceRecordKey);
     const remoteSourceIdByLocalId = buildSourceRecordIdMap(sqlite, remoteSourceMap);
@@ -618,11 +630,20 @@ async function main() {
       ...localGamePeople,
       ...musicRows.extraBindings,
       ...fallback.bindings,
-    ], buildGamePeopleKey);
+    ], buildGamePeopleKey).filter((row) => remoteGameIds.has(String(row.game_id)));
 
-    const allOst = uniqueBy(musicRows.ostRows, buildOstKey);
-    const allOstTracks = uniqueBy(musicRows.trackRows, buildOstTrackKey);
-    const allOstReleases = uniqueBy(musicRows.releaseRows, buildOstReleaseKey);
+    const allOst = uniqueBy(musicRows.ostRows, buildOstKey)
+      .filter((row) => remoteGameIds.has(String(row.game_id)));
+    const allowedOstIds = new Set(allOst.map((row) => String(row.id)));
+    const allOstTracks = uniqueBy(musicRows.trackRows, buildOstTrackKey)
+      .filter((row) => allowedOstIds.has(String(row.ost_id)));
+    const allOstReleases = uniqueBy(musicRows.releaseRows, buildOstReleaseKey)
+      .filter((row) => allowedOstIds.has(String(row.ost_id)));
+    const referencedPersonIds = new Set([
+      ...allGamePeople.map((row) => String(row.person_id)),
+      ...allOstTracks.map((row) => normalizeText(row.composer_person_id)).filter(Boolean),
+    ]);
+    const retainedPeople = allPeople.filter((row) => referencedPersonIds.has(String(row.id)));
 
     const peopleTableExists = await tableExists(client, 'people');
     const gamePeopleTableExists = await tableExists(client, 'game_people');
@@ -657,7 +678,7 @@ async function main() {
       : [];
     const remoteReleaseMap = mapBy(remoteReleaseRows, buildOstReleaseKey);
 
-    const pendingPeople = allPeople.filter((row) => {
+    const pendingPeople = retainedPeople.filter((row) => {
       const remoteRow = remotePeopleMap.get(buildPersonKey(row));
       return !remoteRow || peopleNeedsUpdate(remoteRow, row);
     });
@@ -710,7 +731,7 @@ async function main() {
       mode: APPLY ? 'apply' : 'dry-run',
       people: {
         tableExists: peopleTableExists,
-        localRows: allPeople.length,
+        localRows: retainedPeople.length,
         remoteRows: remotePeopleMap.size,
         pendingRows: pendingPeople.length,
       },
@@ -743,6 +764,12 @@ async function main() {
         game_people: pendingGamePeople.slice(0, 5).map((row) => ({ game_id: row.game_id, person_id: row.person_id, role: row.role })),
         ost: pendingOst.slice(0, 5).map((row) => ({ id: row.id, game_id: row.game_id, needs_release_enrichment: row.needs_release_enrichment })),
         ost_tracks: pendingTracks.slice(0, 5).map((row) => ({ ost_id: row.ost_id, track_title: row.track_title })),
+      },
+      skipped: {
+        game_people_filtered_out: localGamePeople.length + musicRows.extraBindings.length + fallback.bindings.length - allGamePeople.length,
+        ost_filtered_out: musicRows.ostRows.length - allOst.length,
+        ost_tracks_filtered_out: musicRows.trackRows.length - allOstTracks.length,
+        ost_releases_filtered_out: musicRows.releaseRows.length - allOstReleases.length,
       },
     }, null, 2));
   } finally {

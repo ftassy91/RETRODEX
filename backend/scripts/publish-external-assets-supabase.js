@@ -6,6 +6,7 @@ const {
   createRemoteClient,
   openReadonlySqlite,
   normalizeText,
+  normalizeTimestamp,
   normalizeKeyPart,
   parseJsonLike,
   stringifyJson,
@@ -268,7 +269,7 @@ function mediaNeedsUpdate(remoteRow, localRow) {
     || Boolean(remoteRow.ui_allowed) !== Boolean(localRow.ui_allowed)
     || normalizeText(remoteRow.healthcheck_status) !== normalizeText(localRow.healthcheck_status)
     || stringifyJson(parseJsonLike(remoteRow.notes, null)) !== localRow.notes
-    || normalizeText(remoteRow.last_checked_at) !== normalizeText(localRow.last_checked_at)
+    || normalizeTimestamp(remoteRow.last_checked_at) !== normalizeTimestamp(localRow.last_checked_at)
     || stringifyJson(parseJsonLike(remoteRow.source_context, null)) !== localRow.source_context
   );
 }
