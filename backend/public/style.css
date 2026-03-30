@@ -5617,6 +5617,113 @@ body {
   display: inline-flex;
 }
 
+.detail-editorial-head {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.detail-overview-cover {
+  margin-bottom: 0.9rem;
+}
+
+.detail-overview-cover-img {
+  width: min(220px, 100%);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border: 1px solid #244224;
+  background: #081008;
+}
+
+.detail-overview-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.detail-overview-fact,
+.detail-fact-row,
+.detail-record-row,
+.detail-media-card {
+  border: 1px solid #183118;
+  background: rgba(9, 20, 9, 0.72);
+  padding: 0.7rem;
+}
+
+.detail-overview-fact-label,
+.detail-fact-label,
+.detail-record-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+}
+
+.detail-overview-fact-value,
+.detail-fact-value,
+.detail-record-value {
+  color: var(--text-primary);
+}
+
+.detail-record-meta {
+  display: inline-block;
+  margin-left: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 10px;
+}
+
+.detail-fact-list,
+.detail-media-gallery {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.detail-media-gallery {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.detail-media-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.45rem;
+  margin-bottom: 0.6rem;
+}
+
+.detail-media-card .detail-media-preview {
+  width: 100%;
+  max-height: 260px;
+  object-fit: contain;
+  border: 1px solid #1d381d;
+  background: #071007;
+}
+
+.detail-media-embed-shell {
+  border: 1px solid #1d381d;
+  background: #071007;
+  margin-bottom: 0.7rem;
+}
+
+.detail-media-embed {
+  width: 100%;
+  min-height: 320px;
+  border: 0;
+  background: #071007;
+}
+
+@media (max-width: 760px) {
+  .detail-media-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-media-embed {
+    min-height: 240px;
+  }
+}
+
 .detail-compliance-badge.is-approved {
   color: #9bbc0f;
   border-color: rgba(155, 188, 15, 0.45);

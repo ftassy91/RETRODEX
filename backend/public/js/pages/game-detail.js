@@ -36,6 +36,8 @@ let currentGame = null
 let currentCollectionItem = null
 let currentEncyclopediaData = null
 let currentArchiveData = null
+let currentGameDetailData = null
+let currentRenderedDetailTabs = new Set()
 const HUB_IMAGE_VERSION = '20260323b'
 let hubImageManifestPromise = null
 
@@ -611,6 +613,334 @@ async function loadRetrodexIndex(gameId) {
   }
 }
 
+function isImageLikeUrl(value) {
+  return /\.(png|jpe?g|gif|webp|svg)(\?|#|$)/i.test(String(value || '').trim())
+}
+
+function renderOverviewCard(data = {}) {
+  const facts = [
+    ['Plateforme', data.platform],
+    ['Annee', data.year],
+    ['Genre', data.genre],
+    ['Rarete', data.rarity],
+    ['Developpeur', data.developer],
+    ['Editeur', data.publisher],
+    ['Metascore', data.metascore],
+    ['Main', data.game_length?.main],
+    ['Complet', data.game_length?.complete],
+  ].filter(([, value]) => value != null && String(value).trim() !== '')
+
+  return `
+    <article class="detail-domain-block">
+      <div class="detail-domain-heading">Overview</div>
+      ${data.cover?.external_url ? `
+        <div class="detail-overview-cover">
+          <a class="detail-media-preview-link" href="${escapeHtml(data.cover.external_url)}" target="_blank" rel="noopener noreferrer">
+            <img
+              src="${escapeHtml(data.cover.preview_url || data.cover.external_url)}"
+              alt="${escapeHtml(data.title || 'Cover')}"
+              class="detail-media-preview detail-overview-cover-img"
+              loading="lazy"
+            />
+          </a>
+        </div>
+      ` : ''}
+      ${data.summary ? `
+        <div class="detail-domain-subblock">
+          <span class="archive-label">Resume</span>
+          <div class="archive-lore">${formatMultilineHtml(data.summary)}</div>
+        </div>
+      ` : ''}
+      ${data.synopsis && data.synopsis !== data.summary ? `
+        <div class="detail-domain-subblock">
+          <span class="archive-label">Synopsis</span>
+          <div class="archive-lore">${formatMultilineHtml(data.synopsis)}</div>
+        </div>
+      ` : ''}
+      ${facts.length ? `
+        <div class="detail-overview-facts">
+          ${facts.map(([label, value]) => `
+            <div class="detail-overview-fact">
+              <span class="detail-overview-fact-label">${escapeHtml(label)}</span>
+              <span class="detail-overview-fact-value">${escapeHtml(String(value))}</span>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+    </article>
+  `
+}
+
+function renderRichTextBlocks(blocks = []) {
+  return blocks.map((block) => `
+    <article class="detail-domain-block">
+      <div class="detail-domain-heading">${escapeHtml(block.title || 'Texte')}</div>
+      <div class="archive-lore">${formatMultilineHtml(block.text || '')}</div>
+    </article>
+  `).join('')
+}
+
+function renderCharacterList(items = []) {
+  return `
+    <article class="detail-domain-block">
+      <div class="detail-domain-heading">Characters</div>
+      ${items.map((item) => `
+        <div class="archive-character-row">
+          <span class="archive-char-name">${escapeHtml(item.name || 'Inconnu')}</span>
+          <span class="archive-char-role">${escapeHtml(item.role || '')}</span>
+          <span class="archive-char-desc">${escapeHtml(item.description || '')}</span>
+        </div>
+      `).join('')}
+    </article>
+  `
+}
+
+function renderPeopleList(items = []) {
+  return `
+    <article class="detail-domain-block">
+      <div class="detail-domain-heading">Dev Team</div>
+      ${items.map((item) => `
+        <div class="encyclo-team-row">
+          <span class="team-role">${escapeHtml(item.role || item.roleLabel || item.type || 'Equipe')}</span>
+          <span class="team-name">${escapeHtml(item.name || 'Inconnu')}</span>
+          ${item.note ? `<span class="team-note">${escapeHtml(item.note)}</span>` : ''}
+        </div>
+      `).join('')}
+    </article>
+  `
+}
+
+function renderCodeList(items = []) {
+  return `
+    <article class="detail-domain-block">
+      <div class="detail-domain-heading">Codes</div>
+      ${items.map((item) => `
+        <div class="encyclo-cheat-row">
+          <span class="cheat-name">${escapeHtml(item.label || 'Code')}</span>
+          <span class="cheat-code">${escapeHtml(item.code || '--')}</span>
+          <span class="cheat-effect">${escapeHtml(item.effect || '')}</span>
+        </div>
+      `).join('')}
+    </article>
+  `
+}
+
+function renderRecordList(items = []) {
+  return `
+    <article class="detail-domain-block">
+      <div class="detail-domain-heading">Records</div>
+      ${items.map((item) => `
+        <div class="detail-record-row">
+          <span class="detail-record-label">${escapeHtml(item.label || 'Record')}</span>
+          <span class="detail-record-value">${escapeHtml(item.value || '')}</span>
+          ${item.runner ? `<span class="detail-record-meta">${escapeHtml(item.runner)}</span>` : ''}
+        </div>
+      `).join('')}
+    </article>
+  `
+}
+
+function renderFactList(items = []) {
+  return `
+    <article class="detail-domain-block">
+      <div class="detail-domain-heading">Development</div>
+      <div class="detail-fact-list">
+        ${items.map((item) => `
+          <div class="detail-fact-row">
+            <span class="detail-fact-label">${escapeHtml(item.label || 'Info')}</span>
+            <span class="detail-fact-value">${escapeHtml(item.note || '')}</span>
+          </div>
+        `).join('')}
+      </div>
+    </article>
+  `
+}
+
+function renderAnecdoteList(items = []) {
+  return `
+    <article class="detail-domain-block">
+      <div class="detail-domain-heading">Anecdotes</div>
+      ${items.map((item) => `
+        <div class="encyclo-anecdote">
+          <div class="anecdote-title">${escapeHtml(item.title || 'Note')}</div>
+          <div class="anecdote-text">${formatMultilineHtml(item.text || '')}</div>
+        </div>
+      `).join('')}
+    </article>
+  `
+}
+
+function renderOstBlock(block = {}) {
+  return `
+    ${block.composers?.length ? `
+      <article class="detail-domain-block">
+        <div class="detail-domain-heading">Compositeurs</div>
+        ${block.composers.map((item) => `
+          <div class="encyclo-team-row">
+            <span class="team-role">${escapeHtml(item.role || 'Compositeur')}</span>
+            <span class="team-name">${escapeHtml(item.name || 'Inconnu')}</span>
+          </div>
+        `).join('')}
+      </article>
+    ` : ''}
+    ${block.tracks?.length ? `
+      <article class="detail-domain-block">
+        <div class="detail-domain-heading">Tracks</div>
+        <div class="archive-ost-tracks">
+          <ul>${block.tracks.map((track) => `<li>${escapeHtml(track.title || '')}</li>`).join('')}</ul>
+        </div>
+      </article>
+    ` : ''}
+    ${block.releases?.length ? `
+      <article class="detail-domain-block">
+        <div class="detail-domain-heading">Releases</div>
+        <div class="detail-ost-release-list">
+          ${block.releases.map((release) => `
+            <div class="detail-ost-release-row">
+              <span class="detail-ost-release-title">${escapeHtml(release.name || 'OST')}</span>
+              <span class="detail-ost-release-meta">
+                ${escapeHtml([
+                  release.releaseYear || '',
+                  release.format || '',
+                  release.label || '',
+                  release.trackCount ? `${release.trackCount} tracks` : '',
+                ].filter(Boolean).join(' | ') || 'Metadonnees partielles')}
+              </span>
+            </div>
+          `).join('')}
+        </div>
+      </article>
+    ` : ''}
+  `
+}
+
+function renderMediaGallery(block = {}) {
+  const titleMap = {
+    manual: 'Manuals',
+    map: 'Maps',
+    sprite_sheet: 'Sprites',
+    ending: 'Ending',
+    asset: 'Assets',
+  }
+
+  return `
+    <article class="detail-domain-block">
+      <div class="detail-domain-heading">${escapeHtml(titleMap[block.mediaType] || 'Media')}</div>
+      <div class="detail-media-gallery">
+        ${(block.items || []).map((item) => {
+          const previewUrl = item.preview_url || item.embed_url || ''
+          const showImage = previewUrl && isImageLikeUrl(previewUrl)
+          const canEmbedDoc = block.mediaType === 'manual' && item.embed_url
+          return `
+            <div class="detail-media-card">
+              <div class="detail-media-card-head">
+                <span class="detail-media-kind">${escapeHtml(item.title || titleMap[block.mediaType] || 'Reference')}</span>
+                ${item.provider ? `<span class="detail-media-row-meta">${escapeHtml(item.provider)}</span>` : ''}
+              </div>
+              ${canEmbedDoc ? `
+                <div class="detail-media-embed-shell">
+                  <iframe
+                    class="detail-media-embed"
+                    src="${escapeHtml(item.embed_url)}"
+                    loading="lazy"
+                    referrerpolicy="no-referrer"
+                    title="${escapeHtml(item.title || 'Manual')}"
+                  ></iframe>
+                </div>
+              ` : showImage ? `
+                <a class="detail-media-preview-link" href="${escapeHtml(item.external_url)}" target="_blank" rel="noopener noreferrer">
+                  <img
+                    src="${escapeHtml(previewUrl)}"
+                    alt="${escapeHtml(item.title || 'Media')}"
+                    class="detail-media-preview"
+                    loading="lazy"
+                  />
+                </a>
+              ` : ''}
+              <a class="terminal-action-link detail-media-link" href="${escapeHtml(item.external_url)}" target="_blank" rel="noopener noreferrer">
+                Ouvrir la reference ->
+              </a>
+            </div>
+          `
+        }).join('')}
+      </div>
+    </article>
+  `
+}
+
+function renderGameDetailBlock(block) {
+  if (!block) {
+    return ''
+  }
+
+  if (block.type === 'overview') return renderOverviewCard(block.data || {})
+  if (block.type === 'text') return renderRichTextBlocks([block])
+  if (block.type === 'character-list') return renderCharacterList(block.items || [])
+  if (block.type === 'people-list') return renderPeopleList(block.items || [])
+  if (block.type === 'code-list') return renderCodeList(block.items || [])
+  if (block.type === 'record-list') return renderRecordList(block.items || [])
+  if (block.type === 'fact-list') return renderFactList(block.items || [])
+  if (block.type === 'anecdote-list') return renderAnecdoteList(block.items || [])
+  if (block.type === 'ost') return renderOstBlock(block)
+  if (block.type === 'media-gallery') return renderMediaGallery(block)
+  return ''
+}
+
+function renderDynamicEditorialPanel(tab) {
+  const blocks = Array.isArray(tab?.content) ? tab.content : []
+  if (!blocks.length) {
+    return `<div class="detail-empty-state">Aucune donnee publiee pour cette section.</div>`
+  }
+
+  return blocks.map((block) => renderGameDetailBlock(block)).join('')
+}
+
+function renderDynamicEditorialContent() {
+  if (!editorialShellEl || !editorialContentEl || !currentGameDetailData) {
+    return false
+  }
+
+  const sections = Array.isArray(currentGameDetailData.tabs) ? currentGameDetailData.tabs : []
+  if (!sections.length) {
+    editorialShellEl.hidden = true
+    editorialContentEl.innerHTML = ''
+    return true
+  }
+
+  const currentActiveTab = editorialContentEl.querySelector('.detail-editorial-tab.active')?.dataset.tab
+  const activeTab = sections.some((section) => section.id === currentActiveTab)
+    ? currentActiveTab
+    : sections[0].id
+
+  currentRenderedDetailTabs = new Set()
+  editorialShellEl.hidden = false
+  editorialContentEl.innerHTML = `
+    <div class="detail-editorial-head">
+      <div class="detail-domain-eyebrow">GameDetail / Encyclopedia</div>
+      <div class="detail-domain-subcopy">source de verite Supadata • onglets dynamiques • aucun vide</div>
+    </div>
+    <div class="detail-editorial-tabs">
+      ${sections.map((section) => `
+        <button type="button" class="detail-editorial-tab ${section.id === activeTab ? 'active' : ''}" data-tab="${section.id}">
+          ${escapeHtml(section.name)}
+        </button>
+      `).join('')}
+    </div>
+    <div class="detail-editorial-panels">
+      ${sections.map((section) => `
+        <section class="detail-editorial-panel" data-panel="${section.id}" ${section.id === activeTab ? '' : 'hidden'}></section>
+      `).join('')}
+    </div>
+  `
+
+  activateEditorialTab(activeTab)
+  editorialContentEl.querySelectorAll('.detail-editorial-tab').forEach((button) => {
+    button.addEventListener('click', () => activateEditorialTab(button.dataset.tab))
+  })
+
+  return true
+}
+
 function activateEditorialTab(tabId) {
   editorialContentEl.querySelectorAll('.detail-editorial-tab').forEach((button) => {
     button.classList.toggle('active', button.dataset.tab === tabId)
@@ -619,6 +949,15 @@ function activateEditorialTab(tabId) {
   editorialContentEl.querySelectorAll('.detail-editorial-panel').forEach((panel) => {
     panel.hidden = panel.dataset.panel !== tabId
   })
+
+  if (currentGameDetailData) {
+    const panelEl = editorialContentEl.querySelector(`.detail-editorial-panel[data-panel="${tabId}"]`)
+    if (panelEl && !currentRenderedDetailTabs.has(tabId)) {
+      const tab = (currentGameDetailData.tabs || []).find((entry) => entry.id === tabId)
+      panelEl.innerHTML = renderDynamicEditorialPanel(tab)
+      currentRenderedDetailTabs.add(tabId)
+    }
+  }
 }
 
 function normalizeContributor(member, fallbackRole = '') {
@@ -1124,6 +1463,11 @@ function renderEditorialContent() {
     return
   }
 
+  if (currentGameDetailData) {
+    renderDynamicEditorialContent()
+    return
+  }
+
   if (!currentGame && !currentEncyclopediaData && !currentArchiveData) {
     editorialShellEl.hidden = true
     editorialContentEl.innerHTML = ''
@@ -1158,6 +1502,41 @@ function renderEditorialContent() {
   editorialContentEl.querySelectorAll('.detail-editorial-tab').forEach((button) => {
     button.addEventListener('click', () => activateEditorialTab(button.dataset.tab))
   })
+}
+
+async function loadGameDetailData(gameId) {
+  if (!editorialShellEl || !editorialContentEl) {
+    return false
+  }
+
+  try {
+    const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/detail`)
+    if (!data.ok) {
+      currentGameDetailData = null
+      renderEditorialContent()
+      return false
+    }
+
+    currentGameDetailData = data
+    if (currentGame) {
+      const overview = data.content?.overview || {}
+      if (!String(currentGame.summary || '').trim() && String(overview.summary || '').trim()) {
+        currentGame.summary = overview.summary
+        renderSummary(currentGame)
+      } else if (!String(currentGame.summary || '').trim() && String(overview.synopsis || '').trim()) {
+        currentGame.synopsis = overview.synopsis
+        renderSummary(currentGame)
+      }
+    }
+
+    renderEditorialContent()
+    return true
+  } catch (error) {
+    currentGameDetailData = null
+    renderEditorialContent()
+    console.warn('[RetroDex] detail data layer load failed:', error.message)
+    return false
+  }
 }
 
 async function loadEncyclopedia(gameId) {
@@ -2559,6 +2938,10 @@ async function loadArchive(gameId) {
 
 async function loadPage() {
   const gameId = getGameId()
+  currentGameDetailData = null
+  currentArchiveData = null
+  currentEncyclopediaData = null
+  currentRenderedDetailTabs = new Set()
   buildCatalogueBackLink()
   showSkeleton()
 
@@ -2611,8 +2994,11 @@ async function loadPage() {
     wishlistButtonEl?.addEventListener('click', handleWishlistAction)
     collectionRemoveButtonEl?.addEventListener('click', handleCollectionRemove)
     await refreshCollectionStatus()
-    await loadEncyclopedia(currentGame.id)
-    await loadArchive(currentGame.id)
+    const detailLoaded = await loadGameDetailData(currentGame.id)
+    if (!detailLoaded) {
+      await loadEncyclopedia(currentGame.id)
+      await loadArchive(currentGame.id)
+    }
     await loadSimilar(currentGame.id)
     await loadRelatedGames(currentGame)
   } catch (error) {

@@ -22,6 +22,7 @@ const {
   buildArchivePayload: buildKnowledgeArchivePayload,
   buildEncyclopediaPayload: buildKnowledgeEncyclopediaPayload,
 } = require('../helpers/game-knowledge')
+const { buildGameDetailDataLayer } = require('../helpers/game-detail-data-layer')
 
 const router = Router()
 // SYNC: SC-5 - routes Search Core confirmees pour le runtime serverless
@@ -189,6 +190,24 @@ async function fetchGameEditorialRow(gameId) {
     }
 
     return fallback.data || null
+  }
+
+  return data || null
+}
+
+async function fetchGameContentProfileRow(gameId) {
+  const { data, error } = await db
+    .from('game_content_profiles')
+    .select('content_profile_json,profile_version,profile_mode,profile_basis_json,relevant_expected,updated_at')
+    .eq('game_id', String(gameId || ''))
+    .limit(1)
+    .single()
+
+  if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return null
+    }
+    throw new Error(error.message)
   }
 
   return data || null
@@ -2068,6 +2087,29 @@ router.get('/api/games/:id/archive', handleAsync(async (req, res) => {
   const domains = await fetchGameKnowledgeDomains(game)
 
   return res.json(buildArchivePayload(game, domains))
+}))
+
+router.get('/api/games/:id/detail', handleAsync(async (req, res) => {
+  const [game] = await hydrateGameCovers([await getGameById(req.params.id)])
+
+  if (!game) {
+    return res.status(404).json({ ok: false, error: 'Game not found' })
+  }
+
+  const [domains, storedProfile] = await Promise.all([
+    fetchGameKnowledgeDomains(game),
+    fetchGameContentProfileRow(game.id).catch(() => null),
+  ])
+
+  const archive = buildArchivePayload(game, domains)
+  const encyclopedia = buildEncyclopediaPayload(game, domains)
+
+  return res.json(buildGameDetailDataLayer({
+    game,
+    archive,
+    encyclopedia,
+    storedProfile,
+  }))
 }))
 
 router.get('/api/games/:id/encyclopedia', handleAsync(async (req, res) => {

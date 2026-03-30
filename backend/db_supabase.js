@@ -11,8 +11,16 @@ const path = require('path');
 
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY;
+const SUPABASE_URL =
+  process.env.SUPABASE_URL
+  || process.env.SUPABASE_Project_URL
+  || process.env.SUPERDATA_Project_URL;
+const SUPABASE_KEY =
+  process.env.SUPABASE_SERVICE_KEY
+  || process.env.SUPABASE_SERVICE_ROLE_KEY
+  || process.env.SUPABASE_ANON_KEY
+  || process.env.SUPERDATA_SERVICE_KEY
+  || process.env.SUPERDATA_Anon_Key;
 const USE_SUPABASE = Boolean(SUPABASE_URL && SUPABASE_KEY);
 
 let _sequelizeOverride = null;

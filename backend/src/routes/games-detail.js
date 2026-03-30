@@ -31,6 +31,7 @@ const {
   buildArchivePayload,
   buildEncyclopediaPayload,
 } = require('../helpers/game-knowledge')
+const { buildGameDetailDataLayer } = require('../helpers/game-detail-data-layer')
 
 const router = Router()
 
@@ -223,6 +224,30 @@ async function fetchLocalPeopleRows(gameId) {
   }
 }
 
+async function fetchLocalContentProfileRow(gameId) {
+  try {
+    const rows = await sequelize.query(
+      `SELECT content_profile_json,
+              profile_version,
+              profile_mode,
+              profile_basis_json,
+              relevant_expected,
+              updated_at
+       FROM game_content_profiles
+       WHERE game_id = :gameId
+       LIMIT 1`,
+      {
+        replacements: { gameId },
+        type: QueryTypes.SELECT,
+      }
+    )
+
+    return rows[0] || null
+  } catch (_error) {
+    return null
+  }
+}
+
 async function fetchLocalOstRows(gameId) {
   try {
     return await sequelize.query(
@@ -399,6 +424,41 @@ router.get('/api/games/:id/archive', handleAsync(async (req, res) => {
     media,
     music,
     ostReleases: music.releases,
+  }))
+}))
+
+router.get('/api/games/:id/detail', handleAsync(async (req, res) => {
+  const game = await getHydratedGameById(req.params.id)
+
+  if (!game) {
+    return res.status(404).json({ ok: false, error: 'Game not found' })
+  }
+
+  const [domains, storedProfile] = await Promise.all([
+    fetchLocalKnowledgeDomains(game),
+    fetchLocalContentProfileRow(game.id),
+  ])
+
+  const archive = buildArchivePayload({
+    game,
+    editorial: domains.editorial,
+    production: domains.production,
+    media: domains.media,
+    music: domains.music,
+    ostReleases: domains.music?.releases || [],
+  })
+  const encyclopedia = buildEncyclopediaPayload({
+    game,
+    editorial: domains.editorial,
+    production: domains.production,
+    music: domains.music,
+  })
+
+  return res.json(buildGameDetailDataLayer({
+    game,
+    archive,
+    encyclopedia,
+    storedProfile,
   }))
 }))
 
