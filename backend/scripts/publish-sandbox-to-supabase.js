@@ -231,6 +231,22 @@ function main() {
       "publish-media",
       "Missing SUPABASE_URL or service key in the current environment.",
     ));
+    steps.push(skippedStep(
+      "publish-records",
+      "Missing SUPABASE_URL or service key in the current environment.",
+    ));
+    steps.push(skippedStep(
+      "publish-editorial",
+      "Missing SUPABASE_URL or service key in the current environment.",
+    ));
+    steps.push(skippedStep(
+      "publish-credits-music",
+      "Missing SUPABASE_URL or service key in the current environment.",
+    ));
+    steps.push(skippedStep(
+      "publish-external-assets",
+      "Missing SUPABASE_URL or service key in the current environment.",
+    ));
   } else if (!env.hasValidSupabaseUrl) {
     steps.push(skippedStep(
       "publish-supabase",
@@ -242,6 +258,22 @@ function main() {
     ));
     steps.push(skippedStep(
       "publish-media",
+      "Supabase URL is configured but is not an HTTP(S) REST URL.",
+    ));
+    steps.push(skippedStep(
+      "publish-records",
+      "Supabase URL is configured but is not an HTTP(S) REST URL.",
+    ));
+    steps.push(skippedStep(
+      "publish-editorial",
+      "Supabase URL is configured but is not an HTTP(S) REST URL.",
+    ));
+    steps.push(skippedStep(
+      "publish-credits-music",
+      "Supabase URL is configured but is not an HTTP(S) REST URL.",
+    ));
+    steps.push(skippedStep(
+      "publish-external-assets",
       "Supabase URL is configured but is not an HTTP(S) REST URL.",
     ));
   } else {
@@ -262,6 +294,30 @@ function main() {
       mediaArgs.push("--apply");
     }
     steps.push(runCommand("publish-media", process.execPath, mediaArgs));
+
+    const recordsArgs = [path.join(ROOT, "backend", "scripts", "publish-records-supabase.js")];
+    if (!dryRun) {
+      recordsArgs.push("--apply");
+    }
+    steps.push(runCommand("publish-records", process.execPath, recordsArgs));
+
+    const editorialArgs = [path.join(ROOT, "backend", "scripts", "publish-editorial-supabase.js")];
+    if (!dryRun) {
+      editorialArgs.push("--apply");
+    }
+    steps.push(runCommand("publish-editorial", process.execPath, editorialArgs));
+
+    const creditsMusicArgs = [path.join(ROOT, "backend", "scripts", "publish-credits-music-supabase.js")];
+    if (!dryRun) {
+      creditsMusicArgs.push("--apply");
+    }
+    steps.push(runCommand("publish-credits-music", process.execPath, creditsMusicArgs));
+
+    const externalAssetsArgs = [path.join(ROOT, "backend", "scripts", "publish-external-assets-supabase.js")];
+    if (!dryRun) {
+      externalAssetsArgs.push("--apply");
+    }
+    steps.push(runCommand("publish-external-assets", process.execPath, externalAssetsArgs));
   }
 
   const auditSummary = findLatestAuditSummary();
