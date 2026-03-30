@@ -101,9 +101,19 @@ function computeAliasScore(sourceRecord, game) {
 function computeContextScore(sourceRecord, game) {
   let score = 0;
   const context = JSON.stringify(sourceRecord.source_context || {}).toLowerCase();
+  const assetType = String(
+    sourceRecord.asset_type_guess
+    || sourceRecord.asset_type
+    || sourceRecord.source_context?.asset_type
+    || ""
+  ).toLowerCase();
+
   if (sourceRecord.source_name === "vgmaps" && context.includes("map")) {
     score += 5;
-  } else if (sourceRecord.source_name === "vgmuseum" && context.includes("ending")) {
+  } else if (
+    sourceRecord.source_name === "vgmuseum"
+    && (context.includes("ending") || ["sprite_sheet", "scan", "screenshot", "manual"].includes(assetType))
+  ) {
     score += 5;
   } else if (sourceRecord.source_name === "pixel_warehouse") {
     score += 3;

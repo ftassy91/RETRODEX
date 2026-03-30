@@ -1,7 +1,7 @@
 "use strict";
 
 const { fetchText } = require("../../core/shared");
-const { parseFramesetGamepics, parseSimpleList } = require("./parse");
+const { parseFramesetGamepics, parseRipsList, parseSimpleList } = require("./parse");
 
 function scopeToSectionKeys(scopes, config) {
   const explicit = (scopes || [])
@@ -56,6 +56,17 @@ async function discover({ config, scopes = [] }) {
 
     if (sectionConfig.parser === "simple_list") {
       const parsed = parseSimpleList(entry.text, entry.url, { ...sectionConfig, section_key: sectionKey });
+      discovered.push(...parsed.records);
+      parsedSections.push({
+        key: sectionKey,
+        parser: sectionConfig.parser,
+        entry_url: entry.url,
+        records: parsed.records.length,
+      });
+    }
+
+    if (sectionConfig.parser === "rips_list") {
+      const parsed = parseRipsList(entry.text, entry.url, { ...sectionConfig, section_key: sectionKey });
       discovered.push(...parsed.records);
       parsedSections.push({
         key: sectionKey,

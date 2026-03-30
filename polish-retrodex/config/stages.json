@@ -51,6 +51,16 @@
       }
     }
   },
+  "vgmuseum-sprites": {
+    "discover": {
+      "vgmuseum": {
+        "scopes": [
+          "section:rips_snes",
+          "section:rips_neogeo"
+        ]
+      }
+    }
+  },
   "full-safe": {
     "discover": {
       "pixel_warehouse": {

@@ -47,6 +47,25 @@
         "platform_raw": "Game Boy",
         "asset_type": "ending",
         "asset_subtype": "ending_gallery"
+      },
+      "rips_snes": {
+        "label": "SNES Sprite Rips",
+        "entry_url": "https://www.vgmuseum.com/rips/snes",
+        "parser": "rips_list",
+        "platform_raw": "SNES",
+        "asset_type": "sprite_sheet",
+        "asset_subtype": "sprite_rip"
+      },
+      "rips_neogeo": {
+        "label": "Neo-Geo Sprite Rips",
+        "entry_url": "https://www.vgmuseum.com/rips/neogeo",
+        "parser": "rips_list",
+        "platform_raw": "Neo Geo",
+        "asset_type": "sprite_sheet",
+        "asset_subtype": "sprite_rip",
+        "exclude_title_patterns": [
+          "^neo geo system$"
+        ]
       }
     },
     "asset_defaults": {
