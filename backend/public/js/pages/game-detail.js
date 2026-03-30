@@ -706,6 +706,8 @@ function formatMediaTypeLabel(value) {
   const normalized = String(value || '').trim().toLowerCase()
   if (normalized === 'cover') return 'Cover'
   if (normalized === 'manual') return 'Notice'
+  if (normalized === 'archive_item') return 'Archive.org'
+  if (normalized === 'youtube_video') return 'YouTube'
   if (normalized === 'screenshot') return 'Screenshot'
   if (normalized === 'screenshots') return 'Screenshots'
   if (normalized === 'box_art') return 'Box Art'
@@ -973,6 +975,7 @@ function buildMediaDocsTab() {
   const fallbackGame = currentGame || {}
   const media = parseStructuredValue(archive.media, archive.media) || {}
   const manuals = parseStructuredArray(media.manuals)
+  const references = parseStructuredArray(media.references)
   const variants = parseStructuredArray(media.variants)
   const covers = parseStructuredArray(media.covers)
   const screenshots = parseStructuredArray(media.screenshots)
@@ -985,12 +988,30 @@ function buildMediaDocsTab() {
   `
   const visibleManuals = manuals.length ? manuals : (archive.manual_url || fallbackGame.manual_url ? [{ mediaType: 'manual', url: archive.manual_url || fallbackGame.manual_url }] : [])
   const visualAssetCount = variants.length || Math.max(0, covers.length - 1) + screenshots.length
+  const itemSource = items.length ? [...items] : []
 
-  if (!items.length && !visibleManuals.length && !covers.length && !screenshots.length && !visualAssetCount) {
+  if (!itemSource.length) {
+    itemSource.push(...visibleManuals)
+  } else if (visibleManuals.length) {
+    visibleManuals.forEach((entry) => {
+      const item = parseStructuredValue(entry, entry) || {}
+      const mediaType = item.mediaType || item.media_type || 'reference'
+      const url = item.url || ''
+      if (!itemSource.some((candidate) => {
+        const parsedCandidate = parseStructuredValue(candidate, candidate) || {}
+        return (parsedCandidate.mediaType || parsedCandidate.media_type || 'reference') === mediaType
+          && String(parsedCandidate.url || '') === String(url)
+      })) {
+        itemSource.push(entry)
+      }
+    })
+  }
+
+  if (!items.length && !visibleManuals.length && !covers.length && !screenshots.length && !references.length && !visualAssetCount) {
     return `<div class="detail-empty-state">Aucune notice ou reference media publiee pour ce jeu.</div>`
   }
 
-  const itemRows = (items.length ? items : visibleManuals).map((entry) => {
+  const itemRows = itemSource.map((entry) => {
     const item = parseStructuredValue(entry, entry) || {}
     const mediaType = item.mediaType || item.media_type || 'reference'
     const provider = item.providerLabel || item.provider || 'Source interne'
@@ -1020,6 +1041,7 @@ function buildMediaDocsTab() {
         <span>${escapeHtml(`${covers.length} cover(s)`)}</span>
         <span>${escapeHtml(`${visualAssetCount} variante(s)`)}</span>
         <span>${escapeHtml(`${screenshots.length} screenshot(s)`)}</span>
+        <span>${escapeHtml(`${references.length} reference(s) externe(s)`)}</span>
       </div>
     </article>
     <article class="detail-domain-block">

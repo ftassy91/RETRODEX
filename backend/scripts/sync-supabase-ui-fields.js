@@ -25,12 +25,17 @@ const JSON_FIELDS = new Set([
 ]);
 
 const COLUMN_DEFINITIONS = [
+  ['slug', 'text'],
   ['lore', 'text'],
   ['gameplay_description', 'text'],
   ['characters', 'jsonb'],
   ['ost_composers', 'jsonb'],
   ['ost_notable_tracks', 'jsonb'],
   ['manual_url', 'text'],
+  ['youtube_id', 'text'],
+  ['youtube_verified', 'boolean'],
+  ['archive_id', 'text'],
+  ['archive_verified', 'boolean'],
   ['versions', 'jsonb'],
   ['avg_duration_main', 'numeric'],
   ['avg_duration_complete', 'numeric'],
@@ -180,11 +185,37 @@ function normalizeNullableNumber(value) {
   return Number.isFinite(numeric) ? numeric : null;
 }
 
+function normalizeNullableBoolean(value) {
+  if (value === null || value === undefined || value === '') {
+    return null;
+  }
+
+  if (typeof value === 'boolean') {
+    return value;
+  }
+
+  if (typeof value === 'number') {
+    if (value === 1) return true;
+    if (value === 0) return false;
+    return null;
+  }
+
+  const normalized = String(value).trim().toLowerCase();
+  if (!normalized) {
+    return null;
+  }
+
+  if (['1', 'true', 'yes'].includes(normalized)) return true;
+  if (['0', 'false', 'no'].includes(normalized)) return false;
+  return null;
+}
+
 function getLocalRows(sqlite) {
   const rows = sqlite.prepare(`
     SELECT
       g.id,
       g.title,
+      NULLIF(g.slug, '') AS slug,
       COALESCE(NULLIF(mr.url, ''), NULLIF(g.cover_url, ''), NULLIF(g.coverImage, '')) AS cover_url,
       COALESCE(NULLIF(ge.summary, ''), NULLIF(g.summary, '')) AS summary,
       COALESCE(NULLIF(ge.synopsis, ''), NULLIF(g.synopsis, '')) AS synopsis,
@@ -198,6 +229,10 @@ function getLocalRows(sqlite) {
       NULLIF(g.ost_composers, '') AS legacy_ost_composers,
       NULLIF(g.ost_notable_tracks, '') AS ost_notable_tracks,
       NULLIF(g.manual_url, '') AS manual_url,
+      NULLIF(g.youtube_id, '') AS youtube_id,
+      g.youtube_verified AS youtube_verified,
+      NULLIF(g.archive_id, '') AS archive_id,
+      g.archive_verified AS archive_verified,
       NULLIF(g.versions, '') AS versions,
       g.avg_duration_main,
       g.avg_duration_complete,
@@ -258,6 +293,7 @@ function getLocalRows(sqlite) {
       return {
         id: row.id,
         title: row.title,
+        slug: normalizeText(row.slug),
         cover_url: normalizeText(row.cover_url),
         summary: normalizeText(row.summary),
         synopsis: normalizeText(row.synopsis),
@@ -270,6 +306,10 @@ function getLocalRows(sqlite) {
         ost_notable_tracks: normalizeArrayField(row.ost_notable_tracks),
         cheat_codes: normalizeArrayField(row.cheat_codes),
         manual_url: normalizeText(row.manual_url),
+        youtube_id: normalizeText(row.youtube_id),
+        youtube_verified: normalizeNullableBoolean(row.youtube_verified),
+        archive_id: normalizeText(row.archive_id),
+        archive_verified: normalizeNullableBoolean(row.archive_verified),
         versions: normalizeArrayField(row.versions),
         avg_duration_main: normalizeNullableNumber(row.avg_duration_main),
         avg_duration_complete: normalizeNullableNumber(row.avg_duration_complete),
@@ -291,6 +331,10 @@ function fieldNeedsUpdate(remoteValue, localValue, field) {
     return remoteValue === null && Number.isFinite(Number(localValue));
   }
 
+  if (field === 'youtube_verified' || field === 'archive_verified') {
+    return remoteValue === null && localValue !== null;
+  }
+
   return !normalizeText(remoteValue) && Boolean(normalizeText(localValue));
 }
 
@@ -304,6 +348,7 @@ async function getRemoteRows(client) {
   const query = `
     SELECT
       id,
+      slug,
       cover_url,
       summary,
       synopsis,
@@ -316,6 +361,10 @@ async function getRemoteRows(client) {
       ost_composers,
       ost_notable_tracks,
       manual_url,
+      youtube_id,
+      youtube_verified,
+      archive_id,
+      archive_verified,
       versions,
       avg_duration_main,
       avg_duration_complete,
@@ -328,9 +377,91 @@ async function getRemoteRows(client) {
   return new Map(result.rows.map((row) => [String(row.id), row]));
 }
 
+function normalizeComparableText(value) {
+  return String(value || '').trim();
+}
+
+function splitConflictingSlugUpdates(pending, remoteRows) {
+  const ownersBySlug = new Map();
+
+  for (const row of remoteRows.values()) {
+    const slug = normalizeComparableText(row.slug);
+    const id = normalizeComparableText(row.id);
+    if (!slug || !id) continue;
+    if (!ownersBySlug.has(slug)) {
+      ownersBySlug.set(slug, new Set());
+    }
+    ownersBySlug.get(slug).add(id);
+  }
+
+  const safe = [];
+  const skipped = [];
+
+  for (const row of pending) {
+    const slug = normalizeComparableText(row.payload.slug);
+    if (!slug) {
+      safe.push(row);
+      continue;
+    }
+
+    const owners = ownersBySlug.get(slug);
+    if (owners && !owners.has(String(row.id))) {
+      skipped.push({
+        id: row.id,
+        title: row.title,
+        slug,
+        existingIds: [...owners],
+      });
+      continue;
+    }
+
+    safe.push(row);
+  }
+
+  return { safe, skipped };
+}
+
+function buildFallbackSlugUpdates(remoteRows, pendingIds) {
+  const ownersBySlug = new Map();
+
+  for (const row of remoteRows.values()) {
+    const slug = normalizeComparableText(row.slug);
+    const id = normalizeComparableText(row.id);
+    if (!slug || !id) continue;
+    if (!ownersBySlug.has(slug)) {
+      ownersBySlug.set(slug, new Set());
+    }
+    ownersBySlug.get(slug).add(id);
+  }
+
+  const fallback = [];
+  for (const row of remoteRows.values()) {
+    const id = normalizeComparableText(row.id);
+    const slug = normalizeComparableText(row.slug);
+    if (!id || slug || pendingIds.has(id)) {
+      continue;
+    }
+
+    const owners = ownersBySlug.get(id);
+    if (owners && !owners.has(id)) {
+      continue;
+    }
+
+    fallback.push({
+      id,
+      title: row.title || id,
+      payload: { slug: id },
+      derived: true,
+    });
+  }
+
+  return fallback;
+}
+
 function buildUpdatePayload(localRow, remoteRow) {
   const payload = {};
   const fields = [
+    'slug',
     'cover_url',
     'summary',
     'synopsis',
@@ -343,6 +474,10 @@ function buildUpdatePayload(localRow, remoteRow) {
     'ost_composers',
     'ost_notable_tracks',
     'manual_url',
+    'youtube_id',
+    'youtube_verified',
+    'archive_id',
+    'archive_verified',
     'versions',
     'avg_duration_main',
     'avg_duration_complete',
@@ -412,30 +547,41 @@ async function main() {
       pending.push({ id: localRow.id, title: localRow.title, payload });
     }
 
+    const { safe: safePending, skipped: skippedConflicts } = splitConflictingSlugUpdates(pending, remoteRows);
+    const pendingIds = new Set(safePending.map((row) => String(row.id)));
+    const fallbackSlugUpdates = buildFallbackSlugUpdates(remoteRows, pendingIds);
+    const finalPending = [...safePending, ...fallbackSlugUpdates];
+
     console.log(JSON.stringify({
       apply: APPLY,
       totalLocalRows: localRows.length,
       matchedRemoteRows: remoteRows.size,
-      pendingUpdates: pending.length,
+      pendingUpdates: finalPending.length,
+      skippedConflicts: skippedConflicts.length,
+      fallbackSlugUpdates: fallbackSlugUpdates.length,
       fieldCounts: Object.fromEntries([...fieldCounts.entries()].sort(([left], [right]) => left.localeCompare(right))),
-      sample: pending.slice(0, 5).map((row) => ({
+      sample: finalPending.slice(0, 5).map((row) => ({
         id: row.id,
         title: row.title,
         fields: Object.keys(row.payload),
+        derived: Boolean(row.derived),
       })),
+      conflictSample: skippedConflicts.slice(0, 5),
     }, null, 2));
 
-    if (!APPLY || !pending.length) {
+    if (!APPLY || !finalPending.length) {
       return;
     }
 
-    for (const row of pending) {
+    for (const row of finalPending) {
       await applyUpdate(pgClient, row.id, row.payload);
     }
 
     console.log(JSON.stringify({
-      applied: pending.length,
-      ids: pending.slice(0, 20).map((row) => row.id),
+      applied: finalPending.length,
+      ids: finalPending.slice(0, 20).map((row) => row.id),
+      skippedConflicts: skippedConflicts.length,
+      fallbackSlugUpdates: fallbackSlugUpdates.length,
     }, null, 2));
   } finally {
     sqlite.close();

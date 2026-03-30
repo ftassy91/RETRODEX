@@ -126,6 +126,32 @@ function getRecordValue(record, fields = []) {
   return null
 }
 
+function parseBooleanish(value) {
+  if (value == null || value === '') {
+    return null
+  }
+
+  if (typeof value === 'boolean') {
+    return value
+  }
+
+  if (typeof value === 'number') {
+    if (value === 1) return true
+    if (value === 0) return false
+    return null
+  }
+
+  const normalized = String(value).trim().toLowerCase()
+  if (!normalized) {
+    return null
+  }
+
+  if (['1', 'true', 'yes'].includes(normalized)) return true
+  if (['0', 'false', 'no'].includes(normalized)) return false
+
+  return null
+}
+
 function buildProductionPayload({ game, companyRows = [], devTeam = [] }) {
   const companies = dedupeBy(
     safeArray(companyRows).map(normalizeCompanyEntry).filter(Boolean),
@@ -197,6 +223,7 @@ function detectProviderFromUrl(url) {
   }
 
   if (value.includes('archive.org')) return 'internet_archive'
+  if (value.includes('youtube.com') || value.includes('youtu.be')) return 'youtube'
   if (value.includes('igdb.com')) return 'igdb'
   if (value.includes('wikidata.org') || value.includes('wikipedia.org')) return 'wikidata'
   if (value.includes('pricecharting.com')) return 'pricecharting'
@@ -299,6 +326,34 @@ function buildMediaPayload({ game, mediaRows = [] }) {
     }
   }
 
+  if (!items.some((entry) => entry.mediaType === 'archive_item')) {
+    const archiveId = String(getRecordValue(game, ['archive_id', 'archiveId']) || '').trim()
+    if (archiveId) {
+      const archiveVerified = parseBooleanish(getRecordValue(game, ['archive_verified', 'archiveVerified']))
+      fallbackRows.push({
+        mediaType: 'archive_item',
+        url: `https://archive.org/details/${archiveId}`,
+        provider: 'internet_archive',
+        complianceStatus: archiveVerified === true ? 'reference_only' : 'needs_review',
+        storageMode: 'external_reference',
+      })
+    }
+  }
+
+  if (!items.some((entry) => entry.mediaType === 'youtube_video')) {
+    const youtubeId = String(getRecordValue(game, ['youtube_id', 'youtubeId']) || '').trim()
+    if (youtubeId) {
+      const youtubeVerified = parseBooleanish(getRecordValue(game, ['youtube_verified', 'youtubeVerified']))
+      fallbackRows.push({
+        mediaType: 'youtube_video',
+        url: `https://www.youtube.com/watch?v=${youtubeId}`,
+        provider: 'youtube',
+        complianceStatus: youtubeVerified === true ? 'reference_only' : 'needs_review',
+        storageMode: 'external_reference',
+      })
+    }
+  }
+
   items.push(...dedupeBy(
     fallbackRows.map(normalizeMediaItem).filter(Boolean),
     (entry) => `${entry.mediaType}::${entry.url}`
@@ -307,8 +362,15 @@ function buildMediaPayload({ game, mediaRows = [] }) {
   const covers = items.filter((entry) => entry.mediaType === 'cover')
   const manuals = items.filter((entry) => entry.mediaType === 'manual')
   const screenshots = items.filter((entry) => entry.mediaType.includes('screen'))
+  const references = items.filter((entry) => (
+    entry.mediaType === 'archive_item' || entry.mediaType === 'youtube_video'
+  ))
   const variants = items.filter((entry) => {
-    if (entry.mediaType === 'manual') {
+    if (
+      entry.mediaType === 'manual'
+      || entry.mediaType === 'archive_item'
+      || entry.mediaType === 'youtube_video'
+    ) {
       return false
     }
 
@@ -325,6 +387,7 @@ function buildMediaPayload({ game, mediaRows = [] }) {
     covers,
     manuals,
     screenshots,
+    references,
     variants,
     complianceSummary,
     hasData: Boolean(items.length),
@@ -344,6 +407,12 @@ function buildArchivePayload({ game, production, media, ostReleases = [] }) {
     id: item.id,
     title: item.title,
     manual_url: normalizedMedia.manuals[0]?.url || item.manual_url || null,
+    reference_ids: {
+      youtube_id: getRecordValue(item, ['youtube_id', 'youtubeId']) || null,
+      youtube_verified: parseBooleanish(getRecordValue(item, ['youtube_verified', 'youtubeVerified'])),
+      archive_id: getRecordValue(item, ['archive_id', 'archiveId']) || null,
+      archive_verified: parseBooleanish(getRecordValue(item, ['archive_verified', 'archiveVerified'])),
+    },
     lore: item.lore || null,
     gameplay_description: item.gameplay_description || null,
     characters: parseStoredJson(item.characters),

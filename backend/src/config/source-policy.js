@@ -31,6 +31,12 @@ const SOURCE_POLICY = {
     legalFeasibility: 0.5,
     sourceAvailability: 0.7,
   },
+  youtube: {
+    name: 'YouTube',
+    status: 'reference_only',
+    legalFeasibility: 0.5,
+    sourceAvailability: 0.85,
+  },
   wikidata: {
     name: 'Wikidata',
     status: 'approved',
