@@ -1,0 +1,77 @@
+{
+  "dry-run-sample": {
+    "description": "Limited sample covering the three sources with safe scopes.",
+    "discover": {
+      "pixel_warehouse": {
+        "limit": 1,
+        "scopes": [
+          "platform:NES",
+          "platform:Mega Drive"
+        ]
+      },
+      "vgmaps": {
+        "scopes": [
+          "platform:Game Boy Advance"
+        ]
+      },
+      "vgmuseum": {
+        "scopes": [
+          "section:endings_gb"
+        ]
+      }
+    }
+  },
+  "pixel-full": {
+    "discover": {
+      "pixel_warehouse": {
+        "limit": 0
+      }
+    }
+  },
+  "vgmaps-full": {
+    "discover": {
+      "vgmaps": {
+        "scopes": [
+          "platform:NES",
+          "platform:SNES",
+          "platform:Game Boy",
+          "platform:Game Boy Advance",
+          "platform:Mega Drive",
+          "platform:PlayStation"
+        ]
+      }
+    }
+  },
+  "vgmuseum-manuals": {
+    "discover": {
+      "vgmuseum": {
+        "scopes": [
+          "section:endings_gb"
+        ]
+      }
+    }
+  },
+  "full-safe": {
+    "discover": {
+      "pixel_warehouse": {
+        "limit": 3
+      },
+      "vgmaps": {
+        "scopes": [
+          "platform:NES",
+          "platform:SNES",
+          "platform:Game Boy",
+          "platform:Game Boy Advance",
+          "platform:Mega Drive",
+          "platform:PlayStation"
+        ]
+      },
+      "vgmuseum": {
+        "scopes": [
+          "section:screenshots_gb",
+          "section:endings_gb"
+        ]
+      }
+    }
+  }
+}

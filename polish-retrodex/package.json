@@ -1,0 +1,31 @@
+{
+  "name": "polish-retrodex",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "ingest": "node pipelines/01_ingest.js",
+    "validate": "node pipelines/02_validate.js",
+    "normalize": "node pipelines/03_normalize.js",
+    "enrich": "node pipelines/04_enrich.js",
+    "export": "node pipelines/05_export.js",
+    "credits": "node pipelines/06_credits.js",
+    "editorial": "node pipelines/07_editorial.js",
+    "media-docs": "node pipelines/08_media_docs.js",
+    "music": "node pipelines/09_music.js",
+    "domains": "npm run credits && npm run editorial && npm run media-docs && npm run music",
+    "publish-domains": "node pipelines/10_publish_domains.js",
+    "prd:discover": "node scripts/run-discover.js",
+    "prd:normalize": "node scripts/run-normalize.js",
+    "prd:match": "node scripts/run-match.js",
+    "prd:publish": "node scripts/run-publish.js",
+    "prd:review": "node scripts/run-review.js",
+    "prd:notion": "node scripts/run-notion-sync.js",
+    "prd:ui-export": "node scripts/export-ui-payloads.js",
+    "prd:pipeline": "node scripts/run-pipeline.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.1.2",
+    "zod": "^3.25.76"
+  }
+}

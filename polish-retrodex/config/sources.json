@@ -1,0 +1,57 @@
+{
+  "pixel_warehouse": {
+    "source_name": "pixel_warehouse",
+    "source_type": "catalog_seed",
+    "base_url": "https://pixel.garoux.net",
+    "index_url": "https://pixel.garoux.net/gameList/",
+    "default_page_limit": 3,
+    "allowed_asset_types": []
+  },
+  "vgmaps": {
+    "source_name": "vgmaps",
+    "source_type": "external_map_index",
+    "base_url": "https://www.vgmaps.com",
+    "atlas_url": "https://www.vgmaps.com/Atlas/index.htm",
+    "allowed_asset_types": [
+      "map"
+    ],
+    "asset_defaults": {
+      "license_status": "reference_only",
+      "ui_allowed": true
+    }
+  },
+  "vgmuseum": {
+    "source_name": "vgmuseum",
+    "source_type": "external_asset_archive",
+    "base_url": "https://www.vgmuseum.com",
+    "ui_allowed_types": [
+      "manual",
+      "sprite_sheet",
+      "scan",
+      "screenshot",
+      "ending"
+    ],
+    "sections": {
+      "screenshots_gb": {
+        "label": "Game Boy Gamepics",
+        "entry_url": "https://www.vgmuseum.com/images/gb.htm",
+        "parser": "frameset_gamepics",
+        "platform_raw": "Game Boy",
+        "asset_type": "screenshot",
+        "asset_subtype": "gamepics"
+      },
+      "endings_gb": {
+        "label": "Game Boy Endings",
+        "entry_url": "https://www.vgmuseum.com/end/gb",
+        "parser": "simple_list",
+        "platform_raw": "Game Boy",
+        "asset_type": "ending",
+        "asset_subtype": "ending_gallery"
+      }
+    },
+    "asset_defaults": {
+      "license_status": "reference_only",
+      "ui_allowed": true
+    }
+  }
+}
