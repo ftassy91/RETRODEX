@@ -77,12 +77,19 @@ async function runPublish(options = {}) {
       continue;
     }
 
+    if (!["auto_matched", "approved"].includes(match.match_status)) {
+      skipped.push({
+        source_record_id: record.source_record_id,
+        reason: "match not publishable",
+      });
+      continue;
+    }
+
     const health = await healthcheckUrl(record.detail_url || record.record_url);
     const validation = validateAsset(record, match, health);
 
     if (
-      !["auto_matched", "approved"].includes(match.match_status)
-      || !validation.ui_allowed
+      !validation.ui_allowed
       || !validation.asset_type
       || validation.license_status === "blocked"
     ) {

@@ -5,7 +5,7 @@ const {
   fetchText,
   normalizeWhitespace,
 } = require("../../core/shared");
-const { parseGameListPage } = require("./parse");
+const { parseGameDetailPage, parseGameListPage } = require("./parse");
 
 function buildPageUrl(indexUrl, pageNumber) {
   if (pageNumber <= 1) {
@@ -47,9 +47,33 @@ async function discover({ config, scopes = [], limit = 0, checkpoint = {} }) {
         continue;
       }
 
+      let detailSnapshot = null;
+      if (config.enrich_details !== false && record.detail_url) {
+        try {
+          const detailResponse = await fetchText(record.detail_url, { timeoutMs: 30000 });
+          if (detailResponse.ok) {
+            detailSnapshot = parseGameDetailPage(detailResponse.text, detailResponse.url);
+          }
+        } catch (_error) {
+          detailSnapshot = null;
+        }
+      }
+
       discovered.push({
         ...record,
         platform_raw: normalizeWhitespace(record.platform_raw),
+        content_type: detailSnapshot ? "game_detail_metadata" : "game_listing",
+        contributor_raw: detailSnapshot?.contributor_raw || null,
+        preview_url_raw: null,
+        raw_payload_json: {
+          ...(record.raw_payload_json || {}),
+          detail_snapshot: detailSnapshot,
+        },
+        source_context: {
+          ...(record.source_context || {}),
+          detail_enriched: Boolean(detailSnapshot),
+          detail_snapshot: detailSnapshot,
+        },
       });
     }
   }

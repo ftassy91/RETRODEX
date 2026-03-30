@@ -11,6 +11,7 @@ const {
   parseJsonLike,
   stringifyJson,
   readJsonLines,
+  findLatestFile,
   POLISH_OUTPUTS_DIR,
   tableExists,
   getColumnSet,
@@ -22,6 +23,9 @@ const {
 const APPLY = process.argv.includes('--apply');
 const EXTERNAL_ASSETS_PATH = `${POLISH_OUTPUTS_DIR}/external_assets.jsonl`;
 const UI_PAYLOADS_PATH = `${POLISH_OUTPUTS_DIR}/ui_payloads.jsonl`;
+const ARGS = parseArgs(process.argv.slice(2));
+const TARGET_RUN_ID = ARGS['run-id'] || null;
+const MANAGED_EXTERNAL_PROVIDERS = new Set(['vgmaps', 'vgmuseum', 'pixel_warehouse']);
 
 const ALLOWED_MEDIA_TYPES = new Set([
   'cover',
@@ -63,8 +67,24 @@ function normalizeComplianceStatus(value) {
   return normalized;
 }
 
-function readUiPayloads() {
-  const rows = readJsonLines(UI_PAYLOADS_PATH);
+function detectLatestRunId(filePath) {
+  const rows = readJsonLines(filePath);
+  const latest = rows
+    .filter((row) => row.run_id)
+    .sort((left, right) => String(right.created_at || '').localeCompare(String(left.created_at || '')))[0];
+  return latest ? String(latest.run_id) : null;
+}
+
+function resolveRunId() {
+  return TARGET_RUN_ID
+    || detectLatestRunId(EXTERNAL_ASSETS_PATH)
+    || detectLatestRunId(UI_PAYLOADS_PATH)
+    || null;
+}
+
+function readUiPayloads(runId) {
+  const rows = readJsonLines(UI_PAYLOADS_PATH)
+    .filter((row) => !runId || row.run_id === runId);
   const byGameAndUrl = new Map();
 
   for (const row of rows) {
@@ -140,8 +160,9 @@ function readLocalMediaRows(sqlite) {
   }));
 }
 
-function readExternalAssetRows(uiPayloadByGameAndUrl) {
-  const rows = readJsonLines(EXTERNAL_ASSETS_PATH);
+function readExternalAssetRows(uiPayloadByGameAndUrl, runId) {
+  const rows = readJsonLines(EXTERNAL_ASSETS_PATH)
+    .filter((row) => !runId || row.run_id === runId);
   return rows
     .filter((row) => ALLOWED_MEDIA_TYPES.has(String(row.asset_type || '').trim().toLowerCase()))
     .map((row) => {
@@ -168,8 +189,13 @@ function readExternalAssetRows(uiPayloadByGameAndUrl) {
         notes: stringifyJson(Array.isArray(row.notes) && row.notes.length ? row.notes : null),
         last_checked_at: normalizeText(row.published_at || row.created_at),
         source_context: stringifyJson({
+          ...(row.source_context || {}),
           run_id: row.run_id || null,
           source_record_id: row.source_record_id || null,
+          source_page_url: row.source_page_url || null,
+          content_type: row.content_type || null,
+          variant_label: row.variant_label || null,
+          contributor_raw: row.contributor_raw || null,
           ui_bucket: uiEntry?.group || null,
           schema_version: row.schema_version || null,
         }),
@@ -332,16 +358,31 @@ async function upsertMediaRow(client, row) {
   ]);
 }
 
+async function deleteManagedMediaRow(client, row) {
+  await client.query(`
+    DELETE FROM public.media_references
+    WHERE entity_type = $1
+      AND entity_id = $2
+      AND media_type = $3
+      AND url = $4
+  `, [
+    row.entity_type,
+    row.entity_id,
+    row.media_type,
+    row.url,
+  ]);
+}
+
 async function main() {
-  const _args = parseArgs(process.argv.slice(2));
   const sqlite = openReadonlySqlite();
   const client = createRemoteClient();
   await client.connect();
 
   try {
-    const uiPayloadByGameAndUrl = readUiPayloads();
+    const runId = resolveRunId();
+    const uiPayloadByGameAndUrl = readUiPayloads(runId);
     const localRows = readLocalMediaRows(sqlite);
-    const externalRows = readExternalAssetRows(uiPayloadByGameAndUrl);
+    const externalRows = readExternalAssetRows(uiPayloadByGameAndUrl, runId);
     const mergedRows = uniqueBy([
       ...localRows,
       ...externalRows,
@@ -358,6 +399,13 @@ async function main() {
       const remoteRow = remoteMap.get(buildMediaKey(row));
       return !remoteRow || mediaNeedsUpdate(remoteRow, row);
     });
+    const mergedKeys = new Set(mergedRows.map((row) => buildMediaKey(row)));
+    const staleManagedRows = remoteRows.filter((row) => {
+      const provider = normalizeText(row.provider);
+      return provider
+        && MANAGED_EXTERNAL_PROVIDERS.has(provider)
+        && !mergedKeys.has(buildMediaKey(row));
+    });
 
     if (APPLY && pendingRows.length) {
       for (const row of pendingRows) {
@@ -365,8 +413,15 @@ async function main() {
       }
     }
 
+    if (APPLY && staleManagedRows.length) {
+      for (const row of staleManagedRows) {
+        await deleteManagedMediaRow(client, row);
+      }
+    }
+
     console.log(JSON.stringify({
       mode: APPLY ? 'apply' : 'dry-run',
+      runId,
       media: {
         tableExists: tableReady,
         localReferenceRows: localRows.length,
@@ -374,6 +429,7 @@ async function main() {
         mergedRows: mergedRows.length,
         remoteRows: remoteRows.length,
         pendingRows: pendingRows.length,
+        staleManagedRows: staleManagedRows.length,
         byType: mergedRows.reduce((acc, row) => {
           acc[row.media_type] = (acc[row.media_type] || 0) + 1;
           return acc;
@@ -384,6 +440,12 @@ async function main() {
           provider: row.provider,
           url: row.url,
           ui_allowed: row.ui_allowed,
+        })),
+        sampleStale: staleManagedRows.slice(0, 8).map((row) => ({
+          entity_id: row.entity_id,
+          media_type: row.media_type,
+          provider: row.provider,
+          url: row.url,
         })),
       },
     }, null, 2));

@@ -5,6 +5,7 @@
     "base_url": "https://pixel.garoux.net",
     "index_url": "https://pixel.garoux.net/gameList/",
     "default_page_limit": 3,
+    "enrich_details": true,
     "allowed_asset_types": []
   },
   "vgmaps": {
@@ -27,9 +28,11 @@
     "ui_allowed_types": [
       "manual",
       "sprite_sheet",
-      "scan",
-      "screenshot",
       "ending"
+    ],
+    "review_only_types": [
+      "scan",
+      "screenshot"
     ],
     "sections": {
       "screenshots_gb": {
@@ -38,7 +41,16 @@
         "parser": "frameset_gamepics",
         "platform_raw": "Game Boy",
         "asset_type": "screenshot",
-        "asset_subtype": "gamepics"
+        "asset_subtype": "gamepics",
+        "review_only": true
+      },
+      "manuals_gameboy": {
+        "label": "Game Boy Scans",
+        "entry_url": "https://www.vgmuseum.com/scans/gameboy.html",
+        "parser": "scans_page",
+        "platform_raw": "Game Boy",
+        "asset_type": "manual",
+        "asset_subtype": "manual"
       },
       "endings_gb": {
         "label": "Game Boy Endings",
@@ -54,7 +66,10 @@
         "parser": "rips_list",
         "platform_raw": "SNES",
         "asset_type": "sprite_sheet",
-        "asset_subtype": "sprite_rip"
+        "asset_subtype": "sprite_rip",
+        "exclude_title_patterns": [
+          "^.+\\sseries$"
+        ]
       },
       "rips_neogeo": {
         "label": "Neo-Geo Sprite Rips",

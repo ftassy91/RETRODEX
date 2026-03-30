@@ -50,7 +50,8 @@ async function runDiscover(options = {}) {
     : Object.keys(profile.discover || SOURCE_MODULES);
 
   const existingRows = readJsonl(OUTPUT_FILES.source_records);
-  const existingKeys = new Set(existingRows.map((row) => buildDedupeKey(row)));
+  const existingRowByKey = new Map(existingRows.map((row) => [buildDedupeKey(row), row]));
+  const currentRunKeys = new Set();
   const newRows = [];
   const summary = [];
 
@@ -86,24 +87,45 @@ async function runDiscover(options = {}) {
 
       for (const partial of result.records) {
         const dedupeKey = buildDedupeKey({ ...partial, source_name: sourceName });
-        if (existingKeys.has(dedupeKey)) {
+        if (currentRunKeys.has(dedupeKey)) {
           duplicates += 1;
           continue;
         }
 
         const createdAt = nowIso();
-        const row = {
+        const existingRow = existingRowByKey.get(dedupeKey);
+        const row = existingRow ? {
+          ...existingRow,
           run_id: runId,
           stage: "discover",
-          schema_version: "polish-retrodex.source_records.v1",
+          schema_version: "polish-retrodex.source_records.v2",
+          created_at: createdAt,
+          last_seen_at: createdAt,
+          status: "duplicate",
+          raw_payload_json: partial.raw_payload_json || existingRow.raw_payload_json || {},
+          source_context: partial.source_context || existingRow.source_context || {},
+          content_type: partial.content_type || existingRow.content_type || "source_record",
+          variant_label: partial.variant_label || existingRow.variant_label || null,
+          contributor_raw: partial.contributor_raw || existingRow.contributor_raw || null,
+          preview_url_raw: partial.preview_url_raw || existingRow.preview_url_raw || null,
+          asset_type_guess: partial.asset_type_guess || existingRow.asset_type_guess || null,
+          asset_subtype: partial.asset_subtype || existingRow.asset_subtype || null,
+        } : {
+          run_id: runId,
+          stage: "discover",
+          schema_version: "polish-retrodex.source_records.v2",
           created_at: createdAt,
           source_record_id: buildScopedId("src", [sourceName, partial.detail_url || partial.record_url || partial.title_raw, partial.platform_raw]),
           source_name: sourceName,
           source_type: sourceConfig.source_type,
+          content_type: partial.content_type || "source_record",
           title_raw: partial.title_raw,
           platform_raw: normalizePlatform(partial.platform_raw).normalized || partial.platform_raw,
+          variant_label: partial.variant_label || null,
           record_url: partial.record_url,
           detail_url: partial.detail_url,
+          contributor_raw: partial.contributor_raw || null,
+          preview_url_raw: partial.preview_url_raw || null,
           raw_payload_json: partial.raw_payload_json || {},
           first_seen_at: createdAt,
           last_seen_at: createdAt,
@@ -113,9 +135,15 @@ async function runDiscover(options = {}) {
           asset_type_guess: partial.asset_type_guess || null,
           asset_subtype: partial.asset_subtype || null,
         };
-        existingKeys.add(dedupeKey);
+
+        currentRunKeys.add(dedupeKey);
         newRows.push(row);
-        inserted += 1;
+        if (existingRow) {
+          duplicates += 1;
+        } else {
+          inserted += 1;
+          existingRowByKey.set(dedupeKey, row);
+        }
       }
 
       writeCheckpoint("discover", sourceName, {

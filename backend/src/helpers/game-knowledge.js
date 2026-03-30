@@ -318,6 +318,26 @@ function normalizeMediaItem(entry) {
   }
 }
 
+function canExposeMediaItem(entry) {
+  if (!entry) {
+    return false
+  }
+
+  if (entry.uiAllowed !== true) {
+    return false
+  }
+
+  if (entry.licenseStatus === 'blocked' || entry.complianceStatus === 'blocked') {
+    return false
+  }
+
+  if (entry.mediaType === 'scan' || entry.mediaType.includes('screen')) {
+    return false
+  }
+
+  return true
+}
+
 function buildMediaPayload({ game, mediaRows = [] }) {
   const items = dedupeBy(
     safeArray(mediaRows).map(normalizeMediaItem).filter(Boolean),
@@ -328,14 +348,28 @@ function buildMediaPayload({ game, mediaRows = [] }) {
   if (!items.some((entry) => entry.mediaType === 'cover')) {
     const coverUrl = String(getRecordValue(game, ['cover_url', 'coverImage']) || '').trim()
     if (coverUrl) {
-      fallbackRows.push({ mediaType: 'cover', url: coverUrl })
+      fallbackRows.push({
+        mediaType: 'cover',
+        url: coverUrl,
+        provider: 'igdb',
+        complianceStatus: 'approved_with_review',
+        storageMode: 'external_reference',
+        uiAllowed: true,
+      })
     }
   }
 
   if (!items.some((entry) => entry.mediaType === 'manual')) {
     const manualUrl = String(getRecordValue(game, ['manual_url', 'manualUrl']) || '').trim()
     if (manualUrl) {
-      fallbackRows.push({ mediaType: 'manual', url: manualUrl })
+      fallbackRows.push({
+        mediaType: 'manual',
+        url: manualUrl,
+        provider: 'internet_archive',
+        complianceStatus: 'reference_only',
+        storageMode: 'external_reference',
+        uiAllowed: true,
+      })
     }
   }
 
@@ -349,6 +383,7 @@ function buildMediaPayload({ game, mediaRows = [] }) {
         provider: 'internet_archive',
         complianceStatus: archiveVerified === true ? 'reference_only' : 'needs_review',
         storageMode: 'external_reference',
+        uiAllowed: true,
       })
     }
   }
@@ -363,6 +398,7 @@ function buildMediaPayload({ game, mediaRows = [] }) {
         provider: 'youtube',
         complianceStatus: youtubeVerified === true ? 'reference_only' : 'needs_review',
         storageMode: 'external_reference',
+        uiAllowed: true,
       })
     }
   }
@@ -372,17 +408,18 @@ function buildMediaPayload({ game, mediaRows = [] }) {
     (entry) => `${entry.mediaType}::${entry.url}`
   ).filter((entry) => !items.some((existing) => existing.mediaType === entry.mediaType && existing.url === entry.url)))
 
-  const covers = items.filter((entry) => entry.mediaType === 'cover')
-  const manuals = items.filter((entry) => entry.mediaType === 'manual')
-  const maps = items.filter((entry) => entry.mediaType === 'map')
-  const sprites = items.filter((entry) => entry.mediaType === 'sprite_sheet')
-  const screenshots = items.filter((entry) => entry.mediaType.includes('screen'))
-  const scans = items.filter((entry) => entry.mediaType === 'scan')
-  const endings = items.filter((entry) => entry.mediaType === 'ending')
-  const references = items.filter((entry) => (
+  const visibleItems = items.filter((entry) => canExposeMediaItem(entry))
+  const covers = visibleItems.filter((entry) => entry.mediaType === 'cover')
+  const manuals = visibleItems.filter((entry) => entry.mediaType === 'manual')
+  const maps = visibleItems.filter((entry) => entry.mediaType === 'map')
+  const sprites = visibleItems.filter((entry) => entry.mediaType === 'sprite_sheet')
+  const screenshots = visibleItems.filter((entry) => entry.mediaType.includes('screen'))
+  const scans = visibleItems.filter((entry) => entry.mediaType === 'scan')
+  const endings = visibleItems.filter((entry) => entry.mediaType === 'ending')
+  const references = visibleItems.filter((entry) => (
     entry.mediaType === 'archive_item' || entry.mediaType === 'youtube_video'
   ))
-  const variants = items.filter((entry) => {
+  const variants = visibleItems.filter((entry) => {
     if (
       entry.mediaType === 'manual'
       || entry.mediaType === 'map'
@@ -401,21 +438,35 @@ function buildMediaPayload({ game, mediaRows = [] }) {
 
     return true
   })
-  const complianceSummary = buildComplianceSummary(items)
+  const assets = visibleItems.filter((entry) => (
+    entry.mediaType === 'ending'
+    || (
+      entry.mediaType !== 'cover'
+      && entry.mediaType !== 'manual'
+      && entry.mediaType !== 'map'
+      && entry.mediaType !== 'sprite_sheet'
+      && entry.mediaType !== 'archive_item'
+      && entry.mediaType !== 'youtube_video'
+      && entry.mediaType !== 'scan'
+      && !entry.mediaType.includes('screen')
+    )
+  ))
+  const complianceSummary = buildComplianceSummary(visibleItems)
 
   return {
-    items,
+    items: visibleItems,
     covers,
     manuals,
     maps,
     sprites,
+    assets,
     screenshots,
     scans,
     endings,
     references,
     variants,
     complianceSummary,
-    hasData: Boolean(items.length),
+    hasData: Boolean(visibleItems.length),
   }
 }
 

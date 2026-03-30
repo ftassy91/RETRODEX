@@ -7,6 +7,7 @@ function validateAsset(record, match, health) {
   const defaults = sourceConfig.asset_defaults || {};
   const assetType = record.asset_type_guess || null;
   const sourceAllowedTypes = new Set(sourceConfig.allowed_asset_types || sourceConfig.ui_allowed_types || []);
+  const reviewOnlyTypes = new Set(sourceConfig.review_only_types || []);
   const assetTypeAllowed = assetType ? sourceAllowedTypes.has(assetType) : false;
 
   let licenseStatus = defaults.license_status || "needs_review";
@@ -17,6 +18,25 @@ function validateAsset(record, match, health) {
     licenseStatus = "blocked";
     uiAllowed = false;
     notes.push("catalog seed only");
+  }
+
+  const sourceContext = record.source_context || {};
+  if (sourceContext.review_required) {
+    licenseStatus = "needs_review";
+    uiAllowed = false;
+    notes.push("variant requires review");
+  }
+
+  if (reviewOnlyTypes.has(assetType)) {
+    licenseStatus = "needs_review";
+    uiAllowed = false;
+    notes.push("review-only asset type");
+  }
+
+  if (record.source_name === "vgmuseum" && ["character_pose", "animation_frame", "system_sprite"].includes(record.asset_subtype)) {
+    licenseStatus = "needs_review";
+    uiAllowed = false;
+    notes.push("low-value sprite subtype");
   }
 
   if (health.healthcheck_status !== "ok" && health.healthcheck_status !== "redirected") {

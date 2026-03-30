@@ -29,6 +29,52 @@ function prepareCanonicalCorpus() {
     .filter((game) => game.id && game.title_normalized);
 }
 
+function isAssetLabelOnly(titleNormalized) {
+  return new Set([
+    "manual",
+    "front",
+    "back",
+    "cart",
+    "maps",
+    "map",
+    "screens",
+    "screen",
+    "screenshots",
+    "screenshot",
+    "gamepics",
+    "miscellaneous",
+    "missions",
+    "areas",
+    "area",
+    "ending",
+    "endings",
+  ]).has(String(titleNormalized || "").trim().toLowerCase());
+}
+
+function getEligibilityFailure(sourceRecord) {
+  if (!sourceRecord.title_normalized) {
+    return "Missing normalized title.";
+  }
+
+  if (!sourceRecord.platform_normalized) {
+    return "Missing normalized platform.";
+  }
+
+  if (isAssetLabelOnly(sourceRecord.title_normalized)) {
+    return "Rejected asset-label-only title.";
+  }
+
+  if (sourceRecord.source_context?.review_rejected === true) {
+    return "Rejected by source-specific filtering.";
+  }
+
+  if (/\bseries\b/i.test(String(sourceRecord.title_raw || "")) && sourceRecord.source_name === "vgmuseum") {
+    return "Rejected ambiguous series-level title.";
+  }
+
+  return null;
+}
+
 function scoreCandidate(sourceRecord, game) {
   const titleScore = computeTitleScore(sourceRecord.title_normalized, game.title_normalized);
   const platformScore = computePlatformScore(sourceRecord.platform_normalized, game.platform_normalized);
@@ -57,6 +103,25 @@ function scoreCandidate(sourceRecord, game) {
 }
 
 function matchSourceRecord(sourceRecord, corpus) {
+  const eligibilityFailure = getEligibilityFailure(sourceRecord);
+  if (eligibilityFailure) {
+    return {
+      match_id: buildScopedId("match", [sourceRecord.source_record_id, "ineligible"]),
+      source_record_id: sourceRecord.source_record_id,
+      game_id: null,
+      match_score: 0,
+      match_status: "rejected",
+      match_reason: eligibilityFailure,
+      title_score: 0,
+      platform_score: 0,
+      alias_score: 0,
+      context_score: 0,
+      review_required: false,
+      scored_at: nowIso(),
+      candidates: [],
+    };
+  }
+
   const ranked = corpus
     .map((game) => scoreCandidate(sourceRecord, game))
     .sort((a, b) => b.match_score - a.match_score)

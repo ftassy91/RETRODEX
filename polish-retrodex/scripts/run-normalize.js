@@ -43,28 +43,39 @@ async function runNormalize(options = {}) {
     }
 
     const title = normalizeTitle(row.title_raw);
+    const variant = normalizeTitle(row.variant_label || "");
     const platform = normalizePlatform(row.platform_raw);
     const hints = extractFranchiseHints(row.title_raw);
     const notes = [...title.notes, ...platform.notes, ...hints.notes];
+    if (row.variant_label && variant.normalized && variant.normalized !== title.normalized) {
+      notes.push("preserved variant label for asset-level context");
+    }
 
     normalizedRows.push({
       run_id: runId,
       stage: "normalize",
-      schema_version: "polish-retrodex.normalized_records.v1",
+      schema_version: "polish-retrodex.normalized_records.v2",
       created_at: nowIso(),
       source_name: row.source_name,
       normalized_record_id: buildScopedId("norm", [row.source_record_id]),
       source_record_id: row.source_record_id,
+      content_type: row.content_type || "source_record",
       title_normalized: title.normalized,
+      title_match_key: title.normalized,
       platform_normalized: platform.normalized,
+      platform_family: platform.family || platform.normalized,
       franchise_normalized: hints.franchise_normalized,
       edition_hint: hints.edition_hint,
       region_hint: hints.region_hint,
-      normalization_notes: notes,
-      canonical_lookup_key: `${platform.normalized}::${title.normalized}`,
-      source_context: row.source_context || {},
-      asset_type_guess: row.asset_type_guess || null,
+      variant_label: row.variant_label || null,
+      variant_label_normalized: variant.normalized || null,
+      content_type_normalized: String(row.content_type || "source_record").trim().toLowerCase(),
+      asset_type: row.asset_type_guess || null,
       asset_subtype: row.asset_subtype || null,
+      normalization_notes: notes,
+      canonical_lookup_key: `${title.normalized}::${platform.normalized}`,
+      source_context: row.source_context || {},
+      contributor_raw: row.contributor_raw || null,
     });
 
     if (notes.length) {

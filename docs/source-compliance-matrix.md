@@ -106,6 +106,54 @@
 - Product scope:
   - `media_references`
 
+### Pixel Warehouse
+
+- Status: `approved_with_review`
+- Allowed use:
+  - `catalog_seed` only
+  - source discovery of game title / platform / detail page URL
+  - optional metadata-only capture of contributor names and sprite counts
+- Restrictions:
+  - no ZIP ingestion
+  - no inline sprite PNG ingestion
+  - no asset publication to UI
+  - no local storage of binaries
+- Product scope:
+  - `source_records`
+  - `field_provenance`
+
+### VGMaps
+
+- Status: `reference_only`
+- Allowed use:
+  - direct external `map` links
+  - contributor and technical metadata used as provenance
+- Restrictions:
+  - no local copy of map binaries
+  - variants marked `prototype`, `unlicensed`, `unmarked` require review
+  - publish only after canonical game match + healthcheck
+- Product scope:
+  - `media_references`
+  - `source_records`
+  - `field_provenance`
+
+### VGMuseum
+
+- Status: `reference_only`
+- Allowed use:
+  - `manual`
+  - `ending`
+  - `sprite_sheet`
+  - `scan` / `screenshot` for review-stage discovery only
+- Restrictions:
+  - no local storage of scans, screenshots, sprites, manuals
+  - reject one-off GIF poses, still rips, series-level ambiguous pages
+  - `scan` and `screenshot` stay out of UI v1
+- Product scope:
+  - `media_references`
+  - `source_records`
+  - `field_provenance`
+
 ## Blocked by default
 
 ### Unofficial scraping and undocumented sources

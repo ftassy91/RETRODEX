@@ -16,7 +16,7 @@
       },
       "vgmuseum": {
         "scopes": [
-          "section:endings_gb"
+          "section:manuals_gameboy"
         ]
       }
     }
@@ -46,7 +46,7 @@
     "discover": {
       "vgmuseum": {
         "scopes": [
-          "section:endings_gb"
+          "section:manuals_gameboy"
         ]
       }
     }
@@ -55,6 +55,31 @@
     "discover": {
       "vgmuseum": {
         "scopes": [
+          "section:rips_snes",
+          "section:rips_neogeo"
+        ]
+      }
+    }
+  },
+  "activation-v1": {
+    "description": "Manageable production-aligned run covering the current v1 whitelist.",
+    "discover": {
+      "pixel_warehouse": {
+        "limit": 1,
+        "scopes": [
+          "platform:NES",
+          "platform:Mega Drive"
+        ]
+      },
+      "vgmaps": {
+        "scopes": [
+          "platform:Game Boy Advance"
+        ]
+      },
+      "vgmuseum": {
+        "scopes": [
+          "section:manuals_gameboy",
+          "section:endings_gb",
           "section:rips_snes",
           "section:rips_neogeo"
         ]
@@ -78,8 +103,11 @@
       },
       "vgmuseum": {
         "scopes": [
-          "section:screenshots_gb",
-          "section:endings_gb"
+          "section:manuals_gameboy",
+          "section:endings_gb",
+          "section:rips_snes",
+          "section:rips_neogeo",
+          "section:screenshots_gb"
         ]
       }
     }

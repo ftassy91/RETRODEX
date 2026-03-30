@@ -1,8 +1,8 @@
 "use strict";
 
 const { normalizePlatform } = require("../../core/normalize-platforms");
-const { fetchText } = require("../../core/shared");
-const { extractSections, parseSection } = require("./parse");
+const { absolutizeUrl, fetchText } = require("../../core/shared");
+const { extractSections, parsePlatformPage } = require("./parse");
 
 function sectionMatchesScope(section, scopePlatforms) {
   const normalizedSection = normalizePlatform(
@@ -28,17 +28,40 @@ async function discover({ config, scopes = [] }) {
 
   const sections = extractSections(response.text);
   const selected = sections.filter((section) => sectionMatchesScope(section, scopePlatforms));
-  const discovered = selected.flatMap((section) => parseSection(section, response.url));
+  const discovered = [];
+  const parsedSections = [];
+
+  for (const section of selected) {
+    const platformUrl = absolutizeUrl(response.url, section.index_href);
+    if (!platformUrl) {
+      continue;
+    }
+
+    const platformResponse = await fetchText(platformUrl, { timeoutMs: 30000 });
+    if (!platformResponse.ok) {
+      throw new Error(`VGMaps platform page ${platformUrl} failed with status ${platformResponse.status}.`);
+    }
+
+    const sectionRecords = parsePlatformPage(platformResponse.text, platformResponse.url, section);
+    discovered.push(...sectionRecords);
+    parsedSections.push({
+      anchor: section.anchor,
+      label: section.label,
+      platform_url: platformResponse.url,
+      records: sectionRecords.length,
+    });
+  }
 
   return {
     records: discovered,
     checkpoint: {
       atlas_url: response.url,
-      selected_sections: selected.map((section) => section.anchor),
+      selected_sections: parsedSections,
     },
     stats: {
       total_sections: sections.length,
       selected_sections: selected.length,
+      parsed_platform_pages: parsedSections.length,
       total_records: discovered.length,
     },
   };
