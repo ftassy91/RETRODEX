@@ -46,6 +46,7 @@ const PRICE_HISTORY_STATES = [
 ]
 
 const DEFAULT_PRICE_HISTORY_PERIOD = '1y'
+const EMPTY_STATE_STYLE = "color:#3a5a3a;font-style:italic;font-size:0.72rem;font-family:'Share Tech Mono',monospace;"
 
 function resolveGameMeta(game) {
   return {
@@ -121,9 +122,48 @@ function formatDurationValue(value) {
   return /h$/i.test(text) ? text : `${text}h`
 }
 
-function formatPrice(value, fallback = '--') {
+function buildEmptyStateHtml(label) {
+  return `<span style="${EMPTY_STATE_STYLE}">${escapeHtml(label)}</span>`
+}
+
+function hasIndexedPrice(value) {
   const number = Number(value)
-  return Number.isFinite(number) && number > 0 ? `$${Math.round(number)}` : fallback
+  return Number.isFinite(number) && number > 0
+}
+
+function formatPrice(value, fallback = 'Non indexé') {
+  return hasIndexedPrice(value) ? `$${Math.round(Number(value))}` : fallback
+}
+
+function formatPriceHtml(value, fallback = 'Non indexé') {
+  return hasIndexedPrice(value) ? escapeHtml(formatPrice(value)) : buildEmptyStateHtml(fallback)
+}
+
+function formatMetascoreHtml(value) {
+  const numeric = Number(value)
+  return Number.isFinite(numeric) && numeric > 0
+    ? escapeHtml(String(Math.round(numeric)))
+    : buildEmptyStateHtml('Non noté')
+}
+
+function formatDurationHtml(value) {
+  const duration = formatDurationValue(value)
+  return duration ? escapeHtml(duration) : buildEmptyStateHtml('Non renseigné')
+}
+
+function buildGameCardMeta(consoleName, year) {
+  const parts = [String(consoleName || '').trim(), String(year || '').trim()].filter(Boolean)
+  return parts.length ? parts.map((part) => escapeHtml(part)).join(' &middot; ') : ''
+}
+
+function buildGameCardCoverHtml(game) {
+  const coverImage = String(game?.coverImage || game?.cover_url || '').trim()
+  if (coverImage) {
+    return `<img src="${escapeHtml(coverImage)}" alt="" class="game-card-cover" width="48" height="48" loading="lazy" />`
+  }
+
+  const initial = String(game?.title || '?').trim().charAt(0).toUpperCase() || '?'
+  return `<span class="game-card-placeholder">${escapeHtml(initial)}</span>`
 }
 
 function formatCount(value, singular, plural = `${singular}s`) {
@@ -168,7 +208,6 @@ function generateCoverPlaceholder(title, rarity, consoleName) {
     <rect x="1" y="1" width="158" height="158" fill="none" stroke="#1e2e1e" stroke-width="1"/>
     <text x="80" y="76" text-anchor="middle" font-family="BigBlueTerminal" font-size="42" font-weight="normal" fill="#00ff66" opacity="0.82">${initials || '?'}</text>
     <text x="80" y="100" text-anchor="middle" font-family="BigBlueTerminal" font-size="9" fill="#486648">${platformLabel}</text>
-    <text x="80" y="122" text-anchor="middle" font-family="BigBlueTerminal" font-size="7" fill="#365136">ARCHIVE SLOT</text>
   </svg>`
 
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`
@@ -324,10 +363,11 @@ function showSkeleton() {
 
 function renderHeroSection(game) {
   const meta = resolveGameMeta(game)
-  const visibleGenre = meta.genreName && meta.genreName !== 'Other' ? meta.genreName : ''
   const summary = String(game.summary || game.synopsis || '').trim()
-  const publisherValue = meta.publisherName || 'n/a'
   const metascoreValue = game.metascore ? String(game.metascore) : 'n/a'
+  const refPrice = game.loosePrice && Number(game.loosePrice) > 0
+    ? `<span style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#7a9a7a;display:block;margin-top:0.35rem;">Référence loose : $${Number(game.loosePrice).toFixed(0)}</span>`
+    : `<span style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#3a5a3a;font-style:italic;display:block;margin-top:0.35rem;">Prix non indexé</span>`
   heroEl.innerHTML = `
     <div class="detail-hero-shell">
       <div class="detail-hero-status">
@@ -344,19 +384,26 @@ function renderHeroSection(game) {
             </div>
 
             <div class="game-header-copy">
-              <h1 class="hero-title page-title">${escapeHtml(game.title)}</h1>
-
-              <div class="terminal-preview-row surface-identity-meta detail-hero-meta-strip">
-                <span>${escapeHtml(meta.consoleName)}</span>
-                <span>•</span>
-                <span>${escapeHtml(game.year || 'n/a')}</span>
-                <span>•</span>
-                <span>${escapeHtml(meta.developerName)}</span>
-                ${meta.publisherName ? `
-                  <span>•</span>
-                  <span>${escapeHtml(meta.publisherName)}</span>
-                ` : ''}
+              <div class="detail-hero-title-row">
+                <h1 class="hero-title page-title detail-hero-title">${escapeHtml(game.title)}</h1>
+                <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))} detail-hero-rarity">${escapeHtml(game.rarity || 'COMMON')}</span>
               </div>
+
+              <a href="/stats.html?q=${encodeURIComponent(game.title)}&from=${encodeURIComponent(game.id)}"
+                 class="btn-retromarket-cta">
+                VOIR LE PRIX SUR RETROMARKET &rarr;
+              </a>
+              ${refPrice}
+
+              <div class="detail-hero-meta-strip">
+                <span class="detail-hero-meta-value">${escapeHtml(meta.consoleName)}</span>
+                <span>•</span>
+                <span class="detail-hero-meta-value">${escapeHtml(game.year || 'n/a')}</span>
+                <span>•</span>
+                <span id="hero-metascore-value" class="detail-hero-meta-value">${game.metascore ? escapeHtml(metascoreValue) : buildEmptyStateHtml('Non noté')}</span>
+              </div>
+
+              <div class="detail-hero-developer">${escapeHtml(meta.developerName)}</div>
 
               <div id="hero-summary-shell" class="hero-summary-shell"${summary ? '' : ' hidden'}>
                 <div id="hero-summary" class="hero-summary surface-summary-copy">${summary ? formatMultilineHtml(summary) : ''}</div>
@@ -365,50 +412,6 @@ function renderHeroSection(game) {
               <div class="game-tagline-shell" id="game-tagline-shell" hidden>
                 <span class="detail-inline-label">Note</span>
                 <div class="game-tagline" id="game-tagline"></div>
-              </div>
-
-              <div class="hero-meta game-badges game-meta surface-chip-row detail-hero-chip-row">
-                ${visibleGenre ? `<span class="surface-chip">${escapeHtml(visibleGenre)}</span>` : ''}
-                <span class="surface-chip">${escapeHtml(meta.developerName)}</span>
-                <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))}">${escapeHtml(game.rarity || 'COMMON')}</span>
-              </div>
-
-              <div class="terminal-summary-bar detail-hero-summary-bar">
-                <div class="terminal-summary-cell">
-                  <div class="terminal-summary-label">Plateforme</div>
-                  <div class="terminal-summary-value">
-                    <a class="console-link meta-value-link" href="/consoles.html?platform=${encodeURIComponent(meta.consoleName)}">
-                      ${escapeHtml(meta.consoleName)} ->
-                    </a>
-                  </div>
-                </div>
-                <div class="terminal-summary-cell">
-                  <div class="terminal-summary-label">Annee</div>
-                  <div class="terminal-summary-value">${escapeHtml(game.year || 'n/a')}</div>
-                </div>
-                <div class="terminal-summary-cell">
-                  <div class="terminal-summary-label">Metascore</div>
-                  <div id="hero-metascore-value" class="terminal-summary-value">${escapeHtml(metascoreValue)}</div>
-                </div>
-                <div class="terminal-summary-cell">
-                  <div class="terminal-summary-label">Editeur</div>
-                  <div class="terminal-summary-value">${escapeHtml(publisherValue)}</div>
-                </div>
-              </div>
-
-              <div class="surface-preview-panel detail-market-bridge">
-                <div class="terminal-preview-label">RETROMARKET</div>
-                <div class="surface-summary-copy">
-                  Prix, tendances et signal marché.
-                </div>
-                <div class="surface-action-row detail-hero-actions is-inline">
-                  <a href="/stats.html?q=${encodeURIComponent(game.title || '')}">
-                    Voir le prix ->
-                  </a>
-                  <a href="/encyclopedia.html?game=${encodeURIComponent(game.id || '')}">
-                    Ouvrir dossier ->
-                  </a>
-                </div>
               </div>
 
               <div id="game-relations" class="game-relations"></div>
@@ -433,13 +436,6 @@ function renderHeroSection(game) {
   }
 
   if (window.RetroDexMetascore) {
-    const rarityBadge = heroEl.querySelector('.rarity-badge, [data-rarity]')
-    if (rarityBadge?.parentNode && game.metascore) {
-      const badge = window.RetroDexMetascore.renderBadge(game.metascore, 'normal')
-      badge.title = `Metascore : ${game.metascore}/100`
-      rarityBadge.parentNode.insertBefore(badge, rarityBadge)
-    }
-
     const heroMetaEl = document.getElementById('hero-metascore-value')
     if (heroMetaEl && game.metascore) {
       heroMetaEl.textContent = `${game.metascore} | ${window.RetroDexMetascore.getLabel(game.metascore)}`
@@ -471,7 +467,7 @@ function getTrustBadgeText(tier) {
 }
 
 function getTrustBadgeStyle(tier) {
-  const base = "font-family:'Press Start 2P', monospace;font-size:0.5rem;"
+  const base = "font-family:'Press Start 2P', monospace;font-size:0.72rem;"
   if (tier === 'T1') {
     return `${base}background:rgba(155,188,15,0.15);border:1px solid #9bbc0f;color:#9bbc0f;`
   }
@@ -588,7 +584,7 @@ async function loadRetrodexIndex(gameId) {
       </div>
       <div class="index-primary">
         <span class="index-primary-label">REFERENCE</span>
-        <span class="index-primary-value">${escapeHtml(formatPrice(primaryEntry.index_value))}</span>
+        <span class="index-primary-value">${formatPriceHtml(primaryEntry.index_value, 'Prix non indexé')}</span>
         <span class="index-primary-meta">${escapeHtml(primaryEntry.condition || 'n/a')} | ${escapeHtml(formatIndexRange(primaryEntry.range_low, primaryEntry.range_high))}</span>
       </div>
       <div class="trust-header">
@@ -603,7 +599,7 @@ async function loadRetrodexIndex(gameId) {
         ${orderedEntries.map((entry) => `
           <div class="index-condition ${entry.condition === primaryEntry.condition ? 'is-primary' : ''}">
             <span class="label">${escapeHtml(entry.condition || 'n/a')}</span>
-            <span class="value">${escapeHtml(formatPrice(entry.index_value))}</span>
+            <span class="value">${formatPriceHtml(entry.index_value)}</span>
             <span class="range">${escapeHtml(formatIndexRange(entry.range_low, entry.range_high))}</span>
           </div>
         `).join('')}
@@ -672,174 +668,433 @@ function buildContributorRows(devTeam = [], composers = []) {
   return rows.slice(0, 10)
 }
 
-function buildEditorialSections() {
-  const sections = []
-  const encyclo = currentEncyclopediaData || {}
+function normalizeProductionCompany(entry) {
+  const item = parseStructuredValue(entry, entry)
+  if (!item) {
+    return null
+  }
+
+  if (typeof item === 'string') {
+    const name = item.trim()
+    return name ? { name, role: '', roleLabel: '', country: '', confidence: 0 } : null
+  }
+
+  const name = String(item.name || '').trim()
+  if (!name) {
+    return null
+  }
+
+  return {
+    name,
+    role: String(item.role || '').trim(),
+    roleLabel: String(item.roleLabel || item.role || '').trim(),
+    country: String(item.country || '').trim(),
+    confidence: Number(item.confidence || 0),
+  }
+}
+
+function formatProductionRole(value) {
+  const normalized = String(value || '').trim()
+  if (!normalized) {
+    return 'Production'
+  }
+
+  return normalized
+}
+
+function formatMediaTypeLabel(value) {
+  const normalized = String(value || '').trim().toLowerCase()
+  if (normalized === 'cover') return 'Cover'
+  if (normalized === 'manual') return 'Notice'
+  if (normalized === 'screenshot') return 'Screenshot'
+  if (normalized === 'screenshots') return 'Screenshots'
+  if (normalized === 'box_art') return 'Box Art'
+  if (normalized === 'artwork') return 'Artwork'
+
+  return normalized
+    ? normalized.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
+    : 'Reference'
+}
+
+function formatComplianceLabel(value) {
+  const normalized = String(value || '').trim().toLowerCase()
+  if (normalized === 'approved') return 'APPROUVE'
+  if (normalized === 'approved_with_review') return 'APPROUVE + REVUE'
+  if (normalized === 'reference_only') return 'REFERENCE ONLY'
+  if (normalized === 'needs_review') return 'A VERIFIER'
+  if (normalized === 'blocked') return 'BLOQUE'
+  if (normalized === 'mixed') return 'MIXTE'
+  if (normalized === 'missing') return 'MANQUANT'
+  return normalized ? normalized.toUpperCase() : 'INCONNU'
+}
+
+function complianceClass(value) {
+  const normalized = String(value || '').trim().toLowerCase()
+  if (normalized === 'approved') return 'is-approved'
+  if (normalized === 'approved_with_review' || normalized === 'needs_review') return 'is-review'
+  if (normalized === 'reference_only' || normalized === 'mixed') return 'is-reference'
+  if (normalized === 'blocked') return 'is-blocked'
+  return 'is-unknown'
+}
+
+function buildProductionPanel() {
   const archive = currentArchiveData || {}
+  const encyclo = currentEncyclopediaData || {}
   const fallbackGame = currentGame || {}
-  const summaryText = String(
-    encyclo.synopsis
-    || fallbackGame.synopsis
-    || fallbackGame.summary
-    || ''
-  ).trim()
-  const loreText = String(archive.lore || fallbackGame.lore || '').trim()
-  const gameplayText = String(archive.gameplay_description || fallbackGame.gameplay_description || '').trim()
-  const contributors = buildContributorRows(
-    parseStructuredArray(encyclo.dev_team || fallbackGame.dev_team),
-    parseStructuredArray(archive.ost?.composers || fallbackGame.ost_composers)
+  const production = parseStructuredValue(archive.production, archive.production) || {}
+  const developers = parseStructuredArray(production.developers).map(normalizeProductionCompany).filter(Boolean)
+  const publishers = parseStructuredArray(production.publishers).map(normalizeProductionCompany).filter(Boolean)
+  const studios = parseStructuredArray(production.studios).map(normalizeProductionCompany).filter(Boolean)
+  const companies = parseStructuredArray(production.companies).map(normalizeProductionCompany).filter(Boolean)
+  const roleEntries = parseStructuredArray(production.roles).map((entry) => parseStructuredValue(entry, entry)).filter(Boolean)
+  const devTeam = buildContributorRows(
+    parseStructuredArray(production.dev_team || encyclo.dev_team || fallbackGame.dev_team),
+    []
   )
-  const anecdotes = parseStructuredArray(encyclo.dev_anecdotes || fallbackGame.dev_anecdotes)
-  const cheatCodes = parseStructuredArray(encyclo.cheat_codes || fallbackGame.cheat_codes)
-  const characters = parseStructuredArray(archive.characters || fallbackGame.characters)
-  const tracks = parseStructuredArray(archive.ost?.notable_tracks || fallbackGame.ost_notable_tracks)
-  const versions = parseStructuredArray(archive.versions || fallbackGame.versions)
-  const speedrun = parseStructuredValue(archive.speedrun_wr || fallbackGame.speedrun_wr, null)
-  const mainDuration = formatDurationValue(archive.duration?.main ?? fallbackGame.avg_duration_main)
-  const completeDuration = formatDurationValue(archive.duration?.complete ?? fallbackGame.avg_duration_complete)
-  const manualUrl = archive.manual_url || fallbackGame.manual_url || ''
+  const fallbackDeveloper = String(fallbackGame.developer || '').trim()
 
-  if (summaryText || gameplayText || mainDuration || completeDuration) {
-    let html = ''
-    if (summaryText) {
-      html += `<div class="archive-lore">${formatMultilineHtml(summaryText)}</div>`
-    }
-    if (gameplayText) {
-      html += `<div class="archive-gameplay"><span class="archive-label">Gameplay</span> ${formatMultilineHtml(gameplayText)}</div>`
-    }
-    if (mainDuration || completeDuration) {
-      html += `<div class="archive-duration"><span class="archive-label">Duree de vie</span> ${
-        [mainDuration ? `Main ${escapeHtml(mainDuration)}` : '', completeDuration ? `Complet ${escapeHtml(completeDuration)}` : '']
-          .filter(Boolean)
-          .join(' | ')
-      }</div>`
-    }
-    sections.push({ id: 'synopsis', label: 'SYNOPSIS', html })
-  }
-
-  if (loreText) {
-    sections.push({
-      id: 'lore',
-      label: 'LORE',
-      html: `<div class="archive-lore">${formatMultilineHtml(loreText)}</div>`,
+  if (!developers.length && fallbackDeveloper) {
+    developers.push({
+      name: fallbackDeveloper,
+      role: 'developer',
+      roleLabel: 'Developpement',
+      country: '',
+      confidence: 0,
     })
   }
 
-  if (characters.length) {
-    sections.push({
-      id: 'characters',
-      label: 'PERSONNAGES',
-      html: characters.map((character) => {
-        const item = parseStructuredValue(character, character)
-        if (typeof item === 'string') {
-          return `<div class="archive-character-row"><span class="archive-char-name">${escapeHtml(item)}</span></div>`
-        }
-        return `
-          <div class="archive-character-row">
-            <span class="archive-char-name">${escapeHtml(item.name || 'Inconnu')}</span>
-            <span class="archive-char-role">${escapeHtml(item.role || '')}</span>
-            <span class="archive-char-desc">${escapeHtml(item.description || '')}</span>
-          </div>
-        `
-      }).join(''),
-    })
-  }
+  const blocks = []
 
-  if (contributors.length || anecdotes.length) {
-    let html = ''
-    if (contributors.length) {
-      html += contributors.map((member) => `
-        <div class="encyclo-team-row">
+  const buildCompanyList = (label, entries, emptyLabel) => `
+    <article class="detail-production-block">
+      <div class="detail-production-block-label">${escapeHtml(label)}</div>
+      ${entries.length ? `
+        <div class="detail-production-list">
+          ${entries.map((entry) => `
+            <div class="detail-production-item">
+              <span class="detail-production-item-name">${escapeHtml(entry.name)}</span>
+              <span class="detail-production-item-meta">
+                ${escapeHtml(entry.roleLabel || formatProductionRole(entry.role || label))}
+                ${entry.country ? ` | ${escapeHtml(entry.country)}` : ''}
+                ${entry.confidence > 0 ? ` | ${escapeHtml(`${Math.round(entry.confidence * 100)}%`)}` : ''}
+              </span>
+            </div>
+          `).join('')}
+        </div>
+      ` : `<div class="detail-empty-state">${escapeHtml(emptyLabel)}</div>`}
+    </article>
+  `
+
+  blocks.push(buildCompanyList('Developpeur', developers, 'Developpement non renseigne'))
+  blocks.push(buildCompanyList('Editeur', publishers, 'Edition non renseignee'))
+  blocks.push(buildCompanyList('Studios', studios, 'Studio non renseigne'))
+
+  const roleHtml = roleEntries.length
+    ? roleEntries.map((entry) => `
+        <span class="detail-production-role-chip">
+          ${escapeHtml(entry.label || formatProductionRole(entry.role))}${entry.count ? ` | ${escapeHtml(String(entry.count))}` : ''}
+        </span>
+      `).join('')
+    : companies.length
+      ? companies.map((entry) => `
+          <span class="detail-production-role-chip">
+            ${escapeHtml(entry.roleLabel || formatProductionRole(entry.role))}
+          </span>
+        `).join('')
+      : ''
+
+  const teamHtml = devTeam.length
+    ? devTeam.map((member) => `
+        <div class="detail-production-team-row">
           <span class="team-role">${escapeHtml(member.role || 'Equipe')}</span>
           <span class="team-name">${escapeHtml(member.name)}</span>
           ${member.note ? `<span class="team-note">${escapeHtml(member.note)}</span>` : ''}
         </div>
       `).join('')
-    }
-    if (anecdotes.length) {
-      html += anecdotes.map((item, index) => {
-        const note = parseStructuredValue(item, item)
-        const title = typeof note === 'object' ? note.title : `Note ${index + 1}`
-        const text = typeof note === 'object' ? (note.text || note.note || '') : note
-        return `
-          <div class="encyclo-anecdote">
-            <div class="anecdote-title">${escapeHtml(title || `Note ${index + 1}`)}</div>
-            <div class="anecdote-text">${formatMultilineHtml(text)}</div>
+    : `<div class="detail-empty-state">Aucun credit equipe structure</div>`
+
+  return `
+    <section class="detail-production-panel">
+      <div class="detail-production-head">
+        <div>
+          <div class="detail-domain-eyebrow">Production</div>
+          <div class="detail-domain-subcopy">studios • roles • credits • societes</div>
+        </div>
+        ${roleHtml ? `<div class="detail-production-role-row">${roleHtml}</div>` : ''}
+      </div>
+      <div class="detail-production-grid">
+        ${blocks.join('')}
+      </div>
+      <article class="detail-production-block detail-production-block-wide">
+        <div class="detail-production-block-label">Credits / Dev Team</div>
+        <div class="detail-production-team">
+          ${teamHtml}
+        </div>
+      </article>
+    </section>
+  `
+}
+
+function buildLoreCharactersTab() {
+  const archive = currentArchiveData || {}
+  const encyclo = currentEncyclopediaData || {}
+  const fallbackGame = currentGame || {}
+  const summaryText = String(encyclo.summary || fallbackGame.summary || '').trim()
+  const synopsisText = String(encyclo.synopsis || fallbackGame.synopsis || '').trim()
+  const loreText = String(archive.lore || fallbackGame.lore || '').trim()
+  const gameplayText = String(archive.gameplay_description || fallbackGame.gameplay_description || '').trim()
+  const anecdotes = parseStructuredArray(encyclo.dev_anecdotes || fallbackGame.dev_anecdotes)
+  const cheatCodes = parseStructuredArray(encyclo.cheat_codes || fallbackGame.cheat_codes)
+  const characters = parseStructuredArray(archive.characters || fallbackGame.characters)
+  const versions = parseStructuredArray(archive.versions || fallbackGame.versions)
+  const speedrun = parseStructuredValue(archive.speedrun_wr || fallbackGame.speedrun_wr, null)
+  const mainDuration = formatDurationValue(archive.duration?.main ?? fallbackGame.avg_duration_main)
+  const completeDuration = formatDurationValue(archive.duration?.complete ?? fallbackGame.avg_duration_complete)
+  const blocks = []
+
+  if (summaryText || synopsisText || loreText || gameplayText) {
+    blocks.push(`
+      <article class="detail-domain-block">
+        <div class="detail-domain-heading">Lecture</div>
+        ${summaryText ? `<div class="archive-lore">${formatMultilineHtml(summaryText)}</div>` : ''}
+        ${synopsisText && synopsisText !== summaryText ? `
+          <div class="detail-domain-subblock">
+            <span class="archive-label">Synopsis</span>
+            <div class="archive-lore">${formatMultilineHtml(synopsisText)}</div>
           </div>
-        `
-      }).join('')
-    }
-    sections.push({ id: 'team', label: 'CASTING DEV', html })
+        ` : ''}
+        ${loreText ? `
+          <div class="detail-domain-subblock">
+            <span class="archive-label">Lore</span>
+            <div class="archive-lore">${formatMultilineHtml(loreText)}</div>
+          </div>
+        ` : ''}
+        ${gameplayText ? `
+          <div class="detail-domain-subblock">
+            <span class="archive-label">Gameplay</span>
+            <div class="archive-gameplay">${formatMultilineHtml(gameplayText)}</div>
+          </div>
+        ` : ''}
+      </article>
+    `)
   }
 
-  if (tracks.length || parseStructuredArray(archive.ost?.composers || fallbackGame.ost_composers).length) {
-    const composers = buildContributorRows([], parseStructuredArray(archive.ost?.composers || fallbackGame.ost_composers))
-    let html = ''
-    if (composers.length) {
-      html += composers.map((member) => `
-        <div class="encyclo-team-row">
-          <span class="team-role">${escapeHtml(member.role || 'Compositeur')}</span>
-          <span class="team-name">${escapeHtml(member.name)}</span>
-        </div>
-      `).join('')
-    }
-    if (tracks.length) {
-      html += `<div class="archive-ost-tracks"><span class="archive-label">Tracks</span><ul>${
-        tracks.map((track) => `<li>${escapeHtml(typeof track === 'string' ? track : track.title || track.name || '')}</li>`).join('')
-      }</ul></div>`
-    }
-    sections.push({ id: 'ost', label: 'OST', html })
+  if (mainDuration || completeDuration || versions.length || speedrun?.time) {
+    const durationParts = [
+      mainDuration ? `Main ${escapeHtml(mainDuration)}` : `Main ${buildEmptyStateHtml('Non renseigne')}`,
+      completeDuration ? `Complet ${escapeHtml(completeDuration)}` : '',
+    ].filter(Boolean)
+
+    blocks.push(`
+      <article class="detail-domain-block">
+        <div class="detail-domain-heading">Progression</div>
+        <div class="archive-duration">${durationParts.length ? durationParts.join(' | ') : buildEmptyStateHtml('Aucune duree')}</div>
+        ${speedrun?.time ? `<div class="archive-speedrun"><span class="archive-label">WR</span> ${escapeHtml(speedrun.category || 'Any%')} : ${escapeHtml(speedrun.time)}${speedrun.runner ? ` | ${escapeHtml(speedrun.runner)}` : ''}</div>` : ''}
+        ${versions.length ? `
+          <div class="archive-ost-tracks">
+            <span class="archive-label">Versions</span>
+            <ul>${versions.map((version) => `<li>${escapeHtml(typeof version === 'string' ? version : version.name || version.label || '')}</li>`).join('')}</ul>
+          </div>
+        ` : ''}
+      </article>
+    `)
+  }
+
+  if (characters.length) {
+    blocks.push(`
+      <article class="detail-domain-block">
+        <div class="detail-domain-heading">Personnages</div>
+        ${characters.map((character) => {
+          const item = parseStructuredValue(character, character)
+          if (typeof item === 'string') {
+            return `<div class="archive-character-row"><span class="archive-char-name">${escapeHtml(item)}</span></div>`
+          }
+
+          return `
+            <div class="archive-character-row">
+              <span class="archive-char-name">${escapeHtml(item.name || 'Inconnu')}</span>
+              <span class="archive-char-role">${escapeHtml(item.role || '')}</span>
+              <span class="archive-char-desc">${escapeHtml(item.description || '')}</span>
+            </div>
+          `
+        }).join('')}
+      </article>
+    `)
+  }
+
+  if (anecdotes.length) {
+    blocks.push(`
+      <article class="detail-domain-block">
+        <div class="detail-domain-heading">Anecdotes de developpement</div>
+        ${anecdotes.map((entry, index) => {
+          const note = parseStructuredValue(entry, entry)
+          const title = typeof note === 'object' ? note.title || note.label : `Note ${index + 1}`
+          const text = typeof note === 'object' ? note.text || note.note || note.description || '' : note
+          return `
+            <div class="encyclo-anecdote">
+              <div class="anecdote-title">${escapeHtml(title || `Note ${index + 1}`)}</div>
+              <div class="anecdote-text">${formatMultilineHtml(text)}</div>
+            </div>
+          `
+        }).join('')}
+      </article>
+    `)
   }
 
   if (cheatCodes.length) {
-    sections.push({
-      id: 'codes',
-      label: 'ASTUCES / CODES',
-      html: cheatCodes.map((code) => {
-        const item = parseStructuredValue(code, code)
-        if (typeof item === 'string') {
-          return `<div class="encyclo-cheat-row"><span class="cheat-effect">${escapeHtml(item)}</span></div>`
-        }
-        return `
-          <div class="encyclo-cheat-row">
-            <span class="cheat-name">${escapeHtml(item.label || item.name || 'Code')}</span>
-            <span class="cheat-code">${escapeHtml(item.code || item.value || '--')}</span>
-            <span class="cheat-effect">${escapeHtml(item.effect || item.description || '')}</span>
-          </div>
-        `
-      }).join(''),
-    })
+    blocks.push(`
+      <article class="detail-domain-block">
+        <div class="detail-domain-heading">Cheat Codes</div>
+        ${cheatCodes.map((code) => {
+          const item = parseStructuredValue(code, code)
+          if (typeof item === 'string') {
+            return `<div class="encyclo-cheat-row"><span class="cheat-effect">${escapeHtml(item)}</span></div>`
+          }
+
+          return `
+            <div class="encyclo-cheat-row">
+              <span class="cheat-name">${escapeHtml(item.label || item.name || 'Code')}</span>
+              <span class="cheat-code">${escapeHtml(item.code || item.value || '--')}</span>
+              <span class="cheat-effect">${escapeHtml(item.effect || item.description || '')}</span>
+            </div>
+          `
+        }).join('')}
+      </article>
+    `)
   }
 
-  if (manualUrl) {
-    sections.push({
-      id: 'notice',
-      label: 'NOTICE',
-      html: `
-        <div class="archive-manual">
-          <a class="terminal-action-link" href="${escapeHtml(manualUrl)}" target="_blank" rel="noopener noreferrer">
-            Ouvrir la notice ->
-          </a>
-          <div class="archive-manual-note">Reference externe archivee.</div>
+  return blocks.length
+    ? blocks.join('')
+    : `<div class="detail-empty-state">Aucune donnee lore, personnages ou editoriale publiee pour ce jeu.</div>`
+}
+
+function buildMediaDocsTab() {
+  const archive = currentArchiveData || {}
+  const fallbackGame = currentGame || {}
+  const media = parseStructuredValue(archive.media, archive.media) || {}
+  const manuals = parseStructuredArray(media.manuals)
+  const variants = parseStructuredArray(media.variants)
+  const covers = parseStructuredArray(media.covers)
+  const screenshots = parseStructuredArray(media.screenshots)
+  const items = parseStructuredArray(media.items)
+  const compliance = parseStructuredValue(media.complianceSummary, media.complianceSummary) || {}
+  const summaryBadge = `
+    <span class="detail-compliance-badge ${complianceClass(compliance.status)}">
+      ${escapeHtml(formatComplianceLabel(compliance.status))}
+    </span>
+  `
+  const visibleManuals = manuals.length ? manuals : (archive.manual_url || fallbackGame.manual_url ? [{ mediaType: 'manual', url: archive.manual_url || fallbackGame.manual_url }] : [])
+  const visualAssetCount = variants.length || Math.max(0, covers.length - 1) + screenshots.length
+
+  if (!items.length && !visibleManuals.length && !covers.length && !screenshots.length && !visualAssetCount) {
+    return `<div class="detail-empty-state">Aucune notice ou reference media publiee pour ce jeu.</div>`
+  }
+
+  const itemRows = (items.length ? items : visibleManuals).map((entry) => {
+    const item = parseStructuredValue(entry, entry) || {}
+    const mediaType = item.mediaType || item.media_type || 'reference'
+    const provider = item.providerLabel || item.provider || 'Source interne'
+    const complianceStatus = item.complianceStatus || item.compliance_status || compliance.status || 'missing'
+    const storageMode = item.storageMode || item.storage_mode || ''
+
+    return `
+      <div class="detail-media-row">
+        <div class="detail-media-row-head">
+          <span class="detail-media-kind">${escapeHtml(formatMediaTypeLabel(mediaType))}</span>
+          <span class="detail-compliance-badge ${complianceClass(complianceStatus)}">${escapeHtml(formatComplianceLabel(complianceStatus))}</span>
         </div>
-      `,
-    })
+        <div class="detail-media-row-meta">${escapeHtml(String(provider))}${storageMode ? ` | ${escapeHtml(String(storageMode))}` : ''}</div>
+        <a class="terminal-action-link detail-media-link" href="${escapeHtml(item.url || '')}" target="_blank" rel="noopener noreferrer">
+          Ouvrir la reference ->
+        </a>
+      </div>
+    `
+  }).join('')
+
+  return `
+    <article class="detail-domain-block">
+      <div class="detail-domain-heading">Conformite & Inventaire</div>
+      <div class="detail-media-summary">
+        ${summaryBadge}
+        <span>${escapeHtml(`${manuals.length || visibleManuals.length} notice(s)`)}</span>
+        <span>${escapeHtml(`${covers.length} cover(s)`)}</span>
+        <span>${escapeHtml(`${visualAssetCount} variante(s)`)}</span>
+        <span>${escapeHtml(`${screenshots.length} screenshot(s)`)}</span>
+      </div>
+    </article>
+    <article class="detail-domain-block">
+      <div class="detail-domain-heading">References publiees</div>
+      <div class="detail-media-list">
+        ${itemRows}
+      </div>
+    </article>
+  `
+}
+
+function buildMusicTab() {
+  const archive = currentArchiveData || {}
+  const fallbackGame = currentGame || {}
+  const composers = buildContributorRows([], parseStructuredArray(archive.ost?.composers || fallbackGame.ost_composers))
+  const tracks = parseStructuredArray(archive.ost?.notable_tracks || fallbackGame.ost_notable_tracks)
+  const releases = parseStructuredArray(archive.ost?.releases)
+
+  if (!composers.length && !tracks.length && !releases.length) {
+    return `<div class="detail-empty-state">Aucune donnee OST structuree publiee pour ce jeu.</div>`
   }
 
-  if (versions.length || speedrun?.time) {
-    let html = ''
-    if (speedrun?.time) {
-      html += `<div class="archive-speedrun"><span class="archive-label">WR</span> ${escapeHtml(speedrun.category || 'Any%')} : ${escapeHtml(speedrun.time)}${speedrun.runner ? ` · ${escapeHtml(speedrun.runner)}` : ''}</div>`
-    }
-    if (versions.length) {
-      html += `<div class="archive-ost-tracks"><span class="archive-label">Versions</span><ul>${
-        versions.map((version) => `<li>${escapeHtml(typeof version === 'string' ? version : version.name || version.label || '')}</li>`).join('')
-      }</ul></div>`
-    }
-    sections.push({ id: 'record', label: 'RECORD', html })
-  }
+  return `
+    ${composers.length ? `
+      <article class="detail-domain-block">
+        <div class="detail-domain-heading">Compositeurs</div>
+        ${composers.map((member) => `
+          <div class="encyclo-team-row">
+            <span class="team-role">${escapeHtml(member.role || 'Compositeur')}</span>
+            <span class="team-name">${escapeHtml(member.name)}</span>
+            ${member.note ? `<span class="team-note">${escapeHtml(member.note)}</span>` : ''}
+          </div>
+        `).join('')}
+      </article>
+    ` : ''}
+    ${tracks.length ? `
+      <article class="detail-domain-block">
+        <div class="detail-domain-heading">Tracks notables</div>
+        <div class="archive-ost-tracks">
+          <ul>${tracks.map((track) => `<li>${escapeHtml(typeof track === 'string' ? track : track.title || track.name || '')}</li>`).join('')}</ul>
+        </div>
+      </article>
+    ` : ''}
+    <article class="detail-domain-block">
+      <div class="detail-domain-heading">Sorties OST</div>
+      ${releases.length ? `
+        <div class="detail-ost-release-list">
+          ${releases.map((release) => {
+            const item = parseStructuredValue(release, release) || {}
+            return `
+              <div class="detail-ost-release-row">
+                <span class="detail-ost-release-title">${escapeHtml(item.name || item.title || 'OST')}</span>
+                <span class="detail-ost-release-meta">
+                  ${escapeHtml([
+                    item.releaseYear || item.release_year || '',
+                    item.format || '',
+                    item.label || '',
+                    item.trackCount || item.track_count ? `${item.trackCount || item.track_count} tracks` : '',
+                  ].filter(Boolean).join(' | ') || 'Metadonnees partielles')}
+                </span>
+              </div>
+            `
+          }).join('')}
+        </div>
+      ` : `<div class="detail-empty-state">Aucune sortie OST structuree disponible pour l'instant.</div>`}
+    </article>
+  `
+}
 
-  return sections
+function buildEditorialSections() {
+  return [
+    { id: 'lore_characters', label: 'Lore & Characters', html: buildLoreCharactersTab() },
+    { id: 'media_docs', label: 'Media & Manuals', html: buildMediaDocsTab() },
+    { id: 'music_ost', label: 'Music & OST', html: buildMusicTab() },
+  ]
 }
 
 function renderEditorialContent() {
@@ -847,13 +1102,13 @@ function renderEditorialContent() {
     return
   }
 
-  const sections = buildEditorialSections()
-  if (!sections.length) {
+  if (!currentGame && !currentEncyclopediaData && !currentArchiveData) {
     editorialShellEl.hidden = true
     editorialContentEl.innerHTML = ''
     return
   }
 
+  const sections = buildEditorialSections()
   const currentActiveTab = editorialContentEl.querySelector('.detail-editorial-tab.active')?.dataset.tab
   const activeTab = sections.some((section) => section.id === currentActiveTab)
     ? currentActiveTab
@@ -861,6 +1116,7 @@ function renderEditorialContent() {
 
   editorialShellEl.hidden = false
   editorialContentEl.innerHTML = `
+    ${buildProductionPanel()}
     <div class="detail-editorial-tabs">
       ${sections.map((section) => `
         <button type="button" class="detail-editorial-tab ${section.id === activeTab ? 'active' : ''}" data-tab="${section.id}">
@@ -895,11 +1151,15 @@ async function loadEncyclopedia(gameId) {
       return
     }
 
-    if (currentGame && !String(currentGame.summary || '').trim() && String(data.synopsis || '').trim()) {
+    if (currentGame && !String(currentGame.summary || '').trim() && String(data.summary || '').trim()) {
+      currentGame.summary = data.summary
+      renderSummary(currentGame)
+    } else if (currentGame && !String(currentGame.summary || '').trim() && String(data.synopsis || '').trim()) {
       currentGame.synopsis = data.synopsis
       renderSummary(currentGame)
     }
     currentEncyclopediaData = {
+      summary: data.summary ?? null,
       synopsis: data.synopsis ?? null,
       dev_anecdotes: Array.isArray(data.dev_anecdotes) ? data.dev_anecdotes : [],
       dev_team: Array.isArray(data.dev_team) ? data.dev_team : [],
@@ -967,7 +1227,7 @@ function renderStats(game) {
       ${summaryStats.map(({ label, value, id }) => `
         <div class="terminal-summary-cell">
           <div class="terminal-summary-label">${escapeHtml(label)}</div>
-          <div class="terminal-summary-value"${id ? ` id="${id}"` : ''}>${value === '__METASCORE__' ? '--' : escapeHtml(value)}</div>
+          <div class="terminal-summary-value"${id ? ` id="${id}"` : ''}>${value === '__METASCORE__' ? formatMetascoreHtml(game.metascore) : escapeHtml(value)}</div>
         </div>
       `).join('')}
     </div>
@@ -988,8 +1248,8 @@ function renderStats(game) {
       statMeta.textContent = `${game.metascore} | ${label}`
       statMeta.style.color = color
     } else {
-      statMeta.textContent = 'N/A'
-      statMeta.style.color = '#333333'
+      statMeta.innerHTML = buildEmptyStateHtml('Non noté')
+      statMeta.style.color = ''
     }
   }
 }
@@ -1054,6 +1314,15 @@ function buildCollectionMeta(item, listType) {
   return fragments.join('')
 }
 
+function setCollectionAccordionOpen(shouldOpen) {
+  const contentEl = document.getElementById('collection-content')
+  const sectionEl = contentEl?.closest('.detail-accordion')
+  if (!sectionEl) {
+    return
+  }
+  setAccordionState(sectionEl, Boolean(shouldOpen))
+}
+
 function applyCollectionUiState(item, options = {}) {
   if (options.error) {
     collectionStateEl.textContent = 'Indisponible'
@@ -1069,6 +1338,7 @@ function applyCollectionUiState(item, options = {}) {
       collectionRemoveButtonEl.disabled = true
     }
     populateCollectionForm(null)
+    setCollectionAccordionOpen(false)
     return
   }
 
@@ -1091,6 +1361,8 @@ function applyCollectionUiState(item, options = {}) {
     }
     return
   }
+
+  setCollectionAccordionOpen(true)
 
   const listType = normalizeCollectionListType(item.list_type)
   collectionCurrentMetaEl.innerHTML = buildCollectionMeta(item, listType)
@@ -1413,7 +1685,9 @@ function renderRelatedMetascore(score) {
   }
 
   const value = Number(score)
-  return `<span class="related-metascore-fallback">${Number.isFinite(value) ? Math.round(value) : '—'}</span>`
+  return Number.isFinite(value) && value > 0
+    ? `<span class="related-metascore-fallback">${Math.round(value)}</span>`
+    : buildEmptyStateHtml('Non noté')
 }
 
 function renderRelatedPrices(current, related) {
@@ -1509,13 +1783,13 @@ async function loadSimilar(gameId) {
       `
         <div id="similar-grid">
           ${safeArray(data.games).map((game) => `
-            <div class="similar-item" onclick="window.location='/game-detail.html?id=${encodeURIComponent(game.id)}'">
-              <div class="similar-item-main">
-                <div class="similar-title">${escapeHtml(game.title)}</div>
-                <div class="similar-meta">${escapeHtml(game.console || 'n/a')} | ${escapeHtml(game.year || 'n/a')}</div>
+            <a class="game-card" href="/game-detail.html?id=${encodeURIComponent(game.id)}">
+              ${buildGameCardCoverHtml(game)}
+              <div class="game-card-body">
+                <div class="game-card-title">${escapeHtml(game.title)}</div>
+                ${buildGameCardMeta(game.console || '', game.year || '') ? `<div class="game-card-meta">${buildGameCardMeta(game.console || '', game.year || '')}</div>` : ''}
               </div>
-              <div class="similar-side">${renderRelatedMetascore(game.metascore)}</div>
-            </div>
+            </a>
           `).join('')}
         </div>
       `
@@ -1791,10 +2065,10 @@ async function loadPriceHistory(gameId) {
     }
 
     if (!observation.date) {
-      return `Reference courante | ${formatPrice(observation.value, 'n/a')}`
+      return `Reference courante | ${formatPrice(observation.value)}`
     }
 
-    return `${formatHistoryDate(observation.date)} | ${formatPrice(observation.value, 'n/a')}`
+    return `${formatHistoryDate(observation.date)} | ${formatPrice(observation.value)}`
   }
 
   function trendLabel(series, state) {
@@ -1853,7 +2127,7 @@ async function loadPriceHistory(gameId) {
     tooltipEl.innerHTML = `
       <div class="price-history-tooltip-title">${escapeHtml(stateLabel)}</div>
       <div>${escapeHtml(formatHistoryDate(date))}</div>
-      <div>${escapeHtml(formatPrice(value, 'n/a'))}</div>
+      <div>${formatPriceHtml(value)}</div>
       <div class="price-history-tooltip-copy">
         ${escapeHtml(sourceLabel || 'source inconnue')}
         ${Number.isFinite(confidence) && confidence > 0 ? ` | ${escapeHtml(`${Math.round(confidence)}% confiance`)}` : ''}
@@ -1982,8 +2256,8 @@ async function loadPriceHistory(gameId) {
 
     if (lastSaleEl) {
       lastSaleEl.textContent = latestObservation
-        ? `${formatPrice(latestObservation.observation.value, 'n/a')} | ${formatHistoryDate(latestObservation.observation.date)}`
-        : '--'
+        ? `${formatPrice(latestObservation.observation.value)} | ${formatHistoryDate(latestObservation.observation.date)}`
+        : 'Non indexé'
     }
 
     if (seriesEl) {
@@ -2033,7 +2307,7 @@ async function loadPriceHistory(gameId) {
           <div class="history-state-metric-grid">
             <div class="history-state-metric">
               <span class="stat-label">Actuel</span>
-              <span class="stat-value">${escapeHtml(formatPrice(series.current_price, 'n/a'))}</span>
+              <span class="stat-value">${formatPriceHtml(series.current_price)}</span>
             </div>
             <div class="history-state-metric">
               <span class="stat-label">Var. ${escapeHtml(period.label)}</span>

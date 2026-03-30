@@ -5032,12 +5032,47 @@ body {
   letter-spacing: 0.06em;
 }
 
+.detail-hero-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px 12px;
+}
+
+.detail-hero-title {
+  margin: 0 0 0.5rem;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: #9bbc0f;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.detail-hero-rarity {
+  align-self: flex-start;
+  margin-top: 0.08rem;
+}
+
 .detail-hero-meta-strip {
   display: flex;
   flex-wrap: wrap;
   gap: 6px 10px;
   align-items: center;
-  margin-top: -2px;
+  margin-top: 0.4rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.82rem;
+  color: #7a9a7a;
+}
+
+.detail-hero-meta-value {
+  color: inherit;
+}
+
+.detail-hero-developer {
+  margin-top: 0.25rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  color: #486648;
 }
 
 .game-tagline-shell {
@@ -5108,6 +5143,7 @@ body {
   display: inline-flex;
   align-items: center;
   margin-right: 2px;
+  color: inherit;
 }
 
 .detail-console-support-icon {
@@ -5353,13 +5389,23 @@ body {
 
 .detail-editorial-tabs {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0;
   margin: 10px 0 12px;
   border-bottom: 1px solid rgba(67, 95, 60, 0.42);
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.detail-editorial-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .detail-editorial-tab {
+  display: inline-flex;
   padding: 9px 14px;
   border: 0;
   border-bottom: 2px solid transparent;
@@ -5369,6 +5415,8 @@ body {
   font-size: 10px;
   letter-spacing: 0.1em;
   cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .detail-editorial-tab:hover {
@@ -5383,6 +5431,220 @@ body {
 
 .detail-editorial-panel {
   padding-top: 4px;
+}
+
+.detail-production-panel,
+.detail-domain-block {
+  border: 1px solid rgba(67, 95, 60, 0.42);
+  background: rgba(10, 14, 10, 0.78);
+}
+
+.detail-production-panel {
+  margin-bottom: 14px;
+  padding: 14px 16px;
+}
+
+.detail-production-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.detail-domain-eyebrow {
+  color: var(--text-alert);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.detail-domain-subcopy {
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.detail-production-role-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.detail-production-role-chip,
+.detail-compliance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(67, 95, 60, 0.42);
+  padding: 4px 7px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.detail-production-role-chip {
+  color: var(--text-alert);
+  background: rgba(228, 136, 85, 0.08);
+}
+
+.detail-production-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.detail-production-block {
+  padding: 12px 14px;
+}
+
+.detail-production-block-wide {
+  margin-top: 10px;
+}
+
+.detail-production-block-label,
+.detail-domain-heading {
+  margin-bottom: 10px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.detail-production-list,
+.detail-media-list,
+.detail-ost-release-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-production-item,
+.detail-media-row,
+.detail-ost-release-row {
+  padding-top: 10px;
+  border-top: 1px solid rgba(45, 61, 41, 0.42);
+}
+
+.detail-production-item:first-child,
+.detail-media-row:first-child,
+.detail-ost-release-row:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.detail-production-item-name,
+.detail-ost-release-title {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.detail-production-item-meta,
+.detail-media-row-meta,
+.detail-ost-release-meta {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.detail-production-team,
+.detail-domain-block + .detail-domain-block {
+  margin-top: 10px;
+}
+
+.detail-production-team-row {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(45, 61, 41, 0.42);
+}
+
+.detail-production-team-row:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.detail-domain-block {
+  padding: 12px 14px;
+}
+
+.detail-domain-subblock {
+  margin-top: 12px;
+}
+
+.detail-empty-state {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.detail-media-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.detail-media-row-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.detail-media-kind {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.detail-media-link {
+  margin-top: 6px;
+  display: inline-flex;
+}
+
+.detail-compliance-badge.is-approved {
+  color: #9bbc0f;
+  border-color: rgba(155, 188, 15, 0.45);
+  background: rgba(155, 188, 15, 0.08);
+}
+
+.detail-compliance-badge.is-review {
+  color: #f1c45c;
+  border-color: rgba(241, 196, 92, 0.45);
+  background: rgba(241, 196, 92, 0.08);
+}
+
+.detail-compliance-badge.is-reference {
+  color: #7fb0ff;
+  border-color: rgba(127, 176, 255, 0.45);
+  background: rgba(127, 176, 255, 0.08);
+}
+
+.detail-compliance-badge.is-blocked {
+  color: #ff7b7b;
+  border-color: rgba(255, 123, 123, 0.45);
+  background: rgba(255, 123, 123, 0.08);
+}
+
+.detail-compliance-badge.is-unknown {
+  color: var(--text-muted);
+  border-color: rgba(67, 95, 60, 0.42);
+  background: rgba(12, 16, 12, 0.72);
 }
 
 .editorial-prose,
@@ -9741,7 +10003,7 @@ body.hub-page .product-universe-frame {
 
 .archive-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.55rem;
+  font-size: 0.72rem;
   color: #9bbc0f;
   letter-spacing: 0.1em;
   display: block;
@@ -9828,7 +10090,7 @@ body.hub-page .product-universe-frame {
 .archive-speedrun {
   margin-top: 0.5rem;
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.6rem;
+  font-size: 0.72rem;
   color: #f1c45c;
   letter-spacing: 0.05em;
   padding: 0.4rem 0.75rem;
@@ -9850,6 +10112,27 @@ body.hub-page .product-universe-frame {
   color: #486648;
   margin-top: 0.5rem;
   font-style: italic;
+}
+
+@media (max-width: 980px) {
+  .detail-production-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .detail-production-head {
+    flex-direction: column;
+  }
+
+  .detail-production-role-row {
+    justify-content: flex-start;
+  }
+
+  .detail-production-team-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
 }
 
 /* Archive section header */
@@ -9896,7 +10179,7 @@ body.hub-page .product-universe-frame {
 
 .detail-section-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.55rem;
+  font-size: 0.72rem;
   color: #9bbc0f;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -9976,7 +10259,7 @@ body.hub-page .product-universe-frame {
 
 .market-result-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.58rem;
+  font-size: 0.72rem;
   color: #9bbc0f;
   line-height: 1.6;
 }
@@ -10098,7 +10381,7 @@ body.hub-page .product-universe-frame {
 
 .market-trend-symbol {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.62rem;
+  font-size: 0.72rem;
 }
 
 .market-trend-delta {
@@ -10209,7 +10492,7 @@ body.hub-page .product-universe-frame {
 
 .market-compare-card-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.55rem;
+  font-size: 0.72rem;
   color: #9bbc0f;
   line-height: 1.6;
 }
@@ -10266,7 +10549,7 @@ body.hub-page .product-universe-frame {
 
 .market-meta-fallback {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.55rem;
+  font-size: 0.72rem;
   color: #9bbc0f;
 }
 
@@ -10303,7 +10586,375 @@ body.hub-page .product-universe-frame {
     justify-content: flex-start;
   }
 
-  .market-compare-grid {
+.market-compare-grid {
+  grid-template-columns: 1fr;
+  }
+}
+
+.result-row.game-card,
+.result-row.result-row-catalog.game-card,
+.console-game-row.game-card,
+.similar-item.game-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(155,188,15,0.06);
+  text-decoration: none;
+  color: inherit;
+  border-left: 2px solid transparent;
+  transition: background 0.12s ease, border-left 0.12s ease;
+  background: transparent;
+  border-top: 0;
+  border-right: 0;
+  min-height: 0;
+  height: auto;
+}
+
+.result-row.game-card:hover,
+.result-row.result-row-catalog.game-card:hover,
+.result-row.game-card:focus-visible,
+.result-row.result-row-catalog.game-card:focus-visible,
+.console-game-row.game-card:hover,
+.similar-item.game-card:hover,
+.game-card:hover {
+  border-left: 2px solid rgba(155,188,15,0.5);
+  background: rgba(155,188,15,0.03);
+  cursor: pointer;
+}
+
+.game-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(155,188,15,0.06);
+  text-decoration: none;
+  color: inherit;
+  border-left: 2px solid transparent;
+  transition: background 0.12s ease, border-left 0.12s ease;
+}
+
+.game-card-cover {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  object-fit: cover;
+  border: 1px solid rgba(155,188,15,0.2);
+  flex-shrink: 0;
+}
+
+.game-card-placeholder {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(155,188,15,0.05);
+  border: 1px solid rgba(155,188,15,0.15);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.82rem;
+  color: #486648;
+  flex-shrink: 0;
+}
+
+.game-card-body {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.game-card-title {
+  display: block;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.82rem;
+  color: #9bbc0f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.game-card-meta {
+  display: block;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: #7a9a7a;
+  margin-top: 0.15rem;
+}
+
+.result-row.game-card .result-row-indicator {
+  display: none;
+}
+
+.result-row.game-card .result-info,
+.result-row.result-row-catalog.game-card .result-info {
+  padding: 0;
+}
+
+.result-row.game-card .result-signal,
+.result-row.result-row-catalog.game-card .result-signal {
+  margin-left: auto;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.btn-retromarket-cta {
+  display: inline-block;
+  background: rgba(241, 196, 92, 0.12);
+  border: 2px solid #f1c45c;
+  color: #f1c45c;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.72rem;
+  padding: 0.75rem 1.5rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  margin-top: 0.75rem;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-retromarket-cta:hover {
+  background: rgba(241, 196, 92, 0.22);
+  border-color: #f5d070;
+}
+
+.sc-row {
+  min-height: 80px;
+  align-items: flex-start;
+  border-left: 2px solid transparent;
+  transition: background 0.12s ease, border-left 0.12s ease;
+}
+
+.sc-row:hover {
+  border-left: 2px solid rgba(155,188,15,0.5);
+  background: rgba(155,188,15,0.03);
+  cursor: pointer;
+}
+
+.market-search-row {
+  border-left: 2px solid transparent;
+  transition: background 0.12s ease, border-left 0.12s ease;
+}
+
+.market-search-row:hover,
+.market-search-row.is-selected {
+  border-left: 2px solid rgba(155,188,15,0.5);
+  background: rgba(155,188,15,0.03);
+  cursor: pointer;
+}
+
+.compare-row.clickable {
+  border-left: 2px solid transparent;
+  transition: background 0.12s ease, border-left 0.12s ease;
+}
+
+.compare-row.clickable:hover {
+  border-left: 2px solid rgba(155,188,15,0.5);
+  background: rgba(155,188,15,0.03);
+  cursor: pointer;
+}
+
+.detail-section-toggle:hover {
+  background: rgba(155,188,15,0.03);
+  cursor: pointer;
+}
+
+.detail-section-chevron {
+  margin-right: 0.5rem;
+  color: #7a9a7a;
+  font-size: 0.8rem;
+}
+
+.detail-section-hint {
+  margin-left: 0.5rem;
+  color: #486648;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+}
+
+.catalog-filter-panel {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg, #0a0f0a);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(155,188,15,0.08);
+}
+
+.console-filter-bar {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(155,188,15,0.08);
+}
+
+.console-filter-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.72rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid rgba(155,188,15,0.2);
+  background: transparent;
+  color: #486648;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.console-filter-btn.active,
+.console-filter-btn:hover {
+  border-color: #9bbc0f;
+  color: #9bbc0f;
+  background: rgba(155,188,15,0.06);
+}
+
+.console-load-more {
+  display: block;
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.75rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+  border: 1px solid rgba(155,188,15,0.2);
+  background: transparent;
+  color: #7a9a7a;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.console-load-more:hover {
+  border-color: #9bbc0f;
+  color: #9bbc0f;
+}
+
+/* ── Hub page ── */
+.hub-intent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.hub-intent-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  border: 1px solid rgba(155,188,15,0.25);
+  background: rgba(155,188,15,0.03);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s, border-color 0.15s;
+  gap: 0.4rem;
+}
+
+.hub-intent-btn:hover {
+  background: rgba(155,188,15,0.07);
+  border-color: rgba(155,188,15,0.5);
+  cursor: pointer;
+}
+
+.hub-intent-icon {
+  font-size: 1.5rem;
+  color: #9bbc0f;
+}
+
+.hub-intent-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.72rem;
+  color: #9bbc0f;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+.hub-intent-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: #7a9a7a;
+  text-align: center;
+}
+
+.hub-section-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.72rem;
+  color: #f1c45c;
+  letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(241,196,92,0.2);
+}
+
+.hub-legendary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.hub-legendary-card {
+  display: flex;
+  gap: 0.65rem;
+  padding: 0.6rem;
+  border: 1px solid rgba(241,196,92,0.15);
+  background: rgba(241,196,92,0.02);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.12s, border-color 0.12s;
+  overflow: hidden;
+}
+
+.hub-legendary-card:hover {
+  background: rgba(241,196,92,0.06);
+  border-color: rgba(241,196,92,0.35);
+  cursor: pointer;
+}
+
+.hub-legendary-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hub-stats-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+  color: #7a9a7a;
+  border-top: 1px solid rgba(155,188,15,0.08);
+  margin-top: 1.5rem;
+}
+
+.hub-stat {
+  display: flex;
+  gap: 0.4rem;
+  align-items: baseline;
+}
+
+.hub-stat-value {
+  color: #9bbc0f;
+  font-size: 0.9rem;
+}
+
+.hub-stat-label {
+  color: #486648;
+  font-size: 0.72rem;
+}
+
+.hub-stat-sep {
+  color: #486648;
+}
+
+@media (max-width: 768px) {
+  .hub-intent-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hub-legendary-grid {
     grid-template-columns: 1fr;
   }
 }

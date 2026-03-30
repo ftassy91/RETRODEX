@@ -13,6 +13,8 @@ const BASE_GAME_ATTRIBUTES = [
   'consoleId',
   'year',
   'developer',
+  'developerId',
+  'publisherId',
   'genre',
   'metascore',
   'rarity',

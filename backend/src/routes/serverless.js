@@ -15,7 +15,13 @@ const {
 const { handleAsync, parseLimit } = require('../helpers/query')
 const { dedupeSearchResults } = require('../helpers/search')
 const { buildPriceHistoryPayload } = require('../helpers/priceHistory')
-const { listConsoles, normalizeConsoleKey } = require('../lib/consoles')
+const { getConsoleById, listConsoles, normalizeConsoleKey } = require('../lib/consoles')
+const {
+  buildProductionPayload,
+  buildMediaPayload,
+  buildArchivePayload: buildKnowledgeArchivePayload,
+  buildEncyclopediaPayload: buildKnowledgeEncyclopediaPayload,
+} = require('../helpers/game-knowledge')
 
 const router = Router()
 // SYNC: SC-5 - routes Search Core confirmees pour le runtime serverless
@@ -68,6 +74,16 @@ function normalizeGameRecord(game) {
   }
 }
 
+function getRecordValue(record, fields = []) {
+  for (const field of fields) {
+    if (record && record[field] != null && record[field] !== '') {
+      return record[field]
+    }
+  }
+
+  return null
+}
+
 async function fetchGameMediaMap(gameIds = []) {
   const uniqueIds = Array.from(new Set((gameIds || []).filter(Boolean).map((value) => String(value))))
   if (!uniqueIds.length) {
@@ -104,6 +120,153 @@ async function fetchGameMediaMap(gameIds = []) {
   return mediaMap
 }
 
+async function fetchGameMediaRows(gameId) {
+  const query = db
+    .from('media_references')
+    .select('media_type,url,provider,compliance_status,storage_mode')
+    .eq('entity_type', 'game')
+    .eq('entity_id', String(gameId || ''))
+
+  const { data, error } = await query
+
+  if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return []
+    }
+
+    const fallback = await db
+      .from('media_references')
+      .select('media_type,url')
+      .eq('entity_type', 'game')
+      .eq('entity_id', String(gameId || ''))
+
+    if (fallback.error) {
+      if (isMissingSupabaseRelationError(fallback.error)) {
+        return []
+      }
+      throw new Error(fallback.error.message)
+    }
+
+    return Array.isArray(fallback.data) ? fallback.data : []
+  }
+
+  return Array.isArray(data) ? data : []
+}
+
+async function fetchGameCompanyRows(game) {
+  const gameId = String(game?.id || '')
+  if (!gameId) {
+    return []
+  }
+
+  const { data, error } = await db
+    .from('game_companies')
+    .select('company_id,role,confidence')
+    .eq('game_id', gameId)
+
+  if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return []
+    }
+    throw new Error(error.message)
+  }
+
+  let bindings = Array.isArray(data) ? data : []
+
+  if (!bindings.length) {
+    bindings = [
+      { company_id: getRecordValue(game, ['developerId', 'developer_id', 'developerid']), role: 'developer', confidence: 0.7 },
+      { company_id: getRecordValue(game, ['publisherId', 'publisher_id', 'publisherid']), role: 'publisher', confidence: 0.7 },
+    ].filter((entry) => entry.company_id)
+  }
+
+  if (!bindings.length) {
+    return []
+  }
+
+  const ids = Array.from(new Set(bindings.map((entry) => String(entry.company_id)).filter(Boolean)))
+  const companyResult = await db
+    .from('companies')
+    .select('id,name,country')
+    .in('id', ids)
+
+  if (companyResult.error) {
+    if (isMissingSupabaseRelationError(companyResult.error)) {
+      return []
+    }
+    throw new Error(companyResult.error.message)
+  }
+
+  const companies = new Map((companyResult.data || []).map((entry) => [String(entry.id), entry]))
+
+  return bindings
+    .map((binding) => {
+      const company = companies.get(String(binding.company_id))
+      if (!company) {
+        return null
+      }
+
+      return {
+        id: company.id,
+        name: company.name,
+        country: company.country || null,
+        role: binding.role,
+        confidence: binding.confidence,
+        source: Array.isArray(data) && data.length ? 'canonical' : 'association_fallback',
+      }
+    })
+    .filter(Boolean)
+}
+
+async function fetchGameOstReleases(gameId) {
+  const { data, error } = await db
+    .from('osts')
+    .select('id,name,format,track_count,release_year,label,region_code,slug,source_confidence')
+    .eq('game_id', String(gameId || ''))
+    .order('release_year', { ascending: true })
+    .order('name', { ascending: true })
+
+  if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return []
+    }
+    throw new Error(error.message)
+  }
+
+  return (data || []).map((entry) => ({
+    id: entry.id,
+    name: entry.name,
+    format: entry.format || null,
+    trackCount: entry.track_count ?? null,
+    releaseYear: entry.release_year ?? null,
+    label: entry.label || null,
+    regionCode: entry.region_code || null,
+    slug: entry.slug || null,
+    sourceConfidence: entry.source_confidence ?? null,
+  }))
+}
+
+async function fetchGameKnowledgeDomains(game) {
+  const [companyRows, mediaRows, ostReleases] = await Promise.all([
+    fetchGameCompanyRows(game),
+    fetchGameMediaRows(game?.id),
+    fetchGameOstReleases(game?.id),
+  ])
+
+  return {
+    production: buildProductionPayload({
+      game,
+      companyRows,
+      devTeam: parseStoredJson(game?.dev_team) || [],
+    }),
+    media: buildMediaPayload({
+      game,
+      mediaRows,
+    }),
+    ostReleases,
+  }
+}
+
 async function hydrateGameCovers(items = []) {
   const mediaMap = await fetchGameMediaMap(items.map((item) => item?.id))
   return items.map((item) => {
@@ -119,37 +282,11 @@ async function hydrateGameCovers(items = []) {
 }
 
 function buildArchivePayload(game) {
-  const item = normalizeGameRecord(game) || {}
-  return {
-    ok: true,
-    id: item.id,
-    title: item.title,
-    manual_url: item.manual_url || null,
-    lore: item.lore || null,
-    gameplay_description: item.gameplay_description || null,
-    characters: parseStoredJson(item.characters),
-    versions: parseStoredJson(item.versions),
-    ost: {
-      composers: parseStoredJson(item.ost_composers),
-      notable_tracks: parseStoredJson(item.ost_notable_tracks),
-    },
-    duration: {
-      main: item.avg_duration_main ?? null,
-      complete: item.avg_duration_complete ?? null,
-    },
-    speedrun_wr: parseStoredJson(item.speedrun_wr),
-  }
+  return buildKnowledgeArchivePayload({ game: normalizeGameRecord(game) || {} })
 }
 
 function buildEncyclopediaPayload(game) {
-  const item = normalizeGameRecord(game) || {}
-  return {
-    ok: true,
-    synopsis: item.synopsis ?? item.summary ?? null,
-    dev_anecdotes: parseStoredJson(item.dev_anecdotes) || [],
-    dev_team: parseStoredJson(item.dev_team) || [],
-    cheat_codes: parseStoredJson(item.cheat_codes) || [],
-  }
+  return buildKnowledgeEncyclopediaPayload(normalizeGameRecord(game) || {})
 }
 
 function compareNullableNumbers(left, right, ascending = true) {
@@ -242,6 +379,8 @@ function isMissingSupabaseRelationError(error) {
   return (
     message.includes('schema cache') ||
     message.includes('could not find the table') ||
+    message.includes('no such table') ||
+    message.includes('no such column') ||
     (message.includes('relation') && message.includes('does not exist'))
   )
 }
@@ -249,7 +388,7 @@ function isMissingSupabaseRelationError(error) {
 async function fetchAllSupabaseGames() {
   return fetchRowsInBatches(
     'games',
-    'id,title,console,year,genre,developer,metascore,rarity,summary,synopsis,source_confidence,loose_price,cib_price,mint_price',
+    'id,title,console,year,genre,developer,metascore,rarity,summary,synopsis,source_confidence,slug,cover_url,loose_price,cib_price,mint_price',
     (query) => query.eq('type', 'game'),
     { column: 'title', options: { ascending: true } }
   )
@@ -740,23 +879,320 @@ function createGlobalFranchiseResult(franchise) {
   }
 }
 
+function roundConsoleNumber(value) {
+  const number = Number(value)
+  if (!Number.isFinite(number)) {
+    return null
+  }
+
+  return Math.round(number * 100) / 100
+}
+
+function averageConsoleValues(values) {
+  const numbers = values
+    .map((value) => Number(value))
+    .filter((value) => Number.isFinite(value) && value > 0)
+
+  if (!numbers.length) {
+    return null
+  }
+
+  return roundConsoleNumber(numbers.reduce((sum, value) => sum + value, 0) / numbers.length)
+}
+
+function toConsoleTier(score) {
+  if (score >= 85) return 'Tier A'
+  if (score >= 70) return 'Tier B'
+  if (score >= 50) return 'Tier C'
+  return 'Tier D'
+}
+
+function buildStaticConsoleRecord(entry) {
+  return {
+    id: entry.id,
+    slug: entry.id,
+    name: entry.name,
+    title: entry.name,
+    platform: entry.name,
+    manufacturer: entry.manufacturer || null,
+    releaseYear: entry.release_year ?? null,
+    generation: entry.generation || null,
+    summary: entry.overview || null,
+    mediaType: entry?.technical_specs?.media || null,
+    overview: entry.overview || null,
+    development: entry.development || null,
+    team: entry.team || [],
+    technicalSpecs: entry.technical_specs || {},
+    legacy: entry.legacy || null,
+    anecdotes: entry.anecdotes || [],
+    marketNotes: entry.market || null,
+    knowledgeEntry: entry,
+  }
+}
+
+function buildPublishedConsoleRecord(row) {
+  const knowledgeEntry = getConsoleById(row.id) || getConsoleById(row.title) || getConsoleById(row.platform)
+  const fallback = knowledgeEntry ? buildStaticConsoleRecord(knowledgeEntry) : {}
+  const name = row.title || row.platform || fallback.name || row.id
+  return {
+    ...fallback,
+    id: row.id || fallback.id || normalizeConsoleKey(name),
+    slug: fallback.slug || normalizeConsoleKey(name),
+    name,
+    title: name,
+    platform: row.platform || name,
+    manufacturer: row.manufacturer || fallback.manufacturer || null,
+    releaseYear: row.year ?? fallback.releaseYear ?? null,
+    mediaType: row.media_type || fallback.mediaType || null,
+    knowledgeEntry: knowledgeEntry || fallback.knowledgeEntry || null,
+  }
+}
+
+function buildConsoleAliases(consoleItem) {
+  const values = [
+    consoleItem?.id,
+    consoleItem?.slug,
+    consoleItem?.name,
+    consoleItem?.title,
+    consoleItem?.platform,
+    consoleItem?.knowledgeEntry?.id,
+    consoleItem?.knowledgeEntry?.name,
+  ]
+
+  return Array.from(new Set(values.map((value) => normalizeConsoleKey(value)).filter(Boolean)))
+}
+
+function getConsoleCatalogKey(consoleItem) {
+  if (consoleItem?.knowledgeEntry?.id) {
+    return consoleItem.knowledgeEntry.id
+  }
+
+  return normalizeConsoleKey(consoleItem?.name || consoleItem?.platform || consoleItem?.title || consoleItem?.id)
+}
+
+function buildConsoleGamesMap(games = []) {
+  const map = new Map()
+
+  games.forEach((game) => {
+    const knowledgeEntry = getConsoleById(game.console)
+    const key = knowledgeEntry?.id || normalizeConsoleKey(game.console)
+    if (!key) {
+      return
+    }
+
+    if (!map.has(key)) {
+      map.set(key, [])
+    }
+
+    map.get(key).push(normalizeGameRecord(game))
+  })
+
+  return map
+}
+
+function buildConsoleMarketPayload(games = []) {
+  const pricedGames = games.filter((game) => Number(game.loosePrice || game.cibPrice || game.mintPrice) > 0)
+  const legendaryCount = games.filter((game) => String(game.rarity || '').toUpperCase() === 'LEGENDARY').length
+  const epicCount = games.filter((game) => String(game.rarity || '').toUpperCase() === 'EPIC').length
+
+  return {
+    gamesCount: games.length,
+    pricedGames: pricedGames.length,
+    priceCoverage: games.length ? Math.round((pricedGames.length / games.length) * 100) : 0,
+    avgLoose: averageConsoleValues(games.map((game) => game.loosePrice)),
+    avgCib: averageConsoleValues(games.map((game) => game.cibPrice)),
+    avgMint: averageConsoleValues(games.map((game) => game.mintPrice)),
+    legendaryCount,
+    epicCount,
+  }
+}
+
+function buildConsoleQualityPayload(consoleItem, market) {
+  let score = 0
+
+  if (consoleItem?.name) score += 20
+  if (consoleItem?.manufacturer) score += 15
+  if (consoleItem?.releaseYear) score += 15
+  if (consoleItem?.summary) score += 20
+  if (consoleItem?.generation || consoleItem?.mediaType) score += 10
+  if (market.gamesCount > 0) score += 10
+  if (market.pricedGames > 0) score += 10
+
+  return {
+    score,
+    tier: toConsoleTier(score),
+  }
+}
+
+function buildConsoleSourcesPayload(consoleItem, market) {
+  const sources = [
+    {
+      id: 'supabase-consoles',
+      label: 'Supabase consoles',
+      status: 'published',
+      type: 'runtime',
+    },
+  ]
+
+  if (consoleItem?.knowledgeEntry) {
+    sources.push({
+      id: 'console-registry',
+      label: 'Console registry',
+      status: 'versioned',
+      type: 'knowledge',
+    })
+  }
+
+  if (market.pricedGames > 0) {
+    sources.push({
+      id: 'games-market',
+      label: 'Games market',
+      status: 'derived',
+      type: 'market',
+    })
+  }
+
+  return sources
+}
+
+function buildConsoleOverviewPayload(consoleItem, market) {
+  const technicalSpecs = consoleItem?.technicalSpecs || {}
+
+  return {
+    summary: consoleItem?.overview || consoleItem?.summary || null,
+    generation: consoleItem?.generation || null,
+    development: consoleItem?.development || null,
+    team: consoleItem?.team || [],
+    technicalSpecs,
+    legacy: consoleItem?.legacy || null,
+    anecdotes: consoleItem?.anecdotes || [],
+    shortTechnicalIdentity: [
+      technicalSpecs.cpu,
+      technicalSpecs.gpu,
+      technicalSpecs.media || consoleItem?.mediaType,
+    ].filter(Boolean).join(' | ') || null,
+    marketNotes: consoleItem?.marketNotes || null,
+    marketCoverage: market.priceCoverage,
+  }
+}
+
+function buildConsoleHardwarePayload(consoleItem) {
+  const technicalSpecs = consoleItem?.technicalSpecs || {}
+
+  return {
+    referenceId: consoleItem?.slug || consoleItem?.id,
+    cpu: technicalSpecs.cpu || null,
+    gpu: technicalSpecs.gpu || null,
+    memory: technicalSpecs.memory || null,
+    media: technicalSpecs.media || consoleItem?.mediaType || null,
+    notableFeatures: technicalSpecs.notable_features || [],
+  }
+}
+
+function buildRelatedConsolePayload(catalog = [], consoleItem, limit = 4) {
+  return catalog
+    .filter((candidate) => candidate.id !== consoleItem.id)
+    .filter((candidate) => (
+      candidate.manufacturer === consoleItem.manufacturer
+      || candidate.generation === consoleItem.generation
+    ))
+    .sort((left, right) => {
+      const byMaker = Number(right.manufacturer === consoleItem.manufacturer) - Number(left.manufacturer === consoleItem.manufacturer)
+      if (byMaker !== 0) return byMaker
+      return Number(left.releaseYear || 0) - Number(right.releaseYear || 0)
+    })
+    .slice(0, limit)
+    .map((candidate) => ({
+      id: candidate.id,
+      name: candidate.name,
+      releaseYear: candidate.releaseYear || null,
+    }))
+}
+
+function buildNotableGamesPayload(consoleItem, games = []) {
+  const names = consoleItem?.legacy?.notable_games || []
+  if (!Array.isArray(names) || !names.length) {
+    return []
+  }
+
+  return names.slice(0, 8).map((title) => {
+    const normalized = normalizeConsoleKey(title)
+    const matched = games.find((game) => {
+      const normalizedTitle = normalizeConsoleKey(game.title)
+      return normalizedTitle === normalized
+        || normalizedTitle.includes(normalized)
+        || normalized.includes(normalizedTitle)
+    })
+
+    return {
+      title,
+      game: matched ? {
+        id: matched.id,
+        title: matched.title,
+        year: matched.year,
+      } : null,
+    }
+  })
+}
+
+async function fetchPublishedConsoles() {
+  const fallback = listConsoles().map((entry) => buildStaticConsoleRecord(entry))
+  const { data, error } = await db
+    .from('consoles')
+    .select('id,title,platform,year,manufacturer,media_type')
+    .order('platform', { ascending: true })
+
+  if (error) {
+    if (isMissingSupabaseRelationError(error)) {
+      return fallback
+    }
+
+    throw new Error(error.message)
+  }
+
+  const published = (data || []).map((row) => buildPublishedConsoleRecord(row))
+  return published.length ? published : fallback
+}
+
+function buildConsoleListItem(consoleItem, games = []) {
+  const market = buildConsoleMarketPayload(games)
+  const quality = buildConsoleQualityPayload(consoleItem, market)
+
+  return {
+    id: consoleItem.id,
+    slug: consoleItem.slug || null,
+    name: consoleItem.name,
+    title: consoleItem.name,
+    platform: consoleItem.platform || consoleItem.name,
+    manufacturer: consoleItem.manufacturer || null,
+    releaseYear: consoleItem.releaseYear || null,
+    generation: consoleItem.generation || null,
+    summary: consoleItem.summary || null,
+    gamesCount: market.gamesCount,
+    quality,
+  }
+}
+
+function findConsoleInCatalog(catalog = [], requestedId) {
+  const needle = normalizeConsoleKey(requestedId)
+  if (!needle) {
+    return null
+  }
+
+  return catalog.find((consoleItem) => buildConsoleAliases(consoleItem).includes(needle)) || null
+}
+
 async function fetchGlobalConsoleResults(query, limit) {
   const normalizedQuery = String(query || '').trim().toLowerCase()
   if (!normalizedQuery) {
     return []
   }
 
-  const consoles = listConsoles()
-  const games = await fetchAllSupabaseGames()
-  const counts = new Map()
-
-  games.forEach((game) => {
-    const key = normalizeConsoleKey(game.console)
-    if (!key) {
-      return
-    }
-    counts.set(key, (counts.get(key) || 0) + 1)
-  })
+  const [consoles, games] = await Promise.all([
+    fetchPublishedConsoles(),
+    fetchAllSupabaseGames(),
+  ])
+  const gamesByConsole = buildConsoleGamesMap(games)
 
   return consoles
     .filter((consoleItem) => {
@@ -774,10 +1210,10 @@ async function fetchGlobalConsoleResults(query, limit) {
       return haystack.includes(normalizedQuery)
     })
     .slice(0, Math.max(limit, 10))
-    .map((consoleItem) => {
-      const countKey = normalizeConsoleKey(consoleItem.id || consoleItem.name)
-      return createGlobalConsoleResult(consoleItem, counts.get(countKey) || 0)
-    })
+    .map((consoleItem) => createGlobalConsoleResult(
+      consoleItem,
+      (gamesByConsole.get(getConsoleCatalogKey(consoleItem)) || []).length
+    ))
 }
 
 async function fetchGlobalFranchiseResults(query, limit) {
@@ -1006,7 +1442,14 @@ router.get('/api/games/:id/archive', handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
 
-  return res.json(buildArchivePayload(game))
+  const { production, media, ostReleases } = await fetchGameKnowledgeDomains(game)
+
+  return res.json(buildKnowledgeArchivePayload({
+    game: normalizeGameRecord(game) || {},
+    production,
+    media,
+    ostReleases,
+  }))
 }))
 
 router.get('/api/games/:id/encyclopedia', handleAsync(async (req, res) => {
@@ -1058,33 +1501,101 @@ router.get('/api/items', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/consoles', handleAsync(async (_req, res) => {
-  const games = await fetchAllSupabaseGames()
-  const counts = new Map()
+  const [catalog, games] = await Promise.all([
+    fetchPublishedConsoles(),
+    fetchAllSupabaseGames(),
+  ])
+  const gamesByConsole = buildConsoleGamesMap(games)
+  const knownKeys = new Set()
 
-  games.forEach((game) => {
-    const consoleName = String(game.console || '').trim()
-    if (!consoleName) {
-      return
-    }
-
-    counts.set(consoleName, (counts.get(consoleName) || 0) + 1)
-  })
-
-  const items = Array.from(counts.entries())
-    .map(([name, gamesCount]) => ({
-      id: name,
-      name,
-      title: name,
-      platform: name,
-      gamesCount,
-    }))
-    .sort((left, right) => left.name.localeCompare(right.name, 'fr', { sensitivity: 'base' }))
+  const items = catalog
+    .map((consoleItem) => {
+      const key = getConsoleCatalogKey(consoleItem)
+      knownKeys.add(key)
+      return buildConsoleListItem(consoleItem, gamesByConsole.get(key) || [])
+    })
+    .concat(
+      Array.from(gamesByConsole.entries())
+        .filter(([key]) => !knownKeys.has(key))
+        .map(([key, consoleGames]) => buildConsoleListItem({
+          id: key,
+          slug: key,
+          name: consoleGames[0]?.console || key,
+          title: consoleGames[0]?.console || key,
+          platform: consoleGames[0]?.console || key,
+          manufacturer: null,
+          releaseYear: null,
+          generation: null,
+          summary: null,
+          knowledgeEntry: null,
+          mediaType: null,
+        }, consoleGames))
+    )
+    .sort((left, right) => {
+      const byYear = Number(left.releaseYear || 9999) - Number(right.releaseYear || 9999)
+      if (byYear !== 0) return byYear
+      return String(left.name || '').localeCompare(String(right.name || ''), 'fr', { sensitivity: 'base' })
+    })
 
   res.json({
     ok: true,
     items,
     consoles: items,
     count: items.length,
+  })
+}))
+
+router.get('/api/consoles/:id', handleAsync(async (req, res) => {
+  const [catalog, games] = await Promise.all([
+    fetchPublishedConsoles(),
+    fetchAllSupabaseGames(),
+  ])
+  const consoleItem = findConsoleInCatalog(catalog, req.params.id)
+
+  if (!consoleItem) {
+    return res.status(404).json({ ok: false, error: 'Console not found' })
+  }
+
+  const gamesByConsole = buildConsoleGamesMap(games)
+  const consoleGames = await hydrateGameCovers(
+    (gamesByConsole.get(getConsoleCatalogKey(consoleItem)) || [])
+      .sort((left, right) => compareGamesForSort(left, right, 'year_asc'))
+  )
+  const market = buildConsoleMarketPayload(consoleGames)
+  const quality = buildConsoleQualityPayload(consoleItem, market)
+  const overview = buildConsoleOverviewPayload(consoleItem, market)
+
+  res.json({
+    ok: true,
+    console: {
+      id: consoleItem.id,
+      slug: consoleItem.slug || null,
+      name: consoleItem.name,
+      manufacturer: consoleItem.manufacturer || null,
+      releaseYear: consoleItem.releaseYear || null,
+      gamesCount: market.gamesCount,
+    },
+    overview,
+    market,
+    games: consoleGames.map((game) => ({
+      id: game.id,
+      title: game.title,
+      console: game.console,
+      year: game.year,
+      rarity: game.rarity || null,
+      coverImage: game.coverImage || game.cover_url || null,
+      cover_url: game.cover_url || null,
+      loosePrice: game.loosePrice ?? null,
+      cibPrice: game.cibPrice ?? null,
+      mintPrice: game.mintPrice ?? null,
+      developer: game.developer || null,
+      summary: game.summary || null,
+    })),
+    hardware: buildConsoleHardwarePayload(consoleItem),
+    quality,
+    sources: buildConsoleSourcesPayload(consoleItem, market),
+    relatedConsoles: buildRelatedConsolePayload(catalog, consoleItem),
+    notableGames: buildNotableGamesPayload(consoleItem, consoleGames),
   })
 }))
 
