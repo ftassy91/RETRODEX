@@ -1127,6 +1127,44 @@ function buildConsoleAliases(consoleItem) {
     consoleItem?.knowledgeEntry?.name,
   ]
 
+  const primaryName = normalizeConsoleKey(consoleItem?.name || consoleItem?.platform || consoleItem?.title)
+  if (primaryName === 'super-nintendo' || primaryName === 'snes') {
+    values.push('SNES', 'Super Nintendo', 'Super Nintendo Entertainment System')
+  }
+  if (primaryName === 'nes' || primaryName === 'nintendo-entertainment-system') {
+    values.push('NES', 'Nintendo Entertainment System', 'Famicom')
+  }
+  if (primaryName === 'sega-mega-drive' || primaryName === 'sega-genesis' || primaryName === 'mega-drive' || primaryName === 'genesis') {
+    values.push('Mega Drive', 'Sega Mega Drive', 'Genesis', 'Sega Genesis')
+  }
+  if (primaryName === 'playstation' || primaryName === 'ps1') {
+    values.push('PS1', 'PSX', 'Sony PlayStation')
+  }
+  if (primaryName === 'game-boy') {
+    values.push('GB')
+  }
+  if (primaryName === 'game-boy-advance') {
+    values.push('GBA')
+  }
+  if (primaryName === 'nintendo-64') {
+    values.push('N64')
+  }
+  if (primaryName === 'nintendo-ds') {
+    values.push('DS')
+  }
+  if (primaryName === 'turbografx-16') {
+    values.push('PC Engine')
+  }
+  if (primaryName === 'neo-geo') {
+    values.push('Neo Geo', 'Neo-Geo')
+  }
+  if (primaryName === 'dreamcast' || primaryName === 'sega-dreamcast') {
+    values.push('Dreamcast', 'Sega Dreamcast')
+  }
+  if (primaryName === 'sega-master-system') {
+    values.push('Master System')
+  }
+
   return Array.from(new Set(values.map((value) => normalizeConsoleKey(value)).filter(Boolean)))
 }
 
@@ -1138,12 +1176,22 @@ function getConsoleCatalogKey(consoleItem) {
   return normalizeConsoleKey(consoleItem?.name || consoleItem?.platform || consoleItem?.title || consoleItem?.id)
 }
 
-function buildConsoleGamesMap(games = []) {
+function buildConsoleGamesMap(games = [], catalog = []) {
   const map = new Map()
+  const aliasMap = new Map()
+
+  ;(catalog || []).forEach((consoleItem) => {
+    const key = getConsoleCatalogKey(consoleItem)
+    for (const alias of buildConsoleAliases(consoleItem)) {
+      if (!aliasMap.has(alias)) {
+        aliasMap.set(alias, key)
+      }
+    }
+  })
 
   games.forEach((game) => {
     const knowledgeEntry = getConsoleById(game.console)
-    const key = knowledgeEntry?.id || normalizeConsoleKey(game.console)
+    const key = knowledgeEntry?.id || aliasMap.get(normalizeConsoleKey(game.console)) || normalizeConsoleKey(game.console)
     if (!key) {
       return
     }
@@ -1424,7 +1472,7 @@ async function fetchGlobalConsoleResults(query, limit) {
     fetchAllSupabaseGames(),
     fetchPublishedGameScope(),
   ])
-  const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope))
+  const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope), catalog)
 
   return consoles
     .filter((consoleItem) => {
@@ -1737,7 +1785,7 @@ router.get('/api/consoles', handleAsync(async (_req, res) => {
     fetchAllSupabaseGames(),
     fetchPublishedGameScope(),
   ])
-  const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope))
+  const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope), catalog)
   const knownKeys = new Set()
 
   const items = catalog
@@ -1789,7 +1837,7 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: 'Console not found' })
   }
 
-  const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope))
+  const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope), consoles)
   const consoleGames = await hydrateGameCovers(
     (gamesByConsole.get(getConsoleCatalogKey(consoleItem)) || [])
       .sort((left, right) => compareGamesForSort(left, right, 'year_asc'))
