@@ -19,9 +19,13 @@ function normalizeConsoleKey(value) {
 
 function loadConsolesData() {
   if (!consolesCache) {
-    const raw = fs.readFileSync(CONSOLES_DATA_PATH, 'utf8');
-    const parsed = JSON.parse(raw);
-    consolesCache = Array.isArray(parsed) ? parsed : [];
+    try {
+      const raw = fs.readFileSync(CONSOLES_DATA_PATH, 'utf8');
+      const parsed = JSON.parse(raw);
+      consolesCache = Array.isArray(parsed) ? parsed : [];
+    } catch (_error) {
+      consolesCache = [];
+    }
   }
 
   return consolesCache;
