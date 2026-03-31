@@ -1,7 +1,7 @@
 'use strict'
 // DATA: Sequelize via ../database and ../models - not part of the canonical public runtime
 // ROLE: audit, divergence, and priority reports for manual back-office review
-// CONSUMERS: backend/src/routes/audit.js
+// CONSUMERS: backend/src/routes/admin/audit.js
 // STATUS: retained non-canonical service; split only in a dedicated audit/admin lot
 
 const fs = require('fs')
