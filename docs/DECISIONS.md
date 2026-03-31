@@ -88,8 +88,22 @@
 
 - Production runtime is still string-driven on `games.console` and `games.developer`.
 - `console_id` and `developer_id` are not the effective public runtime contract.
-- `editorial_status`, `media_status`, and `price_status` do not yet exist in production.
-- `youtube_id`, `youtube_verified`, `archive_id`, and `archive_verified` do not yet exist in production.
+- `youtube_id`, `youtube_verified`, `archive_id`, and `archive_verified` already exist in production.
+- `editorial_status`, `media_status`, and `price_status` already exist in production.
+- The historical `phase3-games-status-v1` backfill was executed in production on March 31, 2026 and remains the factual stored state.
+- The future `price_status v2` rule is approved in principle only:
+  - `pricecharting` becomes an estimate source
+  - `ebay` is the only real sale source
+  - threshold `N = 3`
+- Phase DB must not reopen for `price_status v2` until a real `ebay` ingestion exists in `price_history`.
+- Future `console` / `developer` work must stay additive until a dedicated parity and dual-read lot is approved.
+
+Reference documents:
+
+- [PHASE3_DB_READINESS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_DB_READINESS.md)
+- [PHASE3_BACKFILL_EXECUTION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_EXECUTION.md)
+- [CONSOLE_DEVELOPER_TRANSITION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CONSOLE_DEVELOPER_TRANSITION.md)
+- [LEGACY_AUDIT.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/LEGACY_AUDIT.md)
 
 ## JTASSY Deviations
 

@@ -161,3 +161,11 @@ Volumes observed in production during the Phase 1 audit.
 - Production remains string-driven on `games.console` and `games.developer`.
 - `console_id` and `developer_id` are not the effective runtime contract yet.
 - Editorial and provenance canonical tables already exist in production and are already read by the backend.
+- The historical Phase 3 v1 status backfill is already applied in production.
+- The future `price_status v2` rule stays suspended until real `ebay` ingestion exists in `price_history`.
+
+## Legacy and Transition References
+
+- Remaining flat routes, retained legacy services, and removal candidates are tracked in [LEGACY_AUDIT.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/LEGACY_AUDIT.md).
+- The additive future strategy for `console` and `developer` lives in [CONSOLE_DEVELOPER_TRANSITION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CONSOLE_DEVELOPER_TRANSITION.md).
+- The factual DB state for Phase 3 status work lives in [PHASE3_DB_READINESS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_DB_READINESS.md).
