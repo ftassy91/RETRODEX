@@ -15,12 +15,6 @@ const {
   fetchConsoleDetailPayload,
 } = require('../services/public-runtime-payload-service')
 const {
-  getHydratedGameByLookup,
-} = require('../services/game-read-service')
-const {
-  buildConsolePayload,
-} = require('../services/console-service')
-const {
   listLegacyConsoleAccessories,
   listLegacyAccessoryTypes,
   listLegacyAccessories,
@@ -31,6 +25,9 @@ const {
 const {
   createLegacyMarketReport,
 } = require('../services/legacy-market-report-service')
+const {
+  fetchLegacyMarketItem,
+} = require('../services/legacy-market-item-service')
 
 const router = Router()
 
@@ -150,36 +147,14 @@ router.get('/api/items', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/items/:id', handleAsync(async (req, res) => {
-  const lookup = String(req.params.id || '').trim()
-  const item = await getHydratedGameByLookup(lookup)
-
+  const item = await fetchLegacyMarketItem(req.params.id)
   if (!item) {
-    const consolePayload = await buildConsolePayload(lookup, { gamesLimit: 24 }).catch(() => null)
-    if (!consolePayload) {
-      return res.status(404).json({ ok: false, error: 'Not found' })
-    }
-
-    return res.json({
-      ok: true,
-      item: {
-        id: consolePayload.console.id,
-        title: consolePayload.console.name,
-        platform: consolePayload.console.name,
-        year: consolePayload.console.releaseYear,
-        genre: null,
-        rarity: null,
-        type: 'console',
-        slug: consolePayload.console.slug || null,
-        loosePrice: null,
-        cibPrice: null,
-        mintPrice: null,
-      },
-    })
+    return res.status(404).json({ ok: false, error: 'Not found' })
   }
 
   return res.json({
     ok: true,
-    item: toItemPayload(item),
+    item,
   })
 }))
 
