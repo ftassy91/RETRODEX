@@ -7,6 +7,9 @@ Historical note:
 - this decision summary was the final pre-apply decision sheet
 - the production backfill was executed successfully on March 31, 2026
 - see [PHASE3_BACKFILL_EXECUTION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_EXECUTION.md) for the executed result
+- a later preview-only review on March 31, 2026 approved a future `price_status v2` rule in principle
+- that future rule is suspended until the first `ebay` ingestion exists in `price_history`
+- no second production backfill is authorized yet
 
 ## Expected Volumes
 

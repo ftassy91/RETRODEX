@@ -10,6 +10,14 @@ const SYNTHETIC_PRICE_SOURCES = Object.freeze([
   'fixture',
 ])
 
+const FUTURE_PRICE_STATUS_RULE = Object.freeze({
+  version: 'phase3-price-status-v2-future',
+  activationGate: 'first-ebay-ingestion-in-price-history',
+  realSaleSources: Object.freeze(['ebay']),
+  estimateSources: Object.freeze(['pricecharting']),
+  minimumRealSales: 3,
+})
+
 const EDITORIAL_PRIMARY_FIELDS = Object.freeze([
   'summary',
   'synopsis',
@@ -388,12 +396,26 @@ function buildRulesDocFragment() {
     syntheticSourcesList,
     '',
     '- `pricecharting` is treated as `real`',
+    '',
+    '## Future `price_status` v2 Rule',
+    '',
+    `Future rule version: \`${FUTURE_PRICE_STATUS_RULE.version}\``,
+    '',
+    '- approved in principle, but not active in generated SQL or production backfill',
+    `- activation gate: \`${FUTURE_PRICE_STATUS_RULE.activationGate}\``,
+    `- only \`${FUTURE_PRICE_STATUS_RULE.realSaleSources.join('`, `')}\` counts as a real observed sale source`,
+    `- \`${FUTURE_PRICE_STATUS_RULE.estimateSources.join('`, `')}\` is treated as an estimate source, not a real sale source`,
+    `- \`real\` if at least \`${FUTURE_PRICE_STATUS_RULE.minimumRealSales}\` real sale rows exist in \`price_history\``,
+    `- \`synthetic\` if \`price_history\` rows exist but fewer than \`${FUTURE_PRICE_STATUS_RULE.minimumRealSales}\` real sale rows exist`,
+    '- `empty` if no `price_history` rows exist',
+    '- no production backfill is authorized for this future rule until the activation gate is met',
   ].join('\n')
 }
 
 module.exports = {
   RULES_VERSION,
   SYNTHETIC_PRICE_SOURCES,
+  FUTURE_PRICE_STATUS_RULE,
   EDITORIAL_PRIMARY_FIELDS,
   EDITORIAL_ADDITIONAL_FIELDS,
   MEDIA_COMPLETE_TYPES,
