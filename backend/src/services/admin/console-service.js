@@ -1,13 +1,13 @@
 'use strict'
-// DATA: Sequelize via ../models and legacy game-read helpers - not part of the canonical public runtime
+// DATA: Sequelize via ../../models and legacy game-read helpers - not part of the canonical public runtime
 // ROLE: legacy/back-office console payloads and related item listings
 // CONSUMERS: curation-service and enrichment-backlog-service
 // STATUS: retained non-canonical service; keep until console legacy/admin scope is reviewed separately
 
 const { Op } = require('sequelize')
 
-const Console = require('../models/Console')
-const { getConsoleById, getRelatedConsoles, normalizeConsoleKey } = require('../lib/consoles')
+const Console = require('../../models/Console')
+const { getConsoleById, getRelatedConsoles, normalizeConsoleKey } = require('../../lib/consoles')
 const {
   listHydratedGames,
   listHydratedGamesByConsole,

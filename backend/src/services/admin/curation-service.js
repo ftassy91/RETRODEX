@@ -1,5 +1,5 @@
 'use strict'
-// DATA: Sequelize via ../database and ../models - not part of the canonical public runtime
+// DATA: Sequelize via ../../database and ../../models - not part of the canonical public runtime
 // ROLE: enrichment and curation heuristics for back-office selection workflows
 // CONSUMERS: enrichment-backlog-service and dedicated curation tests
 // STATUS: retained non-canonical service; split only inside a dedicated enrichment lot
@@ -10,11 +10,11 @@ const path = require('path')
 
 const { QueryTypes } = require('sequelize')
 
-const { sequelize } = require('../database')
-const Game = require('../models/Game')
+const { sequelize } = require('../../database')
+const Game = require('../../models/Game')
 const { listConsoleItems } = require('./console-service')
 const { listHydratedGames, getSelectableGameAttributes } = require('./game-read-service')
-const { tableExists } = require('./publication-service')
+const { tableExists } = require('../publication-service')
 
 const AUDIT_OUTPUT_DIR = path.resolve(__dirname, '../../../data/audit')
 

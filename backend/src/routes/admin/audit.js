@@ -11,7 +11,7 @@ const {
   getMarketAudit,
   getLegacyCanonicalDivergenceReport,
   getPriorityQueue,
-} = require('../../services/audit-service')
+} = require('../../services/admin/audit-service')
 
 const router = Router()
 

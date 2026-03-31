@@ -24,11 +24,11 @@ This audit is intentionally narrow:
 
 | File | Role | Active consumer | Status | Next step |
 | --- | --- | --- | --- | --- |
-| [backend/src/services/audit-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/audit-service.js) | audit, divergence, and priority reports over Sequelize/local runtime | [backend/src/routes/admin/audit.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin/audit.js) | `keep_non_canonical` | keep stable; split only in a dedicated audit/admin lot |
-| [backend/src/services/game-read-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/game-read-service.js) | shared legacy hydrated game read model | `audit-service`, `console-service`, `curation-service` | `keep_non_canonical` | retain as shared legacy read model until a dedicated convergence lot exists |
-| [backend/src/services/console-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/console-service.js) | legacy/back-office console payload builder | `curation-service`, `enrichment-backlog-service` | `keep_non_canonical` | retain until console legacy/admin scope is reviewed separately |
-| [backend/src/services/curation-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/curation-service.js) | enrichment and curation heuristics | `enrichment-backlog-service`, tests | `keep_non_canonical` | retain and split only inside a dedicated enrichment lot |
-| [backend/src/services/enrichment-backlog-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/enrichment-backlog-service.js) | prioritization and backlog planning for enrichment | tests and manual enrichment workflows | `keep_non_canonical` | retain until enrichment admin workflows are redesigned |
+| [backend/src/services/admin/audit-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/audit-service.js) | audit, divergence, and priority reports over Sequelize/local runtime | [backend/src/routes/admin/audit.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin/audit.js) | `keep_non_canonical` | keep stable; split only in a dedicated audit/admin lot |
+| [backend/src/services/admin/game-read-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/game-read-service.js) | shared legacy hydrated game read model | `audit-service`, `console-service`, `curation-service` | `keep_non_canonical` | retain as shared legacy read model until a dedicated convergence lot exists |
+| [backend/src/services/admin/console-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/console-service.js) | legacy/back-office console payload builder | `curation-service`, `enrichment-backlog-service` | `keep_non_canonical` | retain until console legacy/admin scope is reviewed separately |
+| [backend/src/services/admin/curation-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/curation-service.js) | enrichment and curation heuristics | `enrichment-backlog-service`, tests | `keep_non_canonical` | retain and split only inside a dedicated enrichment lot |
+| [backend/src/services/admin/enrichment-backlog-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment-backlog-service.js) | prioritization and backlog planning for enrichment | tests and manual enrichment workflows | `keep_non_canonical` | retain until enrichment admin workflows are redesigned |
 
 ## Explicit Admin / Back-Office Tree
 
@@ -38,6 +38,8 @@ These files now carry the real admin/back-office route logic, but remain unmount
 - [backend/src/routes/admin/audit.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin/audit.js)
 - [backend/src/routes/admin/games.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin/games.js)
 - [backend/src/routes/admin/sync.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin/sync.js)
+
+The associated retained admin/back-office services now live under [backend/src/services/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin).
 
 ## Immediate Conclusions
 

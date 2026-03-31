@@ -5,11 +5,11 @@ const { sequelize } = require('../src/database')
 const { runMigrations } = require('../src/services/migration-runner')
 const {
   PASS1_KEY,
-} = require('../src/services/curation-service')
+} = require('../src/services/admin/curation-service')
 const {
   buildPass1EnrichmentBacklogReport,
   writePass1EnrichmentBacklogReport,
-} = require('../src/services/enrichment-backlog-service')
+} = require('../src/services/admin/enrichment-backlog-service')
 
 function parseNumberFlag(name, fallback) {
   const prefix = `--${name}=`

@@ -3,7 +3,7 @@
 const {
   computeBacklogScore,
   selectBacklogTargets,
-} = require('../src/services/enrichment-backlog-service')
+} = require('../src/services/admin/enrichment-backlog-service')
 
 describe('enrichment-backlog-service', () => {
   test('published curated entries score above equivalent locked entries', () => {

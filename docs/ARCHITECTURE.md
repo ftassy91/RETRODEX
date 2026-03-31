@@ -72,6 +72,7 @@ State consolidated on March 31, 2026.
 The old flat public route wrappers were removed after the canonical domain tree became the only mounted runtime surface.
 
 Explicit admin/back-office routes continue to exist under [backend/src/routes/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin), but they are not mounted by default in the public runtime.
+The retained non-canonical admin/back-office service layer now lives under [backend/src/services/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin).
 
 ### Canonical Services
 

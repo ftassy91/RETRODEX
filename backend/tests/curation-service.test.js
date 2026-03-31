@@ -4,7 +4,7 @@ const {
   buildHeuristicContentProfile,
   buildValidationSummary,
   computeSelectionScore,
-} = require('../src/services/curation-service')
+} = require('../src/services/admin/curation-service')
 
 describe('curation-service', () => {
   test('marks narrative RPG domains as relevant when source signals exist', () => {

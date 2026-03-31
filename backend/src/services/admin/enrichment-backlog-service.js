@@ -1,5 +1,5 @@
 'use strict'
-// DATA: Sequelize via ../database and non-canonical services - not part of the canonical public runtime
+// DATA: Sequelize via ../../database and non-canonical services - not part of the canonical public runtime
 // ROLE: prioritization and backlog generation for enrichment planning
 // CONSUMERS: dedicated enrichment tests and manual back-office workflows
 // STATUS: retained non-canonical service; redesign only in a dedicated enrichment/admin lot
@@ -9,9 +9,9 @@ const path = require('path')
 
 const { QueryTypes } = require('sequelize')
 
-const { sequelize } = require('../database')
+const { sequelize } = require('../../database')
 const { listConsoleItems } = require('./console-service')
-const { tableExists } = require('./publication-service')
+const { tableExists } = require('../publication-service')
 const { PASS1_KEY } = require('./curation-service')
 
 const AUDIT_OUTPUT_DIR = path.resolve(__dirname, '../../../data/audit')

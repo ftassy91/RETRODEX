@@ -1,5 +1,5 @@
 'use strict'
-// DATA: Sequelize via ../database and ../models - not part of the canonical public runtime
+// DATA: Sequelize via ../../database and ../../models - not part of the canonical public runtime
 // ROLE: audit, divergence, and priority reports for manual back-office review
 // CONSUMERS: backend/src/routes/admin/audit.js
 // STATUS: retained non-canonical service; split only in a dedicated audit/admin lot
@@ -9,17 +9,17 @@ const path = require('path')
 
 const { QueryTypes } = require('sequelize')
 
-const { sequelize } = require('../database')
-const Game = require('../models/Game')
-const Console = require('../models/Console')
-const { getConsoleById } = require('../lib/consoles')
-const { getSourcePolicy } = require('../config/source-policy')
+const { sequelize } = require('../../database')
+const Game = require('../../models/Game')
+const Console = require('../../models/Console')
+const { getConsoleById } = require('../../lib/consoles')
+const { getSourcePolicy } = require('../../config/source-policy')
 const { getSelectableGameAttributes } = require('./game-read-service')
 const {
   freshnessScoreFromDate,
   scoreGameEntity,
   scoreConsoleEntity,
-} = require('./quality-scoring')
+} = require('../quality-scoring')
 
 const AUDIT_OUTPUT_DIR = path.resolve(__dirname, '../../../data/audit')
 

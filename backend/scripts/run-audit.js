@@ -2,7 +2,7 @@
 
 const { sequelize } = require('../src/database')
 const { runMigrations } = require('../src/services/migration-runner')
-const { writeAuditReports } = require('../src/services/audit-service')
+const { writeAuditReports } = require('../src/services/admin/audit-service')
 
 async function main() {
   await runMigrations(sequelize)

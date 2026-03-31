@@ -8,7 +8,7 @@ const {
   buildPass1CurationDataset,
   persistPass1Curation,
   writePass1Reports,
-} = require('../src/services/curation-service')
+} = require('../src/services/admin/curation-service')
 
 const APPLY = process.argv.includes('--apply')
 
