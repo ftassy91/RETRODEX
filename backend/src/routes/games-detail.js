@@ -1,5 +1,10 @@
 'use strict'
 
+// LEGACY: this Sequelize-backed detail route tree is not mounted by default in the
+// canonical Supabase runtime. The active public detail flow is served by
+// `serverless.js` via `public-game-reader` and related Supabase readers.
+// Do not add new product logic here during the canonical convergence.
+
 const { Router } = require('express')
 const { QueryTypes } = require('sequelize')
 require('../models/associations')
@@ -7,12 +12,6 @@ const Franchise = require('../models/Franchise')
 const CommunityReport = require('../../models/CommunityReport')
 const RetrodexIndex = require('../../models/RetrodexIndex')
 const { sequelize } = require('../database')
-
-process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL
-process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
-  || process.env.SUPABASE_SERVICE_ROLE_KEY
-  || process.env.SUPERDATA_SERVICE_KEY
-process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
 
 const { handleAsync } = require('../helpers/query')
 const { buildPriceHistoryPayload } = require('../helpers/priceHistory')
