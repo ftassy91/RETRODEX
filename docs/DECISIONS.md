@@ -26,7 +26,7 @@
 - Active public routes no longer read the DB directly.
 - Runtime normalization goes through [normalize.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/lib/normalize.js).
 - `db_supabase.js` is the runtime source of truth for active public reads.
-- Flat historical files [serverless.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/serverless.js), [contextual-search.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/contextual-search.js), [prices.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/prices.js), and [collection.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/collection.js) are now compatibility wrappers only.
+- The old flat public wrappers `serverless.js`, `contextual-search.js`, `prices.js`, and `collection.js` were removed after verification that the canonical domain tree is the only mounted public runtime.
 - `src/config` now exposes both [env.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/env.js) and [database.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/database.js).
 
 ## Phase 0 Discoveries and Final Placement
@@ -57,8 +57,8 @@
 
 ## Refactor Decisions Validated
 
-- `serverless.js` was reduced, then converted into a compatibility wrapper over canonical domain routes.
-- `contextual-search.js` and `prices.js` were reduced, then converted into compatibility wrappers.
+- `serverless.js` was reduced, then removed once the canonical domain route tree became the only mounted public runtime.
+- `contextual-search.js`, `prices.js`, and `collection.js` were reduced, then removed once no tracked code consumer remained.
 - Phase 5 migrated the remaining frontend consumers away from the flat legacy market endpoints.
 - `legacy-market.js` has been removed after migration of:
   - `backend/public/js/pages/accessories.js`

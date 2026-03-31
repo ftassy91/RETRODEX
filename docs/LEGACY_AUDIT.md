@@ -20,10 +20,6 @@ This audit is intentionally narrow:
 
 | File | Role | Active consumer or mount | Status | Next step |
 | --- | --- | --- | --- | --- |
-| [backend/src/routes/serverless.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/serverless.js) | Compatibility wrapper over canonical domain routers | historical import surface only; not mounted by [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js) | `keep_wrapper` | keep until a dedicated compatibility-removal lot proves no external dependency remains |
-| [backend/src/routes/contextual-search.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/contextual-search.js) | Compatibility wrapper over canonical search routers | historical import surface only | `keep_wrapper` | keep until wrapper-removal lot |
-| [backend/src/routes/collection.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/collection.js) | Compatibility wrapper over canonical collection routers | historical import surface only | `keep_wrapper` | keep until wrapper-removal lot |
-| [backend/src/routes/prices.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/prices.js) | Compatibility wrapper over canonical prices router | historical import surface only | `keep_wrapper` | keep until wrapper-removal lot |
 | [backend/src/routes/audit.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/audit.js) | compatibility wrapper over the explicit admin/back-office audit route | historical import surface only; no default mount in [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js) | `keep_wrapper` | keep until a dedicated compatibility-removal lot proves no external dependency remains |
 | [backend/src/routes/sync.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/sync.js) | compatibility wrapper over the explicit admin/back-office sync route | historical import surface only; no default mount in [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js) | `keep_wrapper` | keep until a dedicated compatibility-removal lot proves no external dependency remains |
 | [backend/src/routes/games-admin.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games-admin.js) | compatibility wrapper over the explicit admin/back-office games route | historical import surface only; no default mount in [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js) | `keep_wrapper` | keep until a dedicated compatibility-removal lot proves no external dependency remains |
@@ -64,6 +60,10 @@ These files now carry the real admin/back-office route logic, but remain unmount
 - [backend/src/routes/consoles.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/consoles.js) was removed on March 31, 2026 after confirming that:
   - it was not mounted by [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js)
   - `/api/consoles*` is already served canonically by [backend/src/routes/market/catalog.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/market/catalog.js)
+  - smoke stayed green after deletion
+- [backend/src/routes/serverless.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/serverless.js), [backend/src/routes/contextual-search.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/contextual-search.js), [backend/src/routes/collection.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/collection.js), and [backend/src/routes/prices.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/prices.js) were removed on March 31, 2026 after confirming that:
+  - the public runtime is mounted only through [backend/src/routes/index.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/index.js)
+  - no tracked code consumer remained for those flat wrappers
   - smoke stayed green after deletion
 - [backend/src/routes/franchises.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/franchises.js) was removed on March 31, 2026 after confirming that:
   - it was not mounted by [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js)

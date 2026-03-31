@@ -67,14 +67,11 @@ State consolidated on March 31, 2026.
 - [backend/src/routes/prices](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/prices)
 - [backend/src/routes/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin)
 
-### Compatibility Wrappers
+### Compatibility Status
 
-These files remain only to preserve existing imports or older mount points:
+The old flat public route wrappers were removed after the canonical domain tree became the only mounted runtime surface.
 
-- [serverless.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/serverless.js)
-- [contextual-search.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/contextual-search.js)
-- [prices.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/prices.js)
-- [collection.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/collection.js)
+Explicit admin/back-office routes continue to exist under [backend/src/routes/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin), but they are not mounted by default in the public runtime.
 
 ### Canonical Services
 
