@@ -1,11 +1,10 @@
 'use strict'
 // SYNC: B1 - migre le 2026-03-23 - fallback Supabase et recherche par annee alignes avec les tests
-// Decision source : SYNC.md Â§ B1
+// Decision source : SYNC.md § B1
 // SYNC: A3 - migre le 2026-03-23 - recherche lue via Supabase
-// Décision source : SYNC.md § A3
+// Decision source : SYNC.md § A3
 
 const { Router } = require('express')
-const CommunityReport = require('../../models/CommunityReport')
 const { fetchPublishedGameScope } = require('../services/public-publication-service')
 const { handleAsync } = require('../helpers/query')
 const { searchCatalog } = require('../services/public-search-service')
@@ -29,6 +28,9 @@ const {
 const {
   fetchLegacyMarketIndex,
 } = require('../services/legacy-market-index-service')
+const {
+  createLegacyMarketReport,
+} = require('../services/legacy-market-report-service')
 
 const router = Router()
 
@@ -79,7 +81,7 @@ function toConsolePayload(game, gamesCount = 0) {
 }
 
 // SYNC: A5 - migre le 2026-03-23 - route /api/stats lue via Supabase
-// Décision source : SYNC.md § A5
+// Decision source : SYNC.md § A5
 router.get('/api/stats', handleAsync(async (_req, res) => {
   res.json(await fetchStatsPayload())
 }))
@@ -255,57 +257,21 @@ router.get('/api/index/:id', handleAsync(async (req, res) => {
 }))
 
 router.post('/api/reports', handleAsync(async (req, res) => {
-  const { item_id, condition, reported_price, context, date_estimated, text_raw } = req.body || {}
-  const normalizedItemId = String(item_id || '').trim()
-  const allowedConditions = ['Loose', 'CIB', 'Mint']
-  const normalizedPrice = Number(reported_price)
-  const normalizedDate = date_estimated == null || date_estimated === '' ? null : String(date_estimated).trim()
-
-  if (!normalizedItemId) {
-    return res.status(400).json({
-      ok: false,
-      error: 'item_id requis',
+  try {
+    return res.json({
+      ok: true,
+      ...(await createLegacyMarketReport(req.body || {})),
     })
+  } catch (error) {
+    if (error?.statusCode) {
+      return res.status(error.statusCode).json({
+        ok: false,
+        error: error.message,
+      })
+    }
+
+    throw error
   }
-
-  if (!allowedConditions.includes(condition)) {
-    return res.status(400).json({
-      ok: false,
-      error: 'condition invalide: Loose, CIB ou Mint attendu',
-    })
-  }
-
-  if (!Number.isFinite(normalizedPrice) || normalizedPrice <= 0) {
-    return res.status(400).json({
-      ok: false,
-      error: 'reported_price doit être supérieur à 0',
-    })
-  }
-
-  if (normalizedDate && !/^\d{4}-\d{2}-\d{2}$/.test(normalizedDate)) {
-    return res.status(400).json({
-      ok: false,
-      error: 'date_estimated doit être au format YYYY-MM-DD ou null',
-    })
-  }
-
-  const newReport = await CommunityReport.create({
-    item_id: normalizedItemId,
-    condition,
-    reported_price: normalizedPrice,
-    context: context || 'autre',
-    date_estimated: normalizedDate,
-    sale_title: text_raw || null,
-    user_id: 'anonymous',
-    user_trust_score: 0.40,
-    is_editorial: false,
-    report_confidence_score: 0.50,
-  })
-
-  return res.json({
-    ok: true,
-    id: newReport.id,
-  })
 }))
 
 module.exports = router
