@@ -2,6 +2,12 @@
 
 State prepared on March 31, 2026.
 
+Historical note:
+
+- this decision summary was the final pre-apply decision sheet
+- the production backfill was executed successfully on March 31, 2026
+- see [PHASE3_BACKFILL_EXECUTION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_EXECUTION.md) for the executed result
+
 ## Expected Volumes
 
 - `totalGamesAudited = 1517`

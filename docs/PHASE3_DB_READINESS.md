@@ -14,7 +14,7 @@ Production `information_schema.columns` confirms that `public.games` already con
 - `media_status` (`text`, default `'empty'`)
 - `price_status` (`text`, default `'empty'`)
 
-Phase 3 is therefore not a DDL phase for these fields. The DDL is already applied in production. The remaining work is the canonical backfill of the three status columns.
+Phase 3 was therefore not a DDL phase for these fields. The DDL was already applied in production. The canonical backfill of the three status columns has now also been executed in production.
 
 ## Dry Run `sync-supabase-ui-fields.js`
 
@@ -59,17 +59,18 @@ Dry-run audit script:
 
 - [audit-games-status-columns.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/audit-games-status-columns.js)
 - human approval dossier: [PHASE3_BACKFILL_APPROVAL.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_APPROVAL.md)
+- execution report: [PHASE3_BACKFILL_EXECUTION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_EXECUTION.md)
 
 Rules:
 
 - preview SQL is generated, never hand-edited
 - apply SQL is generated, never hand-edited
 - the audit script validates generated SQL against the canonical rules module
-- no production `UPDATE` is authorized without explicit human validation
+- the production `UPDATE` was executed on March 31, 2026 after explicit human validation
 
 ## Current Audit Snapshot
 
-Dry-run audit on March 31, 2026:
+Post-apply audit on March 31, 2026:
 
 - `totalGamesAudited = 1517`
 - `missingDerivedCount = 0`
@@ -81,18 +82,18 @@ Derived counts:
 - `media_status`: `complete = 4`, `partial = 1396`, `empty = 117`
 - `price_status`: `real = 1517`, `synthetic = 0`, `empty = 0`
 
-Stored counts before backfill:
+Stored counts after backfill:
 
-- `editorial_status`: `empty = 1517`
-- `media_status`: `empty = 1517`
-- `price_status`: `empty = 1517`
+- `editorial_status`: `complete = 537`, `partial = 907`, `empty = 73`
+- `media_status`: `complete = 4`, `partial = 1396`, `empty = 117`
+- `price_status`: `real = 1517`, `synthetic = 0`, `empty = 0`
 
-Divergences:
+Divergences after backfill:
 
-- `editorial_status = 1444`
-- `media_status = 1400`
-- `price_status = 1517`
-- `any_status = 1517`
+- `editorial_status = 0`
+- `media_status = 0`
+- `price_status = 0`
+- `any_status = 0`
 
 ## Canonical Status Rules
 
@@ -167,9 +168,8 @@ Compatibility-first sequence:
 
 ## Phase 3 Gate
 
-Phase 3 can continue in audit/backfill-preparation mode only.
+Phase 3 is complete for the status backfill work.
 
-Still blocked on explicit human validation:
+Still separate and not covered by this execution:
 
-- executing [20260331_010_games_status_backfill_apply.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql) in production
-- any schema or FK transition for `console` or `developer`
+- any future schema or FK transition for `console` or `developer`

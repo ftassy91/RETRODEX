@@ -2,6 +2,12 @@
 
 State prepared on March 31, 2026.
 
+Historical note:
+
+- this approval dossier was used for the human decision before production execution
+- the production backfill was executed successfully on March 31, 2026
+- see [PHASE3_BACKFILL_EXECUTION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_EXECUTION.md) for the executed result
+
 This document is the human validation dossier for the production apply step of the `games` status backfill.
 
 It does **not** authorize execution by itself.
