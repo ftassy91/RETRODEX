@@ -41,6 +41,8 @@ These files now carry the real admin/back-office route logic, but remain unmount
 
 The associated retained admin/back-office services now live under [backend/src/services/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin).
 
+Their detailed classification and overlap analysis now live in [ADMIN_SERVICES_AUDIT.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ADMIN_SERVICES_AUDIT.md).
+
 ## Immediate Conclusions
 
 - The active public runtime is no longer the risky part of the codebase.
