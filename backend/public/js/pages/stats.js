@@ -556,11 +556,10 @@ async function searchGames(query, { autoSelectFirst = false } = {}) {
 async function selectGame(gameId) {
   const token = ++selectionToken
 
-  const [gameResult, summaryResult, salesResult, listingsResult] = await Promise.allSettled([
+  const [gameResult, summaryResult, salesResult] = await Promise.allSettled([
     fetchJson(`/api/games/${encodeURIComponent(gameId)}`),
     fetchJson(`/api/prices/${encodeURIComponent(gameId)}/summary?months=24`),
     fetchJson(`/api/prices/${encodeURIComponent(gameId)}?limit=24`),
-    fetchJson(`/marketplace?status=active&gameId=${encodeURIComponent(gameId)}&limit=12`),
   ])
 
   if (token !== selectionToken) {
@@ -585,9 +584,7 @@ async function selectGame(gameId) {
   state.currentSales = salesResult.status === 'fulfilled'
     ? (salesResult.value.sales || [])
     : []
-  state.currentListings = listingsResult.status === 'fulfilled'
-    ? (Array.isArray(listingsResult.value) ? listingsResult.value : listingsResult.value.listings || [])
-    : []
+  state.currentListings = []
   state.compareQuery = ''
   state.compareResults = []
   state.compareGame = null
