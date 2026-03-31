@@ -1,7 +1,7 @@
 'use strict'
 // DATA: Sequelize via ../database and ../models - not part of the canonical public runtime
 // ROLE: shared legacy hydrated game read model for audit, console, and curation workflows
-// CONSUMERS: audit-service, console-service, curation-service, flat legacy franchises route
+// CONSUMERS: audit-service, console-service, and curation-service
 // STATUS: retained non-canonical shared read service; keep stable until a dedicated convergence lot exists
 
 const { Op, QueryTypes } = require('sequelize')
