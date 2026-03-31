@@ -1,86 +1,92 @@
 # RetroDex Decisions
 
-## Références
+## References
 
-- Baseline JTASSY : `70eb99f64449ac6c2daa27f18b63597078ee13b5`
-- Date de consolidation Phase 0 / Phase 2 : 31 mars 2026
+- JTASSY baseline: `70eb99f64449ac6c2daa27f18b63597078ee13b5`
+- Phase 0 / Phase 2 consolidation date: March 31, 2026
 
-## Décisions JTASSY conservées
+## JTASSY Decisions Kept
 
-- Le pipeline `backend/enrich-database/` reste le baseline d'enrichissement Sprint 7.
-- La fiche jeu conserve les trois Knowledge Domains et le bloc Production comme point de départ valide.
-- La migration `8896316` et les décisions produit déjà livrées ne sont pas renversées dans cette passe.
+- `backend/enrich-database/` remains the Sprint 7 enrichment baseline.
+- The game detail page keeps the three Knowledge Domains and the Production block as valid starting points.
+- Migration `8896316` and already shipped product decisions are not reverted in this pass.
 
-## Décisions d'architecture validées
+## Validated Architecture Decisions
 
-- Runtime public actif :
-  - prod et local utilisent le même plan de routes publiques actives
-  - [contextual-search.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/contextual-search.js)
-  - [serverless.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/serverless.js)
-  - [prices.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/prices.js)
-- Les routes publiques actives ne lisent plus directement la DB.
-- La normalisation runtime passe par [normalize.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/lib/normalize.js).
-- `db_supabase.js` est la référence des lectures runtime actives.
-- Les routes legacy encore présentes ne sont pas la source de vérité du runtime public.
+- Production and local now use the same public route topology.
+- The canonical active route tree is materialized under:
+  - [backend/src/routes/games](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games)
+  - [backend/src/routes/search](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/search)
+  - [backend/src/routes/collection](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/collection)
+  - [backend/src/routes/market](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/market)
+  - [backend/src/routes/franchises](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/franchises)
+  - [backend/src/routes/prices](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/prices)
+  - [backend/src/routes/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin)
+- The active runtime is mounted through [index.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/index.js).
+- Active public routes no longer read the DB directly.
+- Runtime normalization goes through [normalize.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/lib/normalize.js).
+- `db_supabase.js` is the runtime source of truth for active public reads.
+- Flat historical files [serverless.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/serverless.js), [contextual-search.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/contextual-search.js), [prices.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/prices.js), and [collection.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/collection.js) are now compatibility wrappers only.
+- `src/config` now exposes both [env.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/env.js) and [database.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/database.js).
 
-## Découvertes Phase 0 et décision finale
+## Phase 0 Discoveries and Final Placement
 
 ### `collection-service.js`
 
-- Fichier : [backend/src/_quarantine/collection-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/_quarantine/collection-service.js)
-- Décision : `quarantine`
-- Raison : pousse un runtime `Sequelize + services` incompatible avec la cible prod `db_supabase.js`
+- File: [backend/src/_quarantine/collection-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/_quarantine/collection-service.js)
+- Decision: `quarantine`
+- Reason: pushes a `Sequelize + services` runtime incompatible with the confirmed production target
 
 ### `20260331_007_collection_runtime_canonical.js`
 
-- Fichier : [backend/migrations/_pending_review/20260331_007_collection_runtime_canonical.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_007_collection_runtime_canonical.js)
-- Décision : `pending_review`
-- Raison : migration collection multi-user non validée pour la prod
+- File: [backend/migrations/_pending_review/20260331_007_collection_runtime_canonical.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_007_collection_runtime_canonical.js)
+- Decision: `pending_review`
+- Reason: collection multi-user migration not validated for production
 
 ### `runtime-db-architecture.md`
 
-- Fichier : [docs/_superseded/runtime-db-architecture.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/_superseded/runtime-db-architecture.md)
-- Décision : `superseded`
-- Raison : document incompatible avec la cible canonique `db_supabase.js` en prod
+- File: [docs/_superseded/runtime-db-architecture.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/_superseded/runtime-db-architecture.md)
+- Decision: `superseded`
+- Reason: incompatible with the confirmed `db_supabase.js` production target
 
 ### `runtime-db-context.js`
 
-- Fichier : [backend/src/_quarantine/runtime-db-context.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/_quarantine/runtime-db-context.js)
-- Décision : `quarantine`
-- Raison : responsabilité absorbée par [env.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/env.js), conservé seulement pour garder la quarantaine collection autoportée
+- File: [backend/src/_quarantine/runtime-db-context.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/_quarantine/runtime-db-context.js)
+- Decision: `quarantine`
+- Reason: its environment-resolution responsibility is now absorbed by [env.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/env.js)
 
-## Décisions de refactor validées
+## Refactor Decisions Validated
 
-- `serverless.js` a été réduit à un routeur d'orchestration.
-- `contextual-search.js` et `prices.js` ont été vidés de leurs lectures DB directes.
-- `market.js` n'est plus monté par défaut et a été ramené à un routeur legacy mince.
-- Les endpoints de `market.js` sont maintenant classés :
-  - converged :
+- `serverless.js` was reduced, then converted into a compatibility wrapper over canonical domain routes.
+- `contextual-search.js` and `prices.js` were reduced, then converted into compatibility wrappers.
+- `market.js` is not mounted by default and is now an explicitly isolated legacy route.
+- `market.js` endpoints are classified as:
+  - converged:
     - `/api/stats`
     - `/api/search`
     - `/api/items`
     - `/api/consoles`
     - `/api/consoles/:id`
-  - legacy isolated :
+  - legacy isolated:
     - `/api/items/:id`
     - `/api/accessories/types`
     - `/api/accessories`
     - `/api/index/:id`
     - `/api/reports`
 
-## Contraintes DB toujours actives
+## DB Constraints Still Active
 
-- Le runtime prod reste string-driven sur `games.console` et `games.developer`.
-- `console_id` et `developer_id` ne sont pas le contrat runtime effectif actuel.
-- Les colonnes `editorial_status`, `media_status`, `price_status` ne sont pas encore en prod.
-- Les colonnes `youtube_id`, `youtube_verified`, `archive_id`, `archive_verified` ne sont pas encore en prod.
+- Production runtime is still string-driven on `games.console` and `games.developer`.
+- `console_id` and `developer_id` are not the effective public runtime contract.
+- `editorial_status`, `media_status`, and `price_status` do not yet exist in production.
+- `youtube_id`, `youtube_verified`, `archive_id`, and `archive_verified` do not yet exist in production.
 
-## Déviations JTASSY approuvées
+## JTASSY Deviations
 
-Aucune déviation JTASSY formelle supplémentaire n'a été approuvée dans cette passe.
+No additional formal JTASSY deviation was approved in this pass.
 
-Les changements réalisés ont été traités comme :
+Changes made here are treated as:
 
-- convergence du runtime actif
-- isolement explicite du legacy
-- documentation et rangement des découvertes non tracées
+- convergence of the active runtime
+- explicit isolation of legacy surfaces
+- documented placement of previously untracked or contradictory artifacts
