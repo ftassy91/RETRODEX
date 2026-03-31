@@ -1,4 +1,5 @@
 'use strict'
+// DATA: legacy Sequelize path - not mounted by default in the canonical Supabase runtime
 
 // LEGACY: this wrapper mounts the old Sequelize-backed games routes, but the
 // canonical public runtime no longer mounts it by default. Keep for migration

@@ -1,4 +1,5 @@
 'use strict'
+// DATA: no direct DB access in this file - delegates to mixed canonical and legacy-isolated market routes
 
 const { Router } = require('express')
 

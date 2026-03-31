@@ -1,4 +1,5 @@
 'use strict'
+// DATA: legacy Sequelize path - not mounted by default in the canonical Supabase runtime
 
 const { Router } = require('express')
 const Game = require('../models/Game')
@@ -7,12 +8,6 @@ const Company = require('../models/Company')
 const Genre = require('../models/Genre')
 const Region = require('../models/Region')
 require('../models/associations')
-
-process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL
-process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
-  || process.env.SUPABASE_SERVICE_ROLE_KEY
-  || process.env.SUPERDATA_SERVICE_KEY
-process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
 
 const { handleAsync, parseLimit } = require('../helpers/query')
 const {

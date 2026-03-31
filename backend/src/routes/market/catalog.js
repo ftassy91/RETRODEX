@@ -1,4 +1,5 @@
 'use strict'
+// DATA: supabase via Supabase-only services and legacy-isolated helpers - Sequelize non utilise dans ce fichier
 
 const { Router } = require('express')
 

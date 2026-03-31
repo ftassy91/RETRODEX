@@ -1,4 +1,5 @@
 'use strict'
+// DATA: legacy Sequelize path - not mounted by default in the canonical Supabase runtime
 
 // LEGACY: this Sequelize-backed detail route tree is not mounted by default in the
 // canonical Supabase runtime. The active public detail flow is served by

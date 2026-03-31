@@ -1,4 +1,5 @@
 'use strict'
+// DATA: legacy isolated route tree - not mounted by default in the canonical Supabase runtime
 // SYNC: B1 - migre le 2026-03-23 - fallback Supabase et recherche par annee alignes avec les tests
 // Decision source : SYNC.md § B1
 // SYNC: A3 - migre le 2026-03-23 - recherche lue via Supabase

@@ -1,4 +1,5 @@
 'use strict'
+// DATA: no direct DB access in this file - delegates to Supabase-only collection routes
 
 const { Router } = require('express')
 

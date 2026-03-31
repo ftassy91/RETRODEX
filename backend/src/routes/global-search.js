@@ -1,4 +1,5 @@
 'use strict'
+// DATA: legacy mixed search path - not mounted by default in the canonical Supabase runtime
 
 const { Router } = require('express')
 const { Op, fn, col, where: sqlWhere } = require('sequelize')
