@@ -7,11 +7,13 @@ require('dotenv').config({
   path: path.join(__dirname, '..', '.env'),
 })
 
-process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL
-process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
-  || process.env.SUPABASE_SERVICE_ROLE_KEY
-  || process.env.SUPERDATA_SERVICE_KEY
-process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
+const {
+  applyResolvedSupabaseEnv,
+  logRuntimeDbContext,
+} = require('./config/env')
+
+applyResolvedSupabaseEnv()
+logRuntimeDbContext()
 
 const express = require('express')
 const cors = require('cors')
@@ -363,23 +365,9 @@ app.get('/api/health', handleAsync(async (_req, res) => {
   })
 }))
 
-if (useSupabaseServerlessRoutes) {
-  app.use(require('./routes/contextual-search'))
-  app.use(require('./routes/serverless'))
-  app.use('/api/prices', require('./routes/prices'))
-} else {
-  app.use('/', require('./routes/consoles'))
-  app.use('/', require('./routes/marketplace'))
-  app.use(require('./routes/global-search'))
-  app.use(require('./routes/audit'))
-  app.use(require('./routes/contextual-search'))
-  app.use(require('./routes/games'))
-  app.use(require('./routes/collection'))
-  app.use(require('./routes/market'))
-  app.use('/api/prices', require('./routes/prices'))
-  app.use(require('./routes/franchises'))
-  app.use(require('./routes/sync'))
-}
+app.use(require('./routes/contextual-search'))
+app.use(require('./routes/serverless'))
+app.use('/api/prices', require('./routes/prices'))
 
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, '..', 'public', '404.html'))

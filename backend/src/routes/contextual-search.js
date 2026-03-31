@@ -2,64 +2,16 @@
 
 const { Router } = require('express')
 
-process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL
-process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
-  || process.env.SUPABASE_SERVICE_ROLE_KEY
-  || process.env.SUPERDATA_SERVICE_KEY
-process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key
-
 const { db } = require('../../db_supabase')
 const { handleAsync, parseLimit } = require('../helpers/query')
+const { normalizeGameRecord, parseStoredJson } = require('../lib/normalize')
+const { listCollectionItems } = require('../services/public-collection-service')
 
 const router = Router()
 
 function ensureDb() {
   if (!db || typeof db.from !== 'function') {
     throw new Error('Contextual search data source is unavailable')
-  }
-}
-
-function normalizeGameRecord(game) {
-  if (!game || typeof game !== 'object') {
-    return game
-  }
-
-  return {
-    ...game,
-    loosePrice: game.loosePrice ?? game.loose_price ?? null,
-    cibPrice: game.cibPrice ?? game.cib_price ?? null,
-    mintPrice: game.mintPrice ?? game.mint_price ?? null,
-  }
-}
-
-function parseStoredJson(value) {
-  if (value == null || value === '') {
-    return []
-  }
-
-  if (Array.isArray(value)) {
-    return value
-  }
-
-  if (typeof value === 'object') {
-    return [value]
-  }
-
-  if (typeof value !== 'string') {
-    return []
-  }
-
-  try {
-    const parsed = JSON.parse(value)
-    if (Array.isArray(parsed)) {
-      return parsed
-    }
-    if (parsed && typeof parsed === 'object') {
-      return [parsed]
-    }
-    return []
-  } catch (_error) {
-    return []
   }
 }
 
@@ -263,36 +215,6 @@ async function fetchGameRowsByIds(ids) {
   return data || []
 }
 
-async function fetchCollectionRows(listType) {
-  const { data, error } = await db
-    .from('collection_items')
-    .select('id,game_id,user_session,condition,price_paid,date_acquired,notes,wishlist,created_at,updated_at')
-    .eq('user_session', 'local')
-
-  if (error) {
-    throw new Error(error.message)
-  }
-
-  const rows = data || []
-  if (!listType) {
-    return rows
-  }
-
-  if (listType === 'wanted') {
-    return rows.filter((row) => Boolean(row.wishlist))
-  }
-
-  if (listType === 'owned') {
-    return rows.filter((row) => !row.wishlist)
-  }
-
-  if (listType === 'for_sale') {
-    return []
-  }
-
-  return rows
-}
-
 function serializeMarketResult(game) {
   const item = normalizeGameRecord(game)
   const loose = Number(item.loosePrice || 0)
@@ -317,9 +239,9 @@ function serializeMarketResult(game) {
 
 function serializeDexResult(game) {
   const item = normalizeGameRecord(game)
-  const team = parseStoredJson(item.dev_team)
-  const anecdotes = parseStoredJson(item.dev_anecdotes)
-  const codes = parseStoredJson(item.cheat_codes)
+  const team = parseStoredJson(item.dev_team, []) || []
+  const anecdotes = parseStoredJson(item.dev_anecdotes, []) || []
+  const codes = parseStoredJson(item.cheat_codes, []) || []
 
   return {
     id: item.id,
@@ -343,38 +265,6 @@ function serializeDexResult(game) {
     codesCount: codes.length,
     franchId: item.franch_id || null,
     cover_url: item.cover_url || null,
-  }
-}
-
-function serializeCollectionResult(row, game) {
-  const item = normalizeGameRecord(game)
-  const condition = String(row?.condition || '').trim().toLowerCase()
-
-  return {
-    id: row?.game_id,
-    gameId: row?.game_id,
-    condition: condition === 'cib' ? 'CIB' : condition === 'mint' ? 'Mint' : 'Loose',
-    notes: row?.notes || null,
-    list_type: row?.wishlist ? 'wanted' : 'owned',
-    price_paid: row?.price_paid ?? null,
-    purchase_date: row?.date_acquired || null,
-    addedAt: row?.created_at || null,
-    game: item ? {
-      id: item.id,
-      title: item.title,
-      console: item.console || null,
-      platform: item.console || null,
-      year: item.year ?? null,
-      rarity: item.rarity || null,
-      metascore: item.metascore ?? null,
-      loosePrice: item.loosePrice,
-      cibPrice: item.cibPrice,
-      mintPrice: item.mintPrice,
-      synopsis: item.synopsis || null,
-      summary: item.summary || null,
-      tagline: item.tagline || null,
-      cover_url: item.cover_url || null,
-    } : null,
   }
 }
 
@@ -462,13 +352,8 @@ async function searchDex(query, limit) {
     .map(serializeDexResult)
 }
 
-async function searchCollection({ query, listType, consoleName, sort, limit }) {
-  const rows = await fetchCollectionRows(listType)
-  const games = await fetchGameRowsByIds(rows.map((row) => row.game_id))
-  const gamesMap = new Map(games.map((game) => [game.id, normalizeGameRecord(game)]))
-
-  const filtered = rows
-    .map((row) => serializeCollectionResult(row, gamesMap.get(row.game_id) || null))
+async function searchCollection({ query, listType, consoleName, sort, limit, userId }) {
+  const filtered = (await listCollectionItems({ listType, userId }))
     .filter((item) => item.game)
     .filter((item) => {
       const game = item.game
@@ -558,12 +443,14 @@ router.get('/api/collection/search', handleAsync(async (req, res) => {
   const consoleName = String(req.query.console || '').trim() || null
   const sort = String(req.query.sort || 'title_asc').trim()
   const limit = parseLimit(req.query.limit, 200, 1000)
+  const userId = String(req.headers['x-retrodex-user-id'] || req.headers['x-user-id'] || req.query.user_id || '').trim() || undefined
   const items = await searchCollection({
     query: q,
     listType,
     consoleName,
     sort,
     limit,
+    userId,
   })
 
   res.json({

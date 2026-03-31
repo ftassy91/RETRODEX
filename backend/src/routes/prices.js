@@ -3,36 +3,14 @@
 // Décision source : SYNC.md § A6
 
 const { Router } = require('express');
-const { QueryTypes } = require('sequelize');
-
-process.env.SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL;
-process.env.SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
-  || process.env.SUPABASE_SERVICE_ROLE_KEY
-  || process.env.SUPERDATA_SERVICE_KEY;
-process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPERDATA_Anon_Key;
 
 const { db, mode } = require('../../db_supabase');
 
 const router = Router();
 const USE_SUPABASE = mode === 'supabase';
-let runtimeDb = null;
 
-function getRuntimeDb() {
-  if (!runtimeDb) {
-    runtimeDb = require('../database');
-  }
-
-  return runtimeDb;
-}
-
-function tableNamesMatch(tableName, target) {
-  return String(tableName || '').replace(/"/g, '').toLowerCase() === String(target).toLowerCase();
-}
-
-async function tableExists(target) {
-  const { sequelize } = getRuntimeDb();
-  const tables = await sequelize.getQueryInterface().showAllTables();
-  return (tables || []).some((tableName) => tableNamesMatch(tableName, target));
+function getSqlite() {
+  return mode === 'sqlite' ? db?._sqlite : null;
 }
 
 function isMissingPriceHistoryTable(error) {
@@ -63,14 +41,26 @@ function getCutoffStr(months) {
   return cutoff.toISOString().slice(0, 10);
 }
 
-async function ensureLocalPriceHistoryTable() {
-  const { sequelize, databaseMode } = getRuntimeDb();
+function sqliteTableExists(target) {
+  const sqlite = getSqlite();
+  if (!sqlite) {
+    return false;
+  }
 
-  if (databaseMode !== 'sqlite') {
+  const rows = sqlite
+    .prepare("SELECT name FROM sqlite_master WHERE type IN ('table','view') AND lower(name) = lower(?) LIMIT 1")
+    .all(String(target || ''));
+  return Array.isArray(rows) && rows.length > 0;
+}
+
+async function ensureLocalPriceHistoryTable() {
+  const sqlite = getSqlite();
+
+  if (!sqlite) {
     return;
   }
 
-  await sequelize.query(`
+  sqlite.exec(`
     CREATE TABLE IF NOT EXISTS price_history (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       game_id TEXT NOT NULL,
@@ -86,85 +76,77 @@ async function ensureLocalPriceHistoryTable() {
 }
 
 async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {
-  const { sequelize } = getRuntimeDb();
+  const sqlite = getSqlite();
 
-  if (await tableExists('price_observations')) {
-    return sequelize.query(
-      `SELECT price,
-              LOWER(condition) AS condition,
-              observed_at AS sale_date
-       FROM price_observations
-       WHERE game_id = :gameId
-         AND observed_at >= :cutoffStr
-       ORDER BY observed_at DESC
-       LIMIT :limit`,
-      {
-        replacements: { gameId, cutoffStr, limit },
-        type: QueryTypes.SELECT,
-      }
-    );
+  if (!sqlite) {
+    return [];
+  }
+
+  if (sqliteTableExists('price_observations')) {
+    return sqlite.prepare(`
+      SELECT price,
+             LOWER(condition) AS condition,
+             observed_at AS sale_date
+      FROM price_observations
+      WHERE game_id = ?
+        AND observed_at >= ?
+      ORDER BY observed_at DESC
+      LIMIT ?
+    `).all(gameId, cutoffStr, limit);
   }
 
   await ensureLocalPriceHistoryTable();
 
-  return sequelize.query(
-    `SELECT price, condition, sale_date
-     FROM price_history
-     WHERE game_id = :gameId
-       AND sale_date >= :cutoffStr
-     ORDER BY sale_date DESC
-     LIMIT :limit`,
-    {
-      replacements: { gameId, cutoffStr, limit },
-      type: QueryTypes.SELECT,
-    }
-  );
+  return sqlite.prepare(`
+    SELECT price, condition, sale_date
+    FROM price_history
+    WHERE game_id = ?
+      AND sale_date >= ?
+    ORDER BY sale_date DESC
+    LIMIT ?
+  `).all(gameId, cutoffStr, limit);
 }
 
 async function queryLocalPriceSales(gameId, condition = null, limit = 200) {
-  const { sequelize } = getRuntimeDb();
-  const replacements = { gameId, limit };
-  let conditionClause = '';
-  if (condition) {
-    conditionClause = ' AND condition = :condition';
-    replacements.condition = condition;
+  const sqlite = getSqlite();
+  if (!sqlite) {
+    return [];
   }
 
-  if (await tableExists('price_observations')) {
-    return sequelize.query(
-      `SELECT id,
-              game_id,
-              price,
-              LOWER(condition) AS condition,
-              observed_at AS sale_date,
-              source_name AS source,
-              listing_url,
-              listing_reference AS listing_title,
-              observed_at AS created_at
-       FROM price_observations
-       WHERE game_id = :gameId${conditionClause}
-       ORDER BY observed_at DESC
-       LIMIT :limit`,
-      {
-        replacements,
-        type: QueryTypes.SELECT,
-      }
-    );
+  const params = [gameId];
+  let conditionClause = '';
+  if (condition) {
+    conditionClause = ' AND condition = ?';
+    params.push(condition);
+  }
+
+  if (sqliteTableExists('price_observations')) {
+    return sqlite.prepare(`
+      SELECT id,
+             game_id,
+             price,
+             LOWER(condition) AS condition,
+             observed_at AS sale_date,
+             source_name AS source,
+             listing_url,
+             listing_reference AS listing_title,
+             observed_at AS created_at
+      FROM price_observations
+      WHERE game_id = ?${conditionClause}
+      ORDER BY observed_at DESC
+      LIMIT ?
+    `).all(...params, limit);
   }
 
   await ensureLocalPriceHistoryTable();
 
-  return sequelize.query(
-    `SELECT id, game_id, price, condition, sale_date, source, listing_url, listing_title, created_at
-     FROM price_history
-     WHERE game_id = :gameId${conditionClause}
-     ORDER BY sale_date DESC
-     LIMIT :limit`,
-    {
-      replacements,
-      type: QueryTypes.SELECT,
-    }
-  );
+  return sqlite.prepare(`
+    SELECT id, game_id, price, condition, sale_date, source, listing_url, listing_title, created_at
+    FROM price_history
+    WHERE game_id = ?${conditionClause}
+    ORDER BY sale_date DESC
+    LIMIT ?
+  `).all(...params, limit);
 }
 
 async function fetchGamesMap(gameIds) {

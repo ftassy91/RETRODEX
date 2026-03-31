@@ -9,19 +9,18 @@
 
 const path = require('path');
 
-require('dotenv').config({ path: path.join(__dirname, '.env') });
+const {
+  applyResolvedSupabaseEnv,
+} = require('./src/config/env');
 
-const SUPABASE_URL =
-  process.env.SUPABASE_URL
-  || process.env.SUPABASE_Project_URL
-  || process.env.SUPERDATA_Project_URL;
-const SUPABASE_KEY =
-  process.env.SUPABASE_SERVICE_KEY
-  || process.env.SUPABASE_SERVICE_ROLE_KEY
-  || process.env.SUPABASE_ANON_KEY
-  || process.env.SUPERDATA_SERVICE_KEY
-  || process.env.SUPERDATA_Anon_Key;
-const USE_SUPABASE = Boolean(SUPABASE_URL && SUPABASE_KEY);
+const {
+  url: SUPABASE_URL,
+  serviceKey: RESOLVED_SUPABASE_SERVICE_KEY,
+  anonKey: RESOLVED_SUPABASE_ANON_KEY,
+} = applyResolvedSupabaseEnv();
+const SUPABASE_KEY = RESOLVED_SUPABASE_SERVICE_KEY || RESOLVED_SUPABASE_ANON_KEY;
+const HAS_VALID_SUPABASE_URL = /^https?:\/\//i.test(String(SUPABASE_URL || ''));
+const USE_SUPABASE = Boolean(HAS_VALID_SUPABASE_URL && SUPABASE_KEY);
 
 let _sequelizeOverride = null;
 function setSequelize(seq) { _sequelizeOverride = seq; }
@@ -63,6 +62,13 @@ if (!USE_SUPABASE) {
 }
 
 function buildSQLiteAdapter(sqlite) {
+  function normalizeSqliteValue(value) {
+    if (typeof value === 'boolean') {
+      return value ? 1 : 0;
+    }
+    return value;
+  }
+
   class QueryBuilder {
     constructor(table) {
       this._table = table;
@@ -133,10 +139,10 @@ function buildSQLiteAdapter(sqlite) {
         if (where.op === 'IS NOT NULL') return `${where.col} IS NOT NULL`;
         if (where.op === 'IN') {
           const placeholders = where.val.map(() => '?').join(', ');
-          params.push(...where.val);
+          params.push(...where.val.map(normalizeSqliteValue));
           return `${where.col} IN (${placeholders})`;
         }
-        params.push(where.val);
+        params.push(normalizeSqliteValue(where.val));
         return `${where.col} ${where.op} ?`;
       });
 
@@ -335,8 +341,7 @@ async function queryGamesViaSequelize(sequelize, filters) {
 async function queryGames({ sort, console: consoleName, rarity, limit = 20, offset = 0, search, ids }) {
   const filters = { console: consoleName, rarity, search, ids };
 
-  // Always use Sequelize for production — PostgREST does not expose camelCase columns
-  if (_sequelizeOverride) {
+  if (_sequelizeOverride && process.env.RETRODEX_FORCE_SEQUELIZE_READS === '1') {
     return queryGamesViaSequelize(_sequelizeOverride, filters);
   }
 
@@ -390,7 +395,7 @@ async function queryGames({ sort, console: consoleName, rarity, limit = 20, offs
 }
 
 async function getGameById(id) {
-  if (_sequelizeOverride) {
+  if (_sequelizeOverride && process.env.RETRODEX_FORCE_SEQUELIZE_READS === '1') {
     const [rows] = await _sequelizeOverride.query(
       `SELECT *, cover_url as "coverImage",
         loose_price as "loosePrice", cib_price as "cibPrice",
