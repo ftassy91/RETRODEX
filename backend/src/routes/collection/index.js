@@ -4,7 +4,7 @@ const { Router } = require('express')
 
 const router = Router()
 
-router.use(require('./search/contextual'))
-router.use(require('./search/dex'))
+router.use(require('./crud'))
+router.use(require('./stats'))
 
 module.exports = router

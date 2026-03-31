@@ -1,5 +1,5 @@
-const sequelize = require("../config/database");
-const { resolveSqlitePath } = require("../config/database");
+const sequelize = require("./config/database");
+const { resolveSqlitePath } = require("./config/database");
 
 const storagePath = resolveSqlitePath();
 const postgresSchema = process.env.PGSCHEMA || "";

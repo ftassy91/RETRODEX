@@ -366,9 +366,7 @@ app.get('/api/health', handleAsync(async (_req, res) => {
   })
 }))
 
-app.use(require('./routes/contextual-search'))
-app.use(require('./routes/serverless'))
-app.use('/api/prices', require('./routes/prices'))
+app.use(require('./routes'))
 
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, '..', 'public', '404.html'))
