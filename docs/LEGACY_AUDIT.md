@@ -39,8 +39,6 @@ This audit is intentionally narrow:
 | [backend/src/services/console-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/console-service.js) | legacy/back-office console payload builder | `curation-service`, `enrichment-backlog-service` | `keep_non_canonical` | retain until console legacy/admin scope is reviewed separately |
 | [backend/src/services/curation-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/curation-service.js) | enrichment and curation heuristics | `enrichment-backlog-service`, tests | `keep_non_canonical` | retain and split only inside a dedicated enrichment lot |
 | [backend/src/services/enrichment-backlog-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/enrichment-backlog-service.js) | prioritization and backlog planning for enrichment | tests and manual enrichment workflows | `keep_non_canonical` | retain until enrichment admin workflows are redesigned |
-| [backend/src/services/legacy-games-detail-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/legacy-games-detail-service.js) | extracted local fallback for the retired flat games detail tree | no active runtime consumer found | `orphaned_review` | verify one more time in a dedicated removal lot, then delete if still unused |
-| [backend/src/services/legacy-games-detail-queries.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/legacy-games-detail-queries.js) | query helper for `legacy-games-detail-service` | `legacy-games-detail-service` only | `orphaned_review` | remove together with `legacy-games-detail-service` when orphaned removal is validated |
 
 ## Immediate Conclusions
 
@@ -68,4 +66,8 @@ This audit is intentionally narrow:
 - [backend/src/routes/stats.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/stats.js) was removed on March 31, 2026 after confirming that:
   - it was not mounted by [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js)
   - `/api/stats` is already served canonically by [backend/src/routes/market/stats.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/market/stats.js)
+  - smoke stayed green after deletion
+- [backend/src/services/legacy-games-detail-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/legacy-games-detail-service.js) and [backend/src/services/legacy-games-detail-queries.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/legacy-games-detail-queries.js) were removed on March 31, 2026 after confirming that:
+  - no code consumer remained outside the pair itself
+  - the canonical game detail runtime already flows through [backend/src/routes/games/detail.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games/detail.js)
   - smoke stayed green after deletion
