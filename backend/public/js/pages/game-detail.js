@@ -546,7 +546,7 @@ async function loadRetrodexIndex(gameId) {
   }
 
   try {
-    const payload = await fetchJson(`/api/index/${encodeURIComponent(gameId)}`)
+    const payload = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/index`)
     const entries = safeArray(payload.index)
     const hasUsableIndex = entries.some((entry) => (Number(entry.index_value) || 0) > 0)
 
@@ -1995,7 +1995,7 @@ async function handleContributionSubmit() {
       text_raw: contribNoteEl?.value?.trim() || null,
     }
 
-    await fetchJson('/api/reports', {
+    await fetchJson(`/api/games/${encodeURIComponent(currentGame.id)}/reports`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

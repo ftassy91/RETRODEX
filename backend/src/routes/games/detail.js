@@ -16,6 +16,12 @@ const {
 const {
   fetchGamePriceHistoryPayload,
 } = require('../../services/public-runtime-payload-service')
+const {
+  fetchMarketIndex,
+} = require('../../services/public-market-index-service')
+const {
+  createMarketReport,
+} = require('../../services/public-market-report-service')
 
 const router = Router()
 
@@ -79,6 +85,31 @@ router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
   }
 
   return res.json(payload)
+}))
+
+router.get('/api/games/:id/index', handleAsync(async (req, res) => {
+  return res.json({
+    ok: true,
+    ...(await fetchMarketIndex(req.params.id)),
+  })
+}))
+
+router.post('/api/games/:id/reports', handleAsync(async (req, res) => {
+  try {
+    return res.json({
+      ok: true,
+      ...(await createMarketReport(req.params.id, req.body || {})),
+    })
+  } catch (error) {
+    if (error?.statusCode) {
+      return res.status(error.statusCode).json({
+        ok: false,
+        error: error.message,
+      })
+    }
+
+    throw error
+  }
 }))
 
 module.exports = router
