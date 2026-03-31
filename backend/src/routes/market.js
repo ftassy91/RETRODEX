@@ -13,14 +13,17 @@ const CommunityReport = require('../../models/CommunityReport')
 const { fetchPublishedGameScope } = require('../services/public-publication-service')
 const { handleAsync } = require('../helpers/query')
 const { searchCatalog } = require('../services/public-search-service')
-const { fetchStatsPayload } = require('../services/public-runtime-payload-service')
+const {
+  fetchStatsPayload,
+  fetchItemsPayload,
+  fetchConsolesPayload,
+  fetchConsoleDetailPayload,
+} = require('../services/public-runtime-payload-service')
 const {
   getHydratedGameByLookup,
-  listHydratedGames,
 } = require('../services/game-read-service')
 const {
   buildConsolePayload,
-  listConsoleItems,
 } = require('../services/console-service')
 
 const router = Router()
@@ -110,7 +113,8 @@ router.get('/api/items', handleAsync(async (req, res) => {
   const type = String(req.query.type || '').trim().toLowerCase()
 
   if (type === 'console') {
-    const consoles = await listConsoleItems()
+    const payload = await fetchConsolesPayload()
+    const consoles = payload.items || payload.consoles || []
     const query = String(req.query.q || '').trim().toLowerCase()
     const filtered = consoles.filter((item) => {
       if (!query) return true
@@ -140,10 +144,8 @@ router.get('/api/items', handleAsync(async (req, res) => {
     })
   }
 
-  const payload = await listHydratedGames({
-    search: req.query.q,
-    consoleName: req.query.platform,
-    rarity: req.query.rarity,
+  const payload = await fetchItemsPayload({
+    ...req.query,
     limit,
     offset,
     sort: 'title_asc',
@@ -153,8 +155,8 @@ router.get('/api/items', handleAsync(async (req, res) => {
     ok: true,
     items: (payload.items || []).map(toItemPayload),
     total: payload.total,
-    limit,
-    offset,
+    limit: payload.limit ?? limit,
+    offset: payload.offset ?? offset,
   })
 }))
 
@@ -193,7 +195,8 @@ router.get('/api/items/:id', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/consoles', handleAsync(async (_req, res) => {
-  const consoles = await listConsoleItems()
+  const payload = await fetchConsolesPayload()
+  const consoles = payload.items || payload.consoles || []
 
   res.json({
     ok: true,
@@ -209,18 +212,17 @@ router.get('/api/consoles', handleAsync(async (_req, res) => {
       generation: item.generation || null,
       overview: item.summary || null,
     })),
-    count: consoles.length,
+    count: payload.count ?? consoles.length,
   })
 }))
 
 router.get('/api/consoles/:id', handleAsync(async (req, res) => {
-  const payload = await buildConsolePayload(req.params.id, {
-    gamesLimit: 20,
-  })
+  const payload = await fetchConsoleDetailPayload(req.params.id)
 
   if (!payload) {
     return res.status(404).json({ ok: false, error: 'Not found' })
   }
+
   const accessories = await Accessory.findAll({
     where: {
       console_id: payload.console.id,
