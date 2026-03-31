@@ -25,7 +25,6 @@ This audit is intentionally narrow:
 | [backend/src/routes/collection.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/collection.js) | Compatibility wrapper over canonical collection routers | historical import surface only | `keep_wrapper` | keep until wrapper-removal lot |
 | [backend/src/routes/prices.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/prices.js) | Compatibility wrapper over canonical prices router | historical import surface only | `keep_wrapper` | keep until wrapper-removal lot |
 | [backend/src/routes/audit.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/audit.js) | Audit and divergence endpoints backed by Sequelize audit pipeline | no default mount in [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js) | `keep_non_canonical` | retain for a dedicated audit/admin lot |
-| [backend/src/routes/marketplace.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/marketplace.js) | flat legacy marketplace route using Sequelize listings | frontend page [backend/public/js/pages/stats.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/js/pages/stats.js) still requests `/marketplace` | `paired_review` | review together with the remaining marketplace consumer in Phase 5 or a dedicated marketplace lot |
 | [backend/src/routes/sync.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/sync.js) | manual sync endpoint using local bootstrap pipeline | no default mount in [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js) | `keep_non_canonical` | retain until sync/admin behavior is redesigned |
 | [backend/src/routes/games-admin.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games-admin.js) | manual admin repair endpoints for legacy/local data | no default mount in [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js) | `keep_non_canonical` | retain until admin cleanup lot |
 | [backend/src/routes/games-helpers.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games-helpers.js) | helper bootstrap for [games-admin.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games-admin.js) | coupled to `games-admin.js` only | `keep_non_canonical` | keep coupled to the admin cleanup lot |
@@ -66,6 +65,10 @@ This audit is intentionally narrow:
 - [backend/src/routes/stats.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/stats.js) was removed on March 31, 2026 after confirming that:
   - it was not mounted by [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js)
   - `/api/stats` is already served canonically by [backend/src/routes/market/stats.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/market/stats.js)
+  - smoke stayed green after deletion
+- [backend/src/routes/marketplace.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/marketplace.js) was removed on March 31, 2026 after confirming that:
+  - it was not mounted by [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js)
+  - its only remaining frontend consumer [backend/public/js/pages/stats.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/js/pages/stats.js) was decoupled first
   - smoke stayed green after deletion
 - [backend/src/services/legacy-games-detail-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/legacy-games-detail-service.js) and [backend/src/services/legacy-games-detail-queries.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/legacy-games-detail-queries.js) were removed on March 31, 2026 after confirming that:
   - no code consumer remained outside the pair itself
