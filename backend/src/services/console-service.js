@@ -1,4 +1,8 @@
 'use strict'
+// DATA: Sequelize via ../models and legacy game-read helpers - not part of the canonical public runtime
+// ROLE: legacy/back-office console payloads and related item listings
+// CONSUMERS: flat consoles route, curation-service, enrichment-backlog-service
+// STATUS: retained non-canonical service; keep until console legacy/admin scope is reviewed separately
 
 const { Op } = require('sequelize')
 

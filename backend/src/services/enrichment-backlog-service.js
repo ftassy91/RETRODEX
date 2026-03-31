@@ -1,4 +1,8 @@
 'use strict'
+// DATA: Sequelize via ../database and non-canonical services - not part of the canonical public runtime
+// ROLE: prioritization and backlog generation for enrichment planning
+// CONSUMERS: dedicated enrichment tests and manual back-office workflows
+// STATUS: retained non-canonical service; redesign only in a dedicated enrichment/admin lot
 
 const fs = require('fs')
 const path = require('path')

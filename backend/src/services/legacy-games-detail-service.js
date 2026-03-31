@@ -1,4 +1,8 @@
 'use strict'
+// DATA: Sequelize via ../database and legacy local queries - not part of the canonical public runtime
+// ROLE: extracted local fallback for the retired flat games detail tree
+// CONSUMERS: no active runtime consumer found; paired only with legacy-games-detail-queries.js
+// STATUS: orphaned legacy retained pending a dedicated removal review
 
 const { QueryTypes } = require('sequelize')
 const {

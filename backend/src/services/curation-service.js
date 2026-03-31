@@ -1,4 +1,8 @@
 'use strict'
+// DATA: Sequelize via ../database and ../models - not part of the canonical public runtime
+// ROLE: enrichment and curation heuristics for back-office selection workflows
+// CONSUMERS: enrichment-backlog-service and dedicated curation tests
+// STATUS: retained non-canonical service; split only inside a dedicated enrichment lot
 
 const crypto = require('crypto')
 const fs = require('fs')

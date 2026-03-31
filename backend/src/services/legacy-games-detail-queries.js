@@ -1,4 +1,8 @@
 'use strict'
+// DATA: Sequelize via ../database - not part of the canonical public runtime
+// ROLE: local query helper for legacy-games-detail-service
+// CONSUMERS: legacy-games-detail-service only
+// STATUS: orphaned legacy retained pending a dedicated removal review
 
 const { QueryTypes } = require('sequelize')
 require('../models/associations')
