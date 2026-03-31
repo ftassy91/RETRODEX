@@ -5,9 +5,6 @@
 // Décision source : SYNC.md § A3
 
 const { Router } = require('express')
-const { Op } = require('sequelize')
-const Game = require('../models/Game')
-const Accessory = require('../models/Accessory')
 const RetrodexIndex = require('../../models/RetrodexIndex')
 const CommunityReport = require('../../models/CommunityReport')
 const { fetchPublishedGameScope } = require('../services/public-publication-service')
@@ -25,6 +22,11 @@ const {
 const {
   buildConsolePayload,
 } = require('../services/console-service')
+const {
+  listLegacyConsoleAccessories,
+  listLegacyAccessoryTypes,
+  listLegacyAccessories,
+} = require('../services/legacy-market-accessory-service')
 
 const router = Router()
 
@@ -222,14 +224,7 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
   if (!payload) {
     return res.status(404).json({ ok: false, error: 'Not found' })
   }
-
-  const accessories = await Accessory.findAll({
-    where: {
-      console_id: payload.console.id,
-    },
-    order: [['name', 'ASC']],
-    limit: 10,
-  })
+  const accessories = await listLegacyConsoleAccessories(payload.console.id, { limit: 10 })
 
   return res.json({
     ok: true,
@@ -244,12 +239,7 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
       manufacturer: payload.console.manufacturer || null,
     },
     games: (payload.games || []).map(toItemPayload),
-    accessories: accessories.map((item) => ({
-      id: item.id,
-      name: item.name,
-      accessory_type: item.accessory_type || null,
-      slug: item.slug || null,
-    })),
+    accessories,
     encyclopedia: payload.overview || null,
     relatedConsoles: payload.relatedConsoles || [],
     notableGames: payload.notableGames || [],
@@ -257,16 +247,7 @@ router.get('/api/consoles/:id', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/accessories/types', handleAsync(async (_req, res) => {
-  const accessories = await Accessory.findAll({
-    attributes: ['accessory_type'],
-    order: [['accessory_type', 'ASC']],
-  })
-
-  const types = Array.from(new Set(
-    accessories
-      .map((item) => item.accessory_type)
-      .filter(Boolean)
-  ))
+  const types = await listLegacyAccessoryTypes()
 
   res.json({
     ok: true,
@@ -275,41 +256,9 @@ router.get('/api/accessories/types', handleAsync(async (_req, res) => {
 }))
 
 router.get('/api/accessories', handleAsync(async (_req, res) => {
-  const accessories = await Accessory.findAll({
-    order: [['name', 'ASC']],
-  })
-
-  const consoleIds = Array.from(new Set(
-    accessories
-      .map((item) => item.console_id)
-      .filter(Boolean)
-  ))
-
-  const consoles = consoleIds.length
-    ? await Game.findAll({
-      attributes: ['id', 'title'],
-      where: {
-        id: {
-          [Op.in]: consoleIds,
-        },
-      },
-    })
-    : []
-
-  const consoleTitles = new Map(consoles.map((item) => [item.id, item.title]))
-
   res.json({
     ok: true,
-    accessories: accessories.map((item) => ({
-      id: item.id,
-      name: item.name,
-      console_id: item.console_id || null,
-      console_title: item.console_id ? consoleTitles.get(item.console_id) || null : null,
-      accessory_type: item.accessory_type || null,
-      release_year: item.release_year || null,
-      slug: item.slug || null,
-    })),
-    count: accessories.length,
+    ...(await listLegacyAccessories()),
   })
 }))
 
