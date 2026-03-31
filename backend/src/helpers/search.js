@@ -75,10 +75,50 @@ function dedupeSearchResults(items = []) {
   return Array.from(chosenByKey.values())
 }
 
+function uniqueBy(items = [], keySelector) {
+  const seen = new Set()
+  const next = []
+
+  for (const item of items) {
+    const key = keySelector(item)
+    if (!key || seen.has(key)) {
+      continue
+    }
+
+    seen.add(key)
+    next.push(item)
+  }
+
+  return next
+}
+
+function scoreByQuery(query, values = []) {
+  const normalizedQuery = String(query || '').trim().toLowerCase()
+  if (!normalizedQuery) {
+    return 10
+  }
+
+  const haystacks = values
+    .map((value) => String(value || '').trim().toLowerCase())
+    .filter(Boolean)
+
+  for (const value of haystacks) {
+    if (value === normalizedQuery) return 0
+    if (value.startsWith(`${normalizedQuery} `)) return 1
+    if (value.startsWith(normalizedQuery)) return 2
+    if (value.includes(` ${normalizedQuery}`)) return 3
+    if (value.includes(normalizedQuery)) return 4
+  }
+
+  return 10
+}
+
 module.exports = {
   buildSearchResultDedupeKey,
   buildSearchResultPreferenceScore,
   compareSearchResultPreference,
   dedupeSearchResults,
   normalizeSearchIdentityPart,
+  scoreByQuery,
+  uniqueBy,
 }

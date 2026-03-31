@@ -5,7 +5,11 @@ const {
   queryGames,
   getStats,
 } = require('../../db_supabase')
-const { dedupeSearchResults } = require('../helpers/search')
+const {
+  dedupeSearchResults,
+  scoreByQuery,
+  uniqueBy,
+} = require('../helpers/search')
 const { normalizeGameRecord, parseStoredJson } = require('../lib/normalize')
 const {
   fetchRowsInBatches,
@@ -78,39 +82,6 @@ function buildExcerpt(value, maxLength = 160) {
   const lastSpace = sliced.lastIndexOf(' ')
   const safeSlice = lastSpace > 40 ? sliced.slice(0, lastSpace) : sliced
   return `${safeSlice}...`
-}
-
-function uniqueBy(items, keySelector) {
-  const seen = new Set()
-  const next = []
-
-  for (const item of items) {
-    const key = keySelector(item)
-    if (!key || seen.has(key)) continue
-    seen.add(key)
-    next.push(item)
-  }
-
-  return next
-}
-
-function scoreByQuery(query, values = []) {
-  const normalizedQuery = String(query || '').trim().toLowerCase()
-  if (!normalizedQuery) return 10
-
-  const haystacks = values
-    .map((value) => String(value || '').trim().toLowerCase())
-    .filter(Boolean)
-
-  for (const value of haystacks) {
-    if (value === normalizedQuery) return 0
-    if (value.startsWith(`${normalizedQuery} `)) return 1
-    if (value.startsWith(normalizedQuery)) return 2
-    if (value.includes(` ${normalizedQuery}`)) return 3
-    if (value.includes(normalizedQuery)) return 4
-  }
-
-  return 10
 }
 
 function normalizeGlobalSearchText(value) {

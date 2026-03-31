@@ -31,7 +31,6 @@ const {
   fetchPublishedGameScope: readPublishedGameScope,
 } = require('../services/public-publication-service')
 const {
-  searchDex,
   searchCatalog,
   searchGlobal,
   listFranchises,
@@ -219,21 +218,6 @@ router.get('/api/search/global', handleAsync(async (req, res) => {
   const limit = parseLimit(req.query.limit, 20, 60)
   const scope = await readPublishedGameScope()
   res.json(await searchGlobal(q, context, limit, scope))
-}))
-
-router.get('/api/dex/search', handleAsync(async (req, res) => {
-  const q = String(req.query.q || '').trim()
-  const limit = parseLimit(req.query.limit, 120, 1000)
-  const items = await searchDex(q, limit)
-
-  res.json({
-    ok: true,
-    scope: 'dex',
-    query: q,
-    items,
-    count: items.length,
-    total: items.length,
-  })
 }))
 
 router.get('/api/franchises', handleAsync(async (_req, res) => {
