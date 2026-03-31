@@ -3,6 +3,7 @@
 const { Router } = require('express')
 
 const { handleAsync, parseLimit } = require('../helpers/query')
+const { resolveRequestUserId } = require('../middleware/auth')
 const {
   fetchMarketSearchPayload,
   fetchDexSearchPayload,
@@ -31,12 +32,7 @@ router.get('/api/collection/search', handleAsync(async (req, res) => {
   const consoleName = String(req.query.console || '').trim() || null
   const sort = String(req.query.sort || 'title_asc').trim()
   const limit = parseLimit(req.query.limit, 200, 1000)
-  const userId = String(
-    req.headers['x-retrodex-user-id']
-    || req.headers['x-user-id']
-    || req.query.user_id
-    || ''
-  ).trim() || undefined
+  const userId = resolveRequestUserId(req) || undefined
 
   res.json(await fetchCollectionSearchPayload({
     query: q,

@@ -3,6 +3,7 @@
 const { Router } = require('express')
 
 const { handleAsync } = require('../helpers/query')
+const { resolveRequestCollectionScope } = require('../middleware/auth')
 const {
   normalizeCollectionListType,
   parseCollectionCreatePayload,
@@ -47,17 +48,6 @@ async function runCollectionOperation(res, operation) {
 
     throw error
   }
-}
-
-function resolveRequestCollectionScope(req) {
-  const userId = String(
-    req.headers['x-retrodex-user-id']
-    || req.headers['x-user-id']
-    || req.query?.user_id
-    || ''
-  ).trim()
-
-  return userId ? { userId } : {}
 }
 
 router.get('/collection', handleAsync(async (req, res) => {

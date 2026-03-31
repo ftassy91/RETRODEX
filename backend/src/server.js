@@ -19,6 +19,7 @@ const express = require('express')
 const cors = require('cors')
 const { mode: supabaseMode, db: supabaseDb } = require('../db_supabase')
 const { handleAsync } = require('./helpers/query')
+const { errorHandler } = require('./middleware/error')
 const { runMigrations } = require('./services/migration-runner')
 
 const hasServerlessSupabaseEnv = Boolean(process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL)
@@ -373,18 +374,7 @@ app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, '..', 'public', '404.html'))
 })
 
-app.use((error, req, res, _next) => {
-  console.error(`RetroDex backend request failed: ${req.method} ${req.originalUrl}`, error)
-
-  if (res.headersSent) {
-    return
-  }
-
-  res.status(500).json({
-    ok: false,
-    error: 'Internal server error',
-  })
-})
+app.use(errorHandler)
 
 async function startServer(portOverride) {
   const {

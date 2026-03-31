@@ -7,6 +7,7 @@
 const { Router } = require('express')
 
 const { handleAsync, parseLimit } = require('../helpers/query')
+const { resolveRequestCollectionScope } = require('../middleware/auth')
 const { toGameSummary } = require('../lib/normalize')
 const { buildGameDetailDataLayer } = require('../helpers/game-detail-data-layer')
 const {
@@ -63,17 +64,6 @@ async function runCollectionOperation(res, operation) {
 
     throw error
   }
-}
-
-function resolveRequestCollectionScope(req) {
-  const userId = String(
-    req.headers['x-retrodex-user-id']
-    || req.headers['x-user-id']
-    || req.query?.user_id
-    || ''
-  ).trim()
-
-  return userId ? { userId } : {}
 }
 
 router.get('/games', handleAsync(async (req, res) => {
