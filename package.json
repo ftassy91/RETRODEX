@@ -31,6 +31,7 @@
     "publish:external-assets:run": "node backend/scripts/publish-external-assets-supabase.js --apply",
     "curation:pass1:plan": "node backend/scripts/run-pass1-curation.js",
     "curation:pass1:run": "node backend/scripts/run-pass1-curation.js --apply",
+    "curation:pass1:backlog": "node backend/scripts/run-pass1-enrichment-backlog.js",
     "publish:curation:plan": "node backend/scripts/publish-curation-supabase.js",
     "publish:curation:run": "node backend/scripts/publish-curation-supabase.js --apply",
     "publish:plan": "node backend/scripts/publish-sandbox-to-supabase.js --dry-run",
