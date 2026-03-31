@@ -58,6 +58,7 @@ Generated SQL artifacts:
 Dry-run audit script:
 
 - [audit-games-status-columns.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/audit-games-status-columns.js)
+- human approval dossier: [PHASE3_BACKFILL_APPROVAL.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_APPROVAL.md)
 
 Rules:
 
