@@ -95,7 +95,10 @@ Important interpretation already locked:
   - `media_status`
   - `price_status`
 - If any active payloads currently expose these fields, clients will start receiving derived values instead of the current blanket `empty`.
-- `price_status` will become `real` for all audited games under the current production dataset because `price_history` currently contains only real `pricecharting` rows.
+- `price_status` will become `real` for all audited games under the current production dataset because `price_history` currently contains only `pricecharting` rows, and the canonical rule treats `pricecharting` as a real source.
+- This is not only a technical outcome. It is an explicit business assumption of the backfill:
+  - current `pricecharting` coverage is considered sufficient evidence to mark `price_status = real`
+  - if that interpretation is not accepted, the backfill must remain blocked and the rule must be revised first
 - `media_status = complete` is intentionally rare in the current ruleset. Expected count is `4`.
 - No `console` / `developer` transition is included here. This apply does not affect the current string-driven runtime compatibility model.
 
@@ -122,6 +125,12 @@ Expected post-apply stored counts:
   - `real = 1517`
   - `synthetic = 0`
   - `empty = 0`
+
+Business interpretation to validate explicitly before apply:
+
+- the production team accepts that `price_status = real` for all `1517` audited games is the intended meaning of the current rule set
+- this relies on treating `pricecharting` as a real source for status purposes
+- if this business interpretation is disputed, stop before apply and revise the canonical rule
 
 Expected post-apply divergence counts:
 
@@ -219,6 +228,7 @@ Approve the production apply only if all of the following are true:
 
 - the preview still matches the baseline immediately before apply
 - the expected impact of updating `1517` audited game rows is acceptable
+- the team explicitly accepts the business assumption that `price_status = real` for all `1517` audited games is correct under the current dataset and rules
 - the team accepts that these three status columns will stop being uniformly `empty`
 - the rollback path is understood and acceptable
 
