@@ -3,7 +3,7 @@
 ## References
 
 - JTASSY baseline: `70eb99f64449ac6c2daa27f18b63597078ee13b5`
-- Phase 0 / Phase 2 consolidation date: March 31, 2026
+- Consolidation date: March 31, 2026
 
 ## JTASSY Decisions Kept
 
@@ -11,7 +11,7 @@
 - The game detail page keeps the three Knowledge Domains and the Production block as valid starting points.
 - Migration `8896316` and already shipped product decisions are not reverted in this pass.
 
-## Validated Architecture Decisions
+## Runtime Decisions Validated
 
 - Production and local now use the same public route topology.
 - The canonical active route tree is materialized under:
@@ -26,8 +26,44 @@
 - Active public routes no longer read the DB directly.
 - Runtime normalization goes through [normalize.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/lib/normalize.js).
 - `db_supabase.js` is the runtime source of truth for active public reads.
-- The old flat public wrappers `serverless.js`, `contextual-search.js`, `prices.js`, and `collection.js` were removed after verification that the canonical domain tree is the only mounted public runtime.
+- The old flat route wrappers were removed after verification that the canonical domain tree is the only mounted runtime surface.
 - `src/config` now exposes both [env.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/env.js) and [database.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/database.js).
+
+## Market / Legacy Decisions Validated
+
+- Phase 5 migrated the remaining frontend consumers away from the flat legacy market endpoints.
+- [market.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/market.js) and [legacy-market.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/legacy-market.js) are removed.
+- `legacy-market-*` services are removed.
+- Canonical market and game detail endpoints now cover:
+  - `/api/stats`
+  - `/api/search`
+  - `/api/items`
+  - `/api/consoles`
+  - `/api/consoles/:id`
+  - `/api/market/accessories/types`
+  - `/api/market/accessories`
+  - `/api/games/:id/index`
+  - `/api/games/:id/reports`
+- Removed inactive legacy endpoints:
+  - `/api/items/:id`
+  - `/api/accessories/types`
+  - `/api/accessories`
+  - `/api/index/:id`
+  - `/api/reports`
+
+## Admin / Back-Office Decisions Validated
+
+- The explicit back-office route tree lives under [backend/src/routes/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin) and remains unmounted by default in the public runtime.
+- The retained back-office service layer lives under [backend/src/services/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin).
+- The admin/services lot is closed on its perimeter.
+
+Stabilized service outcomes:
+
+- [game-read-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/game-read-service.js) is now a façade over [backend/src/services/admin/game-read](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/game-read).
+- [curation-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/curation-service.js) is now a façade over [backend/src/services/admin/curation](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/curation).
+- [audit-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/audit-service.js) is now a façade over [backend/src/services/admin/audit](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/audit).
+- [console-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/console-service.js) remains an isolated orchestrator with pure helpers in [console-profile.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/console-profile.js).
+- [enrichment-backlog-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment-backlog-service.js) remains a retained orchestrator with pure helpers in [enrichment-backlog-profile.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment-backlog-profile.js).
 
 ## Phase 0 Discoveries and Final Placement
 
@@ -55,55 +91,33 @@
 - Decision: `quarantine`
 - Reason: its environment-resolution responsibility is now absorbed by [env.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/env.js)
 
-## Refactor Decisions Validated
-
-- `serverless.js` was reduced, then removed once the canonical domain route tree became the only mounted public runtime.
-- `contextual-search.js`, `prices.js`, and `collection.js` were reduced, then removed once no tracked code consumer remained.
-- Phase 5 migrated the remaining frontend consumers away from the flat legacy market endpoints.
-- `legacy-market.js` has been removed after migration of:
-  - `backend/public/js/pages/accessories.js`
-  - `backend/public/js/pages/game-detail.js`
-- The old flat `market.js` route has been removed after extraction of the retained legacy endpoints and verification that smoke still passes.
-- Canonical market and game detail endpoints now cover:
-  - converged:
-    - `/api/stats`
-    - `/api/search`
-    - `/api/items`
-    - `/api/consoles`
-    - `/api/consoles/:id`
-    - `/api/market/accessories/types`
-    - `/api/market/accessories`
-    - `/api/games/:id/index`
-    - `/api/games/:id/reports`
-  - legacy isolated:
-    - none
-  - removed as inactive legacy:
-    - `/api/items/:id`
-    - `/api/accessories/types`
-    - `/api/accessories`
-    - `/api/index/:id`
-    - `/api/reports`
-
-## DB Constraints Still Active
+## DB State and Gates
 
 - Production runtime is still string-driven on `games.console` and `games.developer`.
 - `console_id` and `developer_id` are not the effective public runtime contract.
-- `youtube_id`, `youtube_verified`, `archive_id`, and `archive_verified` already exist in production.
-- `editorial_status`, `media_status`, and `price_status` already exist in production.
+- `youtube_id`, `youtube_verified`, `archive_id`, `archive_verified`, `editorial_status`, `media_status`, and `price_status` already exist in production.
 - The historical `phase3-games-status-v1` backfill was executed in production on March 31, 2026 and remains the factual stored state.
 - The future `price_status v2` rule is approved in principle only:
-  - `pricecharting` becomes an estimate source
+  - `pricecharting` is an estimate source
   - `ebay` is the only real sale source
   - threshold `N = 3`
 - Phase DB must not reopen for `price_status v2` until a real `ebay` ingestion exists in `price_history`.
 - Future `console` / `developer` work must stay additive until a dedicated parity and dual-read lot is approved.
 
-Reference documents:
+References:
 
 - [PHASE3_DB_READINESS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_DB_READINESS.md)
 - [PHASE3_BACKFILL_EXECUTION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_EXECUTION.md)
 - [CONSOLE_DEVELOPER_TRANSITION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CONSOLE_DEVELOPER_TRANSITION.md)
-- [LEGACY_AUDIT.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/LEGACY_AUDIT.md)
+
+## Current Project State
+
+- Public runtime: stabilized
+- Admin/services lot: closed
+- DB status work: factually closed for v1, gated for v2
+- Active technical lot by default: none
+
+Any further work must open as a new explicit lot with a bounded perimeter.
 
 ## JTASSY Deviations
 
@@ -112,5 +126,5 @@ No additional formal JTASSY deviation was approved in this pass.
 Changes made here are treated as:
 
 - convergence of the active runtime
-- explicit isolation of legacy surfaces
+- explicit isolation of back-office surfaces
 - documented placement of previously untracked or contradictory artifacts

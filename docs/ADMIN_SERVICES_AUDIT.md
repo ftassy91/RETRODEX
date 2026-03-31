@@ -2,6 +2,12 @@
 
 State reviewed on March 31, 2026.
 
+Closure note:
+
+- this audit was later executed as a dedicated admin/services lot
+- the classification below is historical
+- the stabilized current state is tracked in [ARCHITECTURE.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ARCHITECTURE.md), [DECISIONS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/DECISIONS.md), and [CLAUDE_CONTINUITY_BRIEF.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CLAUDE_CONTINUITY_BRIEF.md)
+
 Scope limited to the retained non-canonical services under [backend/src/services/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin):
 
 - [audit-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/audit-service.js)

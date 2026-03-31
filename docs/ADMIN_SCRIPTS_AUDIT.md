@@ -2,6 +2,12 @@
 
 State reviewed on March 31, 2026.
 
+Closure note:
+
+- this remains a reference audit only
+- no script refactor lot is currently open
+- the project has no active technical lot by default after the admin/services stabilization
+
 Scope limited to:
 
 - [backend/scripts/run-audit.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/run-audit.js)
