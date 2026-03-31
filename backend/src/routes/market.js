@@ -5,6 +5,13 @@
 // SYNC: A3 - migre le 2026-03-23 - recherche lue via Supabase
 // Decision source : SYNC.md § A3
 
+// LEGACY REVIEW 2026-03-31:
+// - Keep this file because it still owns frontend-consumed legacy endpoints that
+//   are not mounted in the canonical `routes/market/*` tree:
+//   `/api/accessories/types`, `/api/accessories`, `/api/index/:id`, `/api/reports`
+// - Current callers include `backend/public/js/pages/accessories.js` and
+//   `backend/public/js/pages/game-detail.js`.
+// - Revisit removal only after those callers are migrated or deleted.
 const { Router } = require('express')
 const { fetchPublishedGameScope } = require('../services/public-publication-service')
 const { handleAsync } = require('../helpers/query')
