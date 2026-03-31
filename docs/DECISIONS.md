@@ -59,23 +59,30 @@
 
 - `serverless.js` was reduced, then converted into a compatibility wrapper over canonical domain routes.
 - `contextual-search.js` and `prices.js` were reduced, then converted into compatibility wrappers.
-- `legacy-market.js` is not mounted by default and now carries the retained legacy endpoints still consumed by the frontend.
-- Frontend migration away from `legacy-market.js` is explicitly deferred to Phase 5.
+- Phase 5 migrated the remaining frontend consumers away from the flat legacy market endpoints.
+- `legacy-market.js` has been removed after migration of:
+  - `backend/public/js/pages/accessories.js`
+  - `backend/public/js/pages/game-detail.js`
 - The old flat `market.js` route has been removed after extraction of the retained legacy endpoints and verification that smoke still passes.
-- Legacy market endpoints are classified as:
+- Canonical market and game detail endpoints now cover:
   - converged:
     - `/api/stats`
     - `/api/search`
     - `/api/items`
     - `/api/consoles`
     - `/api/consoles/:id`
+    - `/api/market/accessories/types`
+    - `/api/market/accessories`
+    - `/api/games/:id/index`
+    - `/api/games/:id/reports`
   - legacy isolated:
+    - none
+  - removed as inactive legacy:
+    - `/api/items/:id`
     - `/api/accessories/types`
     - `/api/accessories`
     - `/api/index/:id`
     - `/api/reports`
-  - removed as inactive legacy:
-    - `/api/items/:id`
 
 ## DB Constraints Still Active
 
