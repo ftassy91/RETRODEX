@@ -20,9 +20,6 @@ This audit is intentionally narrow:
 
 | File | Role | Active consumer or mount | Status | Next step |
 | --- | --- | --- | --- | --- |
-| [backend/src/routes/audit.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/audit.js) | compatibility wrapper over the explicit admin/back-office audit route | historical import surface only; no default mount in [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js) | `keep_wrapper` | keep until a dedicated compatibility-removal lot proves no external dependency remains |
-| [backend/src/routes/sync.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/sync.js) | compatibility wrapper over the explicit admin/back-office sync route | historical import surface only; no default mount in [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js) | `keep_wrapper` | keep until a dedicated compatibility-removal lot proves no external dependency remains |
-| [backend/src/routes/games-admin.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games-admin.js) | compatibility wrapper over the explicit admin/back-office games route | historical import surface only; no default mount in [server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js) | `keep_wrapper` | keep until a dedicated compatibility-removal lot proves no external dependency remains |
 | [backend/src/routes/games-helpers.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games-helpers.js) | helper bootstrap for [backend/src/routes/admin/games.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin/games.js) | coupled to admin games back-office only | `keep_non_canonical` | keep coupled to the admin cleanup lot |
 
 ## Remaining Legacy or Non-Canonical Services
@@ -48,12 +45,13 @@ These files now carry the real admin/back-office route logic, but remain unmount
 
 - The active public runtime is no longer the risky part of the codebase.
 - The remaining legacy is concentrated in:
-  - compatibility wrappers over older import surfaces
   - audit/admin/manual pipelines using Sequelize
+  - one helper bootstrap file still coupled to admin games
+  - non-canonical back-office services
 - The next cleanup lot should be chosen explicitly:
-  - compatibility wrappers
   - audit/admin routes
-  - orphaned service scans
+  - admin helper reduction
+  - non-canonical service splits
 
 ## Removed After Verification
 
@@ -81,4 +79,7 @@ These files now carry the real admin/back-office route logic, but remain unmount
   - no code consumer remained outside the pair itself
   - the canonical game detail runtime already flows through [backend/src/routes/games/detail.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games/detail.js)
   - smoke stayed green after deletion
-- [backend/src/routes/audit.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/audit.js), [backend/src/routes/sync.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/sync.js), and [backend/src/routes/games-admin.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games-admin.js) were converted on March 31, 2026 into compatibility wrappers over the explicit [backend/src/routes/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin) tree.
+- [backend/src/routes/audit.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/audit.js), [backend/src/routes/sync.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/sync.js), and [backend/src/routes/games-admin.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games-admin.js) were removed on March 31, 2026 after confirming that:
+  - their real logic had already been materialized under [backend/src/routes/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin)
+  - no tracked code consumer remained for the flat wrappers
+  - smoke stayed green after deletion
