@@ -5,7 +5,7 @@ const { Router } = require('express')
 const { Sequelize } = require('sequelize')
 const path = require('path')
 
-require('../games-helpers')
+require('./games-helpers')
 const { handleAsync } = require('../../helpers/query')
 
 const router = Router()

@@ -1,10 +1,10 @@
 'use strict'
 
 const { QueryTypes, literal } = require('sequelize')
-const Game = require('../models/Game')
+const Game = require('../../models/Game')
 
-const { db: priceHistoryDb, mode: priceHistoryMode } = require('../../db_supabase')
-const { sequelize, databaseMode } = require('../database')
+const { db: priceHistoryDb, mode: priceHistoryMode } = require('../../../db_supabase')
+const { sequelize, databaseMode } = require('../../database')
 const {
   toGameSummary,
   parseStoredJson,
@@ -13,7 +13,7 @@ const {
   rarityRankAscending,
   compareNullableNumbers,
   compareGamesForSort,
-} = require('../lib/normalize')
+} = require('../../lib/normalize')
 
 function buildGamesOrder(sort) {
   const sortKey = String(sort || '').trim()

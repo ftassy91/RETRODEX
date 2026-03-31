@@ -20,8 +20,6 @@ This audit is intentionally narrow:
 
 | File | Role | Active consumer or mount | Status | Next step |
 | --- | --- | --- | --- | --- |
-| [backend/src/routes/games-helpers.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games-helpers.js) | helper bootstrap for [backend/src/routes/admin/games.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin/games.js) | coupled to admin games back-office only | `keep_non_canonical` | keep coupled to the admin cleanup lot |
-
 ## Remaining Legacy or Non-Canonical Services
 
 | File | Role | Active consumer | Status | Next step |
@@ -83,3 +81,4 @@ These files now carry the real admin/back-office route logic, but remain unmount
   - their real logic had already been materialized under [backend/src/routes/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin)
   - no tracked code consumer remained for the flat wrappers
   - smoke stayed green after deletion
+- [backend/src/routes/games-helpers.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games-helpers.js) was moved on March 31, 2026 to [backend/src/routes/admin/games-helpers.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin/games-helpers.js) after confirming that [backend/src/routes/admin/games.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin/games.js) was its only tracked consumer.
