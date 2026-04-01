@@ -29,6 +29,25 @@ async function persistPass1Curation(dataset, { passKey = PASS1_KEY } = {}) {
       )
     }
 
+    // Clear prior per-console target ranks before reassigning them. Without
+    // this reset, SQLite can hit the unique(pass_key, console_id, target_rank)
+    // constraint while rows are being updated in-place game by game.
+    await sequelize.query(
+      `UPDATE game_curation_states
+       SET target_rank = NULL,
+           is_target = 0,
+           updated_at = :updated_at
+       WHERE pass_key = :passKey`,
+      {
+        replacements: {
+          passKey,
+          updated_at: dataset.generatedAt,
+        },
+        transaction,
+        type: QueryTypes.UPDATE,
+      }
+    )
+
     for (const row of dataset.states) {
       await sequelize.query(
         `INSERT INTO game_curation_states (
