@@ -20,13 +20,24 @@ function parseNumberFlag(name, fallback) {
   return Number.isFinite(numeric) && numeric > 0 ? numeric : fallback
 }
 
+function parseIdsFlag(argv) {
+  const token = argv.find((entry) => String(entry).startsWith('--ids='))
+  if (!token) {
+    return []
+  }
+  return Array.from(new Set(
+    String(token).slice('--ids='.length).split(',').map((value) => value.trim()).filter(Boolean)
+  ))
+}
+
 async function main() {
   const candidateLimit = parseNumberFlag('candidate-limit', 100)
   const sampleLimit = parseNumberFlag('sample-limit', 10)
+  const gameIds = parseIdsFlag(process.argv)
 
   await runMigrations(sequelize)
 
-  const entries = await buildPremiumCoverageEntries()
+  const entries = await buildPremiumCoverageEntries({ gameIds })
   const summary = summarizePremiumCoverage(entries)
   const candidates = selectTopPremiumCandidates(entries, {
     limit: candidateLimit,
@@ -34,6 +45,7 @@ async function main() {
 
   console.log(JSON.stringify({
     generatedAt: new Date().toISOString(),
+    scopedGameIds: gameIds.length ? gameIds : null,
     summary,
     candidateLimit,
     sampleLimit,

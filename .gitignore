@@ -25,6 +25,7 @@ data/exports/
 data/screenshots/
 data/prices_t1_auto_latest.json
 backend/data/audit/
+backend/scripts/enrichment/manifests/generated/
 .codex_tmp_stage/
 orchestration.zip
 files.zip

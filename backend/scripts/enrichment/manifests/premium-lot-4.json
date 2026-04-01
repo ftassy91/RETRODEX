@@ -1,6 +1,12 @@
 {
   "batchKey": "g8_premium_lot_4",
+  "batchType": "premium",
+  "reviewStatus": "ready",
   "notes": "Premium lot 4 bronze uplift on targeted games",
+  "sources": ["manual_curated"],
+  "writeTargets": ["games", "game_editorial", "media_references", "source_records", "field_provenance"],
+  "publishDomains": ["records", "editorial", "media", "ui"],
+  "postChecks": ["records", "editorial", "media", "ui"],
   "payload": [
     {
       "gameId": "secret-of-mana-super-nintendo",

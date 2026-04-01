@@ -7,10 +7,10 @@ const {
   getMarketAudit,
 } = require('./entries')
 
-async function getAuditSummary({ persist = false } = {}) {
+async function getAuditSummary({ persist = false, gameIds = [] } = {}) {
   const [games, consoles, market] = await Promise.all([
-    getGameAuditEntries({ limit: 5000, persist }),
-    getConsoleAuditEntries({ persist }),
+    getGameAuditEntries({ limit: 5000, persist, gameIds }),
+    gameIds.length ? Promise.resolve([]) : getConsoleAuditEntries({ persist }),
     getMarketAudit(),
   ])
 
@@ -86,13 +86,13 @@ function toPriorityItem(entry) {
   }
 }
 
-async function getPriorityQueue({ entityType = 'all', limit = 100, persist = false } = {}) {
+async function getPriorityQueue({ entityType = 'all', limit = 100, persist = false, gameIds = [] } = {}) {
   const normalizedType = String(entityType || 'all').trim().toLowerCase()
   const shouldLoadGames = normalizedType === 'all' || normalizedType === 'game'
-  const shouldLoadConsoles = normalizedType === 'all' || normalizedType === 'console'
+  const shouldLoadConsoles = !gameIds.length && (normalizedType === 'all' || normalizedType === 'console')
 
   const [games, consoles] = await Promise.all([
-    shouldLoadGames ? getGameAuditEntries({ limit: 5000, persist }) : Promise.resolve([]),
+    shouldLoadGames ? getGameAuditEntries({ limit: 5000, persist, gameIds }) : Promise.resolve([]),
     shouldLoadConsoles ? getConsoleAuditEntries({ persist }) : Promise.resolve([]),
   ])
 

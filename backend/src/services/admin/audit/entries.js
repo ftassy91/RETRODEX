@@ -66,7 +66,11 @@ function detectConsoleSourceKeys(consoleItem, knowledgeEntry) {
   return keys
 }
 
-async function getGameAuditEntries({ limit = 250, persist = false } = {}) {
+function normalizeGameIds(gameIds = []) {
+  return Array.from(new Set((gameIds || []).filter(Boolean).map((value) => String(value))))
+}
+
+async function getGameAuditEntries({ limit = 250, persist = false, gameIds = [] } = {}) {
   const gameAuditAttributes = await getSelectableGameAttributes([
     'id',
     'title',
@@ -92,6 +96,8 @@ async function getGameAuditEntries({ limit = 250, persist = false } = {}) {
     'manual_url',
   ])
 
+  const ids = normalizeGameIds(gameIds)
+
   const [
     games,
     priceSupportMap,
@@ -102,7 +108,7 @@ async function getGameAuditEntries({ limit = 250, persist = false } = {}) {
     marketSnapshotMap,
   ] = await Promise.all([
     Game.findAll({
-      where: { type: 'game' },
+      where: ids.length ? { type: 'game', id: ids } : { type: 'game' },
       attributes: gameAuditAttributes,
     }),
     loadPriceSupportMap(),

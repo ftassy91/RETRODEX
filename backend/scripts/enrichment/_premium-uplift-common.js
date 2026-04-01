@@ -4,6 +4,7 @@ const path = require('path')
 const fs = require('fs')
 const crypto = require('crypto')
 const Database = require('better-sqlite3')
+const { readBatchManifest } = require('./_batch-manifest-common')
 
 const SQLITE_PATH = path.join(__dirname, '..', '..', 'storage', 'retrodex.sqlite')
 
@@ -20,27 +21,20 @@ function stringifyJson(value) {
 }
 
 function readManifest(manifestPath) {
-  const resolved = path.isAbsolute(manifestPath)
-    ? manifestPath
-    : path.resolve(process.cwd(), manifestPath)
-
-  if (!fs.existsSync(resolved)) {
-    throw new Error(`Premium manifest not found: ${resolved}`)
-  }
-
-  const parsed = JSON.parse(fs.readFileSync(resolved, 'utf8'))
-  if (!parsed || typeof parsed !== 'object') {
-    throw new Error(`Invalid premium manifest: ${resolved}`)
-  }
-  if (!parsed.batchKey || !Array.isArray(parsed.payload) || parsed.payload.length === 0) {
-    throw new Error(`Premium manifest missing batchKey/payload: ${resolved}`)
+  const manifest = readBatchManifest(manifestPath)
+  if (manifest.batchType !== 'premium') {
+    throw new Error(`Premium manifest expected batchType=premium, got ${manifest.batchType}`)
   }
 
   return {
-    manifestPath: resolved,
-    batchKey: String(parsed.batchKey),
-    notes: String(parsed.notes || `Premium uplift ${parsed.batchKey}`),
-    payload: parsed.payload,
+    manifestPath: manifest.manifestPath,
+    batchKey: manifest.batchKey,
+    notes: manifest.notes,
+    payload: manifest.payload,
+    ids: manifest.ids,
+    publishDomains: manifest.publishDomains,
+    postChecks: manifest.postChecks,
+    writeTargets: manifest.writeTargets,
   }
 }
 

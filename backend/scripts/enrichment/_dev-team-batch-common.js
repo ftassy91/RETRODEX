@@ -14,16 +14,6 @@ function hashValue(value) {
   return crypto.createHash('sha256').update(String(value || '')).digest('hex')
 }
 
-function tableExists(db, tableName) {
-  const row = db.prepare(`
-    SELECT name
-    FROM sqlite_master
-    WHERE type = 'table'
-      AND name = ?
-  `).get(tableName)
-  return Boolean(row)
-}
-
 function slugify(value) {
   return String(value || '')
     .trim()
@@ -32,6 +22,16 @@ function slugify(value) {
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
+}
+
+function tableExists(db, tableName) {
+  const row = db.prepare(`
+    SELECT name
+    FROM sqlite_master
+    WHERE type = 'table'
+      AND name = ?
+  `).get(tableName)
+  return Boolean(row)
 }
 
 function ensureGameIds(db, payload) {
@@ -54,7 +54,7 @@ function ensureSourceRecord(db, entry, timestamp) {
     FROM source_records
     WHERE entity_type = 'game'
       AND entity_id = ?
-      AND field_name = 'ost_composers'
+      AND field_name = 'dev_team'
       AND source_name = ?
     ORDER BY id DESC
     LIMIT 1
@@ -67,10 +67,17 @@ function ensureSourceRecord(db, entry, timestamp) {
           source_url = ?,
           compliance_status = 'approved',
           last_verified_at = ?,
-          confidence_level = 0.88,
+          confidence_level = ?,
           notes = ?
       WHERE id = ?
-    `).run(entry.sourceType, entry.sourceUrl, timestamp, entry.notes, existing.id)
+    `).run(
+      entry.sourceType || 'knowledge_registry',
+      entry.sourceUrl || null,
+      timestamp,
+      Number(entry.confidenceLevel ?? 0.72),
+      entry.notes || null,
+      existing.id
+    )
     return Number(existing.id)
   }
 
@@ -91,7 +98,7 @@ function ensureSourceRecord(db, entry, timestamp) {
     ) VALUES (
       'game',
       ?,
-      'ost_composers',
+      'dev_team',
       ?,
       ?,
       ?,
@@ -99,37 +106,46 @@ function ensureSourceRecord(db, entry, timestamp) {
       'approved',
       ?,
       ?,
-      0.88,
+      ?,
       ?
     )
-  `).run(entry.gameId, entry.sourceName, entry.sourceType, entry.sourceUrl, timestamp, timestamp, entry.notes)
+  `).run(
+    entry.gameId,
+    entry.sourceName,
+    entry.sourceType || 'knowledge_registry',
+    entry.sourceUrl || null,
+    timestamp,
+    timestamp,
+    Number(entry.confidenceLevel ?? 0.72),
+    entry.notes || null
+  )
 
   return Number(result.lastInsertRowid)
 }
 
-function ensureFieldProvenance(db, entry, sourceRecordId, composerJson, timestamp) {
+function ensureFieldProvenance(db, entry, sourceRecordId, devTeamJson, timestamp) {
   const existing = db.prepare(`
     SELECT id
     FROM field_provenance
     WHERE entity_type = 'game'
       AND entity_id = ?
-      AND field_name = 'ost_composers'
+      AND field_name = 'dev_team'
     ORDER BY id DESC
     LIMIT 1
   `).get(entry.gameId)
 
-  const valueHash = hashValue(composerJson)
-
+  const valueHash = hashValue(devTeamJson)
+  const inferred = entry.isInferred === false ? 0 : 1
   if (existing) {
     db.prepare(`
       UPDATE field_provenance
       SET source_record_id = ?,
           value_hash = ?,
-          is_inferred = 0,
-          confidence_level = 0.88,
+          is_inferred = ?,
+          confidence_level = ?,
           verified_at = ?
       WHERE id = ?
-    `).run(sourceRecordId, valueHash, timestamp, existing.id)
+    `).run(sourceRecordId, valueHash, inferred, Number(entry.confidenceLevel ?? 0.72), timestamp, existing.id)
     return
   }
 
@@ -143,23 +159,14 @@ function ensureFieldProvenance(db, entry, sourceRecordId, composerJson, timestam
       is_inferred,
       confidence_level,
       verified_at
-    ) VALUES (
-      'game',
-      ?,
-      'ost_composers',
-      ?,
-      ?,
-      0,
-      0.88,
-      ?
-    )
-  `).run(entry.gameId, sourceRecordId, valueHash, timestamp)
+    ) VALUES ('game', ?, 'dev_team', ?, ?, ?, ?, ?)
+  `).run(entry.gameId, sourceRecordId, valueHash, inferred, Number(entry.confidenceLevel ?? 0.72), timestamp)
 }
 
-function ensurePerson(db, composer, sourceRecordId, timestamp) {
-  const normalizedName = slugify(composer.name)
+function ensurePerson(db, member, sourceRecordId, timestamp) {
+  const normalizedName = slugify(member.name)
   if (!normalizedName) {
-    throw new Error(`Unable to normalize composer name: ${composer.name}`)
+    throw new Error(`Unable to normalize dev team member name: ${member.name}`)
   }
 
   const existing = db.prepare(`
@@ -169,15 +176,17 @@ function ensurePerson(db, composer, sourceRecordId, timestamp) {
     LIMIT 1
   `).get(normalizedName)
 
+  const primaryRole = String(member.role || 'developer').trim().toLowerCase() || 'developer'
+
   if (existing) {
     db.prepare(`
       UPDATE people
       SET name = ?,
-          primary_role = 'composer',
+          primary_role = ?,
           source_record_id = COALESCE(?, source_record_id),
           updated_at = ?
       WHERE id = ?
-    `).run(composer.name, sourceRecordId, timestamp, existing.id)
+    `).run(member.name, primaryRole, sourceRecordId, timestamp, existing.id)
     return String(existing.id)
   }
 
@@ -191,13 +200,12 @@ function ensurePerson(db, composer, sourceRecordId, timestamp) {
       source_record_id,
       created_at,
       updated_at
-    ) VALUES (?, ?, ?, 'composer', ?, ?, ?)
-  `).run(personId, composer.name, normalizedName, sourceRecordId, timestamp, timestamp)
-
+    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+  `).run(personId, member.name, normalizedName, primaryRole, sourceRecordId, timestamp, timestamp)
   return personId
 }
 
-function ensureGamePerson(db, gameId, personId, composer, sourceRecordId) {
+function ensureGamePerson(db, gameId, personId, member, sourceRecordId) {
   db.prepare(`
     INSERT INTO game_people (
       game_id,
@@ -207,22 +215,24 @@ function ensureGamePerson(db, gameId, personId, composer, sourceRecordId) {
       source_record_id,
       confidence,
       is_inferred
-    ) VALUES (?, ?, 'composer', ?, ?, ?, 0)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(game_id, person_id, role) DO UPDATE SET
       billing_order = excluded.billing_order,
       source_record_id = excluded.source_record_id,
       confidence = excluded.confidence,
-      is_inferred = 0
+      is_inferred = excluded.is_inferred
   `).run(
     gameId,
     personId,
-    Number(composer.billingOrder || 0) || null,
+    String(member.role || 'developer').trim().toLowerCase() || 'developer',
+    Number(member.billingOrder || 0) || null,
     sourceRecordId,
-    Number(composer.confidence ?? 0.88)
+    Number(member.confidence ?? 0.72),
+    member.isInferred === false ? 0 : 1
   )
 }
 
-function createRun(db, runKey, batchKey, startedAt, dryRun, notes) {
+function createRun(db, batchKey, timestamp, dryRun, notes) {
   const result = db.prepare(`
     INSERT INTO enrichment_runs (
       run_key,
@@ -239,23 +249,8 @@ function createRun(db, runKey, batchKey, startedAt, dryRun, notes) {
       items_flagged,
       error_count,
       notes
-    ) VALUES (
-      ?,
-      ?,
-      'apply',
-      'manual_curated',
-      'running',
-      ?,
-      ?,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      ?
-    )
-  `).run(runKey, batchKey, dryRun ? 1 : 0, startedAt, notes)
+    ) VALUES (?, ?, 'apply', 'manual_curated', 'running', ?, ?, 0, 0, 0, 0, 0, 0, ?)
+  `).run(`${batchKey}-${timestamp}`, batchKey, dryRun ? 1 : 0, timestamp, notes)
 
   return Number(result.lastInsertRowid)
 }
@@ -278,25 +273,25 @@ function finalizeRun(db, runId, timestamp, metrics) {
 
 function readBefore(db, payload) {
   const rows = db.prepare(`
-    SELECT id, ost_composers
+    SELECT id, dev_team
     FROM games
     WHERE id IN (${payload.map(() => '?').join(', ')})
   `).all(...payload.map((entry) => entry.gameId))
 
-  return new Map(rows.map((row) => [String(row.id), String(row.ost_composers || '')]))
+  return new Map(rows.map((row) => [String(row.id), String(row.dev_team || '')]))
 }
 
 function dryRun(db, payload) {
   const before = readBefore(db, payload)
   return {
     targetedGames: payload.length,
-    composerUpdates: payload.filter((entry) => before.get(entry.gameId) !== JSON.stringify(entry.ostComposers)).length,
-    composerPeopleBindings: payload.reduce((sum, entry) => sum + entry.ostComposers.length, 0),
+    devTeamUpdates: payload.filter((entry) => before.get(entry.gameId) !== JSON.stringify(entry.devTeam)).length,
+    peopleBindings: payload.reduce((sum, entry) => sum + entry.devTeam.length, 0),
     targets: payload.map((entry) => ({
       gameId: entry.gameId,
       title: entry.title,
-      hadComposersBefore: Boolean(before.get(entry.gameId).trim()),
-      composers: entry.ostComposers.map((composer) => composer.name),
+      hadDevTeamBefore: Boolean(before.get(entry.gameId).trim()),
+      members: entry.devTeam.map((member) => member.name),
       sourceName: entry.sourceName,
     })),
   }
@@ -304,8 +299,7 @@ function dryRun(db, payload) {
 
 function applyBatch(db, batchKey, notes, payload) {
   const startedAt = nowIso()
-  const runKey = `${batchKey}-${startedAt}`
-  const runId = createRun(db, runKey, batchKey, startedAt, false, notes)
+  const runId = createRun(db, batchKey, startedAt, false, notes)
   const metrics = {
     itemsSeen: payload.length,
     itemsUpdated: 0,
@@ -320,25 +314,27 @@ function applyBatch(db, batchKey, notes, payload) {
     const canWriteCanonicalPeople = tableExists(db, 'people') && tableExists(db, 'game_people')
     for (const entry of payload) {
       const sourceRecordId = ensureSourceRecord(db, entry, startedAt)
-      const composerJson = JSON.stringify(entry.ostComposers)
+      const devTeamJson = JSON.stringify(entry.devTeam)
       db.prepare(`
         UPDATE games
-        SET ost_composers = ?
+        SET dev_team = ?
         WHERE id = ?
-      `).run(composerJson, entry.gameId)
-      ensureFieldProvenance(db, entry, sourceRecordId, composerJson, startedAt)
+      `).run(devTeamJson, entry.gameId)
+      ensureFieldProvenance(db, entry, sourceRecordId, devTeamJson, startedAt)
+
       if (canWriteCanonicalPeople) {
-        for (let index = 0; index < entry.ostComposers.length; index += 1) {
-          const composer = entry.ostComposers[index]
-          const personId = ensurePerson(db, composer, sourceRecordId, startedAt)
+        for (let index = 0; index < entry.devTeam.length; index += 1) {
+          const member = entry.devTeam[index]
+          const personId = ensurePerson(db, member, sourceRecordId, startedAt)
           ensureGamePerson(db, entry.gameId, personId, {
-            ...composer,
+            ...member,
             billingOrder: index + 1,
           }, sourceRecordId)
           metrics.peopleUpserted += 1
           metrics.gamePeopleUpserted += 1
         }
       }
+
       metrics.itemsUpdated += 1
     }
   })
@@ -346,10 +342,10 @@ function applyBatch(db, batchKey, notes, payload) {
   transaction()
   finalizeRun(db, runId, nowIso(), metrics)
 
-  return { runId, runKey, metrics }
+  return { runId, metrics }
 }
 
-function runComposerBatch({ batchKey, notes, payload, argv = process.argv }) {
+function runDevTeamBatch({ batchKey, notes, payload, argv = process.argv }) {
   const apply = argv.includes('--apply')
   const db = new Database(SQLITE_PATH)
   try {
@@ -362,6 +358,7 @@ function runComposerBatch({ batchKey, notes, payload, argv = process.argv }) {
       }, null, 2))
       return
     }
+
     console.log(JSON.stringify({
       mode: 'apply',
       sqlitePath: SQLITE_PATH,
@@ -374,6 +371,6 @@ function runComposerBatch({ batchKey, notes, payload, argv = process.argv }) {
 }
 
 module.exports = {
-  runComposerBatch,
+  runDevTeamBatch,
   SQLITE_PATH,
 }
