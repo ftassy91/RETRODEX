@@ -21,6 +21,9 @@ Faire monter ces fiches de `bronze` vers `silver/gold` avec le minimum de deltas
 Script :
 
 - `backend/scripts/enrichment/apply-g8-premium-lot-4.js`
+- `backend/scripts/enrichment/apply-premium-uplift-batch.js`
+- `backend/scripts/enrichment/run-premium-batch-pipeline.js`
+- `backend/scripts/enrichment/manifests/premium-lot-4.json`
 
 Champs ajoutes ou renforces :
 
@@ -66,6 +69,7 @@ Publication restreinte faite sur les trois IDs :
 Point important :
 
 - `publish-media-references-supabase.js` a ete etendu pour publier aussi `map`, `sprite_sheet`, `screenshot`, `ending` et `scan`, en plus de `cover` et `manual`
+- le systeme premium peut maintenant etre pilote par manifeste JSON, sans reecrire un script specifique a chaque lot
 
 ## Validation
 
