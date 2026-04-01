@@ -26,6 +26,14 @@ const NOISY_SUFFIXES = [
   /\bgamepics\b/gi,
 ];
 
+const TITLE_ALIAS_MAP = new Map([
+  ["akumajo dracula x chi no rondo", "castlevania rondo of blood"],
+  ["akumajo dracula 10 chi no rondo", "castlevania rondo of blood"],
+  ["dracula x chi no rondo", "castlevania rondo of blood"],
+  ["earthbound the war against giygas", "earthbound"],
+  ["final fantasy 3", "final fantasy 6"],
+]);
+
 function normalizeRomanToken(token) {
   const compact = token.toLowerCase().replace(/\./g, "");
   return ROMAN_MAP[compact] || compact;
@@ -66,13 +74,18 @@ function normalizeTitle(rawTitle) {
     .filter(Boolean)
     .map((token) => normalizeRomanToken(token));
   const normalized = tokens.join(" ");
+  const aliased = TITLE_ALIAS_MAP.get(normalized) || normalized;
 
-  if (normalized !== normalizeWhitespace(rawTitle).toLowerCase()) {
+  if (aliased !== normalized) {
+    notes.push(`applied title alias "${normalized}" -> "${aliased}"`);
+  }
+
+  if (aliased !== normalizeWhitespace(rawTitle).toLowerCase()) {
     notes.push("applied deterministic title normalization");
   }
 
   return {
-    normalized,
+    normalized: aliased,
     notes,
   };
 }
