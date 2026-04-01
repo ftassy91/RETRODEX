@@ -109,6 +109,7 @@ async function fetchStatsPayload() {
     } : null,
     total_franchises: franchiseCount || 0,
     source_confidence: trustStats,
+    trust_stats: trustStats,
   }
 }
 

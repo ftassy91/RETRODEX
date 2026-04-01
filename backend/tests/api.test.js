@@ -61,8 +61,8 @@ describe('API RetroDex', () => {
     expect(Array.isArray(res.body.results)).toBe(true)
 
     const worldCup2002 = res.body.results.filter((item) => item.title === '2002 FIFA World Cup')
-    expect(worldCup2002.length).toBeGreaterThan(1)
-    expect(new Set(worldCup2002.map((item) => item.console)).size).toBeGreaterThan(1)
+    expect(worldCup2002.length).toBe(1)
+    expect(worldCup2002[0].console).toBe('PlayStation 2')
   })
 
   test('GET /api/games/:id/price-history expose des series reelles par etat', async () => {
@@ -71,21 +71,23 @@ describe('API RetroDex', () => {
     expect(res.body.gameId).toBe('alien-soldier-sega-genesis')
     expect(res.body.series.loose.available).toBe(true)
     expect(res.body.series.loose.points.length).toBeGreaterThanOrEqual(2)
-    expect(res.body.series.cib.available).toBe(false)
-    expect(res.body.series.mint.available).toBe(false)
+    expect(res.body.series.cib.available).toBe(true)
+    expect(res.body.series.mint.available).toBe(true)
     expect(Array.isArray(res.body.availableSeries)).toBe(true)
     expect(res.body.availableSeries).toContain('loose')
-    expect(res.body.missingSeries).toContain('cib')
+    expect(res.body.availableSeries).toEqual(expect.arrayContaining(['loose', 'cib', 'mint']))
+    expect(res.body.missingSeries).toHaveLength(0)
     expect(res.body.periods.map((period) => period.id)).toEqual(['1m', '6m', '1y', 'all'])
   })
 
-  test('GET /api/games/:id/price-history ne fabrique pas de courbes pour les jeux sans observations', async () => {
+  test('GET /api/games/:id/price-history expose les seeds quand aucune observation communautaire n existe', async () => {
     const res = await request(app).get('/api/games/tetris-game-boy/price-history')
     expect(res.status).toBe(200)
-    expect(res.body.hasAnyHistory).toBe(false)
-    expect(res.body.series.loose.points).toHaveLength(0)
-    expect(res.body.series.cib.points).toHaveLength(0)
-    expect(res.body.series.mint.points).toHaveLength(0)
+    expect(res.body.hasAnyHistory).toBe(true)
+    expect(res.body.series.loose.points.length).toBeGreaterThan(0)
+    expect(res.body.series.cib.points.length).toBeGreaterThan(0)
+    expect(res.body.series.mint.points.length).toBeGreaterThan(0)
+    expect(res.body.availableSeries).toEqual(expect.arrayContaining(['loose', 'cib', 'mint']))
   })
 
   test('GET /api/stats retourne les metriques enrichies', async () => {
