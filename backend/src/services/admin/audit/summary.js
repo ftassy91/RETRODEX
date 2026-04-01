@@ -14,6 +14,13 @@ async function getAuditSummary({ persist = false } = {}) {
     getMarketAudit(),
   ])
 
+  const countMissing = (fieldName, filterFn = null) => games.filter((entry) => {
+    if (typeof filterFn === 'function' && !filterFn(entry)) {
+      return false
+    }
+    return entry.missingCriticalFields.includes(fieldName)
+  }).length
+
   const tierCounts = games.reduce((acc, entry) => {
     acc[entry.tier] = (acc[entry.tier] || 0) + 1
     return acc
@@ -31,10 +38,15 @@ async function getAuditSummary({ persist = false } = {}) {
       byPlatform,
       byQualityTier: tierCounts,
       missingPrices: games.filter((entry) => entry.breakdown.market < 30).length,
-      missingSummaries: games.filter((entry) => entry.missingCriticalFields.includes('summary')).length,
-      missingDevTeam: games.filter((entry) => entry.missingCriticalFields.includes('dev_team')).length,
-      missingComposers: games.filter((entry) => entry.missingCriticalFields.includes('ost_composers')).length,
-      missingSourceAttribution: games.filter((entry) => entry.missingCriticalFields.includes('source_attribution')).length,
+      missingSummaries: countMissing('summary'),
+      missingSummariesPublished: countMissing('summary', (entry) => entry.curationStatus === 'published'),
+      missingDevTeam: countMissing('dev_team'),
+      missingDevTeamPublished: countMissing('dev_team', (entry) => entry.curationStatus === 'published'),
+      missingComposers: countMissing('ost_composers'),
+      missingComposersTierA: countMissing('ost_composers', (entry) => entry.tier === 'Tier A'),
+      missingComposersPublished: countMissing('ost_composers', (entry) => entry.curationStatus === 'published'),
+      missingComposersPublishedTierA: countMissing('ost_composers', (entry) => entry.curationStatus === 'published' && entry.tier === 'Tier A'),
+      missingSourceAttribution: countMissing('source_attribution'),
       weakTrust: games.filter((entry) => entry.breakdown.sourceTrust < 50).length,
     },
     consoles: {
