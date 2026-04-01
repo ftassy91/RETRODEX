@@ -45,6 +45,7 @@ function runNode(args, cwd, label) {
   const result = spawnSync(process.execPath, args, {
     cwd,
     encoding: 'utf8',
+    maxBuffer: 1024 * 1024 * 50,
   })
 
   if (result.stdout) {
@@ -66,6 +67,7 @@ function runCommand(command, args, cwd, label) {
     cwd,
     encoding: 'utf8',
     shell: false,
+    maxBuffer: 1024 * 1024 * 50,
   })
 
   if (result.stdout) {
