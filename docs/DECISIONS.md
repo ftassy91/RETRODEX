@@ -64,6 +64,14 @@ Stabilized service outcomes:
 - [audit-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/audit-service.js) is now a façade over [backend/src/services/admin/audit](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/audit).
 - [console-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/console-service.js) remains an isolated orchestrator with pure helpers in [console-profile.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/console-profile.js).
 - [enrichment-backlog-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment-backlog-service.js) remains a retained orchestrator with pure helpers in [enrichment-backlog-profile.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment-backlog-profile.js).
+- Lot 1 premium enrichment foundations are additive under [backend/src/services/admin/enrichment](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment).
+- Lot 1 premium enrichment foundations do not open new persistence tables.
+- Existing canonical tables remain the authority for:
+  - curation coverage
+  - provenance / evidence
+  - quality scoring
+  - run logging
+- Read-only premium coverage preview is exposed through [recompute-enrichment-coverage.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/recompute-enrichment-coverage.js).
 
 ## Phase 0 Discoveries and Final Placement
 

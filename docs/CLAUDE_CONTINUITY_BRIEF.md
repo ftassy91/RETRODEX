@@ -14,6 +14,7 @@ Use this as the fast-entry document when resuming the project.
 - Back-office routes: isolated under [backend/src/routes/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin)
 - Back-office services: isolated under [backend/src/services/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin)
 - Active technical lot by default: none
+- Canonical enrichment mission prompt: [CODEX_PROMPT_ENRICHMENT_PIPELINE.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/CODEX_PROMPT_ENRICHMENT_PIPELINE.md)
 
 ## What Is Finished
 
@@ -45,6 +46,22 @@ Closed on its approved perimeter:
 - [audit-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/audit-service.js): split, now façade
 - [console-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/console-service.js): isolated cleanly
 - [enrichment-backlog-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment-backlog-service.js): clarified and retained
+
+### Enrichment Lot 1 Foundations
+
+Opened and completed as an additive admin/back-office lot:
+
+- premium foundation added under [backend/src/services/admin/enrichment](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment)
+- no new persistence table opened
+- existing canonical tables reused for:
+  - coverage
+  - provenance
+  - quality scoring
+  - run logging
+- read-only CLI added:
+  - [recompute-enrichment-coverage.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/recompute-enrichment-coverage.js)
+- reference audit:
+  - [ENRICHMENT_LOT1_FOUNDATIONS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ENRICHMENT_LOT1_FOUNDATIONS.md)
 
 ## Architecture Invariants
 

@@ -88,6 +88,8 @@ Current stabilized structure:
 - isolated orchestrators:
   - [console-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/console-service.js)
   - [enrichment-backlog-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment-backlog-service.js)
+- premium enrichment foundation:
+  - [backend/src/services/admin/enrichment](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment)
 - implementation trees:
   - [backend/src/services/admin/game-read](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/game-read)
   - [backend/src/services/admin/curation](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/curation)
@@ -95,6 +97,11 @@ Current stabilized structure:
 - pure helper profiles:
   - [console-profile.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/console-profile.js)
   - [enrichment-backlog-profile.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment-backlog-profile.js)
+
+The premium enrichment foundation remains additive and reuses existing canonical
+tables such as `game_content_profiles`, `game_curation_states`,
+`quality_records`, `source_records`, `field_provenance`, and
+`enrichment_runs`. No new queue or evidence table is active by default.
 
 ### Middleware
 
