@@ -3,6 +3,7 @@
 const { db } = require('../../../db_supabase')
 const { dedupeSearchResults } = require('../../helpers/search')
 const { isMissingSupabaseRelationError } = require('../public-supabase-utils')
+const { filterPublishedSearchResults } = require('../public-publication-service')
 const {
   normalizeSearchGameRow,
   normalizeSearchFranchiseRow,
@@ -86,7 +87,7 @@ async function fetchSearchFallbackResults(query, type, requestedGamesLimit, requ
   }
 }
 
-async function searchCatalog(query, type, limit, scope, filterPublishedSearchResults) {
+async function searchCatalog(query, type, limit, scope) {
   const numericYear = /^\d{4}$/.test(query) ? Number.parseInt(query, 10) : null
   if (!query || query.length < 2) {
     return { ok: true, results: [], items: [], count: 0, query }
