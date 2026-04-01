@@ -3,6 +3,7 @@
 
 const { sequelize } = require('../src/database')
 const { runMigrations } = require('../src/services/migration-runner')
+const { loadSelectionBand } = require('../src/services/admin/curation/selection-band')
 const {
   PASS1_KEY,
   buildPass1CurationDataset,
@@ -12,11 +13,28 @@ const {
 
 const APPLY = process.argv.includes('--apply')
 
+function parseSelectionBand(argv) {
+  const token = argv.find((entry) => String(entry).startsWith('--selection-band='))
+  if (token) {
+    return String(token).split('=').slice(1).join('=').trim() || null
+  }
+
+  const index = argv.findIndex((entry) => String(entry).trim() === '--selection-band')
+  if (index >= 0 && argv[index + 1]) {
+    return String(argv[index + 1]).trim() || null
+  }
+
+  return null
+}
+
 async function main() {
   await runMigrations(sequelize)
+  const selectionBandPath = parseSelectionBand(process.argv)
+  const selectionBand = selectionBandPath ? loadSelectionBand(selectionBandPath) : null
 
   const dataset = await buildPass1CurationDataset({
     passKey: PASS1_KEY,
+    selectionBand,
   })
   const reports = await writePass1Reports(dataset)
   const persisted = APPLY
@@ -26,6 +44,7 @@ async function main() {
   console.log(JSON.stringify({
     mode: APPLY ? 'apply' : 'dry-run',
     passKey: PASS1_KEY,
+    selectionBand: dataset.selectionBand || null,
     summary: {
       linkedConsoles: dataset.targetConsoleIds.length,
       profiles: dataset.profiles.length,

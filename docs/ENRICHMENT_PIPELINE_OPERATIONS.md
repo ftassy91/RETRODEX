@@ -74,6 +74,50 @@ It records:
 - a `buffer` of the remaining Tier A candidates
 - score and curation context needed to keep enrichment batches focused on the canonical 1000-game target
 
+## Extension 200 and Top 1200
+
+Freeze the best non-Tier-A promotion candidates:
+
+```powershell
+node backend/scripts/enrichment/generate-extension-200-work-catalog.js
+```
+
+Build the combined `core1000 + extension200` band:
+
+```powershell
+node backend/scripts/enrichment/generate-top1200-selection-band.js
+```
+
+Measure official progress toward the `1200 complete-or-better` target:
+
+```powershell
+node backend/scripts/enrichment/report-top1200-progress.js
+```
+
+Notes:
+
+- `extension200` only selects games outside `Tier A`
+- required thresholds today:
+  - `completenessScore >= 95`
+  - `confidenceScore >= 90`
+  - `missingCriticalFields = []`
+- `top1200` progress is tracked with:
+  - `complete-or-better = complete | locked | published`
+
+Run PASS1 against a frozen target band:
+
+```powershell
+node backend/scripts/run-pass1-curation.js --selection-band=backend/data/audit/top1200/<file>.json
+```
+
+Or apply it:
+
+```powershell
+node backend/scripts/run-pass1-curation.js --apply --selection-band=backend/data/audit/top1200/<file>.json
+```
+
+The `selection-band` mode is intended to keep PASS1 aligned with a canonical target population instead of re-scoring the whole catalog blindly.
+
 ## Candidate manifest generators
 
 Composer candidates from audit:
@@ -148,6 +192,22 @@ Requirements for the RetroAchievements generator:
 - `RETROACHIEVEMENTS_API_KEY` must be set
 - the mapping file must resolve RetroDex `gameId -> retroachievements game id`
 - the generator remains non-mutating until the manifest is executed
+
+Composer candidates from a reviewed MusicBrainz core/canonical dataset:
+
+```powershell
+node backend/scripts/enrichment/generate-composer-musicbrainz-batch-manifest.js --dataset=backend/data/musicbrainz/<file>.json --selection-band=backend/data/audit/top1200/<file>.json --limit=10 --ready-if-complete
+```
+
+Rules for MusicBrainz usage in RetroDex:
+
+- dataset-first, not Web Service first
+- core/canonical structured data only
+- no annotations or unsafe free-text ingestion
+- use it to improve:
+  - `ost_composers`
+  - `ost_releases`
+  - soundtrack/person matching
 
 Generated manifests are written to:
 

@@ -17,6 +17,7 @@ async function writePass1Reports(dataset) {
   const summary = {
     passKey: dataset.passKey,
     generatedAt: dataset.generatedAt,
+    selectionBand: dataset.selectionBand || null,
     linkedConsoles: dataset.targetConsoleIds.length,
     profiles: dataset.profiles.length,
     states: dataset.states.length,

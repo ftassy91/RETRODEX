@@ -18,7 +18,10 @@
     "verify:runtime-nonmutating": "node scripts/verify-runtime-nonmutating.js",
     "publish:competitive:plan": "node scripts/publish-competitive-supabase.js",
     "publish:competitive:run": "node scripts/publish-competitive-supabase.js --apply",
-    "enrichment:freeze-top1000": "node scripts/enrichment/generate-top-1000-work-catalog.js"
+    "enrichment:freeze-top1000": "node scripts/enrichment/generate-top-1000-work-catalog.js",
+    "enrichment:freeze-extension200": "node scripts/enrichment/generate-extension-200-work-catalog.js",
+    "enrichment:freeze-top1200-band": "node scripts/enrichment/generate-top1200-selection-band.js",
+    "enrichment:report-top1200": "node scripts/enrichment/report-top1200-progress.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.100.0",

@@ -61,6 +61,30 @@ const SOURCE_POLICY = {
     legalFeasibility: 1,
     sourceAvailability: 0.95,
   },
+  musicbrainz: {
+    name: 'MusicBrainz core datasets',
+    status: 'approved_with_review',
+    legalFeasibility: 0.85,
+    sourceAvailability: 0.82,
+  },
+  musicbrainz_core: {
+    name: 'MusicBrainz core datasets',
+    status: 'approved_with_review',
+    legalFeasibility: 0.85,
+    sourceAvailability: 0.82,
+  },
+  libretro: {
+    name: 'libretro-database',
+    status: 'reference_only',
+    legalFeasibility: 0.6,
+    sourceAvailability: 0.8,
+  },
+  libretro_database: {
+    name: 'libretro-database',
+    status: 'reference_only',
+    legalFeasibility: 0.6,
+    sourceAvailability: 0.8,
+  },
   speedrun_com: {
     name: 'speedrun.com API',
     status: 'approved_with_review',

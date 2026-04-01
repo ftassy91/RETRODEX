@@ -23,7 +23,6 @@ const PROFILE_KEYS = [
 ]
 
 const NARRATIVE_GENRES = ['rpg', 'role-playing', 'jrpg', 'adventure', 'action adventure', 'metroidvania', 'visual novel']
-const CHARACTER_GENRES = ['rpg', 'role-playing', 'fighting', 'beat', 'adventure', 'platform', 'tactical']
 const VEHICLE_GENRES = ['racing', 'driving', 'flight', 'vehicular', 'vehicle', 'f1', 'combat flight']
 const LOW_LORE_GENRES = ['sports', 'puzzle', 'board', 'card', 'trivia', 'party', 'quiz']
 const LOW_OST_GENRES = ['sports', 'board', 'card', 'quiz']
@@ -37,7 +36,6 @@ module.exports = {
   TARGET_MAX_PER_CONSOLE,
   PROFILE_KEYS,
   NARRATIVE_GENRES,
-  CHARACTER_GENRES,
   VEHICLE_GENRES,
   LOW_LORE_GENRES,
   LOW_OST_GENRES,

@@ -7,7 +7,6 @@ const {
   LOCK_THRESHOLD,
   PROFILE_KEYS,
   NARRATIVE_GENRES,
-  CHARACTER_GENRES,
   VEHICLE_GENRES,
   LOW_LORE_GENRES,
   LOW_OST_GENRES,
@@ -110,7 +109,7 @@ function buildHeuristicContentProfile(game, context = {}) {
       || hasSubstantiveText(game?.lore, 80)
       || hasSubstantiveText(game?.synopsis, 80)
     ),
-    characters: hasGenreMatch(game, CHARACTER_GENRES) || countStructuredEntries(parseMaybeJson(game?.characters, [])) > 0,
+    characters: countStructuredEntries(parseMaybeJson(game?.characters, [])) > 0,
     maps: Number(media.maps?.valid || media.map?.valid || 0) > 0,
     vehicles: hasGenreMatch(game, VEHICLE_GENRES),
     ost: !hasGenreMatch(game, LOW_OST_GENRES) && (
@@ -227,6 +226,9 @@ function deriveLifecycleStatus({ isTarget, validation, previousState, immutableH
   const previousHash = String(previousState?.immutable_hash || '')
 
   if (previousStatus === 'locked' && previousHash && previousHash !== immutableHash) {
+    if (validation.canLock) {
+      return 'locked'
+    }
     return 'review'
   }
   if (validation.canLock) {

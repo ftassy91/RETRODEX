@@ -45,7 +45,10 @@
     "publish:curation:run": "node backend/scripts/publish-curation-supabase.js --apply",
     "publish:plan": "node backend/scripts/publish-sandbox-to-supabase.js --dry-run",
     "publish:run": "node backend/scripts/publish-sandbox-to-supabase.js --write",
-    "enrichment:freeze-top1000": "node backend/scripts/enrichment/generate-top-1000-work-catalog.js"
+    "enrichment:freeze-top1000": "node backend/scripts/enrichment/generate-top-1000-work-catalog.js",
+    "enrichment:freeze-extension200": "node backend/scripts/enrichment/generate-extension-200-work-catalog.js",
+    "enrichment:freeze-top1200-band": "node backend/scripts/enrichment/generate-top1200-selection-band.js",
+    "enrichment:report-top1200": "node backend/scripts/enrichment/report-top1200-progress.js"
   },
   "keywords": [],
   "author": "",

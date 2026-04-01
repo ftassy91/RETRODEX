@@ -54,14 +54,32 @@ async function loadMediaCountersMap() {
   return map
 }
 
-async function loadTargetConsoleIds() {
+async function loadTargetConsoleIds(selectionIds = []) {
+  const normalizedSelectionIds = Array.from(new Set((Array.isArray(selectionIds) ? selectionIds : []).map((value) => String(value || '').trim()).filter(Boolean)))
+  if (normalizedSelectionIds.length) {
+    const rows = await Game.findAll({
+      where: {
+        type: 'game',
+        id: normalizedSelectionIds,
+      },
+      attributes: ['consoleId'],
+    })
+
+    return Array.from(new Set(
+      rows
+        .map((row) => String(row.get('consoleId') || '').trim())
+        .filter(Boolean)
+    ))
+  }
+
   const consoles = await listConsoleItems()
   return consoles
     .filter((entry) => Number(entry.gamesCount || 0) > 0)
     .map((entry) => String(entry.id))
 }
 
-async function loadGamesByConsole(targetConsoleIds) {
+async function loadGamesByConsole(targetConsoleIds, selectionIds = []) {
+  const normalizedSelectionIds = Array.from(new Set((Array.isArray(selectionIds) ? selectionIds : []).map((value) => String(value || '').trim()).filter(Boolean)))
   const selectableAttributes = await getSelectableGameAttributes([
     'id',
     'title',
@@ -104,6 +122,7 @@ async function loadGamesByConsole(targetConsoleIds) {
     where: {
       type: 'game',
       consoleId: targetConsoleIds,
+      ...(normalizedSelectionIds.length ? { id: normalizedSelectionIds } : {}),
     },
     attributes: selectableAttributes,
   })

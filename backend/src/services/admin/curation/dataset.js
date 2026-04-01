@@ -24,10 +24,12 @@ async function buildPass1CurationDataset({
   passKey = PASS1_KEY,
   targetMinPerConsole = TARGET_MIN_PER_CONSOLE,
   targetMaxPerConsole = TARGET_MAX_PER_CONSOLE,
+  selectionBand = null,
 } = {}) {
-  const targetConsoleIds = await loadTargetConsoleIds()
+  const selectionIds = Array.isArray(selectionBand?.ids) ? selectionBand.ids : []
+  const targetConsoleIds = await loadTargetConsoleIds(selectionIds)
   const [games, mediaCounters, existing] = await Promise.all([
-    loadGamesByConsole(targetConsoleIds),
+    loadGamesByConsole(targetConsoleIds, selectionIds),
     loadMediaCountersMap(),
     loadExistingStateMaps(passKey),
   ])
@@ -91,6 +93,14 @@ async function buildPass1CurationDataset({
   return {
     passKey,
     generatedAt: rows.generatedAt,
+    selectionBand: selectionBand
+      ? {
+        path: selectionBand.path || null,
+        label: selectionBand.label || null,
+        generatedAt: selectionBand.generatedAt || null,
+        selectedIds: selectionIds.length,
+      }
+      : null,
     targetConsoleIds,
     consoleMatrix,
     profiles: rows.profiles,

@@ -62,6 +62,27 @@
 
 ## Approved with review
 
+### MusicBrainz core datasets
+
+- Status: `approved_with_review`
+- Allowed use:
+  - soundtrack release metadata
+  - composer / artist credits from canonical core data
+  - track titles and ordering when the source stays inside the canonical/core dataset perimeter
+  - local dataset-based matching and enrichment helpers
+- Restrictions:
+  - ne pas utiliser le Web Service comme voie principale d'ingestion produit
+  - limiter l'usage aux exports ou datasets locaux structures et traçables
+  - exclure les portions non-core / non-CC0 / non-canoniques
+  - conserver l'identifiant MusicBrainz source et l'URL de référence quand disponible
+- Product scope:
+  - `source_records`
+  - `field_provenance`
+  - `people`
+  - `game_people`
+  - `ost_releases`
+  - `ost_tracks`
+
 ### IGDB / Twitch
 
 - Status: `approved_with_review`
@@ -128,6 +149,22 @@
   - `game_achievement_profiles`
 
 ## Reference only
+
+### libretro-database
+
+- Status: `reference_only`
+- Allowed use:
+  - local title/platform matching help
+  - alias and normalization hints
+  - extension-band candidate validation
+- Restrictions:
+  - jamais comme vérité produit exposée
+  - pas de persistance comme source éditoriale canonique
+  - seulement comme aide de matching / disambiguation interne
+- Product scope:
+  - local matching helpers
+  - pre-ingestion validation
+  - extension-band resolution
 
 ### Internet Archive
 
