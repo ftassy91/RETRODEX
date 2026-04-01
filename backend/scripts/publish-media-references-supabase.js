@@ -51,6 +51,36 @@ function normalizeText(value) {
   return text || null;
 }
 
+function normalizeTimestamp(value) {
+  const normalized = normalizeText(value);
+  if (!normalized) return null;
+  const parsed = new Date(normalized);
+  return Number.isNaN(parsed.getTime()) ? normalized : parsed.toISOString();
+}
+
+function normalizeJsonText(value) {
+  const normalized = normalizeText(value);
+  if (!normalized) return null;
+  try {
+    return JSON.stringify(sortJsonValue(JSON.parse(normalized)));
+  } catch {
+    return normalized;
+  }
+}
+
+function sortJsonValue(value) {
+  if (Array.isArray(value)) {
+    return value.map(sortJsonValue);
+  }
+  if (!value || typeof value !== 'object') {
+    return value;
+  }
+  return Object.keys(value).sort().reduce((acc, key) => {
+    acc[key] = sortJsonValue(value[key]);
+    return acc;
+  }, {});
+}
+
 function buildMediaKey(row) {
   return [
     normalizeText(row.entity_type),
@@ -65,10 +95,22 @@ function mediaNeedsUpdate(remoteRow, localRow) {
     normalizeText(remoteRow.provider) !== normalizeText(localRow.provider)
     || normalizeText(remoteRow.compliance_status) !== normalizeText(localRow.compliance_status)
     || normalizeText(remoteRow.storage_mode) !== normalizeText(localRow.storage_mode)
+    || normalizeText(remoteRow.title) !== normalizeText(localRow.title)
+    || normalizeText(remoteRow.preview_url) !== normalizeText(localRow.preview_url)
+    || normalizeText(remoteRow.asset_subtype) !== normalizeText(localRow.asset_subtype)
+    || normalizeText(remoteRow.license_status) !== normalizeText(localRow.license_status)
+    || Boolean(remoteRow.ui_allowed) !== Boolean(localRow.ui_allowed)
+    || normalizeText(remoteRow.healthcheck_status) !== normalizeText(localRow.healthcheck_status)
+    || normalizeJsonText(remoteRow.notes) !== normalizeJsonText(localRow.notes)
+    || normalizeTimestamp(remoteRow.last_checked_at) !== normalizeTimestamp(localRow.last_checked_at)
+    || normalizeJsonText(remoteRow.source_context) !== normalizeJsonText(localRow.source_context)
   );
 }
 
 function getLocalMediaRows(sqlite) {
+  const columns = new Set(sqlite.prepare(`PRAGMA table_info(media_references)`).all().map((row) => String(row.name)));
+  const hasExtendedColumns = columns.has('title');
+
   return sqlite.prepare(`
     SELECT
       entity_type,
@@ -77,7 +119,16 @@ function getLocalMediaRows(sqlite) {
       url,
       provider,
       compliance_status,
-      storage_mode
+      storage_mode,
+      ${hasExtendedColumns ? 'title' : 'NULL AS title'},
+      ${hasExtendedColumns ? 'preview_url' : 'NULL AS preview_url'},
+      ${hasExtendedColumns ? 'asset_subtype' : 'NULL AS asset_subtype'},
+      ${hasExtendedColumns ? 'license_status' : 'NULL AS license_status'},
+      ${hasExtendedColumns ? 'ui_allowed' : '0 AS ui_allowed'},
+      ${hasExtendedColumns ? 'healthcheck_status' : `'unchecked' AS healthcheck_status`},
+      ${hasExtendedColumns ? 'notes' : 'NULL AS notes'},
+      ${hasExtendedColumns ? 'last_checked_at' : 'NULL AS last_checked_at'},
+      ${hasExtendedColumns ? 'source_context' : 'NULL AS source_context'}
     FROM media_references
     WHERE entity_type = 'game'
       AND media_type IN (${PUBLISHED_MEDIA_TYPES.map(() => '?').join(', ')})
@@ -92,7 +143,26 @@ function getLocalMediaRows(sqlite) {
     provider: normalizeText(row.provider),
     compliance_status: normalizeText(row.compliance_status),
     storage_mode: normalizeText(row.storage_mode),
+    title: normalizeText(row.title),
+    preview_url: normalizeText(row.preview_url),
+    asset_subtype: normalizeText(row.asset_subtype),
+    license_status: normalizeText(row.license_status),
+    ui_allowed: Number(row.ui_allowed || 0) === 1,
+    healthcheck_status: normalizeText(row.healthcheck_status),
+    notes: normalizeText(row.notes),
+    last_checked_at: normalizeText(row.last_checked_at),
+    source_context: normalizeText(row.source_context),
   })).filter((row) => !FILTER_IDS || FILTER_IDS.has(String(row.entity_id)));
+}
+
+async function getRemoteColumnSet(client) {
+  const { rows } = await client.query(`
+    SELECT column_name
+    FROM information_schema.columns
+    WHERE table_schema = 'public'
+      AND table_name = 'media_references'
+  `);
+  return new Set(rows.map((row) => String(row.column_name)));
 }
 
 async function ensureMediaTable(client) {
@@ -112,6 +182,25 @@ async function ensureMediaTable(client) {
     )
   `);
 
+  const columnSet = await getRemoteColumnSet(client);
+  const additions = [
+    ['title', 'text'],
+    ['preview_url', 'text'],
+    ['asset_subtype', 'text'],
+    ['license_status', `text NOT NULL DEFAULT 'reference_only'`],
+    ['ui_allowed', 'boolean NOT NULL DEFAULT false'],
+    ['healthcheck_status', `text NOT NULL DEFAULT 'unchecked'`],
+    ['notes', 'text'],
+    ['last_checked_at', 'timestamptz'],
+    ['source_context', 'jsonb'],
+  ];
+
+  for (const [name, definition] of additions) {
+    if (!columnSet.has(name)) {
+      await client.query(`ALTER TABLE public.media_references ADD COLUMN ${name} ${definition}`);
+    }
+  }
+
   await client.query(`
     CREATE UNIQUE INDEX IF NOT EXISTS idx_media_references_unique
     ON public.media_references (entity_type, entity_id, media_type, url)
@@ -128,8 +217,28 @@ async function ensureMediaTable(client) {
 }
 
 async function getRemoteMediaRows(client) {
+  const columnSet = await getRemoteColumnSet(client);
+  const selectColumns = [
+    'entity_type',
+    'entity_id',
+    'media_type',
+    'url',
+    'provider',
+    'compliance_status',
+    'storage_mode',
+    columnSet.has('title') ? 'title' : 'NULL::text AS title',
+    columnSet.has('preview_url') ? 'preview_url' : 'NULL::text AS preview_url',
+    columnSet.has('asset_subtype') ? 'asset_subtype' : 'NULL::text AS asset_subtype',
+    columnSet.has('license_status') ? 'license_status' : 'NULL::text AS license_status',
+    columnSet.has('ui_allowed') ? 'ui_allowed' : 'FALSE AS ui_allowed',
+    columnSet.has('healthcheck_status') ? 'healthcheck_status' : `'unchecked'::text AS healthcheck_status`,
+    columnSet.has('notes') ? 'notes' : 'NULL::text AS notes',
+    columnSet.has('last_checked_at') ? 'last_checked_at::text AS last_checked_at' : 'NULL::text AS last_checked_at',
+    columnSet.has('source_context') ? 'source_context::text AS source_context' : 'NULL::text AS source_context',
+  ];
+
   const { rows } = await client.query(`
-    SELECT entity_type, entity_id, media_type, url, provider, compliance_status, storage_mode
+    SELECT ${selectColumns.join(', ')}
     FROM public.media_references
     WHERE entity_type = 'game'
       AND media_type = ANY($1::text[])
@@ -161,12 +270,30 @@ async function syncMedia(client, localRows) {
           compliance_status,
           storage_mode,
           source_record_id,
+          title,
+          preview_url,
+          asset_subtype,
+          license_status,
+          ui_allowed,
+          healthcheck_status,
+          notes,
+          last_checked_at,
+          source_context,
           updated_at
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, NULL, now())
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, NULL, $8, $9, $10, $11, $12, $13, $14, $15, $16::jsonb, now())
         ON CONFLICT (entity_type, entity_id, media_type, url) DO UPDATE SET
           provider = EXCLUDED.provider,
           compliance_status = EXCLUDED.compliance_status,
           storage_mode = EXCLUDED.storage_mode,
+          title = EXCLUDED.title,
+          preview_url = EXCLUDED.preview_url,
+          asset_subtype = EXCLUDED.asset_subtype,
+          license_status = EXCLUDED.license_status,
+          ui_allowed = EXCLUDED.ui_allowed,
+          healthcheck_status = EXCLUDED.healthcheck_status,
+          notes = EXCLUDED.notes,
+          last_checked_at = EXCLUDED.last_checked_at,
+          source_context = EXCLUDED.source_context,
           updated_at = now()
       `, [
         row.entity_type,
@@ -176,6 +303,15 @@ async function syncMedia(client, localRows) {
         row.provider,
         row.compliance_status,
         row.storage_mode,
+        row.title,
+        row.preview_url,
+        row.asset_subtype,
+        row.license_status || 'reference_only',
+        Boolean(row.ui_allowed),
+        row.healthcheck_status || 'unchecked',
+        row.notes,
+        row.last_checked_at,
+        row.source_context,
       ]);
     }
   }

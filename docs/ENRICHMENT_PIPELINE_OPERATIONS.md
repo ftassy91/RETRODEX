@@ -52,6 +52,7 @@ Type-specific runners still exist:
 - `run-premium-batch-pipeline.js`
 - `run-summary-batch-pipeline.js`
 - `run-dev-team-batch-pipeline.js`
+- `run-media-review-batch-pipeline.js`
 
 ## Candidate manifest generators
 
@@ -85,11 +86,18 @@ Media review candidates from `polish-retrodex`:
 node backend/scripts/enrichment/generate-enrichment-batch-manifest.js --type=media --limit=20
 ```
 
+Ready-to-run media candidate from `polish-retrodex external_assets`:
+
+```powershell
+node backend/scripts/enrichment/generate-media-review-batch-manifest.js --source=vgmuseum --media-type=ending --limit=10 --ready
+```
+
 Generated manifests are written to:
 
 - `backend/scripts/enrichment/manifests/generated`
 
 They are created with `reviewStatus=review_required` and are intentionally not runnable until completed.
+Use `--ready` only for a reviewed batch you intend to validate immediately.
 
 ## Scoped validation
 
@@ -113,5 +121,6 @@ New enrichment work should prefer:
 2. canonical runners
 3. canonical tables first
 4. targeted publication and post-checks
+5. batch run registry in `backend/data/enrichment/batch_runs.jsonl` for pipeline lifecycle visibility
 
 New one-off `apply-g*` scripts should be treated as legacy compatibility, not the default path.

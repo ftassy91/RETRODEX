@@ -8,6 +8,7 @@ const { readBatchManifest, ensureManifestRunnable } = require('./_batch-manifest
 const REPO_ROOT = path.resolve(__dirname, '..', '..', '..')
 const COMPOSER_PIPELINE = path.join(__dirname, 'run-composer-batch-pipeline.js')
 const DEV_TEAM_PIPELINE = path.join(__dirname, 'run-dev-team-batch-pipeline.js')
+const MEDIA_PIPELINE = path.join(__dirname, 'run-media-review-batch-pipeline.js')
 const PREMIUM_PIPELINE = path.join(__dirname, 'run-premium-batch-pipeline.js')
 const SUMMARY_PIPELINE = path.join(__dirname, 'run-summary-batch-pipeline.js')
 
@@ -68,6 +69,11 @@ function main() {
 
   if (manifest.batchType === 'premium') {
     runNode([PREMIUM_PIPELINE, ...forwarded], REPO_ROOT, 'premium pipeline')
+    return
+  }
+
+  if (manifest.batchType === 'media') {
+    runNode([MEDIA_PIPELINE, ...forwarded], REPO_ROOT, 'media pipeline')
     return
   }
 
