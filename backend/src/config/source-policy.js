@@ -61,6 +61,24 @@ const SOURCE_POLICY = {
     legalFeasibility: 1,
     sourceAvailability: 0.95,
   },
+  speedrun_com: {
+    name: 'speedrun.com API',
+    status: 'approved_with_review',
+    legalFeasibility: 0.7,
+    sourceAvailability: 0.9,
+  },
+  speedruncom: {
+    name: 'speedrun.com API',
+    status: 'approved_with_review',
+    legalFeasibility: 0.7,
+    sourceAvailability: 0.9,
+  },
+  retroachievements: {
+    name: 'RetroAchievements API',
+    status: 'approved_with_review',
+    legalFeasibility: 0.7,
+    sourceAvailability: 0.88,
+  },
   internal: {
     name: 'RETRODEX internal',
     status: 'approved',

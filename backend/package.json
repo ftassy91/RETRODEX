@@ -15,7 +15,10 @@
     "db:seed-prototype-local": "node scripts/db-seed-prototype-local.js",
     "check:runtime": "npm run db:check-runtime && npm run check:runtime-boundaries && npm run verify:runtime-nonmutating",
     "check:runtime-boundaries": "node scripts/check-runtime-boundaries.js",
-    "verify:runtime-nonmutating": "node scripts/verify-runtime-nonmutating.js"
+    "verify:runtime-nonmutating": "node scripts/verify-runtime-nonmutating.js",
+    "publish:competitive:plan": "node scripts/publish-competitive-supabase.js",
+    "publish:competitive:run": "node scripts/publish-competitive-supabase.js --apply",
+    "enrichment:freeze-top1000": "node scripts/enrichment/generate-top-1000-work-catalog.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.100.0",

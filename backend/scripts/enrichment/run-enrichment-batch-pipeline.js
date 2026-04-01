@@ -11,6 +11,7 @@ const DEV_TEAM_PIPELINE = path.join(__dirname, 'run-dev-team-batch-pipeline.js')
 const MEDIA_PIPELINE = path.join(__dirname, 'run-media-review-batch-pipeline.js')
 const PREMIUM_PIPELINE = path.join(__dirname, 'run-premium-batch-pipeline.js')
 const SUMMARY_PIPELINE = path.join(__dirname, 'run-summary-batch-pipeline.js')
+const COMPETITIVE_PIPELINE = path.join(__dirname, 'run-competitive-batch-pipeline.js')
 
 function parseArgs(argv) {
   const args = {
@@ -74,6 +75,11 @@ function main() {
 
   if (manifest.batchType === 'media') {
     runNode([MEDIA_PIPELINE, ...forwarded], REPO_ROOT, 'media pipeline')
+    return
+  }
+
+  if (manifest.batchType === 'competitive') {
+    runNode([COMPETITIVE_PIPELINE, ...forwarded], REPO_ROOT, 'competitive pipeline')
     return
   }
 

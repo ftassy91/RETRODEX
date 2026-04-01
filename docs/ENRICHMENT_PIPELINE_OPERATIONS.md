@@ -31,6 +31,7 @@ Supported `batchType` values today:
 - `summary`
 - `dev_team`
 - `media`
+- `competitive`
 
 ## Canonical runners
 
@@ -53,6 +54,25 @@ Type-specific runners still exist:
 - `run-summary-batch-pipeline.js`
 - `run-dev-team-batch-pipeline.js`
 - `run-media-review-batch-pipeline.js`
+- `run-competitive-batch-pipeline.js`
+
+## Top 1000 work catalog
+
+Freeze the current working population from the latest audit:
+
+```powershell
+node backend/scripts/enrichment/generate-top-1000-work-catalog.js
+```
+
+The generated catalog is written under:
+
+- `backend/data/audit/top1000`
+
+It records:
+
+- the selected `top1000`
+- a `buffer` of the remaining Tier A candidates
+- score and curation context needed to keep enrichment batches focused on the canonical 1000-game target
 
 ## Candidate manifest generators
 
@@ -110,6 +130,24 @@ Ready-to-run media candidate from `polish-retrodex external_assets`:
 ```powershell
 node backend/scripts/enrichment/generate-media-review-batch-manifest.js --source=vgmuseum --media-type=ending --limit=10 --ready
 ```
+
+Competitive candidates from `speedrun.com` for reviewed target ids:
+
+```powershell
+node backend/scripts/enrichment/generate-competitive-speedrun-batch-manifest.js --ids=super-mario-64-nintendo-64,wave-race-64-nintendo-64 --top-categories=3 --top-records=5 --ready-if-complete
+```
+
+Competitive candidates from `RetroAchievements` require an API key and an explicit local mapping file:
+
+```powershell
+node backend/scripts/enrichment/generate-competitive-ra-batch-manifest.js --ids=f-zero-x-nintendo-64 --mapping=backend/data/competitive/retroachievements-mapping.json --ready-if-complete
+```
+
+Requirements for the RetroAchievements generator:
+
+- `RETROACHIEVEMENTS_API_KEY` must be set
+- the mapping file must resolve RetroDex `gameId -> retroachievements game id`
+- the generator remains non-mutating until the manifest is executed
 
 Generated manifests are written to:
 
@@ -175,6 +213,12 @@ Targeted premium coverage:
 
 ```powershell
 node backend/scripts/enrichment/recompute-enrichment-coverage.js --ids=game-a,game-b
+```
+
+Competitive publish post-check:
+
+```powershell
+node backend/scripts/publish-competitive-supabase.js --ids=game-a,game-b
 ```
 
 ## Current rule

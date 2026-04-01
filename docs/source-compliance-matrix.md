@@ -91,6 +91,42 @@
   - `market_snapshots`
   - verification / corroboration de prix
 
+### speedrun.com API
+
+- Status: `approved_with_review`
+- Allowed use:
+  - leaderboard categories
+  - primary WR / best-score snapshots
+  - external leaderboard URLs
+  - limited top-N entries for product reading
+- Restrictions:
+  - pas de copie locale de medias ni d'assets
+  - conserver provenance, categorie, URL externe et date d'observation
+  - ne stocker qu'un snapshot utile produit, pas l'integralite des leaderboards
+- Product scope:
+  - `game_competitive_profiles`
+  - `game_record_categories`
+  - `game_record_entries`
+  - projection `games.speedrun_wr`
+
+### RetroAchievements API
+
+- Status: `approved_with_review`
+- Allowed use:
+  - leaderboards
+  - high scores
+  - achievement and mastery summaries
+  - external URLs and ranking context
+- Restrictions:
+  - cle API requise
+  - provenance explicite sur chaque resume competitif
+  - pas de collecte massive inutile hors top 1000 cible
+- Product scope:
+  - `game_competitive_profiles`
+  - `game_record_categories`
+  - `game_record_entries`
+  - `game_achievement_profiles`
+
 ## Reference only
 
 ### Internet Archive

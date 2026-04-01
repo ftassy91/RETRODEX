@@ -262,6 +262,8 @@ function normalizeRecordEntry(entry) {
     value: time,
     runner: asTrimmedString(entry.runner || entry.player || ''),
     source: asTrimmedString(entry.source || ''),
+    url: asTrimmedString(entry.url || entry.externalUrl || ''),
+    metricType: asTrimmedString(entry.metricType || ''),
   }
 }
 
@@ -487,8 +489,11 @@ function buildContent(game, archive = {}, encyclopedia = {}) {
     ),
     tips: [],
     records: dedupeBy(
-      [normalizeRecordEntry(archive.speedrun_wr || encyclopedia.speedrun_wr || game.speedrun_wr)].filter(Boolean),
-      (entry) => `${entry.label.toLowerCase()}::${entry.value.toLowerCase()}`
+      [
+        normalizeRecordEntry(archive.speedrun_wr || encyclopedia.speedrun_wr || game.speedrun_wr),
+        ...safeArray(archive.competition?.featuredRecords).map((entry) => normalizeRecordEntry(entry)),
+      ].filter(Boolean),
+      (entry) => `${entry.label.toLowerCase()}::${entry.value.toLowerCase()}::${entry.runner.toLowerCase()}`
     ),
     covers,
     game_length: {

@@ -31,6 +31,19 @@ const DEFAULTS_BY_TYPE = {
     postChecks: ['media'],
     writeTargets: ['media_references', 'source_records', 'field_provenance'],
   },
+  competitive: {
+    publishDomains: ['records', 'competitive'],
+    postChecks: ['records', 'competitive'],
+    writeTargets: [
+      'games',
+      'game_competitive_profiles',
+      'game_record_categories',
+      'game_record_entries',
+      'game_achievement_profiles',
+      'source_records',
+      'field_provenance',
+    ],
+  },
 }
 
 function isPlainObject(value) {
@@ -195,12 +208,114 @@ function normalizeMediaPayloadEntry(entry) {
   }
 }
 
+function normalizeCompetitiveRecordEntry(entry) {
+  if (!isPlainObject(entry)) return null
+  return {
+    ...entry,
+    id: normalizeString(entry.id, ''),
+    categoryId: normalizeString(entry.categoryId || entry.recordCategoryId, ''),
+    gameId: normalizeString(entry.gameId || entry.entityId, ''),
+    rankPosition: normalizeNumeric(entry.rankPosition ?? entry.rank),
+    playerHandle: normalizeString(entry.playerHandle || entry.runner || entry.player, ''),
+    scoreRaw: normalizeString(entry.scoreRaw || entry.valueRaw || entry.score, ''),
+    scoreDisplay: normalizeString(entry.scoreDisplay || entry.valueDisplay || entry.time || entry.value, ''),
+    achievedAt: normalizeNullableString(entry.achievedAt || entry.submittedAt || entry.date),
+    externalUrl: normalizeNullableString(entry.externalUrl || entry.url),
+    sourceName: normalizeString(entry.sourceName, ''),
+    sourceType: normalizeString(entry.sourceType, ''),
+    sourceUrl: normalizeNullableString(entry.sourceUrl),
+    observedAt: normalizeNullableString(entry.observedAt),
+  }
+}
+
+function normalizeCompetitiveCategoryEntry(entry, gameIdFallback) {
+  if (!isPlainObject(entry)) return null
+  return {
+    ...entry,
+    id: normalizeString(entry.id || entry.categoryId, ''),
+    gameId: normalizeString(entry.gameId || gameIdFallback, ''),
+    categoryKey: normalizeString(entry.categoryKey || entry.slug, ''),
+    label: normalizeString(entry.label || entry.name, ''),
+    recordKind: normalizeString(entry.recordKind || entry.type, ''),
+    valueDirection: normalizeString(entry.valueDirection || entry.sortDirection, ''),
+    externalUrl: normalizeNullableString(entry.externalUrl || entry.url),
+    sourceName: normalizeString(entry.sourceName, ''),
+    sourceType: normalizeString(entry.sourceType, ''),
+    sourceUrl: normalizeNullableString(entry.sourceUrl),
+    observedAt: normalizeNullableString(entry.observedAt),
+    isPrimary: Boolean(entry.isPrimary),
+    displayOrder: normalizeNumeric(entry.displayOrder),
+  }
+}
+
+function normalizeCompetitivePayloadEntry(entry) {
+  const competitiveProfile = isPlainObject(entry?.competitiveProfile) ? {
+    ...entry.competitiveProfile,
+    speedrunRelevant: Boolean(entry.competitiveProfile.speedrunRelevant),
+    scoreAttackRelevant: Boolean(entry.competitiveProfile.scoreAttackRelevant),
+    leaderboardRelevant: Boolean(entry.competitiveProfile.leaderboardRelevant),
+    achievementCompetitive: Boolean(entry.competitiveProfile.achievementCompetitive),
+    primarySource: normalizeString(entry.competitiveProfile.primarySource, ''),
+    freshnessCheckedAt: normalizeNullableString(entry.competitiveProfile.freshnessCheckedAt),
+    sourceSummary: normalizeContext(entry.competitiveProfile.sourceSummary),
+  } : {}
+
+  const primaryProjection = isPlainObject(entry?.primaryProjection) ? {
+    ...entry.primaryProjection,
+    category: normalizeString(entry.primaryProjection.category || entry.primaryProjection.label, ''),
+    value: normalizeString(entry.primaryProjection.value || entry.primaryProjection.time || entry.primaryProjection.scoreDisplay, ''),
+    runner: normalizeString(entry.primaryProjection.runner || entry.primaryProjection.playerHandle, ''),
+    source: normalizeString(entry.primaryProjection.source || entry.primaryProjection.sourceName, ''),
+    url: normalizeNullableString(entry.primaryProjection.url || entry.primaryProjection.externalUrl),
+    metricType: normalizeString(entry.primaryProjection.metricType, ''),
+  } : null
+
+  const recordCategories = (Array.isArray(entry?.recordCategories) ? entry.recordCategories : [])
+    .map((item) => normalizeCompetitiveCategoryEntry(item, entry?.gameId || entry?.id))
+    .filter(Boolean)
+
+  const recordEntries = (Array.isArray(entry?.recordEntries) ? entry.recordEntries : [])
+    .map((item) => normalizeCompetitiveRecordEntry(item))
+    .filter(Boolean)
+
+  const achievementProfile = isPlainObject(entry?.achievementProfile) ? {
+    ...entry.achievementProfile,
+    gameId: normalizeString(entry.achievementProfile.gameId || entry?.gameId || entry?.id, ''),
+    sourceName: normalizeString(entry.achievementProfile.sourceName, ''),
+    sourceType: normalizeString(entry.achievementProfile.sourceType, ''),
+    sourceUrl: normalizeNullableString(entry.achievementProfile.sourceUrl),
+    pointsTotal: normalizeNumeric(entry.achievementProfile.pointsTotal),
+    achievementCount: normalizeNumeric(entry.achievementProfile.achievementCount),
+    leaderboardCount: normalizeNumeric(entry.achievementProfile.leaderboardCount),
+    masterySummary: normalizeNullableString(entry.achievementProfile.masterySummary),
+    highScoreSummary: normalizeNullableString(entry.achievementProfile.highScoreSummary),
+    observedAt: normalizeNullableString(entry.achievementProfile.observedAt),
+  } : null
+
+  return {
+    ...entry,
+    gameId: normalizeString(entry?.gameId || entry?.id, ''),
+    title: normalizeString(entry?.title, ''),
+    sourceName: normalizeString(entry?.sourceName, ''),
+    sourceType: normalizeString(entry?.sourceType, ''),
+    sourceUrl: normalizeNullableString(entry?.sourceUrl),
+    notes: normalizeString(entry?.notes, ''),
+    competitiveProfile,
+    recordCategories,
+    recordEntries,
+    achievementProfile,
+    primaryProjection,
+    candidateContext: normalizeContext(entry?.candidateContext),
+  }
+}
+
 function normalizePayloadEntry(batchType, entry) {
   if (batchType === 'premium') return normalizePremiumPayloadEntry(entry)
   if (batchType === 'summary') return normalizeSummaryPayloadEntry(entry)
   if (batchType === 'dev_team') return normalizeDevTeamPayloadEntry(entry)
   if (batchType === 'composers') return normalizeComposerPayloadEntry(entry)
   if (batchType === 'media') return normalizeMediaPayloadEntry(entry)
+  if (batchType === 'competitive') return normalizeCompetitivePayloadEntry(entry)
   return isPlainObject(entry) ? { ...entry } : entry
 }
 
@@ -288,6 +403,7 @@ function normalizeBatchType(value, fallback = 'premium') {
   if (raw === 'summary') return 'summary'
   if (raw === 'dev_team' || raw === 'devteam') return 'dev_team'
   if (raw === 'media') return 'media'
+  if (raw === 'competitive') return 'competitive'
   return raw
 }
 
@@ -395,6 +511,39 @@ function inspectMediaPayload(manifest, issues) {
   })
 }
 
+function inspectCompetitivePayload(manifest, issues) {
+  manifest.payload.forEach((entry, index) => {
+    const scope = `payload[${index}]`
+    if (!entry.gameId) addIssue(issues, scope, 'missing gameId')
+    if (!normalizeString(entry.sourceName, '')) addIssue(issues, scope, 'missing sourceName')
+    if (!normalizeString(entry.sourceType, '')) addIssue(issues, scope, 'missing sourceType')
+
+    const categoryCount = Array.isArray(entry.recordCategories) ? entry.recordCategories.length : 0
+    const entryCount = Array.isArray(entry.recordEntries) ? entry.recordEntries.length : 0
+    const hasAchievement = isPlainObject(entry.achievementProfile)
+    const hasProjection = isPlainObject(entry.primaryProjection) && normalizeString(entry.primaryProjection.value, '')
+
+    if (!categoryCount && !entryCount && !hasAchievement && !hasProjection) {
+      addIssue(issues, scope, 'competitive payload has no actionable content')
+    }
+
+    ;(entry.recordCategories || []).forEach((category, categoryIndex) => {
+      const categoryScope = `${scope}.recordCategories[${categoryIndex}]`
+      if (!normalizeString(category.label, '')) addIssue(issues, categoryScope, 'missing label')
+      if (!normalizeString(category.sourceName, '')) addIssue(issues, categoryScope, 'missing sourceName')
+      if (!normalizeString(category.sourceType, '')) addIssue(issues, categoryScope, 'missing sourceType')
+    })
+
+    ;(entry.recordEntries || []).forEach((record, recordIndex) => {
+      const recordScope = `${scope}.recordEntries[${recordIndex}]`
+      if (!normalizeString(record.categoryId, '')) addIssue(issues, recordScope, 'missing categoryId')
+      if (!normalizeString(record.scoreDisplay, '')) addIssue(issues, recordScope, 'missing scoreDisplay')
+      if (!normalizeString(record.sourceName, '')) addIssue(issues, recordScope, 'missing sourceName')
+      if (!normalizeString(record.sourceType, '')) addIssue(issues, recordScope, 'missing sourceType')
+    })
+  })
+}
+
 function inspectManifest(manifest) {
   const issues = []
 
@@ -410,6 +559,7 @@ function inspectManifest(manifest) {
   else if (manifest.batchType === 'dev_team') inspectDevTeamPayload(manifest, issues)
   else if (manifest.batchType === 'composers') inspectComposerPayload(manifest, issues)
   else if (manifest.batchType === 'media') inspectMediaPayload(manifest, issues)
+  else if (manifest.batchType === 'competitive') inspectCompetitivePayload(manifest, issues)
   else addIssue(issues, 'manifest', `unsupported batchType: ${manifest.batchType}`)
 
   return issues

@@ -734,6 +734,8 @@ function renderRecordList(items = []) {
           <span class="detail-record-label">${escapeHtml(item.label || 'Record')}</span>
           <span class="detail-record-value">${escapeHtml(item.value || '')}</span>
           ${item.runner ? `<span class="detail-record-meta">${escapeHtml(item.runner)}</span>` : ''}
+          ${item.source ? `<span class="detail-record-meta">${escapeHtml(item.source)}</span>` : ''}
+          ${item.url ? `<a class="detail-record-meta" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">Leaderboard</a>` : ''}
         </div>
       `).join('')}
     </article>
@@ -1220,7 +1222,7 @@ function buildLoreCharactersTab() {
     `)
   }
 
-  if (mainDuration || completeDuration || versions.length || speedrun?.time) {
+  if (mainDuration || completeDuration || versions.length || speedrun?.time || speedrun?.value) {
     const durationParts = [
       mainDuration ? `Main ${escapeHtml(mainDuration)}` : `Main ${buildEmptyStateHtml('Non renseigne')}`,
       completeDuration ? `Complet ${escapeHtml(completeDuration)}` : '',
@@ -1230,7 +1232,7 @@ function buildLoreCharactersTab() {
       <article class="detail-domain-block">
         <div class="detail-domain-heading">Progression</div>
         <div class="archive-duration">${durationParts.length ? durationParts.join(' | ') : buildEmptyStateHtml('Aucune duree')}</div>
-        ${speedrun?.time ? `<div class="archive-speedrun"><span class="archive-label">WR</span> ${escapeHtml(speedrun.category || 'Any%')} : ${escapeHtml(speedrun.time)}${speedrun.runner ? ` | ${escapeHtml(speedrun.runner)}` : ''}</div>` : ''}
+        ${(speedrun?.time || speedrun?.value) ? `<div class="archive-speedrun"><span class="archive-label">WR</span> ${escapeHtml(speedrun.category || 'Any%')} : ${escapeHtml(speedrun.time || speedrun.value)}${speedrun.runner ? ` | ${escapeHtml(speedrun.runner)}` : ''}</div>` : ''}
         ${versions.length ? `
           <div class="archive-ost-tracks">
             <span class="archive-label">Versions</span>

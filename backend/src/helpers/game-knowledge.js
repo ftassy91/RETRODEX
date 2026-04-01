@@ -470,7 +470,7 @@ function buildMediaPayload({ game, mediaRows = [] }) {
   }
 }
 
-function buildArchivePayload({ game, production, media, editorial, music, ostReleases = [] }) {
+function buildArchivePayload({ game, production, media, editorial, music, competition, ostReleases = [] }) {
   const item = game || {}
   const normalizedMedia = media || buildMediaPayload({ game: item })
   const normalizedProduction = production || buildProductionPayload({
@@ -479,6 +479,7 @@ function buildArchivePayload({ game, production, media, editorial, music, ostRel
   })
   const normalizedEditorial = editorial || {}
   const normalizedMusic = music || {}
+  const normalizedCompetition = archiveCompetitionPayload(game, normalizedEditorial, competition)
 
   return {
     ok: true,
@@ -510,9 +511,12 @@ function buildArchivePayload({ game, production, media, editorial, music, ostRel
       main: normalizedEditorial.avg_duration_main ?? item.avg_duration_main ?? null,
       complete: normalizedEditorial.avg_duration_complete ?? item.avg_duration_complete ?? null,
     },
-    speedrun_wr: parseStoredJson(normalizedEditorial.speedrun_wr, null) ?? parseStoredJson(item.speedrun_wr),
+    speedrun_wr: normalizedCompetition.primaryProjection
+      ?? parseStoredJson(normalizedEditorial.speedrun_wr, null)
+      ?? parseStoredJson(item.speedrun_wr),
     production: normalizedProduction,
     media: normalizedMedia,
+    competition: normalizedCompetition.archiveCompetition,
   }
 }
 
@@ -524,6 +528,8 @@ function buildEncyclopediaPayload(input) {
   const editorial = envelope.editorial || {}
   const production = envelope.production || null
   const music = envelope.music || null
+  const competition = envelope.competition || null
+  const normalizedCompetition = archiveCompetitionPayload(item, editorial, competition)
 
   return {
     ok: true,
@@ -538,9 +544,69 @@ function buildEncyclopediaPayload(input) {
     versions: parseStoredJson(editorial.versions, null) ?? parseStoredJson(item.versions) ?? [],
     avg_duration_main: editorial.avg_duration_main ?? item.avg_duration_main ?? null,
     avg_duration_complete: editorial.avg_duration_complete ?? item.avg_duration_complete ?? null,
-    speedrun_wr: parseStoredJson(editorial.speedrun_wr, null) ?? parseStoredJson(item.speedrun_wr) ?? null,
+    speedrun_wr: normalizedCompetition.primaryProjection
+      ?? parseStoredJson(editorial.speedrun_wr, null)
+      ?? parseStoredJson(item.speedrun_wr)
+      ?? null,
     ost_composers: safeArray(music?.composers).length ? safeArray(music.composers) : (parseStoredJson(item.ost_composers) || []),
     ost_notable_tracks: safeArray(music?.tracks).length ? safeArray(music.tracks) : (parseStoredJson(item.ost_notable_tracks) || []),
+    competition: normalizedCompetition.archiveCompetition,
+  }
+}
+
+function normalizeCompetitionRecord(record) {
+  if (!record || typeof record !== 'object') {
+    return null
+  }
+
+  const value = String(record.value || record.time || record.scoreDisplay || '').trim()
+  if (!value) return null
+  return {
+    label: String(record.label || record.category || 'Record').trim() || 'Record',
+    value,
+    runner: String(record.runner || record.playerHandle || '').trim(),
+    source: String(record.source || record.sourceName || '').trim(),
+    url: String(record.url || record.externalUrl || '').trim() || null,
+    metricType: String(record.metricType || '').trim() || null,
+    rankPosition: Number(record.rankPosition || 0) || null,
+  }
+}
+
+function archiveCompetitionPayload(game, editorial, competition) {
+  const primaryProjection = normalizeCompetitionRecord(competition?.primaryRecord)
+  const archiveCompetition = competition && competition.hasData
+    ? {
+      profile: competition.profile || null,
+      featuredRecords: safeArray(competition.featuredRecords).map(normalizeCompetitionRecord).filter(Boolean),
+      achievementProfile: competition.achievementProfile || null,
+      hasData: true,
+    }
+    : {
+      profile: null,
+      featuredRecords: [],
+      achievementProfile: null,
+      hasData: false,
+    }
+
+  if (!primaryProjection) {
+    const fallback = parseStoredJson(editorial?.speedrun_wr, null) ?? parseStoredJson(game?.speedrun_wr, null)
+    return {
+      archiveCompetition,
+      primaryProjection: fallback,
+    }
+  }
+
+  return {
+    archiveCompetition,
+    primaryProjection: {
+      category: primaryProjection.label,
+      value: primaryProjection.value,
+      time: primaryProjection.metricType === 'time' ? primaryProjection.value : null,
+      runner: primaryProjection.runner || null,
+      source: primaryProjection.source || null,
+      url: primaryProjection.url || null,
+      metricType: primaryProjection.metricType || null,
+    },
   }
 }
 

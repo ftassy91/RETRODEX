@@ -30,6 +30,8 @@
     "publish:media:run": "node backend/scripts/publish-media-references-supabase.js --apply",
     "publish:records:plan": "node backend/scripts/publish-records-supabase.js",
     "publish:records:run": "node backend/scripts/publish-records-supabase.js --apply",
+    "publish:competitive:plan": "node backend/scripts/publish-competitive-supabase.js",
+    "publish:competitive:run": "node backend/scripts/publish-competitive-supabase.js --apply",
     "publish:editorial:plan": "node backend/scripts/publish-editorial-supabase.js",
     "publish:editorial:run": "node backend/scripts/publish-editorial-supabase.js --apply",
     "publish:credits-music:plan": "node backend/scripts/publish-credits-music-supabase.js",
@@ -42,7 +44,8 @@
     "publish:curation:plan": "node backend/scripts/publish-curation-supabase.js",
     "publish:curation:run": "node backend/scripts/publish-curation-supabase.js --apply",
     "publish:plan": "node backend/scripts/publish-sandbox-to-supabase.js --dry-run",
-    "publish:run": "node backend/scripts/publish-sandbox-to-supabase.js --write"
+    "publish:run": "node backend/scripts/publish-sandbox-to-supabase.js --write",
+    "enrichment:freeze-top1000": "node backend/scripts/enrichment/generate-top-1000-work-catalog.js"
   },
   "keywords": [],
   "author": "",

@@ -37,6 +37,7 @@ function buildArchivePayload(game, domains = {}) {
     production: domains.production,
     media: domains.media,
     music: domains.music,
+    competition: domains.competition,
     ostReleases: domains.music?.releases || [],
   })
 }
@@ -47,6 +48,7 @@ function buildEncyclopediaPayload(game, domains = {}) {
     editorial: domains.editorial,
     production: domains.production,
     music: domains.music,
+    competition: domains.competition,
   })
 }
 

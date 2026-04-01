@@ -17,6 +17,7 @@ const {
   fetchGameOstTracks,
   fetchGameOstReleases,
 } = require('./public-game/credits')
+const { fetchGameCompetitionDomain } = require('./public-game/competition')
 const {
   hydrateGameCovers,
   buildArchivePayload,
@@ -30,7 +31,7 @@ const {
 } = require('./public-game/catalog')
 
 async function fetchGameKnowledgeDomains(game) {
-  const [companyRows, mediaRows, editorial, peopleRows, ostRows, ostTracks, ostReleases] = await Promise.all([
+  const [companyRows, mediaRows, editorial, peopleRows, ostRows, ostTracks, ostReleases, competition] = await Promise.all([
     fetchGameCompanyRows(game),
     fetchGameMediaRows(game?.id),
     fetchGameEditorialRow(game?.id),
@@ -38,6 +39,7 @@ async function fetchGameKnowledgeDomains(game) {
     fetchGameOstRows(game?.id),
     fetchGameOstTracks(game?.id),
     fetchGameOstReleases(game?.id),
+    fetchGameCompetitionDomain(game?.id),
   ])
 
   const canonicalDevTeam = peopleRows
@@ -79,6 +81,7 @@ async function fetchGameKnowledgeDomains(game) {
       releases: ostReleases,
       ostRows,
     },
+    competition,
   }
 }
 
