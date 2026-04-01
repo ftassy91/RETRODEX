@@ -77,7 +77,8 @@ function runCommand(command, args, cwd, label) {
     process.stderr.write(result.stderr)
   }
   if (result.status !== 0) {
-    throw new Error(`${label} failed with exit code ${result.status}`)
+    const errorSuffix = result.error ? ` (${result.error.message})` : result.signal ? ` (signal ${result.signal})` : ''
+    throw new Error(`${label} failed with exit code ${result.status}${errorSuffix}`)
   }
 }
 
@@ -159,7 +160,7 @@ function main() {
   runNode([path.join(BACKEND_ROOT, 'scripts', 'sync-supabase-ui-fields.js'), `--ids=${idsCsv}`, '--apply'], BACKEND_ROOT, 'sync-supabase-ui-fields apply')
   runNode([path.join(BACKEND_ROOT, 'scripts', 'sync-supabase-ui-fields.js'), `--ids=${idsCsv}`], BACKEND_ROOT, 'sync-supabase-ui-fields post-check')
 
-  runCommand('npm', ['run', 'smoke'], REPO_ROOT, 'npm run smoke')
+  runNode([path.join(BACKEND_ROOT, 'src', 'smoke-test.js')], BACKEND_ROOT, 'smoke-test')
   if (args.withTests) {
     runCommand('npm', ['test', '--', '--runInBand'], BACKEND_ROOT, 'npm test')
   }
