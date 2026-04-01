@@ -45,27 +45,6 @@ function sqliteTableExists(target) {
   return Array.isArray(rows) && rows.length > 0
 }
 
-async function ensureLocalPriceHistoryTable() {
-  const sqlite = getSqlite()
-  if (!sqlite) {
-    return
-  }
-
-  sqlite.exec(`
-    CREATE TABLE IF NOT EXISTS price_history (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      game_id TEXT NOT NULL,
-      price REAL NOT NULL,
-      condition TEXT CHECK(condition IN ('loose','cib','mint')) DEFAULT 'loose',
-      sale_date TEXT,
-      source TEXT DEFAULT 'seed',
-      listing_title TEXT,
-      created_at TEXT DEFAULT (datetime('now')),
-      FOREIGN KEY(game_id) REFERENCES games(id) ON DELETE CASCADE
-    )
-  `)
-}
-
 async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {
   const sqlite = getSqlite()
   if (!sqlite) {
@@ -85,7 +64,9 @@ async function queryLocalPriceHistoryRows(gameId, cutoffStr, limit = 2000) {
     `).all(gameId, cutoffStr, limit)
   }
 
-  await ensureLocalPriceHistoryTable()
+  if (!sqliteTableExists('price_history')) {
+    return []
+  }
 
   return sqlite.prepare(`
     SELECT price, condition, sale_date
@@ -128,7 +109,9 @@ async function queryLocalPriceSales(gameId, condition = null, limit = 200) {
     `).all(...params, limit)
   }
 
-  await ensureLocalPriceHistoryTable()
+  if (!sqliteTableExists('price_history')) {
+    return []
+  }
 
   return sqlite.prepare(`
     SELECT id, game_id, price, condition, sale_date, source, listing_url, listing_title, created_at
@@ -160,7 +143,9 @@ async function queryLocalRecentSales(limit) {
     `).all(limit)
   }
 
-  await ensureLocalPriceHistoryTable()
+  if (!sqliteTableExists('price_history')) {
+    return []
+  }
 
   return sqlite.prepare(`
     SELECT id, game_id, price, condition, sale_date, source

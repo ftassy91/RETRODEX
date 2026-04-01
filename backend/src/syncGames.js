@@ -1,23 +1,9 @@
-const { databaseMode, postgresSchema, sequelize } = require("./database");
+const { databaseMode, sequelize } = require("./database");
 const Game = require("./models/Game");
 const { loadPrototypeData } = require("./loadPrototypeData");
 
 async function syncGamesFromPrototype(options = {}) {
   const force = options.force === true;
-
-  if (databaseMode === "postgres" && postgresSchema) {
-    try {
-      await sequelize.createSchema(postgresSchema);
-    } catch (error) {
-      const code = error?.original?.code || error?.parent?.code || "";
-      const message = String(error?.message || "");
-      if (code !== "42P06" && !/already exists/i.test(message)) {
-        throw error;
-      }
-    }
-  }
-
-  await sequelize.sync({ alter: true });
   const existing = await Game.count();
 
   if (existing > 0 && !force) {

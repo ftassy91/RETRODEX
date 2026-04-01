@@ -8,7 +8,13 @@
     "start": "node src/server.js",
     "test": "jest",
     "sync": "node src/sync.js",
-    "smoke": "node src/smoke-test.js"
+    "smoke": "node src/smoke-test.js",
+    "db:migrate": "node scripts/db-migrate.js",
+    "db:check-runtime": "node scripts/db-check-runtime.js",
+    "db:bootstrap-local": "node scripts/db-bootstrap-local.js",
+    "db:seed-prototype-local": "node scripts/db-seed-prototype-local.js",
+    "check:runtime-boundaries": "node scripts/check-runtime-boundaries.js",
+    "verify:runtime-nonmutating": "node scripts/verify-runtime-nonmutating.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.100.0",
