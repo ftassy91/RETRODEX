@@ -1,6 +1,6 @@
 const { databaseMode, sequelize } = require("./database");
 const Game = require("./models/Game");
-const { loadPrototypeData } = require("./loadPrototypeData");
+const { loadPrototypeData } = require("./prototype/loadPrototypeData");
 
 async function syncGamesFromPrototype(options = {}) {
   const force = options.force === true;

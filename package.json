@@ -19,6 +19,7 @@
     "db:check-runtime": "cd backend && npm run db:check-runtime",
     "db:bootstrap-local": "cd backend && npm run db:bootstrap-local",
     "db:seed-prototype-local": "cd backend && npm run db:seed-prototype-local",
+    "check:runtime": "cd backend && npm run check:runtime",
     "check:runtime-boundaries": "cd backend && npm run check:runtime-boundaries",
     "verify:runtime-nonmutating": "cd backend && npm run verify:runtime-nonmutating",
     "validate:workspace": "node scripts/audit/validate_all.js",

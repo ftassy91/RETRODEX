@@ -1,5 +1,6 @@
 'use strict'
-// DATA: local bootstrap and Sequelize-backed sync pipeline - non-canonical admin/back-office route, not mounted by default
+// DATA: local prototype -> SQLite sync route.
+// STATUS: non-canonical admin/back-office endpoint, not mounted by default and never part of the public runtime contract.
 
 const { Router } = require('express')
 

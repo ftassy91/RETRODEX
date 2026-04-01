@@ -1,6 +1,6 @@
-# 2026-04-01 — Runtime Consolidation Night
+# 2026-04-01 - Runtime Consolidation Night
 
-## Lot 1 — Boot runtime et discipline d'execution
+## Lot 1 - Boot runtime et discipline d'execution
 
 Objectif :
 - sortir les mutations de schema du runtime
@@ -29,7 +29,7 @@ Validation :
 - `npm run smoke` : OK
 - `cd backend && npm test -- --runInBand` : OK
 
-## Lot 2 — Frontieres et scripts root
+## Lot 2 - Frontieres et scripts root
 
 Objectif :
 - cesser de promouvoir le prototype comme flux par defaut
@@ -44,13 +44,13 @@ Changements :
 Validation :
 - garde-fou runtime toujours vert
 
-## Lot 3 — Premier gros module reduit
+## Lot 3 - Premier gros module reduit
 
 Objectif :
 - reduire un vrai point de complexite admin sans changer l'API metier
 
 Changements :
-- extraction des chargeurs et agrégations de `coverage-service` vers `coverage-loaders.js`
+- extraction des chargeurs et agregations de `coverage-service` vers `coverage-loaders.js`
 - `coverage-service` garde son API :
   - `buildPremiumCoverageEntries`
   - `summarizePremiumCoverage`
@@ -59,8 +59,67 @@ Validation :
 - `npm run smoke` : OK
 - `cd backend && npm test -- --runInBand` : OK
 
+## Lot 4 - Audit admin reduit
+
+Objectif :
+- transformer `backend/src/services/admin/audit/entries.js` en facade mince
+- conserver les exports et les shapes d'audit
+
+Changements :
+- ajout de :
+  - `backend/src/services/admin/audit/source-support.js`
+  - `backend/src/services/admin/audit/games.js`
+  - `backend/src/services/admin/audit/consoles.js`
+  - `backend/src/services/admin/audit/market.js`
+- `backend/src/services/admin/audit/entries.js` devient une facade de composition
+- aucune modification de contrat sur :
+  - `getGameAuditEntries`
+  - `getConsoleAuditEntries`
+  - `getMarketAudit`
+
+Validation :
+- `node backend/scripts/run-audit.js --ids=tetris-game-boy` : OK
+- `npm run smoke` : OK
+- `cd backend && npm test -- --runInBand` : OK
+
+## Lot 5 - Curation PASS1 reduite
+
+Objectif :
+- transformer `backend/src/services/admin/curation/dataset.js` en orchestrateur
+- conserver les exports et la shape du dataset PASS1
+
+Changements :
+- ajout de :
+  - `backend/src/services/admin/curation/dataset-loaders.js`
+  - `backend/src/services/admin/curation/dataset-evaluator.js`
+  - `backend/src/services/admin/curation/dataset-assembly.js`
+- `backend/src/services/admin/curation/dataset.js` garde son API mais ne porte plus toute la logique
+
+Validation :
+- `node backend/scripts/run-pass1-curation.js` : OK
+- `npm run smoke` : OK
+- `cd backend && npm test -- --runInBand` : OK
+
+## Lot 6 - Prototype local clarifie + routine runtime
+
+Objectif :
+- rendre explicite le statut local-only de `frontend/data`
+- rendre les garde-fous runtime utilisables en une seule commande
+
+Changements :
+- ajout de `backend/src/prototype/loadPrototypeData.js`
+- `backend/src/loadPrototypeData.js` devient un wrapper de compatibilite local-only
+- `backend/src/syncGames.js` et `backend/scripts/seed.js` pointent vers le loader prototype dedie
+- `backend/src/routes/admin/sync.js` est re-etiquete comme route admin/prototype non canonique
+- ajout de `check:runtime` dans `backend/package.json` et `package.json`
+
+Validation :
+- `npm run check:runtime` : OK
+- `npm run smoke` : OK
+- `cd backend && npm test -- --runInBand` : OK
+
 ## Blocages / limites restantes
 
-- `backend/src/loadPrototypeData.js` et `backend/src/routes/admin/sync.js` restent des chemins admin/prototype explicites, pas retires cette nuit
 - `frontend/` reste present comme prototype, non supprime
-- `backend/src/services/admin/audit/entries.js` et `backend/src/services/admin/curation/dataset.js` restent a reduire lors d'un lot suivant
+- `backend/src/loadPrototypeData.js` et `backend/src/routes/admin/sync.js` restent des chemins admin/prototype explicites, mais ils sont maintenant recadres comme local-only et non canoniques
+- `backend/src/services/admin/curation/dataset.js` peut encore etre affine si l'on veut un decoupage plus fin du ranking, mais il n'est plus monolithique
