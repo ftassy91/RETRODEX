@@ -136,7 +136,7 @@ function ensureFieldProvenance(db, entry, sourceRecordId, composerJson, timestam
   `).run(entry.gameId, sourceRecordId, valueHash, timestamp)
 }
 
-function createRun(db, batchKey, startedAt, dryRun, notes) {
+function createRun(db, runKey, batchKey, startedAt, dryRun, notes) {
   const result = db.prepare(`
     INSERT INTO enrichment_runs (
       run_key,
@@ -169,7 +169,7 @@ function createRun(db, batchKey, startedAt, dryRun, notes) {
       0,
       ?
     )
-  `).run(batchKey, batchKey, dryRun ? 1 : 0, startedAt, notes)
+  `).run(runKey, batchKey, dryRun ? 1 : 0, startedAt, notes)
 
   return Number(result.lastInsertRowid)
 }
@@ -218,7 +218,7 @@ function dryRun(db, payload) {
 function applyBatch(db, batchKey, notes, payload) {
   const startedAt = nowIso()
   const runKey = `${batchKey}-${startedAt}`
-  const runId = createRun(db, batchKey, startedAt, false, notes)
+  const runId = createRun(db, runKey, batchKey, startedAt, false, notes)
   const metrics = {
     itemsSeen: payload.length,
     itemsUpdated: 0,

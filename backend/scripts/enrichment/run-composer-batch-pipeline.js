@@ -162,7 +162,7 @@ function main() {
 
   runNode([path.join(BACKEND_ROOT, 'src', 'smoke-test.js')], BACKEND_ROOT, 'smoke-test')
   if (args.withTests) {
-    runCommand('npm', ['test', '--', '--runInBand'], BACKEND_ROOT, 'npm test')
+    runNode([path.join(BACKEND_ROOT, 'node_modules', 'jest', 'bin', 'jest.js'), '--runInBand'], BACKEND_ROOT, 'jest')
   }
 
   console.log(JSON.stringify({
