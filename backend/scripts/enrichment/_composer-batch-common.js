@@ -10,6 +10,27 @@ function nowIso() {
   return new Date().toISOString()
 }
 
+function normalizeComposerEntry(entry) {
+  return {
+    ...entry,
+    sourceName: String(entry.sourceName || '').trim(),
+    sourceType: String(entry.sourceType || '').trim(),
+    sourceUrl: String(entry.sourceUrl || '').trim() || null,
+    ostComposers: (Array.isArray(entry.ostComposers) ? entry.ostComposers : [])
+      .map((composer) => {
+        if (!composer || typeof composer !== 'object') return null
+        const name = String(composer.name || '').trim()
+        if (!name) return null
+        return {
+          ...composer,
+          name,
+          role: String(composer.role || 'composer').trim() || 'composer',
+        }
+      })
+      .filter(Boolean),
+  }
+}
+
 function hashValue(value) {
   return crypto.createHash('sha256').update(String(value || '')).digest('hex')
 }
@@ -49,6 +70,13 @@ function ensureGameIds(db, payload) {
 }
 
 function ensureSourceRecord(db, entry, timestamp) {
+  if (!entry.sourceName) {
+    throw new Error(`Composer entry missing sourceName for ${entry.gameId}`)
+  }
+  if (!entry.sourceType) {
+    throw new Error(`Composer entry missing sourceType for ${entry.gameId}`)
+  }
+
   const existing = db.prepare(`
     SELECT id
     FROM source_records
@@ -351,22 +379,23 @@ function applyBatch(db, batchKey, notes, payload) {
 
 function runComposerBatch({ batchKey, notes, payload, argv = process.argv }) {
   const apply = argv.includes('--apply')
+  const normalizedPayload = payload.map((entry) => normalizeComposerEntry(entry))
   const db = new Database(SQLITE_PATH)
   try {
-    ensureGameIds(db, payload)
+    ensureGameIds(db, normalizedPayload)
     if (!apply) {
       console.log(JSON.stringify({
         mode: 'dry-run',
         sqlitePath: SQLITE_PATH,
-        summary: dryRun(db, payload),
+        summary: dryRun(db, normalizedPayload),
       }, null, 2))
       return
     }
     console.log(JSON.stringify({
       mode: 'apply',
       sqlitePath: SQLITE_PATH,
-      summary: dryRun(db, payload),
-      result: applyBatch(db, batchKey, notes, payload),
+      summary: dryRun(db, normalizedPayload),
+      result: applyBatch(db, batchKey, notes, normalizedPayload),
     }, null, 2))
   } finally {
     db.close()

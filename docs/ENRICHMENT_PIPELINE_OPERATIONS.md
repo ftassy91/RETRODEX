@@ -62,6 +62,19 @@ Composer candidates from audit:
 node backend/scripts/enrichment/generate-enrichment-batch-manifest.js --type=composers --limit=15 --tier=Tier A
 ```
 
+Composer candidates with strict internal autofill, directly runnable if every target is already covered by canonical or legacy local data:
+
+```powershell
+node backend/scripts/enrichment/generate-composer-batch-manifest.js --ids=art-of-fighting-sega-genesis,blackthorne-super-nintendo --allow-explicit-ids --autofill-safe --ready-if-complete
+```
+
+Strict internal autofill for `composers` is intentionally limited to:
+
+- canonical local credits from `game_people(role=composer)` + `people`
+- existing local `games.ost_composers`
+
+It does not infer from `dev_team`, studios, sound teams, or any external heuristics.
+
 Dev team candidates from audit:
 
 ```powershell
@@ -102,8 +115,9 @@ Generated manifests are written to:
 
 - `backend/scripts/enrichment/manifests/generated`
 
-They are created with `reviewStatus=review_required` and are intentionally not runnable until completed.
-Use `--ready` only for a reviewed batch you intend to validate immediately.
+Generated manifests default to `reviewStatus=review_required` and are intentionally not runnable until completed.
+Some generators can emit `ready` directly when every target is already fully auto-filled from safe internal data.
+Use `--ready` or `--ready-if-complete` only for a reviewed batch you intend to validate immediately.
 
 ## Manifest inspection
 
@@ -112,6 +126,34 @@ Check whether a manifest is actually runnable:
 ```powershell
 node backend/scripts/enrichment/inspect-enrichment-manifest.js --manifest=backend/scripts/enrichment/manifests/generated/<file>.json
 ```
+
+## Manifest finalization
+
+Normalize a generated manifest without changing its review state:
+
+```powershell
+node backend/scripts/enrichment/finalize-enrichment-manifest.js --manifest=backend/scripts/enrichment/manifests/generated/<file>.json --write
+```
+
+Normalize and promote to `ready` only if the manifest is fully runnable:
+
+```powershell
+node backend/scripts/enrichment/finalize-enrichment-manifest.js --manifest=backend/scripts/enrichment/manifests/generated/<file>.json --write-ready
+```
+
+Recommended workflow:
+
+1. generate
+2. inspect
+3. finalize
+4. execute through the generic dispatcher
+
+The roles are now distinct:
+
+- generator: prepares a candidate batch
+- inspector: reports whether a manifest is runnable
+- finalizer: normalizes and conditionally promotes to `ready`
+- runner: executes `apply -> validation -> publish -> post-check`
 
 ## Batch registry reporting
 
