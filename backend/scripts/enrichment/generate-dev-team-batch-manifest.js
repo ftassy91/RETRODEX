@@ -5,6 +5,10 @@ const { sequelize } = require('../../src/database')
 const { runMigrations } = require('../../src/services/migration-runner')
 const { getGameAuditEntries } = require('../../src/services/admin/audit')
 const { writeGeneratedManifest } = require('./_manifest-output-common')
+const Database = require('better-sqlite3')
+const path = require('path')
+
+const SQLITE_PATH = path.join(__dirname, '..', '..', 'storage', 'retrodex.sqlite')
 
 function parseNumberFlag(argv, name, fallback) {
   const token = argv.find((value) => String(value).startsWith(`--${name}=`))
@@ -30,12 +34,64 @@ function buildBatchKey(prefix) {
   return `${prefix}_${stamp}`
 }
 
+function buildAutofillMap(gameIds) {
+  const db = new Database(SQLITE_PATH, { readonly: true })
+  try {
+    const rows = db.prepare(`
+      SELECT
+        g.id AS gameId,
+        g.developer,
+        g.developerId,
+        c.name AS companyName
+      FROM games g
+      LEFT JOIN companies c
+        ON c.id = g.developerId
+      WHERE g.id IN (${gameIds.map(() => '?').join(', ')})
+    `).all(...gameIds)
+
+    return new Map(rows.map((row) => {
+      const companyName = String(row.companyName || '').trim()
+      const developerText = String(row.developer || '').trim()
+      if (companyName) {
+        return [String(row.gameId), {
+          devTeam: [{ role: 'developer', name: companyName }],
+          sourceName: 'internal',
+          sourceType: 'master_data',
+          sourceUrl: null,
+          confidenceLevel: 0.72,
+          notes: `Auto-filled from companies.id=${row.developerId}`,
+          isInferred: true,
+          autofillMode: 'company_match',
+        }]
+      }
+      if (developerText) {
+        return [String(row.gameId), {
+          devTeam: [{ role: 'developer', name: developerText }],
+          sourceName: 'internal',
+          sourceType: 'master_data',
+          sourceUrl: null,
+          confidenceLevel: 0.72,
+          notes: 'Auto-filled from games.developer',
+          isInferred: true,
+          autofillMode: 'developer_text',
+        }]
+      }
+      return [String(row.gameId), null]
+    }))
+  } finally {
+    db.close()
+  }
+}
+
 async function main() {
   const limit = parseNumberFlag(process.argv, 'limit', 15)
   const explicitIds = parseIds(process.argv)
   const publishedOnly = process.argv.includes('--published-only')
   const tier = parseStringFlag(process.argv, 'tier', 'Tier A')
   const batchKey = parseStringFlag(process.argv, 'batch-key', buildBatchKey('generated_dev_team'))
+  const autofillSafe = process.argv.includes('--autofill-safe')
+  const readyIfComplete = process.argv.includes('--ready-if-complete')
+  const allowExplicitIds = process.argv.includes('--allow-explicit-ids')
 
   await runMigrations(sequelize)
 
@@ -46,7 +102,7 @@ async function main() {
   })
 
   const selected = entries
-    .filter((entry) => entry.missingCriticalFields.includes('dev_team'))
+    .filter((entry) => entry.missingCriticalFields.includes('dev_team') || (allowExplicitIds && explicitIds.includes(entry.entityId)))
     .filter((entry) => !publishedOnly || String(entry.curationStatus || '') === 'published')
     .filter((entry) => !tier || String(entry.tier || '') === tier)
     .slice(0, limit)
@@ -55,10 +111,37 @@ async function main() {
     throw new Error('No dev team candidates matched the requested filters')
   }
 
+  const autofillMap = autofillSafe ? buildAutofillMap(selected.map((entry) => entry.entityId)) : new Map()
+
+  const payload = selected.map((entry) => {
+    const autofill = autofillMap.get(entry.entityId) || null
+    return {
+      gameId: entry.entityId,
+      title: entry.title,
+      devTeam: autofill?.devTeam || [],
+      sourceName: autofill?.sourceName || 'internal',
+      sourceType: autofill?.sourceType || 'knowledge_registry',
+      sourceUrl: autofill?.sourceUrl || null,
+      confidenceLevel: autofill?.confidenceLevel ?? 0.72,
+      notes: autofill?.notes || `TODO curate dev team for ${entry.title}`,
+      isInferred: autofill?.isInferred ?? true,
+      candidateContext: {
+        tier: entry.tier,
+        curationStatus: entry.curationStatus || null,
+        platform: entry.platform || null,
+        priorityScore: entry.priorityScore,
+        autofillMode: autofill?.autofillMode || null,
+      },
+    }
+  })
+
+  const completeCount = payload.filter((entry) => Array.isArray(entry.devTeam) && entry.devTeam.length).length
+  const reviewStatus = readyIfComplete && completeCount === payload.length ? 'ready' : 'review_required'
+
   const manifest = {
     batchKey,
     batchType: 'dev_team',
-    reviewStatus: 'review_required',
+    reviewStatus,
     notes: `Generated dev team candidate batch from audit (${selected.length} targets)`,
     generatedFrom: {
       source: 'audit',
@@ -67,6 +150,9 @@ async function main() {
         publishedOnly,
         tier,
         explicitIds,
+        allowExplicitIds,
+        autofillSafe,
+        readyIfComplete,
       },
       generatedAt: new Date().toISOString(),
     },
@@ -75,23 +161,7 @@ async function main() {
     publishDomains: ['records', 'credits_music', 'ui'],
     postChecks: ['records', 'credits_music', 'ui'],
     ids: selected.map((entry) => entry.entityId),
-    payload: selected.map((entry) => ({
-      gameId: entry.entityId,
-      title: entry.title,
-      devTeam: [],
-      sourceName: 'internal',
-      sourceType: 'knowledge_registry',
-      sourceUrl: null,
-      confidenceLevel: 0.72,
-      notes: `TODO curate dev team for ${entry.title}`,
-      isInferred: true,
-      candidateContext: {
-        tier: entry.tier,
-        curationStatus: entry.curationStatus || null,
-        platform: entry.platform || null,
-        priorityScore: entry.priorityScore,
-      },
-    })),
+    payload,
   }
 
   const manifestPath = writeGeneratedManifest(batchKey, manifest)
@@ -102,6 +172,7 @@ async function main() {
     manifestPath,
     targetCount: selected.length,
     ids: manifest.ids,
+    completeCount,
   }, null, 2))
 }
 

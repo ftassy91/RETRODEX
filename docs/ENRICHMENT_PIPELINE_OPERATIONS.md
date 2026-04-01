@@ -68,6 +68,12 @@ Dev team candidates from audit:
 node backend/scripts/enrichment/generate-enrichment-batch-manifest.js --type=dev_team --limit=15 --tier=Tier A
 ```
 
+Dev team candidates with safe master-data autofill, directly runnable if complete:
+
+```powershell
+node backend/scripts/enrichment/generate-dev-team-batch-manifest.js --ids=game-a,game-b --allow-explicit-ids --autofill-safe --ready-if-complete
+```
+
 Summary candidates from audit:
 
 ```powershell
@@ -98,6 +104,22 @@ Generated manifests are written to:
 
 They are created with `reviewStatus=review_required` and are intentionally not runnable until completed.
 Use `--ready` only for a reviewed batch you intend to validate immediately.
+
+## Manifest inspection
+
+Check whether a manifest is actually runnable:
+
+```powershell
+node backend/scripts/enrichment/inspect-enrichment-manifest.js --manifest=backend/scripts/enrichment/manifests/generated/<file>.json
+```
+
+## Batch registry reporting
+
+Summarize recent pipeline executions:
+
+```powershell
+node backend/scripts/enrichment/report-enrichment-batch-runs.js --limit=10
+```
 
 ## Scoped validation
 
