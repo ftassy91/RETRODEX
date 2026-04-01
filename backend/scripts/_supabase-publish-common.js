@@ -26,6 +26,28 @@ function parseArgs(argv) {
   }, {});
 }
 
+function parseIdFilter(args = {}) {
+  const raw = args.ids;
+  if (!raw || raw === true) {
+    return null;
+  }
+
+  const values = String(raw)
+    .split(',')
+    .map((value) => String(value || '').trim())
+    .filter(Boolean);
+
+  return values.length ? new Set(values) : null;
+}
+
+function hasTargetGameId(filterIds, ...values) {
+  if (!filterIds || filterIds.size === 0) {
+    return true;
+  }
+
+  return values.some((value) => value != null && filterIds.has(String(value).trim()));
+}
+
 function parseProjectReference() {
   const raw =
     process.env.SUPABASE_URL
@@ -377,6 +399,8 @@ module.exports = {
   POLISH_CANONICAL_DIR,
   POLISH_OUTPUTS_DIR,
   parseArgs,
+  parseIdFilter,
+  hasTargetGameId,
   parseProjectReference,
   buildRemotePgConfig,
   createRemoteClient,

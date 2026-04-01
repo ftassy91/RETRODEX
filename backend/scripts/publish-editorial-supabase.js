@@ -3,6 +3,7 @@
 
 const {
   parseArgs,
+  parseIdFilter,
   createRemoteClient,
   openReadonlySqlite,
   normalizeText,
@@ -266,13 +267,15 @@ async function upsertEditorialRow(client, row) {
 }
 
 async function main() {
-  const _args = parseArgs(process.argv.slice(2));
+  const args = parseArgs(process.argv.slice(2));
+  const filterIds = parseIdFilter(args);
   const sqlite = openReadonlySqlite();
   const client = createRemoteClient();
   await client.connect();
 
   try {
-    const localRows = readLocalEditorialRows(sqlite);
+    const localRows = readLocalEditorialRows(sqlite)
+      .filter((row) => !filterIds || filterIds.has(String(row.game_id)));
 
     if (APPLY) {
       await ensureRemoteSchema(client);
@@ -311,6 +314,7 @@ async function main() {
 
     console.log(JSON.stringify({
       mode: APPLY ? 'apply' : 'dry-run',
+      filterIds: filterIds ? [...filterIds] : null,
       gameEditorial: {
         tableExists: remoteTableExists,
         localRows: normalizedLocalRows.length,

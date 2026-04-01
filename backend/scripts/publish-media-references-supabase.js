@@ -9,6 +9,10 @@ const { Client } = require('pg');
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 const APPLY = process.argv.includes('--apply');
+const IDS_ARG = process.argv.find((value) => value.startsWith('--ids='));
+const FILTER_IDS = IDS_ARG
+  ? new Set(IDS_ARG.slice('--ids='.length).split(',').map((value) => value.trim()).filter(Boolean))
+  : null;
 const SQLITE_PATH = path.join(__dirname, '..', 'storage', 'retrodex.sqlite');
 
 function parseProjectReference() {
@@ -87,7 +91,7 @@ function getLocalMediaRows(sqlite) {
     provider: normalizeText(row.provider),
     compliance_status: normalizeText(row.compliance_status),
     storage_mode: normalizeText(row.storage_mode),
-  }));
+  })).filter((row) => !FILTER_IDS || FILTER_IDS.has(String(row.entity_id)));
 }
 
 async function ensureMediaTable(client) {
@@ -207,6 +211,7 @@ async function main() {
 
     console.log(JSON.stringify({
       mode: APPLY ? 'apply' : 'dry-run',
+      filterIds: FILTER_IDS ? [...FILTER_IDS] : null,
       media,
     }, null, 2));
   } finally {

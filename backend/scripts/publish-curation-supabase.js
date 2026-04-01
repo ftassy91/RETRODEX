@@ -2,6 +2,8 @@
 'use strict'
 
 const {
+  parseArgs,
+  parseIdFilter,
   createRemoteClient,
   openReadonlySqlite,
   normalizeText,
@@ -254,12 +256,22 @@ async function upsertSlot(client, row) {
 }
 
 async function main() {
+  const args = parseArgs(process.argv.slice(2))
+  const filterIds = parseIdFilter(args)
   const sqlite = openReadonlySqlite()
   const client = createRemoteClient()
   await client.connect()
 
   try {
-    const local = fetchLocalRows(sqlite)
+    const localAll = fetchLocalRows(sqlite)
+    const local = filterIds
+      ? {
+        profiles: localAll.profiles.filter((row) => filterIds.has(String(row.game_id))),
+        states: localAll.states.filter((row) => filterIds.has(String(row.game_id))),
+        events: localAll.events.filter((row) => filterIds.has(String(row.game_id))),
+        slots: localAll.slots.filter((row) => filterIds.has(String(row.game_id))),
+      }
+      : localAll
     if (APPLY) {
       await ensureRemoteSchema(client)
     }
@@ -282,18 +294,44 @@ async function main() {
     const pendingSlots = local.slots.filter((row) => !remoteSlots.has(row.game_id) || rowChanged(remoteSlots.get(row.game_id), row, [
       'console_id', 'pass_key', 'slot_rank', 'is_active', 'published_at',
     ]))
-    const staleManagedRows = remote.slots.filter((row) => row.is_active === 1 && !local.slots.some((localRow) => localRow.game_id === row.game_id)).length
+    const staleManagedRows = remote.slots.filter((row) => {
+      if (filterIds && !filterIds.has(String(row.game_id))) {
+        return false
+      }
+      return row.is_active === 1 && !local.slots.some((localRow) => localRow.game_id === row.game_id)
+    }).length
 
     if (APPLY) {
       for (const row of pendingProfiles) await upsertProfile(client, row)
       for (const row of pendingStates) await upsertState(client, row)
-      await client.query(`UPDATE public.console_publication_slots SET is_active = false, updated_at = now() WHERE pass_key = $1`, [PASS_KEY])
-      for (const row of pendingSlots.length ? local.slots : local.slots) await upsertSlot(client, row)
+      if (filterIds) {
+        await client.query(
+          `UPDATE public.console_publication_slots
+           SET is_active = false, updated_at = now()
+           WHERE pass_key = $1
+             AND game_id = ANY($2::text[])`,
+          [PASS_KEY, [...filterIds]]
+        )
+        for (const row of local.slots) {
+          await client.query(
+            `UPDATE public.console_publication_slots
+             SET is_active = false, updated_at = now()
+             WHERE pass_key = $1
+               AND console_id = $2
+               AND slot_rank = $3`,
+            [PASS_KEY, row.console_id, row.slot_rank]
+          )
+        }
+      } else {
+        await client.query(`UPDATE public.console_publication_slots SET is_active = false, updated_at = now() WHERE pass_key = $1`, [PASS_KEY])
+      }
+      for (const row of local.slots) await upsertSlot(client, row)
       for (const row of pendingEvents) await insertEvent(client, row)
     }
 
     console.log(JSON.stringify({
       mode: APPLY ? 'apply' : 'dry-run',
+      filterIds: filterIds ? [...filterIds] : null,
       passKey: PASS_KEY,
       profiles: {
         localRows: local.profiles.length,

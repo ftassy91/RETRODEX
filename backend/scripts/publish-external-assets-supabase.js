@@ -3,6 +3,7 @@
 
 const {
   parseArgs,
+  parseIdFilter,
   createRemoteClient,
   openReadonlySqlite,
   normalizeText,
@@ -24,6 +25,7 @@ const APPLY = process.argv.includes('--apply');
 const EXTERNAL_ASSETS_PATH = `${POLISH_OUTPUTS_DIR}/external_assets.jsonl`;
 const UI_PAYLOADS_PATH = `${POLISH_OUTPUTS_DIR}/ui_payloads.jsonl`;
 const ARGS = parseArgs(process.argv.slice(2));
+const FILTER_IDS = parseIdFilter(ARGS);
 const TARGET_RUN_ID = ARGS['run-id'] || null;
 const MANAGED_EXTERNAL_PROVIDERS = new Set(['vgmaps', 'vgmuseum', 'pixel_warehouse']);
 
@@ -84,7 +86,8 @@ function resolveRunId() {
 
 function readUiPayloads(runId) {
   const rows = readJsonLines(UI_PAYLOADS_PATH)
-    .filter((row) => !runId || row.run_id === runId);
+    .filter((row) => !runId || row.run_id === runId)
+    .filter((row) => !FILTER_IDS || FILTER_IDS.has(String(row.game_id || '').trim()));
   const byGameAndUrl = new Map();
 
   for (const row of rows) {
@@ -157,12 +160,13 @@ function readLocalMediaRows(sqlite) {
     notes: stringifyJson(parseJsonLike(row.notes, null)),
     last_checked_at: normalizeText(row.last_checked_at),
     source_context: stringifyJson(parseJsonLike(row.source_context, null)),
-  }));
+  })).filter((row) => !FILTER_IDS || FILTER_IDS.has(String(row.entity_id)));
 }
 
 function readExternalAssetRows(uiPayloadByGameAndUrl, runId) {
   const rows = readJsonLines(EXTERNAL_ASSETS_PATH)
-    .filter((row) => !runId || row.run_id === runId);
+    .filter((row) => !runId || row.run_id === runId)
+    .filter((row) => !FILTER_IDS || FILTER_IDS.has(String(row.game_id || '').trim()));
   return rows
     .filter((row) => ALLOWED_MEDIA_TYPES.has(String(row.asset_type || '').trim().toLowerCase()))
     .map((row) => {
@@ -401,6 +405,9 @@ async function main() {
     });
     const mergedKeys = new Set(mergedRows.map((row) => buildMediaKey(row)));
     const staleManagedRows = remoteRows.filter((row) => {
+      if (FILTER_IDS && !FILTER_IDS.has(String(row.entity_id))) {
+        return false;
+      }
       const provider = normalizeText(row.provider);
       return provider
         && MANAGED_EXTERNAL_PROVIDERS.has(provider)
@@ -421,6 +428,7 @@ async function main() {
 
     console.log(JSON.stringify({
       mode: APPLY ? 'apply' : 'dry-run',
+      filterIds: FILTER_IDS ? [...FILTER_IDS] : null,
       runId,
       media: {
         tableExists: tableReady,

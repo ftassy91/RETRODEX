@@ -3,6 +3,7 @@
 
 const {
   parseArgs,
+  parseIdFilter,
   createRemoteClient,
   openReadonlySqlite,
   normalizeText,
@@ -22,6 +23,8 @@ const {
 } = require('./_supabase-publish-common');
 
 const APPLY = process.argv.includes('--apply');
+const ARGS = parseArgs(process.argv.slice(2));
+const FILTER_IDS = parseIdFilter(ARGS);
 
 function slugify(value) {
   return String(value || '')
@@ -137,7 +140,7 @@ function buildFallbackPeopleAndBindings(sqlite, peopleById, normalizedNameToId, 
     SELECT id, developer, dev_team, ost_composers
     FROM games
     WHERE type = 'game'
-  `).all();
+  `).all().filter((row) => !FILTER_IDS || FILTER_IDS.has(String(row.id)));
 
   const people = [];
   const bindings = [];
@@ -226,6 +229,9 @@ function buildMusicRows(sqlite, peopleById, normalizedNameToId, gamePeopleKeySet
   for (const entry of musicPayload || []) {
     const gameId = String(entry.itemId || '');
     if (!gameId) {
+      continue;
+    }
+    if (FILTER_IDS && !FILTER_IDS.has(gameId)) {
       continue;
     }
 
@@ -588,7 +594,6 @@ async function updateOstRelease(client, remoteId, row) {
 }
 
 async function main() {
-  const _args = parseArgs(process.argv.slice(2));
   const sqlite = openReadonlySqlite();
   const client = createRemoteClient();
   await client.connect();
@@ -608,7 +613,8 @@ async function main() {
     const normalizedNameToId = new Map();
 
     const localPeople = readLocalPeople(sqlite, remoteSourceIdByLocalId);
-    const localGamePeople = readLocalGamePeople(sqlite, remoteSourceIdByLocalId);
+    const localGamePeople = readLocalGamePeople(sqlite, remoteSourceIdByLocalId)
+      .filter((row) => !FILTER_IDS || FILTER_IDS.has(String(row.game_id)));
 
     for (const person of localPeople) {
       peopleById.set(person.id, person);
@@ -630,10 +636,13 @@ async function main() {
       ...localGamePeople,
       ...musicRows.extraBindings,
       ...fallback.bindings,
-    ], buildGamePeopleKey).filter((row) => remoteGameIds.has(String(row.game_id)));
+    ], buildGamePeopleKey)
+      .filter((row) => remoteGameIds.has(String(row.game_id)))
+      .filter((row) => !FILTER_IDS || FILTER_IDS.has(String(row.game_id)));
 
     const allOst = uniqueBy(musicRows.ostRows, buildOstKey)
-      .filter((row) => remoteGameIds.has(String(row.game_id)));
+      .filter((row) => remoteGameIds.has(String(row.game_id)))
+      .filter((row) => !FILTER_IDS || FILTER_IDS.has(String(row.game_id)));
     const allowedOstIds = new Set(allOst.map((row) => String(row.id)));
     const allOstTracks = uniqueBy(musicRows.trackRows, buildOstTrackKey)
       .filter((row) => allowedOstIds.has(String(row.ost_id)));
@@ -729,6 +738,7 @@ async function main() {
 
     console.log(JSON.stringify({
       mode: APPLY ? 'apply' : 'dry-run',
+      filterIds: FILTER_IDS ? [...FILTER_IDS] : null,
       people: {
         tableExists: peopleTableExists,
         localRows: retainedPeople.length,

@@ -3,6 +3,8 @@
 
 const {
   parseArgs,
+  parseIdFilter,
+  hasTargetGameId,
   createRemoteClient,
   openReadonlySqlite,
   normalizeText,
@@ -69,12 +71,14 @@ function normalizeQualityRecordRow(row) {
   };
 }
 
-function fetchLocalRows(sqlite) {
+function fetchLocalRows(sqlite, filterIds = null) {
   const sourceRecords = sqlite.prepare(`
     SELECT *
     FROM source_records
     ORDER BY id ASC
-  `).all().map(normalizeSourceRecordRow);
+  `).all()
+    .map(normalizeSourceRecordRow)
+    .filter((row) => !filterIds || hasTargetGameId(filterIds, row.entity_id));
 
   const localSourceById = new Map(sourceRecords.map((row) => [Number(row.id), row]));
 
@@ -82,13 +86,18 @@ function fetchLocalRows(sqlite) {
     SELECT *
     FROM field_provenance
     ORDER BY id ASC
-  `).all().map((row) => normalizeFieldProvenanceRow(row, localSourceById.get(Number(row.source_record_id)) || null));
+  `).all()
+    .map((row) => normalizeFieldProvenanceRow(row, localSourceById.get(Number(row.source_record_id)) || null))
+    .filter((row) => !filterIds || hasTargetGameId(filterIds, row.entity_id));
 
   const qualityRecords = sqlite.prepare(`
     SELECT *
     FROM quality_records
     ORDER BY id ASC
-  `).all().map(normalizeQualityRecordRow);
+  `).all()
+    .map(normalizeQualityRecordRow)
+    .filter((row) => row.entity_type === 'game')
+    .filter((row) => !filterIds || hasTargetGameId(filterIds, row.entity_id));
 
   return {
     sourceRecords,
@@ -336,13 +345,14 @@ async function upsertQualityRecord(client, row) {
 }
 
 async function main() {
-  const _args = parseArgs(process.argv.slice(2));
+  const args = parseArgs(process.argv.slice(2));
+  const filterIds = parseIdFilter(args);
   const sqlite = openReadonlySqlite();
   const client = createRemoteClient();
   await client.connect();
 
   try {
-    const local = fetchLocalRows(sqlite);
+    const local = fetchLocalRows(sqlite, filterIds);
 
     if (APPLY) {
       await ensureRemoteSchema(client);
@@ -433,6 +443,7 @@ async function main() {
 
     console.log(JSON.stringify({
       mode: APPLY ? 'apply' : 'dry-run',
+      filterIds: filterIds ? [...filterIds] : null,
       tables: {
         source_records: sourceTableExists,
         field_provenance: provenanceTableExists,
