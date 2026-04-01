@@ -61,7 +61,8 @@ function runNode(args, cwd, label) {
 }
 
 function runCommand(command, args, cwd, label) {
-  const result = spawnSync(command, args, {
+  const executable = process.platform === 'win32' && command === 'npm' ? 'npm.cmd' : command
+  const result = spawnSync(executable, args, {
     cwd,
     encoding: 'utf8',
     shell: false,
