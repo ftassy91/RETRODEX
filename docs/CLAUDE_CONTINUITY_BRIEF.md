@@ -6,6 +6,12 @@ This document is the final handoff snapshot after the main refactor, legacy clea
 
 Use this as the fast-entry document when resuming the project.
 
+Read order before opening older docs:
+1. [AGENTS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/AGENTS.md)
+2. [docs/CLAUDE_CONTINUITY_BRIEF.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CLAUDE_CONTINUITY_BRIEF.md)
+3. [docs/ARCHITECTURE.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ARCHITECTURE.md)
+4. [docs/DECISIONS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/DECISIONS.md)
+
 ## Current State
 
 - Public runtime: stabilized and canonical

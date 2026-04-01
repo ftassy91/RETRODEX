@@ -1,31 +1,76 @@
-# RetroDex - Project Overview
-RetroDex is currently organized around one repository root and two active app surfaces.
+# RetroDex -- Project Overview
+
+## Status
+
+This document is an orientation map, not the canonical source of truth.
+
+Read first:
+1. [AGENTS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/AGENTS.md)
+2. [docs/CLAUDE_CONTINUITY_BRIEF.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CLAUDE_CONTINUITY_BRIEF.md)
+3. [docs/ARCHITECTURE.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ARCHITECTURE.md)
+4. [docs/DECISIONS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/DECISIONS.md)
+
+If this file conflicts with those documents, this file loses.
+
+## Current Project Shape
+
+RetroDex is currently one repository with:
+- one canonical public runtime
+- one isolated back-office/admin layer
+- one secondary prototype area
+- one local staging database used for audit, curation, and enrichment
 
 ## Canonical workspace
-- Repository root: `RETRODEXseed`
-- Canonical backend: `backend/`
-- Canonical frontend: `frontend/`
+
+- repository root: `RETRODEXseed`
+- canonical public runtime: [backend/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/)
+- canonical public UI: [backend/public/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/)
+- canonical admin layer: [backend/src/routes/admin/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin/) and [backend/src/services/admin/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/)
+- secondary prototype surface: [frontend/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/frontend/)
 
 ## What lives where
-- `backend/` serves the API, the SQLite database, and the beginner HTML pages on port 3000.
-- `frontend/` contains the static 3DS-style frontend, RetroMarket UI, local datasets, and frontend assets on port 8080.
-- Root `docs/`, `scripts/`, `logs/`, `assets/`, and `data/` are repository-level support folders for the normalized Dev Trinity structure.
 
-## Current data snapshot
-- 507 catalog games
-- 16 consoles
-- 120 verified RetroMarket sales records
+- [backend/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/) serves the active public runtime and the canonical back-office code
+- [backend/public/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/) contains the active public pages and client-side code
+- [backend/src/routes/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/) contains the active public route tree
+- [backend/src/services/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/) contains active public logic
+- [backend/src/services/admin/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/) contains audit, curation, enrichment, and other back-office logic
+- [frontend/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/frontend/) is a prototype/exploration space, not the default product surface
+- [docs/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/) contains active and historical documentation
+- [docs/_superseded/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/_superseded/) contains non-canonical historical documents
 
-## Current module status
-- `backend/`: operational
-- `frontend/index.html`: operational
-- `frontend/modules/retromarket/market.html`: operational
-- `frontend/modules/collection/index.html`: placeholder
-- `frontend/modules/neoretro/index.html`: placeholder
+## Data reality
 
-## Controlled automation status
-- `scripts/sync/`: active for local JSONL sync and task/progress event logging
-- `scripts/sync/sync-gate.js`: active for one staged Notion payload at a time
-- `scripts/import/`: active for local import validation and attempt logging
-- Notion writes: not active at the root level
-- Autonomous loops: not active
+- public runtime/prod truth: [backend/db_supabase.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/db_supabase.js)
+- local staging/back-office DB: [backend/storage/retrodex.sqlite](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/storage/retrodex.sqlite)
+
+Local SQLite is not the production truth.
+It is the staging environment for:
+- audit
+- curation
+- enrichment
+- validation before controlled publication
+
+## Product reality
+
+The public product exposes four universes:
+- RetroDex
+- RetroMarket
+- Collections
+- Recherche
+
+But the real project center of gravity is:
+- structured game pages
+- archive/knowledge
+- provenance and quality
+- curation and enrichment
+
+Market and collection matter, but they remain support layers around the knowledge core.
+
+## Operational summary
+
+- public runtime: active and stabilized
+- back-office/admin: isolated and active
+- premium enrichment foundations: active
+- prototype frontend: secondary
+- historical docs: present, must be treated carefully

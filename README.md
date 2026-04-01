@@ -2,6 +2,20 @@
 
 Terminal de référence pour les collectionneurs de jeux rétro.
 
+## Lire d'abord
+
+Pour reprendre le projet correctement :
+1. [AGENTS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/AGENTS.md)
+2. [docs/CLAUDE_CONTINUITY_BRIEF.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CLAUDE_CONTINUITY_BRIEF.md)
+3. [docs/ARCHITECTURE.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ARCHITECTURE.md)
+4. [docs/DECISIONS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/DECISIONS.md)
+
+Etat actuel a retenir :
+- [backend/public/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/) est la surface publique canonique
+- [frontend/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/frontend/) est un prototype secondaire
+- Supabase est la verite runtime/prod
+- SQLite local sert de staging/back-office
+
 ## Ce que c'est
 
 RetroDex est un outil pour explorer, collecter et comprendre
@@ -21,9 +35,25 @@ et gestion de collection personnelle.
 
 ## Stack
 
-- Backend : Node.js + Express + Sequelize + SQLite
+- Backend runtime : Node.js + Express + services Sequelize
+- Base de données runtime : Postgres via `DATABASE_URL` en production, SQLite en local
+- Scripts data/admin : `supabase-js` pour publish, audit et synchronisation
 - Frontend : HTML/CSS/JS vanilla — design système Bloomberg
 - Pipeline données : Wikidata + seed éditorial
+
+## Etat canonique du stack
+
+- Runtime public : Node.js + Express + services publics sous [backend/src/services/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/)
+- Source de verite runtime : [backend/db_supabase.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/db_supabase.js)
+- Staging/back-office : SQLite local sous [backend/storage/retrodex.sqlite](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/storage/retrodex.sqlite)
+- Scripts data/admin : audit, curation, enrichment, publication controlee vers Supabase
+- Frontend actif : HTML/CSS/JS vanilla sous [backend/public/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/)
+- Prototype secondaire : [frontend/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/frontend/)
+
+Voir aussi :
+- [docs/ARCHITECTURE.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ARCHITECTURE.md)
+- [docs/DECISIONS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/DECISIONS.md)
+- [docs/CLAUDE_CONTINUITY_BRIEF.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CLAUDE_CONTINUITY_BRIEF.md)
 
 ## Lancer en local
 

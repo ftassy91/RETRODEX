@@ -1,33 +1,24 @@
-# RetroDex — Deployment Guide
+# RetroDex -- Deployment Guide
 
-## Backend -> Railway
+## Status
 
-1. Go to https://railway.app/new
-2. Connect GitHub -> ftassy91/RETRODEX
-3. Select "backend" as root directory OR let railway.json handle it
-4. Add environment variable: DATABASE_URL (from Railway PostgreSQL plugin)
-5. Deploy -> copy the generated URL (e.g. retrodex-backend.railway.app)
+This file is historical and must not be treated as the canonical deployment plan.
 
-## Database -> Railway PostgreSQL
+Current authority for deployment/runtime shape:
+1. [AGENTS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/AGENTS.md)
+2. [docs/CLAUDE_CONTINUITY_BRIEF.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CLAUDE_CONTINUITY_BRIEF.md)
+3. [docs/ARCHITECTURE.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ARCHITECTURE.md)
+4. [vercel.json](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/vercel.json)
 
-1. In Railway project -> Add Plugin -> PostgreSQL
-2. Copy DATABASE_URL from plugin settings
-3. Run migration: node scripts/db/migrate.js
-4. Verify: GET https://your-app.railway.app/api/health
+## Current deployment reality
 
-## Frontend -> Vercel
+- public static surface is served from [backend/public/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/)
+- Vercel routes `/api/*` to [backend/src/server.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/server.js)
+- Vercel routes `/` to [backend/public/hub.html](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/hub.html)
+- public runtime is Supabase-first through [backend/db_supabase.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/db_supabase.js)
+- local SQLite is staging/back-office only
 
-1. Go to https://vercel.com/new
-2. Import ftassy91/RETRODEX
-3. Framework: Other (static)
-4. Root directory: frontend/
-5. No build command needed
-6. Deploy -> copy the Vercel URL
+## Historical note
 
-## Post-deploy checklist
-
-- [ ] Railway backend responds on /api/health
-- [ ] PostgreSQL has 507 games
-- [ ] Vercel frontend loads index.html
-- [ ] RetroMarket points to Railway backend URL
-- [ ] PWA manifest accessible at /manifest.json
+Older Railway/PostgreSQL split instructions in previous versions of this file no longer represent the active canonical topology.
+Keep this file only as a warning against using those old instructions blindly.
