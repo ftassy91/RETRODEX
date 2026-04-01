@@ -15,13 +15,17 @@ function hashValue(value) {
 }
 
 function slugify(value) {
-  return String(value || '')
+  const normalized = String(value || '')
     .trim()
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
+  if (normalized) {
+    return normalized
+  }
+  return `u-${hashValue(value).slice(0, 16)}`
 }
 
 function tableExists(db, tableName) {
