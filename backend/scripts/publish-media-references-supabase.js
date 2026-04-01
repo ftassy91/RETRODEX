@@ -13,6 +13,7 @@ const IDS_ARG = process.argv.find((value) => value.startsWith('--ids='));
 const FILTER_IDS = IDS_ARG
   ? new Set(IDS_ARG.slice('--ids='.length).split(',').map((value) => value.trim()).filter(Boolean))
   : null;
+const PUBLISHED_MEDIA_TYPES = ['cover', 'manual', 'map', 'sprite_sheet', 'screenshot', 'ending', 'scan'];
 const SQLITE_PATH = path.join(__dirname, '..', 'storage', 'retrodex.sqlite');
 
 function parseProjectReference() {
@@ -79,11 +80,11 @@ function getLocalMediaRows(sqlite) {
       storage_mode
     FROM media_references
     WHERE entity_type = 'game'
-      AND media_type IN ('cover', 'manual')
+      AND media_type IN (${PUBLISHED_MEDIA_TYPES.map(() => '?').join(', ')})
       AND url IS NOT NULL
       AND TRIM(url) <> ''
     ORDER BY entity_id ASC, media_type ASC
-  `).all().map((row) => ({
+  `).all(...PUBLISHED_MEDIA_TYPES).map((row) => ({
     entity_type: String(row.entity_type),
     entity_id: String(row.entity_id),
     media_type: String(row.media_type),
@@ -131,8 +132,8 @@ async function getRemoteMediaRows(client) {
     SELECT entity_type, entity_id, media_type, url, provider, compliance_status, storage_mode
     FROM public.media_references
     WHERE entity_type = 'game'
-      AND media_type IN ('cover', 'manual')
-  `);
+      AND media_type = ANY($1::text[])
+  `, [PUBLISHED_MEDIA_TYPES]);
 
   return new Map(rows.map((row) => [buildMediaKey(row), row]));
 }
@@ -183,17 +184,27 @@ async function syncMedia(client, localRows) {
     SELECT
       COUNT(*)::int AS total,
       COUNT(*) FILTER (WHERE media_type = 'cover')::int AS covers,
-      COUNT(*) FILTER (WHERE media_type = 'manual')::int AS manuals
+      COUNT(*) FILTER (WHERE media_type = 'manual')::int AS manuals,
+      COUNT(*) FILTER (WHERE media_type = 'map')::int AS maps,
+      COUNT(*) FILTER (WHERE media_type = 'sprite_sheet')::int AS sprite_sheets,
+      COUNT(*) FILTER (WHERE media_type = 'screenshot')::int AS screenshots,
+      COUNT(*) FILTER (WHERE media_type = 'ending')::int AS endings,
+      COUNT(*) FILTER (WHERE media_type = 'scan')::int AS scans
     FROM public.media_references
     WHERE entity_type = 'game'
-      AND media_type IN ('cover', 'manual')
-  `);
+      AND media_type = ANY($1::text[])
+  `, [PUBLISHED_MEDIA_TYPES]);
 
   return {
     localRows: localRows.length,
     remoteRows: Number(countRow.rows[0]?.total || 0),
     coverRows: Number(countRow.rows[0]?.covers || 0),
     manualRows: Number(countRow.rows[0]?.manuals || 0),
+    mapRows: Number(countRow.rows[0]?.maps || 0),
+    spriteSheetRows: Number(countRow.rows[0]?.sprite_sheets || 0),
+    screenshotRows: Number(countRow.rows[0]?.screenshots || 0),
+    endingRows: Number(countRow.rows[0]?.endings || 0),
+    scanRows: Number(countRow.rows[0]?.scans || 0),
     pendingRows: pending.length,
     samplePending: pending.slice(0, 5),
   };
