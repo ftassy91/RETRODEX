@@ -61,10 +61,17 @@ function renderGameRow(game, options = {}) {
   const year = game.year || 'n/a'
   const consoleName = game.console || ''
   const genre = game.genre && game.genre !== 'Other' ? game.genre : ''
+  const contentSignals = window.RetroDexContentSignals?.buildRichness
+    ? window.RetroDexContentSignals.buildRichness(game)
+    : null
   const loosePrice = showPrice
     ? (game.loosePrice ? `$${Math.round(game.loosePrice)}` : '&mdash;')
     : ''
   const showOwnedBadge = String(collectionState || '').toLowerCase() === 'owned'
+  const archiveBadges = [
+    contentSignals ? `<span class="presence-badge is-richness is-${escapeHtml(contentSignals.band.key)}">${escapeHtml(contentSignals.band.shortLabel)}</span>` : '',
+    contentSignals ? `<span class="presence-badge is-state">${escapeHtml(contentSignals.completionState.shortLabel)}</span>` : '',
+  ].filter(Boolean).join('')
 
   el.innerHTML = `
     <span class="result-row-indicator">&rsaquo;</span>
@@ -73,6 +80,7 @@ function renderGameRow(game, options = {}) {
       <span class="result-meta-row">
         <span class="result-meta">${escapeHtml(consoleName)} &middot; ${escapeHtml(year)}${genre ? ` &middot; ${escapeHtml(genre)}` : ''}</span>
       </span>
+      ${archiveBadges ? `<span class="result-presence-row result-archive-row">${archiveBadges}</span>` : ''}
       ${renderPresenceBadges(game)}
     </div>
     <div class="result-signal">

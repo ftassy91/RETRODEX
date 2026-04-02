@@ -16,7 +16,7 @@
     <meta property="og:description" content="Fiche RetroDex d'un jeu rÃ©tro : raretÃ©, encyclopÃ©die et collection." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260330c" />
+    <link rel="stylesheet" href="/style.css?v=20260402a" />
   </head>
   <body>
     <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
@@ -61,7 +61,7 @@
         <div id="editorial-content" class="detail-accordion-content" hidden></div>
       </section>
 
-      <section class="stats-card detail-accordion">
+      <section id="stats-shell" class="stats-card detail-accordion">
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="stats-content">
           <span>Statistiques</span>
           <span class="detail-accordion-indicator">▸</span>
@@ -71,7 +71,7 @@
         </div>
       </section>
 
-      <section class="collection-card detail-accordion">
+      <section id="collection-shell" class="collection-card detail-accordion">
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="collection-content">
           <span>Collection</span>
           <span class="detail-accordion-indicator">▸</span>
@@ -141,7 +141,8 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/game-detail.js?v=20260330c"></script>
+    <script src="/js/core/content-signals.js"></script>
+    <script src="/js/pages/game-detail.js?v=20260402a"></script>
     <script src="/js/features/experience-layer.js"></script>
     <div class="footer-attribution">
       Covers :

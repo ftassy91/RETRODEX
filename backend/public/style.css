@@ -6171,6 +6171,20 @@ body {
   border-color: rgba(155, 188, 15, 0.42);
 }
 
+.presence-badge.is-richness {
+  color: var(--text-primary);
+  border-color: rgba(155, 188, 15, 0.32);
+}
+
+.presence-badge.is-richness.is-dense {
+  color: var(--text-alert);
+  border-color: rgba(241, 196, 92, 0.4);
+}
+
+.presence-badge.is-state {
+  color: var(--text-muted);
+}
+
 .result-support-icon {
   flex: 0 0 auto;
   margin: 0;
@@ -10041,6 +10055,27 @@ body.hub-page .product-universe-frame {
 .coll-items .terminal-empty-state {
   width: 100%;
   min-height: 96px;
+}
+
+.result-archive-row {
+  margin-top: 8px;
+}
+
+.detail-reading-chip-row,
+.hub-rich-chip-row {
+  margin-top: 8px;
+}
+
+.detail-reading-note {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.hub-rich-card {
+  min-height: 210px;
 }
 
 .encyclo-list-row .asset-support {

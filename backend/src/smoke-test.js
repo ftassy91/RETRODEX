@@ -52,6 +52,10 @@ async function deleteJson(url) {
   return response.json();
 }
 
+function hasAnyMarker(source, markers = []) {
+  return markers.some((marker) => source.includes(marker));
+}
+
 async function main() {
   const port = Number(process.env.SMOKE_PORT || 3100);
   const server = await startServer(port);
@@ -120,12 +124,30 @@ async function main() {
           collectionCountAfter: collectionAfter.total,
           collectionDeletedId: deletedCollectionItem.deletedId ?? null,
           collectionCountAfterDelete: collectionAfterDelete.total,
-          homePageReady: homePage.includes("RetroDex Backend Home"),
-          collectionPageReady: collectionPage.includes("RetroDex Collection"),
-          consolesPageReady: consolesPage.includes("RetroDex Consoles"),
-          debugPageReady: debugPage.includes("RetroDex Backend Debug"),
-          gamesListReady: gamesListPage.includes("RetroDex GamesList"),
-          gameDetailReady: gameDetailPage.includes("RetroDex GameDetail"),
+          homePageReady: hasAnyMarker(homePage, [
+            "RETRODEX HOME SHELL",
+            "RetroDex - Home Shell",
+          ]),
+          collectionPageReady: hasAnyMarker(collectionPage, [
+            "RetroDex - Ma collection",
+            "MA COLLECTION",
+          ]),
+          consolesPageReady: hasAnyMarker(consolesPage, [
+            "RetroDex - Consoles",
+            "RETRODEX HARDWARE",
+          ]),
+          debugPageReady: hasAnyMarker(debugPage, [
+            "RETRODEX DEBUG SURFACE",
+            "RetroDex - Debug Surface",
+          ]),
+          gamesListReady: hasAnyMarker(gamesListPage, [
+            "RETRODEX CATALOGUE",
+            "RetroDex - Catalogue",
+          ]),
+          gameDetailReady: hasAnyMarker(gameDetailPage, [
+            "RetroDex &mdash; Fiche jeu",
+            "id=\"hero\" class=\"hero-card\"",
+          ]),
         },
         null,
         2

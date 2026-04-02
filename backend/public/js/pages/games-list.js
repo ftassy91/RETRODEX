@@ -360,6 +360,19 @@ function quickDetailMarkup(game, currentState) {
   const detailHref = detailUrl(game.id, currentState)
   const visibleGenre = game.genre && game.genre !== 'Other' ? game.genre : ''
   const signalMarkup = renderSignalChips(mediaSignalLabels(game))
+  const contentSignals = window.RetroDexContentSignals?.buildRichness
+    ? window.RetroDexContentSignals.buildRichness(game)
+    : null
+  const readingRow = contentSignals
+    ? `
+      <div class="surface-chip-row detail-reading-chip-row">
+        <span class="surface-chip is-primary">Lecture: ${esc(contentSignals.band.shortLabel)}</span>
+        <span class="surface-chip">Etat: ${esc(contentSignals.completionState.shortLabel)}</span>
+        <span class="surface-chip">${esc(contentSignals.confidence.shortLabel)}</span>
+      </div>
+      <div class="detail-reading-note">${esc(contentSignals.band.note)}</div>
+    `
+    : ''
   return `
     <div class="detail-content">
       <div class="detail-title">${esc(game.title || 'Sans titre')}</div>
@@ -388,6 +401,7 @@ function quickDetailMarkup(game, currentState) {
         <span class="surface-chip">${esc(game.rarity || 'ARCHIVE')}</span>
         ${game.metascore ? `<span class="surface-chip is-hot">MS ${esc(game.metascore)}</span>` : '<span class="surface-chip">NO SCORE</span>'}
       </div>
+      ${readingRow}
       ${signalMarkup}
       <div id="preview-metascore" class="preview-metascore"></div>
       ${description ? `<div class="detail-description surface-summary-copy">${description}</div>` : ''}

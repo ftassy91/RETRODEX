@@ -3,6 +3,7 @@
 const CoreFormat = window.RetroDexFormat || {}
 const CoreApi = window.RetroDexApi || {}
 const CoreState = window.RetroDexState || {}
+const ContentSignals = window.RetroDexContentSignals || {}
 
 const heroEl = document.getElementById('hero')
 const statsRowEl = document.getElementById('stats-row')
@@ -407,6 +408,9 @@ function renderHeroSection(game) {
 
               <div class="detail-hero-developer">${escapeHtml(meta.developerName)}</div>
 
+              <div id="hero-content-status" class="detail-hero-chip-row"></div>
+              <p id="hero-content-note" class="detail-status-copy"></p>
+
               <div id="hero-summary-shell" class="hero-summary-shell"${summary ? '' : ' hidden'}>
                 <div id="hero-summary" class="hero-summary surface-summary-copy">${summary ? formatMultilineHtml(summary) : ''}</div>
               </div>
@@ -444,6 +448,41 @@ function renderHeroSection(game) {
       heroMetaEl.style.color = window.RetroDexMetascore.getColor(game.metascore)
     }
   }
+}
+
+function buildDetailContentSignals() {
+  if (!currentGame || typeof ContentSignals.buildRichness !== 'function') {
+    return null
+  }
+
+  return ContentSignals.buildRichness(currentGame, {
+    detail: currentGameDetailData,
+    archive: currentArchiveData,
+    encyclopedia: currentEncyclopediaData,
+  })
+}
+
+function renderDetailContentStatus() {
+  const rowEl = document.getElementById('hero-content-status')
+  const noteEl = document.getElementById('hero-content-note')
+  if (!rowEl || !noteEl) {
+    return
+  }
+
+  const signals = buildDetailContentSignals()
+  if (!signals) {
+    rowEl.innerHTML = ''
+    noteEl.textContent = ''
+    return
+  }
+
+  rowEl.innerHTML = `
+    <span class="surface-chip is-primary">Lecture: ${escapeHtml(signals.band.shortLabel)}</span>
+    <span class="surface-chip">Etat: ${escapeHtml(signals.completionState.shortLabel)}</span>
+    <span class="surface-chip">Confiance: ${escapeHtml(signals.confidence.shortLabel)}</span>
+    ${signals.highlights.slice(0, 2).map((label) => `<span class="surface-chip">${escapeHtml(label)}</span>`).join('')}
+  `
+  noteEl.textContent = signals.band.note
 }
 
 function confidenceClass(value) {
@@ -2961,6 +3000,7 @@ async function loadPage() {
     }
 
     renderHeroSection(currentGame)
+    renderDetailContentStatus()
 
     const coverImgEl = document.getElementById('game-cover-img')
     if (coverImgEl) {
@@ -3001,6 +3041,7 @@ async function loadPage() {
       await loadEncyclopedia(currentGame.id)
       await loadArchive(currentGame.id)
     }
+    renderDetailContentStatus()
     await loadSimilar(currentGame.id)
     await loadRelatedGames(currentGame)
   } catch (error) {
@@ -3050,7 +3091,8 @@ function initDetailAccordions() {
     }
 
     toggleEl.dataset.bound = 'true'
-    setAccordionState(sectionEl, false)
+    const defaultOpen = ['editorial-shell', 'stats-shell'].includes(sectionEl.id)
+    setAccordionState(sectionEl, defaultOpen)
     toggleEl.addEventListener('click', () => {
       const expanded = toggleEl.getAttribute('aria-expanded') === 'true'
       setAccordionState(sectionEl, !expanded)
