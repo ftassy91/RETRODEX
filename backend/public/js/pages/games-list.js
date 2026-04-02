@@ -84,7 +84,7 @@ function setCatalogPublicationCopy(summary = null) {
   if (!summary) {
     if (subtitleEl) subtitleEl.textContent = `${totalGames} jeux en base`
     if (curationBannerEl) {
-      curationBannerEl.textContent = 'Surface publique curee PASS 1. Chargement des signaux de publication.'
+      curationBannerEl.textContent = 'Surface publique curée PASS 1. Chargement des signaux de publication.'
     }
     return
   }
@@ -95,10 +95,10 @@ function setCatalogPublicationCopy(summary = null) {
   const total = Number(summary.catalogGamesCount || totalGames || 0)
   const label = summary.label || 'PASS 1 curated'
   if (subtitleEl) {
-    subtitleEl.textContent = `${published} jeux publies | ${consoles} consoles | ${label}`
+    subtitleEl.textContent = `${published} jeux publiés | ${consoles} consoles | ${label}`
   }
   if (curationBannerEl) {
-    curationBannerEl.textContent = `${label} : ${published} jeux publies sur ${total} jeux en base. La surface visible est une selection validee, pas l integralite du fonds.`
+    curationBannerEl.textContent = `${label} : ${published} jeux publiés sur ${total} jeux en base. La surface visible est une sélection validée, pas l'intégralité du fonds.`
   }
 }
 
@@ -120,7 +120,7 @@ function toggleAdvanced(forceOpen) {
     : advancedFiltersEl.hidden
 
   advancedFiltersEl.hidden = !open
-  toggleAdvancedEl.textContent = open ? '- Filtres avances' : '+ Filtres avances'
+  toggleAdvancedEl.textContent = open ? '- Filtres avancés' : '+ Filtres avancés'
 }
 
 function toggleFiltersPanel(forceOpen) {
@@ -335,7 +335,7 @@ function quickDetailStateMarkup(title, copy) {
   `
 }
 
-function renderQuickDetailEmpty(message = 'Survoler ou selectionner un jeu') {
+function renderQuickDetailEmpty(message = 'Survoler ou sélectionner un jeu') {
   quickDetailEl.className = 'quick-detail-placeholder terminal-empty-state'
   quickDetailEl.innerHTML = quickDetailStateMarkup('Preview catalogue', message)
 }
@@ -366,9 +366,9 @@ function quickDetailMarkup(game, currentState) {
   const readingRow = contentSignals
     ? `
       <div class="surface-chip-row detail-reading-chip-row">
-        <span class="surface-chip is-primary">Lecture: ${esc(contentSignals.band.shortLabel)}</span>
-        <span class="surface-chip">Etat: ${esc(contentSignals.completionState.shortLabel)}</span>
-        <span class="surface-chip">${esc(contentSignals.confidence.shortLabel)}</span>
+        <span class="surface-chip is-primary">Richesse : ${esc(contentSignals.band.shortLabel)}</span>
+        <span class="surface-chip">État : ${esc(contentSignals.completionState.shortLabel)}</span>
+        <span class="surface-chip">Confiance : ${esc(contentSignals.confidence.shortLabel)}</span>
       </div>
       <div class="detail-reading-note">${esc(contentSignals.band.note)}</div>
     `
@@ -380,7 +380,7 @@ function quickDetailMarkup(game, currentState) {
         <span class="badge-platform">${esc(game.console || 'Console inconnue')}</span>
         <span class="badge-year">${esc(game.year || 'n/a')}</span>
         <span class="result-badge rarity-badge rarity-${esc(String(game.rarity || 'common').toLowerCase())}">${esc(game.rarity || 'COMMON')}</span>
-        ${collectionState === 'owned' ? '<span class="result-owned-badge">OWNED</span>' : ''}
+        ${collectionState === 'owned' ? '<span class="result-owned-badge">COLLECTION</span>' : ''}
       </div>
       <div class="surface-signal-grid">
         <div class="surface-signal-card">
@@ -406,9 +406,9 @@ function quickDetailMarkup(game, currentState) {
       <div id="preview-metascore" class="preview-metascore"></div>
       ${description ? `<div class="detail-description surface-summary-copy">${description}</div>` : ''}
       <div class="detail-link-group surface-action-row">
-        <a class="detail-link terminal-action-link" href="${detailHref}">Voir fiche complete -></a>
-        <a class="detail-link terminal-action-link" href="${detailHref}#price-history-section">Ouvrir price trace -></a>
-        <a class="detail-link terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(game.id)}">Ouvrir RetroDex -></a>
+        <a class="detail-link terminal-action-link" href="${detailHref}">Voir fiche complète →</a>
+        <a class="detail-link terminal-action-link" href="${detailHref}#price-history-section">Ouvrir la trace prix →</a>
+        <a class="detail-link terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(game.id)}">Ouvrir RetroDex →</a>
       </div>
     </div>
   `
@@ -440,7 +440,7 @@ async function loadQuickDetail(gameId) {
   markSelectedRow()
   updateUrl(state())
   quickDetailEl.className = 'quick-detail-loading terminal-empty-state'
-  quickDetailEl.innerHTML = quickDetailStateMarkup('Chargement', 'Lecture du signal marche et des actions disponibles.')
+  quickDetailEl.innerHTML = quickDetailStateMarkup('Chargement', 'Lecture du signal marché et des actions disponibles.')
 
   try {
     const game = await fetchJson(`/api/games/${encodeURIComponent(gameId)}`)
@@ -467,14 +467,14 @@ function renderSummary(currentState, total) {
       ? `<span class="summary-pill active">${esc(publicationSummary.label || 'PASS 1 curated')}</span>`
       : '',
     publicationSummary?.publishedGamesCount
-      ? `<span class="summary-pill active">${esc(publicationSummary.publishedGamesCount)} publies</span>`
+      ? `<span class="summary-pill active">${esc(publicationSummary.publishedGamesCount)} publiés</span>`
       : '',
     publicationSummary?.consoleCount
       ? `<span class="summary-pill active">${esc(publicationSummary.consoleCount)} consoles</span>`
       : '',
     `<span class="summary-pill active">${total} jeux</span>`,
     `<span class="summary-pill ${currentState.console ? 'active' : ''}">console: ${esc(currentState.console || 'Toutes')}</span>`,
-    `<span class="summary-pill ${currentState.rarity ? 'active' : ''}">rarete: ${esc(currentState.rarity || 'Toutes')}</span>`,
+    `<span class="summary-pill ${currentState.rarity ? 'active' : ''}">rareté : ${esc(currentState.rarity || 'Toutes')}</span>`,
     `<span class="summary-pill ${currentState.genre ? 'active' : ''}">genre: ${esc(currentState.genre || 'Tous')}</span>`,
   ].filter(Boolean)
 
@@ -483,7 +483,7 @@ function renderSummary(currentState, total) {
   }
 
   if (currentState.yearMin || currentState.yearMax) {
-    pills.push(`<span class="summary-pill active">annee: ${esc(currentState.yearMin || 1970)}-${esc(currentState.yearMax || 2012)}</span>`)
+    pills.push(`<span class="summary-pill active">année : ${esc(currentState.yearMin || 1970)}-${esc(currentState.yearMax || 2012)}</span>`)
   }
 
   resultsSummaryEl.innerHTML = pills.join('')

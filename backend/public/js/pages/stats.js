@@ -289,7 +289,7 @@ function renderHeroSummary() {
         <div class="detail-hero-chips market-hero-chips" id="market-hero-chips">
           <span class="chip chip--console">${escapeHtml(game.console || 'n/a')}</span>
           <span class="chip">Sortie ${formatRelease(game)}</span>
-          <span class="chip">Editeur ${escapeHtml(publisher)}</span>
+          <span class="chip">Éditeur ${escapeHtml(publisher)}</span>
           <span class="chip">Dev ${escapeHtml(developer)}</span>
         </div>
         ${renderMarketSignalChips(contentSignals)}
@@ -759,5 +759,4 @@ boot().catch((error) => {
     heroSummaryEl.innerHTML = `<div class="market-empty-card">${escapeHtml(error.message)}</div>`
   }
 })
-
 

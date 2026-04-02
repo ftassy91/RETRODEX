@@ -280,7 +280,7 @@
       return {
         title: 'Liste a vendre vide',
         copy: isPublicForSaleView
-          ? 'Aucune entree n\'est actuellement proposee.'
+          ? 'Aucune entr?e n\'est actuellement proposee.'
           : 'Ajoutez un jeu a vendre depuis votre collection.',
         linkLabel: 'Rechercher un jeu a ajouter',
       }
@@ -388,7 +388,7 @@
     const mintPrice = Number(game.mintPrice || 0)
     const paid = Number(item.price_paid || 0)
     const gain = paid > 0 ? loosePrice - paid : null
-    const previewCopy = note || game.tagline || game.summary || game.synopsis || 'Aucune note ou lecture complementaire pour cette entree.'
+    const previewCopy = note || game.tagline || game.summary || game.synopsis || 'Aucune note ou lecture complementaire pour cette entr?e.'
     hideEditForm()
 
     collectionDetailEl.style.display = 'block'
@@ -518,7 +518,7 @@
     } else {
       spacer.innerHTML = `
         <div class="terminal-quiet-note">
-          ${items.length} entree(s) visibles. <a href="/search.html" class="terminal-action-link">-> Ajouter un jeu</a>
+          ${items.length} entr?e(s) visibles. <a href="/search.html" class="terminal-action-link">-> Ajouter un jeu</a>
         </div>
       `
     }
@@ -582,7 +582,7 @@
     }
 
     renderCollection(visibleItems, preferredItemId)
-    const baseLabel = `${visibleItems.length} entree(s)`
+    const baseLabel = `${visibleItems.length} entr?e(s)`
     setStatus(visibleItems.length === allCollectionItems.length
       ? `${baseLabel} dans ${getTabLabel(activeTab)}.`
       : `${baseLabel} visible(s) sur ${allCollectionItems.length} dans ${getTabLabel(activeTab)}.`)
@@ -679,7 +679,7 @@
     const url = window.URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url
-    link.download = `retrodex-${activeTab}-${new Date().toISOString().slice(0, 10)}.csv`
+    link.download = `r?trodex-${activeTab}-${new Date().toISOString().slice(0, 10)}.csv`
     document.body.appendChild(link)
     link.click()
     link.remove()

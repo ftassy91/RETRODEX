@@ -93,23 +93,23 @@
       const consoles = Number(publication.consoleCount || 0)
       const withSynopsis = Number(statsPayload?.encyclopedia_stats?.with_synopsis || 0)
 
-      bannerEl.textContent = `${publication.label || 'PASS 1 curated'} | ${published} jeux publies | ${consoles} consoles | archive en progression visible.`
+      bannerEl.textContent = `${publication.label || 'PASS 1 curated'} | ${published} jeux publiés | ${consoles} consoles | archive en progression visible.`
       setText(publishedEl, String(published || '--'))
       setText(totalEl, String(total || '--'))
       setText(synopsisEl, String(withSynopsis || '--'))
       setText(consolesEl, String(consoles || '--'))
-      setText(publicationSignalEl, `${published} jeux publies sur ${total || 'n/a'}`)
+      setText(publicationSignalEl, `${published} jeux publiés sur ${total || 'n/a'}`)
       setText(editorialSignalEl, `${withSynopsis} fiches avec synopsis exploitable`)
-      setText(archiveSignalEl, richItems.length ? `${richItems.length} lectures fortes mises en avant` : 'selection en cours')
+      setText(archiveSignalEl, richItems.length ? `${richItems.length} lectures fortes mises en avant` : 'sélection en cours')
 
       if (!richItems.length) {
-        renderState('Aucune lecture forte', 'La vitrine du hub se remplira au fur et a mesure des publications riches.')
+        renderState('Aucune lecture forte', 'La vitrine du hub se remplira au fur et à mesure des publications riches.')
         return
       }
 
       richGridEl.innerHTML = richItems.map(buildCard).join('')
     } catch (_error) {
-      bannerEl.textContent = 'Surface publique curee PASS 1. Le hub reste une porte d entree vers les surfaces specialisees.'
+      bannerEl.textContent = "Surface publique curée PASS 1. Le hub reste une porte d'entrée vers les surfaces spécialisées."
       setText(publicationSignalEl, 'indisponible')
       setText(editorialSignalEl, 'indisponible')
       setText(archiveSignalEl, 'indisponible')

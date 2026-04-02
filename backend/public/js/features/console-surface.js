@@ -129,7 +129,7 @@
 
   function renderDemoGames(items, underfilled = false) {
     if (!Array.isArray(items) || !items.length) {
-      return `<div class="console-detail-empty">Aucun jeu demo publie pour cette console.</div>`
+      return `<div class="console-detail-empty">Aucun jeu démo publié pour cette console.</div>`
     }
 
     return `
@@ -142,7 +142,7 @@
           </a>
         `).join('')}
       </div>
-      ${underfilled ? '<div class="console-section-footnote">Console underfilled : tous les jeux publies disponibles sont affiches.</div>' : ''}
+      ${underfilled ? '<div class="console-section-footnote">Console underfilled : tous les jeux publiés disponibles sont affichés.</div>' : ''}
     `
   }
 
@@ -232,14 +232,14 @@
               <div class="surface-signal-card"><span class="surface-signal-label">Constructeur</span><span class="surface-signal-value">${escapeHtml(consoleInfo.manufacturer || 'n/a')}</span></div>
               <div class="surface-signal-card"><span class="surface-signal-label">Sortie</span><span class="surface-signal-value">${escapeHtml(consoleInfo.releaseYear || 'n/a')}</span></div>
               <div class="surface-signal-card"><span class="surface-signal-label">Catalogue</span><span class="surface-signal-value">${escapeHtml(consoleInfo.gamesCount || games.length || 0)} jeux</span></div>
-              <div class="surface-signal-card"><span class="surface-signal-label">Qualite</span><span class="surface-signal-value">${escapeHtml(quality.tier || 'Tier D')}</span></div>
+              <div class="surface-signal-card"><span class="surface-signal-label">Qualité</span><span class="surface-signal-value">${escapeHtml(quality.tier || 'Tier D')}</span></div>
             </div>
             <div class="surface-chip-row">
               <span class="surface-chip is-primary">${escapeHtml(overview.shortTechnicalIdentity || hardware.media || 'hardware')}</span>
               <span class="surface-chip">${escapeHtml(`Score ${quality.score ?? 0}`)}</span>
-              <span class="surface-chip">${escapeHtml(`${market.pricedGames || 0} jeux prices`)}</span>
+              <span class="surface-chip">${escapeHtml(`${market.pricedGames || 0} jeux pricés`)}</span>
             </div>
-            <div class="console-section-footnote">${escapeHtml(`${publication.label || 'PASS 1 curated'} | ${publication.publishedGamesCount || 0} jeux publies | ${publication.consoleCount || 0} consoles`)}</div>
+            <div class="console-section-footnote">${escapeHtml(`${publication.label || 'PASS 1 curated'} | ${publication.publishedGamesCount || 0} jeux publiés | ${publication.consoleCount || 0} consoles`)}</div>
             <div class="console-market-quick-grid">
               ${marketCards.map((card) => `
                 <div class="surface-signal-card">
@@ -250,7 +250,7 @@
             </div>
             <div class="console-detail-actions surface-action-row">
               <a class="terminal-action-link" href="/games-list.html?console=${encodeURIComponent(consoleInfo.name || '')}">Voir le catalogue -></a>
-              <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(consoleInfo.name || '')}">Voir le marche -></a>
+              <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(consoleInfo.name || '')}">Voir le marché →</a>
               <a class="terminal-action-link" href="/search.html?q=${encodeURIComponent(consoleInfo.name || '')}">Voir les liens -></a>
             </div>
           </div>

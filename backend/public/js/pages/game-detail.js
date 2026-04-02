@@ -49,7 +49,7 @@ const PRICE_HISTORY_STATES = [
 ]
 
 const DEFAULT_PRICE_HISTORY_PERIOD = '1y'
-const EMPTY_STATE_STYLE = "color:#3a5a3a;font-style:italic;font-size:0.72rem;font-family:'Share Tech Mono',monospace;"
+const EMPTY_STATE_STYLE = 'color:#3a5a3a;font-style:italic;font-size:0.72rem;font-family:var(--font-mono);'
 
 function resolveGameMeta(game) {
   return {
@@ -369,8 +369,8 @@ function renderHeroSection(game) {
   const summary = String(game.summary || game.synopsis || '').trim()
   const metascoreValue = game.metascore ? String(game.metascore) : 'n/a'
   const refPrice = game.loosePrice && Number(game.loosePrice) > 0
-    ? `<span style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#7a9a7a;display:block;margin-top:0.35rem;">Référence loose : $${Number(game.loosePrice).toFixed(0)}</span>`
-    : `<span style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#3a5a3a;font-style:italic;display:block;margin-top:0.35rem;">Prix non indexé</span>`
+    ? `<span class="detail-hero-reference">Référence loose : $${Number(game.loosePrice).toFixed(0)}</span>`
+    : '<span class="detail-hero-reference is-empty">Prix non indexé</span>'
   heroEl.innerHTML = `
     <div class="detail-hero-shell">
       <div class="detail-hero-status">
@@ -424,7 +424,20 @@ function renderHeroSection(game) {
             </div>
           </div>
         </section>
-
+        <aside class="detail-market-panel detail-hero-aside">
+          <div class="detail-kicker">READING STATUS</div>
+          <div class="detail-domain-heading">Lecture immédiate</div>
+          <p class="detail-status-copy detail-hero-aside-copy">
+            Synthèse courte de la richesse, de l'état de publication et du niveau de confiance.
+          </p>
+          <div id="hero-reading-grid" class="surface-signal-grid detail-identity-signal-grid">
+            ${buildHeroSignalCard('Richesse', 'Chargement', 'is-primary')}
+            ${buildHeroSignalCard('État', 'En cours')}
+            ${buildHeroSignalCard('Confiance', 'À qualifier')}
+          </div>
+          <div id="hero-reading-highlights" class="surface-chip-row"></div>
+          <p id="hero-reading-note" class="detail-reading-note">Signaux de lecture en cours de consolidation.</p>
+        </aside>
       </div>
     </div>
   `
@@ -462,9 +475,21 @@ function buildDetailContentSignals() {
   })
 }
 
+function buildHeroSignalCard(label, value, modifier = '') {
+  return `
+    <div class="surface-signal-card${modifier ? ` ${modifier}` : ''}">
+      <span class="surface-signal-label">${escapeHtml(label)}</span>
+      <span class="surface-signal-value">${escapeHtml(value)}</span>
+    </div>
+  `
+}
+
 function renderDetailContentStatus() {
   const rowEl = document.getElementById('hero-content-status')
   const noteEl = document.getElementById('hero-content-note')
+  const readingGridEl = document.getElementById('hero-reading-grid')
+  const readingHighlightsEl = document.getElementById('hero-reading-highlights')
+  const readingNoteEl = document.getElementById('hero-reading-note')
   if (!rowEl || !noteEl) {
     return
   }
@@ -473,16 +498,45 @@ function renderDetailContentStatus() {
   if (!signals) {
     rowEl.innerHTML = ''
     noteEl.textContent = ''
+    if (readingGridEl) {
+      readingGridEl.innerHTML = [
+        buildHeroSignalCard('Richesse', 'Chargement', 'is-primary'),
+        buildHeroSignalCard('État', 'En cours'),
+        buildHeroSignalCard('Confiance', 'À qualifier'),
+      ].join('')
+    }
+    if (readingHighlightsEl) {
+      readingHighlightsEl.innerHTML = ''
+    }
+    if (readingNoteEl) {
+      readingNoteEl.textContent = 'Signaux de lecture en cours de consolidation.'
+    }
     return
   }
 
   rowEl.innerHTML = `
-    <span class="surface-chip is-primary">Lecture: ${escapeHtml(signals.band.shortLabel)}</span>
-    <span class="surface-chip">Etat: ${escapeHtml(signals.completionState.shortLabel)}</span>
-    <span class="surface-chip">Confiance: ${escapeHtml(signals.confidence.shortLabel)}</span>
+    <span class="surface-chip is-primary">Richesse : ${escapeHtml(signals.band.shortLabel)}</span>
+    <span class="surface-chip">État : ${escapeHtml(signals.completionState.shortLabel)}</span>
+    <span class="surface-chip">Confiance : ${escapeHtml(signals.confidence.shortLabel)}</span>
     ${signals.highlights.slice(0, 2).map((label) => `<span class="surface-chip">${escapeHtml(label)}</span>`).join('')}
   `
   noteEl.textContent = signals.band.note
+  if (readingGridEl) {
+    readingGridEl.innerHTML = [
+      buildHeroSignalCard('Richesse', signals.band.shortLabel, 'is-primary'),
+      buildHeroSignalCard('État', signals.completionState.shortLabel),
+      buildHeroSignalCard('Confiance', signals.confidence.shortLabel),
+    ].join('')
+  }
+  if (readingHighlightsEl) {
+    readingHighlightsEl.innerHTML = signals.highlights
+      .slice(0, 3)
+      .map((label) => `<span class="surface-chip">${escapeHtml(label)}</span>`)
+      .join('')
+  }
+  if (readingNoteEl) {
+    readingNoteEl.textContent = signals.band.note
+  }
 }
 
 function confidenceClass(value) {
@@ -508,7 +562,7 @@ function getTrustBadgeText(tier) {
 }
 
 function getTrustBadgeStyle(tier) {
-  const base = "font-family:'Press Start 2P', monospace;font-size:0.72rem;"
+  const base = 'font-family:var(--font-display);font-size:0.72rem;'
   if (tier === 'T1') {
     return `${base}background:rgba(155,188,15,0.15);border:1px solid #9bbc0f;color:#9bbc0f;`
   }
@@ -546,7 +600,7 @@ function formatTrustDate(value) {
 
 function buildTrustSource(entries, confidence) {
   if (!entries.length) {
-    return 'aucune donnee - contribuez un prix'
+    return 'aucune donnée - contribuez un prix'
   }
 
   const sourcesEditorial = Math.max(0, ...entries.map((entry) => Number(entry.sources_editorial) || 0))
@@ -565,7 +619,7 @@ function buildTrustSource(entries, confidence) {
     return 'Aucune vente vérifiée — prix calculé par référence'
   }
 
-  return 'aucune donnee - contribuez un prix'
+  return 'aucune donnée - contribuez un prix'
 }
 
 function formatIndexRange(low, high) {
@@ -659,11 +713,11 @@ function isImageLikeUrl(value) {
 function renderOverviewCard(data = {}) {
   const facts = [
     ['Plateforme', data.platform],
-    ['Annee', data.year],
+    ['Année', data.year],
     ['Genre', data.genre],
-    ['Rarete', data.rarity],
-    ['Developpeur', data.developer],
-    ['Editeur', data.publisher],
+    ['Rareté', data.rarity],
+    ['Développeur', data.developer],
+    ['Éditeur', data.publisher],
     ['Metascore', data.metascore],
     ['Main', data.game_length?.main],
     ['Complet', data.game_length?.complete],
@@ -671,7 +725,7 @@ function renderOverviewCard(data = {}) {
 
   return `
     <article class="detail-domain-block">
-      <div class="detail-domain-heading">Overview</div>
+      <div class="detail-domain-heading">Vue d'ensemble</div>
       ${data.cover?.external_url ? `
         <div class="detail-overview-cover">
           <a class="detail-media-preview-link" href="${escapeHtml(data.cover.external_url)}" target="_blank" rel="noopener noreferrer">
@@ -686,7 +740,7 @@ function renderOverviewCard(data = {}) {
       ` : ''}
       ${data.summary ? `
         <div class="detail-domain-subblock">
-          <span class="archive-label">Resume</span>
+          <span class="archive-label">Résumé</span>
           <div class="archive-lore">${formatMultilineHtml(data.summary)}</div>
         </div>
       ` : ''}
@@ -722,7 +776,7 @@ function renderRichTextBlocks(blocks = []) {
 function renderCharacterList(items = []) {
   return `
     <article class="detail-domain-block">
-      <div class="detail-domain-heading">Characters</div>
+      <div class="detail-domain-heading">Personnages</div>
       ${items.map((item) => `
         <div class="archive-character-row">
           <span class="archive-char-name">${escapeHtml(item.name || 'Inconnu')}</span>
@@ -737,7 +791,7 @@ function renderCharacterList(items = []) {
 function renderPeopleList(items = []) {
   return `
     <article class="detail-domain-block">
-      <div class="detail-domain-heading">Dev Team</div>
+      <div class="detail-domain-heading">Équipe</div>
       ${items.map((item) => `
         <div class="encyclo-team-row">
           <span class="team-role">${escapeHtml(item.role || item.roleLabel || item.type || 'Equipe')}</span>
@@ -845,7 +899,7 @@ function renderOstBlock(block = {}) {
                   release.format || '',
                   release.label || '',
                   release.trackCount ? `${release.trackCount} tracks` : '',
-                ].filter(Boolean).join(' | ') || 'Metadonnees partielles')}
+                ].filter(Boolean).join(' | ') || 'Métadonnées partielles')}
               </span>
             </div>
           `).join('')}
@@ -930,7 +984,7 @@ function renderGameDetailBlock(block) {
 function renderDynamicEditorialPanel(tab) {
   const blocks = Array.isArray(tab?.content) ? tab.content : []
   if (!blocks.length) {
-    return `<div class="detail-empty-state">Aucune donnee publiee pour cette section.</div>`
+    return `<div class="detail-empty-state">Aucune donnée publiée pour cette section.</div>`
   }
 
   return blocks.map((block) => renderGameDetailBlock(block)).join('')
@@ -1139,7 +1193,7 @@ function buildProductionPanel() {
     developers.push({
       name: fallbackDeveloper,
       role: 'developer',
-      roleLabel: 'Developpement',
+      roleLabel: 'Développement',
       country: '',
       confidence: 0,
     })
@@ -1167,9 +1221,9 @@ function buildProductionPanel() {
     </article>
   `
 
-  blocks.push(buildCompanyList('Developpeur', developers, 'Developpement non renseigne'))
-  blocks.push(buildCompanyList('Editeur', publishers, 'Edition non renseignee'))
-  blocks.push(buildCompanyList('Studios', studios, 'Studio non renseigne'))
+  blocks.push(buildCompanyList('Développeur', developers, 'Développement non renseigné'))
+  blocks.push(buildCompanyList('Éditeur', publishers, 'Édition non renseignée'))
+  blocks.push(buildCompanyList('Studios', studios, 'Studio non renseigné'))
 
   const roleHtml = roleEntries.length
     ? roleEntries.map((entry) => `
@@ -1188,19 +1242,19 @@ function buildProductionPanel() {
   const teamHtml = devTeam.length
     ? devTeam.map((member) => `
         <div class="detail-production-team-row">
-          <span class="team-role">${escapeHtml(member.role || 'Equipe')}</span>
+          <span class="team-role">${escapeHtml(member.role || 'Équipe')}</span>
           <span class="team-name">${escapeHtml(member.name)}</span>
           ${member.note ? `<span class="team-note">${escapeHtml(member.note)}</span>` : ''}
         </div>
       `).join('')
-    : `<div class="detail-empty-state">Aucun credit equipe structure</div>`
+    : `<div class="detail-empty-state">Aucun crédit d'équipe structuré</div>`
 
   return `
     <section class="detail-production-panel">
       <div class="detail-production-head">
         <div>
           <div class="detail-domain-eyebrow">Production</div>
-          <div class="detail-domain-subcopy">studios • roles • credits • societes</div>
+          <div class="detail-domain-subcopy">studios • rôles • crédits • sociétés</div>
         </div>
         ${roleHtml ? `<div class="detail-production-role-row">${roleHtml}</div>` : ''}
       </div>
@@ -1208,7 +1262,7 @@ function buildProductionPanel() {
         ${blocks.join('')}
       </div>
       <article class="detail-production-block detail-production-block-wide">
-        <div class="detail-production-block-label">Credits / Dev Team</div>
+        <div class="detail-production-block-label">Crédits / équipe</div>
         <div class="detail-production-team">
           ${teamHtml}
         </div>
@@ -1230,8 +1284,8 @@ function buildLoreCharactersTab() {
   const characters = parseStructuredArray(archive.characters || fallbackGame.characters)
   const versions = parseStructuredArray(archive.versions || fallbackGame.versions)
   const speedrun = parseStructuredValue(archive.speedrun_wr || fallbackGame.speedrun_wr, null)
-  const mainDuration = formatDurationValue(archive.duration?.main ?? fallbackGame.avg_duration_main)
-  const completeDuration = formatDurationValue(archive.duration?.complete ?? fallbackGame.avg_duration_complete)
+  const mainDuration = formatDurationValue(archive.duration?.main || fallbackGame.avg_duration_main)
+  const completeDuration = formatDurationValue(archive.duration?.complete || fallbackGame.avg_duration_complete)
   const blocks = []
 
   if (summaryText || synopsisText || loreText || gameplayText) {
@@ -1263,14 +1317,14 @@ function buildLoreCharactersTab() {
 
   if (mainDuration || completeDuration || versions.length || speedrun?.time || speedrun?.value) {
     const durationParts = [
-      mainDuration ? `Main ${escapeHtml(mainDuration)}` : `Main ${buildEmptyStateHtml('Non renseigne')}`,
+      mainDuration ? `Main ${escapeHtml(mainDuration)}` : `Main ${buildEmptyStateHtml('Non renseigné')}`,
       completeDuration ? `Complet ${escapeHtml(completeDuration)}` : '',
     ].filter(Boolean)
 
     blocks.push(`
       <article class="detail-domain-block">
         <div class="detail-domain-heading">Progression</div>
-        <div class="archive-duration">${durationParts.length ? durationParts.join(' | ') : buildEmptyStateHtml('Aucune duree')}</div>
+        <div class="archive-duration">${durationParts.length ? durationParts.join(' | ') : buildEmptyStateHtml('Aucune durée')}</div>
         ${(speedrun?.time || speedrun?.value) ? `<div class="archive-speedrun"><span class="archive-label">WR</span> ${escapeHtml(speedrun.category || 'Any%')} : ${escapeHtml(speedrun.time || speedrun.value)}${speedrun.runner ? ` | ${escapeHtml(speedrun.runner)}` : ''}</div>` : ''}
         ${versions.length ? `
           <div class="archive-ost-tracks">
@@ -1307,7 +1361,7 @@ function buildLoreCharactersTab() {
   if (anecdotes.length) {
     blocks.push(`
       <article class="detail-domain-block">
-        <div class="detail-domain-heading">Anecdotes de developpement</div>
+        <div class="detail-domain-heading">Anecdotes de développement</div>
         ${anecdotes.map((entry, index) => {
           const note = parseStructuredValue(entry, entry)
           const title = typeof note === 'object' ? note.title || note.label : `Note ${index + 1}`
@@ -1326,7 +1380,7 @@ function buildLoreCharactersTab() {
   if (cheatCodes.length) {
     blocks.push(`
       <article class="detail-domain-block">
-        <div class="detail-domain-heading">Cheat Codes</div>
+        <div class="detail-domain-heading">Codes</div>
         ${cheatCodes.map((code) => {
           const item = parseStructuredValue(code, code)
           if (typeof item === 'string') {
@@ -1347,7 +1401,7 @@ function buildLoreCharactersTab() {
 
   return blocks.length
     ? blocks.join('')
-    : `<div class="detail-empty-state">Aucune donnee lore, personnages ou editoriale publiee pour ce jeu.</div>`
+    : `<div class="detail-empty-state">Aucune donnée lore, personnages ou éditoriale publiée pour ce jeu.</div>`
 }
 
 function buildMediaDocsTab() {
@@ -1388,7 +1442,7 @@ function buildMediaDocsTab() {
   }
 
   if (!items.length && !visibleManuals.length && !covers.length && !screenshots.length && !references.length && !visualAssetCount) {
-    return `<div class="detail-empty-state">Aucune notice ou reference media publiee pour ce jeu.</div>`
+    return `<div class="detail-empty-state">Aucune notice ou référence média publiée pour ce jeu.</div>`
   }
 
   const itemRows = itemSource.map((entry) => {
@@ -1414,7 +1468,7 @@ function buildMediaDocsTab() {
 
   return `
     <article class="detail-domain-block">
-      <div class="detail-domain-heading">Conformite & Inventaire</div>
+      <div class="detail-domain-heading">Conformité & inventaire</div>
       <div class="detail-media-summary">
         ${summaryBadge}
         <span>${escapeHtml(`${manuals.length || visibleManuals.length} notice(s)`)}</span>
@@ -1425,7 +1479,7 @@ function buildMediaDocsTab() {
       </div>
     </article>
     <article class="detail-domain-block">
-      <div class="detail-domain-heading">References publiees</div>
+      <div class="detail-domain-heading">Références publiées</div>
       <div class="detail-media-list">
         ${itemRows}
       </div>
@@ -1441,7 +1495,7 @@ function buildMusicTab() {
   const releases = parseStructuredArray(archive.ost?.releases)
 
   if (!composers.length && !tracks.length && !releases.length) {
-    return `<div class="detail-empty-state">Aucune donnee OST structuree publiee pour ce jeu.</div>`
+    return `<div class="detail-empty-state">Aucune donnée OST structurée publiée pour ce jeu.</div>`
   }
 
   return `
@@ -1480,7 +1534,7 @@ function buildMusicTab() {
                     item.format || '',
                     item.label || '',
                     item.trackCount || item.track_count ? `${item.trackCount || item.track_count} tracks` : '',
-                  ].filter(Boolean).join(' | ') || 'Metadonnees partielles')}
+                  ].filter(Boolean).join(' | ') || 'Métadonnées partielles')}
                 </span>
               </div>
             `
@@ -1493,7 +1547,7 @@ function buildMusicTab() {
 
 function buildEditorialSections() {
   return [
-    { id: 'lore_characters', label: 'Lore & Characters', html: buildLoreCharactersTab() },
+    { id: 'lore_characters', label: 'Lore & personnages', html: buildLoreCharactersTab() },
     { id: 'media_docs', label: 'Media & Manuals', html: buildMediaDocsTab() },
     { id: 'music_ost', label: 'Music & OST', html: buildMusicTab() },
   ]
@@ -1653,14 +1707,14 @@ function renderSummary(game) {
 function renderStats(game) {
   const summaryStats = [
     { label: 'Plateforme', value: game.console || 'n/a' },
-    { label: 'Annee', value: game.year || 'n/a' },
+    { label: 'Année', value: game.year || 'n/a' },
     { label: 'Metascore', value: '__METASCORE__', id: 'stat-metascore' },
-    { label: 'Rarete', value: game.rarity || 'COMMON' },
+    { label: 'Rareté', value: game.rarity || 'COMMON' },
   ]
   const detailStats = [
     { label: 'Genre', value: game.genre && game.genre !== 'Other' ? game.genre : '' },
-    { label: 'Developpeur', value: game.developerCompany?.name || game.developer || '' },
-    { label: 'Editeur', value: game.publisherCompany?.name || (game.publisher && game.publisher !== 'undefined' ? game.publisher : '') },
+    { label: 'Développeur', value: game.developerCompany?.name || game.developer || '' },
+    { label: 'Éditeur', value: game.publisherCompany?.name || (game.publisher && game.publisher !== 'undefined' ? game.publisher : '') },
     { label: 'Slug', value: game.slug || '' },
   ].filter((entry) => entry.value != null && String(entry.value).trim() !== '')
 
@@ -2141,10 +2195,10 @@ function renderRelatedPrices(current, related) {
         <div class="compare-table">
           <div class="compare-row compare-header">
             <span>Titre</span>
-            <span>Annee</span>
+            <span>Ann?e</span>
             <span>Console</span>
             <span>Meta</span>
-            <span>Rarete</span>
+            <span>Rareté</span>
           </div>
           <div class="compare-row current">
             <span>${escapeHtml(current.title)}</span>
@@ -2817,7 +2871,7 @@ async function loadPriceHistory(gameId) {
     if (!visibleEntries.length) {
       svg.innerHTML = `
         <text x="${width / 2}" y="${height / 2}" text-anchor="middle" fill="#5a8a5a" font-size="12">
-          ${escapeHtml(data.hasAnyHistory ? 'Aucune observation visible sur cette periode.' : 'Historique observe indisponible.')}
+          ${escapeHtml(data.hasAnyHistory ? 'Aucune observation visible sur cette période.' : 'Historique observé indisponible.')}
         </text>
       `
       labelsEl.innerHTML = ''
@@ -2840,7 +2894,7 @@ async function loadPriceHistory(gameId) {
     if (!chartPoints.length) {
       svg.innerHTML = `
         <text x="${width / 2}" y="${height / 2}" text-anchor="middle" fill="#5a8a5a" font-size="12">
-          Aucune observation exploitable pour cette periode.
+          Aucune observation exploitable pour cette période.
         </text>
       `
       labelsEl.innerHTML = ''

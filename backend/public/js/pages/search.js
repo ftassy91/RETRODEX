@@ -152,7 +152,7 @@
   function renderPublicationBanner(publication) {
     if (!bannerEl) return;
     if (!publication) {
-      bannerEl.textContent = 'Surface publique curee PASS 1. Recherche limitee aux jeux publies.';
+      bannerEl.textContent = 'Surface publique curée PASS 1. Recherche limitée aux jeux publiés.';
       return;
     }
 
@@ -160,7 +160,7 @@
     const consoles = Number(publication.consoleCount || 0);
     const total = Number(publication.catalogGamesCount || 0);
     const totalCopy = total > 0 ? ` sur ${total} jeux en base` : '';
-    bannerEl.textContent = `${publication.label || 'PASS 1 curated'} | ${published} jeux publies | ${consoles} consoles | selection validee${totalCopy}.`;
+    bannerEl.textContent = `${publication.label || 'PASS 1 curated'} | ${published} jeux publiés | ${consoles} consoles | sélection validée${totalCopy}.`;
   }
 
   async function preloadPublicationBanner() {
@@ -192,8 +192,8 @@
 
     if (context === 'retromarket') {
       if (item.meta?.loosePrice != null) {
-        const rarity = item.meta?.rarity ? `Raret\u00e9 ${item.meta.rarity}` : 'Signal marche';
-        return `${rarity} | ${fmtPrice(item.meta.loosePrice) || 'n/a'} loose | lecture immediate du potentiel collector.`;
+        const rarity = item.meta?.rarity ? `Rareté ${item.meta.rarity}` : 'Signal marché';
+        return `${rarity} | ${fmtPrice(item.meta.loosePrice) || 'n/a'} loose | lecture immédiate du potentiel collector.`;
       }
       return '';
     }
@@ -239,7 +239,7 @@
     }
 
     if (item.meta?.rarity) {
-      grid.appendChild(createSignalCard('Rarete', item.meta.rarity));
+      grid.appendChild(createSignalCard('Rareté', item.meta.rarity));
     } else {
       grid.appendChild(createSignalCard('Type', String(item.type || '').toUpperCase()));
     }
@@ -291,7 +291,7 @@
       const coverSrc = item.meta?.coverImage || item.coverImage || null;
       const coverEl = coverSrc
         ? `<img src="${escapeHtml(coverSrc)}" alt="" class="sc-result-cover" width="80" height="80" loading="lazy" style="width:80px;height:80px;object-fit:cover;border:1px solid rgba(155,188,15,0.3);flex-shrink:0;">`
-        : `<span class="sc-result-cover-placeholder" style="width:80px;height:80px;min-width:80px;background:rgba(155,188,15,0.08);border:1px solid rgba(155,188,15,0.2);display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P',monospace;font-size:0.9rem;color:#9bbc0f;flex-shrink:0;">${escapeHtml((item.title || '?')[0].toUpperCase())}</span>`;
+        : `<span class="sc-result-cover-placeholder" style="width:80px;height:80px;min-width:80px;background:rgba(155,188,15,0.08);border:1px solid rgba(155,188,15,0.2);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:0.9rem;color:#9bbc0f;flex-shrink:0;">${escapeHtml((item.title || '?')[0].toUpperCase())}</span>`;
       row.insertAdjacentHTML('beforeend', coverEl);
 
       const main = document.createElement('div');

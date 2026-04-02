@@ -34,7 +34,7 @@ async function loadHomeData() {
     const games = gamesPayload.items || []
     const consoleCount = consoles.items?.length || consoles.total || 0
 
-    healthEl.innerHTML = `<strong>Backend OK</strong><br />${escapeHtml(health.games)} entrees chargees dans ${escapeHtml(health.database)}`
+    healthEl.innerHTML = `<strong>Backend OK</strong><br />${escapeHtml(health.games)} entr?es chargees dans ${escapeHtml(health.database)}`
     metaEl.innerHTML = `
       <div><span class="muted">Database</span><br>${escapeHtml(health.database)}</div>
       <div><span class="muted">Storage</span><br>${escapeHtml(health.storage)}</div>

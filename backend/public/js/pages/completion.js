@@ -211,7 +211,7 @@ async function boot() {
       statusEl.textContent = `Erreur completion : ${error.message}`
     }
     if (originEl) {
-      originEl.textContent = 'Verification locale requise : la route admin de completude doit etre disponible dans le runtime local.'
+      originEl.textContent = 'Verification locale requise : la route admin de compl?tude doit etre disponible dans le runtime local.'
     }
     if (overviewEl) {
       overviewEl.innerHTML = `

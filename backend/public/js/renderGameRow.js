@@ -14,7 +14,7 @@ function renderPresenceBadges(game) {
   const badges = []
 
   if (game?.curation?.isPublished) {
-    badges.push('<span class="presence-badge is-curated">PASS 1 curated</span>')
+    badges.push('<span class="presence-badge is-curated">PUBLIÉ</span>')
   }
   if (signals.hasMaps) badges.push('<span class="presence-badge">MAP</span>')
   if (signals.hasManuals) badges.push('<span class="presence-badge">MANUAL</span>')
@@ -33,6 +33,7 @@ function renderGameRow(game, options = {}) {
     showRarity = true,
     collectionState = null,
   } = options
+
   const rarityColors = {
     LEGENDARY: 'var(--confidence-high)',
     EPIC: 'var(--text-alert)',
@@ -76,7 +77,7 @@ function renderGameRow(game, options = {}) {
   el.innerHTML = `
     <span class="result-row-indicator">&rsaquo;</span>
     <div class="result-info">
-      <span class="result-title" title="${escapeHtml(game.title || '')}">${escapeHtml(game.title || '')}${showOwnedBadge ? '<span class="result-owned-badge">OWNED</span>' : ''}</span>
+      <span class="result-title" title="${escapeHtml(game.title || '')}">${escapeHtml(game.title || '')}${showOwnedBadge ? '<span class="result-owned-badge">COLLECTION</span>' : ''}</span>
       <span class="result-meta-row">
         <span class="result-meta">${escapeHtml(consoleName)} &middot; ${escapeHtml(year)}${genre ? ` &middot; ${escapeHtml(genre)}` : ''}</span>
       </span>
@@ -112,7 +113,7 @@ function renderGameRow(game, options = {}) {
     if (window.RetroDexMetascore && game.metascore) {
       const badge = window.RetroDexMetascore.renderBadge(game.metascore, 'micro')
       const label = window.RetroDexMetascore.getLabel(game.metascore)
-      badge.title = `Metascore: ${game.metascore}/100 · ${label}`
+      badge.title = `Metascore : ${game.metascore}/100 · ${label}`
       badge.addEventListener('mouseenter', () => {
         window.RetroDexExperience?.showStatus?.(`METASCORE ${game.metascore}/100 · ${label}`)
       })

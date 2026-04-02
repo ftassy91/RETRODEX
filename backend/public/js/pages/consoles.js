@@ -45,11 +45,11 @@ function consoleRowMarkup(item) {
 function setPublicationBanner(publication) {
   if (!bannerEl) return
   if (!publication) {
-    bannerEl.textContent = 'Surface publique curee PASS 1. Chargement des signaux de publication.'
+    bannerEl.textContent = 'Surface publique curée PASS 1. Chargement des signaux de publication.'
     return
   }
 
-  bannerEl.textContent = `${publication.label || 'PASS 1 curated'} | ${publication.publishedGamesCount || 0} jeux publies | ${publication.consoleCount || 0} consoles | vitrine validee, extension progressive.`
+  bannerEl.textContent = `${publication.label || 'PASS 1 curated'} | ${publication.publishedGamesCount || 0} jeux publiés | ${publication.consoleCount || 0} consoles | vitrine validée, extension progressive.`
 }
 
 function bindRows(items) {
@@ -101,13 +101,13 @@ async function loadConsoles() {
   }
 
   const consoles = payload.items || []
-  if (countEl) countEl.textContent = `${payload.count || consoles.length} consoles visibles | ${payload.publication?.publishedGamesCount || 0} jeux publies`
+  if (countEl) countEl.textContent = `${payload.count || consoles.length} consoles visibles | ${payload.publication?.publishedGamesCount || 0} jeux publiés`
   setPublicationBanner(payload.publication || null)
   gridEl.innerHTML = consoles.map(consoleRowMarkup).join('')
   bindRows(consoles)
 
   if (!consoles.length) {
-    detailEl.innerHTML = consoleEmptyMarkup('Aucune console', 'Aucune entree disponible dans l archive.')
+    detailEl.innerHTML = consoleEmptyMarkup('Aucune console', 'Aucune entr?e disponible dans l archive.')
     return
   }
 

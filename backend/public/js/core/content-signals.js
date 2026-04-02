@@ -1,4 +1,4 @@
-﻿'use strict'
+'use strict'
 
 ;(() => {
   function hasText(value) {
@@ -44,7 +44,7 @@
     }
 
     if (game?.curation?.isPublished) {
-      return { key: 'medium', label: 'Surface publiee', shortLabel: 'Surface publiee' }
+      return { key: 'medium', label: 'Surface publiée', shortLabel: 'Publiée' }
     }
 
     return { key: 'low', label: 'Lecture en consolidation', shortLabel: 'En consolidation' }
@@ -60,7 +60,9 @@
     const manuals = uniqueTruthy([
       archive.manual_url,
       game.manual_url,
-      ...mediaDocs.filter((entry) => String(entry?.mediaType || '').toLowerCase() === 'manual').map((entry) => entry.url || entry.embed_url),
+      ...mediaDocs
+        .filter((entry) => String(entry?.mediaType || '').toLowerCase() === 'manual')
+        .map((entry) => entry.url || entry.embed_url),
     ])
     const anecdoteCount = parseStructuredArray(encyclopedia.dev_anecdotes || archive.dev_anecdotes || game.dev_anecdotes).length
     const cheatCount = parseStructuredArray(encyclopedia.cheat_codes || archive.cheat_codes || game.cheat_codes).length
@@ -79,42 +81,65 @@
     const hasRecords = hasText(archive.speedrun_wr || game.speedrun_wr) || toArray(content.competition).length > 0
 
     const features = [
-      { key: 'summary', label: 'Resume', weight: 2, active: hasSummary },
+      { key: 'summary', label: 'Résumé', weight: 2, active: hasSummary },
       { key: 'tagline', label: 'Tagline', weight: 1, active: hasTagline },
       { key: 'crew', label: 'Crew', weight: 1, active: teamEntries > 0 || hasText(game.dev_team) || hasText(game.developer) },
       { key: 'price', label: 'Prix', weight: 1, active: hasPrices },
-      { key: 'manual', label: 'Manual', weight: 1, active: hasManuals },
+      { key: 'manual', label: 'Notice', weight: 1, active: hasManuals },
       { key: 'ost', label: 'OST', weight: 1, active: ostTracks.length > 0 },
       { key: 'anecdotes', label: 'Anecdotes', weight: 1, active: anecdoteCount > 0 },
-      { key: 'cheats', label: 'Cheats', weight: 1, active: cheatCount > 0 },
+      { key: 'cheats', label: 'Codes', weight: 1, active: cheatCount > 0 },
       { key: 'versions', label: 'Versions', weight: 1, active: versionCount > 0 },
-      { key: 'duration', label: 'Duree', weight: 1, active: hasDuration },
+      { key: 'duration', label: 'Durée', weight: 1, active: hasDuration },
       { key: 'records', label: 'Records', weight: 1, active: hasRecords },
       { key: 'meta', label: 'Metascore', weight: 1, active: hasMetascore },
-      { key: 'maps', label: 'Maps', weight: 1, active: hasMaps },
+      { key: 'maps', label: 'Cartes', weight: 1, active: hasMaps },
       { key: 'sprites', label: 'Sprites', weight: 1, active: hasSprites },
-      { key: 'endings', label: 'Ending', weight: 1, active: hasEndings },
+      { key: 'endings', label: 'Fin', weight: 1, active: hasEndings },
     ]
 
     const score = features.reduce((sum, feature) => sum + (feature.active ? feature.weight : 0), 0)
-    let band = { key: 'light', label: 'Base stable', shortLabel: 'Base stable', note: 'Lecture propre, encore legere sur les couches riches.' }
+    let band = {
+      key: 'light',
+      label: 'Base stable',
+      shortLabel: 'Base stable',
+      note: 'Lecture propre, encore légère sur les couches riches.',
+    }
 
     if (score >= 9) {
-      band = { key: 'dense', label: 'Archive dense', shortLabel: 'Archive dense', note: 'Fiche riche : lecture, signaux et couches de contexte deja visibles.' }
+      band = {
+        key: 'dense',
+        label: 'Archive dense',
+        shortLabel: 'Archive dense',
+        note: 'Fiche riche : lecture, signaux et couches de contexte déjà visibles.',
+      }
     } else if (score >= 6) {
-      band = { key: 'solid', label: 'Lecture solide', shortLabel: 'Lecture solide', note: 'Base de lecture forte, avec plusieurs couches utiles deja reliees.' }
+      band = {
+        key: 'solid',
+        label: 'Lecture solide',
+        shortLabel: 'Lecture solide',
+        note: 'Base de lecture forte, avec plusieurs couches utiles déjà reliées.',
+      }
     } else if (score >= 3) {
-      band = { key: 'growing', label: 'Enrichissement actif', shortLabel: 'Enrichissement actif', note: 'Archive stable, encore en cours de densification sur les contenus premium.' }
+      band = {
+        key: 'growing',
+        label: 'En progression',
+        shortLabel: 'En progression',
+        note: 'Archive stable, encore en cours de densification sur les contenus premium.',
+      }
     }
 
     const completionState = game?.curation?.isPublished
-      ? { key: 'published', label: 'Surface publiee', shortLabel: 'Publiee' }
+      ? { key: 'published', label: 'Surface publiée', shortLabel: 'Publiée' }
       : score >= 6
-        ? { key: 'curated', label: 'Lecture structuree', shortLabel: 'Structuree' }
+        ? { key: 'curated', label: 'Lecture structurée', shortLabel: 'Structurée' }
         : { key: 'in_progress', label: 'Enrichissement en cours', shortLabel: 'En cours' }
 
     const confidence = normalizeConfidenceBand(game, { score })
-    const highlightLabels = features.filter((feature) => feature.active).slice(0, 4).map((feature) => feature.label)
+    const highlightLabels = features
+      .filter((feature) => feature.active)
+      .slice(0, 4)
+      .map((feature) => feature.label)
 
     return {
       score,

@@ -245,7 +245,7 @@ function renderTeamPanel(teamChanges) {
         ${teamChanges.length ? `
           <div class="team-table">
             <div class="team-row team-row-head">
-              <div class="team-cell">Annee</div>
+              <div class="team-cell">Ann?e</div>
               <div class="team-cell">Nom</div>
               <div class="team-cell">Role</div>
               <div class="team-cell">Evenement</div>
@@ -353,7 +353,7 @@ function buildDetailMarkup(franchise, games) {
           <div class="franchise-years-line surface-identity-meta">${escapeHtml(period)} | ${escapeHtml(franchise.developer || 'Inconnu')} | ${escapeHtml(franchise.publisher || 'Inconnu')}</div>
 
           <div class="surface-signal-grid franchise-overview-grid">
-            ${signalCardMarkup('Periode', period)}
+            ${signalCardMarkup('P?riode', period)}
             ${signalCardMarkup('Studio', franchise.developer || 'Inconnu')}
             ${signalCardMarkup('Jeux lies', String(games.length), games.length ? 'is-hot' : '')}
           </div>
@@ -363,7 +363,7 @@ function buildDetailMarkup(franchise, games) {
           </div>
 
           <div class="surface-action-row franchise-action-row">
-            <a class="franchise-action-link" href="/search.html?q=${encodeURIComponent(franchise.name)}&ctx=retrodex">RECHERCHER CETTE FRANCHISE</a>
+            <a class="franchise-action-link" href="/search.html?q=${encodeURIComponent(franchise.name)}&ctx=r?trodex">RECHERCHER CETTE FRANCHISE</a>
             <a class="franchise-action-link" href="/search.html?q=${encodeURIComponent(franchise.name)}">OUVRIR LA RECHERCHE TRANSVERSE</a>
             ${games.length ? '<button type="button" class="franchise-action-link button-link" data-tab-jump="games">VOIR LES JEUX LIES</button>' : ''}
           </div>

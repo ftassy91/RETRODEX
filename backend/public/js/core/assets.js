@@ -128,9 +128,9 @@
     return `${ASSET_BASE}/icons/price_stable.svg`;
   }
   function injectStyles() {
-    if (!document.head || document.getElementById('retrodex-assets-css')) return;
+    if (!document.head || document.getElementById('r?trodex-assets-css')) return;
     const style = document.createElement('style');
-    style.id = 'retrodex-assets-css';
+    style.id = 'r?trodex-assets-css';
     style.textContent = '.asset-support,.asset-rarity,.asset-grade,.asset-trend{display:inline-block;vertical-align:middle;flex-shrink:0;image-rendering:pixelated;image-rendering:crisp-edges}.asset-support{margin-right:6px}.asset-rarity{margin-left:4px;opacity:.9}.asset-grade{margin-right:4px}';
     document.head.appendChild(style);
   }

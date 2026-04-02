@@ -15,7 +15,7 @@
     titleClickWindowMs: 2500,
     statusDurationMs: 2400,
     statusCooldownMs: Number(EXPERIENCE.statusCooldownMs) || 1800,
-    collectorModeSessionKey: EXPERIENCE.collectorModeSessionKey || 'retrodex.collector-mode',
+    collectorModeSessionKey: EXPERIENCE.collectorModeSessionKey || 'r?trodex.collector-mode',
     rarityChances: {
       rare: Number(EXPERIENCE.rarityChances?.rare) || 0.18,
       ultraRare: Number(EXPERIENCE.rarityChances?.ultraRare) || 0.04,

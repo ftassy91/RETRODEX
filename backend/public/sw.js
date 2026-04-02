@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "retrodex-v3";
+const CACHE_NAME = "r?trodex-v3";
 const CACHE_ASSETS = [
   "/hub.html",
   "/games-list.html",

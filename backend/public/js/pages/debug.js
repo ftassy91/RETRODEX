@@ -136,8 +136,8 @@ function detailCard(game) {
         </div>
       </section>
       <section class="detail-section">
-        <strong>Resume</strong>
-        <div class="summary">${escapeHtml(game.summary || 'Aucun resume disponible.')}</div>
+        <strong>Résumé</strong>
+        <div class="summary">${escapeHtml(game.summary || 'Aucun résumé disponible.')}</div>
       </section>
     </article>
   `
@@ -181,7 +181,7 @@ function formatNetworkError(error) {
 async function loadHealth() {
   try {
     const health = await fetchJson(getApiUrl('/api/health'))
-    healthEl.innerHTML = `<strong>API OK</strong><br />${health.games} entrees dans ${health.storage}`
+    healthEl.innerHTML = `<strong>API OK</strong><br />${health.games} entr?es dans ${health.storage}`
     originHintEl.textContent = `Source API active : ${getBackendBase()}`
   } catch (error) {
     healthEl.textContent = `Erreur : ${formatNetworkError(error)}`

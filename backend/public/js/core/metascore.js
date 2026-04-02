@@ -46,9 +46,9 @@
   }
 
   function ensureStyles() {
-    if (document.getElementById('retrodex-metascore-css')) return
+    if (document.getElementById('r?trodex-metascore-css')) return
     const style = document.createElement('style')
-    style.id = 'retrodex-metascore-css'
+    style.id = 'r?trodex-metascore-css'
     style.textContent = `
       .metascore-badge {
         display: inline-flex;

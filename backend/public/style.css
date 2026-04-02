@@ -134,7 +134,7 @@ label {
 .rarity-uncommon { color: #44aadd; border-color: #44aadd; }
 .rarity-common { color: #5a9a3a; border-color: #5a9a3a; }
 /* =============================================
-   game-detail â€” Sprint 5 additions
+   game-detail ? Sprint 5 additions
    price-history + price-compare sections
    ============================================= */
 
@@ -286,7 +286,7 @@ label {
         padding: 16px;
       }
 
-      .retrodex-index {
+      .r?trodex-index {
         border: 1px solid var(--border);
         padding: 16px;
         margin-bottom: 16px;
@@ -909,10 +909,10 @@ label {
         }
       }
 
-      /* === RESPONSIVE â€” mobile 768px === */
+      /* === RESPONSIVE ? mobile 768px === */
       @media (max-width: 768px) {
 
-        /* Grid: 2 columns â†’ 1 column */
+        /* Grid: 2 columns ? 1 column */
         .games-grid,
         .cards-grid,
         .console-grid,
@@ -983,7 +983,7 @@ label {
       }
 
       /* =============================================
-         games-list â€” Bloomberg 3-column layout
+         games-list ? Bloomberg 3-column layout
          ============================================= */
       .bloomberg-layout {
         display: grid;
@@ -1343,7 +1343,7 @@ label {
         }
       }
 
-/* Phosphore â€” valeurs importantes uniquement */
+/* Phosphore ? valeurs importantes uniquement */
 .text-value, .index-value, .result-price,
 .price-value, .detail-price-value {
   text-shadow: 0 0 6px currentColor;
@@ -1352,16 +1352,16 @@ label {
 *, *::before, *::after {
   border-radius: 0 !important;
 }
-/* Titre principal â€” accent phosphore */
+/* Titre principal ? accent phosphore */
 h1, .page-title {
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
-/* Lignes rÃ©sultats â€” plus compactes */
+/* Lignes r?sultats ? plus compactes */
 .result-row {
   height: 44px;
 }
-/* Liens navigation â€” style terminal */
+/* Liens navigation ? style terminal */
 a {
   color: var(--text-primary);
   text-decoration: none;
@@ -2036,12 +2036,12 @@ a:hover {
 .franchise-link:hover { text-decoration: underline; }
 
 /* ========================================
-   RESPONSIVE â€” MOBILE BREAKPOINTS
+   RESPONSIVE ? MOBILE BREAKPOINTS
    ======================================== */
 
 @media (max-width: 768px) {
 
-  /* Layouts 2-3 colonnes â†’ 1 colonne */
+  /* Layouts 2-3 colonnes ? 1 colonne */
   .results-layout,
   .consoles-layout,
   .franchise-layout,
@@ -2049,46 +2049,46 @@ a:hover {
     grid-template-columns: 1fr;
   }
 
-  /* Panneau dÃ©tail visible seulement si sÃ©lection active */
+  /* Panneau détail visible seulement si sélection active */
   .detail-panel {
     border-left: none;
     border-top: 1px solid var(--border);
   }
 
-  /* Grille jeux similaires â†’ 2 colonnes */
+  /* Grille jeux similaires ? 2 colonnes */
   #similar-grid {
     grid-template-columns: 1fr 1fr;
   }
 
-  /* Cheats â†’ 1 colonne */
+  /* Cheats ? 1 colonne */
   .encyclo-cheat-row {
     grid-template-columns: 1fr;
     gap: 4px;
   }
 
-  /* Cover art â†’ centrÃ© */
+  /* Cover art ? centr? */
   .game-cover-container {
     margin: 0 auto 12px auto;
   }
 
-  /* Recherche plein Ã©cran */
+  /* Recherche plein ?cran */
   #search-input {
     font-size: 14px;
   }
 
-  /* RÃ©sultats search â†’ moins de colonnes */
+  /* R?sultats search ? moins de colonnes */
   .result-row {
     grid-template-columns: 60px 1fr 80px;
   }
 
-  /* Team row â†’ 1 colonne */
+  /* Team row ? 1 colonne */
   .encyclo-team-row {
     flex-direction: column;
     gap: 4px;
   }
   .team-role { width: auto; }
 
-  /* Timeline â†’ simplifiÃ©e */
+  /* Timeline ? simplifi?e */
   .timeline-row {
     grid-template-columns: 40px 1fr;
   }
@@ -2126,7 +2126,7 @@ a:hover {
 .skeleton-title { height: 20px; width: 60%; margin-bottom: 12px; }
 
 /* ========================================
-   ENCYCLOPÃ‰DIE â€” Page + Onglets
+   ENCYCLOP?DIE ? Page + Onglets
    ======================================== */
 .page-wrapper {
   max-width: 1180px;
@@ -2234,7 +2234,7 @@ a:hover {
   color: var(--text-alert);
 }
 
-/* PANNEAU DÃ‰TAIL â€” EN-TÃŠTE */
+/* PANNEAU D?TAIL ? EN-TÃŠTE */
 .encyclo-panel-header {
   display: flex;
   gap: 16px;
@@ -2502,7 +2502,7 @@ a:hover {
 }
 
 /* ========================================
-   TERMINAL LAYOUT â€” Shared
+   TERMINAL LAYOUT ? Shared
    ======================================== */
 
 .terminal-context {
@@ -4816,7 +4816,7 @@ body {
 
 .detail-accordion-indicator {
   color: rgba(241, 196, 92, 0.92);
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: 0.72rem;
   flex-shrink: 0;
   min-width: 14px;
@@ -5041,7 +5041,7 @@ body {
 
 .detail-hero-title {
   margin: 0 0 0.5rem;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: clamp(0.9rem, 2vw, 1.1rem);
   color: #9bbc0f;
   font-weight: 700;
@@ -5059,7 +5059,7 @@ body {
   gap: 6px 10px;
   align-items: center;
   margin-top: 0.4rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.82rem;
   color: #7a9a7a;
 }
@@ -5070,9 +5070,22 @@ body {
 
 .detail-hero-developer {
   margin-top: 0.25rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.75rem;
   color: #486648;
+}
+
+.detail-hero-reference {
+  display: block;
+  margin-top: 0.35rem;
+  color: #7a9a7a;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.detail-hero-reference.is-empty {
+  color: #3a5a3a;
+  font-style: italic;
 }
 
 .game-tagline-shell {
@@ -5137,6 +5150,16 @@ body {
   margin-top: 2px;
   padding: 12px 14px;
   border: 1px solid rgba(67, 95, 60, 0.58);
+}
+
+.detail-hero-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-hero-aside-copy {
+  margin: 0;
 }
 
 .detail-console-support-wrap {
@@ -5214,7 +5237,7 @@ body {
   margin-bottom: 14px;
 }
 
-.retrodex-index {
+.r?trodex-index {
   padding: 14px;
   margin-bottom: 0;
   border-radius: 0;
@@ -10345,7 +10368,7 @@ body.hub-page .product-universe-frame {
 
 /* LORE section */
 .archive-lore {
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.85rem;
   line-height: 1.8;
   color: #a8c8a8;
@@ -10356,7 +10379,7 @@ body.hub-page .product-universe-frame {
 }
 
 .archive-gameplay {
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.8rem;
   color: #7a9a7a;
   margin-top: 0.75rem;
@@ -10366,7 +10389,7 @@ body.hub-page .product-universe-frame {
 }
 
 .archive-label {
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: 0.72rem;
   color: #9bbc0f;
   letter-spacing: 0.1em;
@@ -10382,7 +10405,7 @@ body.hub-page .product-universe-frame {
   gap: 1rem;
   padding: 0.6rem 0;
   border-bottom: 1px solid rgba(155, 188, 15, 0.08);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.78rem;
   align-items: start;
 }
@@ -10413,7 +10436,7 @@ body.hub-page .product-universe-frame {
 /* OST section */
 .archive-ost-composers {
   margin-bottom: 1rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.82rem;
   color: #a8c8a8;
 }
@@ -10425,7 +10448,7 @@ body.hub-page .product-universe-frame {
 }
 
 .archive-ost-tracks ul li {
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.78rem;
   color: #7a9a7a;
   padding: 0.3rem 0;
@@ -10442,7 +10465,7 @@ body.hub-page .product-universe-frame {
 
 .archive-duration {
   margin-top: 0.75rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.78rem;
   color: #7a9a7a;
   padding: 0.5rem 0.75rem;
@@ -10453,7 +10476,7 @@ body.hub-page .product-universe-frame {
 
 .archive-speedrun {
   margin-top: 0.5rem;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: 0.72rem;
   color: #f1c45c;
   letter-spacing: 0.05em;
@@ -10471,7 +10494,7 @@ body.hub-page .product-universe-frame {
 }
 
 .archive-manual-note {
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.68rem;
   color: #486648;
   margin-top: 0.5rem;
@@ -10500,7 +10523,7 @@ body.hub-page .product-universe-frame {
 }
 
 /* Archive section header */
-.archive-retrodex-header {
+.archive-r?trodex-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -10526,7 +10549,7 @@ body.hub-page .product-universe-frame {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: 0.9rem;
   color: #9bbc0f;
   flex-shrink: 0;
@@ -10542,7 +10565,7 @@ body.hub-page .product-universe-frame {
 }
 
 .detail-section-label {
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: 0.72rem;
   color: #9bbc0f;
   letter-spacing: 0.2em;
@@ -10550,7 +10573,7 @@ body.hub-page .product-universe-frame {
 }
 
 .detail-section-hint {
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.7rem;
   color: #486648;
   letter-spacing: 0.04em;
@@ -10573,14 +10596,14 @@ body.hub-page .product-universe-frame {
 }
 
 .market-empty-title {
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: 0.72rem;
   color: #9bbc0f;
   letter-spacing: 0.08em;
 }
 
 .market-empty-copy {
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.74rem;
   color: #7a9a7a;
 }
@@ -10693,7 +10716,7 @@ body.hub-page .product-universe-frame {
   justify-content: center;
   border: 1px solid rgba(155, 188, 15, 0.18);
   background: rgba(155, 188, 15, 0.04);
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: 1rem;
   color: #9bbc0f;
 }
@@ -10787,7 +10810,7 @@ body.hub-page .product-universe-frame {
 .market-graph-date,
 .market-graph-condition,
 .market-graph-price {
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.72rem;
   color: #7a9a7a;
 }
@@ -10816,7 +10839,7 @@ body.hub-page .product-universe-frame {
   gap: 0.75rem;
   padding: 0.55rem 0;
   border-top: 1px solid rgba(155, 188, 15, 0.08);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.74rem;
   color: #a8c8a8;
 }
@@ -10848,7 +10871,7 @@ body.hub-page .product-universe-frame {
   background: rgba(155, 188, 15, 0.02);
   color: inherit;
   text-align: left;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.74rem;
 }
 
@@ -10870,7 +10893,7 @@ body.hub-page .product-universe-frame {
 }
 
 .market-compare-card-title {
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: 0.72rem;
   color: #9bbc0f;
   line-height: 1.6;
@@ -10878,7 +10901,7 @@ body.hub-page .product-universe-frame {
 
 .market-compare-card-meta {
   margin-top: 0.35rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.72rem;
   color: #7a9a7a;
 }
@@ -10894,7 +10917,7 @@ body.hub-page .product-universe-frame {
   gap: 0.75rem;
   padding: 0.55rem 0;
   border-top: 1px solid rgba(155, 188, 15, 0.08);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.74rem;
   color: #a8c8a8;
 }
@@ -10911,7 +10934,7 @@ body.hub-page .product-universe-frame {
   gap: 0.75rem;
   padding: 0.55rem 0;
   border-top: 1px solid rgba(155, 188, 15, 0.08);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.74rem;
   color: #a8c8a8;
 }
@@ -10927,7 +10950,7 @@ body.hub-page .product-universe-frame {
 }
 
 .market-meta-fallback {
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: 0.72rem;
   color: #9bbc0f;
 }
@@ -11032,7 +11055,7 @@ body.hub-page .product-universe-frame {
   justify-content: center;
   background: rgba(155,188,15,0.05);
   border: 1px solid rgba(155,188,15,0.15);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.82rem;
   color: #486648;
   flex-shrink: 0;
@@ -11045,7 +11068,7 @@ body.hub-page .product-universe-frame {
 
 .game-card-title {
   display: block;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.82rem;
   color: #9bbc0f;
   white-space: nowrap;
@@ -11055,7 +11078,7 @@ body.hub-page .product-universe-frame {
 
 .game-card-meta {
   display: block;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.72rem;
   color: #7a9a7a;
   margin-top: 0.15rem;
@@ -11077,12 +11100,12 @@ body.hub-page .product-universe-frame {
   flex-shrink: 0;
 }
 
-.btn-retromarket-cta {
+.btn-r?tromarket-cta {
   display: inline-block;
   background: rgba(241, 196, 92, 0.12);
   border: 2px solid #f1c45c;
   color: #f1c45c;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: 0.72rem;
   padding: 0.75rem 1.5rem;
   letter-spacing: 0.06em;
@@ -11092,7 +11115,7 @@ body.hub-page .product-universe-frame {
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
-.btn-retromarket-cta:hover {
+.btn-r?tromarket-cta:hover {
   background: rgba(241, 196, 92, 0.22);
   border-color: #f5d070;
 }
@@ -11147,7 +11170,7 @@ body.hub-page .product-universe-frame {
 .detail-section-hint {
   margin-left: 0.5rem;
   color: #486648;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.72rem;
 }
 
@@ -11171,7 +11194,7 @@ body.hub-page .product-universe-frame {
 }
 
 .console-filter-btn {
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: 0.72rem;
   padding: 0.3rem 0.6rem;
   border: 1px solid rgba(155,188,15,0.2);
@@ -11193,7 +11216,7 @@ body.hub-page .product-universe-frame {
   width: 100%;
   padding: 0.6rem;
   margin-top: 0.75rem;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.8rem;
   border: 1px solid rgba(155,188,15,0.2);
   background: transparent;
@@ -11240,7 +11263,7 @@ body.hub-page .product-universe-frame {
 }
 
 .hub-intent-label {
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: 0.72rem;
   color: #9bbc0f;
   text-align: center;
@@ -11248,14 +11271,14 @@ body.hub-page .product-universe-frame {
 }
 
 .hub-intent-sub {
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.72rem;
   color: #7a9a7a;
   text-align: center;
 }
 
 .hub-section-label {
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-display);
   font-size: 0.72rem;
   color: #f1c45c;
   letter-spacing: 0.08em;
@@ -11301,7 +11324,7 @@ body.hub-page .product-universe-frame {
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 0;
-  font-family: 'Share Tech Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.8rem;
   color: #7a9a7a;
   border-top: 1px solid rgba(155,188,15,0.08);

@@ -78,7 +78,7 @@
 
   function renderByConsole(container, byPlatform) {
     if (!byPlatform || !byPlatform.length) {
-      setHtml(container, '<div class="hub-viz-empty">Aucune donnee</div>')
+      setHtml(container, '<div class="hub-viz-empty">Aucune donnée</div>')
       return
     }
     const max = byPlatform[0].count
@@ -95,7 +95,7 @@
 
   function renderByRarity(container, byRarity) {
     if (!byRarity) {
-      setHtml(container, '<div class="hub-viz-empty">Aucune donnee</div>')
+      setHtml(container, '<div class="hub-viz-empty">Aucune donnée</div>')
       return
     }
     const order = ['LEGENDARY', 'EPIC', 'RARE', 'UNCOMMON', 'COMMON']
@@ -139,7 +139,7 @@
 
   function renderTopExpensive(container, top5) {
     if (!top5 || !top5.length) {
-      setHtml(container, '<div class="hub-viz-empty">Aucune donnee</div>')
+      setHtml(container, '<div class="hub-viz-empty">Aucune donnée</div>')
       return
     }
     const html = top5.map((game, idx) =>
@@ -164,7 +164,7 @@
     }
     const entries = Object.entries(decades).sort((a, b) => a[0].localeCompare(b[0]))
     if (!entries.length) {
-      setHtml(container, '<div class="hub-viz-empty">Aucune donnee</div>')
+      setHtml(container, '<div class="hub-viz-empty">Aucune donnée</div>')
       return
     }
     const max = Math.max(...entries.map(([, count]) => count), 1)
@@ -247,10 +247,10 @@
   /* ── Retro Menu Navigation ───────────────────── */
 
   function initRetroMenu() {
-    const menu = document.querySelector('.retro-menu')
+    const menu = document.querySelector('.r?tro-menu')
     if (!menu) return
 
-    const items = Array.from(menu.querySelectorAll('.retro-menu-item'))
+    const items = Array.from(menu.querySelectorAll('.r?tro-menu-item'))
     if (!items.length) return
 
     let activeIndex = 0

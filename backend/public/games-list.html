@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -10,14 +10,14 @@
     <meta name="apple-mobile-web-app-title" content="RetroDex" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <title>RetroDex - Catalogue</title>
-    <meta name="description" content="1500+ jeux rÃ©tro indexÃ©s avec prix vÃ©rifiÃ©s, raretÃ© et contenu Ã©ditorial." />
+    <meta name="description" content="1500+ jeux rétro indexés avec prix vérifiés, rareté et contenu éditorial." />
     <meta property="og:title" content="Catalogue | RetroDex" />
-    <meta property="og:description" content="1500+ jeux rÃ©tro indexÃ©s avec prix vÃ©rifiÃ©s, raretÃ© et contenu Ã©ditorial." />
+    <meta property="og:description" content="1500+ jeux rétro indexés avec prix vérifiés, rareté et contenu éditorial." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260402a" />
+    <link rel="stylesheet" href="/style.css?v=20260402d" />
     <script src="/js/core/content-signals.js"></script>
-    <script src="/js/renderGameRow.js?v=20260402a"></script>
+    <script src="/js/renderGameRow.js?v=20260402d"></script>
   </head>
   <body>
     <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
@@ -54,10 +54,10 @@
           <div class="detail-kicker">RETRODEX CATALOGUE</div>
           <h1 class="page-title">CATALOGUE</h1>
           <p id="catalog-subtitle" class="page-subtitle">Chargement du catalogue...</p>
-          <p id="catalog-curation-banner" class="pass1-surface-banner">PASS 1 curated | surface publique curee en preparation...</p>
+          <p id="catalog-curation-banner" class="pass1-surface-banner">PASS 1 curated | surface publique curée en préparation...</p>
           <p class="catalog-intro">
             Expression catalogue de RetroDex. Filtrer, comparer, puis bifurquer vers les fiches,
-            les franchises et la couche editoriale.
+            les franchises et la couche éditoriale.
           </p>
         </div>
 
@@ -73,12 +73,12 @@
             />
           </div>
           <div class="catalog-search-jump-copy">
-            Recherche transverse multi-contexte. Pour filtrer le catalogue lui-meme, utilisez le champ local dans le panneau de gauche.
+            Recherche transverse multi-contexte. Pour filtrer le catalogue lui-même, utilisez le champ local dans le panneau de gauche.
           </div>
           <div class="page-nav-inline">
             <a href="/franchises.html">Franchises</a>
             <span>&middot;</span>
-            <a href="/encyclopedia.html">Encyclopedie</a>
+            <a href="/encyclopedia.html">Encyclopédie</a>
             <span>&middot;</span>
             <a href="/search.html">Recherche</a>
           </div>
@@ -94,18 +94,18 @@
           <div class="product-universe-chip">CATALOGUE</div>
         </div>
         <p class="product-universe-copy">
-          Catalogue central du produit. Cette page sert a parcourir le fonds de jeux, puis a
-          ouvrir la bonne profondeur de lecture : fiche jeu, franchise, encyclopedie ou recherche
+          Catalogue central du produit. Cette page sert à parcourir le fonds de jeux, puis à
+          ouvrir la bonne profondeur de lecture : fiche jeu, franchise, encyclopédie ou recherche
           transverse.
         </p>
         <div class="product-universe-links">
           <a class="is-active" href="/games-list.html">Catalogue</a>
           <a href="/franchises.html">Franchises</a>
-          <a href="/encyclopedia.html">Encyclopedie</a>
+          <a href="/encyclopedia.html">Encyclopédie</a>
           <a href="/search.html">Recherche transversale</a>
         </div>
         <div class="product-universe-overlap">
-          Overlap: Recherche pour l'entree rapide | RetroMarket pour la lecture prix et confiance.
+          Overlap: Recherche pour l'entrée rapide | RetroMarket pour la lecture prix et confiance.
         </div>
       </section>
 
@@ -119,21 +119,21 @@
                   <div class="detail-kicker">CATALOG FILTERS</div>
                   <div class="filters-sidebar-title">Mode de lecture</div>
                 </div>
-                <div class="catalog-panel-copy">Filtrer la base par plateforme, rarete, periode et tendance.</div>
+                <div class="catalog-panel-copy">Filtrer la base par plateforme, rareté, période et tendance.</div>
               </div>
 
               <div class="search-grid">
                 <div class="field field-query-primary">
                   <label for="query">Recherche</label>
                   <input id="query" type="text" placeholder="Rechercher un jeu, une console..." autocomplete="off" />
-                  <div class="field-helper">Filtre local catalogue. Titre, console, annee ou genre.</div>
+                  <div class="field-helper">Filtre local catalogue. Titre, console, année ou genre.</div>
                 </div>
                 <div class="field">
                   <label for="console">Console</label>
                   <select id="console"><option value="">Toutes</option></select>
                 </div>
                 <div class="field">
-                  <label for="rarity">Rarete</label>
+                  <label for="rarity">Rareté</label>
                   <select id="rarity">
                     <option value="">Toutes</option>
                     <option value="LEGENDARY">LEGENDARY</option>
@@ -154,7 +154,7 @@
               </div>
 
               <button id="toggle-advanced" type="button" class="catalog-advanced-toggle">
-                + Filtres avances
+                + Filtres avancés
               </button>
 
               <div id="advanced-filters" class="catalog-advanced-filters" hidden>
@@ -173,32 +173,32 @@
                     </select>
                   </div>
                   <div class="field">
-                    <label for="year-min">Annee min</label>
+                    <label for="year-min">Année min</label>
                     <input id="year-min" type="number" min="1970" max="2012" placeholder="1970" />
                   </div>
                   <div class="field">
-                    <label for="year-max">Annee max</label>
+                    <label for="year-max">Année max</label>
                     <input id="year-max" type="number" min="1970" max="2012" placeholder="2012" />
                   </div>
                   <div class="field">
                     <label for="sort-by">Trier par</label>
                     <select id="sort-by">
-                      <option value="rarity_desc" selected>Rarity â†“</option>
-                      <option value="title_asc">Title A-Z</option>
-                      <option value="title_desc">Title Z-A</option>
-                      <option value="loose_asc">Price Loose â†‘</option>
-                      <option value="loose_desc">Price Loose â†“</option>
-                      <option value="mint_asc">Price Mint â†‘</option>
-                      <option value="mint_desc">Price Mint â†“</option>
-                      <option value="meta_asc">Metascore â†‘</option>
-                      <option value="meta_desc">Metascore â†“</option>
-                      <option value="metascore_asc">Metascore â†‘</option>
-                      <option value="metascore_desc">Metascore â†“</option>
-                      <option value="year_asc">Year â†‘</option>
-                      <option value="year_desc">Year â†“</option>
+                      <option value="rarity_desc" selected>Rareté ↓</option>
+                      <option value="title_asc">Titre A → Z</option>
+                      <option value="title_desc">Titre Z → A</option>
+                      <option value="loose_asc">Prix loose ↑</option>
+                      <option value="loose_desc">Prix loose ↓</option>
+                      <option value="mint_asc">Prix mint ↑</option>
+                      <option value="mint_desc">Prix mint ↓</option>
+                      <option value="meta_asc">Metascore ↑</option>
+                      <option value="meta_desc">Metascore ↓</option>
+                      <option value="metascore_asc">Metascore ↑</option>
+                      <option value="metascore_desc">Metascore ↓</option>
+                      <option value="year_asc">Année ↑</option>
+                      <option value="year_desc">Année ↓</option>
                     </select>
                     <div class="catalog-sort-shortcuts">
-                      <button id="sort-metascore-desc" type="button" class="filter-btn" title="Trier par note">MS â†“</button>
+                      <button id="sort-metascore-desc" type="button" class="filter-btn" title="Trier par note">MS ↓</button>
                     </div>
                   </div>
                 </div>
@@ -206,7 +206,7 @@
 
               <div class="search-actions catalog-search-actions">
                 <button id="search-button" type="button" class="btn">Appliquer</button>
-                <a id="reset-filters" href="#" class="reset-link">Reinitialiser</a>
+                <a id="reset-filters" href="#" class="reset-link">Réinitialiser</a>
               </div>
             </section>
           </div>
@@ -216,7 +216,7 @@
           <section class="results-bar catalog-results-bar">
             <div>
               <div class="detail-kicker">CATALOG SIGNALS</div>
-              <div id="results-summary" class="results-summary-line">Lecture de l index...</div>
+              <div id="results-summary" class="results-summary-line">Lecture de l'index...</div>
             </div>
             <div id="loading-indicator" class="status-bar"></div>
           </section>
@@ -236,7 +236,7 @@
           <div class="quick-detail-panel surface-preview-panel">
             <div class="detail-kicker">DETAIL PREVIEW</div>
             <div class="quick-detail-head">Lecture rapide</div>
-            <div id="quick-detail" class="quick-detail-placeholder">&larr; Survoler ou selectionner un jeu</div>
+            <div id="quick-detail" class="quick-detail-placeholder">&larr; Survoler ou sélectionner un jeu</div>
           </div>
         </aside>
       </section>
@@ -246,10 +246,9 @@
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
     <script src="/js/core/search-core.js?v=20260330b"></script>
-    <script src="/js/pages/games-list.js?v=20260402a"></script>
+    <script src="/js/pages/games-list.js?v=20260402d"></script>
     <div class="footer-attribution">
       Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
     </div>
   </body>
 </html>
-

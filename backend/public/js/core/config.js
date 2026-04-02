@@ -10,7 +10,7 @@
       persistCollectorModeInSession: true,
     },
     experience: {
-      collectorModeSessionKey: 'retrodex.collector-mode',
+      collectorModeSessionKey: 'r?trodex.collector-mode',
       statusCooldownMs: 1800,
       pageLoadChance: 0.42,
       rarityChances: {

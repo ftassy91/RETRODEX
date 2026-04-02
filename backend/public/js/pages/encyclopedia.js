@@ -114,7 +114,7 @@ function summaryExcerpt(value, fallback = '') {
 
 function updateCount() {
   const total = allGames.length + allFranchises.length + allConsoles.length
-  countEl.textContent = `${allGames.length} jeux | ${allFranchises.length} franchises | ${allConsoles.length} consoles | ${total} entrees`
+  countEl.textContent = `${allGames.length} jeux | ${allFranchises.length} franchises | ${allConsoles.length} consoles | ${total} entr?es`
 }
 
 function formatCurrency(value) {
@@ -154,7 +154,7 @@ async function loadDexIndex(query = '') {
   allGames = payload.items || []
   if (dexSearchCountEl) {
     dexSearchCountEl.textContent = query
-      ? `${allGames.length} entree(s) editoriales`
+      ? `${allGames.length} entr?e(s) editoriales`
       : `${allGames.length} jeux editoriaux`
   }
 }
@@ -220,7 +220,7 @@ function renderGamesList(games) {
   gamesContainerEl.innerHTML = ''
 
   if (!games.length) {
-    gamesContainerEl.innerHTML = encycloStateMarkup('Index jeu vide', 'Aucune entree jeu pour ce filtre actif.')
+    gamesContainerEl.innerHTML = encycloStateMarkup('Index jeu vide', 'Aucune entr?e jeu pour ce filtre actif.')
     return
   }
 
@@ -353,7 +353,7 @@ function gamePanelMarkup(game, encyclopedia) {
             <span class="surface-signal-value is-alert">${escapeHtml(formatCurrency(game.loosePrice))}</span>
           </div>
           <div class="surface-signal-card">
-            <span class="surface-signal-label">Rarete</span>
+            <span class="surface-signal-label">Rareté</span>
             <span class="surface-signal-value">${escapeHtml(rarity)}</span>
           </div>
           <div class="surface-signal-card">
@@ -395,7 +395,7 @@ function gamePanelMarkup(game, encyclopedia) {
     <section class="encyclo-tab-content" id="tab-synopsis">
       ${synopsis
         ? `<p class="encyclo-synopsis-text">${escapeHtml(synopsis)}</p>`
-        : encycloStateMarkup('Synopsis indisponible', 'Aucun synopsis disponible dans cette entree.')
+        : encycloStateMarkup('Synopsis indisponible', 'Aucun synopsis disponible dans cette entr?e.')
       }
     </section>
 
@@ -406,7 +406,7 @@ function gamePanelMarkup(game, encyclopedia) {
           <span class="team-name">${escapeHtml(member.name || 'Nom inconnu')}</span>
           ${member.note ? `<span class="team-note">${escapeHtml(member.note)}</span>` : ''}
         </div>
-      `).join('') || encycloStateMarkup('Equipe indisponible', 'Aucune equipe documentee pour cette entree.')}
+      `).join('') || encycloStateMarkup('Equipe indisponible', 'Aucune equipe documentee pour cette entr?e.')}
     </section>
 
     <section class="encyclo-tab-content" id="tab-anecdotes" hidden>
@@ -415,7 +415,7 @@ function gamePanelMarkup(game, encyclopedia) {
           <div class="encyclo-anecdote-title">${escapeHtml(anecdote.title || `Anecdote ${index + 1}`)}</div>
           <div class="encyclo-anecdote-text">${escapeHtml(anecdote.text || anecdote)}</div>
         </article>
-      `).join('') || encycloStateMarkup('Anecdotes indisponibles', 'Aucune anecdote disponible pour cette entree.')}
+      `).join('') || encycloStateMarkup('Anecdotes indisponibles', 'Aucune anecdote disponible pour cette entr?e.')}
     </section>
 
     <section class="encyclo-tab-content" id="tab-codes" hidden>
@@ -425,7 +425,7 @@ function gamePanelMarkup(game, encyclopedia) {
           <div class="encyclo-code-value">${escapeHtml(code.code || code.value || code)}</div>
           ${code.effect ? `<div class="encyclo-code-effect">${escapeHtml(code.effect)}</div>` : ''}
         </article>
-      `).join('') || encycloStateMarkup('Codes indisponibles', 'Aucun code disponible pour cette entree.')}
+      `).join('') || encycloStateMarkup('Codes indisponibles', 'Aucun code disponible pour cette entr?e.')}
     </section>
   `
 }
@@ -572,7 +572,7 @@ async function consolePanelMarkup(payload) {
     <div class="encyclo-reading-transition">
       <div class="detail-kicker">HARDWARE MEMORY</div>
       <div class="encyclo-reading-transition-copy">
-        Contexte, equipe, fiche technique, marche et impact culturel.
+        Contexte, équipe, fiche technique, marché et impact culturel.
       </div>
     </div>
 
@@ -642,7 +642,7 @@ async function consolePanelMarkup(payload) {
 async function loadGameDetail(gameId, rowEl) {
   activeItem = { type: 'game', id: gameId }
   setActiveRow(rowEl)
-  detailPanelEl.innerHTML = encycloStateMarkup('Chargement', 'Lecture de l entree editoriale en cours.', 'encyclo-loading')
+  detailPanelEl.innerHTML = encycloStateMarkup('Chargement', 'Lecture de l entr?e editoriale en cours.', 'encyclo-loading')
 
   try {
     const [gamePayload, encyclopediaPayload] = await Promise.all([
@@ -657,7 +657,7 @@ async function loadGameDetail(gameId, rowEl) {
     detailPanelEl.innerHTML = gamePanelMarkup(game, encyclopedia)
     window.switchEncycloTab('synopsis')
   } catch (_) {
-    detailPanelEl.innerHTML = encycloStateMarkup('Lecture indisponible', 'Lecture indisponible pour cette entree.', 'encyclo-loading')
+    detailPanelEl.innerHTML = encycloStateMarkup('Lecture indisponible', 'Lecture indisponible pour cette entr?e.', 'encyclo-loading')
   }
 }
 
@@ -762,7 +762,7 @@ function restoreSelection() {
     }
   }
 
-  detailPanelEl.innerHTML = encycloStateMarkup('Mode vide', 'Aucune entree disponible pour ce mode actif.', 'encyclo-placeholder')
+  detailPanelEl.innerHTML = encycloStateMarkup('Mode vide', 'Aucune entr?e disponible pour ce mode actif.', 'encyclo-placeholder')
 }
 
 function renderActiveMode() {
