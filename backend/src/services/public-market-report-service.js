@@ -1,7 +1,5 @@
 'use strict'
 
-const CommunityReport = require('../../models/CommunityReport')
-
 function createValidationError(message) {
   const error = new Error(message)
   error.statusCode = 400
@@ -46,6 +44,7 @@ function validateReportPayload(body = {}) {
 }
 
 async function createMarketReport(gameId, payload = {}) {
+  const CommunityReport = require('../../models/CommunityReport')
   const normalizedPayload = validateReportPayload({
     ...payload,
     item_id: String(gameId || '').trim(),

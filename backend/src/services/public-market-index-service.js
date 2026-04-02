@@ -1,7 +1,5 @@
 'use strict'
 
-const RetrodexIndex = require('../../models/RetrodexIndex')
-
 function getFreshnessInfo(lastDate) {
   if (!lastDate) {
     return 'outdated'
@@ -20,6 +18,7 @@ function getFreshnessInfo(lastDate) {
 }
 
 async function fetchMarketIndex(gameId) {
+  const RetrodexIndex = require('../../models/RetrodexIndex')
   const indexEntries = await RetrodexIndex.findAll({
     where: {
       item_id: gameId,
