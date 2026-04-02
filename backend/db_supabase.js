@@ -22,7 +22,12 @@ const {
 } = applyResolvedSupabaseEnv();
 const SUPABASE_KEY = RESOLVED_SUPABASE_SERVICE_KEY || RESOLVED_SUPABASE_ANON_KEY;
 const HAS_VALID_SUPABASE_URL = /^https?:\/\//i.test(String(SUPABASE_URL || ''));
-const USE_SUPABASE = Boolean(HAS_VALID_SUPABASE_URL && SUPABASE_KEY);
+const ALLOW_SUPABASE_RUNTIME = Boolean(
+  process.env.VERCEL
+  || process.env.NODE_ENV === 'production'
+  || String(process.env.DATABASE_TARGET || '').trim().toLowerCase() === 'supabase'
+);
+const USE_SUPABASE = Boolean(ALLOW_SUPABASE_RUNTIME && HAS_VALID_SUPABASE_URL && SUPABASE_KEY);
 const ALLOW_DATABASE_URL_ALIAS = Boolean(process.env.VERCEL || process.env.NODE_ENV === 'production');
 const DATABASE_URL = process.env.DATABASE_URL || (ALLOW_DATABASE_URL_ALIAS ? RESOLVED_DATABASE_URL : null);
 const HAS_DATABASE_URL = Boolean(DATABASE_URL);

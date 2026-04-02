@@ -64,12 +64,45 @@ function firstMatching(keys = [], predicate = () => true) {
   return null
 }
 
+function deriveSupabaseUrlFromDatabaseUrl(databaseUrl) {
+  if (!looksLikeDatabaseUrl(databaseUrl)) {
+    return null
+  }
+
+  try {
+    const parsed = new URL(String(databaseUrl).trim())
+    const host = String(parsed.hostname || '').toLowerCase()
+    const username = decodeURIComponent(String(parsed.username || ''))
+
+    let projectRef = null
+
+    const directMatch = host.match(/^db\.([a-z0-9]+)\.supabase\.co$/i)
+    if (directMatch) {
+      projectRef = directMatch[1]
+    }
+
+    if (!projectRef) {
+      const pooledMatch = username.match(/^postgres(?:\.([a-z0-9]+))?$/i)
+      if (pooledMatch?.[1]) {
+        projectRef = pooledMatch[1]
+      }
+    }
+
+    return projectRef ? `https://${projectRef}.supabase.co` : null
+  } catch (_error) {
+    return null
+  }
+}
+
 function resolveSupabaseEnv() {
+  const databaseUrl = firstMatching(DATABASE_URL_KEYS, looksLikeDatabaseUrl)
+  const publicUrl = firstMatching(SUPABASE_URL_KEYS, looksLikeHttpUrl) || deriveSupabaseUrlFromDatabaseUrl(databaseUrl)
+
   return {
-    url: firstMatching(SUPABASE_URL_KEYS, looksLikeHttpUrl),
+    url: publicUrl,
     serviceKey: firstDefined(SUPABASE_SERVICE_KEY_KEYS),
     anonKey: firstDefined(SUPABASE_ANON_KEY_KEYS),
-    databaseUrl: firstMatching(DATABASE_URL_KEYS, looksLikeDatabaseUrl),
+    databaseUrl,
   }
 }
 
@@ -127,6 +160,7 @@ module.exports = {
   DATABASE_URL_KEYS,
   SUPABASE_SERVICE_KEY_KEYS,
   SUPABASE_ANON_KEY_KEYS,
+  deriveSupabaseUrlFromDatabaseUrl,
   resolveSupabaseEnv,
   applyResolvedSupabaseEnv,
   getRuntimeDbContext,
