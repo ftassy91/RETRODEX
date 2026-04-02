@@ -1,6 +1,11 @@
 'use strict'
 
 const { Op } = require('sequelize')
+const { mode: dbMode } = require('../../db_supabase')
+
+function shouldUseEmptyAccessoryFallback() {
+  return Boolean(process.env.VERCEL && dbMode === 'supabase')
+}
 
 function toAccessoryPayload(item, consoleTitleMap) {
   return {
@@ -34,6 +39,10 @@ async function fetchConsoleTitles(consoleIds = []) {
 }
 
 async function listAccessoryTypes() {
+  if (shouldUseEmptyAccessoryFallback()) {
+    return []
+  }
+
   const Accessory = require('../models/Accessory')
   const accessories = await Accessory.findAll({
     attributes: ['accessory_type'],
@@ -48,6 +57,13 @@ async function listAccessoryTypes() {
 }
 
 async function listAccessories() {
+  if (shouldUseEmptyAccessoryFallback()) {
+    return {
+      accessories: [],
+      count: 0,
+    }
+  }
+
   const Accessory = require('../models/Accessory')
   const accessories = await Accessory.findAll({
     order: [['name', 'ASC']],
@@ -65,6 +81,10 @@ async function listAccessories() {
 }
 
 async function listConsoleAccessories(consoleId, options = {}) {
+  if (shouldUseEmptyAccessoryFallback()) {
+    return []
+  }
+
   const Accessory = require('../models/Accessory')
   const { limit = 10 } = options
   const accessories = await Accessory.findAll({
