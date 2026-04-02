@@ -16,21 +16,22 @@
     <meta property="og:description" content="Prix, tendance et comparaison des jeux retro." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/style.css?v=20260402c" />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <nav class="site-nav" aria-label="Navigation">
-      <div class="site-nav-links"><a class="site-nav-link" href="/hub.html"><span class="site-nav-cursor">▶</span><span>RetroDex</span></a>
+      <div class="site-nav-links">
+        <a class="site-nav-link" href="/hub.html"><span class="site-nav-cursor">&#9654;</span><span>RetroDex</span></a>
         <a class="site-nav-link" href="/games-list.html">
-          <span class="site-nav-cursor">▶</span>
+          <span class="site-nav-cursor">&#9654;</span>
           <span>Catalogue</span>
           <span class="site-nav-desc">Jeux · Consoles · Franchises</span>
         </a>
         <a class="site-nav-link" href="/collection.html">
-          <span class="site-nav-cursor">▶</span>
+          <span class="site-nav-cursor">&#9654;</span>
           <span>Ma Collection</span>
-          <span class="site-nav-desc">Étagère · Wishlist · Suivi</span>
+          <span class="site-nav-desc">Etagere · Wishlist · Suivi</span>
         </a>
       </div>
     </nav>
@@ -43,7 +44,7 @@
         </a>
         <a class="global-product-link is-collection" href="/collection.html">
           <span class="nav-label">Ma Collection</span>
-          <span class="nav-copy">étagère · wishlist · suivi</span>
+          <span class="nav-copy">etagere · wishlist · suivi</span>
         </a>
       </div>
     </nav>
@@ -51,9 +52,9 @@
     <main id="main-content" class="detail-shell market-detail-shell">
       <nav class="breadcrumb" aria-label="Fil d'ariane">
         <a href="/hub.html">HUB</a>
-        <span class="sep" aria-hidden="true">›</span>
-        <a href="/stats.html">MARCHÉ</a>
-        <span class="sep" aria-hidden="true">›</span>
+        <span class="sep" aria-hidden="true">&#8250;</span>
+        <a href="/stats.html">MARCHE</a>
+        <span class="sep" aria-hidden="true">&#8250;</span>
         <span class="current">RETROMARKET</span>
       </nav>
 
@@ -70,6 +71,9 @@
             aria-label="Search market data"
           />
           <span class="terminal-query-count" id="market-search-count"></span>
+        </div>
+        <div class="market-search-helper">
+          RetroMarket qualifie un signal prix et tendance. La lecture forte reste sur la fiche jeu.
         </div>
         <div id="market-hero-summary" class="market-hero-summary">
           <div class="loading-card market-empty-card">Selectionner un jeu.</div>
@@ -96,17 +100,17 @@
 
       <section id="market-graph-shell" class="stats-card detail-accordion" hidden>
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-graph-content">
-          <span>Graph</span>
+          <span>Chronologie</span>
           <span class="detail-accordion-indicator">+</span>
         </button>
         <div id="market-graph-content" class="detail-accordion-content" hidden>
-          <p class="market-empty-copy" style="text-align:center;color:var(--text-muted);padding:1rem 0">Selectionner un jeu pour voir l&#x27;historique des prix</p>
+          <p class="market-empty-copy" style="text-align:center;color:var(--text-muted);padding:1rem 0">Selectionner un jeu pour voir l'historique des prix</p>
         </div>
       </section>
 
       <section id="market-compare-shell" class="stats-card detail-accordion" hidden>
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-compare-content">
-          <span>Compare</span>
+          <span>Comparer</span>
           <span class="detail-accordion-indicator">+</span>
         </button>
         <div id="market-compare-content" class="detail-accordion-content" hidden>
@@ -116,7 +120,7 @@
 
       <section id="market-market-shell" class="stats-card detail-accordion" hidden>
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-market-content">
-          <span>Market</span>
+          <span>Lecture marche</span>
           <span class="detail-accordion-indicator">+</span>
         </button>
         <div id="market-market-content" class="detail-accordion-content" hidden>
@@ -126,7 +130,7 @@
 
       <section id="market-buy-shell" class="stats-card detail-accordion" hidden>
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-buy-content">
-          <span>Buy</span>
+          <span>Annonces</span>
           <span class="detail-accordion-indicator">+</span>
         </button>
         <div id="market-buy-content" class="detail-accordion-content" hidden></div>
@@ -144,7 +148,8 @@
     <script src="/js/core/search-core.js?v=20260324"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/stats.js?v=20260327"></script>
+    <script src="/js/core/content-signals.js"></script>
+    <script src="/js/pages/stats.js?v=20260402c"></script>
     <div class="footer-attribution">
       Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
     </div>

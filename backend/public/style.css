@@ -10528,32 +10528,36 @@ body.hub-page .product-universe-frame {
 }
 
 .market-result-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.72rem;
-  color: #9bbc0f;
-  line-height: 1.6;
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--text-primary);
+  line-height: 1.5;
 }
 
 .market-result-meta,
 .market-result-year {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.74rem;
-  color: #7a9a7a;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
 }
 
 .market-result-link {
   width: fit-content;
 }
 
+.market-signal-chip-row {
+  margin-top: 4px;
+}
+
 .market-result-price {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.78rem;
-  color: #a8c8a8;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
   text-align: right;
 }
 
 .market-result-price.is-alert {
-  color: #f1c45c;
+  color: var(--text-alert);
 }
 
 .market-result-score {
@@ -10615,6 +10619,17 @@ body.hub-page .product-universe-frame {
   gap: 0.45rem;
 }
 
+.market-hero-copy-note {
+  margin: 0;
+}
+
+.market-reading-note {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
 .market-score-chip {
   display: inline-flex;
   align-items: center;
@@ -10632,8 +10647,8 @@ body.hub-page .product-universe-frame {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-size: 11px;
   white-space: nowrap;
 }
 
@@ -10650,12 +10665,12 @@ body.hub-page .product-universe-frame {
 }
 
 .market-trend-symbol {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.72rem;
+  font-family: var(--font-display);
+  font-size: 10px;
 }
 
 .market-trend-delta {
-  color: #7a9a7a;
+  color: var(--text-muted);
 }
 
 .market-graph-list,

@@ -140,6 +140,39 @@ function normalizeGame(game) {
   }
 }
 
+function buildMarketContentSignals(game) {
+  if (!window.RetroDexContentSignals?.buildRichness || !game) return null
+
+  return window.RetroDexContentSignals.buildRichness(game, {
+    archive: {
+      avg_duration_main: game.avg_duration_main,
+      avg_duration_complete: game.avg_duration_complete,
+      manual_url: game.manual_url,
+      dev_anecdotes: game.dev_anecdotes,
+      cheat_codes: game.cheat_codes,
+      versions: game.versions,
+      ost: { notable_tracks: game.ost_notable_tracks },
+    },
+    encyclopedia: {
+      dev_team: game.dev_team,
+      dev_anecdotes: game.dev_anecdotes,
+      cheat_codes: game.cheat_codes,
+    },
+  })
+}
+
+function renderMarketSignalChips(signals) {
+  if (!signals) return ''
+
+  return `
+    <div class="surface-chip-row market-signal-chip-row">
+      <span class="surface-chip is-primary">${escapeHtml(signals.band.shortLabel)}</span>
+      <span class="surface-chip">${escapeHtml(signals.completionState.shortLabel)}</span>
+      <span class="surface-chip">${escapeHtml(signals.confidence.shortLabel)}</span>
+    </div>
+  `
+}
+
 function updateUrl() {
   const params = new URLSearchParams(window.location.search)
   const query = String(state.query || '').trim()
@@ -181,11 +214,13 @@ function renderSearchResults() {
   searchCountEl.textContent = `${state.results.length} resultat(s)`
   searchResultsEl.innerHTML = state.results.map((game) => {
     const isSelected = state.currentGame?.id === game.id
+    const contentSignals = buildMarketContentSignals(game)
     return `
       <button type="button" class="market-search-row${isSelected ? ' is-selected' : ''}" data-game-id="${escapeHtml(game.id)}">
         <span class="market-result-main">
           <span class="market-result-title">${escapeHtml(game.title)}</span>
           <span class="market-result-meta">${escapeHtml(game.console || 'n/a')}</span>
+          ${renderMarketSignalChips(contentSignals)}
           <a href="/game-detail.html?id=${encodeURIComponent(game.id)}" class="terminal-action-link market-result-link" onclick="event.stopPropagation()">Voir fiche -></a>
         </span>
         <span class="market-result-year">${escapeHtml(game.year || 'n/a')}</span>
@@ -222,6 +257,8 @@ function renderHeroSummary() {
   const publisher = game.publisher || game.publisherName || game.developer || 'n/a'
   const developer = game.developer || 'n/a'
   const trend = buildTrendState(state.currentSales)
+  const trendSymbol = trend.className === 'is-up' ? 'UP' : trend.className === 'is-down' ? 'DOWN' : 'FLAT'
+  const contentSignals = buildMarketContentSignals(game)
   const cover = game.coverImage
     ? `<img src="${escapeHtml(game.coverImage)}" alt="" class="market-cover" width="144" height="144" />`
     : `<span class="market-cover-placeholder">${escapeHtml(String(game.title || '?').slice(0, 2).toUpperCase())}</span>`
@@ -232,12 +269,17 @@ function renderHeroSummary() {
       <div class="detail-cover-slot market-cover-slot">${cover}</div>
       <div class="market-hero-copy">
         <h1 class="detail-title market-hero-title">${escapeHtml(game.title || 'RetroMarket')}</h1>
+        <p class="market-panel-copy market-hero-copy-note">
+          Couche de qualification : prix, tendance et confiance de surface, en support de la fiche RetroDex.
+        </p>
         <div class="detail-hero-chips market-hero-chips" id="market-hero-chips">
           <span class="chip chip--console">${escapeHtml(game.console || 'n/a')}</span>
           <span class="chip">Sortie ${formatRelease(game)}</span>
           <span class="chip">Editeur ${escapeHtml(publisher)}</span>
           <span class="chip">Dev ${escapeHtml(developer)}</span>
         </div>
+        ${renderMarketSignalChips(contentSignals)}
+        ${contentSignals ? `<div class="market-reading-note">${escapeHtml(contentSignals.band.note)}</div>` : ''}
         <div class="terminal-summary-bar market-price-summary">
           <div class="terminal-summary-cell">
             <div class="terminal-summary-label">Loose</div>
@@ -251,14 +293,14 @@ function renderHeroSummary() {
             <div class="terminal-summary-label">Mint</div>
             <div class="terminal-summary-value">${formatCurrency(game.mintPrice || 0)}</div>
           </div>
-          <div class="terminal-summary-cell">
-            <div class="terminal-summary-label">Tendance</div>
-            <div class="terminal-summary-value">
-              <span class="market-trend-badge ${trend.className}">
-                <span class="market-trend-symbol">${trend.symbol}</span>
-                <span>${escapeHtml(trend.label)}</span>
-                <span class="market-trend-delta">${escapeHtml(trend.deltaText)}</span>
-              </span>
+            <div class="terminal-summary-cell">
+              <div class="terminal-summary-label">Tendance</div>
+              <div class="terminal-summary-value">
+                <span class="market-trend-badge ${trend.className}">
+                  <span class="market-trend-symbol">${trendSymbol}</span>
+                  <span>${escapeHtml(trend.label)}</span>
+                  <span class="market-trend-delta">${escapeHtml(trend.deltaText)}</span>
+                </span>
             </div>
           </div>
         </div>
@@ -517,6 +559,21 @@ function renderAll() {
   renderTradeContent()
 }
 
+function setAccordionExpanded(section, expanded) {
+  if (!section) return
+
+  const button = section.querySelector('.detail-accordion-toggle')
+  const content = section.querySelector('.detail-accordion-content')
+  if (!button || !content) return
+
+  button.setAttribute('aria-expanded', String(expanded))
+  const indicator = button.querySelector('.detail-accordion-indicator')
+  if (indicator) {
+    indicator.textContent = expanded ? '-' : '+'
+  }
+  content.hidden = !expanded
+}
+
 async function searchGames(query, { autoSelectFirst = false } = {}) {
   state.query = String(query || '').trim()
   updateUrl()
@@ -591,6 +648,11 @@ async function selectGame(gameId) {
   state.compareSummary = null
   updateUrl()
   renderAll()
+  setAccordionExpanded(graphShellEl, true)
+  setAccordionExpanded(marketShellEl, true)
+  setAccordionExpanded(compareShellEl, false)
+  setAccordionExpanded(buyShellEl, false)
+  setAccordionExpanded(tradeShellEl, false)
 }
 
 async function searchCompareGames(query) {
