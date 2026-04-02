@@ -74,6 +74,37 @@ function coverageBadges(game) {
   return badges
 }
 
+function buildGameContentSignals(game) {
+  if (!window.RetroDexContentSignals?.buildRichness || !game) return null
+
+  return window.RetroDexContentSignals.buildRichness(game, {
+    archive: {
+      avg_duration_main: game.avg_duration_main,
+      avg_duration_complete: game.avg_duration_complete,
+      manual_url: game.manual_url,
+      dev_anecdotes: game.dev_anecdotes,
+      cheat_codes: game.cheat_codes,
+      versions: game.versions,
+      ost: { notable_tracks: game.ost_notable_tracks },
+    },
+    encyclopedia: {
+      dev_team: game.dev_team,
+      dev_anecdotes: game.dev_anecdotes,
+      cheat_codes: game.cheat_codes,
+    },
+  })
+}
+
+function renderSignalChipMarkup(signals) {
+  if (!signals) return ''
+
+  return [
+    `<span class="encyclo-badge">${escapeHtml(signals.band.shortLabel)}</span>`,
+    `<span class="encyclo-badge">${escapeHtml(signals.completionState.shortLabel)}</span>`,
+    `<span class="encyclo-badge">${escapeHtml(signals.confidence.shortLabel)}</span>`,
+  ].join('')
+}
+
 function summaryExcerpt(value, fallback = '') {
   const text = String(value || '').replace(/\s+/g, ' ').trim()
   if (!text) return fallback
@@ -194,6 +225,7 @@ function renderGamesList(games) {
   }
 
   games.forEach((game) => {
+    const contentSignals = buildGameContentSignals(game)
     const row = document.createElement('button')
     row.type = 'button'
     row.className = 'encyclo-list-row'
@@ -205,6 +237,7 @@ function renderGamesList(games) {
       <span class="encyclo-row-meta">${escapeHtml(game.console || 'Console inconnue')} | ${escapeHtml(game.year || 'n/a')} | ${escapeHtml(game.developer || 'Studio inconnu')}</span>
       <span class="encyclo-row-summary">${escapeHtml(summaryExcerpt(game.tagline || game.summary || game.synopsis, 'Lecture editoriale non indexee.'))}</span>
       <span class="encyclo-row-signals">
+        ${renderSignalChipMarkup(contentSignals)}
         ${game.genre && game.genre !== 'Other' ? `<span class="encyclo-badge">${escapeHtml(game.genre)}</span>` : ''}
         ${game.rarity ? `<span class="encyclo-badge encyclo-badge-franchise">${escapeHtml(game.rarity)}</span>` : ''}
         ${game.loosePrice != null ? `<span class="encyclo-badge">Loose ${escapeHtml(formatCurrency(game.loosePrice))}</span>` : ''}
@@ -293,6 +326,7 @@ function gamePanelMarkup(game, encyclopedia) {
   const metascore = game.metascore || encyclopedia.metascore || null
   const modulesCount = coverageBadges(game).length
   const genre = game.genre && game.genre !== 'Other' ? game.genre : ''
+  const contentSignals = buildGameContentSignals(game)
 
   return `
     <div class="encyclo-panel-header">
@@ -331,7 +365,10 @@ function gamePanelMarkup(game, encyclopedia) {
           ${genre ? `<span class="surface-chip is-primary">${escapeHtml(genre)}</span>` : ''}
           <span class="surface-chip">${escapeHtml(game.console || 'Console')}</span>
           ${metascore ? `<span class="surface-chip is-hot">MS ${escapeHtml(metascore)}</span>` : '<span class="surface-chip">NO SCORE</span>'}
+          ${contentSignals ? `<span class="surface-chip">${escapeHtml(contentSignals.band.shortLabel)}</span>` : ''}
+          ${contentSignals ? `<span class="surface-chip">${escapeHtml(contentSignals.completionState.shortLabel)}</span>` : ''}
         </div>
+        ${contentSignals ? `<div class="market-reading-note">${escapeHtml(contentSignals.band.note)}</div>` : ''}
         ${tagline ? `<div class="encyclo-panel-tagline">${escapeHtml(tagline)}</div>` : ''}
         <div class="surface-action-row encyclo-panel-links">
           <a href="/game-detail.html?id=${encodeURIComponent(game.id)}" class="encyclo-panel-link terminal-action-link">Ouvrir la fiche complete -></a>
