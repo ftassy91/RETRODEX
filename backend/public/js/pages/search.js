@@ -89,6 +89,58 @@
     return chip;
   }
 
+  function buildItemContentSignals(item) {
+    if (!window.RetroDexContentSignals?.buildRichness || item.type !== 'game') {
+      return null;
+    }
+
+    const meta = item.meta || {};
+    const game = {
+      ...meta,
+      title: item.title,
+      summary: meta.summary,
+      synopsis: meta.synopsis,
+      tagline: meta.tagline,
+      developer: meta.developer,
+      loosePrice: meta.loosePrice,
+      cibPrice: meta.cibPrice,
+      mintPrice: meta.mintPrice,
+      metascore: meta.metascore,
+      avg_duration_main: meta.avg_duration_main || meta.avgDurationMain,
+      avg_duration_complete: meta.avg_duration_complete || meta.avgDurationComplete,
+      source_confidence: meta.source_confidence || meta.sourceConfidence || 0,
+      manual_url: meta.manual_url || meta.manualUrl,
+      dev_team: meta.dev_team || meta.devTeam,
+      curation: item.curation || meta.curation || null,
+      signals: item.signals || meta.signals || {
+        hasMaps: Boolean(meta.hasMaps),
+        hasManuals: Boolean(meta.hasManuals),
+        hasSprites: Boolean(meta.hasSprites),
+        hasEndings: Boolean(meta.hasEndings),
+      },
+    };
+
+    const archive = {
+      avg_duration_main: game.avg_duration_main,
+      avg_duration_complete: game.avg_duration_complete,
+      manual_url: game.manual_url,
+      dev_anecdotes: meta.dev_anecdotes || meta.devAnecdotes,
+      cheat_codes: meta.cheat_codes || meta.cheatCodes,
+      versions: meta.versions,
+      ost: {
+        notable_tracks: meta.ost_notable_tracks || meta.ostTracks,
+      },
+    };
+
+    const encyclopedia = {
+      dev_team: meta.dev_team || meta.devTeam,
+      dev_anecdotes: meta.dev_anecdotes || meta.devAnecdotes,
+      cheat_codes: meta.cheat_codes || meta.cheatCodes,
+    };
+
+    return window.RetroDexContentSignals.buildRichness(game, { archive, encyclopedia });
+  }
+
   function appendPresenceChips(container, item) {
     if (item.curation?.isPublished) container.appendChild(createChip('PASS 1 curated', 'is-primary'));
     if (item.signals?.hasMaps) container.appendChild(createChip('MAP'));
@@ -231,6 +283,7 @@
 
     resultsEl.innerHTML = '';
     results.forEach((item) => {
+      const contentSignals = buildItemContentSignals(item);
       const row = document.createElement('a');
       row.className = 'sc-row';
       row.href = item.href;
@@ -284,6 +337,13 @@
         main.appendChild(summary);
       }
 
+      if (contentSignals) {
+        const readingNote = document.createElement('span');
+        readingNote.className = 'sc-reading-note';
+        readingNote.textContent = contentSignals.band.note;
+        main.appendChild(readingNote);
+      }
+
       const loreSnippet = item.meta?.loreSnippet
         ? `${item.meta.loreSnippet}...`
         : item.meta?.lore
@@ -315,6 +375,12 @@
 
       if (item.meta?.metascore) {
         chipRow.appendChild(createChip(`MS ${item.meta.metascore}`));
+      }
+
+      if (contentSignals) {
+        chipRow.appendChild(createChip(contentSignals.band.shortLabel, `is-richness is-${contentSignals.band.key}`));
+        chipRow.appendChild(createChip(contentSignals.completionState.shortLabel, 'is-completion'));
+        chipRow.appendChild(createChip(contentSignals.confidence.shortLabel, 'is-confidence'));
       }
 
       if (item.type === 'game') {

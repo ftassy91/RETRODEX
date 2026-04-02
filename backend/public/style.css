@@ -9924,6 +9924,34 @@ body.hub-page .product-universe-frame {
   border-color: rgba(228, 136, 85, 0.5);
 }
 
+.sc-chip.is-richness.is-dense {
+  color: var(--text-alert);
+  border-color: rgba(228, 136, 85, 0.5);
+}
+
+.sc-chip.is-richness.is-solid {
+  color: var(--text-primary);
+  border-color: rgba(155, 188, 15, 0.42);
+}
+
+.sc-chip.is-richness.is-growing {
+  color: var(--confidence-mid);
+  border-color: rgba(224, 179, 82, 0.42);
+}
+
+.sc-chip.is-richness.is-light,
+.sc-chip.is-completion,
+.sc-chip.is-confidence {
+  color: var(--text-secondary);
+}
+
+.sc-reading-note {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
 .pass1-surface-banner {
   margin: 10px 0 0;
   padding: 8px 10px;
@@ -10097,6 +10125,15 @@ body.hub-page .product-universe-frame {
 
 .search-empty.is-error .terminal-empty-title {
   color: var(--text-danger);
+}
+
+.search-count-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.16em;
+  margin: 10px 0 4px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
 }
 
 @media (max-width: 1040px) {
