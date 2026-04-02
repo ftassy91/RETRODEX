@@ -2,9 +2,6 @@
 
 const { Op } = require('sequelize')
 
-const Game = require('../models/Game')
-const Accessory = require('../models/Accessory')
-
 function toAccessoryPayload(item, consoleTitleMap) {
   return {
     id: item.id,
@@ -18,6 +15,7 @@ function toAccessoryPayload(item, consoleTitleMap) {
 }
 
 async function fetchConsoleTitles(consoleIds = []) {
+  const Game = require('../models/Game')
   const ids = Array.from(new Set((consoleIds || []).filter(Boolean)))
   if (!ids.length) {
     return new Map()
@@ -36,6 +34,7 @@ async function fetchConsoleTitles(consoleIds = []) {
 }
 
 async function listAccessoryTypes() {
+  const Accessory = require('../models/Accessory')
   const accessories = await Accessory.findAll({
     attributes: ['accessory_type'],
     order: [['accessory_type', 'ASC']],
@@ -49,6 +48,7 @@ async function listAccessoryTypes() {
 }
 
 async function listAccessories() {
+  const Accessory = require('../models/Accessory')
   const accessories = await Accessory.findAll({
     order: [['name', 'ASC']],
   })
@@ -65,6 +65,7 @@ async function listAccessories() {
 }
 
 async function listConsoleAccessories(consoleId, options = {}) {
+  const Accessory = require('../models/Accessory')
   const { limit = 10 } = options
   const accessories = await Accessory.findAll({
     where: {
