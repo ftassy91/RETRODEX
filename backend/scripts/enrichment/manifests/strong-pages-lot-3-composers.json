@@ -1,0 +1,182 @@
+{
+  "batchKey": "strong_pages_lot_3_composers",
+  "batchType": "composers",
+  "reviewStatus": "ready",
+  "notes": "Strong pages lot 3 composer uplift.",
+  "sources": [
+    "internal"
+  ],
+  "writeTargets": [
+    "games",
+    "game_people",
+    "people",
+    "source_records",
+    "field_provenance"
+  ],
+  "publishDomains": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "postChecks": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "payload": [
+    {
+      "gameId": "007-quantum-of-solace-playstation-2",
+      "title": "007: Quantum of Solace",
+      "ostComposers": [
+        {
+          "name": "Activision",
+          "role": "composer",
+          "billingOrder": 2,
+          "confidence": 0.7
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "canonical_people",
+      "sourceUrl": null,
+      "confidenceLevel": 0.88,
+      "notes": "Auto-filled from canonical composer credits (game_people/people)",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "PlayStation 2",
+        "priorityScore": 0.35,
+        "missingCriticalFields": [],
+        "autofillMode": "canonical_people",
+        "internalSource": "game_people"
+      }
+    },
+    {
+      "gameId": "007-the-world-is-not-enough-game-boy-color",
+      "title": "007: The World is Not Enough",
+      "ostComposers": [
+        {
+          "name": "Electronic Arts",
+          "role": "composer",
+          "billingOrder": 2,
+          "confidence": 0.7
+        },
+        {
+          "name": "Gradiente",
+          "role": "composer",
+          "billingOrder": 3,
+          "confidence": 0.7
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "canonical_people",
+      "sourceUrl": null,
+      "confidenceLevel": 0.88,
+      "notes": "Auto-filled from canonical composer credits (game_people/people)",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "Game Boy Color",
+        "priorityScore": 0.35,
+        "missingCriticalFields": [],
+        "autofillMode": "canonical_people",
+        "internalSource": "game_people"
+      }
+    },
+    {
+      "gameId": "10-000-bullets-playstation-2",
+      "title": "10,000 Bullets",
+      "ostComposers": [
+        {
+          "name": "Taito",
+          "role": "composer",
+          "billingOrder": 2,
+          "confidence": 0.7
+        },
+        {
+          "name": "Metro Corporation",
+          "role": "composer",
+          "billingOrder": 3,
+          "confidence": 0.7
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "canonical_people",
+      "sourceUrl": null,
+      "confidenceLevel": 0.88,
+      "notes": "Auto-filled from canonical composer credits (game_people/people)",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "PlayStation 2",
+        "priorityScore": 0.35,
+        "missingCriticalFields": [],
+        "autofillMode": "canonical_people",
+        "internalSource": "game_people"
+      }
+    },
+    {
+      "gameId": "hack-g-u-vol-2-reminisce-playstation-2",
+      "title": ".hack//G.U. Vol. 2//Reminisce",
+      "ostComposers": [
+        {
+          "name": "Chikayo Fukuda",
+          "role": "composer",
+          "billingOrder": 2,
+          "confidence": 0.7
+        },
+        {
+          "name": "Seizo Nakata",
+          "role": "composer",
+          "billingOrder": 3,
+          "confidence": 0.7
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "canonical_people",
+      "sourceUrl": null,
+      "confidenceLevel": 0.88,
+      "notes": "Auto-filled from canonical composer credits (game_people/people)",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "PlayStation 2",
+        "priorityScore": 0.33,
+        "missingCriticalFields": [],
+        "autofillMode": "canonical_people",
+        "internalSource": "game_people"
+      }
+    },
+    {
+      "gameId": "hack-g-u-vol-3-redemption-playstation-2",
+      "title": ".hack//G.U. Vol. 3//Redemption",
+      "ostComposers": [
+        {
+          "name": "Chikayo Fukuda",
+          "role": "composer",
+          "billingOrder": 2,
+          "confidence": 0.7
+        },
+        {
+          "name": "Seizo Nakata",
+          "role": "composer",
+          "billingOrder": 3,
+          "confidence": 0.7
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "canonical_people",
+      "sourceUrl": null,
+      "confidenceLevel": 0.88,
+      "notes": "Auto-filled from canonical composer credits (game_people/people)",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "PlayStation 2",
+        "priorityScore": 0.33,
+        "missingCriticalFields": [],
+        "autofillMode": "canonical_people",
+        "internalSource": "game_people"
+      }
+    }
+  ]
+}

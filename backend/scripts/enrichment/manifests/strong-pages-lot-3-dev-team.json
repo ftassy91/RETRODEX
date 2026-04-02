@@ -1,0 +1,504 @@
+{
+  "batchKey": "strong_pages_lot_3_dev_team",
+  "batchType": "dev_team",
+  "reviewStatus": "ready",
+  "notes": "Strong pages lot 3 developer-team uplift.",
+  "sources": [
+    "internal"
+  ],
+  "writeTargets": [
+    "games",
+    "game_people",
+    "people",
+    "source_records",
+    "field_provenance"
+  ],
+  "publishDomains": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "postChecks": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "payload": [
+    {
+      "gameId": "batman-returns-super-nintendo",
+      "title": "Batman Returns",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Atari Games"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 59,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 97,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "dark-savior-sega-saturn",
+      "title": "Dark Savior",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Climax Entertainment"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 70,
+        "curationStatus": "locked",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 95,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "f-zero-x-nintendo-64",
+      "title": "F-Zero X",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Nintendo Ead2"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 74,
+        "curationStatus": "locked",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 97,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "mario-and-luigi-bowsers-inside-story-nintendo-ds",
+      "title": "Mario & Luigi: Bowser's Inside Story",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "AlphaDream"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 92,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 99,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "paper-mario-nintendo-64",
+      "title": "Paper Mario",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Intelligent Systems"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 103,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 99,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "phantasy-star-iv-sega-genesis",
+      "title": "Phantasy Star IV",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Sega"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 104,
+        "curationStatus": "locked",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 95,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "pokemon-diamond-nintendo-ds",
+      "title": "Pokemon Diamond",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Game Freak"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 105,
+        "curationStatus": "locked",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 99,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "pokemon-heartgold-nintendo-ds",
+      "title": "Pokémon HeartGold",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Game Freak"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 106,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 95,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "resident-evil-2-playstation",
+      "title": "Resident Evil 2",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Capcom"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 107,
+        "curationStatus": "locked",
+        "priorityScore": 0.57,
+        "completenessScore": 100,
+        "confidenceScore": 95,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "ristar-sega-genesis",
+      "title": "Ristar",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Sega"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 108,
+        "curationStatus": "locked",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 95,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "sega-rally-championship-sega-saturn",
+      "title": "Sega Rally Championship",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Sega AM3"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 109,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 99,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "shining-force-ii-sega-genesis",
+      "title": "Shining Force II",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Sonic! Software Planning"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 110,
+        "curationStatus": "locked",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 95,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "shining-the-holy-ark-sega-saturn",
+      "title": "Shining the Holy Ark",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Sonic! Software Planning"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 111,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 95,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "shinobi-iii-sega-genesis",
+      "title": "Shinobi III",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Sega"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 112,
+        "curationStatus": "locked",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 95,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "simcity-super-nintendo",
+      "title": "SimCity",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Maxis"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 113,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 99,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "sonic-knuckles-sega-genesis",
+      "title": "Sonic & Knuckles",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Sega"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 114,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 99,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "soul-blade-playstation",
+      "title": "Soul Blade",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Namco"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 116,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 99,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    }
+  ]
+}

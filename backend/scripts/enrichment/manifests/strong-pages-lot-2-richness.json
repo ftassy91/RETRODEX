@@ -1,0 +1,1277 @@
+{
+  "batchKey": "strong_pages_lot_2_richness",
+  "batchType": "richness",
+  "reviewStatus": "ready",
+  "notes": "Strong pages lot 2 synopsis backfill and media uplift.",
+  "sources": [
+    "internal",
+    "external_assets_snapshot"
+  ],
+  "writeTargets": [
+    "games",
+    "game_editorial",
+    "media_references",
+    "source_records",
+    "field_provenance"
+  ],
+  "publishDomains": [
+    "records",
+    "editorial",
+    "media",
+    "ui"
+  ],
+  "postChecks": [
+    "records",
+    "editorial",
+    "media",
+    "ui"
+  ],
+  "payload": [
+    {
+      "gameId": "castlevania-symphony-of-the-night-sega-saturn",
+      "title": "Castlevania: Symphony of the Night",
+      "synopsis": "Alucard explore le château de Dracula inversé dans le Metroidvania fondateur — version Saturn avec Maria jouable.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "chrono-trigger-nintendo-ds",
+      "title": "Chrono Trigger",
+      "synopsis": "Le RPG parfait de Square : voyages temporels, 13 fins, Triple Tech, New Game+.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "terranigma-super-nintendo",
+      "title": "Terranigma",
+      "synopsis": "Terranigma est un jeu Action RPG sorti en 1995 sur Super Nintendo, développé par Quintet. Metascore : 89 — Rareté : EPIC. Considéré comme un titre rare et recherché par les collectionneurs.",
+      "media": [
+        {
+          "mediaType": "sprite_sheet",
+          "assetSubtype": "sprite_rip",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/rips/snes/ark_running.gif",
+          "sourceField": "sprite_sheet_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/snes/c/terra.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "alien-soldier-sega-genesis",
+      "title": "Alien Soldier",
+      "synopsis": "Treasure's cult Genesis showcase is a boss-rush action game built around rapid weapon-switching, screen-filling set pieces, and relentless high-speed firefights.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/genesis/b/alisol.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "conkers-bad-fur-day-nintendo-64",
+      "title": "Conker's Bad Fur Day",
+      "synopsis": "Conker's Bad Fur Day est un jeu Action sorti en 2001 sur Nintendo 64, développé par Rare. Metascore : 92 — Rareté : RARE. Unanimement salué par la critique.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/n64/b/conker.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "demons-crest-super-nintendo",
+      "title": "Demon's Crest",
+      "synopsis": "Demon's Crest est un jeu Action Platformer sorti en 1994 sur Super Nintendo, développé par Capcom. Metascore : 84 — Rareté : EPIC. Considéré comme un titre rare et recherché par les collectionneurs.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/snes/a/demon.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "dungeons-dragons-collection-sega-saturn",
+      "title": "Dungeons & Dragons Collection",
+      "synopsis": "Tower of Doom + Shadow over Mystara réunis — les deux meilleurs beat'em up D&D de Capcom sur Saturn.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "kirby-super-star-super-nintendo",
+      "title": "Kirby Super Star",
+      "synopsis": "Kirby Super Star est un jeu Platformer sorti en 1996 sur Super Nintendo, développé par HAL Laboratory. Metascore : 85 — Rareté : UNCOMMON.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/snes/a/kirbyss-2.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "radiant-silvergun-sega-saturn",
+      "title": "Radiant Silvergun",
+      "synopsis": "Le chef-d'œuvre de Treasure — sept armes, un système de score stratifié, le shmup vertical ultime.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/saturn/a/radiant.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+      "title": "The Legend of Zelda: A Link to the Past",
+      "synopsis": "Le Zelda définitif : deux mondes parallèles, 11 donjons, maîtrise absolue du genre.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "donkey-kong-country-super-nintendo",
+      "title": "Donkey Kong Country",
+      "synopsis": "Les graphismes pré-rendus révolutionnaires de Rare et une jouabilité à deux Kongs.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "assetSubtype": "manual",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/scans/snes/snesdkc.jpg",
+          "sourceField": "manual_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/snes/b/dkc.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "dragon-force-sega-saturn",
+      "title": "Dragon Force",
+      "synopsis": "Dragon Force est un jeu Strategy RPG sorti en 1996 sur Sega Saturn, développé par J-Force. Metascore : 87 — Rareté : RARE.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/saturn/a/drforce.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "dynamite-headdy-sega-genesis",
+      "title": "Dynamite Headdy",
+      "synopsis": "Dynamite Headdy est un jeu Action sorti en 1994 sur Sega Genesis, développé par Treasure. Metascore : 85 — Rareté : RARE.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/genesis/a/dyn.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "ghost-trick-phantom-detective-nintendo-ds",
+      "title": "Ghost Trick: Phantom Detective",
+      "synopsis": "Sissel est mort — il doit découvrir qui l'a tué en manipulant les objets du monde des fantômes.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "guardian-heroes-sega-saturn",
+      "title": "Guardian Heroes",
+      "synopsis": "Treasure mélange beat'em up et RPG dans un classique Saturn à 6 joueurs simultanés.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/saturn/a/gh.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "klonoa-door-to-phantomile-playstation",
+      "title": "Klonoa: Door to Phantomile",
+      "synopsis": "Klonoa: Door to Phantomile est un jeu Action sorti en 1997 sur PlayStation, développé par Namco. Metascore : 88 — Rareté : RARE.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/psx/c/klon.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "mother-3-game-boy-advance",
+      "title": "Mother 3",
+      "synopsis": "La suite inédite d'EarthBound — un RPG émotionnel sur la famille, la perte et le capitalisme sauvage.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/gba/a/mother3.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "panzer-dragoon-ii-zwei-sega-saturn",
+      "title": "Panzer Dragoon II Zwei",
+      "synopsis": "Le rail shooter on-rails le plus beau de la Saturn — dragonet évolutif, trois formes de bataille.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/saturn/a/pd2.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "radiant-historia-nintendo-ds",
+      "title": "Radiant Historia",
+      "synopsis": "Radiant Historia est un jeu RPG sorti en 2010 sur Nintendo DS, développé par Atlus. Metascore : 88 — Rareté : RARE.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "rocket-knight-adventures-sega-genesis",
+      "title": "Rocket Knight Adventures",
+      "synopsis": "Sparkster le possum en armure de jet — un platformer d'action Konami débordant d'inventivité.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/genesis/b/rka.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "silent-hill-playstation",
+      "title": "Silent Hill",
+      "synopsis": "L'horreur psychologique de Konami : brouillard, radio, Otherworld de Harry.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/psx/b/shill.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "tactics-ogre-super-nintendo",
+      "title": "Tactics Ogre",
+      "synopsis": "Tactics Ogre est un jeu RPG sorti en 1995 sur Super Nintendo, développé par Quest. Metascore : 88 — Rareté : RARE.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "thunder-force-iv-sega-genesis",
+      "title": "Thunder Force IV",
+      "synopsis": "Le shmup horizontal le plus impressionnant de la Megadrive — OST métal, scrolling parallaxe, difficulté extrême.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "thunder-force-v-sega-saturn",
+      "title": "Thunder Force V",
+      "synopsis": "Thunder Force V est un jeu Shoot em Up sorti en 1997 sur Sega Saturn, développé par Technosoft. Metascore : 86 — Rareté : RARE.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "vampire-savior-sega-saturn",
+      "title": "Vampire Savior",
+      "synopsis": "Vampire Savior est un jeu Action sorti en 1998 sur Sega Saturn, développé par Capcom. Metascore : 87 — Rareté : RARE.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "ogre-battle-64-nintendo-64",
+      "title": "Ogre Battle 64",
+      "synopsis": "Ogre Battle 64 est un jeu RPG sorti en 2000 sur Nintendo 64, développé par Quest. Metascore : 83 — Rareté : RARE.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "suikoden-playstation",
+      "title": "Suikoden",
+      "synopsis": "Suikoden est un jeu RPG sorti en 1996 sur PlayStation, développé par Konami. Metascore : 83 — Rareté : RARE.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/psx/b/suikoden.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "judgement-silversword-wonderswan",
+      "title": "Judgement Silversword",
+      "synopsis": "Le shmup indépendant légendaire du WonderSwan — développé par un fan, distribué en tournoi, devenu culte.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "metal-slug-neo-geo",
+      "title": "Metal Slug",
+      "synopsis": "L'original Metal Slug — la naissance d'un genre, sprites animés à la main, humour et violence cartoon.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "metal-slug-2-neo-geo",
+      "title": "Metal Slug 2",
+      "synopsis": "Marco, Fio, Eri, Tarma — Metal Slug 2 double le roster et introduit les aliens dans la série.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "samurai-shodown-ii-neo-geo",
+      "title": "Samurai Shodown II",
+      "synopsis": "Le fighting à l'arme blanche le plus équilibré — Samurai Shodown II reste la référence du genre sur Neo Geo.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/neogeo/a/samur2haoh.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.8,
+      "notes": "Backfilled synopsis from existing high-signal summary for strong-pages continuation."
+    },
+    {
+      "gameId": "super-mario-bros-3-nintendo-entertainment-system",
+      "title": "Super Mario Bros. 3",
+      "media": [
+        {
+          "mediaType": "manual",
+          "assetSubtype": "manual",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/scans/nes/nessmb3.jpg",
+          "sourceField": "manual_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/nes/a/mario3.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/NES/SuperMarioBros3-MatchGame.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "adventure-island-ii-nes",
+      "title": "Adventure Island II",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/nes/a/ai2.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/NES/AdventureIslandII-Island1-FernIsland-Area1.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "antz-extreme-racing-game-boy-advance",
+      "title": "Antz Extreme Racing",
+      "media": [
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/GBA/index.htm#AntzExtremeRacing",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "adventure-island-3-nes",
+      "title": "Adventure Island 3",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/nes/a/ai3.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/NES/AdventureIslandIII-Area1-1-CoastalClash.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "kirby-adventure-nintendo-entertainment-system",
+      "title": "Kirby's Adventure",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/nes/a/kirby.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/NES/Kirby'sAdventure-Level1-VegetableValley.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "zombies-ate-my-neighbors-sega-genesis",
+      "title": "Zombies Ate My Neighbors",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/genesis/b/zom.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/SuperNES/ZombiesAteMyNeighbors-Level1-ZombiePanic.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "adventure-island-nes",
+      "title": "Adventure Island",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/nes/a/ai.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/NES/AdventureIsland-Area1-Round1.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "banjo-kazooie-grunty-s-revenge-game-boy-advance",
+      "title": "Banjo-Kazooie: Grunty's Revenge",
+      "media": [
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/GBA/index.htm#BanjoKazooieGruntysRevenge",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/gba/d/banjo.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "addams-family-values-sega-genesis",
+      "title": "Addams Family Values",
+      "media": [
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/SuperNES/AddamsFamilyValues-Gardens&Graveyard.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "super-mario-bros-nintendo-entertainment-system",
+      "title": "Super Mario Bros.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/nes/a/smario.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/NES/SuperMarioBros-World1-1.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "bubsy-in-claws-encounters-of-the-furred-kind-sega-genesis",
+      "title": "Bubsy in: Claws Encounters of the Furred Kind",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/genesis/b/bub.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/SuperNES/BubsyInClawsEncountersOfTheFurredKind-Chapter1-CheeseWheelsOfDoom.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "air-fortress-nes",
+      "title": "Air Fortress",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/nes/a/airfort.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/NES/AirFortress-Phase1-1stAirFortress-Approach.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "super-mario-64-nintendo-64",
+      "title": "Super Mario 64",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/n64/a/sm64.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/N64/SuperMario64-Peach'sCastle.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "aidyn-chronicles-the-first-mage-nintendo-64",
+      "title": "Aidyn Chronicles: The First Mage",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/n64/a/aidyn.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/N64/AidynChronicles-FirstMage-EnemyGuide.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "alex-kidd-in-miracle-world-sega-master-system",
+      "title": "Alex Kidd in Miracle World",
+      "media": [
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/MasterSystem/AlexKiddInMiracleWorld-MiracleWorld(In-GameMap).png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "blackthorne-sega-genesis",
+      "title": "Blackthorne",
+      "media": [
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/SuperNES/BlackThorne-PracticeStage.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "amagon-nes",
+      "title": "Amagon",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/nes/a/amagon.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/NES/Amagon-Zone1-1-BePreparedForYourMission!.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "earthworm-jim-sega-genesis",
+      "title": "Earthworm Jim",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/genesis/a/ejim.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/SuperNES/EarthwormJim-NewJunkCity.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "earthworm-jim-2-sega-genesis",
+      "title": "Earthworm Jim 2",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/genesis/a/ejim2.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/SuperNES/EarthwormJim2-AnythingButTangerines.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "art-of-fighting-sega-genesis",
+      "title": "Art of Fighting",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/genesis/a/art.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/SuperNES/ArtOfFighting-PortTown,SouthTown(In-GameMap).png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "athena-nes",
+      "title": "Athena",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/nes/b/athe.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/NES/Athena-Intro.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    },
+    {
+      "gameId": "batman-forever-sega-genesis",
+      "title": "Batman Forever",
+      "media": [
+        {
+          "mediaType": "ending",
+          "assetSubtype": "ending_gallery",
+          "provider": "vgmuseum",
+          "url": "https://www.vgmuseum.com/end/genesis/a/batfor.htm",
+          "sourceField": "ending_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "atlas_map",
+          "provider": "vgmaps",
+          "url": "https://www.vgmaps.com/Atlas/SuperNES/BatmanForever-1-ArkhamAsylum.png",
+          "sourceField": "map_reference",
+          "sourceType": "external_reference",
+          "complianceStatus": "approved_with_review",
+          "confidenceLevel": 0.78,
+          "notes": null
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.78,
+      "notes": "Strong pages media uplift from latest external asset snapshot."
+    }
+  ]
+}

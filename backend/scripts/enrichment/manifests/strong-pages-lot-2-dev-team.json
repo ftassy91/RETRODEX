@@ -1,0 +1,364 @@
+{
+  "batchKey": "strong_pages_lot_2_dev_team",
+  "batchType": "dev_team",
+  "reviewStatus": "ready",
+  "notes": "Strong pages lot 2 developer-team uplift.",
+  "sources": [
+    "internal"
+  ],
+  "writeTargets": [
+    "games",
+    "game_people",
+    "people",
+    "source_records",
+    "field_provenance"
+  ],
+  "publishDomains": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "postChecks": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "payload": [
+    {
+      "gameId": "burning-rangers-sega-saturn",
+      "title": "Burning Rangers",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Sonic Team"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 10,
+        "curationStatus": "published",
+        "priorityScore": 0.66,
+        "completenessScore": 95,
+        "confidenceScore": 98,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "999-nine-hours-nine-persons-nine-doors-nintendo-ds",
+      "title": "999: Nine Hours, Nine Persons, Nine Doors",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Chunsoft"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 25,
+        "curationStatus": "published",
+        "priorityScore": 0.62,
+        "completenessScore": 95,
+        "confidenceScore": 95,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "valkyrie-profile-playstation",
+      "title": "Valkyrie Profile",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "tri-Ace"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 44,
+        "curationStatus": "locked",
+        "priorityScore": 0.61,
+        "completenessScore": 95,
+        "confidenceScore": 96,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "the-king-of-fighters-98-neo-geo",
+      "title": "The King of Fighters '98",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "SNK"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 50,
+        "curationStatus": "published",
+        "priorityScore": 0.59,
+        "completenessScore": 100,
+        "confidenceScore": 99,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "the-last-blade-2-neo-geo",
+      "title": "The Last Blade 2",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "SNK"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 51,
+        "curationStatus": "published",
+        "priorityScore": 0.59,
+        "completenessScore": 95,
+        "confidenceScore": 99,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "1080-snowboarding-nintendo-64",
+      "title": "1080° Snowboarding",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Nintendo Ead2"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 52,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 97,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "advance-wars-dual-strike-nintendo-ds",
+      "title": "Advance Wars: Dual Strike",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Intelligent Systems"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 53,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 97,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "albert-odyssey-sega-saturn",
+      "title": "Albert Odyssey: Legend of Eldean",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Sunsoft"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 54,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 95,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "alundra-playstation",
+      "title": "Alundra",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Matrix Software"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 55,
+        "curationStatus": "locked",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 97,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "animal-crossing-wild-world-nintendo-ds",
+      "title": "Animal Crossing: Wild World",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Nintendo"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 56,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 99,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "astro-boy-omega-factor-game-boy-advance",
+      "title": "Astro Boy: Omega Factor",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Treasure"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 57,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 97,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    },
+    {
+      "gameId": "spyro-2-riptos-rage-playstation",
+      "title": "Spyro 2: Ripto's Rage!",
+      "devTeam": [
+        {
+          "role": "Developer",
+          "name": "Insomniac Games"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "structured_credits",
+      "sourceUrl": null,
+      "confidenceLevel": 0.9,
+      "notes": "Backfilled dev_team from existing game_companies developer links.",
+      "isInferred": true,
+      "candidateContext": {
+        "band": "core1000",
+        "tier": "Tier A",
+        "rank": 117,
+        "curationStatus": "published",
+        "priorityScore": 0.57,
+        "completenessScore": 95,
+        "confidenceScore": 99,
+        "autofillMode": "company_developer_link",
+        "companyDeveloperCount": 1,
+        "peopleDeveloperCount": 1
+      }
+    }
+  ]
+}

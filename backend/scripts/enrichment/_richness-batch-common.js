@@ -81,27 +81,27 @@ function ensureSourceRecord(db, gameId, descriptor, timestamp) {
       AND field_name = ?
       AND source_name = ?
       AND source_type = ?
-      AND COALESCE(source_url, '') = COALESCE(?, '')
     ORDER BY id DESC
     LIMIT 1
   `).get(
     gameId,
     descriptor.fieldName,
     descriptor.sourceName,
-    descriptor.sourceType,
-    descriptor.sourceUrl
+    descriptor.sourceType
   )
 
   if (existing) {
     db.prepare(`
       UPDATE source_records
-      SET source_license = ?,
+      SET source_url = ?,
+          source_license = ?,
           compliance_status = ?,
           last_verified_at = ?,
           confidence_level = ?,
           notes = ?
       WHERE id = ?
     `).run(
+      descriptor.sourceUrl,
       descriptor.sourceLicense,
       descriptor.complianceStatus,
       timestamp,

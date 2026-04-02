@@ -1,0 +1,318 @@
+{
+  "batchKey": "strong_pages_lot_2_composers",
+  "batchType": "composers",
+  "reviewStatus": "ready",
+  "notes": "Strong pages lot 2 composer uplift.",
+  "sources": [
+    "internal"
+  ],
+  "writeTargets": [
+    "games",
+    "game_people",
+    "people",
+    "source_records",
+    "field_provenance"
+  ],
+  "publishDomains": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "postChecks": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "payload": [
+    {
+      "gameId": "actua-pool-playstation",
+      "title": "Actua Pool",
+      "ostComposers": [
+        {
+          "name": "Piotr Pacyna",
+          "role": "composer",
+          "confidence": 0.76,
+          "billingOrder": 1
+        }
+      ],
+      "sourceName": "retrodex_internal_exact_title_sibling",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.76,
+      "notes": "Composer aligned from exact-title sibling actua-pool-nintendo-ds already curated in canonical records.",
+      "candidateContext": {
+        "sourceGameId": "actua-pool-nintendo-ds"
+      }
+    },
+    {
+      "gameId": "007-racing-playstation",
+      "title": "007 Racing",
+      "ostComposers": [
+        {
+          "name": "Electronic Arts",
+          "role": "composer",
+          "billingOrder": 2,
+          "confidence": 0.7
+        },
+        {
+          "name": "MGM Interactive",
+          "role": "composer",
+          "billingOrder": 3,
+          "confidence": 0.7
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "canonical_people",
+      "sourceUrl": null,
+      "confidenceLevel": 0.88,
+      "notes": "Auto-filled from canonical composer credits (game_people/people)",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "PlayStation",
+        "priorityScore": 0.47,
+        "missingCriticalFields": [],
+        "autofillMode": "canonical_people",
+        "internalSource": "game_people"
+      }
+    },
+    {
+      "gameId": "007-nightfire-game-boy-advance",
+      "title": "007: Nightfire",
+      "ostComposers": [
+        {
+          "name": "Electronic Arts",
+          "role": "composer",
+          "billingOrder": 2,
+          "confidence": 0.7
+        },
+        {
+          "name": "Aspyr Media",
+          "role": "composer",
+          "billingOrder": 3,
+          "confidence": 0.7
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "canonical_people",
+      "sourceUrl": null,
+      "confidenceLevel": 0.88,
+      "notes": "Auto-filled from canonical composer credits (game_people/people)",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "Game Boy Advance",
+        "priorityScore": 0.47,
+        "missingCriticalFields": [],
+        "autofillMode": "canonical_people",
+        "internalSource": "game_people"
+      }
+    },
+    {
+      "gameId": "007-quantum-of-solace-nintendo-ds",
+      "title": "007: Quantum of Solace",
+      "ostComposers": [
+        {
+          "name": "Activision",
+          "role": "composer",
+          "billingOrder": 2,
+          "confidence": 0.7
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "canonical_people",
+      "sourceUrl": null,
+      "confidenceLevel": 0.88,
+      "notes": "Auto-filled from canonical composer credits (game_people/people)",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "Nintendo DS",
+        "priorityScore": 0.47,
+        "missingCriticalFields": [],
+        "autofillMode": "canonical_people",
+        "internalSource": "game_people"
+      }
+    },
+    {
+      "gameId": "007-the-world-is-not-enough-playstation",
+      "title": "007: The World Is Not Enough",
+      "ostComposers": [
+        {
+          "name": "Electronic Arts",
+          "role": "composer",
+          "billingOrder": 1,
+          "confidence": 0.6
+        },
+        {
+          "name": "Gradiente",
+          "role": "composer",
+          "billingOrder": 2,
+          "confidence": 0.6
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "canonical_people",
+      "sourceUrl": null,
+      "confidenceLevel": 0.88,
+      "notes": "Auto-filled from canonical composer credits (game_people/people)",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "PlayStation",
+        "priorityScore": 0.47,
+        "missingCriticalFields": [],
+        "autofillMode": "canonical_people",
+        "internalSource": "game_people"
+      }
+    },
+    {
+      "gameId": "abyss-nintendo-ds",
+      "title": "Abyss",
+      "ostComposers": [
+        {
+          "name": "Tadashi Okada",
+          "role": "composer"
+        },
+        {
+          "name": "Naoyoshi Yamamoto",
+          "role": "composer"
+        },
+        {
+          "name": "Yuya Ogawa",
+          "role": "composer"
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://en.wikipedia.org/wiki/From_the_Abyss",
+      "confidenceLevel": 0.86,
+      "notes": "Composer credits curated from From the Abyss reference credits",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "Nintendo DS",
+        "priorityScore": 0.5,
+        "missingCriticalFields": [
+          "ost_composers"
+        ],
+        "autofillMode": null,
+        "internalSource": null
+      }
+    },
+    {
+      "gameId": "adidas-power-soccer-playstation",
+      "title": "Adidas Power Soccer",
+      "ostComposers": [
+        {
+          "name": "Michel Winogradoff",
+          "role": "composer"
+        }
+      ],
+      "sourceName": "mobygames",
+      "sourceType": "reference",
+      "sourceUrl": "https://www.mobygames.com/person/25226/michel-winogradoff/credits/",
+      "confidenceLevel": 0.84,
+      "notes": "Composer curated from MobyGames person credits listing Adidas Power Soccer original music",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "PlayStation",
+        "priorityScore": 0.5,
+        "missingCriticalFields": [
+          "ost_composers"
+        ],
+        "autofillMode": null,
+        "internalSource": null
+      }
+    },
+    {
+      "gameId": "a-train-iv-playstation",
+      "title": "A-Train IV",
+      "ostComposers": [
+        {
+          "name": "Daisuke Nakakaze",
+          "role": "composer"
+        },
+        {
+          "name": "Koshiro Nishida",
+          "role": "composer"
+        }
+      ],
+      "sourceName": "mobygames",
+      "sourceType": "reference",
+      "sourceUrl": "https://www.mobygames.com/game/30304/a-train/",
+      "confidenceLevel": 0.88,
+      "notes": "Composer credits curated from A-Train PlayStation credits",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "PlayStation",
+        "priorityScore": 0.49,
+        "missingCriticalFields": [
+          "ost_composers"
+        ],
+        "autofillMode": null,
+        "internalSource": null
+      }
+    },
+    {
+      "gameId": "actua-pool-nintendo-ds",
+      "title": "Actua Pool",
+      "ostComposers": [
+        {
+          "name": "Piotr Pacyna",
+          "role": "composer"
+        }
+      ],
+      "sourceName": "mobygames",
+      "sourceType": "reference",
+      "sourceUrl": "https://www.mobygames.com/game/90496/underground-pool/",
+      "confidenceLevel": 0.88,
+      "notes": "Composer credits curated from Underground Pool / Actua Pool Nintendo DS credits",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "Nintendo DS",
+        "priorityScore": 0.49,
+        "missingCriticalFields": [
+          "ost_composers"
+        ],
+        "autofillMode": null,
+        "internalSource": null
+      }
+    },
+    {
+      "gameId": "hack-g-u-vol-1-rebirth-playstation-2",
+      "title": ".hack//G.U. Vol. 1//Rebirth",
+      "ostComposers": [
+        {
+          "name": "Chikayo Fukuda",
+          "role": "composer",
+          "billingOrder": 2,
+          "confidence": 0.7
+        },
+        {
+          "name": "Seizo Nakata",
+          "role": "composer",
+          "billingOrder": 3,
+          "confidence": 0.7
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "canonical_people",
+      "sourceUrl": null,
+      "confidenceLevel": 0.88,
+      "notes": "Auto-filled from canonical composer credits (game_people/people)",
+      "candidateContext": {
+        "tier": "Tier A",
+        "curationStatus": null,
+        "platform": "PlayStation 2",
+        "priorityScore": 0.35,
+        "missingCriticalFields": [],
+        "autofillMode": "canonical_people",
+        "internalSource": "game_people"
+      }
+    }
+  ]
+}
