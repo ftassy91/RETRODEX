@@ -4,8 +4,8 @@
 All work happens inside `RETRODEXseed`.
 
 This repository currently has two active execution surfaces:
-- `backend/`
-- `frontend/`
+- `backend/` as the canonical runtime and public UI surface
+- `frontend/` as a secondary prototype surface only when a lot explicitly targets it
 
 ## How the repository is organized
 
@@ -16,7 +16,7 @@ This repository currently has two active execution surfaces:
 - Serves the backend UI and API on port `3000`
 
 ### `frontend/`
-- Canonical static frontend
+- Secondary prototype / exploration area
 - Main entry points:
   - `launcher.html`
   - `index.html`
@@ -46,7 +46,7 @@ Backend URL:
 http://localhost:3000/home.html
 ```
 
-### Frontend
+### Prototype frontend
 From the repo root, use:
 
 ```powershell
@@ -134,8 +134,9 @@ Runbook:
 - [docs/notion-sync-runbook.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/notion-sync-runbook.md)
 
 ## Contributor rules
-- Treat `frontend/` as the canonical frontend location.
-- Treat `backend/` as the canonical backend location.
+- Treat `backend/public/` as the canonical frontend location.
+- Treat `backend/` as the canonical runtime location.
+- Treat `frontend/` as a prototype area, not the default product surface.
 - Do not introduce new dependencies on external workspaces.
 - Do not assume the root `assets/` and `data/` folders have already absorbed the legacy frontend resources.
 - Prefer targeted corrections over broad migration.

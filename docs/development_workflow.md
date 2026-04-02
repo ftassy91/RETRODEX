@@ -8,11 +8,12 @@
 ## Canonical work locations
 - Repository root work happens in `RETRODEXseed`.
 - Backend work happens in `backend/`.
-- Frontend work happens in `frontend/`.
+- Active public UI work happens in `backend/public/`.
+- `frontend/` is a secondary prototype area and should only be touched explicitly.
 
 ## Session flow
 1. Read [docs/setup_runbook.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/setup_runbook.md).
-2. Confirm whether the task belongs to `backend/` or `frontend/`.
+2. Confirm whether the task belongs to canonical runtime/back-office work in `backend/` or explicit prototype work in `frontend/`.
 3. Make one focused change set at a time.
 4. Test over `http://`, never `file://`.
 5. If the work changes project state, record a local sync event with `scripts/sync/local_sync.py`.
@@ -21,7 +22,7 @@
 
 ## Absolute rules
 - Backend port = 3000
-- Frontend port = 8080
+- Prototype frontend port = 8080 when that surface is explicitly used
 - Test on `http://`, never `file://`
 - One focused task = one coherent commit
 - Work inside `RETRODEXseed` only
