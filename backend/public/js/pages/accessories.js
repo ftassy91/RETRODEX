@@ -59,8 +59,8 @@ async function loadAccessories() {
   listEl.innerHTML = accessoryStateMarkup('Chargement', 'Lecture des accessoires hardware en cours.')
 
   const [typesRes, accessoriesRes] = await Promise.all([
-    fetch('/api/accessories/types'),
-    fetch('/api/accessories'),
+    fetch('/api/market/accessories/types'),
+    fetch('/api/market/accessories'),
   ])
 
   const typesPayload = await typesRes.json()

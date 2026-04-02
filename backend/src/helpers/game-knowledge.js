@@ -1,0 +1,621 @@
+'use strict'
+
+const { getSourcePolicy, normalizeSourceKey } = require('../config/source-policy')
+
+function parseStoredJson(value, fallback = null) {
+  if (value == null || value === '') {
+    return fallback
+  }
+
+  if (Array.isArray(value) || typeof value === 'object') {
+    return value
+  }
+
+  if (typeof value !== 'string') {
+    return fallback
+  }
+
+  try {
+    return JSON.parse(value)
+  } catch (_error) {
+    return fallback
+  }
+}
+
+function safeArray(value) {
+  return Array.isArray(value) ? value : []
+}
+
+function dedupeBy(items, keySelector) {
+  const seen = new Set()
+  const next = []
+
+  for (const item of items) {
+    const key = keySelector(item)
+    if (!key || seen.has(key)) {
+      continue
+    }
+    seen.add(key)
+    next.push(item)
+  }
+
+  return next
+}
+
+function normalizeContributor(entry, fallbackRole = '') {
+  if (!entry) {
+    return null
+  }
+
+  if (typeof entry === 'string') {
+    const name = String(entry).trim()
+    return name
+      ? { name, role: fallbackRole, note: '', confidence: 0 }
+      : null
+  }
+
+  const name = String(entry.name || entry.full_name || entry.person || '').trim()
+  if (!name) {
+    return null
+  }
+
+  return {
+    name,
+    role: String(entry.role || fallbackRole || '').trim(),
+    note: String(entry.note || entry.description || '').trim(),
+    confidence: Number(entry.confidence || 0),
+  }
+}
+
+function normalizeCompanyRole(value) {
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+}
+
+function getCompanyRoleLabel(value) {
+  const normalized = normalizeCompanyRole(value)
+
+  if (normalized === 'developer') return 'Developpement'
+  if (normalized === 'publisher') return 'Edition'
+  if (normalized === 'studio') return 'Studio'
+  if (normalized === 'manufacturer') return 'Constructeur'
+  if (normalized === 'composer') return 'Composition'
+  if (normalized === 'localizer') return 'Localisation'
+  if (normalized === 'port') return 'Portage'
+
+  return normalized
+    ? normalized.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
+    : 'Production'
+}
+
+function normalizeCompanyEntry(entry) {
+  if (!entry) {
+    return null
+  }
+
+  const name = String(entry.name || '').trim()
+  if (!name) {
+    return null
+  }
+
+  const role = normalizeCompanyRole(entry.role)
+  const id = String(entry.id || entry.company_id || '').trim() || null
+  const confidence = Number(entry.confidence || 0)
+
+  return {
+    id,
+    name,
+    role,
+    roleLabel: getCompanyRoleLabel(role),
+    country: String(entry.country || '').trim() || null,
+    confidence: Number.isFinite(confidence) ? confidence : 0,
+    source: String(entry.source || 'canonical').trim() || 'canonical',
+  }
+}
+
+function getRecordValue(record, fields = []) {
+  for (const field of fields) {
+    if (record && record[field] != null && record[field] !== '') {
+      return record[field]
+    }
+  }
+
+  return null
+}
+
+function parseBooleanish(value) {
+  if (value == null || value === '') {
+    return null
+  }
+
+  if (typeof value === 'boolean') {
+    return value
+  }
+
+  if (typeof value === 'number') {
+    if (value === 1) return true
+    if (value === 0) return false
+    return null
+  }
+
+  const normalized = String(value).trim().toLowerCase()
+  if (!normalized) {
+    return null
+  }
+
+  if (['1', 'true', 'yes'].includes(normalized)) return true
+  if (['0', 'false', 'no'].includes(normalized)) return false
+
+  return null
+}
+
+function buildProductionPayload({ game, companyRows = [], devTeam = [] }) {
+  const companies = dedupeBy(
+    safeArray(companyRows).map(normalizeCompanyEntry).filter(Boolean),
+    (entry) => `${entry.id || entry.name.toLowerCase()}::${entry.role}`
+  )
+
+  if (!companies.length) {
+    const fallbackCompanies = []
+    const developerName = String(getRecordValue(game, ['developer']) || '').trim()
+    const publisherName = String(getRecordValue(game, ['publisher']) || '').trim()
+
+    if (developerName) {
+      fallbackCompanies.push({
+        id: getRecordValue(game, ['developerId', 'developer_id', 'developerid']),
+        name: developerName,
+        role: 'developer',
+        source: 'legacy',
+      })
+    }
+
+    if (publisherName) {
+      fallbackCompanies.push({
+        id: getRecordValue(game, ['publisherId', 'publisher_id', 'publisherid']),
+        name: publisherName,
+        role: 'publisher',
+        source: 'legacy',
+      })
+    }
+
+    companies.push(...dedupeBy(
+      fallbackCompanies.map(normalizeCompanyEntry).filter(Boolean),
+      (entry) => `${entry.id || entry.name.toLowerCase()}::${entry.role}`
+    ))
+  }
+
+  const developers = companies.filter((entry) => entry.role.includes('developer'))
+  const publishers = companies.filter((entry) => entry.role.includes('publisher'))
+  const studios = companies.filter((entry) => entry.role.includes('studio'))
+  const normalizedTeam = dedupeBy(
+    safeArray(devTeam).map((entry) => normalizeContributor(entry)).filter(Boolean),
+    (entry) => `${entry.name.toLowerCase()}::${entry.role.toLowerCase()}`
+  )
+  const roleCounts = new Map()
+
+  companies.forEach((entry) => {
+    const key = entry.role || 'production'
+    roleCounts.set(key, (roleCounts.get(key) || 0) + 1)
+  })
+
+  return {
+    developers,
+    publishers,
+    studios,
+    companies,
+    roles: Array.from(roleCounts.entries()).map(([role, count]) => ({
+      role,
+      label: getCompanyRoleLabel(role),
+      count,
+    })),
+    dev_team: normalizedTeam,
+    hasData: Boolean(companies.length || normalizedTeam.length),
+  }
+}
+
+function detectProviderFromUrl(url) {
+  const value = String(url || '').trim().toLowerCase()
+  if (!value) {
+    return 'unknown'
+  }
+
+  if (value.includes('vgmaps.com')) return 'vgmaps'
+  if (value.includes('vgmuseum.com')) return 'vgmuseum'
+  if (value.includes('pixel.garoux.net')) return 'pixel_warehouse'
+  if (value.includes('archive.org')) return 'internet_archive'
+  if (value.includes('youtube.com') || value.includes('youtu.be')) return 'youtube'
+  if (value.includes('igdb.com')) return 'igdb'
+  if (value.includes('wikidata.org') || value.includes('wikipedia.org')) return 'wikidata'
+  if (value.includes('pricecharting.com')) return 'pricecharting'
+  if (value.includes('retrodex')) return 'internal'
+
+  return 'internal'
+}
+
+function normalizeComplianceStatus(value, providerKey) {
+  const normalized = normalizeSourceKey(value)
+  if (normalized) {
+    return normalized
+  }
+
+  return getSourcePolicy(providerKey).status || 'unknown'
+}
+
+function complianceTone(status) {
+  if (status === 'approved') return 'approved'
+  if (status === 'approved_with_review') return 'review'
+  if (status === 'reference_only') return 'reference'
+  if (status === 'blocked') return 'blocked'
+  if (status === 'needs_review') return 'review'
+  return 'unknown'
+}
+
+function buildComplianceSummary(items = []) {
+  const approvedCount = items.filter((item) => item.complianceTone === 'approved').length
+  const reviewCount = items.filter((item) => item.complianceTone === 'review').length
+  const referenceOnlyCount = items.filter((item) => item.complianceTone === 'reference').length
+  const blockedCount = items.filter((item) => item.complianceTone === 'blocked').length
+
+  let status = 'missing'
+  if (blockedCount) {
+    status = 'blocked'
+  } else if (reviewCount) {
+    status = 'needs_review'
+  } else if (referenceOnlyCount && approvedCount) {
+    status = 'mixed'
+  } else if (referenceOnlyCount) {
+    status = 'reference_only'
+  } else if (approvedCount) {
+    status = 'approved'
+  }
+
+  return {
+    status,
+    approvedCount,
+    reviewCount,
+    referenceOnlyCount,
+    blockedCount,
+    total: items.length,
+  }
+}
+
+function normalizeMediaItem(entry) {
+  if (!entry || !entry.url) {
+    return null
+  }
+
+  const mediaType = normalizeSourceKey(entry.mediaType || entry.media_type || 'reference') || 'reference'
+  const providerKey = normalizeSourceKey(entry.provider || detectProviderFromUrl(entry.url)) || 'unknown'
+  const policy = getSourcePolicy(providerKey)
+  const complianceStatus = normalizeComplianceStatus(
+    entry.complianceStatus || entry.compliance_status,
+    providerKey
+  )
+  const storageMode = String(entry.storageMode || entry.storage_mode || 'external_reference').trim() || 'external_reference'
+  const uiAllowed = parseBooleanish(entry.uiAllowed ?? entry.ui_allowed)
+  const healthcheckStatus = String(entry.healthcheckStatus || entry.healthcheck_status || 'unchecked').trim().toLowerCase() || 'unchecked'
+
+  return {
+    mediaType,
+    url: String(entry.url).trim(),
+    title: String(entry.title || '').trim() || null,
+    previewUrl: String(entry.previewUrl || entry.preview_url || entry.url || '').trim() || null,
+    assetSubtype: String(entry.assetSubtype || entry.asset_subtype || '').trim() || null,
+    provider: providerKey,
+    providerLabel: policy.name || String(entry.provider || providerKey),
+    complianceStatus,
+    complianceTone: complianceTone(complianceStatus),
+    licenseStatus: normalizeSourceKey(entry.licenseStatus || entry.license_status) || 'reference_only',
+    storageMode,
+    uiAllowed: uiAllowed == null ? false : uiAllowed,
+    healthcheckStatus,
+    notes: parseStoredJson(entry.notes, null),
+    sourceContext: parseStoredJson(entry.sourceContext || entry.source_context, null),
+    isExternalReference: storageMode !== 'local_copy',
+  }
+}
+
+function canExposeMediaItem(entry) {
+  if (!entry) {
+    return false
+  }
+
+  if (entry.uiAllowed !== true) {
+    return false
+  }
+
+  if (entry.licenseStatus === 'blocked' || entry.complianceStatus === 'blocked') {
+    return false
+  }
+
+  if (entry.mediaType === 'scan' || entry.mediaType.includes('screen')) {
+    return false
+  }
+
+  return true
+}
+
+function buildMediaPayload({ game, mediaRows = [] }) {
+  const items = dedupeBy(
+    safeArray(mediaRows).map(normalizeMediaItem).filter(Boolean),
+    (entry) => `${entry.mediaType}::${entry.url}`
+  )
+  const fallbackRows = []
+
+  if (!items.some((entry) => entry.mediaType === 'cover')) {
+    const coverUrl = String(getRecordValue(game, ['cover_url', 'coverImage']) || '').trim()
+    if (coverUrl) {
+      fallbackRows.push({
+        mediaType: 'cover',
+        url: coverUrl,
+        provider: 'igdb',
+        complianceStatus: 'approved_with_review',
+        storageMode: 'external_reference',
+        uiAllowed: true,
+      })
+    }
+  }
+
+  if (!items.some((entry) => entry.mediaType === 'manual')) {
+    const manualUrl = String(getRecordValue(game, ['manual_url', 'manualUrl']) || '').trim()
+    if (manualUrl) {
+      fallbackRows.push({
+        mediaType: 'manual',
+        url: manualUrl,
+        provider: 'internet_archive',
+        complianceStatus: 'reference_only',
+        storageMode: 'external_reference',
+        uiAllowed: true,
+      })
+    }
+  }
+
+  if (!items.some((entry) => entry.mediaType === 'archive_item')) {
+    const archiveId = String(getRecordValue(game, ['archive_id', 'archiveId']) || '').trim()
+    if (archiveId) {
+      const archiveVerified = parseBooleanish(getRecordValue(game, ['archive_verified', 'archiveVerified']))
+      fallbackRows.push({
+        mediaType: 'archive_item',
+        url: `https://archive.org/details/${archiveId}`,
+        provider: 'internet_archive',
+        complianceStatus: archiveVerified === true ? 'reference_only' : 'needs_review',
+        storageMode: 'external_reference',
+        uiAllowed: true,
+      })
+    }
+  }
+
+  if (!items.some((entry) => entry.mediaType === 'youtube_video')) {
+    const youtubeId = String(getRecordValue(game, ['youtube_id', 'youtubeId']) || '').trim()
+    if (youtubeId) {
+      const youtubeVerified = parseBooleanish(getRecordValue(game, ['youtube_verified', 'youtubeVerified']))
+      fallbackRows.push({
+        mediaType: 'youtube_video',
+        url: `https://www.youtube.com/watch?v=${youtubeId}`,
+        provider: 'youtube',
+        complianceStatus: youtubeVerified === true ? 'reference_only' : 'needs_review',
+        storageMode: 'external_reference',
+        uiAllowed: true,
+      })
+    }
+  }
+
+  items.push(...dedupeBy(
+    fallbackRows.map(normalizeMediaItem).filter(Boolean),
+    (entry) => `${entry.mediaType}::${entry.url}`
+  ).filter((entry) => !items.some((existing) => existing.mediaType === entry.mediaType && existing.url === entry.url)))
+
+  const visibleItems = items.filter((entry) => canExposeMediaItem(entry))
+  const covers = visibleItems.filter((entry) => entry.mediaType === 'cover')
+  const manuals = visibleItems.filter((entry) => entry.mediaType === 'manual')
+  const maps = visibleItems.filter((entry) => entry.mediaType === 'map')
+  const sprites = visibleItems.filter((entry) => entry.mediaType === 'sprite_sheet')
+  const screenshots = visibleItems.filter((entry) => entry.mediaType.includes('screen'))
+  const scans = visibleItems.filter((entry) => entry.mediaType === 'scan')
+  const endings = visibleItems.filter((entry) => entry.mediaType === 'ending')
+  const references = visibleItems.filter((entry) => (
+    entry.mediaType === 'archive_item' || entry.mediaType === 'youtube_video'
+  ))
+  const variants = visibleItems.filter((entry) => {
+    if (
+      entry.mediaType === 'manual'
+      || entry.mediaType === 'map'
+      || entry.mediaType === 'sprite_sheet'
+      || entry.mediaType === 'scan'
+      || entry.mediaType === 'ending'
+      || entry.mediaType === 'archive_item'
+      || entry.mediaType === 'youtube_video'
+    ) {
+      return false
+    }
+
+    if (entry.mediaType === 'cover') {
+      return covers.indexOf(entry) > 0
+    }
+
+    return true
+  })
+  const assets = visibleItems.filter((entry) => (
+    entry.mediaType === 'ending'
+    || (
+      entry.mediaType !== 'cover'
+      && entry.mediaType !== 'manual'
+      && entry.mediaType !== 'map'
+      && entry.mediaType !== 'sprite_sheet'
+      && entry.mediaType !== 'archive_item'
+      && entry.mediaType !== 'youtube_video'
+      && entry.mediaType !== 'scan'
+      && !entry.mediaType.includes('screen')
+    )
+  ))
+  const complianceSummary = buildComplianceSummary(visibleItems)
+
+  return {
+    items: visibleItems,
+    covers,
+    manuals,
+    maps,
+    sprites,
+    assets,
+    screenshots,
+    scans,
+    endings,
+    references,
+    variants,
+    complianceSummary,
+    hasData: Boolean(visibleItems.length),
+  }
+}
+
+function buildArchivePayload({ game, production, media, editorial, music, competition, ostReleases = [] }) {
+  const item = game || {}
+  const normalizedMedia = media || buildMediaPayload({ game: item })
+  const normalizedProduction = production || buildProductionPayload({
+    game: item,
+    devTeam: parseStoredJson(item.dev_team, []) || [],
+  })
+  const normalizedEditorial = editorial || {}
+  const normalizedMusic = music || {}
+  const normalizedCompetition = archiveCompetitionPayload(game, normalizedEditorial, competition)
+
+  return {
+    ok: true,
+    id: item.id,
+    title: item.title,
+    manual_url: normalizedMedia.manuals[0]?.url || item.manual_url || null,
+    reference_ids: {
+      youtube_id: getRecordValue(item, ['youtube_id', 'youtubeId']) || null,
+      youtube_verified: parseBooleanish(getRecordValue(item, ['youtube_verified', 'youtubeVerified'])),
+      archive_id: getRecordValue(item, ['archive_id', 'archiveId']) || null,
+      archive_verified: parseBooleanish(getRecordValue(item, ['archive_verified', 'archiveVerified'])),
+    },
+    lore: normalizedEditorial.lore ?? item.lore ?? null,
+    gameplay_description: normalizedEditorial.gameplay_description ?? normalizedEditorial.gameplayDescription ?? item.gameplay_description ?? null,
+    characters: parseStoredJson(normalizedEditorial.characters, null) ?? parseStoredJson(item.characters),
+    versions: parseStoredJson(normalizedEditorial.versions, null) ?? parseStoredJson(item.versions),
+    ost: {
+      composers: safeArray(normalizedMusic.composers).length
+        ? safeArray(normalizedMusic.composers)
+        : parseStoredJson(item.ost_composers),
+      notable_tracks: safeArray(normalizedMusic.tracks).length
+        ? safeArray(normalizedMusic.tracks)
+        : parseStoredJson(item.ost_notable_tracks),
+      releases: safeArray(normalizedMusic.releases).length
+        ? safeArray(normalizedMusic.releases)
+        : safeArray(ostReleases),
+    },
+    duration: {
+      main: normalizedEditorial.avg_duration_main ?? item.avg_duration_main ?? null,
+      complete: normalizedEditorial.avg_duration_complete ?? item.avg_duration_complete ?? null,
+    },
+    speedrun_wr: normalizedCompetition.primaryProjection
+      ?? parseStoredJson(normalizedEditorial.speedrun_wr, null)
+      ?? parseStoredJson(item.speedrun_wr),
+    production: normalizedProduction,
+    media: normalizedMedia,
+    competition: normalizedCompetition.archiveCompetition,
+  }
+}
+
+function buildEncyclopediaPayload(input) {
+  const envelope = input && typeof input === 'object' && Object.prototype.hasOwnProperty.call(input, 'game')
+    ? input
+    : { game: input }
+  const item = envelope.game || {}
+  const editorial = envelope.editorial || {}
+  const production = envelope.production || null
+  const music = envelope.music || null
+  const competition = envelope.competition || null
+  const normalizedCompetition = archiveCompetitionPayload(item, editorial, competition)
+
+  return {
+    ok: true,
+    summary: editorial.summary ?? item.summary ?? null,
+    synopsis: editorial.synopsis ?? item.synopsis ?? editorial.summary ?? item.summary ?? null,
+    lore: editorial.lore ?? item.lore ?? null,
+    gameplay_description: editorial.gameplay_description ?? editorial.gameplayDescription ?? item.gameplay_description ?? null,
+    characters: parseStoredJson(editorial.characters, null) ?? parseStoredJson(item.characters) ?? [],
+    dev_anecdotes: (parseStoredJson(editorial.dev_anecdotes ?? editorial.devNotes, null) ?? parseStoredJson(item.dev_anecdotes) ?? []),
+    dev_team: safeArray(production?.dev_team).length ? safeArray(production.dev_team) : (parseStoredJson(item.dev_team) || []),
+    cheat_codes: (parseStoredJson(editorial.cheat_codes ?? editorial.cheatCodes, null) ?? parseStoredJson(item.cheat_codes) ?? []),
+    versions: parseStoredJson(editorial.versions, null) ?? parseStoredJson(item.versions) ?? [],
+    avg_duration_main: editorial.avg_duration_main ?? item.avg_duration_main ?? null,
+    avg_duration_complete: editorial.avg_duration_complete ?? item.avg_duration_complete ?? null,
+    speedrun_wr: normalizedCompetition.primaryProjection
+      ?? parseStoredJson(editorial.speedrun_wr, null)
+      ?? parseStoredJson(item.speedrun_wr)
+      ?? null,
+    ost_composers: safeArray(music?.composers).length ? safeArray(music.composers) : (parseStoredJson(item.ost_composers) || []),
+    ost_notable_tracks: safeArray(music?.tracks).length ? safeArray(music.tracks) : (parseStoredJson(item.ost_notable_tracks) || []),
+    competition: normalizedCompetition.archiveCompetition,
+  }
+}
+
+function normalizeCompetitionRecord(record) {
+  if (!record || typeof record !== 'object') {
+    return null
+  }
+
+  const value = String(record.value || record.time || record.scoreDisplay || '').trim()
+  if (!value) return null
+  return {
+    label: String(record.label || record.category || 'Record').trim() || 'Record',
+    value,
+    runner: String(record.runner || record.playerHandle || '').trim(),
+    source: String(record.source || record.sourceName || '').trim(),
+    url: String(record.url || record.externalUrl || '').trim() || null,
+    metricType: String(record.metricType || '').trim() || null,
+    rankPosition: Number(record.rankPosition || 0) || null,
+  }
+}
+
+function archiveCompetitionPayload(game, editorial, competition) {
+  const primaryProjection = normalizeCompetitionRecord(competition?.primaryRecord)
+  const archiveCompetition = competition && competition.hasData
+    ? {
+      profile: competition.profile || null,
+      featuredRecords: safeArray(competition.featuredRecords).map(normalizeCompetitionRecord).filter(Boolean),
+      achievementProfile: competition.achievementProfile || null,
+      hasData: true,
+    }
+    : {
+      profile: null,
+      featuredRecords: [],
+      achievementProfile: null,
+      hasData: false,
+    }
+
+  if (!primaryProjection) {
+    const fallback = parseStoredJson(editorial?.speedrun_wr, null) ?? parseStoredJson(game?.speedrun_wr, null)
+    return {
+      archiveCompetition,
+      primaryProjection: fallback,
+    }
+  }
+
+  return {
+    archiveCompetition,
+    primaryProjection: {
+      category: primaryProjection.label,
+      value: primaryProjection.value,
+      time: primaryProjection.metricType === 'time' ? primaryProjection.value : null,
+      runner: primaryProjection.runner || null,
+      source: primaryProjection.source || null,
+      url: primaryProjection.url || null,
+      metricType: primaryProjection.metricType || null,
+    },
+  }
+}
+
+module.exports = {
+  parseStoredJson,
+  normalizeContributor,
+  normalizeCompanyEntry,
+  buildProductionPayload,
+  buildMediaPayload,
+  buildArchivePayload,
+  buildEncyclopediaPayload,
+}

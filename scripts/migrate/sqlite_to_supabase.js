@@ -23,7 +23,28 @@ const BATCH_SIZE = parseInt(
   10
 );
 
-const SUPABASE_URL = process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL;
+function normalizeSupabaseUrl(value) {
+  const trimmed = String(value || '').trim();
+  if (!trimmed) {
+    return '';
+  }
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed;
+  }
+
+  const match = trimmed.match(/db\.([a-z0-9]+)\.supabase\.co/i);
+  if (match) {
+    return `https://${match[1]}.supabase.co`;
+  }
+
+  return trimmed;
+}
+
+const SUPABASE_URL = normalizeSupabaseUrl(
+  process.env.SUPABASE_URL
+  || process.env.SUPABASE_Project_URL
+  || process.env.SUPERDATA_Project_URL
+);
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY
   || process.env.SUPABASE_SERVICE_ROLE_KEY
   || process.env.SUPERDATA_SERVICE_KEY;
@@ -35,12 +56,19 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
   process.exit(1);
 }
 
+if (!/^https?:\/\//i.test(String(SUPABASE_URL))) {
+  console.error('SUPABASE_URL doit etre une URL HTTP(S) Supabase REST, pas un DSN Postgres.');
+  process.exit(1);
+}
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
   auth: { persistSession: false },
 });
 
+const sqliteDialectModule = require(path.join(repoRoot, 'backend', 'node_modules', 'sqlite3'));
 const sqlite = new Sequelize({
   dialect: 'sqlite',
+  dialectModule: sqliteDialectModule,
   storage: SQLITE_PATH,
   logging: false,
 });

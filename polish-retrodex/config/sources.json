@@ -1,0 +1,219 @@
+{
+  "pixel_warehouse": {
+    "source_name": "pixel_warehouse",
+    "source_type": "catalog_seed",
+    "base_url": "https://pixel.garoux.net",
+    "index_url": "https://pixel.garoux.net/gameList/",
+    "default_page_limit": 3,
+    "enrich_details": true,
+    "allowed_asset_types": []
+  },
+  "vgmaps": {
+    "source_name": "vgmaps",
+    "source_type": "external_map_index",
+    "base_url": "https://www.vgmaps.com",
+    "atlas_url": "https://www.vgmaps.com/Atlas/index.htm",
+    "allowed_asset_types": [
+      "map"
+    ],
+    "asset_defaults": {
+      "license_status": "reference_only",
+      "ui_allowed": true
+    }
+  },
+  "vgmuseum": {
+    "source_name": "vgmuseum",
+    "source_type": "external_asset_archive",
+    "base_url": "https://www.vgmuseum.com",
+    "ui_allowed_types": [
+      "manual",
+      "sprite_sheet",
+      "ending"
+    ],
+    "review_only_types": [
+      "scan",
+      "screenshot"
+    ],
+    "sections": {
+      "screenshots_gb": {
+        "label": "Game Boy Gamepics",
+        "entry_url": "https://www.vgmuseum.com/images/gb.htm",
+        "parser": "frameset_gamepics",
+        "platform_raw": "Game Boy",
+        "asset_type": "screenshot",
+        "asset_subtype": "gamepics",
+        "review_only": true
+      },
+      "manuals_gameboy": {
+        "label": "Game Boy Scans",
+        "entry_url": "https://www.vgmuseum.com/scans/gameboy.html",
+        "parser": "scans_page",
+        "platform_raw": "Game Boy",
+        "asset_type": "manual",
+        "asset_subtype": "manual"
+      },
+      "manuals_nes": {
+        "label": "NES Scans",
+        "entry_url": "https://www.vgmuseum.com/scans/nes.html",
+        "parser": "scans_page",
+        "platform_raw": "NES",
+        "asset_type": "manual",
+        "asset_subtype": "manual"
+      },
+      "manuals_snes": {
+        "label": "SNES Scans",
+        "entry_url": "https://www.vgmuseum.com/scans/snes.html",
+        "parser": "scans_page",
+        "platform_raw": "SNES",
+        "asset_type": "manual",
+        "asset_subtype": "manual"
+      },
+      "manuals_n64": {
+        "label": "Nintendo 64 Scans",
+        "entry_url": "https://www.vgmuseum.com/scans/n64.html",
+        "parser": "scans_page",
+        "platform_raw": "Nintendo 64",
+        "asset_type": "manual",
+        "asset_subtype": "manual"
+      },
+      "manuals_psx": {
+        "label": "PlayStation Scans",
+        "entry_url": "https://www.vgmuseum.com/scans/psx.html",
+        "parser": "scans_page",
+        "platform_raw": "PlayStation",
+        "asset_type": "manual",
+        "asset_subtype": "manual"
+      },
+      "manuals_gba": {
+        "label": "Game Boy Advance Scans",
+        "entry_url": "https://www.vgmuseum.com/scans/gba.html",
+        "parser": "scans_page",
+        "platform_raw": "Game Boy Advance",
+        "asset_type": "manual",
+        "asset_subtype": "manual"
+      },
+      "endings_gb": {
+        "label": "Game Boy Endings",
+        "entry_url": "https://www.vgmuseum.com/end/gb",
+        "parser": "simple_list",
+        "platform_raw": "Game Boy",
+        "asset_type": "ending",
+        "asset_subtype": "ending_gallery"
+      },
+      "endings_nes": {
+        "label": "NES Endings",
+        "entry_url": "https://www.vgmuseum.com/end/nes",
+        "parser": "simple_list",
+        "platform_raw": "NES",
+        "asset_type": "ending",
+        "asset_subtype": "ending_gallery"
+      },
+      "endings_snes": {
+        "label": "SNES Endings",
+        "entry_url": "https://www.vgmuseum.com/end/snes",
+        "parser": "simple_list",
+        "platform_raw": "SNES",
+        "asset_type": "ending",
+        "asset_subtype": "ending_gallery"
+      },
+      "endings_n64": {
+        "label": "Nintendo 64 Endings",
+        "entry_url": "https://www.vgmuseum.com/end/n64",
+        "parser": "simple_list",
+        "platform_raw": "Nintendo 64",
+        "asset_type": "ending",
+        "asset_subtype": "ending_gallery"
+      },
+      "endings_psx": {
+        "label": "PlayStation Endings",
+        "entry_url": "https://www.vgmuseum.com/end/psx",
+        "parser": "simple_list",
+        "platform_raw": "PlayStation",
+        "asset_type": "ending",
+        "asset_subtype": "ending_gallery"
+      },
+      "endings_saturn": {
+        "label": "Saturn Endings",
+        "entry_url": "https://www.vgmuseum.com/end/saturn",
+        "parser": "simple_list",
+        "platform_raw": "Saturn",
+        "asset_type": "ending",
+        "asset_subtype": "ending_gallery"
+      },
+      "endings_genesis": {
+        "label": "Genesis Endings",
+        "entry_url": "https://www.vgmuseum.com/end/genesis",
+        "parser": "simple_list",
+        "platform_raw": "Mega Drive",
+        "asset_type": "ending",
+        "asset_subtype": "ending_gallery"
+      },
+      "endings_gba": {
+        "label": "Game Boy Advance Endings",
+        "entry_url": "https://www.vgmuseum.com/end/gba",
+        "parser": "simple_list",
+        "platform_raw": "Game Boy Advance",
+        "asset_type": "ending",
+        "asset_subtype": "ending_gallery"
+      },
+      "endings_nds": {
+        "label": "Nintendo DS Endings",
+        "entry_url": "https://www.vgmuseum.com/end/nds",
+        "parser": "simple_list",
+        "platform_raw": "Nintendo DS",
+        "asset_type": "ending",
+        "asset_subtype": "ending_gallery"
+      },
+      "endings_neogeo": {
+        "label": "Neo-Geo Endings",
+        "entry_url": "https://www.vgmuseum.com/end/neogeo",
+        "parser": "simple_list",
+        "platform_raw": "Neo Geo",
+        "asset_type": "ending",
+        "asset_subtype": "ending_gallery"
+      },
+      "endings_tg16": {
+        "label": "TurboGrafx-16 Endings",
+        "entry_url": "https://www.vgmuseum.com/end/tg16",
+        "parser": "simple_list",
+        "platform_raw": "TurboGrafx-16",
+        "asset_type": "ending",
+        "asset_subtype": "ending_gallery"
+      },
+      "endings_td": {
+        "label": "TurboGrafx CD Endings",
+        "entry_url": "https://www.vgmuseum.com/end/td",
+        "parser": "simple_list",
+        "platform_raw": "TurboGrafx-16",
+        "asset_type": "ending",
+        "asset_subtype": "ending_gallery"
+      },
+      "rips_snes": {
+        "label": "SNES Sprite Rips",
+        "entry_url": "https://www.vgmuseum.com/rips/snes",
+        "parser": "rips_list",
+        "platform_raw": "SNES",
+        "asset_type": "sprite_sheet",
+        "asset_subtype": "sprite_rip",
+        "exclude_title_patterns": [
+          "^.+\\sseries$"
+        ]
+      },
+      "rips_neogeo": {
+        "label": "Neo-Geo Sprite Rips",
+        "entry_url": "https://www.vgmuseum.com/rips/neogeo",
+        "parser": "rips_list",
+        "platform_raw": "Neo Geo",
+        "asset_type": "sprite_sheet",
+        "asset_subtype": "sprite_rip",
+        "exclude_title_patterns": [
+          "^neo geo system$"
+        ]
+      }
+    },
+    "asset_defaults": {
+      "license_status": "reference_only",
+      "ui_allowed": true
+    }
+  }
+}

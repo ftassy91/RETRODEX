@@ -4,17 +4,35 @@ const { sequelize } = require("../database");
 const CollectionItem = sequelize.define(
   "CollectionItem",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+      field: "id",
+    },
+    userId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "local",
+      field: "user_id",
+    },
+    userSession: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: "local",
+      field: "user_session",
+    },
     gameId: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
-      field: "gameId",
+      field: "game_id",
     },
     addedAt: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
       defaultValue: DataTypes.NOW,
-      field: "addedAt",
+      field: "added_at",
     },
     condition: {
       type: DataTypes.STRING,
@@ -56,6 +74,18 @@ const CollectionItem = sequelize.define(
       type: DataTypes.FLOAT,
       allowNull: true,
       field: "price_threshold",
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      field: "created_at",
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      field: "updated_at",
     },
   },
   {

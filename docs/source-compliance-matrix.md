@@ -62,6 +62,27 @@
 
 ## Approved with review
 
+### MusicBrainz core datasets
+
+- Status: `approved_with_review`
+- Allowed use:
+  - soundtrack release metadata
+  - composer / artist credits from canonical core data
+  - track titles and ordering when the source stays inside the canonical/core dataset perimeter
+  - local dataset-based matching and enrichment helpers
+- Restrictions:
+  - ne pas utiliser le Web Service comme voie principale d'ingestion produit
+  - limiter l'usage aux exports ou datasets locaux structures et traçables
+  - exclure les portions non-core / non-CC0 / non-canoniques
+  - conserver l'identifiant MusicBrainz source et l'URL de référence quand disponible
+- Product scope:
+  - `source_records`
+  - `field_provenance`
+  - `people`
+  - `game_people`
+  - `ost_releases`
+  - `ost_tracks`
+
 ### IGDB / Twitch
 
 - Status: `approved_with_review`
@@ -91,7 +112,59 @@
   - `market_snapshots`
   - verification / corroboration de prix
 
+### speedrun.com API
+
+- Status: `approved_with_review`
+- Allowed use:
+  - leaderboard categories
+  - primary WR / best-score snapshots
+  - external leaderboard URLs
+  - limited top-N entries for product reading
+- Restrictions:
+  - pas de copie locale de medias ni d'assets
+  - conserver provenance, categorie, URL externe et date d'observation
+  - ne stocker qu'un snapshot utile produit, pas l'integralite des leaderboards
+- Product scope:
+  - `game_competitive_profiles`
+  - `game_record_categories`
+  - `game_record_entries`
+  - projection `games.speedrun_wr`
+
+### RetroAchievements API
+
+- Status: `approved_with_review`
+- Allowed use:
+  - leaderboards
+  - high scores
+  - achievement and mastery summaries
+  - external URLs and ranking context
+- Restrictions:
+  - cle API requise
+  - provenance explicite sur chaque resume competitif
+  - pas de collecte massive inutile hors top 1000 cible
+- Product scope:
+  - `game_competitive_profiles`
+  - `game_record_categories`
+  - `game_record_entries`
+  - `game_achievement_profiles`
+
 ## Reference only
+
+### libretro-database
+
+- Status: `reference_only`
+- Allowed use:
+  - local title/platform matching help
+  - alias and normalization hints
+  - extension-band candidate validation
+- Restrictions:
+  - jamais comme vérité produit exposée
+  - pas de persistance comme source éditoriale canonique
+  - seulement comme aide de matching / disambiguation interne
+- Product scope:
+  - local matching helpers
+  - pre-ingestion validation
+  - extension-band resolution
 
 ### Internet Archive
 
@@ -105,6 +178,54 @@
   - tous les enregistrements doivent etre marques `rights_uncertain` tant qu'une revue juridique plus forte n'est pas faite
 - Product scope:
   - `media_references`
+
+### Pixel Warehouse
+
+- Status: `approved_with_review`
+- Allowed use:
+  - `catalog_seed` only
+  - source discovery of game title / platform / detail page URL
+  - optional metadata-only capture of contributor names and sprite counts
+- Restrictions:
+  - no ZIP ingestion
+  - no inline sprite PNG ingestion
+  - no asset publication to UI
+  - no local storage of binaries
+- Product scope:
+  - `source_records`
+  - `field_provenance`
+
+### VGMaps
+
+- Status: `reference_only`
+- Allowed use:
+  - direct external `map` links
+  - contributor and technical metadata used as provenance
+- Restrictions:
+  - no local copy of map binaries
+  - variants marked `prototype`, `unlicensed`, `unmarked` require review
+  - publish only after canonical game match + healthcheck
+- Product scope:
+  - `media_references`
+  - `source_records`
+  - `field_provenance`
+
+### VGMuseum
+
+- Status: `reference_only`
+- Allowed use:
+  - `manual`
+  - `ending`
+  - `sprite_sheet`
+  - `scan` / `screenshot` for review-stage discovery only
+- Restrictions:
+  - no local storage of scans, screenshots, sprites, manuals
+  - reject one-off GIF poses, still rips, series-level ambiguous pages
+  - `scan` and `screenshot` stay out of UI v1
+- Product scope:
+  - `media_references`
+  - `source_records`
+  - `field_provenance`
 
 ## Blocked by default
 

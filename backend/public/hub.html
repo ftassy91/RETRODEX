@@ -11,177 +11,47 @@
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="icon" type="image/png" href="/icons/icon-192.png">
   <title>RETRODEX</title>
-  <meta name="description" content="RetroDex — catalogue retro, prix de marche, encyclopedie et collection.">
+  <meta name="description" content="Point d'entree RetroDex.">
   <meta property="og:title" content="RETRODEX">
-  <meta property="og:description" content="RetroDex — catalogue retro, prix de marche, encyclopedie et collection.">
+  <meta property="og:description" content="Point d'entree RetroDex.">
   <meta property="og:type" content="website">
   <meta name="robots" content="index, follow">
-  <link rel="stylesheet" href="/style.css?v=20260327b">
+  <link rel="stylesheet" href="/style.css?v=20260330b">
 </head>
 <body class="hub-page">
-  <a href="#main-content" class="skip-link">Skip to content</a>
-
-  <nav class="site-nav" aria-label="Navigation">
-    <div class="site-nav-links"><a class="site-nav-link" href="/hub.html"><span class="site-nav-cursor">▶</span><span>RetroDex</span></a>
-      <a class="site-nav-link" href="/games-list.html">
-        <span class="site-nav-cursor">&#9654;</span>
-        <span>Catalogue</span>
-        <span class="site-nav-desc">Jeux &middot; Consoles &middot; Franchises</span>
-      </a>
-      <a class="site-nav-link" href="/collection.html">
-        <span class="site-nav-cursor">&#9654;</span>
-        <span>Ma Collection</span>
-        <span class="site-nav-desc">&Eacute;tag&egrave;re &middot; Wishlist &middot; Suivi</span>
-      </a>
-    </div>
-  </nav>
-
-  <!-- NAV BAR (legacy, hidden) -->
-  <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
-    <a class="global-product-home is-active" href="/hub.html">Hub</a>
-    <div class="global-product-links">
-      <a class="global-product-link is-market" href="/stats.html">
-        <span class="nav-label">RetroMarket</span>
-        <span class="nav-copy">prix | tendances | marche</span>
-      </a>
-      <a class="global-product-link" href="/games-list.html">
-        <span class="nav-label">RetroDex</span>
-        <span class="nav-copy">fiches | lore | encyclopedie</span>
-      </a>
-      <a class="global-product-link" href="/collection.html">
-        <span class="nav-label">Collections</span>
-        <span class="nav-copy">etagere | wishlist | suivi</span>
-      </a>
-    </div>
-  </nav>
-
-  <main id="main-content" class="hub-page">
-
-    <!-- HERO: Search Engine -->
-    <section class="hub-hero-search">
-      <div class="hub-hero-search-inner">
-        <div class="hub-hero-kicker">TERMINAL v0.3</div>
-        <h1 class="hub-hero-title">RETRODEX</h1>
-        <form class="hub-hero-form" action="/search.html" method="get" role="search">
-          <div class="hub-hero-input-wrap">
-            <span class="hub-hero-input-icon" aria-hidden="true">&#9906;</span>
-            <input
-              id="hub-search-input"
-              class="hub-hero-input search-input"
-              type="search"
-              name="q"
-              placeholder="Rechercher un jeu, une console, une franchise..."
-              aria-label="Rechercher un jeu, une console, une franchise"
-              autocomplete="off"
-              autofocus
-              spellcheck="false"
-            >
-            <kbd class="hub-hero-kbd" aria-hidden="true">/</kbd>
-          </div>
+  <main class="page-wrapper" style="min-height:100vh;display:flex;align-items:center;justify-content:center;">
+    <section style="width:min(720px,100%);display:grid;gap:1rem;">
+      <div class="terminal-context" style="padding-left:0;">HUB</div>
+      <div class="terminal-preview-panel surface-preview-panel" style="display:block;padding:2rem;">
+        <div class="terminal-preview-label">ENTRY POINT</div>
+        <div class="terminal-preview-title" style="font-size:clamp(2rem,6vw,4rem);line-height:1;">RETRODEX</div>
+        <p id="hub-curation-banner" class="pass1-surface-banner">PASS 1 curated | chargement des signaux de publication.</p>
+        <p class="surface-query-helper">Surface publique curee, details enrichis, extension progressive vers l ensemble de la base.</p>
+        <form class="surface-query-shell" action="/search.html" method="get" style="margin-top:1rem;">
+          <input
+            id="hub-search-input"
+            class="hub-search-input"
+            type="search"
+            name="q"
+            placeholder="titre, console, franchise..."
+            aria-label="Rechercher"
+            autocomplete="off"
+            autofocus
+            spellcheck="false"
+          >
+          <button class="hub-search-button" type="submit">ENTRER</button>
         </form>
-        <p class="hub-hero-stats" id="hub-hero-stats">
-          <span class="hub-hero-stat-pill" id="hero-stat-games">...</span>
-          <span class="hub-hero-stat-sep" aria-hidden="true">&middot;</span>
-          <span class="hub-hero-stat-pill" id="hero-stat-consoles">...</span>
-          <span class="hub-hero-stat-sep" aria-hidden="true">&middot;</span>
-          <span class="hub-hero-stat-pill" id="hero-stat-franchises">...</span>
-        </p>
+        <div class="page-nav-inline">
+          <a href="/games-list.html">Catalogue</a>
+          <span>&middot;</span>
+          <a href="/consoles.html">Consoles</a>
+          <span>&middot;</span>
+          <a href="/search.html">Recherche</a>
+        </div>
       </div>
     </section>
-
-    <!-- DATAVIZ GRID -->
-    <section class="hub-dataviz" aria-label="Visualisation des donnees">
-      <div class="hub-dataviz-grid">
-
-        <!-- Par Console -->
-        <div class="hub-viz-card">
-          <div class="hub-viz-card-head">
-            <span class="hub-viz-card-kicker">DISTRIBUTION</span>
-            <h2 class="hub-viz-card-title">PAR CONSOLE</h2>
-          </div>
-          <div class="hub-viz-card-body" id="viz-by-console">
-            <div class="hub-viz-loading">Chargement...</div>
-          </div>
-        </div>
-
-        <!-- Par Rarete -->
-        <div class="hub-viz-card">
-          <div class="hub-viz-card-head">
-            <span class="hub-viz-card-kicker">CLASSIFICATION</span>
-            <h2 class="hub-viz-card-title">PAR RARETE</h2>
-          </div>
-          <div class="hub-viz-card-body" id="viz-by-rarity">
-            <div class="hub-viz-loading">Chargement...</div>
-          </div>
-        </div>
-
-        <!-- Par Prix -->
-        <div class="hub-viz-card">
-          <div class="hub-viz-card-head">
-            <span class="hub-viz-card-kicker">MARCHE</span>
-            <h2 class="hub-viz-card-title">PAR PRIX LOOSE</h2>
-          </div>
-          <div class="hub-viz-card-body" id="viz-by-price">
-            <div class="hub-viz-loading">Chargement...</div>
-          </div>
-        </div>
-
-        <!-- Top Cotes -->
-        <div class="hub-viz-card">
-          <div class="hub-viz-card-head">
-            <span class="hub-viz-card-kicker">VALEUR</span>
-            <h2 class="hub-viz-card-title">TOP COTES</h2>
-          </div>
-          <div class="hub-viz-card-body" id="viz-top-expensive">
-            <div class="hub-viz-loading">Chargement...</div>
-          </div>
-        </div>
-
-        <!-- Par Decennie -->
-        <div class="hub-viz-card">
-          <div class="hub-viz-card-head">
-            <span class="hub-viz-card-kicker">CHRONOLOGIE</span>
-            <h2 class="hub-viz-card-title">PAR DECENNIE</h2>
-          </div>
-          <div class="hub-viz-card-body" id="viz-by-decade">
-            <div class="hub-viz-loading">Chargement...</div>
-          </div>
-        </div>
-
-        <!-- Metascores -->
-        <div class="hub-viz-card">
-          <div class="hub-viz-card-head">
-            <span class="hub-viz-card-kicker">CRITIQUE</span>
-            <h2 class="hub-viz-card-title">METASCORES</h2>
-          </div>
-          <div class="hub-viz-card-body" id="viz-by-metascore">
-            <div class="hub-viz-loading">Chargement...</div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- RETRO MENU -->
-    <nav class="retro-menu" aria-label="Menu principal" role="menu">
-      <div class="retro-menu-title">&mdash; SELECT DESTINATION &mdash;</div>
-      <a href="/games-list.html" class="retro-menu-item is-active" role="menuitem">
-        <span class="retro-cursor" aria-hidden="true">&#9654;</span>
-        <span class="retro-menu-label">CATALOGUE</span>
-        <span class="retro-menu-desc">Jeux &middot; Consoles &middot; Franchises &middot; Encyclop&eacute;die</span>
-      </a>
-      <a href="/collection.html" class="retro-menu-item" role="menuitem">
-        <span class="retro-cursor" aria-hidden="true">&#9654;</span>
-        <span class="retro-menu-label">MA COLLECTION</span>
-        <span class="retro-menu-desc">&Eacute;tag&egrave;re &middot; Wishlist &middot; Suivi de valeur</span>
-      </a>
-    </nav>
-
   </main>
-
-  <script src="/js/core/dom.js"></script>
-  <script src="/js/core/format.js"></script>
   <script src="/js/core/api.js"></script>
-  <script src="/js/pages/hub.js?v=20260327b"></script>
+  <script src="/js/pages/hub-curated.js?v=20260330a"></script>
 </body>
 </html>

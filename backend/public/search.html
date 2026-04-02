@@ -10,7 +10,7 @@
     <meta property="og:description" content="Recherche globale RetroDex : jeux, consoles et franchises." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260326c" />
+    <link rel="stylesheet" href="/style.css?v=20260330b" />
     <style>
       .search-count-label {
         font-size: 9px;
@@ -22,40 +22,31 @@
     </style>
   </head>
   <body>
-    <a href="#main-content" class="skip-link">Skip to content</a>
-    <nav class="site-nav" aria-label="Navigation">
-      <div class="site-nav-links"><a class="site-nav-link" href="/hub.html"><span class="site-nav-cursor">▶</span><span>RetroDex</span></a>
-        <a class="site-nav-link" href="/games-list.html">
-          <span class="site-nav-cursor">▶</span>
-          <span>Catalogue</span>
-          <span class="site-nav-desc">Jeux · Consoles · Franchises</span>
-        </a>
-        <a class="site-nav-link" href="/collection.html">
-          <span class="site-nav-cursor">▶</span>
-          <span>Ma Collection</span>
-          <span class="site-nav-desc">Étagère · Wishlist · Suivi</span>
-        </a>
-      </div>
-    </nav>
-    <nav class="global-product-nav" aria-label="Navigation RetroDex">
+    <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
       <a class="global-product-home" href="/hub.html">Hub</a>
       <div class="global-product-links">
-        <a class="global-product-link is-catalogue is-active" href="/games-list.html">
-          <span class="nav-label">Catalogue</span>
-          <span class="nav-copy">jeux · consoles · franchises</span>
+        <a class="global-product-link is-market" href="/stats.html">
+          <span class="nav-label">RetroMarket</span>
+          <span class="nav-copy">prix | tendances | marché</span>
         </a>
-        <a class="global-product-link is-collection" href="/collection.html">
-          <span class="nav-label">Ma Collection</span>
-          <span class="nav-copy">étagère · wishlist · suivi</span>
+        <a class="global-product-link" href="/games-list.html">
+          <span class="nav-label">RetroDex</span>
+          <span class="nav-copy">catalogue | fiches | prix</span>
+        </a>
+        <a class="global-product-link" href="/collection.html">
+          <span class="nav-label">Collections</span>
+          <span class="nav-copy">étagère | wishlist | suivi</span>
+        </a>
+        <a class="global-product-link is-active" href="/search.html">
+          <span class="nav-label">Recherche</span>
+          <span class="nav-copy">recherche universelle</span>
         </a>
       </div>
     </nav>
-    <main id="main-content" class="page-wrapper">
-      <nav class="breadcrumb" aria-label="Fil d'ariane">
-        <a href="/hub.html">HUB</a>
-        <span class="sep" aria-hidden="true">›</span>
-        <span class="current">RECHERCHE</span>
-      </nav>
+    <div class="page-wrapper">
+      <div class="terminal-context">
+        HUB > <span class="ctx-active">RECHERCHE</span>
+      </div>
 
       <div class="terminal-query-line surface-query-shell">
         <span class="terminal-query-label">QUERY :</span>
@@ -66,9 +57,12 @@
           placeholder="titre, console, franchise..."
           autocomplete="off"
           autofocus
-          aria-label="Search games"
         />
         <span class="terminal-query-count" id="search-router-count"></span>
+      </div>
+
+      <div id="search-curation-banner" class="pass1-surface-banner">
+        PASS 1 curated | recherche limitee aux jeux publies.
       </div>
 
       <div id="search-core-count" class="search-count-label"></div>
@@ -77,17 +71,17 @@
       <div class="footer-igdb">
         Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
       </div>
-    </main>
+    </div>
 
     <script src="/js/core/config.js"></script>
     <script src="/js/core/dom.js"></script>
     <script src="/js/core/format.js"></script>
     <script src="/js/core/api.js"></script>
     <script src="/js/core/state.js"></script>
-    <script src="/js/core/search-core.js?v=20260326c"></script>
+    <script src="/js/core/search-core.js?v=20260330b"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/search.js?v=20260326c"></script>
+    <script src="/js/pages/search.js?v=20260330b"></script>
     <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>

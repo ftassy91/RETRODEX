@@ -116,6 +116,36 @@
     `
   }
 
+  function renderPresenceBadges(signals = {}) {
+    const badges = []
+    if (signals.hasMaps) badges.push('<span class="console-demo-badge">MAP</span>')
+    if (signals.hasManuals) badges.push('<span class="console-demo-badge">MANUAL</span>')
+    if (signals.hasSprites) badges.push('<span class="console-demo-badge">SPRITE</span>')
+    if (signals.hasEndings) badges.push('<span class="console-demo-badge">ENDING</span>')
+    return badges.length
+      ? `<div class="console-demo-signal-row">${badges.join('')}</div>`
+      : ''
+  }
+
+  function renderDemoGames(items, underfilled = false) {
+    if (!Array.isArray(items) || !items.length) {
+      return `<div class="console-detail-empty">Aucun jeu demo publie pour cette console.</div>`
+    }
+
+    return `
+      <div class="console-demo-grid">
+        ${items.map((item) => `
+          <a class="console-demo-card" href="/game-detail.html?id=${encodeURIComponent(item.id)}">
+            <div class="console-demo-title">${escapeHtml(item.title || 'Jeu')}</div>
+            <div class="console-demo-meta">${escapeHtml(item.year || 'n/a')} | ${escapeHtml(item.rarity || 'n/a')}</div>
+            ${renderPresenceBadges(item.signals || {})}
+          </a>
+        `).join('')}
+      </div>
+      ${underfilled ? '<div class="console-section-footnote">Console underfilled : tous les jeux publies disponibles sont affiches.</div>' : ''}
+    `
+  }
+
   async function renderHardwareVisual(payload) {
     const consoleInfo = payload.console || {}
     const hardware = payload.hardware || {}
@@ -165,6 +195,8 @@
     const sources = payload.sources || []
     const relatedConsoles = payload.relatedConsoles || []
     const notableGames = payload.notableGames || []
+    const demoGames = payload.demoGames || []
+    const publication = payload.publication || {}
     const games = payload.games || []
 
     const visuals = await renderHardwareVisual(payload)
@@ -207,6 +239,7 @@
               <span class="surface-chip">${escapeHtml(`Score ${quality.score ?? 0}`)}</span>
               <span class="surface-chip">${escapeHtml(`${market.pricedGames || 0} jeux prices`)}</span>
             </div>
+            <div class="console-section-footnote">${escapeHtml(`${publication.label || 'PASS 1 curated'} | ${publication.publishedGamesCount || 0} jeux publies | ${publication.consoleCount || 0} consoles`)}</div>
             <div class="console-market-quick-grid">
               ${marketCards.map((card) => `
                 <div class="surface-signal-card">
@@ -257,6 +290,8 @@
             ${listMarkup(hardware.notableFeatures || [], 'Aucune fonction notable documentee.')}
             <div class="console-subsection-label">Consoles voisines</div>
             ${renderRelated(relatedConsoles)}
+            <div class="console-subsection-label">PASS 1 demos</div>
+            ${renderDemoGames(demoGames, Boolean(publication.underfilled))}
             <div class="console-subsection-label">Titres notables</div>
             ${renderNotableGames(notableGames)}
           `)}

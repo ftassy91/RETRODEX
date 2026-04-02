@@ -1,6 +1,7 @@
 'use strict';
 ;(() => {
   const cache = new Map();
+  let lastPayload = null;
 
   const CTX = {
     all: { label: 'TOUS' },
@@ -36,7 +37,8 @@
 
     const key = JSON.stringify({ trimmed, filters, nextContext, limit });
     if (cache.has(key)) {
-      return cache.get(key);
+      lastPayload = cache.get(key);
+      return lastPayload.items || [];
     }
 
     const url = new URL('/api/search/global', window.location.origin);
@@ -66,7 +68,14 @@
       items = items.filter((item) => item.meta?.metascore != null);
     }
 
-    cache.set(key, items);
+    const nextPayload = {
+      ...payload,
+      items,
+      count: items.length,
+    };
+
+    cache.set(key, nextPayload);
+    lastPayload = nextPayload;
     return items;
   }
 
@@ -85,11 +94,16 @@
     };
   }
 
+  function getLastPayload() {
+    return lastPayload;
+  }
+
   window.RetroDexSearch = {
     search,
     invalidate,
     preload,
     status,
+    lastPayload: getLastPayload,
     CTX,
   };
 })();

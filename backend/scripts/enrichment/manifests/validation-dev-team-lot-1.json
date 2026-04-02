@@ -1,0 +1,108 @@
+{
+  "batchKey": "validation_dev_team_lot_1",
+  "batchType": "dev_team",
+  "reviewStatus": "ready",
+  "notes": "Validation batch for manifest-first dev team pipeline on safe legacy developer-backed games",
+  "sources": [
+    "internal"
+  ],
+  "writeTargets": [
+    "games",
+    "game_people",
+    "people",
+    "source_records",
+    "field_provenance"
+  ],
+  "publishDomains": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "postChecks": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "payload": [
+    {
+      "gameId": "duck-hunt-nintendo-entertainment-system",
+      "title": "Duck Hunt",
+      "devTeam": [
+        {
+          "role": "developer",
+          "name": "Nintendo R&D1"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.72,
+      "notes": "Validation batch seeded from existing canonical developer signal",
+      "isInferred": true
+    },
+    {
+      "gameId": "excitebike-nintendo-entertainment-system",
+      "title": "Excitebike",
+      "devTeam": [
+        {
+          "role": "developer",
+          "name": "Nintendo R&D1"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.72,
+      "notes": "Validation batch seeded from existing canonical developer signal",
+      "isInferred": true
+    },
+    {
+      "gameId": "ice-climber-nintendo-entertainment-system",
+      "title": "Ice Climber",
+      "devTeam": [
+        {
+          "role": "developer",
+          "name": "Nintendo R&D3"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.72,
+      "notes": "Validation batch seeded from existing canonical developer signal",
+      "isInferred": true
+    },
+    {
+      "gameId": "castlevania-nintendo-entertainment-system",
+      "title": "Castlevania",
+      "devTeam": [
+        {
+          "role": "developer",
+          "name": "Konami"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.72,
+      "notes": "Validation batch seeded from existing canonical developer signal",
+      "isInferred": true
+    },
+    {
+      "gameId": "metroid-nintendo-entertainment-system",
+      "title": "Metroid",
+      "devTeam": [
+        {
+          "role": "developer",
+          "name": "Nintendo R&D1"
+        }
+      ],
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.72,
+      "notes": "Validation batch seeded from existing canonical developer signal",
+      "isInferred": true
+    }
+  ]
+}

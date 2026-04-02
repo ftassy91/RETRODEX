@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -11,88 +11,72 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <title>RetroDex &mdash; Fiche jeu</title>
-    <meta name="description" content="Fiche RetroDex d'un jeu rétro : rareté, encyclopédie et collection." />
+    <meta name="description" content="Fiche RetroDex d'un jeu rÃ©tro : raretÃ©, encyclopÃ©die et collection." />
     <meta property="og:title" content="Fiche jeu | RetroDex" />
-    <meta property="og:description" content="Fiche RetroDex d'un jeu rétro : rareté, encyclopédie et collection." />
+    <meta property="og:description" content="Fiche RetroDex d'un jeu rÃ©tro : raretÃ©, encyclopÃ©die et collection." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260327a" />
+    <link rel="stylesheet" href="/style.css?v=20260330c" />
   </head>
   <body>
-    <a href="#main-content" class="skip-link">Skip to content</a>
-    <nav class="site-nav" aria-label="Navigation">
-      <div class="site-nav-links"><a class="site-nav-link" href="/hub.html"><span class="site-nav-cursor">▶</span><span>RetroDex</span></a>
-        <a class="site-nav-link is-active" href="/games-list.html">
-          <span class="site-nav-cursor">▶</span>
-          <span>Catalogue</span>
-          <span class="site-nav-desc">Jeux · Consoles · Franchises</span>
-        </a>
-        <a class="site-nav-link" href="/collection.html">
-          <span class="site-nav-cursor">▶</span>
-          <span>Ma Collection</span>
-          <span class="site-nav-desc">Étagère · Wishlist · Suivi</span>
-        </a>
-      </div>
-    </nav>
-    <nav class="global-product-nav" aria-label="Navigation RetroDex">
+    <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
       <a class="global-product-home" href="/hub.html">Hub</a>
       <div class="global-product-links">
-        <a class="global-product-link is-catalogue is-active" href="/games-list.html">
-          <span class="nav-label">Catalogue</span>
-          <span class="nav-copy">jeux · consoles · franchises</span>
+        <a class="global-product-link is-market" href="/stats.html">
+          <span class="nav-label">RetroMarket</span>
+          <span class="nav-copy">prix | tendances | marché</span>
         </a>
-        <a class="global-product-link is-collection" href="/collection.html">
-          <span class="nav-label">Ma Collection</span>
-          <span class="nav-copy">étagère · wishlist · suivi</span>
+        <a class="global-product-link is-active" href="/games-list.html">
+          <span class="nav-label">RetroDex</span>
+          <span class="nav-copy">catalogue | fiches | prix</span>
+        </a>
+        <a class="global-product-link" href="/collection.html">
+          <span class="nav-label">Collections</span>
+          <span class="nav-copy">étagère | wishlist | suivi</span>
+        </a>
+        <a class="global-product-link" href="/search.html">
+          <span class="nav-label">Recherche</span>
+          <span class="nav-copy">recherche universelle</span>
         </a>
       </div>
     </nav>
-    <main id="main-content" class="detail-shell detail-unified">
-
-      <nav class="breadcrumb" aria-label="Fil d'ariane">
+    <main class="detail-shell">
+      <nav class="breadcrumb">
         <a href="/hub.html">HUB</a>
-        <span class="sep" aria-hidden="true">›</span>
-        <a href="/games-list.html">EXPLORER</a>
-        <span class="sep" aria-hidden="true">›</span>
+        <span class="sep">&rsaquo;</span>
+        <a id="catalog-back-link" href="/games-list.html">CATALOGUE</a>
+        <span class="sep">&rsaquo;</span>
         <span class="current" id="breadcrumb-title">&mdash;</span>
       </nav>
 
-      <!-- HERO: cover + title + meta + save -->
       <section id="hero" class="hero-card">
         <div class="loading-card">Chargement...</div>
       </section>
 
-      <!-- SYNOPSIS -->
-      <section id="synopsis-section" class="unified-section" hidden>
-        <h2 class="unified-section-title">SYNOPSIS</h2>
-        <div id="synopsis-body" class="unified-section-body"></div>
+      <section id="editorial-shell" class="editorial-card detail-accordion" hidden>
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="editorial-content">
+          <span>RetroDex / Encyclopédie</span>
+          <span class="detail-accordion-indicator">▸</span>
+        </button>
+        <div id="editorial-content" class="detail-accordion-content" hidden></div>
       </section>
 
-      <!-- NOTE EDITORIALE -->
-      <section id="editorial-note-section" class="unified-section" hidden>
-        <h2 class="unified-section-title">NOTE EDITORIALE</h2>
-        <div id="editorial-note-body" class="unified-section-body"></div>
-      </section>
-
-      <!-- PRIX MARCHE -->
-      <section id="prix-section" class="unified-section" hidden>
-        <h2 class="unified-section-title">PRIX MARCHE</h2>
-        <div id="prix-body" class="unified-section-body">
-          <div id="prix-grid" class="prix-grid"></div>
-          <div id="prix-trust" class="prix-trust"></div>
+      <section class="stats-card detail-accordion">
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="stats-content">
+          <span>Statistiques</span>
+          <span class="detail-accordion-indicator">▸</span>
+        </button>
+        <div id="stats-content" class="detail-accordion-content" hidden>
+          <div id="stats-row" class="stats-grid"></div>
         </div>
       </section>
 
-      <!-- INFOS DETAILLEES -->
-      <section id="stats-section" class="unified-section">
-        <h2 class="unified-section-title">INFOS DETAILLEES</h2>
-        <div id="stats-row" class="unified-section-body"></div>
-      </section>
-
-      <!-- COLLECTION -->
-      <section id="collection-section" class="unified-section">
-        <h2 class="unified-section-title">COLLECTION</h2>
-        <div id="collection-content" class="unified-section-body">
+      <section class="collection-card detail-accordion">
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="collection-content">
+          <span>Collection</span>
+          <span class="detail-accordion-indicator">▸</span>
+        </button>
+        <div id="collection-content" class="detail-accordion-content" hidden>
           <div class="collection-row">
             <div class="collection-state-block">
               <div id="collection-state" class="collection-state"></div>
@@ -134,29 +118,18 @@
               maxlength="320"
               rows="2"
               placeholder="Notes"
-              aria-label="Collection notes"
             ></textarea>
           </div>
-          <div id="collection-status" class="status-text" role="status" aria-live="polite"></div>
+          <div id="collection-status" class="status-text"></div>
         </div>
       </section>
 
-      <!-- ENCYCLOPEDIE (editorial tabs) -->
-      <section id="editorial-shell" class="unified-section" hidden>
-        <h2 class="unified-section-title">ENCYCLOPEDIE</h2>
-        <div id="editorial-content" class="unified-section-body"></div>
-      </section>
-
-      <!-- MEME FRANCHISE -->
-      <section id="franchise-section" class="unified-section" hidden>
-        <h2 class="unified-section-title">MEME FRANCHISE</h2>
-        <div id="franchise-body" class="unified-section-body"></div>
-      </section>
-
-      <!-- SUR CETTE CONSOLE / JEUX SIMILAIRES -->
-      <section id="related-shell" class="unified-section" hidden>
-        <h2 class="unified-section-title">EXPLORATION</h2>
-        <div id="related-content" class="unified-section-body"></div>
+      <section id="related-shell" class="related-card detail-accordion" hidden>
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="related-content">
+          <span>Exploration</span>
+          <span class="detail-accordion-indicator">▸</span>
+        </button>
+        <div id="related-content" class="detail-accordion-content" hidden></div>
       </section>
 
     </main>
@@ -168,8 +141,7 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/components/save-button.js"></script>
-    <script src="/js/pages/game-detail.js?v=20260327b"></script>
+    <script src="/js/pages/game-detail.js?v=20260330c"></script>
     <script src="/js/features/experience-layer.js"></script>
     <div class="footer-attribution">
       Covers :
@@ -177,3 +149,4 @@
     </div>
   </body>
 </html>
+

@@ -1,122 +1,148 @@
-/**
- * Centralized data normalization module for RETRODEX backend
- *
- * Purpose: Consolidates duplicated normalization logic for converting between
- * snake_case database fields (Supabase/Sequelize) and camelCase API responses.
- *
- * This module provides idempotent normalization functions that safely handle
- * data from multiple sources (Supabase, Sequelize models, raw rows) without
- * breaking if fields are already normalized.
- *
- * Usage:
- *   const { normalizeGameFields, normalizeGameRecord } = require('./lib/normalize')
- *   const normalized = normalizeGameFields(dbRow)
- *   const withSpread = normalizeGameRecord(gameObj)
- */
+'use strict'
 
-/**
- * Normalizes game data by converting snake_case fields to camelCase
- * Handles both Supabase rows and Sequelize model instances
- * Idempotent: safe to call multiple times on the same object
- *
- * Field mappings:
- * - loose_price → loosePrice
- * - cib_price → cibPrice
- * - mint_price → mintPrice
- * - cover_url → coverImage
- * - source_confidence → sourceConfidence
- * - dev_anecdotes → devAnecdotes
- * - dev_team → devTeam
- * - cheat_codes → cheatCodes
- * - franch_id → franchId
- *
- * @param {Object} row - Database row or game object
- * @returns {Object} New object with normalized field names
- */
-function normalizeGameFields(row) {
-  if (!row || typeof row !== 'object') {
-    return row
-  }
-
-  return {
-    ...row,
-    // Pricing fields
-    loosePrice: row.loosePrice ?? row.loose_price ?? null,
-    cibPrice: row.cibPrice ?? row.cib_price ?? null,
-    mintPrice: row.mintPrice ?? row.mint_price ?? null,
-    // Image fields
-    coverImage: row.coverImage ?? row.cover_url ?? null,
-    // Metadata fields
-    sourceConfidence: row.sourceConfidence ?? row.source_confidence ?? null,
-    // Developer fields
-    devAnecdotes: row.devAnecdotes ?? row.dev_anecdotes ?? null,
-    devTeam: row.devTeam ?? row.dev_team ?? null,
-    // Content fields
-    cheatCodes: row.cheatCodes ?? row.cheat_codes ?? null,
-    // Relationship fields
-    franchId: row.franchId ?? row.franch_id ?? null,
-  }
-}
-
-/**
- * Normalizes game record using spread operator
- * Merges normalized fields with original object
- * Idempotent: preserves existing camelCase fields if already present
- *
- * This is useful when you want to keep all original fields
- * and only normalize the known fields
- *
- * @param {Object} game - Game object
- * @returns {Object} Object with normalized fields merged in
- */
 function normalizeGameRecord(game) {
   if (!game || typeof game !== 'object') {
     return game
   }
+
+  const coverUrl = game.cover_url ?? game.coverImage ?? game.coverimage ?? null
 
   return {
     ...game,
     loosePrice: game.loosePrice ?? game.loose_price ?? null,
     cibPrice: game.cibPrice ?? game.cib_price ?? null,
     mintPrice: game.mintPrice ?? game.mint_price ?? null,
-    coverImage: game.coverImage || game.cover_url || null,
+    cover_url: coverUrl,
+    coverImage: coverUrl,
   }
 }
 
-/**
- * Creates a normalized item payload for API responses
- * Selects and transforms specific fields for public consumption
- *
- * @param {Object} game - Game object from database
- * @returns {Object} Normalized API response object
- */
-function toItemPayload(game) {
-  if (!game || typeof game !== 'object') {
-    return null
+function parseStoredJson(value, fallback = null) {
+  if (value == null || value === '') {
+    return fallback
   }
 
-  const normalized = normalizeGameFields(game)
+  if (Array.isArray(value) || typeof value === 'object') {
+    return value
+  }
+
+  if (typeof value !== 'string') {
+    return fallback
+  }
+
+  try {
+    return JSON.parse(value)
+  } catch (_error) {
+    return fallback
+  }
+}
+
+function compareNullableNumbers(left, right, ascending = true) {
+  const leftEmpty = left == null || String(left).trim() === ''
+  const rightEmpty = right == null || String(right).trim() === ''
+  const leftNumber = Number(left)
+  const rightNumber = Number(right)
+  const leftMissing = leftEmpty || !Number.isFinite(leftNumber)
+  const rightMissing = rightEmpty || !Number.isFinite(rightNumber)
+
+  if (leftMissing && rightMissing) return 0
+  if (leftMissing) return 1
+  if (rightMissing) return -1
+
+  return ascending ? leftNumber - rightNumber : rightNumber - leftNumber
+}
+
+function rarityRankDescending(value) {
+  switch (String(value || '').toUpperCase()) {
+    case 'LEGENDARY': return 0
+    case 'EPIC': return 1
+    case 'RARE': return 2
+    case 'UNCOMMON': return 3
+    case 'COMMON': return 4
+    default: return 5
+  }
+}
+
+function rarityRankAscending(value) {
+  switch (String(value || '').toUpperCase()) {
+    case 'COMMON': return 0
+    case 'UNCOMMON': return 1
+    case 'RARE': return 2
+    case 'EPIC': return 3
+    case 'LEGENDARY': return 4
+    default: return 5
+  }
+}
+
+function compareGamesForSort(leftGame, rightGame, sortKey) {
+  const left = normalizeGameRecord(leftGame)
+  const right = normalizeGameRecord(rightGame)
+  const leftTitle = String(left.title || '')
+  const rightTitle = String(right.title || '')
+
+  switch (String(sortKey || '').trim()) {
+    case 'title_desc':
+      return rightTitle.localeCompare(leftTitle, 'fr', { sensitivity: 'base' })
+    case 'price_asc':
+      return compareNullableNumbers(left.loosePrice, right.loosePrice, true)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'price_desc':
+      return compareNullableNumbers(left.loosePrice, right.loosePrice, false)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'year_asc':
+      return compareNullableNumbers(left.year, right.year, true)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'year_desc':
+      return compareNullableNumbers(left.year, right.year, false)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'meta_asc':
+    case 'metascore_asc':
+      return compareNullableNumbers(left.metascore, right.metascore, true)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'meta_desc':
+    case 'metascore_desc':
+      return compareNullableNumbers(left.metascore, right.metascore, false)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'rarity_desc':
+      return rarityRankDescending(left.rarity) - rarityRankDescending(right.rarity)
+        || compareNullableNumbers(left.loosePrice, right.loosePrice, false)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'rarity_asc':
+      return rarityRankAscending(left.rarity) - rarityRankAscending(right.rarity)
+        || leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+    case 'title_asc':
+    default:
+      return leftTitle.localeCompare(rightTitle, 'fr', { sensitivity: 'base' })
+  }
+}
+
+function toGameSummary(game) {
+  const item = normalizeGameRecord(game)
 
   return {
-    id: normalized.id,
-    title: normalized.title,
-    platform: normalized.console,
-    year: normalized.year,
-    genre: normalized.genre,
-    rarity: normalized.rarity,
-    type: normalized.type || 'game',
-    slug: normalized.slug || null,
-    loosePrice: normalized.loosePrice,
-    cibPrice: normalized.cibPrice,
-    mintPrice: normalized.mintPrice,
-    metascore: normalized.metascore ?? null,
-    coverImage: normalized.coverImage,
-    summary: normalized.summary || normalized.synopsis || null,
+    id: item.id,
+    title: item.title,
+    console: item.console,
+    year: item.year,
+    genre: item.genre,
+    developer: item.developer,
+    metascore: item.metascore,
+    rarity: item.rarity,
+    summary: item.summary || item.synopsis || null,
+    prices: {
+      loose: item.loosePrice,
+      cib: item.cibPrice,
+      mint: item.mintPrice,
+    },
   }
 }
 
 module.exports = {
-  normalizeGameFields,
   normalizeGameRecord,
-  toItemPayload,
+  parseStoredJson,
+  compareNullableNumbers,
+  rarityRankDescending,
+  rarityRankAscending,
+  compareGamesForSort,
+  toGameSummary,
 }

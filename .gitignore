@@ -1,3 +1,7 @@
+assets/generated_gb/*.png
+
+Retrodex/
+
 # Environment files
 .env
 .env.local
@@ -13,39 +17,28 @@ backend/storage/
 
 # Dependencies
 node_modules/
-
-# Generated assets
-assets/generated_gb/*.png
-
-# Audit snapshots (large JSON, regenerable)
-data/audit/
+backend/node_modules/
 
 # Generated data and archives
 data/raw/
 data/exports/
 data/screenshots/
 data/prices_t1_auto_latest.json
-
-# Archives and zips
-*.zip
-
-# Build artifacts
-.vercel
-.next/
-dist/
-
-# AI agent artifacts
+backend/data/audit/
+backend/data/enrichment/
+backend/scripts/enrichment/manifests/generated/
 .codex_tmp_stage/
+orchestration.zip
+files.zip
+CODEX_PROMPT_MARKET_PIPELINE.md
+CODEX_PROMPT_PIPELINE.md
+CODEX_PROMPT_PIPELINE_V3.md
+
+# Local Codex/browser artifacts
+.cdp-gamelist/
 .codex*
 **/.codex*
-.cdp-gamelist/
 test-results/
 **/__pycache__/
-CODEX_PROMPT_*.md
 
-# OS files
-.DS_Store
-Thumbs.db
-
-# Legacy
-Retrodex/
+.vercel

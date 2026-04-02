@@ -4,6 +4,7 @@ const consoleUi = window.RetroDexConsoleUi || {}
 const escapeHtml = consoleUi.escapeHtml || ((value) => String(value ?? ''))
 
 const countEl = document.getElementById('console-count')
+const bannerEl = document.getElementById('consoles-curation-banner')
 const gridEl = document.getElementById('consoles-grid')
 const detailEl = document.getElementById('console-detail')
 
@@ -39,6 +40,16 @@ function consoleRowMarkup(item) {
       <span class="console-row-signal ${qualityTone(item.quality?.tier)}">${escapeHtml(item.quality?.tier || 'Tier D')}</span>
     </a>
   `
+}
+
+function setPublicationBanner(publication) {
+  if (!bannerEl) return
+  if (!publication) {
+    bannerEl.textContent = 'Surface publique curee PASS 1. Chargement des signaux de publication.'
+    return
+  }
+
+  bannerEl.textContent = `${publication.label || 'PASS 1 curated'} | ${publication.publishedGamesCount || 0} jeux publies | ${publication.consoleCount || 0} consoles | vitrine validee, extension progressive.`
 }
 
 function bindRows(items) {
@@ -90,7 +101,8 @@ async function loadConsoles() {
   }
 
   const consoles = payload.items || []
-  if (countEl) countEl.textContent = `${payload.count || consoles.length} systemes retro`
+  if (countEl) countEl.textContent = `${payload.count || consoles.length} consoles visibles | ${payload.publication?.publishedGamesCount || 0} jeux publies`
+  setPublicationBanner(payload.publication || null)
   gridEl.innerHTML = consoles.map(consoleRowMarkup).join('')
   bindRows(consoles)
 

@@ -1,0 +1,94 @@
+{
+  "batchKey": "g8_premium_lot_4",
+  "batchType": "premium",
+  "reviewStatus": "ready",
+  "notes": "Premium lot 4 bronze uplift on targeted games",
+  "sources": ["manual_curated"],
+  "writeTargets": ["games", "game_editorial", "media_references", "source_records", "field_provenance"],
+  "publishDomains": ["records", "editorial", "media", "ui"],
+  "postChecks": ["records", "editorial", "media", "ui"],
+  "payload": [
+    {
+      "gameId": "secret-of-mana-super-nintendo",
+      "title": "Secret of Mana",
+      "summary": "Square transforme l'action-RPG 16-bit en aventure coopérative fluide, où l'exploration, la montée en puissance des armes et l'alchimie du trio principal donnent au voyage une ampleur exceptionnelle.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "assetSubtype": "manual_pdf",
+          "provider": "nintendo",
+          "url": "https://www.nintendo.co.jp/clvs/manuals/fr/pdf/CLV-P-SABRE_fr.pdf",
+          "sourceField": "manual_reference"
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "world_map",
+          "provider": "strategywiki",
+          "url": "https://strategywiki.org/wiki/Secret_of_Mana",
+          "sourceField": "map_reference"
+        },
+        {
+          "mediaType": "sprite_sheet",
+          "assetSubtype": "assorted_sprites",
+          "provider": "spriters_resource",
+          "url": "https://www.spriters-resource.com/snes/secretofmana/",
+          "sourceField": "sprite_sheet_reference"
+        }
+      ],
+      "ostTracks": [
+        "Fear of the Heavens",
+        "Into the Thick of It",
+        "Meridian Dance"
+      ]
+    },
+    {
+      "gameId": "999-nine-hours-nine-persons-nine-doors-nintendo-ds",
+      "title": "999: Nine Hours, Nine Persons, Nine Doors",
+      "synopsis": "Junpei se réveille enfermé sur un paquebot avec huit autres captifs et découvre qu'un certain Zero les force à participer au Nonary Game, une fuite sous compte à rebours où chaque porte, chaque alliance et chaque énigme rapprochent autant de la vérité que de la mort.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "assetSubtype": "manual_reference",
+          "provider": "nintendo_ds_archive",
+          "url": "https://nintendodsarchive.wordpress.com/2016/04/11/999-nine-hours-nine-persons-nine-doors/",
+          "sourceField": "manual_reference"
+        },
+        {
+          "mediaType": "map",
+          "assetSubtype": "flowchart_guide",
+          "provider": "strategywiki",
+          "url": "https://strategywiki.org/wiki/999:_Nine_Hours,_Nine_Persons,_Nine_Doors/Walkthrough",
+          "sourceField": "map_reference"
+        },
+        {
+          "mediaType": "screenshot",
+          "assetSubtype": "screenshots_gallery",
+          "provider": "mobygames",
+          "url": "https://www.mobygames.com/game/49690/999-nine-hours-nine-persons-nine-doors/",
+          "sourceField": "screenshot_reference"
+        }
+      ]
+    },
+    {
+      "gameId": "1080-snowboarding-nintendo-64",
+      "title": "1080° Snowboarding",
+      "synopsis": "Entre vitesse pure et maîtrise technique, 1080° Snowboarding suit une saison de compétitions sur des pistes de plus en plus exigeantes, où les descentes chronométrées et les runs freestyle servent avant tout à dompter l'inertie et le terrain.",
+      "media": [
+        {
+          "mediaType": "map",
+          "assetSubtype": "course_guide",
+          "provider": "strategywiki",
+          "url": "https://strategywiki.org/wiki/1080%C2%B0_Snowboarding",
+          "sourceField": "map_reference"
+        },
+        {
+          "mediaType": "sprite_sheet",
+          "assetSubtype": "character_icons",
+          "provider": "spriters_resource",
+          "url": "https://www.spriters-resource.com/nintendo_64/1080snowboarding/sheet/108336/",
+          "sourceField": "sprite_sheet_reference"
+        }
+      ]
+    }
+  ]
+}

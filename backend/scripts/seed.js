@@ -8,7 +8,7 @@ process.env.RETRODEX_SQLITE_PATH = process.env.RETRODEX_SQLITE_PATH || dbPath;
 
 console.log(`Using DB: ${dbPath}`);
 
-const { loadPrototypeData } = require("../src/loadPrototypeData");
+const { loadPrototypeData } = require("../src/prototype/loadPrototypeData");
 const { syncGamesFromPrototype } = require("../src/syncGames");
 
 async function main() {
