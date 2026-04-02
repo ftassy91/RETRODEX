@@ -1,6 +1,6 @@
 'use strict'
 
-const { getConsoleById } = require('../../lib/consoles')
+const { getConsoleById, normalizeConsoleKey } = require('../../lib/consoles')
 
 function roundConsoleNumber(value) {
   const number = Number(value)

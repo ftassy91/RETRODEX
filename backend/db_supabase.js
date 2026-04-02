@@ -69,6 +69,9 @@ function buildSelectClause(select) {
 }
 
 function buildSqlAdapter(runQuery, dialect = 'sqlite') {
+  const useIndexedPlaceholders = dialect === 'postgres';
+  const placeholderFor = (index) => (useIndexedPlaceholders ? `$${index}` : '?');
+
   function normalizeQueryValue(value) {
     if (typeof value === 'boolean') {
       return value;
@@ -173,13 +176,13 @@ function buildSqlAdapter(runQuery, dialect = 'sqlite') {
             return '1 = 0';
           }
 
-          const placeholders = where.val.map(() => `$${nextIndex++}`);
+          const placeholders = where.val.map(() => placeholderFor(nextIndex++));
           replacements.push(...where.val.map(normalizeQueryValue));
           return `${column} IN (${placeholders.join(', ')})`;
         }
 
         replacements.push(normalizeQueryValue(where.val));
-        return `${column} ${where.op} $${nextIndex++}`;
+        return `${column} ${where.op} ${placeholderFor(nextIndex++)}`;
       });
 
       return {
@@ -204,8 +207,8 @@ function buildSqlAdapter(runQuery, dialect = 'sqlite') {
 
     async _executeSelect() {
       const { clause, replacements, nextIndex } = this._buildWhere(1);
-      const limitClause = this._limit != null ? ` LIMIT $${nextIndex}` : '';
-      const offsetClause = this._offset != null ? ` OFFSET $${nextIndex + (this._limit != null ? 1 : 0)}` : '';
+      const limitClause = this._limit != null ? ` LIMIT ${placeholderFor(nextIndex)}` : '';
+      const offsetClause = this._offset != null ? ` OFFSET ${placeholderFor(nextIndex + (this._limit != null ? 1 : 0))}` : '';
       const selectSql = `SELECT ${buildSelectClause(this._select)} FROM ${quoteIdentifier(this._table)}${clause}${this._buildOrder()}${limitClause}${offsetClause}`;
       const selectReplacements = [...replacements];
 
@@ -218,7 +221,8 @@ function buildSqlAdapter(runQuery, dialect = 'sqlite') {
 
       let count;
       if (this._count) {
-        const countSql = `SELECT COUNT(*)::int AS count FROM ${quoteIdentifier(this._table)}${clause}`;
+        const countExpression = dialect === 'postgres' ? 'COUNT(*)::int' : 'COUNT(*)';
+        const countSql = `SELECT ${countExpression} AS count FROM ${quoteIdentifier(this._table)}${clause}`;
         const countRows = await runQuery(countSql, replacements, QueryTypes.SELECT);
         count = Number(countRows?.[0]?.count || 0);
       }
@@ -246,7 +250,7 @@ function buildSqlAdapter(runQuery, dialect = 'sqlite') {
       const valuesSql = rows.map((row) => {
         const placeholders = columns.map((column) => {
           replacements.push(normalizeQueryValue(row?.[column] ?? null));
-          return `$${nextIndex++}`;
+          return placeholderFor(nextIndex++);
         });
         return `(${placeholders.join(', ')})`;
       }).join(', ');
@@ -325,13 +329,31 @@ if (!USE_SUPABASE && HAS_DATABASE_URL) {
     const sequelizeModule = require('./config/database');
     const sequelize = sequelizeModule?.sequelize || sequelizeModule;
     db = buildSqlAdapter(
-      (sql, bind, type) => sequelize.query(sql, { bind, type }),
+      (sql, replacements, type) => sequelize.query(sql, { bind: replacements, type }),
       'postgres',
     );
     mode = 'supabase';
     console.log('[DB] Postgres adapter via DATABASE_URL');
   } catch (error) {
     console.error('[DB] Postgres adapter error:', error.message);
+  }
+}
+
+if (!USE_SUPABASE && !db && process.env.VERCEL) {
+  try {
+    const sequelizeModule = require('./config/database');
+    const sequelize = sequelizeModule?.sequelize || sequelizeModule;
+    db = buildSqlAdapter(
+      (sql, replacements, type) => sequelize.query(
+        sql,
+        HAS_DATABASE_URL ? { bind: replacements, type } : { replacements, type },
+      ),
+      HAS_DATABASE_URL ? 'postgres' : 'sqlite',
+    );
+    mode = 'supabase';
+    console.log(`[DB] Vercel SQL adapter fallback -> ${HAS_DATABASE_URL ? 'postgres' : 'sqlite'}`);
+  } catch (error) {
+    console.error('[DB] Vercel SQL adapter fallback error:', error.message);
   }
 }
 
