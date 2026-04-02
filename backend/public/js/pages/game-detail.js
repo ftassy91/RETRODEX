@@ -428,7 +428,7 @@ function renderHeroSection(game) {
           <div class="detail-kicker">READING STATUS</div>
           <div class="detail-domain-heading">Lecture immédiate</div>
           <p class="detail-status-copy detail-hero-aside-copy">
-            Synthèse courte de la richesse, de l'état de publication et du niveau de confiance.
+            Lecture courte de la richesse, de l'état public et du niveau de confiance.
           </p>
           <div id="hero-reading-grid" class="surface-signal-grid detail-identity-signal-grid">
             ${buildHeroSignalCard('Richesse', 'Chargement', 'is-primary')}
@@ -436,7 +436,7 @@ function renderHeroSection(game) {
             ${buildHeroSignalCard('Confiance', 'À qualifier')}
           </div>
           <div id="hero-reading-highlights" class="surface-chip-row"></div>
-          <p id="hero-reading-note" class="detail-reading-note">Signaux de lecture en cours de consolidation.</p>
+          <p id="hero-reading-note" class="detail-reading-note">Lecture en cours de qualification.</p>
         </aside>
       </div>
     </div>
@@ -509,7 +509,7 @@ function renderDetailContentStatus() {
       readingHighlightsEl.innerHTML = ''
     }
     if (readingNoteEl) {
-      readingNoteEl.textContent = 'Signaux de lecture en cours de consolidation.'
+      readingNoteEl.textContent = 'Lecture en cours de qualification.'
     }
     return
   }
@@ -1971,7 +1971,7 @@ async function handleCollectionAction() {
 
     await refreshCollectionStatus()
   } catch (error) {
-    collectionStatusEl.textContent = `Erreur collection: ${error.message}`
+    collectionStatusEl.textContent = 'Action collection indisponible pour cette session.'
     applyCollectionUiState(currentCollectionItem)
   }
 }
@@ -2017,7 +2017,7 @@ async function handleWishlistAction() {
     collectionStatusEl.textContent = 'Ajouté.'
     await refreshCollectionStatus()
   } catch (error) {
-    collectionStatusEl.textContent = `Erreur wishlist: ${error.message}`
+    collectionStatusEl.textContent = 'Action wishlist indisponible pour cette session.'
     applyCollectionUiState(currentCollectionItem)
   }
 }
@@ -2054,7 +2054,7 @@ async function handleCollectionRemove() {
     collectionStatusEl.textContent = 'Retiré.'
     await refreshCollectionStatus()
   } catch (error) {
-    collectionStatusEl.textContent = `Erreur suppression: ${error.message}`
+    collectionStatusEl.textContent = 'Suppression indisponible pour cette session.'
     applyCollectionUiState(currentCollectionItem)
   }
 }
@@ -2462,7 +2462,7 @@ async function loadPriceHistory(gameId) {
   }
 
   if (headingEl) {
-    headingEl.textContent = 'Comparer les etats'
+    headingEl.textContent = 'Comparer les états'
   }
 
   let noteEl = document.getElementById('price-history-note')
@@ -2607,7 +2607,7 @@ async function loadPriceHistory(gameId) {
   }
 
   function showTooltip(target, event) {
-    const stateLabel = target.dataset.stateLabel || 'Etat'
+    const stateLabel = target.dataset.stateLabel || 'État'
     const date = target.dataset.date || ''
     const value = Number(target.dataset.value)
     const source = target.dataset.source || ''
@@ -2829,12 +2829,12 @@ async function loadPriceHistory(gameId) {
 
   function renderNote(visibleEntries) {
     if (!data.hasAnyHistory) {
-      noteEl.textContent = 'Historique observe indisponible pour ce jeu. Les references par etat restent affichees ci-dessous.'
+      noteEl.textContent = 'Historique observé indisponible pour ce jeu. Les références par état restent affichées ci-dessous.'
       return
     }
 
     if (!visibleSeries.size) {
-      noteEl.textContent = 'Activez au moins un etat pour comparer les observations disponibles.'
+      noteEl.textContent = 'Activez au moins un état pour comparer les observations disponibles.'
       return
     }
 
@@ -3099,7 +3099,7 @@ async function loadPage() {
     await loadSimilar(currentGame.id)
     await loadRelatedGames(currentGame)
   } catch (error) {
-    heroEl.innerHTML = `<div class="loading-card">Impossible de charger la fiche (${escapeHtml(error.message)}).</div>`
+    heroEl.innerHTML = '<div class="loading-card">Impossible de charger la fiche pour cette session.</div>'
     statsRowEl.innerHTML = ''
     collectionStateEl.textContent = 'Fiche indisponible.'
     collectionButtonEl.disabled = true

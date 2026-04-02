@@ -517,13 +517,13 @@ function renderEmpty(currentState) {
 
   resultsEl.innerHTML = `
     <div class="empty-state">
-      <div><strong>Aucun jeu trouve${suffix}</strong></div>
+      <div><strong>Aucun jeu trouvé${suffix}</strong></div>
       <div style="margin-top:8px;">Essayez : ${picks.map((game) => esc(game.title)).join(' | ') || 'un autre filtre'}.</div>
       ${picks.length ? `<div class="suggestions">${picks.map((game) => `<button type="button" class="suggestion-btn" data-suggestion="${esc(game.title)}">${esc(game.title)}</button>`).join('')}</div>` : ''}
     </div>
   `
 
-  renderQuickDetailEmpty('Aucun signal dans cette fenetre de recherche.')
+  renderQuickDetailEmpty('Aucun signal dans cette fenêtre de recherche.')
 
   resultsEl.querySelectorAll('[data-suggestion]').forEach((button) => {
     button.addEventListener('click', () => {
@@ -563,7 +563,7 @@ function render(currentState) {
   renderSummary(currentState, total)
   pageIndicatorEl.textContent = total
     ? `Page ${page}/${totalPages} - ${start + 1}-${end} sur ${total}`
-    : 'Page 1/1 - 0 resultat'
+    : 'Page 1/1 - 0 résultat'
   prevButtonEl.disabled = start <= 0
   nextButtonEl.disabled = end >= total
   renderPageNumbers(page, totalPages)
@@ -692,7 +692,7 @@ async function loadGames() {
     render(currentState)
     loadingIndicatorEl.textContent = ''
   } catch (error) {
-    loadingIndicatorEl.textContent = `Erreur: ${error.message}`
+    loadingIndicatorEl.textContent = 'Catalogue indisponible pour cette session.'
     resultsEl.innerHTML = '<div class="empty-state">Impossible de charger le catalogue.</div>'
   }
 }

@@ -4647,6 +4647,11 @@ body {
 }
 
 .hub-intent-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 176px;
   padding: 11px 12px;
   border: 1px solid rgba(67, 95, 60, 0.42);
   background: rgba(8, 12, 8, 0.78);
@@ -5155,11 +5160,17 @@ body {
 .detail-hero-aside {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid rgba(67, 95, 60, 0.48);
+  background:
+    linear-gradient(180deg, rgba(9, 13, 9, 0.9), rgba(6, 10, 6, 0.92)),
+    radial-gradient(circle at top right, rgba(155, 188, 15, 0.05), transparent 42%);
 }
 
 .detail-hero-aside-copy {
   margin: 0;
+  max-width: 34ch;
 }
 
 .detail-console-support-wrap {

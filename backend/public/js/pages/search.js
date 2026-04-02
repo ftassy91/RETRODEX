@@ -254,7 +254,7 @@
   function renderEmpty(message) {
     resultsEl.innerHTML = `
       <div class="terminal-empty-state search-empty">
-        <div class="terminal-empty-title">Recherche inline</div>
+        <div class="terminal-empty-title">Recherche</div>
         <div class="terminal-empty-copy">${message}</div>
       </div>
     `;
@@ -271,14 +271,14 @@
 
   function renderResults(results, context) {
     if (!results.length) {
-      renderEmpty('Aucun resultat visible.');
-      if (countEl) countEl.textContent = '0 resultat';
+      renderEmpty('Aucun résultat visible.');
+      if (countEl) countEl.textContent = '0 résultat';
       return;
     }
 
     const contextLabel = window.RetroDexSearch?.CTX?.[context]?.label || context.toUpperCase();
     if (countEl) {
-      countEl.textContent = `${results.length} resultat(s) | ${contextLabel}`;
+      countEl.textContent = `${results.length} résultat(s) | ${contextLabel}`;
     }
 
     resultsEl.innerHTML = '';
@@ -403,7 +403,7 @@
 
   async function doSearch(query, context) {
     if (!window.RetroDexSearch) {
-      renderState('Chargement', 'Le moteur de recherche est en cours d initialisation.');
+      renderState('Chargement', 'Le moteur de recherche est en cours d’initialisation.');
       window.setTimeout(() => doSearch(query, context), 400);
       return;
     }
@@ -418,7 +418,7 @@
       renderResults(results, context);
       syncUrl(query, context);
     } catch (error) {
-      renderState('Recherche indisponible', `Erreur : ${error.message}`, 'is-error');
+      renderState('Recherche indisponible', 'Le moteur de recherche n’a pas pu répondre pour cette session.', 'is-error');
     }
   }
 

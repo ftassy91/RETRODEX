@@ -43,12 +43,12 @@ function renderOverview(summary = {}) {
   if (!overviewEl) return
 
   const items = [
-    { label: 'Catalog games', value: summary.total_games || 0 },
+    { label: 'Jeux catalogue', value: summary.total_games || 0 },
     { label: 'Top1200', value: summary.top1200_games || 0 },
     { label: 'Long tail', value: summary.long_tail_games || 0 },
-    { label: 'Strong fields', value: summary.strong_fields || 0 },
-    { label: 'Weak fields', value: summary.weak_fields || 0 },
-    { label: 'Avg audit', value: `${Number(summary.avg_overall_score || 0).toFixed(1)}/100` },
+    { label: 'Champs forts', value: summary.strong_fields || 0 },
+    { label: 'Champs faibles', value: summary.weak_fields || 0 },
+    { label: 'Audit moyen', value: `${Number(summary.avg_overall_score || 0).toFixed(1)}/100` },
   ]
 
   overviewEl.innerHTML = items.map((item) => `
@@ -70,10 +70,10 @@ function renderBands(bands = []) {
           <div class="muted">${escapeHtml(band.game_count)} jeux</div>
         </div>
         <div class="surface-chip-row">
-          ${renderStatusBadge('strong', `Strong ${band.status_counts?.strong || 0}`)}
-          ${renderStatusBadge('close', `Close ${band.status_counts?.close || 0}`)}
-          ${renderStatusBadge('weak', `Weak ${band.status_counts?.weak || 0}`)}
-          ${renderStatusBadge('blocked_by_source', `Blocked ${band.status_counts?.blocked_by_source || 0}`)}
+          ${renderStatusBadge('strong', `Fort ${band.status_counts?.strong || 0}`)}
+          ${renderStatusBadge('close', `Proche ${band.status_counts?.close || 0}`)}
+          ${renderStatusBadge('weak', `Faible ${band.status_counts?.weak || 0}`)}
+          ${renderStatusBadge('blocked_by_source', `Bloqué ${band.status_counts?.blocked_by_source || 0}`)}
         </div>
       </div>
       <div class="completion-table">
@@ -81,7 +81,7 @@ function renderBands(bands = []) {
           <span>Famille</span>
           <span>Couv.</span>
           <span>Cible</span>
-          <span>Etat</span>
+          <span>État</span>
         </div>
         ${(band.family_scores || []).map((family) => `
           <div class="completion-row">
@@ -116,7 +116,7 @@ function renderFamilies(families = []) {
         <div><span class="muted">Couverture</span><br />${escapeHtml(formatPercent(family.coverage_pct))}</div>
         <div><span class="muted">Cible</span><br />${escapeHtml(formatPercent(family.target_pct))}</div>
         <div><span class="muted">Gap</span><br />${escapeHtml(family.gap_to_target || 0)}</div>
-        <div><span class="muted">Filled</span><br />${escapeHtml(family.filled_count || 0)}</div>
+        <div><span class="muted">Renseignés</span><br />${escapeHtml(family.filled_count || 0)}</div>
       </div>
     </article>
   `).join('')
@@ -148,7 +148,7 @@ function renderRankings(fields = []) {
           <span>${escapeHtml(field.gap_to_target || 0)}</span>
         </div>
         <div class="completion-row">
-          <span>Blocked</span>
+          <span>Bloqué</span>
           <span>${escapeHtml(field.blocked_count || 0)}</span>
         </div>
       </div>
@@ -163,7 +163,7 @@ function renderBlocked(items = []) {
     blockedEl.innerHTML = `
       <article class="card completion-card">
         <strong>Blocages source</strong>
-        <div class="summary">Aucun blocage source explicite n'est remonte dans les residus connus.</div>
+        <div class="summary">Aucun blocage source explicite n'est remonté dans les résidus connus.</div>
       </article>
     `
     return
@@ -176,13 +176,13 @@ function renderBlocked(items = []) {
           <strong>${escapeHtml(item.label)}</strong>
           <div class="muted">${escapeHtml(item.count)} cas</div>
         </div>
-        ${renderStatusBadge('blocked_by_source', 'Blocked')}
+        ${renderStatusBadge('blocked_by_source', 'Bloqué')}
       </div>
       <div class="summary">
         ${(item.sample_titles || []).map((title) => escapeHtml(title)).join(' | ') || 'n/a'}
       </div>
       <div class="completion-card-footer">
-        ${(item.reasons || []).slice(0, 2).map((reason) => `${escapeHtml(reason.reason)} (${escapeHtml(reason.count)})`).join(' | ') || 'raison non detaillee'}
+        ${(item.reasons || []).slice(0, 2).map((reason) => `${escapeHtml(reason.reason)} (${escapeHtml(reason.count)})`).join(' | ') || 'raison non détaillée'}
       </div>
     </article>
   `).join('')
@@ -194,7 +194,7 @@ async function boot() {
     const overview = payload.overview || payload
 
     if (statusEl) {
-      statusEl.innerHTML = `<strong>Completion active</strong><br />${escapeHtml(overview.summary?.tracked_fields || 0)} champs suivis | ${escapeHtml(overview.summary?.strong_fields || 0)} strong | ${escapeHtml(overview.summary?.blocked_fields || 0)} blocked`
+      statusEl.innerHTML = `<strong>Complétude active</strong><br />${escapeHtml(overview.summary?.tracked_fields || 0)} champs suivis | ${escapeHtml(overview.summary?.strong_fields || 0)} forts | ${escapeHtml(overview.summary?.blocked_fields || 0)} bloqués`
     }
     if (originEl) {
       const sources = overview.sources || {}
@@ -206,18 +206,18 @@ async function boot() {
     renderFamilies(overview.families)
     renderRankings(overview.field_rankings)
     renderBlocked(overview.blocked_by_source)
-  } catch (error) {
+  } catch (_error) {
     if (statusEl) {
-      statusEl.textContent = `Erreur completion : ${error.message}`
+      statusEl.textContent = 'Lecture de complétude indisponible pour cette session.'
     }
     if (originEl) {
-      originEl.textContent = 'Verification locale requise : la route admin de compl?tude doit etre disponible dans le runtime local.'
+      originEl.textContent = 'Vérification locale requise : la route admin de complétude doit être disponible dans le runtime local.'
     }
     if (overviewEl) {
       overviewEl.innerHTML = `
         <article class="outlier-stat">
           <div class="outlier-stat-value">ERROR</div>
-          <div class="outlier-stat-label">${escapeHtml(error.message)}</div>
+          <div class="outlier-stat-label">Surface indisponible</div>
         </article>
       `
     }

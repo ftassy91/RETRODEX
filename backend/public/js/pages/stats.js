@@ -215,18 +215,18 @@ function renderSearchResults() {
 
   if (!state.results.length) {
     searchHeaderEl.hidden = true
-    searchCountEl.textContent = '0 resultat'
+    searchCountEl.textContent = '0 résultat'
     searchResultsEl.innerHTML = `
       <div class="terminal-empty-state search-empty">
         <div class="terminal-empty-title">Recherche</div>
-        <div class="terminal-empty-copy">Aucun jeu trouve.</div>
+        <div class="terminal-empty-copy">Aucun jeu trouvé.</div>
       </div>
     `
     return
   }
 
   searchHeaderEl.hidden = false
-  searchCountEl.textContent = `${state.results.length} resultat(s)`
+  searchCountEl.textContent = `${state.results.length} résultat(s)`
   searchResultsEl.innerHTML = state.results.map((game) => {
     const isSelected = state.currentGame?.id === game.id
     const contentSignals = buildMarketContentSignals(game)
@@ -420,7 +420,7 @@ function renderMarketContent() {
     </div>
     <div class="market-condition-table">
       <div class="market-condition-row market-condition-header">
-        <span>Etat</span>
+        <span>État</span>
         <span>Ventes</span>
         <span>Median</span>
         <span>Min</span>
@@ -455,7 +455,7 @@ function renderBuyContent() {
 
 function renderTradeContent() {
   if (!tradeContentEl || !state.currentGame) return
-  tradeContentEl.innerHTML = '<div class="market-empty-copy">Structure prete. Echanges a brancher.</div>'
+  tradeContentEl.innerHTML = '<div class="market-empty-copy">Surface prête. Échanges à connecter.</div>'
 }
 
 function renderCompareCards() {
@@ -518,11 +518,11 @@ function renderCompareContent() {
         placeholder="second jeu"
         autocomplete="off"
       />
-      <span class="terminal-query-count" id="market-compare-count">${state.compareResults.length ? `${state.compareResults.length} resultat(s)` : ''}</span>
+      <span class="terminal-query-count" id="market-compare-count">${state.compareResults.length ? `${state.compareResults.length} résultat(s)` : ''}</span>
     </div>
     <div id="market-compare-results" class="market-compare-results">
       ${state.compareQuery.length >= 2 && !state.compareResults.length
-        ? '<div class="market-empty-copy">Aucun jeu de comparaison.</div>'
+        ? '<div class="market-empty-copy">Aucun jeu comparable.</div>'
         : state.compareResults.map((game) => `
           <button type="button" class="market-compare-result" data-compare-id="${escapeHtml(game.id)}">
             <span>${escapeHtml(game.title)}</span>
@@ -617,7 +617,7 @@ async function searchGames(query, { autoSelectFirst = false } = {}) {
       searchResultsEl.innerHTML = `
         <div class="terminal-empty-state search-empty">
           <div class="terminal-empty-title">Recherche</div>
-          <div class="terminal-empty-copy">${escapeHtml(error.message)}</div>
+          <div class="terminal-empty-copy">Le signal marché n’a pas pu être chargé pour cette session.</div>
         </div>
       `
     }
@@ -756,7 +756,7 @@ async function boot() {
 boot().catch((error) => {
   console.error('[RetroMarket]', error)
   if (heroSummaryEl) {
-    heroSummaryEl.innerHTML = `<div class="market-empty-card">${escapeHtml(error.message)}</div>`
+    heroSummaryEl.innerHTML = '<div class="market-empty-card">Chargement indisponible.</div>'
   }
 })
 

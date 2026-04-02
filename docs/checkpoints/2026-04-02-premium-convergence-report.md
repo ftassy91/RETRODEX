@@ -9,11 +9,11 @@ Date: 2026-04-02
 - fiche jeu encore en dessous de son rôle stratégique
 
 ## Après
-- langage public stabilisé autour de:
+- langage public stabilisé autour de :
   - `Richesse`
   - `État`
   - `Confiance`
-- `game-detail` renforcée comme surface principale:
+- `game-detail` renforcée comme surface principale :
   - hero plus informatif
   - panneau de lecture immédiate
   - meilleure hiérarchie entre identité, synthèse et signaux

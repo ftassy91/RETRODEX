@@ -93,7 +93,7 @@
       const consoles = Number(publication.consoleCount || 0)
       const withSynopsis = Number(statsPayload?.encyclopedia_stats?.with_synopsis || 0)
 
-      bannerEl.textContent = `${publication.label || 'PASS 1 curated'} | ${published} jeux publiés | ${consoles} consoles | archive en progression visible.`
+      bannerEl.textContent = `${publication.label || 'PASS 1 curated'} | ${published} jeux publiés | ${consoles} consoles | archive publique en progression.`
       setText(publishedEl, String(published || '--'))
       setText(totalEl, String(total || '--'))
       setText(synopsisEl, String(withSynopsis || '--'))
