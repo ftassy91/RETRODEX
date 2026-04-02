@@ -4,14 +4,18 @@ require('dotenv').config({ path: require('path').join(__dirname, '../.env') })
 
 const { Sequelize } = require('sequelize')
 const { DB_PATH } = require('../src/config/paths')
+const { applyResolvedSupabaseEnv } = require('../src/config/env')
 
 const isProduction = process.env.NODE_ENV === 'production'
-const hasDatabaseUrl = !!process.env.DATABASE_URL
+const allowDatabaseUrlAlias = Boolean(process.env.VERCEL || isProduction)
+const { databaseUrl: resolvedDatabaseUrl } = applyResolvedSupabaseEnv()
+const databaseUrl = process.env.DATABASE_URL || (allowDatabaseUrlAlias ? resolvedDatabaseUrl : null)
+const hasDatabaseUrl = !!databaseUrl
 
 let sequelize
 
 if (isProduction && hasDatabaseUrl) {
-  sequelize = new Sequelize(process.env.DATABASE_URL, {
+  sequelize = new Sequelize(databaseUrl, {
     dialect: 'postgres',
     dialectOptions: {
       ssl: { require: true, rejectUnauthorized: false },

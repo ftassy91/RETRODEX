@@ -13,6 +13,16 @@ const SUPABASE_URL_KEYS = [
   'SUPERDATA_Project_URL',
 ]
 
+const DATABASE_URL_KEYS = [
+  'DATABASE_URL',
+  'SUPABASE_DB_URL',
+  'SUPABASE_DATABASE_URL',
+  'SUPABASE_Project_URL',
+  'SUPERDATA_Project_URL',
+  'POSTGRES_URL',
+  'POSTGRES_PRISMA_URL',
+]
+
 const SUPABASE_SERVICE_KEY_KEYS = [
   'SUPABASE_SERVICE_KEY',
   'SUPABASE_SERVICE_ROLE_KEY',
@@ -35,16 +45,37 @@ function firstDefined(keys = []) {
   return null
 }
 
+function looksLikeHttpUrl(value) {
+  return /^https?:\/\//i.test(String(value || '').trim())
+}
+
+function looksLikeDatabaseUrl(value) {
+  return /^(postgres|postgresql):\/\//i.test(String(value || '').trim())
+}
+
+function firstMatching(keys = [], predicate = () => true) {
+  for (const key of keys) {
+    const value = process.env[key]
+    if (value && predicate(value)) {
+      return value
+    }
+  }
+
+  return null
+}
+
 function resolveSupabaseEnv() {
   return {
-    url: firstDefined(SUPABASE_URL_KEYS),
+    url: firstMatching(SUPABASE_URL_KEYS, looksLikeHttpUrl),
     serviceKey: firstDefined(SUPABASE_SERVICE_KEY_KEYS),
     anonKey: firstDefined(SUPABASE_ANON_KEY_KEYS),
+    databaseUrl: firstMatching(DATABASE_URL_KEYS, looksLikeDatabaseUrl),
   }
 }
 
 function applyResolvedSupabaseEnv() {
   const resolved = resolveSupabaseEnv()
+  const allowDatabaseUrlAlias = Boolean(process.env.VERCEL || process.env.NODE_ENV === 'production')
 
   if (resolved.url && !process.env.SUPABASE_URL) {
     process.env.SUPABASE_URL = resolved.url
@@ -56,6 +87,10 @@ function applyResolvedSupabaseEnv() {
 
   if (resolved.anonKey && !process.env.SUPABASE_ANON_KEY) {
     process.env.SUPABASE_ANON_KEY = resolved.anonKey
+  }
+
+  if (allowDatabaseUrlAlias && resolved.databaseUrl && !process.env.DATABASE_URL) {
+    process.env.DATABASE_URL = resolved.databaseUrl
   }
 
   return resolved
@@ -89,6 +124,7 @@ function logRuntimeDbContext(logger = console) {
 
 module.exports = {
   SUPABASE_URL_KEYS,
+  DATABASE_URL_KEYS,
   SUPABASE_SERVICE_KEY_KEYS,
   SUPABASE_ANON_KEY_KEYS,
   resolveSupabaseEnv,
