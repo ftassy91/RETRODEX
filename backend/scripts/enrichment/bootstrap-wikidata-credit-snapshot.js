@@ -20,7 +20,7 @@ const {
 const OUTPUT_DIR = path.join(path.dirname(AUDIT_DIR), 'enrichment', 'wikidata')
 const USER_AGENT = 'RetroDexCodex/1.0 (https://github.com/ftassy91/RETRODEX)'
 const VIDEO_GAME_QID = 'Q7889'
-const SUPPORTED_WIKI_LANGS = ['en', 'fr', 'pt', 'es', 'hu', 'ja']
+const SUPPORTED_WIKI_LANGS = ['en', 'fr', 'pt', 'es', 'hu', 'ja', 'de', 'it', 'nl', 'pl', 'sv', 'fi']
 
 const DEV_FIELDS = [
   'developer',

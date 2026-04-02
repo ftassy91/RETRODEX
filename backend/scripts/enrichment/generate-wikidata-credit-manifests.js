@@ -66,8 +66,11 @@ function buildComposerPayload(entry) {
 }
 
 function main() {
-  const snapshotPath = parseStringFlag(process.argv, 'snapshot', latestJsonFile(SNAPSHOT_DIR))
+  const snapshotPath = parseStringFlag(process.argv, 'snapshot', latestJsonFile(SNAPSHOT_DIR, '_wikidata_credit_snapshot.json'))
   const snapshot = readJson(snapshotPath)
+  if (!Array.isArray(snapshot?.entries)) {
+    throw new Error(`Snapshot file does not contain an entries array: ${snapshotPath}`)
+  }
   const ready = process.argv.includes('--ready')
 
   const devEntries = snapshot.entries
