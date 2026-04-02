@@ -23,6 +23,7 @@ const {
 } = require('./_supabase-publish-common');
 
 const APPLY = process.argv.includes('--apply');
+const SLOW_BLOCK_THRESHOLD_MS = 15000;
 
 function normalizeSourceRecordRow(row) {
   return {
@@ -372,6 +373,37 @@ async function upsertQualityRecord(client, row) {
   ]);
 }
 
+async function runApplyBlock(client, label, rows, handler) {
+  const started = Date.now();
+
+  if (!APPLY || !rows.length) {
+    return { durationMs: Date.now() - started };
+  }
+
+  await client.query('BEGIN');
+  try {
+    for (const row of rows) {
+      await handler(row);
+    }
+    await client.query('COMMIT');
+  } catch (error) {
+    await client.query('ROLLBACK');
+    throw error;
+  }
+
+  const durationMs = Date.now() - started;
+  if (durationMs > SLOW_BLOCK_THRESHOLD_MS) {
+    console.warn(JSON.stringify({
+      table: label,
+      warning: 'slow_apply_block',
+      rowCount: rows.length,
+      durationMs,
+    }, null, 2));
+  }
+
+  return { durationMs };
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const filterIds = parseIdFilter(args);
@@ -409,14 +441,12 @@ async function main() {
       }
     }
 
-    if (APPLY && pendingSourceRows.length) {
-      for (const row of pendingSourceRows) {
-        const remoteId = await upsertSourceRecord(client, row);
-        if (remoteId != null) {
-          sourceIdByLocalId.set(Number(row.id), remoteId);
-        }
+    const sourceApply = await runApplyBlock(client, 'source_records', pendingSourceRows, async (row) => {
+      const remoteId = await upsertSourceRecord(client, row);
+      if (remoteId != null) {
+        sourceIdByLocalId.set(Number(row.id), remoteId);
       }
-    }
+    });
 
     const refreshedSourceMap = sourceTableExists
       ? mapBy(await fetchRemoteSourceRecords(client), buildSourceRecordKey)
@@ -450,11 +480,9 @@ async function main() {
       return !remoteRow || fieldProvenanceNeedsUpdate(remoteRow, row);
     });
 
-    if (APPLY && pendingProvenanceRows.length) {
-      for (const row of pendingProvenanceRows) {
-        await upsertFieldProvenance(client, row);
-      }
-    }
+    const provenanceApply = await runApplyBlock(client, 'field_provenance', pendingProvenanceRows, async (row) => {
+      await upsertFieldProvenance(client, row);
+    });
 
     const remoteQualityRows = qualityTableExists ? await fetchRemoteQualityRecords(client) : [];
     const remoteQualityMap = mapBy(remoteQualityRows, buildQualityRecordKey);
@@ -463,11 +491,9 @@ async function main() {
       return !remoteRow || qualityRecordNeedsUpdate(remoteRow, row);
     });
 
-    if (APPLY && pendingQualityRows.length) {
-      for (const row of pendingQualityRows) {
-        await upsertQualityRecord(client, row);
-      }
-    }
+    const qualityApply = await runApplyBlock(client, 'quality_records', pendingQualityRows, async (row) => {
+      await upsertQualityRecord(client, row);
+    });
 
     console.log(JSON.stringify({
       mode: APPLY ? 'apply' : 'dry-run',
@@ -486,6 +512,7 @@ async function main() {
         invalidRows: 0,
         filteredRows: 0,
         pendingRows: pendingSourceRows.length,
+        durationMs: sourceApply.durationMs,
       },
       fieldProvenance: {
         localRows: localProvenanceRows.length,
@@ -496,6 +523,7 @@ async function main() {
         invalidRows: 0,
         filteredRows: 0,
         pendingRows: pendingProvenanceRows.length,
+        durationMs: provenanceApply.durationMs,
       },
       quality: {
         localRows: local.qualityRecords.length,
@@ -506,6 +534,7 @@ async function main() {
         invalidRows: 0,
         filteredRows: 0,
         pendingRows: pendingQualityRows.length,
+        durationMs: qualityApply.durationMs,
       },
       sample: {
         source_records: pendingSourceRows.slice(0, 5).map((row) => ({

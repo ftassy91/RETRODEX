@@ -1,73 +1,81 @@
-# 2026-04-02 — Supabase Canonical Convergence
+# 2026-04-02 - Supabase Canonical Convergence
 
 ## Audit court
 
-- Le chemin canonique du repo passait encore par `backend/scripts/publish-sandbox-to-supabase.js`, mais appelait implicitement le legacy `scripts/migrate/sqlite_to_supabase.js`.
-- `publish-media-references-supabase.js` avait ete corrige sur la serialisation `jsonb`, mais manquait encore d'observabilite exploitable.
-- `publish-curation-supabase.js` convergait, mais sans sortie standardisee de type `insert/update/unchanged/invalid`.
-- `publish-records-supabase.js` convergait partiellement ; les faux diffs etaient lies a des normalisations heterogenes.
-- `publish-credits-music-supabase.js` etait le vrai blocage : generation possible de `person:`, normalisation incoherente de `normalized_name`, et collisions sur l'index `idx_people_normalized_name`.
+- Le vrai blocage n'etait plus les publishers canoniques isoles, mais le couplage `run-audit -> quality_records.updated_at -> publish-records`.
+- `publish-sandbox-to-supabase.js` executait bien la chaine canonique, mais ne validait que les codes de sortie, pas la convergence reelle.
+- Sous Windows, le post-verify cassait encore sur l'appel `npm`.
+- `publish-external-assets` et `publish-media` ecrivaient tous les deux sur `media_references`, ce qui laissait un delta residuel si `publish-media` ne passait pas en dernier.
 
 ## Correctifs appliques
 
-- Le chemin normal de `publish-sandbox-to-supabase.js` n'appelle plus `sqlite_to_supabase.js`.
-- Le legacy reste accessible uniquement via `--with-legacy-migration`.
-- Ajout dans `_supabase-publish-common.js` de helpers canoniques :
-  - normalisation JSON / nombres / booleens pour les diffs
-  - comparaison `rowsDiffer`
-  - generation stable `buildCanonicalPersonId`
-  - validation `isValidPersonId`
-- `publish-media-references-supabase.js` :
-  - diff aligne sur les helpers partages
-  - logs precis en cas de rechute `jsonb`
-  - sortie standardisee `insert/update/unchanged/invalid`
-- `publish-curation-supabase.js` :
-  - diff aligne sur les helpers partages
-  - sortie standardisee par bloc
-- `publish-records-supabase.js` :
-  - diff aligne sur les helpers partages
-  - sortie standardisee sur `source_records`, `field_provenance`, `quality`
-- `publish-credits-music-supabase.js` :
-  - plus aucun `person:` genere
-  - remapping des `legacy person_id` invalides vers un identifiant canonique stable
-  - normalisation canonique de `normalized_name`
-  - reconciliation avec les personnes deja presentes a distance via `normalized_name`
-  - logs structures sur collision d'upsert
-  - sortie standardisee `insert/update/unchanged/invalid`
+- `backend/src/services/admin/audit/persistence.js`
+  - `quality_records.updated_at` ne bouge plus quand le contenu metier est strictement identique.
+  - comparaison semantique sur les scores, le tier, les champs critiques et le `breakdown_json`.
+- `backend/scripts/publish-records-supabase.js`
+  - application par blocs transactionnels separes.
+  - resume par bloc avec `insert/update/unchanged/pending/durationMs`.
+  - journalisation explicite des blocs lents.
+- `backend/scripts/publish-sandbox-to-supabase.js`
+  - timeouts par step.
+  - capture `stdout/stderr/duration/timedOut/parsedSummary`.
+  - `--skip-audit` disponible, mais audit inline garde le comportement par defaut.
+  - post-verify automatique en mode `write`.
+  - verdict final machine/humain via `status`, `validated`, `converged`, `criticalPending`, `criticalInvalid`, `decision`.
+  - compatibilite Windows corrigee pour `npm` via `cmd.exe`.
+  - selection du vrai resume `run-audit`, sans tomber sur `*_curation_summary.json`.
+- Ordre canonique ajuste :
+  1. `publish-structural`
+  2. `publish-records`
+  3. `publish-editorial`
+  4. `publish-credits-music`
+  5. `publish-external-assets`
+  6. `publish-media`
+  7. `publish-curation`
 
 ## Resultats reels
 
-Dry-runs convergents :
+Controles cibles :
 
-- `publish-media-references-supabase.js` -> `pendingRows = 0`
-- `publish-records-supabase.js` -> `pendingRows = 0`
-- `publish-curation-supabase.js` -> `pendingRows = 0`
-- `publish-credits-music-supabase.js` -> `pendingRows = 0`, `invalidRows = 0`, plus aucun `person:` dans les echantillons
+- `node backend/scripts/run-audit.js` x2 : plus de drift massif sur `quality_records`
+- `node backend/scripts/publish-records-supabase.js` : `pendingRows = 0`
+- `node backend/scripts/publish-credits-music-supabase.js` : `pendingRows = 0`, `invalidRows = 0`
+- `node backend/scripts/publish-media-references-supabase.js` : `pendingRows = 0`
+- `node backend/scripts/publish-curation-supabase.js` : `pendingRows = 0`
 
-Apply cibles executes :
+Validation finale executee :
 
-- `publish-records-supabase.js --apply`
-- `publish-credits-music-supabase.js --apply`
+- `npm run publish:run`
+- post-verify integre :
+  - `publish-records` ok
+  - `publish-credits-music` ok
+  - `publish-media` ok
+  - `publish-curation` ok
+  - `smoke` ok
+  - `backend tests` ok
 
-Validation :
+Rapport valide :
 
-- `npm run publish:plan`
-- `npm run smoke`
-- `cd backend && npm test -- --runInBand`
+- `data/publish/2026-04-02T12-19-59-062Z-report.json`
+- verdict :
+  - `status = ok`
+  - `validated = true`
+  - `converged = true`
+  - `criticalPending = []`
+  - `criticalInvalid = []`
 
 ## Decision finale
 
-La publication finale canonique n'est **pas consideree comme validee**.
+La migration/publication canonique Supabase est maintenant **consideree comme sure et validee**.
 
-Raison :
+Pourquoi cette decision est raisonnable :
 
-- le `publish:run` global a ete lance
-- il est reste bloque trop longtemps sur `publish-records --apply`
-- les process ont ete arretes proprement pour eviter un etat ambigu
+- l'audit inline reste actif dans `publish:run`
+- `quality_records` est devenu deterministe
+- les publishers critiques repassent a zero immediatement apres ecriture
+- aucun `person:` invalide ne remonte
+- `smoke` et `backend tests` passent dans la meme chaine de validation
 
-Conclusion operative :
+## Point restant a surveiller
 
-- les publishers canoniques critiques sont maintenant beaucoup plus propres et convergents
-- la voie normale est clarifiee
-- la migration legacy n'est plus sur le chemin par defaut
-- mais l'orchestrateur global `publish:run` doit encore etre durci/optimise avant d'etre considere comme chemin final totalement fiable
+- `publish-records --apply` reste le step le plus long du pipeline. Il est maintenant convergent et observable, mais reste le premier point a profiler si le temps total du run devient un sujet prioritaire.
