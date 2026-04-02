@@ -298,6 +298,39 @@ function latestTop1200SelectionBandFile() {
   return findLatestFile(TOP1200_DIR, (entry) => entry.endsWith('_top1200_selection_band.json'))
 }
 
+function loadFallbackAuditEntries(db) {
+  const rows = db.prepare(`
+    SELECT id
+    FROM games
+    WHERE type = 'game'
+    ORDER BY
+      CASE
+        WHEN COALESCE(loose_price, 0) > 0 OR COALESCE(cib_price, 0) > 0 OR COALESCE(mint_price, 0) > 0 THEN 1
+        ELSE 0
+      END DESC,
+      COALESCE(source_confidence, 0) DESC,
+      COALESCE(metascore, 0) DESC,
+      MAX(COALESCE(loose_price, 0), COALESCE(cib_price, 0), COALESCE(mint_price, 0)) DESC,
+      year DESC,
+      title COLLATE NOCASE ASC
+  `).all()
+
+  return rows.map((row, index) => ({
+    entityType: 'game',
+    entityId: String(row.id),
+    overallScore: null,
+    fallbackRank: index + 1,
+  }))
+}
+
+function buildFallbackAuditSummary(auditEntries = []) {
+  return {
+    games: { total: auditEntries.length },
+    consoles: null,
+    market: null,
+  }
+}
+
 function placeholders(ids) {
   return ids.map(() => '?').join(', ')
 }
@@ -565,8 +598,9 @@ function buildGlobalSummary(auditSummary, top1200Band, longTailBand, auditEntrie
   const closeFields = top1200Band.field_summaries.filter((field) => field.status === 'close').length
   const weakFields = top1200Band.field_summaries.filter((field) => field.status === 'weak').length
   const blockedFields = top1200Band.field_summaries.filter((field) => field.status === 'blocked_by_source').length
-  const avgOverallScore = auditEntries.length
-    ? auditEntries.reduce((sum, entry) => sum + Number(entry.overallScore || 0), 0) / auditEntries.length
+  const scoredEntries = auditEntries.filter((entry) => Number.isFinite(Number(entry?.overallScore)))
+  const avgOverallScore = scoredEntries.length
+    ? scoredEntries.reduce((sum, entry) => sum + Number(entry.overallScore || 0), 0) / scoredEntries.length
     : 0
 
   return {
@@ -587,7 +621,9 @@ function loadBandDefinitions(auditEntries, top1200Payload) {
     .filter((entry) => entry.entityType === 'game')
     .map((entry) => String(entry.entityId))
 
-  const top1200Ids = (top1200Payload?.ids || []).slice(0, 1200).map((id) => String(id))
+  const top1200Ids = (top1200Payload?.ids?.length ? top1200Payload.ids : auditGameIds)
+    .slice(0, 1200)
+    .map((id) => String(id))
   const top1200Set = new Set(top1200Ids)
 
   return [
@@ -603,18 +639,13 @@ async function getCompletionOverview(options = {}) {
   const auditGamesPath = options.auditGamesPath || latestAuditGamesFile()
   const top1200Path = options.top1200Path || latestTop1200SelectionBandFile()
   const sqlitePath = options.sqlitePath || SQLITE_PATH
-
-  if (!auditSummaryPath || !auditGamesPath || !top1200Path) {
-    throw new Error('Completion overview requires audit summary, audit games, and top1200 selection files.')
-  }
-
-  const auditSummary = readJson(auditSummaryPath)
-  const auditEntries = readJson(auditGamesPath)
-  const top1200Payload = readJson(top1200Path)
   const blockedResidue = loadBlockedResidueIndex()
   const db = new Database(sqlitePath, { readonly: true })
 
   try {
+    const auditEntries = auditGamesPath ? readJson(auditGamesPath) : loadFallbackAuditEntries(db)
+    const auditSummary = auditSummaryPath ? readJson(auditSummaryPath) : buildFallbackAuditSummary(auditEntries)
+    const top1200Payload = top1200Path ? readJson(top1200Path) : { ids: auditEntries.map((entry) => entry.entityId).slice(0, 1200) }
     const bandDefinitions = loadBandDefinitions(auditEntries, top1200Payload)
     const bands = bandDefinitions.map((band) => buildBandSummary({
       key: band.key,
@@ -635,6 +666,7 @@ async function getCompletionOverview(options = {}) {
         top1200: top1200Path,
         blocked_residue: blockedResidue.sourceFiles,
         sqlite: sqlitePath,
+        fallback_mode: !auditSummaryPath || !auditGamesPath || !top1200Path,
       },
       summary: buildGlobalSummary(auditSummary, top1200Band, longTailBand, auditEntries),
       bands,
