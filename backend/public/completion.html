@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RetroDex - Completion Surface</title>
+    <meta name="description" content="Pilotage interne de la completude RetroDex : bandes, familles, dettes et blocages source." />
+    <meta property="og:title" content="Completion | RetroDex" />
+    <meta property="og:description" content="Lecture interne de la completude RetroDex pour piloter l'enrichment et la couverture." />
+    <meta property="og:type" content="website" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body class="debug-shell completion-shell">
+    <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
+      <a class="global-product-home is-active" href="/hub.html">Hub</a>
+      <div class="global-product-links">
+        <a class="global-product-link is-market" href="/stats.html">
+          <span class="nav-label">RetroMarket</span>
+          <span class="nav-copy">prix | tendances | marche</span>
+        </a>
+        <a class="global-product-link" href="/games-list.html">
+          <span class="nav-label">RetroDex</span>
+          <span class="nav-copy">fiches | lore | encyclopedie</span>
+        </a>
+        <a class="global-product-link" href="/collection.html">
+          <span class="nav-label">Collections</span>
+          <span class="nav-copy">etagere | wishlist | suivi</span>
+        </a>
+        <a class="global-product-link" href="/search.html">
+          <span class="nav-label">Recherche</span>
+          <span class="nav-copy">recherche universelle</span>
+        </a>
+      </div>
+    </nav>
+
+    <main class="secondary-page-shell">
+      <nav class="breadcrumb" aria-label="Fil d'ariane">
+        <a href="/hub.html">HUB</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="section">INTERNAL</span>
+        <span class="sep">&rsaquo;</span>
+        <span class="current">COMPLETENESS</span>
+      </nav>
+
+      <header class="secondary-page-head">
+        <div class="secondary-page-titlezone">
+          <div class="secondary-page-kicker">INTERNAL TOOLING</div>
+          <h1 class="page-title">RETRODEX COMPLETENESS SURFACE</h1>
+          <p class="page-subtitle">Lecture canonique de la completude : bandes, familles, dettes visibles et blocages source.</p>
+          <p class="secondary-page-intro">
+            Cette page sert au pilotage interne. Elle ne concurrence pas la surface produit :
+            elle consolide la qualite d'audit et la couverture de completude pour guider
+            l'enrichment et les priorites de reprise.
+          </p>
+        </div>
+        <div id="completion-status" class="page-status-line">Chargement de la lecture de completude...</div>
+      </header>
+
+      <section class="product-universe-frame is-utility">
+        <div class="product-universe-head">
+          <div>
+            <div class="secondary-page-kicker">Page role</div>
+            <h2 class="product-universe-title">BACK-OFFICE / PILOTAGE</h2>
+          </div>
+          <span class="product-universe-chip is-utility">Completion coverage</span>
+        </div>
+        <p class="product-universe-copy">
+          Cette surface rend visible la couverture des familles de champs et les dettes
+          restantes. La qualite d'audit reste la lecture globale du catalogue ; la completude
+          sert ici de lecture operationnelle pour piloter les lots suivants.
+        </p>
+        <div class="product-universe-links">
+          <a href="/hub.html">Hub</a>
+          <a href="/debug.html">Debug</a>
+          <a href="/api/audit/completion" target="_blank" rel="noreferrer noopener">/api/audit/completion</a>
+        </div>
+        <div id="completion-origin" class="product-universe-overlap">Sources : detection en cours.</div>
+      </section>
+
+      <section class="secondary-panel">
+        <div class="secondary-panel-head">
+          <div>
+            <div class="secondary-panel-kicker">Global snapshot</div>
+            <h2 class="secondary-panel-title">Etat global</h2>
+          </div>
+          <div class="secondary-panel-copy">
+            Vue courte du catalogue, des champs suivis et de la repartition des statuts sur le
+            band canonique `Top1200`.
+          </div>
+        </div>
+        <div id="completion-overview" class="outlier-stats-grid"></div>
+      </section>
+
+      <section class="secondary-grid secondary-grid-two">
+        <section class="secondary-panel">
+          <div class="secondary-panel-head">
+            <div>
+              <div class="secondary-panel-kicker">Bands</div>
+              <h2 class="secondary-panel-title">Lecture par bandes</h2>
+            </div>
+          </div>
+          <div id="completion-bands" class="utility-grid"></div>
+        </section>
+
+        <section class="secondary-panel">
+          <div class="secondary-panel-head">
+            <div>
+              <div class="secondary-panel-kicker">Families</div>
+              <h2 class="secondary-panel-title">Familles suivies</h2>
+            </div>
+          </div>
+          <div id="completion-families" class="utility-grid"></div>
+        </section>
+      </section>
+
+      <section class="secondary-grid secondary-grid-two">
+        <section class="secondary-panel">
+          <div class="secondary-panel-head">
+            <div>
+              <div class="secondary-panel-kicker">Priority gaps</div>
+              <h2 class="secondary-panel-title">Champs les plus en retard</h2>
+            </div>
+          </div>
+          <div id="completion-field-rankings" class="utility-grid"></div>
+        </section>
+
+        <section class="secondary-panel">
+          <div class="secondary-panel-head">
+            <div>
+              <div class="secondary-panel-kicker">Blocked by source</div>
+              <h2 class="secondary-panel-title">Blocages source</h2>
+            </div>
+          </div>
+          <div id="completion-blocked" class="utility-grid"></div>
+        </section>
+      </section>
+
+      <section class="secondary-panel">
+        <div class="secondary-panel-head">
+          <div>
+            <div class="secondary-panel-kicker">Reading model</div>
+            <h2 class="secondary-panel-title">Comment lire cette surface</h2>
+          </div>
+        </div>
+        <div class="page-copy-stack">
+          <p><strong>Audit quality</strong> mesure la qualite globale d'une fiche ou du catalogue.</p>
+          <p><strong>Completion coverage</strong> mesure les champs suivis, leurs cibles et les dettes restantes.</p>
+          <p><strong>Blocked by source</strong> indique une absence de source sure exploitable, pas une regression produit.</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="/js/pages/completion.js"></script>
+    <div class="footer-attribution">
+      Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
+    </div>
+  </body>
+</html>

@@ -99,6 +99,18 @@ describe('API RetroDex', () => {
     expect(Array.isArray(res.body.by_platform)).toBe(true)
   })
 
+  test('GET /api/audit/completion retourne la lecture canonique de completude', async () => {
+    const res = await request(app).get('/api/audit/completion')
+    expect(res.status).toBe(200)
+    expect(res.body.ok).toBe(true)
+    expect(res.body.overview).toBeDefined()
+    expect(Array.isArray(res.body.overview.bands)).toBe(true)
+    expect(Array.isArray(res.body.overview.families)).toBe(true)
+    expect(Array.isArray(res.body.overview.field_rankings)).toBe(true)
+    expect(res.body.overview.summary).toBeDefined()
+    expect(res.body.overview.summary.total_games).toBeGreaterThan(0)
+  })
+
   test('GET /api/games?sort=rarity_desc place un jeu LEGENDARY en tete', async () => {
     const res = await request(app).get('/api/games?sort=rarity_desc&limit=5')
     expect(res.status).toBe(200)

@@ -1,4 +1,4 @@
-'use strict'
+﻿'use strict'
 
 const urlParams = new URLSearchParams(window.location.search)
 
@@ -36,6 +36,13 @@ let searchTimer = null
 let compareTimer = null
 let selectionToken = 0
 let compareToken = 0
+
+const TREND_STATES = {
+  up: { key: 'up', label: 'Hausse', className: 'is-up', shortLabel: 'UP' },
+  down: { key: 'down', label: 'Repli', className: 'is-down', shortLabel: 'DOWN' },
+  flat: { key: 'flat', label: 'Stable', className: 'is-stable', shortLabel: 'FLAT' },
+  unknown: { key: 'unknown', label: 'Stable', className: 'is-stable', shortLabel: 'FLAT' },
+}
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -100,6 +107,14 @@ function averagePrice(rows) {
   return values.reduce((sum, value) => sum + value, 0) / values.length
 }
 
+function createTrendState(key, deltaText) {
+  const base = TREND_STATES[key] || TREND_STATES.unknown
+  return {
+    ...base,
+    deltaText,
+  }
+}
+
 function buildTrendState(sales = []) {
   const ranked = sales
     .filter((row) => Number.isFinite(Number(row.price)))
@@ -109,7 +124,7 @@ function buildTrendState(sales = []) {
   const sample = looseRows.length >= 4 ? looseRows : ranked
 
   if (sample.length < 4) {
-    return { symbol: '•', label: 'Stable', className: 'is-stable', deltaText: 'signal limite' }
+    return createTrendState('unknown', 'signal limite')
   }
 
   const segmentSize = Math.max(2, Math.floor(sample.length / 3))
@@ -117,17 +132,17 @@ function buildTrendState(sales = []) {
   const lastAvg = averagePrice(sample.slice(-segmentSize))
 
   if (!firstAvg || !lastAvg) {
-    return { symbol: '•', label: 'Stable', className: 'is-stable', deltaText: 'signal limite' }
+    return createTrendState('unknown', 'signal limite')
   }
 
   const delta = (lastAvg - firstAvg) / firstAvg
   if (delta >= 0.12) {
-    return { symbol: '↗', label: 'Hausse', className: 'is-up', deltaText: `+${Math.round(delta * 100)}%` }
+    return createTrendState('up', `+${Math.round(delta * 100)}%`)
   }
   if (delta <= -0.08) {
-    return { symbol: '↘', label: 'Repli', className: 'is-down', deltaText: `${Math.round(delta * 100)}%` }
+    return createTrendState('down', `${Math.round(delta * 100)}%`)
   }
-  return { symbol: '•', label: 'Stable', className: 'is-stable', deltaText: `${Math.round(delta * 100)}%` }
+  return createTrendState('flat', `${Math.round(delta * 100)}%`)
 }
 
 function normalizeGame(game) {
@@ -257,7 +272,6 @@ function renderHeroSummary() {
   const publisher = game.publisher || game.publisherName || game.developer || 'n/a'
   const developer = game.developer || 'n/a'
   const trend = buildTrendState(state.currentSales)
-  const trendSymbol = trend.className === 'is-up' ? 'UP' : trend.className === 'is-down' ? 'DOWN' : 'FLAT'
   const contentSignals = buildMarketContentSignals(game)
   const cover = game.coverImage
     ? `<img src="${escapeHtml(game.coverImage)}" alt="" class="market-cover" width="144" height="144" />`
@@ -297,7 +311,7 @@ function renderHeroSummary() {
               <div class="terminal-summary-label">Tendance</div>
               <div class="terminal-summary-value">
                 <span class="market-trend-badge ${trend.className}">
-                  <span class="market-trend-symbol">${trendSymbol}</span>
+                  <span class="market-trend-symbol">${escapeHtml(trend.shortLabel || 'FLAT')}</span>
                   <span>${escapeHtml(trend.label)}</span>
                   <span class="market-trend-delta">${escapeHtml(trend.deltaText)}</span>
                 </span>
@@ -745,3 +759,5 @@ boot().catch((error) => {
     heroSummaryEl.innerHTML = `<div class="market-empty-card">${escapeHtml(error.message)}</div>`
   }
 })
+
+

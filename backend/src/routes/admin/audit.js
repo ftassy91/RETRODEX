@@ -1,5 +1,5 @@
 'use strict'
-// DATA: Sequelize via audit-service - non-canonical admin/back-office route, not mounted by default
+// DATA: Sequelize via audit-service - non-canonical admin/back-office route, mounted only in local/admin runtime
 
 const { Router } = require('express')
 
@@ -12,6 +12,7 @@ const {
   getLegacyCanonicalDivergenceReport,
   getPriorityQueue,
 } = require('../../services/admin/audit-service')
+const { getCompletionOverview } = require('../../services/admin/completion-service')
 
 const router = Router()
 
@@ -60,6 +61,11 @@ router.get('/api/audit/priorities', handleAsync(async (req, res) => {
     persist: shouldPersist(req),
   })
   res.json({ ok: true, entityType, count: items.length, items })
+}))
+
+router.get('/api/audit/completion', handleAsync(async (_req, res) => {
+  const overview = await getCompletionOverview()
+  res.json({ ok: true, overview })
 }))
 
 module.exports = router

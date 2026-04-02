@@ -1,4 +1,4 @@
-'use strict'
+﻿'use strict'
 
 ;(() => {
   function hasText(value) {
@@ -79,7 +79,7 @@
     const hasRecords = hasText(archive.speedrun_wr || game.speedrun_wr) || toArray(content.competition).length > 0
 
     const features = [
-      { key: 'summary', label: 'Résumé', weight: 2, active: hasSummary },
+      { key: 'summary', label: 'Resume', weight: 2, active: hasSummary },
       { key: 'tagline', label: 'Tagline', weight: 1, active: hasTagline },
       { key: 'crew', label: 'Crew', weight: 1, active: teamEntries > 0 || hasText(game.dev_team) || hasText(game.developer) },
       { key: 'price', label: 'Prix', weight: 1, active: hasPrices },
@@ -88,7 +88,7 @@
       { key: 'anecdotes', label: 'Anecdotes', weight: 1, active: anecdoteCount > 0 },
       { key: 'cheats', label: 'Cheats', weight: 1, active: cheatCount > 0 },
       { key: 'versions', label: 'Versions', weight: 1, active: versionCount > 0 },
-      { key: 'duration', label: 'Durée', weight: 1, active: hasDuration },
+      { key: 'duration', label: 'Duree', weight: 1, active: hasDuration },
       { key: 'records', label: 'Records', weight: 1, active: hasRecords },
       { key: 'meta', label: 'Metascore', weight: 1, active: hasMetascore },
       { key: 'maps', label: 'Maps', weight: 1, active: hasMaps },

@@ -8190,6 +8190,90 @@ body {
   margin-bottom: 8px;
 }
 
+.completion-shell .completion-card {
+  display: grid;
+  gap: 12px;
+}
+
+.completion-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.completion-table {
+  display: grid;
+  gap: 6px;
+}
+
+.completion-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid rgba(45, 61, 41, 0.42);
+  background: rgba(8, 12, 8, 0.62);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.completion-row.is-head {
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.completion-family-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.completion-family-metrics > div,
+.completion-card-footer {
+  padding: 8px 10px;
+  border: 1px solid rgba(45, 61, 41, 0.42);
+  background: rgba(8, 12, 8, 0.62);
+}
+
+.completion-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  padding: 4px 8px;
+  border: 1px solid rgba(67, 95, 60, 0.52);
+  background: rgba(8, 12, 8, 0.82);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.completion-status-badge.is-strong {
+  color: var(--terminal-accent);
+}
+
+.completion-status-badge.is-close {
+  color: #d0d777;
+}
+
+.completion-status-badge.is-weak {
+  color: #d79064;
+}
+
+.completion-status-badge.is-blocked-by-source {
+  color: #d36b6b;
+}
+
 .debug-shell pre {
   margin: 0;
   white-space: pre-wrap;
@@ -8212,6 +8296,11 @@ body {
   .home-shell .meta,
   .debug-shell .meta,
   .random-card-shell .meta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .completion-family-metrics,
+  .completion-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -8250,6 +8339,11 @@ body {
   .home-shell .meta,
   .debug-shell .meta,
   .random-card-shell .meta {
+    grid-template-columns: 1fr;
+  }
+
+  .completion-family-metrics,
+  .completion-row {
     grid-template-columns: 1fr;
   }
 }

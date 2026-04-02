@@ -16,6 +16,8 @@ function createApp({
   useSupabaseServerlessRoutes,
 }) {
   const app = express()
+  const enableAdminRoutes = String(process.env.RETRODEX_ENABLE_ADMIN_ROUTES || '').trim() === '1'
+    || (!process.env.VERCEL && process.env.NODE_ENV !== 'production')
 
   app.use(cors({
     origin: process.env.ALLOWED_ORIGINS
@@ -44,8 +46,10 @@ function createApp({
       gameDetailExample: '/game-detail.html?id=tetris-game-boy',
       collection: '/collection.html',
       stats: '/stats.html',
+      completion: '/completion.html',
       debug: '/debug.html',
       health: '/api/health',
+      adminRoutesEnabled: enableAdminRoutes,
     })
   })
 
@@ -79,11 +83,16 @@ function createApp({
       database,
       storage,
       games,
+      adminRoutesEnabled: enableAdminRoutes,
       timestamp: new Date().toISOString(),
     })
   }))
 
   app.use(require('../routes'))
+
+  if (enableAdminRoutes) {
+    app.use(require('../routes/admin'))
+  }
 
   app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, '..', '..', 'public', '404.html'))

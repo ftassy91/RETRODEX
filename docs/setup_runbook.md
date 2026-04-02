@@ -46,6 +46,13 @@ Backend URL:
 http://localhost:3000/home.html
 ```
 
+Internal back-office surfaces:
+
+```text
+http://localhost:3000/debug.html
+http://localhost:3000/completion.html
+```
+
 ### Prototype frontend
 From the repo root, use:
 
@@ -137,6 +144,7 @@ Runbook:
 - Treat `backend/public/` as the canonical frontend location.
 - Treat `backend/` as the canonical runtime location.
 - Treat `frontend/` as a prototype area, not the default product surface.
+- Treat `/completion.html` and `/api/audit/completion` as the canonical internal completeness read surface.
 - Do not introduce new dependencies on external workspaces.
 - Do not assume the root `assets/` and `data/` folders have already absorbed the legacy frontend resources.
 - Prefer targeted corrections over broad migration.
@@ -149,3 +157,4 @@ Runbook:
 - The Notion gate is manual and single-write only.
 - Market import execution is not enabled at the root level.
 - Autonomous watchers and loops are not enabled.
+- Admin completeness routes are intended for local/admin runtime, not the main public product surface.

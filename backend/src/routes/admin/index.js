@@ -1,5 +1,5 @@
 'use strict'
-// DATA: non-canonical admin/back-office route tree - not mounted by default in the public runtime
+// DATA: non-canonical admin/back-office route tree - mounted only in local/admin runtime
 
 const { Router } = require('express')
 
