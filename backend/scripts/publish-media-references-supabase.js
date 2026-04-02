@@ -64,7 +64,7 @@ function normalizeJsonText(value) {
   try {
     return JSON.stringify(sortJsonValue(JSON.parse(normalized)));
   } catch {
-    return normalized;
+    return JSON.stringify(normalized);
   }
 }
 
@@ -311,7 +311,7 @@ async function syncMedia(client, localRows) {
         row.healthcheck_status || 'unchecked',
         row.notes,
         row.last_checked_at,
-        row.source_context,
+        normalizeJsonText(row.source_context),
       ]);
     }
   }
