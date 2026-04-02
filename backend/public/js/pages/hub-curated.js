@@ -71,7 +71,7 @@
         <p class="hub-module-copy">${esc(summary ? `${summary.slice(0, 118)}${summary.length > 118 ? '...' : ''}` : note)}</p>
         <div class="hub-universe-actions">
           <a class="hub-inline-link" href="${href}">ouvrir la fiche</a>
-          <a class="hub-inline-link" href="/stats.html?q=${encodeURIComponent(item.title || '')}">prix</a>
+          <a class="hub-inline-link" href="/collection.html">ouvrir la collection</a>
         </div>
       </article>
     `
@@ -93,12 +93,12 @@
       const consoles = Number(publication.consoleCount || 0)
       const withSynopsis = Number(statsPayload?.encyclopedia_stats?.with_synopsis || 0)
 
-      bannerEl.textContent = `${publication.label || 'PASS 1 curated'} | ${published} jeux publiés | ${consoles} consoles | archive publique en progression.`
+      bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} jeux publiés | ${consoles} consoles | archive publique en progression.`
       setText(publishedEl, String(published || '--'))
       setText(totalEl, String(total || '--'))
       setText(synopsisEl, String(withSynopsis || '--'))
       setText(consolesEl, String(consoles || '--'))
-      setText(publicationSignalEl, `${published} jeux publiés sur ${total || 'n/a'}`)
+      setText(publicationSignalEl, `${published} fiches visibles sur ${total || 'n/a'}`)
       setText(editorialSignalEl, `${withSynopsis} fiches avec synopsis exploitable`)
       setText(archiveSignalEl, richItems.length ? `${richItems.length} lectures fortes mises en avant` : 'sélection en cours')
 
@@ -109,7 +109,7 @@
 
       richGridEl.innerHTML = richItems.map(buildCard).join('')
     } catch (_error) {
-      bannerEl.textContent = "Surface publique curée PASS 1. Le hub reste une porte d'entrée vers les surfaces spécialisées."
+      bannerEl.textContent = "Surface publique curée. Le hub reste une porte d'entrée vers l'exploration, la collection et les fiches."
       setText(publicationSignalEl, 'indisponible')
       setText(editorialSignalEl, 'indisponible')
       setText(archiveSignalEl, 'indisponible')

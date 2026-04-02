@@ -9,55 +9,49 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="RetroDex" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-    <title>RetroDex - Catalogue</title>
-    <meta name="description" content="1500+ jeux rétro indexés avec prix vérifiés, rareté et contenu éditorial." />
-    <meta property="og:title" content="Catalogue | RetroDex" />
-    <meta property="og:description" content="1500+ jeux rétro indexés avec prix vérifiés, rareté et contenu éditorial." />
+    <title>RetroDex - Explorer</title>
+    <meta name="description" content="Explorer le fonds RetroDex, comparer rapidement et ouvrir les bonnes fiches." />
+    <meta property="og:title" content="Explorer | RetroDex" />
+    <meta property="og:description" content="Explorer le fonds RetroDex, comparer rapidement et ouvrir les bonnes fiches." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260402e" />
+    <link rel="stylesheet" href="/style.css?v=20260402g" />
     <script src="/js/core/content-signals.js"></script>
-    <script src="/js/renderGameRow.js?v=20260402e"></script>
+    <script src="/js/renderGameRow.js?v=20260402g"></script>
   </head>
   <body>
     <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
       <a class="global-product-home" href="/hub.html">Hub</a>
       <div class="global-product-links">
-        <a class="global-product-link is-market" href="/stats.html">
-          <span class="nav-label">RetroMarket</span>
-          <span class="nav-copy">prix | tendances | marché</span>
-        </a>
         <a class="global-product-link is-active" href="/games-list.html">
-          <span class="nav-label">RetroDex</span>
-          <span class="nav-copy">fiches | lore | encyclopédie</span>
+          <span class="nav-label">Explorer</span>
+          <span class="nav-copy">catalogue | recherche | fiches</span>
         </a>
         <a class="global-product-link" href="/collection.html">
-          <span class="nav-label">Collections</span>
+          <span class="nav-label">Collection</span>
           <span class="nav-copy">étagère | wishlist | suivi</span>
-        </a>
-        <a class="global-product-link" href="/search.html">
-          <span class="nav-label">Recherche</span>
-          <span class="nav-copy">recherche universelle</span>
         </a>
       </div>
     </nav>
+
     <main class="catalog-shell catalog-page">
+      <!-- RETRODEX CATALOGUE -->
       <header class="catalog-header catalog-page-head">
         <div class="catalog-page-titlezone">
           <nav class="breadcrumb">
             <a href="/hub.html">HUB</a>
             <span class="sep">&rsaquo;</span>
-            <span class="section">RETRODEX</span>
+            <span class="section">EXPLORER</span>
             <span class="sep">&rsaquo;</span>
             <span class="current">CATALOGUE</span>
           </nav>
-          <div class="detail-kicker">RETRODEX CATALOGUE</div>
-          <h1 class="page-title">CATALOGUE</h1>
-          <p id="catalog-subtitle" class="page-subtitle">Chargement du catalogue...</p>
-          <p id="catalog-curation-banner" class="pass1-surface-banner">PASS 1 curated | surface publique curée en préparation...</p>
+          <div class="detail-kicker">RETRODEX EXPLORER</div>
+          <h1 class="page-title">EXPLORER</h1>
+          <p id="catalog-subtitle" class="page-subtitle">Chargement du fonds publié...</p>
+          <p id="catalog-curation-banner" class="pass1-surface-banner">Surface publiée en préparation...</p>
           <p class="catalog-intro">
-            Expression catalogue de RetroDex. Filtrer, comparer, puis bifurquer vers les fiches,
-            les franchises et la couche éditoriale.
+            Explorer sert à trouver vite un jeu, comparer un petit ensemble de signaux, puis ouvrir
+            la fiche qui mérite une vraie lecture.
           </p>
         </div>
 
@@ -66,21 +60,21 @@
             <input
               type="text"
               id="global-search"
-              placeholder="/ Recherche transverse Search Core..."
+              placeholder="/ Entrer par la recherche rapide..."
               readonly
               onclick="location.href='/search.html'"
               style="cursor:pointer"
             />
           </div>
           <div class="catalog-search-jump-copy">
-            Recherche transverse multi-contexte. Pour filtrer le catalogue lui-même, utilisez le champ local dans le panneau de gauche.
+            Recherche rapide et catalogue décrivent le même système d'exploration.
           </div>
           <div class="page-nav-inline">
+            <a href="/search.html">Recherche rapide</a>
+            <span>&middot;</span>
             <a href="/franchises.html">Franchises</a>
             <span>&middot;</span>
-            <a href="/encyclopedia.html">Encyclopédie</a>
-            <span>&middot;</span>
-            <a href="/search.html">Recherche</a>
+            <a href="/consoles.html">Consoles</a>
           </div>
         </div>
       </header>
@@ -89,23 +83,22 @@
         <div class="product-universe-head">
           <div>
             <div class="detail-kicker">PRIMARY UNIVERSE</div>
-            <h2 class="product-universe-title">RETRODEX</h2>
+            <h2 class="product-universe-title">EXPLORER</h2>
           </div>
-          <div class="product-universe-chip">CATALOGUE</div>
+          <div class="product-universe-chip">CANONICAL INDEX</div>
         </div>
         <p class="product-universe-copy">
-          Catalogue central du produit. Cette page sert à parcourir le fonds de jeux, puis à
-          ouvrir la bonne profondeur de lecture : fiche jeu, franchise, encyclopédie ou recherche
-          transverse.
+          Surface maîtresse d'exploration. On filtre, on compare rapidement, puis on ouvre la fiche
+          jeu. Les lectures marché avancées restent secondaires.
         </p>
         <div class="product-universe-links">
           <a class="is-active" href="/games-list.html">Catalogue</a>
+          <a href="/search.html">Recherche rapide</a>
           <a href="/franchises.html">Franchises</a>
-          <a href="/encyclopedia.html">Encyclopédie</a>
-          <a href="/search.html">Recherche transversale</a>
+          <a href="/collection.html">Collection</a>
         </div>
         <div class="product-universe-overlap">
-          Overlap: Recherche pour l'entrée rapide | RetroMarket pour la lecture prix et confiance.
+          Overlap : la qualification marché reste dans la fiche jeu, la collection et la lecture avancée.
         </div>
       </section>
 
@@ -116,17 +109,17 @@
             <section class="search-panel catalog-filter-panel">
               <div class="catalog-panel-head">
                 <div>
-                  <div class="detail-kicker">CATALOG FILTERS</div>
-                  <div class="filters-sidebar-title">Mode de lecture</div>
+                  <div class="detail-kicker">EXPLORER FILTERS</div>
+                  <div class="filters-sidebar-title">Trouver puis ouvrir</div>
                 </div>
-                <div class="catalog-panel-copy">Filtrer la base par plateforme, rareté, période et tendance.</div>
+                <div class="catalog-panel-copy">Filtrer le fonds par plateforme, rareté, période et tendance.</div>
               </div>
 
               <div class="search-grid">
                 <div class="field field-query-primary">
-                  <label for="query">Recherche</label>
+                  <label for="query">Recherche locale</label>
                   <input id="query" type="text" placeholder="Rechercher un jeu, une console..." autocomplete="off" />
-                  <div class="field-helper">Filtre local catalogue. Titre, console, année ou genre.</div>
+                  <div class="field-helper">Titre, console, année ou genre dans la surface publiée.</div>
                 </div>
                 <div class="field">
                   <label for="console">Console</label>
@@ -215,7 +208,7 @@
         <section class="bloomberg-center catalog-main">
           <section class="results-bar catalog-results-bar">
             <div>
-              <div class="detail-kicker">CATALOG SIGNALS</div>
+              <div class="detail-kicker">EXPLORER SIGNALS</div>
               <div id="results-summary" class="results-summary-line">Lecture de l'index...</div>
             </div>
             <div id="loading-indicator" class="status-bar"></div>
@@ -226,29 +219,29 @@
           <div id="page-numbers" class="catalog-page-numbers"></div>
 
           <section class="pagination-bar catalog-pagination-bar">
-            <button id="prev-button" type="button" class="btn">Previous</button>
-            <div id="page-indicator" class="page-indicator">Page 1 of 1</div>
-            <button id="next-button" type="button" class="btn">Next</button>
+            <button id="prev-button" class="btn btn-secondary" type="button">Précédent</button>
+            <div id="page-indicator" class="pagination-indicator">Page 1</div>
+            <button id="next-button" class="btn btn-secondary" type="button">Suivant</button>
           </section>
         </section>
 
-        <aside class="bloomberg-detail catalog-detail">
-          <div class="quick-detail-panel surface-preview-panel">
-            <div class="detail-kicker">DETAIL PREVIEW</div>
-            <div class="quick-detail-head">Lecture rapide</div>
-            <div id="quick-detail" class="quick-detail-placeholder">&larr; Survoler ou sélectionner un jeu</div>
-          </div>
+        <aside class="bloomberg-right detail-sidebar catalog-preview-sidebar">
+          <section id="quick-detail" class="quick-detail-placeholder terminal-empty-state">
+            <div class="terminal-empty-title">Preview</div>
+            <div class="terminal-empty-copy">Survolez ou sélectionnez un jeu pour lire un résumé court avant d'ouvrir la fiche.</div>
+          </section>
         </aside>
       </section>
     </main>
 
+    <script src="/js/core/config.js"></script>
+    <script src="/js/core/dom.js"></script>
+    <script src="/js/core/format.js"></script>
     <script src="/js/core/api.js"></script>
+    <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/core/search-core.js?v=20260330b"></script>
-    <script src="/js/pages/games-list.js?v=20260402e"></script>
-    <div class="footer-attribution">
-      Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
-    </div>
+    <script src="/js/pages/games-list.js?v=20260402g"></script>
+    <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>

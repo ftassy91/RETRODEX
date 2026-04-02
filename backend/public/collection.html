@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -10,187 +10,202 @@
     <meta name="apple-mobile-web-app-title" content="RetroDex">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
-    <title>RetroDex - Ma collection</title>
-    <meta name="description" content="Gerez votre collection r?tro : valeur, condition, wishlist." />
+    <title>RetroDex - Collection</title>
+    <meta name="description" content="Cockpit personnel RetroDex : étagère, wishlist, valeur et priorités de lecture." />
     <meta property="og:title" content="Collection | RetroDex" />
-    <meta property="og:description" content="Gerez votre collection r?tro : valeur, condition, wishlist." />
+    <meta property="og:description" content="Cockpit personnel RetroDex : étagère, wishlist, valeur et priorités de lecture." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260324d" />
+    <link rel="stylesheet" href="/style.css?v=20260402g" />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
-    <nav class="site-nav" aria-label="Navigation">
-      <div class="site-nav-links"><a class="site-nav-link" href="/hub.html"><span class="site-nav-cursor">▶</span><span>RetroDex</span></a>
-        <a class="site-nav-link" href="/games-list.html">
-          <span class="site-nav-cursor">▶</span>
-          <span>Catalogue</span>
-          <span class="site-nav-desc">Jeux · Consoles · Franchises</span>
-        </a>
-        <a class="site-nav-link is-active" href="/collection.html">
-          <span class="site-nav-cursor">▶</span>
-          <span>Ma Collection</span>
-          <span class="site-nav-desc">Étagère · Wishlist · Suivi</span>
-        </a>
-      </div>
-    </nav>
-    <nav class="global-product-nav" aria-label="Navigation RetroDex">
+    <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
       <a class="global-product-home" href="/hub.html">Hub</a>
       <div class="global-product-links">
-        <a class="global-product-link is-catalogue" href="/games-list.html">
-          <span class="nav-label">Catalogue</span>
-          <span class="nav-copy">jeux · consoles · franchises</span>
+        <a class="global-product-link" href="/games-list.html">
+          <span class="nav-label">Explorer</span>
+          <span class="nav-copy">catalogue | recherche | fiches</span>
         </a>
-        <a class="global-product-link is-collection is-active" href="/collection.html">
-          <span class="nav-label">Ma Collection</span>
-          <span class="nav-copy">étagère · wishlist · suivi</span>
+        <a class="global-product-link is-active" href="/collection.html">
+          <span class="nav-label">Collection</span>
+          <span class="nav-copy">étagère | wishlist | suivi</span>
         </a>
       </div>
     </nav>
-    <main id="main-content" class="page-wrapper">
+    <main id="main-content" class="page-wrapper collection-cockpit-page">
+      <!-- MA COLLECTION -->
       <nav class="breadcrumb" aria-label="Fil d'ariane">
         <a href="/hub.html">HUB</a>
         <span class="sep" aria-hidden="true">›</span>
-        <a href="/collection.html">COLLECTIONNER</a>
+        <span class="section">COLLECTION</span>
         <span class="sep" aria-hidden="true">›</span>
-        <span class="current">MA COLLECTION</span>
+        <span class="current">COCKPIT PERSONNEL</span>
       </nav>
 
-      <div id="public-banner" class="terminal-context" style="display:none;border-top:none;padding-top:6px;padding-bottom:6px;">
+      <section class="product-universe-frame is-collection">
+        <div class="product-universe-head">
+          <div>
+            <div class="detail-kicker">SECOND STRONG SURFACE</div>
+            <h1 class="product-universe-title">COLLECTION</h1>
+          </div>
+          <div class="product-universe-chip">PERSONAL COCKPIT</div>
+        </div>
+        <p class="product-universe-copy">
+          La collection relie l'archive à votre usage personnel : ce que vous possédez, ce que vous visez,
+          ce qu'il faut relire ou qualifier.
+        </p>
+        <div class="product-universe-links">
+          <a class="is-active" href="/collection.html">Cockpit</a>
+          <a href="/games-list.html">Explorer</a>
+          <a href="/search.html">Recherche rapide</a>
+        </div>
+      </section>
+
+      <div id="public-banner" class="terminal-context collection-public-banner" style="display:none;">
         Liste publique - consultation uniquement
       </div>
 
-      <div class="terminal-summary-bar" id="collection-summary-bar">
-        <div class="terminal-summary-cell">
-          <div class="terminal-summary-label">ITEMS</div>
-          <div class="terminal-summary-value" id="stat-total">-</div>
+      <section class="collection-cockpit-shell">
+        <div class="terminal-summary-bar collection-summary-hero" id="collection-summary-bar">
+          <div class="terminal-summary-cell">
+            <div class="terminal-summary-label">ENTRÉES</div>
+            <div class="terminal-summary-value" id="stat-total">-</div>
+          </div>
+          <div class="terminal-summary-cell">
+            <div class="terminal-summary-label">VALEUR LOOSE</div>
+            <div class="terminal-summary-value neutral" id="stat-value-loose">-</div>
+          </div>
+          <div class="terminal-summary-cell">
+            <div class="terminal-summary-label">PAYÉ</div>
+            <div class="terminal-summary-value" id="stat-paid">-</div>
+          </div>
+          <div class="terminal-summary-cell">
+            <div class="terminal-summary-label">DELTA</div>
+            <div class="terminal-summary-value" id="stat-gain">-</div>
+          </div>
+          <div class="terminal-summary-cell">
+            <div class="terminal-summary-label">VALEUR CIB</div>
+            <div class="terminal-summary-value" id="stat-value-cib">-</div>
+          </div>
+          <div class="terminal-summary-cell">
+            <div class="terminal-summary-label">VALEUR MINT</div>
+            <div class="terminal-summary-value" id="stat-value-mint">-</div>
+          </div>
         </div>
-        <div class="terminal-summary-cell">
-          <div class="terminal-summary-label">VALEUR LOOSE</div>
-          <div class="terminal-summary-value neutral" id="stat-value-loose">-</div>
-        </div>
-        <div class="terminal-summary-cell">
-          <div class="terminal-summary-label">PAYE</div>
-          <div class="terminal-summary-value" id="stat-paid">-</div>
-        </div>
-        <div class="terminal-summary-cell">
-          <div class="terminal-summary-label">+/- ESTIME</div>
-          <div class="terminal-summary-value" id="stat-gain">-</div>
-        </div>
-        <div class="terminal-summary-cell">
-          <div class="terminal-summary-label">VALEUR CIB</div>
-          <div class="terminal-summary-value" id="stat-value-cib">-</div>
-        </div>
-        <div class="terminal-summary-cell">
-          <div class="terminal-summary-label">VALEUR MINT</div>
-          <div class="terminal-summary-value" id="stat-value-mint">-</div>
-        </div>
-      </div>
 
-      <div class="terminal-context" style="padding-top:8px;padding-bottom:8px;">
-        <a href="/search.html" class="terminal-action-link">Ajouter un jeu -> rechercher dans le catalogue</a>
-      </div>
-
-      <div class="terminal-filter-bar" style="margin-top:0">
-        <div class="terminal-filter-group">
-          <button class="terminal-filter-btn active" data-list="owned" type="button">MA COLLECTION</button>
-          <button class="terminal-filter-btn" data-list="wanted" type="button">WISHLIST</button>
-          <button class="terminal-filter-btn" data-list="for_sale" type="button">A VENDRE</button>
+        <div class="collection-cockpit-topline terminal-context">
+          <a href="/games-list.html" class="terminal-action-link">Ouvrir Explorer -></a>
+          <a href="/search.html" class="terminal-action-link">Entrée rapide -></a>
         </div>
-        <div class="terminal-filter-group" style="margin-left:auto">
-          <button class="terminal-filter-btn" id="copy-sale-link-btn" type="button" style="display:none">COPIER LIEN</button>
-          <button class="terminal-filter-btn" id="collection-add-btn" type="button">[/] AJOUTER</button>
-        </div>
-      </div>
 
-      <div class="terminal-filter-bar collection-toolbar surface-query-shell">
-        <div class="terminal-filter-group collection-toolbar-group">
-          <input id="collection-search-input" class="collection-toolbar-input" type="search" placeholder="Filtrer par titre ou note..." aria-label="Search games to add" />
-          <select id="collection-console-filter" class="collection-toolbar-select">
-            <option value="">Toutes les consoles</option>
-          </select>
-          <select id="collection-sort-select" class="collection-toolbar-select">
-            <option value="title_asc">Titre A-Z</option>
-            <option value="title_desc">Titre Z-A</option>
-            <option value="paid_desc">Prix d'achat decroissant</option>
-            <option value="paid_asc">Prix d'achat croissant</option>
-            <option value="value_desc">Valeur loose decroissante</option>
-          </select>
+        <div class="terminal-filter-bar collection-mode-bar" style="margin-top:0">
+          <div class="terminal-filter-group">
+            <button class="terminal-filter-btn active" data-list="owned" type="button">ÉTAGÈRE</button>
+            <button class="terminal-filter-btn" data-list="wanted" type="button">WISHLIST</button>
+            <button class="terminal-filter-btn" data-list="for_sale" type="button">À VENDRE</button>
+          </div>
+          <div class="terminal-filter-group" style="margin-left:auto">
+            <button class="terminal-filter-btn" id="copy-sale-link-btn" type="button" style="display:none">COPIER LIEN</button>
+            <button class="terminal-filter-btn" id="collection-add-btn" type="button">AJOUTER</button>
+          </div>
         </div>
-        <div class="terminal-filter-group" style="margin-left:auto">
-          <button class="terminal-filter-btn" id="collection-export-btn" type="button">EXPORT CSV</button>
-        </div>
-      </div>
 
-      <div id="status-text" class="terminal-context terminal-status-line" role="status" aria-live="polite">
-        Chargement...
-      </div>
-
-      <div class="terminal-table-header" role="table" aria-label="Collection" style="grid-template-columns: 12px 1fr 90px 60px 70px 70px 70px">
-        <div role="row" style="display:contents">
-          <span role="columnheader"></span>
-          <span role="columnheader">TITRE</span>
-          <span role="columnheader">CONSOLE</span>
-          <span role="columnheader">COND.</span>
-          <span role="columnheader" style="text-align:right">PRIX</span>
-          <span role="columnheader" style="text-align:right">PAYE</span>
-          <span role="columnheader" style="text-align:right">GAIN</span>
-        </div>
-      </div>
-      <div id="collection-list-container" role="rowgroup"></div>
-
-      <div class="terminal-preview-panel surface-preview-panel" id="collection-detail" style="display:none">
-        <div class="terminal-preview-label">SELECTION</div>
-        <div class="terminal-preview-title" id="detail-title">-</div>
-        <div class="terminal-preview-row surface-identity-meta" id="detail-row1"></div>
-        <div class="surface-signal-grid is-five" id="detail-signal-grid"></div>
-        <div class="terminal-preview-row surface-chip-row" id="detail-chip-row"></div>
-        <div class="collection-preview-summary surface-summary-copy" id="detail-summary"></div>
-        <div id="detail-metascore" class="preview-metascore"></div>
-        <div class="terminal-preview-row surface-action-row" id="detail-row2"></div>
-        <form id="collection-edit-form" class="collection-form collection-edit-form" hidden>
-          <div class="collection-controls">
-            <select id="edit-condition" class="collection-condition-select" aria-label="Etat du jeu">
-              <option value="Loose">Loose</option>
-              <option value="CIB">CIB</option>
-              <option value="Mint">Mint</option>
+        <div class="terminal-filter-bar collection-toolbar surface-query-shell">
+          <div class="terminal-filter-group collection-toolbar-group">
+            <input id="collection-search-input" class="collection-toolbar-input" type="search" placeholder="Filtrer par titre ou note..." aria-label="Search games to add" />
+            <select id="collection-console-filter" class="collection-toolbar-select">
+              <option value="">Toutes les consoles</option>
             </select>
-            <input
-              id="edit-price-paid"
-              class="collection-condition-select"
-              type="number"
-              min="0"
-              step="0.01"
-              inputmode="decimal"
-              placeholder="Prix d'achat"
-              aria-label="Prix d'achat"
-            />
-            <input
-              id="edit-purchase-date"
-              class="collection-condition-select"
-              type="date"
-              aria-label="Date d'achat"
-            />
+            <select id="collection-sort-select" class="collection-toolbar-select">
+              <option value="title_asc">Titre A-Z</option>
+              <option value="title_desc">Titre Z-A</option>
+              <option value="paid_desc">Prix d'achat décroissant</option>
+              <option value="paid_asc">Prix d'achat croissant</option>
+              <option value="value_desc">Valeur loose décroissante</option>
+            </select>
           </div>
-          <textarea
-            id="edit-notes"
-            class="collection-note-input"
-            rows="2"
-            maxlength="320"
-            placeholder="Notes personnelles..."
-          ></textarea>
-          <div class="collection-edit-actions">
-            <button id="collection-edit-save-btn" class="terminal-inline-btn" type="submit">ENREGISTRER</button>
-            <button id="collection-edit-cancel-btn" class="terminal-inline-btn" type="button">ANNULER</button>
+          <div class="terminal-filter-group" style="margin-left:auto">
+            <button class="terminal-filter-btn" id="collection-export-btn" type="button">EXPORT CSV</button>
           </div>
-        </form>
-      </div>
+        </div>
+
+        <div id="status-text" class="terminal-context terminal-status-line collection-status-line" role="status" aria-live="polite">
+          Chargement...
+        </div>
+
+        <section class="collection-cockpit-grid">
+          <div class="collection-cockpit-main">
+            <div class="terminal-table-header collection-table-header" role="table" aria-label="Collection" style="grid-template-columns: 12px 1fr 90px 60px 70px 70px 70px">
+              <div role="row" style="display:contents">
+                <span role="columnheader"></span>
+                <span role="columnheader">TITRE</span>
+                <span role="columnheader">SUPPORT</span>
+                <span role="columnheader">ÉTAT</span>
+                <span role="columnheader" style="text-align:right">LOOSE</span>
+                <span role="columnheader" style="text-align:right">PAYÉ</span>
+                <span role="columnheader" style="text-align:right">DELTA</span>
+              </div>
+            </div>
+            <div id="collection-list-container" role="rowgroup"></div>
+          </div>
+
+          <aside class="collection-cockpit-side">
+            <div class="terminal-preview-panel surface-preview-panel collection-preview-shell" id="collection-detail" style="display:none">
+              <div class="terminal-preview-label">SELECTION</div>
+              <div class="terminal-preview-title" id="detail-title">-</div>
+              <div class="terminal-preview-row surface-identity-meta" id="detail-row1"></div>
+              <div class="surface-signal-grid is-five" id="detail-signal-grid"></div>
+              <div class="terminal-preview-row surface-chip-row" id="detail-chip-row"></div>
+              <div class="collection-preview-summary surface-summary-copy" id="detail-summary"></div>
+              <div id="detail-metascore" class="preview-metascore"></div>
+              <div class="terminal-preview-row surface-action-row" id="detail-row2"></div>
+              <form id="collection-edit-form" class="collection-form collection-edit-form" hidden>
+                <div class="collection-controls">
+                  <select id="edit-condition" class="collection-condition-select" aria-label="État du jeu">
+                    <option value="Loose">Loose</option>
+                    <option value="CIB">CIB</option>
+                    <option value="Mint">Mint</option>
+                  </select>
+                  <input
+                    id="edit-price-paid"
+                    class="collection-condition-select"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    inputmode="decimal"
+                    placeholder="Prix d'achat"
+                    aria-label="Prix d'achat"
+                  />
+                  <input
+                    id="edit-purchase-date"
+                    class="collection-condition-select"
+                    type="date"
+                    aria-label="Date d'achat"
+                  />
+                </div>
+                <textarea
+                  id="edit-notes"
+                  class="collection-note-input"
+                  rows="2"
+                  maxlength="320"
+                  placeholder="Notes personnelles..."
+                ></textarea>
+                <div class="collection-edit-actions">
+                  <button id="collection-edit-save-btn" class="terminal-inline-btn" type="submit">ENREGISTRER</button>
+                  <button id="collection-edit-cancel-btn" class="terminal-inline-btn" type="button">ANNULER</button>
+                </div>
+              </form>
+            </div>
+          </aside>
+        </section>
+      </section>
 
       <div class="terminal-footer">
         <span><kbd>[UP/DN]</kbd> Naviguer</span>
         <span><kbd>[Enter]</kbd> Ouvrir la fiche</span>
         <span><kbd>[Del]</kbd> Retirer avec confirmation</span>
-        <span><kbd>[/]</kbd> Rechercher pour ajouter</span>
+        <span><kbd>[/]</kbd> Ajouter depuis Explorer</span>
       </div>
 
       <div class="footer-igdb">
@@ -205,8 +220,7 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/collection.js?v=20260324b"></script>
+    <script src="/js/pages/collection.js?v=20260402g"></script>
     <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>
-

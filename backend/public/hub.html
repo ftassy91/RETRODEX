@@ -11,32 +11,24 @@
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="icon" type="image/png" href="/icons/icon-192.png">
   <title>RetroDex - Hub</title>
-  <meta name="description" content="Cockpit d'orientation RetroDex : archive, catalogue, lecture et reprise.">
+  <meta name="description" content="Cockpit d'orientation RetroDex : entrer, explorer, reprendre et ouvrir les fiches fortes.">
   <meta property="og:title" content="Hub | RetroDex">
-  <meta property="og:description" content="Cockpit d'orientation RetroDex : archive, catalogue, lecture et reprise.">
+  <meta property="og:description" content="Cockpit d'orientation RetroDex : entrer, explorer, reprendre et ouvrir les fiches fortes.">
   <meta property="og:type" content="website">
   <meta name="robots" content="index, follow">
-  <link rel="stylesheet" href="/style.css?v=20260402e">
+  <link rel="stylesheet" href="/style.css?v=20260402g">
 </head>
 <body class="hub-page hub-orientation-page">
   <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
     <a class="global-product-home is-active" href="/hub.html">Hub</a>
     <div class="global-product-links">
-      <a class="global-product-link" href="/games-list.html">
-        <span class="nav-label">RetroDex</span>
-        <span class="nav-copy">catalogue | fiches | lecture</span>
-      </a>
-      <a class="global-product-link is-market" href="/stats.html">
-        <span class="nav-label">RetroMarket</span>
-        <span class="nav-copy">prix | tendances | marché</span>
+      <a class="global-product-link is-active" href="/games-list.html">
+        <span class="nav-label">Explorer</span>
+        <span class="nav-copy">catalogue | recherche | fiches</span>
       </a>
       <a class="global-product-link" href="/collection.html">
-        <span class="nav-label">Collections</span>
+        <span class="nav-label">Collection</span>
         <span class="nav-copy">étagère | wishlist | suivi</span>
-      </a>
-      <a class="global-product-link" href="/search.html">
-        <span class="nav-label">Recherche</span>
-        <span class="nav-copy">recherche universelle</span>
       </a>
     </div>
   </nav>
@@ -45,7 +37,7 @@
     <nav class="breadcrumb hub-breadcrumb" aria-label="Fil d'ariane">
       <span class="section">HUB</span>
       <span class="sep">&rsaquo;</span>
-      <span class="current">ORIENTATION COCKPIT</span>
+      <span class="current">ORIENTATION</span>
     </nav>
 
     <section class="hub-orientation-head">
@@ -54,8 +46,8 @@
         <div class="hub-kicker">KNOWLEDGE TERMINAL</div>
         <h1 class="hub-page-title">RETRODEX</h1>
         <p class="hub-intro">
-          Poste de commande pour entrer dans l'archive, reprendre une lecture forte et bifurquer
-          rapidement vers le catalogue, la fiche jeu ou les couches de support.
+          Entrez vite dans l'archive, ouvrez la bonne fiche, puis poursuivez depuis la lecture,
+          la collection ou l'analyse avancée si nécessaire.
         </p>
 
         <form class="hub-search-form" action="/search.html" method="get">
@@ -70,13 +62,13 @@
             autofocus
             spellcheck="false"
           >
-          <button class="hub-search-button" type="submit">ENTRER</button>
+          <button class="hub-search-button" type="submit">EXPLORER</button>
         </form>
 
-        <div class="hub-stats">
+        <div class="hub-stats hub-stats-compact">
           <div class="hub-stat is-primary">
             <span id="hub-stat-published" class="val">--</span>
-            <span class="lbl">jeux publiés</span>
+            <span class="lbl">fiches publiées</span>
           </div>
           <div class="hub-stat">
             <span id="hub-stat-total" class="val">--</span>
@@ -84,7 +76,7 @@
           </div>
           <div class="hub-stat">
             <span id="hub-stat-synopsis" class="val">--</span>
-            <span class="lbl">fiches avec synopsis</span>
+            <span class="lbl">lectures éditoriales</span>
           </div>
           <div class="hub-stat">
             <span id="hub-stat-consoles" class="val">--</span>
@@ -98,58 +90,69 @@
       <div class="hub-intent-head">
         <div>
           <div class="hub-panel-label">PRIMARY PATHS</div>
-          <div class="hub-module-title">Entrer vite dans la bonne surface</div>
+          <div class="hub-module-title">Choisir la bonne entrée</div>
         </div>
-        <div class="hub-module-copy">Le hub oriente. Les lectures longues se font ensuite sur le catalogue et les fiches.</div>
+        <div class="hub-module-copy">Le hub oriente. La lecture forte se fait ensuite dans les fiches.</div>
       </div>
-      <div class="hub-intent-grid">
+      <div class="hub-intent-grid hub-intent-grid-three">
         <article class="hub-intent-card">
           <span class="hub-intent-label">Explorer</span>
-          <p class="hub-intent-copy">Parcourir le fonds, comparer rapidement et ouvrir la bonne fiche.</p>
-          <div class="hub-intent-links"><a href="/games-list.html">Ouvrir le catalogue</a></div>
+          <p class="hub-intent-copy">Parcourir le fonds, filtrer vite et ouvrir la bonne fiche.</p>
+          <div class="hub-intent-links"><a href="/games-list.html">Ouvrir Explorer</a></div>
         </article>
         <article class="hub-intent-card">
-          <span class="hub-intent-label">Lire</span>
-          <p class="hub-intent-copy">Accéder aux fiches les plus denses et aux dossiers déjà riches.</p>
-          <div class="hub-intent-links"><a href="/encyclopedia.html">Aller à l'encyclopédie</a></div>
+          <span class="hub-intent-label">Collection</span>
+          <p class="hub-intent-copy">Reprendre votre étagère, votre wishlist et les jeux à revoir.</p>
+          <div class="hub-intent-links"><a href="/collection.html">Ouvrir Collection</a></div>
         </article>
         <article class="hub-intent-card">
-          <span class="hub-intent-label">Qualifier</span>
-          <p class="hub-intent-copy">Lire le signal prix et la confiance sans quitter le système.</p>
-          <div class="hub-intent-links"><a href="/stats.html">Ouvrir RetroMarket</a></div>
-        </article>
-        <article class="hub-intent-card">
-          <span class="hub-intent-label">Reprendre</span>
-          <p class="hub-intent-copy">Retrouver l'étagère perso, la wishlist et les prochains jeux à revoir.</p>
-          <div class="hub-intent-links"><a href="/collection.html">Ouvrir Collections</a></div>
+          <span class="hub-intent-label">Qualification</span>
+          <p class="hub-intent-copy">Approfondir un signal marché ou une comparaison avancée.</p>
+          <div class="hub-intent-links"><a href="/stats.html">Lecture avancée</a></div>
         </article>
       </div>
     </section>
 
-    <section class="hub-secondary-grid">
+    <section class="hub-secondary-grid hub-secondary-grid-main">
       <div class="hub-secondary-main">
         <section class="hub-module">
           <div class="hub-module-head">
             <div>
-              <div class="hub-module-kicker">READING PRIORITY</div>
+              <div class="hub-module-kicker">READ NEXT</div>
               <h2 class="hub-module-title">Fiches fortes à ouvrir</h2>
             </div>
-            <a class="hub-module-link" href="/games-list.html">Catalogue complet</a>
+            <a class="hub-module-link" href="/games-list.html">Voir tout Explorer</a>
           </div>
           <p class="hub-module-copy">
-            Sélection courte de jeux publiés qui présentent déjà plusieurs couches de lecture :
-            résumé, prix, crew, médias ou signaux avancés.
+            Sélection courte de fiches déjà assez riches pour donner une vraie lecture de l'archive.
           </p>
           <div id="hub-rich-grid" class="hub-encyclo-grid">
             <div class="terminal-empty-state hub-empty-state">
               <div class="terminal-empty-title">Chargement</div>
-              <div class="terminal-empty-copy">Lecture des dossiers les plus riches.</div>
+              <div class="terminal-empty-copy">Lecture des fiches les plus denses.</div>
             </div>
           </div>
         </section>
       </div>
 
       <aside class="hub-secondary-side">
+        <section class="hub-module hub-signals-panel">
+          <div class="hub-module-head">
+            <div>
+              <div class="hub-module-kicker">REPRISE</div>
+              <h2 class="hub-module-title">Continuer sans détour</h2>
+            </div>
+          </div>
+          <p class="hub-module-copy">
+            Revenir à la collection, entrer directement dans l'exploration ou ouvrir une lecture avancée.
+          </p>
+          <div class="hub-system-actions hub-system-actions-stack">
+            <a class="hub-action-inline" href="/collection.html">ouvrir la collection</a>
+            <a class="hub-action-inline" href="/games-list.html">ouvrir explorer</a>
+            <a class="hub-action-inline" href="/stats.html">lecture marché avancée</a>
+          </div>
+        </section>
+
         <section class="hub-module hub-signals-panel">
           <div class="hub-module-head">
             <div>
@@ -163,18 +166,13 @@
               <span id="hub-system-publication" class="hub-system-value">chargement</span>
             </div>
             <div class="hub-system-row">
-              <span class="hub-system-key">couverture éditoriale</span>
+              <span class="hub-system-key">lecture éditoriale</span>
               <span id="hub-system-editorial" class="hub-system-value">chargement</span>
             </div>
             <div class="hub-system-row">
               <span class="hub-system-key">archive</span>
               <span id="hub-system-archive" class="hub-system-value">chargement</span>
             </div>
-          </div>
-          <div class="hub-system-actions">
-            <a class="hub-action-inline" href="/games-list.html">catalogue</a>
-            <a class="hub-action-inline" href="/search.html">recherche</a>
-            <a class="hub-action-inline" href="/consoles.html">consoles</a>
           </div>
         </section>
       </aside>
@@ -184,6 +182,6 @@
   <script src="/js/core/api.js"></script>
   <script src="/js/core/format.js"></script>
   <script src="/js/core/content-signals.js"></script>
-  <script src="/js/pages/hub-curated.js?v=20260402e"></script>
+  <script src="/js/pages/hub-curated.js?v=20260402g"></script>
 </body>
 </html>

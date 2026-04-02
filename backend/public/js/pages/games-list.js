@@ -66,7 +66,7 @@ const textCmp = (left, right) => String(left || '').localeCompare(String(right |
 
 function mediaSignalLabels(game) {
   const labels = []
-  if (game?.curation?.isPublished) labels.push('PASS 1 curated')
+  if (game?.curation?.isPublished) labels.push('Publié')
   if (game?.signals?.hasMaps) labels.push('MAP')
   if (game?.signals?.hasManuals) labels.push('MANUAL')
   if (game?.signals?.hasSprites) labels.push('SPRITE')
@@ -76,7 +76,7 @@ function mediaSignalLabels(game) {
 
 function renderSignalChips(labels = [], classes = 'surface-chip') {
   return labels.length
-    ? `<div class="surface-chip-row">${labels.map((label, index) => `<span class="${classes}${index === 0 && label === 'PASS 1 curated' ? ' is-primary' : ''}">${esc(label)}</span>`).join('')}</div>`
+    ? `<div class="surface-chip-row">${labels.map((label, index) => `<span class="${classes}${index === 0 && label === 'Publié' ? ' is-primary' : ''}">${esc(label)}</span>`).join('')}</div>`
     : ''
 }
 
@@ -84,7 +84,7 @@ function setCatalogPublicationCopy(summary = null) {
   if (!summary) {
     if (subtitleEl) subtitleEl.textContent = `${totalGames} jeux en base`
     if (curationBannerEl) {
-      curationBannerEl.textContent = 'Surface publique curée PASS 1. Chargement des signaux de publication.'
+      curationBannerEl.textContent = 'Surface publique curée. Chargement des signaux de publication.'
     }
     return
   }
@@ -93,12 +93,12 @@ function setCatalogPublicationCopy(summary = null) {
   const published = Number(summary.publishedGamesCount || 0)
   const consoles = Number(summary.consoleCount || 0)
   const total = Number(summary.catalogGamesCount || totalGames || 0)
-  const label = summary.label || 'PASS 1 curated'
+  const label = summary.label || 'Pass 1'
   if (subtitleEl) {
-    subtitleEl.textContent = `${published} jeux publiés | ${consoles} consoles | ${label}`
+    subtitleEl.textContent = `${published} fiches visibles | ${consoles} consoles | ${label}`
   }
   if (curationBannerEl) {
-    curationBannerEl.textContent = `${label} : ${published} jeux publiés sur ${total} jeux en base. La surface visible est une sélection validée, pas l'intégralité du fonds.`
+    curationBannerEl.textContent = `${label} : ${published} fiches visibles sur ${total} jeux en base. Explorer lit une sélection validée, pas l'intégralité du fonds.`
   }
 }
 
@@ -337,7 +337,7 @@ function quickDetailStateMarkup(title, copy) {
 
 function renderQuickDetailEmpty(message = 'Survoler ou sélectionner un jeu') {
   quickDetailEl.className = 'quick-detail-placeholder terminal-empty-state'
-  quickDetailEl.innerHTML = quickDetailStateMarkup('Preview catalogue', message)
+  quickDetailEl.innerHTML = quickDetailStateMarkup('Preview Explorer', message)
 }
 
 function detailPrice(value) {
@@ -406,9 +406,9 @@ function quickDetailMarkup(game, currentState) {
       <div id="preview-metascore" class="preview-metascore"></div>
       ${description ? `<div class="detail-description surface-summary-copy">${description}</div>` : ''}
       <div class="detail-link-group surface-action-row">
-        <a class="detail-link terminal-action-link" href="${detailHref}">Voir fiche complète →</a>
-        <a class="detail-link terminal-action-link" href="${detailHref}#price-history-section">Ouvrir la trace prix →</a>
-        <a class="detail-link terminal-action-link" href="/encyclopedia.html?game=${encodeURIComponent(game.id)}">Ouvrir RetroDex →</a>
+        <a class="detail-link terminal-action-link" href="${detailHref}">Ouvrir la fiche →</a>
+        <a class="detail-link terminal-action-link" href="/collection.html">Aller à Collection →</a>
+        <a class="detail-link terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title || '')}">Qualification avancée →</a>
       </div>
     </div>
   `
@@ -440,7 +440,7 @@ async function loadQuickDetail(gameId) {
   markSelectedRow()
   updateUrl(state())
   quickDetailEl.className = 'quick-detail-loading terminal-empty-state'
-  quickDetailEl.innerHTML = quickDetailStateMarkup('Chargement', 'Lecture du signal marché et des actions disponibles.')
+  quickDetailEl.innerHTML = quickDetailStateMarkup('Chargement', 'Lecture des signaux visibles et des actions disponibles.')
 
   try {
     const game = await fetchJson(`/api/games/${encodeURIComponent(gameId)}`)
@@ -449,7 +449,7 @@ async function loadQuickDetail(gameId) {
     renderPreviewMetascore(game)
   } catch (error) {
     quickDetailEl.className = 'quick-detail-placeholder terminal-empty-state'
-    quickDetailEl.innerHTML = quickDetailStateMarkup('Detail indisponible', `Impossible de charger le detail (${error.message})`)
+    quickDetailEl.innerHTML = quickDetailStateMarkup('Détail indisponible', `Impossible de charger le détail (${error.message})`)
   }
 }
 
@@ -464,7 +464,7 @@ function previewQuickDetail(game, currentState) {
 function renderSummary(currentState, total) {
   const pills = [
     publicationSummary?.passKey
-      ? `<span class="summary-pill active">${esc(publicationSummary.label || 'PASS 1 curated')}</span>`
+      ? `<span class="summary-pill active">${esc(publicationSummary.label || 'Pass 1')}</span>`
       : '',
     publicationSummary?.publishedGamesCount
       ? `<span class="summary-pill active">${esc(publicationSummary.publishedGamesCount)} publiés</span>`

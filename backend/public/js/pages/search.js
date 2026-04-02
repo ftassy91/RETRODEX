@@ -142,7 +142,7 @@
   }
 
   function appendPresenceChips(container, item) {
-    if (item.curation?.isPublished) container.appendChild(createChip('PASS 1 curated', 'is-primary'));
+    if (item.curation?.isPublished) container.appendChild(createChip('Publié', 'is-primary'));
     if (item.signals?.hasMaps) container.appendChild(createChip('MAP'));
     if (item.signals?.hasManuals) container.appendChild(createChip('MANUAL'));
     if (item.signals?.hasSprites) container.appendChild(createChip('SPRITE'));
@@ -152,7 +152,7 @@
   function renderPublicationBanner(publication) {
     if (!bannerEl) return;
     if (!publication) {
-      bannerEl.textContent = 'Surface publique curée PASS 1. Recherche limitée aux jeux publiés.';
+      bannerEl.textContent = 'Explorer lit une surface curée : seules les fiches visibles sont recherchées ici.';
       return;
     }
 
@@ -160,7 +160,7 @@
     const consoles = Number(publication.consoleCount || 0);
     const total = Number(publication.catalogGamesCount || 0);
     const totalCopy = total > 0 ? ` sur ${total} jeux en base` : '';
-    bannerEl.textContent = `${publication.label || 'PASS 1 curated'} | ${published} jeux publiés | ${consoles} consoles | sélection validée${totalCopy}.`;
+    bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} fiches visibles | ${consoles} consoles | sélection validée${totalCopy}.`;
   }
 
   async function preloadPublicationBanner() {
@@ -180,32 +180,24 @@
     if (item.type === 'game' && item.meta?.developer) parts.push(item.meta.developer);
     if (item.type === 'franchise' && item.meta?.developer) parts.push(item.meta.developer);
     if (item.type === 'console' && item.meta?.manufacturer) parts.push(item.meta.manufacturer);
-    if (item.meta?.synopsis) parts.push('editorial');
-    if (item.meta?.loosePrice != null) parts.push('market');
+    if (item.meta?.synopsis) parts.push('lecture');
+    if (item.meta?.loosePrice != null) parts.push('qualification');
     return parts.join(' | ');
   }
 
   function buildSummaryCopy(item, context) {
-    if (context === 'retrodex') {
-      return item.meta?.tagline || item.meta?.summary || item.meta?.synopsis || '';
-    }
-
-    if (context === 'retromarket') {
-      if (item.meta?.loosePrice != null) {
-        const rarity = item.meta?.rarity ? `Rareté ${item.meta.rarity}` : 'Signal marché';
-        return `${rarity} | ${fmtPrice(item.meta.loosePrice) || 'n/a'} loose | lecture immédiate du potentiel collector.`;
-      }
-      return '';
+    if (context === 'retromarket' && item.meta?.loosePrice != null) {
+      const rarity = item.meta?.rarity ? `Rareté ${item.meta.rarity}` : 'Signal marché';
+      return `${rarity} | ${fmtPrice(item.meta.loosePrice) || 'n/a'} loose | lecture collector contextuelle.`;
     }
 
     return item.meta?.tagline || item.meta?.summary || item.meta?.synopsis || '';
   }
 
-  function buildActionLabel(item, context) {
-    if (context === 'retromarket' && item.type === 'game') return 'Voir le prix ->';
-    if (item.type === 'franchise') return 'Voir franchise ->';
-    if (item.type === 'console') return 'Voir console ->';
-    return 'Voir fiche ->';
+  function buildActionLabel(item) {
+    if (item.type === 'franchise') return 'Voir franchise →';
+    if (item.type === 'console') return 'Voir console →';
+    return 'Ouvrir la fiche →';
   }
 
   function renderSignals(item, context) {
@@ -213,7 +205,7 @@
     grid.className = 'sc-signal-grid';
 
     if (item.type === 'game' && (context === 'retromarket' || context === 'all') && item.meta?.loosePrice != null) {
-      grid.appendChild(createSignalCard('Loose', fmtPrice(item.meta.loosePrice) || 'n/a'));
+      grid.appendChild(createSignalCard('Réf. loose', fmtPrice(item.meta.loosePrice) || 'n/a'));
     }
 
     if (item.meta?.metascore) {
@@ -238,8 +230,13 @@
       grid.appendChild(scoreCard);
     }
 
-    if (item.meta?.rarity) {
+    if (item.type === 'game' && item.meta?.rarity) {
       grid.appendChild(createSignalCard('Rareté', item.meta.rarity));
+    } else if (item.type === 'game' && window.RetroDexContentSignals?.buildRichness) {
+      const contentSignals = buildItemContentSignals(item);
+      if (contentSignals) {
+        grid.appendChild(createSignalCard('Richesse', contentSignals.band.shortLabel));
+      }
     } else {
       grid.appendChild(createSignalCard('Type', String(item.type || '').toUpperCase()));
     }
@@ -348,7 +345,7 @@
         ? `${item.meta.loreSnippet}...`
         : item.meta?.lore
           ? `${item.meta.lore.substring(0, 80)}...`
-        : '';
+          : '';
       if (loreSnippet) {
         const lore = document.createElement('span');
         lore.className = 'sc-summary';
@@ -369,18 +366,16 @@
         chipRow.appendChild(createChip(String(item.meta.year)));
       }
 
-      if (item.meta?.rarity) {
-        chipRow.appendChild(createChip(item.meta.rarity, 'is-hot'));
-      }
-
       if (item.meta?.metascore) {
         chipRow.appendChild(createChip(`MS ${item.meta.metascore}`));
       }
 
       if (contentSignals) {
-        chipRow.appendChild(createChip(contentSignals.band.shortLabel, `is-richness is-${contentSignals.band.key}`));
-        chipRow.appendChild(createChip(contentSignals.completionState.shortLabel, 'is-completion'));
-        chipRow.appendChild(createChip(contentSignals.confidence.shortLabel, 'is-confidence'));
+        chipRow.appendChild(createChip(`Richesse ${contentSignals.band.shortLabel}`, `is-richness is-${contentSignals.band.key}`));
+        chipRow.appendChild(createChip(`État ${contentSignals.completionState.shortLabel}`, 'is-completion'));
+        chipRow.appendChild(createChip(`Confiance ${contentSignals.confidence.shortLabel}`, 'is-confidence'));
+      } else if (item.meta?.rarity) {
+        chipRow.appendChild(createChip(item.meta.rarity, 'is-hot'));
       }
 
       if (item.type === 'game') {
@@ -394,7 +389,7 @@
 
       const action = document.createElement('span');
       action.className = 'sc-action';
-      action.textContent = buildActionLabel(item, context);
+      action.textContent = buildActionLabel(item);
       row.appendChild(action);
 
       resultsEl.appendChild(row);
@@ -417,7 +412,7 @@
       renderPublicationBanner(window.RetroDexSearch.lastPayload?.()?.publication || null);
       renderResults(results, context);
       syncUrl(query, context);
-    } catch (error) {
+    } catch (_error) {
       renderState('Recherche indisponible', 'Le moteur de recherche n’a pas pu répondre pour cette session.', 'is-error');
     }
   }

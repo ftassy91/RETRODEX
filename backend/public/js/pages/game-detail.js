@@ -370,11 +370,11 @@ function renderHeroSection(game) {
   const metascoreValue = game.metascore ? String(game.metascore) : 'n/a'
   const refPrice = game.loosePrice && Number(game.loosePrice) > 0
     ? `<span class="detail-hero-reference">Référence loose : $${Number(game.loosePrice).toFixed(0)}</span>`
-    : '<span class="detail-hero-reference is-empty">Prix non indexé</span>'
+    : '<span class="detail-hero-reference is-empty">Qualification marché limitée</span>'
   heroEl.innerHTML = `
     <div class="detail-hero-shell">
       <div class="detail-hero-status">
-        <span class="terminal-preview-label">ARCHIVE ENTRY</span>
+        <span class="terminal-preview-label">GAME PAGE</span>
       </div>
 
       <div class="hero-grid detail-hero-grid">
@@ -391,12 +391,6 @@ function renderHeroSection(game) {
                 <h1 class="hero-title page-title detail-hero-title">${escapeHtml(game.title)}</h1>
                 <span class="rarity-badge rarity-${escapeHtml(rarityClass(game.rarity))} detail-hero-rarity">${escapeHtml(game.rarity || 'COMMON')}</span>
               </div>
-
-              <a href="/stats.html?q=${encodeURIComponent(game.title)}&from=${encodeURIComponent(game.id)}"
-                 class="btn-retromarket-cta">
-                VOIR LE PRIX SUR RETROMARKET &rarr;
-              </a>
-              ${refPrice}
 
               <div class="detail-hero-meta-strip">
                 <span class="detail-hero-meta-value">${escapeHtml(meta.consoleName)}</span>
@@ -421,14 +415,19 @@ function renderHeroSection(game) {
               </div>
 
               <div id="game-relations" class="game-relations"></div>
+              <div class="surface-action-row detail-hero-actions">
+                <a class="terminal-action-link" href="/games-list.html">Retour à Explorer →</a>
+                <a class="terminal-action-link" href="/collection.html">Ouvrir Collection →</a>
+                <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title)}&from=${encodeURIComponent(game.id)}">Qualification avancée →</a>
+              </div>
             </div>
           </div>
         </section>
         <aside class="detail-market-panel detail-hero-aside">
-          <div class="detail-kicker">READING STATUS</div>
+          <div class="detail-kicker">FIRST READ</div>
           <div class="detail-domain-heading">Lecture immédiate</div>
           <p class="detail-status-copy detail-hero-aside-copy">
-            Lecture courte de la richesse, de l'état public et du niveau de confiance.
+            La fiche concentre l'essentiel : richesse visible, état de publication, confiance et premier signal de qualification.
           </p>
           <div id="hero-reading-grid" class="surface-signal-grid detail-identity-signal-grid">
             ${buildHeroSignalCard('Richesse', 'Chargement', 'is-primary')}
@@ -437,6 +436,7 @@ function renderHeroSection(game) {
           </div>
           <div id="hero-reading-highlights" class="surface-chip-row"></div>
           <p id="hero-reading-note" class="detail-reading-note">Lecture en cours de qualification.</p>
+          ${refPrice}
         </aside>
       </div>
     </div>
@@ -1773,11 +1773,11 @@ function readCollectionFormValues() {
   const notes = String(collectionNotesEl?.value || '').trim() || null
 
   if (rawPrice && (!Number.isFinite(price_paid) || price_paid <= 0)) {
-    throw new Error('Prix d achat invalide.')
+    throw new Error('Prix d’achat invalide.')
   }
 
   if (purchase_date && !/^\d{4}-\d{2}-\d{2}$/.test(purchase_date)) {
-    throw new Error('Date d achat invalide.')
+    throw new Error('Date d’achat invalide.')
   }
 
   return {
@@ -1799,7 +1799,7 @@ function buildCollectionMeta(item, listType) {
   ]
 
   if (item.purchase_date) {
-    fragments.push(`<span class="collection-note-text">${escapeHtml(item.purchase_date)}</span>`)
+    fragments.push(`<span class="collection-note-text">Entrée le ${escapeHtml(item.purchase_date)}</span>`)
   }
 
   const note = getCollectionNote(item)
@@ -1844,10 +1844,10 @@ function applyCollectionUiState(item, options = {}) {
   if (!item) {
     collectionStateEl.textContent = ''
     collectionCurrentMetaEl.innerHTML = ''
-    collectionButtonEl.textContent = 'Ajouter collection'
+    collectionButtonEl.textContent = 'Ajouter à l’étagère'
     collectionButtonEl.disabled = false
     if (wishlistButtonEl) {
-      wishlistButtonEl.textContent = 'Ajouter wishlist'
+      wishlistButtonEl.textContent = 'Ajouter à la wishlist'
       wishlistButtonEl.disabled = false
     }
     if (collectionRemoveButtonEl) {
@@ -1865,8 +1865,8 @@ function applyCollectionUiState(item, options = {}) {
   window.RetroDexAssets?.decorateConditionBadges?.(collectionCurrentMetaEl)
 
   if (listType === 'wanted') {
-    collectionStateEl.textContent = 'Wishlist'
-    collectionButtonEl.textContent = 'Ajouter collection'
+    collectionStateEl.textContent = 'Dans la wishlist'
+    collectionButtonEl.textContent = 'Basculer vers l’étagère'
     collectionButtonEl.disabled = false
     if (wishlistButtonEl) {
       wishlistButtonEl.textContent = 'Wishlist'
@@ -1881,7 +1881,7 @@ function applyCollectionUiState(item, options = {}) {
   }
 
   if (listType === 'for_sale') {
-    collectionStateEl.textContent = 'A vendre'
+    collectionStateEl.textContent = 'À vendre'
     collectionButtonEl.textContent = 'Enregistrer'
     collectionButtonEl.disabled = false
     if (wishlistButtonEl) {
@@ -1896,8 +1896,8 @@ function applyCollectionUiState(item, options = {}) {
     return
   }
 
-  collectionStateEl.textContent = 'Collection'
-  collectionButtonEl.textContent = 'Enregistrer'
+  collectionStateEl.textContent = 'Dans l’étagère'
+  collectionButtonEl.textContent = 'Mettre à jour'
   collectionButtonEl.disabled = false
   if (wishlistButtonEl) {
     wishlistButtonEl.textContent = 'Wishlist'
@@ -1936,7 +1936,7 @@ async function handleCollectionAction() {
   if (collectionRemoveButtonEl) {
     collectionRemoveButtonEl.disabled = true
   }
-  collectionStatusEl.textContent = 'Mise a jour...'
+  collectionStatusEl.textContent = 'Mise à jour...'
 
   try {
     const formValues = readCollectionFormValues()
@@ -1953,7 +1953,7 @@ async function handleCollectionAction() {
           list_type: listType === 'wanted' ? 'owned' : listType,
         }),
       })
-      collectionStatusEl.textContent = listType === 'wanted' ? 'Déplacé.' : 'Enregistré.'
+      collectionStatusEl.textContent = listType === 'wanted' ? 'Déplacé vers l’étagère.' : 'Fiche collection mise à jour.'
     } else {
       await fetchJson('/api/collection', {
         method: 'POST',
@@ -1966,7 +1966,7 @@ async function handleCollectionAction() {
           list_type: 'owned',
         }),
       })
-      collectionStatusEl.textContent = 'Ajouté.'
+      collectionStatusEl.textContent = 'Ajouté à l’étagère.'
     }
 
     await refreshCollectionStatus()
@@ -2014,7 +2014,7 @@ async function handleWishlistAction() {
       }),
     })
 
-    collectionStatusEl.textContent = 'Ajouté.'
+    collectionStatusEl.textContent = 'Ajouté à la wishlist.'
     await refreshCollectionStatus()
   } catch (error) {
     collectionStatusEl.textContent = 'Action wishlist indisponible pour cette session.'
@@ -2031,8 +2031,8 @@ async function handleCollectionRemove() {
   const targetLabel = listType === 'wanted'
     ? 'de votre wishlist'
     : listType === 'for_sale'
-      ? 'de votre liste a vendre'
-      : 'de votre collection'
+      ? 'de votre liste à vendre'
+      : 'de votre étagère'
 
   if (!window.confirm(`Retirer "${currentGame?.title || 'ce jeu'}" ${targetLabel} ?`)) {
     return
@@ -2774,7 +2774,7 @@ async function loadPriceHistory(gameId) {
     }
 
     if (headingEl) {
-      headingEl.textContent = `Price trace | ${period.label || 'ALL'}`
+      headingEl.textContent = `Trace prix | ${period.label || 'ALL'}`
     }
   }
 

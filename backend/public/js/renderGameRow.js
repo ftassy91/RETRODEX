@@ -66,12 +66,13 @@ function renderGameRow(game, options = {}) {
     ? window.RetroDexContentSignals.buildRichness(game)
     : null
   const loosePrice = showPrice
-    ? (game.loosePrice ? `$${Math.round(game.loosePrice)}` : '&mdash;')
+    ? (game.loosePrice ? `$${Math.round(game.loosePrice)}` : '—')
     : ''
   const showOwnedBadge = String(collectionState || '').toLowerCase() === 'owned'
   const archiveBadges = [
     contentSignals ? `<span class="presence-badge is-richness is-${escapeHtml(contentSignals.band.key)}">${escapeHtml(contentSignals.band.shortLabel)}</span>` : '',
     contentSignals ? `<span class="presence-badge is-state">${escapeHtml(contentSignals.completionState.shortLabel)}</span>` : '',
+    contentSignals ? `<span class="presence-badge is-state">${escapeHtml(contentSignals.confidence.shortLabel)}</span>` : '',
   ].filter(Boolean).join('')
 
   el.innerHTML = `

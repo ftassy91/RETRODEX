@@ -4,42 +4,58 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
-    <title>RetroDex - Recherche</title>
-    <meta name="description" content="Recherche globale RetroDex : jeux, consoles et franchises." />
-    <meta property="og:title" content="Recherche | RetroDex" />
-    <meta property="og:description" content="Recherche globale RetroDex : jeux, consoles et franchises." />
+    <title>RetroDex - Explorer rapidement</title>
+    <meta name="description" content="Entrée rapide dans Explorer : jeux, consoles et franchises, sans quitter RetroDex." />
+    <meta property="og:title" content="Explorer rapidement | RetroDex" />
+    <meta property="og:description" content="Entrée rapide dans Explorer : jeux, consoles et franchises, sans quitter RetroDex." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260402e" />
+    <link rel="stylesheet" href="/style.css?v=20260402g" />
   </head>
   <body>
     <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
       <a class="global-product-home" href="/hub.html">Hub</a>
       <div class="global-product-links">
-        <a class="global-product-link is-market" href="/stats.html">
-          <span class="nav-label">RetroMarket</span>
-          <span class="nav-copy">prix | tendances | marché</span>
-        </a>
-        <a class="global-product-link" href="/games-list.html">
-          <span class="nav-label">RetroDex</span>
-          <span class="nav-copy">catalogue | fiches | prix</span>
+        <a class="global-product-link is-active" href="/games-list.html">
+          <span class="nav-label">Explorer</span>
+          <span class="nav-copy">catalogue | recherche | fiches</span>
         </a>
         <a class="global-product-link" href="/collection.html">
-          <span class="nav-label">Collections</span>
+          <span class="nav-label">Collection</span>
           <span class="nav-copy">étagère | wishlist | suivi</span>
-        </a>
-        <a class="global-product-link is-active" href="/search.html">
-          <span class="nav-label">Recherche</span>
-          <span class="nav-copy">recherche universelle</span>
         </a>
       </div>
     </nav>
-    <div class="page-wrapper">
-      <div class="terminal-context">
-        HUB &gt; <span class="ctx-active">RECHERCHE</span>
-      </div>
 
-      <div class="terminal-query-line surface-query-shell">
+    <main class="page-wrapper explorer-alias-shell">
+      <nav class="breadcrumb" aria-label="Fil d'ariane">
+        <a href="/hub.html">HUB</a>
+        <span class="sep">&rsaquo;</span>
+        <a href="/games-list.html">EXPLORER</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="current">ENTRÉE RAPIDE</span>
+      </nav>
+
+      <section class="product-universe-frame is-dex">
+        <div class="product-universe-head">
+          <div>
+            <div class="detail-kicker">EXPLORER</div>
+            <h1 class="product-universe-title">RECHERCHE RAPIDE</h1>
+          </div>
+          <div class="product-universe-chip">ALIAS</div>
+        </div>
+        <p class="product-universe-copy">
+          Entrée directe dans le même système d'exploration que le catalogue. Cherchez, filtrez,
+          puis ouvrez la bonne fiche.
+        </p>
+        <div class="product-universe-links">
+          <a class="is-active" href="/search.html">Recherche rapide</a>
+          <a href="/games-list.html">Catalogue Explorer</a>
+          <a href="/collection.html">Collection</a>
+        </div>
+      </section>
+
+      <div class="terminal-query-line surface-query-shell explorer-query-shell">
         <span class="terminal-query-label">QUERY :</span>
         <input
           type="text"
@@ -53,7 +69,7 @@
       </div>
 
       <div id="search-curation-banner" class="pass1-surface-banner">
-        PASS 1 curated | recherche limitée aux jeux publiés.
+        Explorer lit la surface publiée : fiches, confiance et richesse visibles.
       </div>
 
       <div id="search-core-count" class="search-count-label"></div>
@@ -62,7 +78,7 @@
       <div class="footer-igdb">
         Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
       </div>
-    </div>
+    </main>
 
     <script src="/js/core/config.js"></script>
     <script src="/js/core/dom.js"></script>
@@ -73,7 +89,7 @@
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
     <script src="/js/core/content-signals.js"></script>
-    <script src="/js/pages/search.js?v=20260402e"></script>
+    <script src="/js/pages/search.js?v=20260402g"></script>
     <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>

@@ -11372,3 +11372,168 @@ body.hub-page .product-universe-frame {
   }
 }
 
+/* ========================================
+   GAME-PAGE FIRST RECENTER
+======================================== */
+
+body.collection-cockpit-page .product-universe-frame,
+body .product-universe-frame.is-collection,
+body .product-universe-frame.is-market,
+body .product-universe-frame.is-dex {
+  display: block;
+}
+
+.hub-intent-grid-three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.hub-stats-compact {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.hub-stats-compact .hub-stat {
+  min-width: 0;
+}
+
+.hub-secondary-grid-main {
+  align-items: start;
+}
+
+.hub-system-actions-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.explorer-alias-shell,
+.collection-cockpit-page,
+.market-detail-shell {
+  width: min(1320px, calc(100% - 48px));
+  margin: 0 auto 40px;
+}
+
+.collection-cockpit-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.collection-summary-hero {
+  border-bottom: 1px solid var(--border);
+}
+
+.collection-cockpit-topline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(67, 95, 60, 0.52);
+  background: rgba(7, 11, 7, 0.9);
+}
+
+.collection-toolbar {
+  justify-content: space-between;
+}
+
+.collection-toolbar-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.collection-toolbar-input,
+.collection-toolbar-select {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(67, 95, 60, 0.58);
+  background: rgba(6, 10, 6, 0.92);
+  color: var(--text-primary);
+  font: 10px var(--font-mono);
+}
+
+.collection-status-line {
+  margin: 0;
+}
+
+.collection-cockpit-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.9fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.collection-cockpit-main,
+.collection-cockpit-side {
+  min-width: 0;
+}
+
+.collection-table-header {
+  border-bottom: 0;
+}
+
+.collection-preview-shell {
+  border: 1px solid rgba(67, 95, 60, 0.58);
+  background: linear-gradient(180deg, rgba(8, 12, 8, 0.98), rgba(5, 8, 5, 0.98));
+}
+
+.collection-preview-summary {
+  max-width: 42ch;
+}
+
+.surface-preview-panel .surface-action-row {
+  margin-top: 10px;
+}
+
+.market-detail-shell .product-universe-frame,
+.explorer-alias-shell .product-universe-frame,
+.collection-cockpit-page .product-universe-frame {
+  margin-bottom: 18px;
+}
+
+.detail-hero-actions {
+  margin-top: 14px;
+}
+
+.detail-hero-actions a {
+  white-space: nowrap;
+}
+
+.detail-accordion-toggle {
+  align-items: center;
+}
+
+.detail-accordion-indicator {
+  font-size: 12px;
+}
+
+@media (max-width: 1100px) {
+  .hub-stats-compact,
+  .hub-intent-grid-three,
+  .collection-cockpit-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 780px) {
+  .explorer-alias-shell,
+  .collection-cockpit-page,
+  .market-detail-shell,
+  .hub-page {
+    width: min(100%, calc(100% - 24px));
+  }
+
+  .collection-cockpit-topline,
+  .collection-toolbar-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hub-stats-compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+

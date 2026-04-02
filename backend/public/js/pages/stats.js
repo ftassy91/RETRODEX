@@ -236,7 +236,7 @@ function renderSearchResults() {
           <span class="market-result-title">${escapeHtml(game.title)}</span>
           <span class="market-result-meta">${escapeHtml(game.console || 'n/a')}</span>
           ${renderMarketSignalChips(contentSignals)}
-          <a href="/game-detail.html?id=${encodeURIComponent(game.id)}" class="terminal-action-link market-result-link" onclick="event.stopPropagation()">Voir fiche -></a>
+          <a href="/game-detail.html?id=${encodeURIComponent(game.id)}" class="terminal-action-link market-result-link" onclick="event.stopPropagation()">Ouvrir la fiche →</a>
         </span>
         <span class="market-result-year">${escapeHtml(game.year || 'n/a')}</span>
         <span class="market-result-price is-alert">${formatCurrency(game.loosePrice || 0)}</span>
@@ -258,11 +258,11 @@ function renderHeroSummary() {
   if (!heroSummaryEl || !breadcrumbNameEl) return
 
   if (!state.currentGame) {
-    breadcrumbNameEl.textContent = 'MARCHE'
+    breadcrumbNameEl.textContent = 'QUALIFICATION'
     heroSummaryEl.innerHTML = `
       <div class="market-empty-card">
-        <div class="market-empty-title">RetroMarket</div>
-        <div class="market-empty-copy">Prix, tendance, comparaison.</div>
+        <div class="market-empty-title">Lecture avancée</div>
+        <div class="market-empty-copy">Prix, tendance et comparaison au service de la fiche.</div>
       </div>
     `
     return
@@ -277,12 +277,12 @@ function renderHeroSummary() {
     ? `<img src="${escapeHtml(game.coverImage)}" alt="" class="market-cover" width="144" height="144" />`
     : `<span class="market-cover-placeholder">${escapeHtml(String(game.title || '?').slice(0, 2).toUpperCase())}</span>`
 
-  breadcrumbNameEl.textContent = game.title || 'MARCHE'
+  breadcrumbNameEl.textContent = game.title || 'QUALIFICATION'
   heroSummaryEl.innerHTML = `
     <div class="market-hero-layout">
       <div class="detail-cover-slot market-cover-slot">${cover}</div>
       <div class="market-hero-copy">
-        <h1 class="detail-title market-hero-title">${escapeHtml(game.title || 'RetroMarket')}</h1>
+        <h1 class="detail-title market-hero-title">${escapeHtml(game.title || 'Lecture avancée')}</h1>
         <p class="market-panel-copy market-hero-copy-note">
           Couche de qualification : prix, tendance et confiance de surface, en support de la fiche RetroDex.
         </p>
@@ -319,7 +319,7 @@ function renderHeroSummary() {
           </div>
         </div>
         <div class="surface-action-row market-hero-actions">
-          <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(game.id)}">Voir fiche -></a>
+          <a class="terminal-action-link" href="/game-detail.html?id=${encodeURIComponent(game.id)}">Ouvrir la fiche →</a>
         </div>
       </div>
     </div>
