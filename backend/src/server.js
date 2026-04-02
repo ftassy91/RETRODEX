@@ -19,12 +19,8 @@ const { createApp } = require('./runtime/create-app')
 const { getLegacyRuntime, bindRuntimeLocals } = require('./runtime/legacy-runtime')
 const { createRuntimeReady } = require('./runtime/runtime-ready')
 
-const hasServerlessSupabaseEnv = Boolean(process.env.SUPABASE_URL || process.env.SUPERDATA_Project_URL)
-const hasDatabaseUrl = Boolean(process.env.DATABASE_URL)
 const useSupabaseServerlessRoutes = Boolean(
   process.env.VERCEL
-  && hasServerlessSupabaseEnv
-  && !hasDatabaseUrl
   && supabaseMode === 'supabase'
 )
 

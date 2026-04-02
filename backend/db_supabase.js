@@ -8,6 +8,7 @@
  */
 
 const path = require('path');
+const { QueryTypes } = require('sequelize');
 
 const {
   applyResolvedSupabaseEnv,
@@ -21,6 +22,7 @@ const {
 const SUPABASE_KEY = RESOLVED_SUPABASE_SERVICE_KEY || RESOLVED_SUPABASE_ANON_KEY;
 const HAS_VALID_SUPABASE_URL = /^https?:\/\//i.test(String(SUPABASE_URL || ''));
 const USE_SUPABASE = Boolean(HAS_VALID_SUPABASE_URL && SUPABASE_KEY);
+const HAS_DATABASE_URL = Boolean(process.env.DATABASE_URL);
 
 let _sequelizeOverride = null;
 function setSequelize(seq) { _sequelizeOverride = seq; }
@@ -45,7 +47,295 @@ if (USE_SUPABASE) {
   }
 }
 
-if (!USE_SUPABASE) {
+function quoteIdentifier(identifier) {
+  return String(identifier || '')
+    .split('.')
+    .map((part) => `"${String(part).replace(/"/g, '""')}"`)
+    .join('.');
+}
+
+function buildSelectClause(select) {
+  const raw = String(select || '*').trim();
+  if (!raw || raw === '*') {
+    return '*';
+  }
+
+  return raw
+    .split(',')
+    .map((chunk) => chunk.trim())
+    .filter(Boolean)
+    .map((chunk) => (chunk === '*' ? '*' : quoteIdentifier(chunk)))
+    .join(', ');
+}
+
+function buildSqlAdapter(runQuery, dialect = 'sqlite') {
+  function normalizeQueryValue(value) {
+    if (typeof value === 'boolean') {
+      return value;
+    }
+    return value;
+  }
+
+  class QueryBuilder {
+    constructor(table) {
+      this._table = table;
+      this._select = '*';
+      this._wheres = [];
+      this._orders = [];
+      this._limit = null;
+      this._offset = null;
+      this._count = false;
+      this._head = false;
+      this._single = false;
+      this._operation = 'select';
+      this._insertRows = null;
+      this._updatePatch = null;
+    }
+
+    select(cols = '*', opts = {}) {
+      this._select = cols;
+      if (opts.count === 'exact') {
+        this._count = true;
+      }
+      if (opts.head === true) {
+        this._head = true;
+      }
+      return this;
+    }
+
+    insert(rows = []) {
+      this._operation = 'insert';
+      this._insertRows = Array.isArray(rows) ? rows : [rows];
+      return this;
+    }
+
+    update(patch = {}) {
+      this._operation = 'update';
+      this._updatePatch = patch;
+      return this;
+    }
+
+    delete() {
+      this._operation = 'delete';
+      return this;
+    }
+
+    eq(col, val) { this._wheres.push({ col, op: '=', val }); return this; }
+    neq(col, val) { this._wheres.push({ col, op: '!=', val }); return this; }
+    gt(col, val) { this._wheres.push({ col, op: '>', val }); return this; }
+    gte(col, val) { this._wheres.push({ col, op: '>=', val }); return this; }
+    lt(col, val) { this._wheres.push({ col, op: '<', val }); return this; }
+    lte(col, val) { this._wheres.push({ col, op: '<=', val }); return this; }
+    like(col, val) { this._wheres.push({ col, op: 'LIKE', val }); return this; }
+    ilike(col, val) { this._wheres.push({ col, op: dialect === 'postgres' ? 'ILIKE' : 'LIKE', val }); return this; }
+
+    is(col, val) {
+      this._wheres.push({ col, op: val === null ? 'IS NULL' : 'IS NOT NULL', val });
+      return this;
+    }
+
+    in(col, vals) {
+      this._wheres.push({ col, op: 'IN', val: Array.isArray(vals) ? vals : [] });
+      return this;
+    }
+
+    order(col, { ascending = true, nullsFirst = null } = {}) {
+      this._orders.push({ col, ascending, nullsFirst });
+      return this;
+    }
+
+    limit(n) {
+      this._limit = n;
+      return this;
+    }
+
+    range(from, to) {
+      this._offset = from;
+      this._limit = to - from + 1;
+      return this;
+    }
+
+    single() {
+      this._single = true;
+      this._limit = 1;
+      return this;
+    }
+
+    _buildWhere(startIndex = 1) {
+      const replacements = [];
+      let nextIndex = startIndex;
+      const clauses = this._wheres.map((where) => {
+        const column = quoteIdentifier(where.col);
+        if (where.op === 'IS NULL') return `${column} IS NULL`;
+        if (where.op === 'IS NOT NULL') return `${column} IS NOT NULL`;
+        if (where.op === 'IN') {
+          if (!Array.isArray(where.val) || !where.val.length) {
+            return '1 = 0';
+          }
+
+          const placeholders = where.val.map(() => `$${nextIndex++}`);
+          replacements.push(...where.val.map(normalizeQueryValue));
+          return `${column} IN (${placeholders.join(', ')})`;
+        }
+
+        replacements.push(normalizeQueryValue(where.val));
+        return `${column} ${where.op} $${nextIndex++}`;
+      });
+
+      return {
+        clause: clauses.length ? ` WHERE ${clauses.join(' AND ')}` : '',
+        replacements,
+        nextIndex,
+      };
+    }
+
+    _buildOrder() {
+      if (!this._orders.length) {
+        return '';
+      }
+
+      return ` ORDER BY ${this._orders.map((order) => {
+        let chunk = `${quoteIdentifier(order.col)} ${order.ascending ? 'ASC' : 'DESC'}`;
+        if (order.nullsFirst === true) chunk += ' NULLS FIRST';
+        if (order.nullsFirst === false) chunk += ' NULLS LAST';
+        return chunk;
+      }).join(', ')}`;
+    }
+
+    async _executeSelect() {
+      const { clause, replacements, nextIndex } = this._buildWhere(1);
+      const limitClause = this._limit != null ? ` LIMIT $${nextIndex}` : '';
+      const offsetClause = this._offset != null ? ` OFFSET $${nextIndex + (this._limit != null ? 1 : 0)}` : '';
+      const selectSql = `SELECT ${buildSelectClause(this._select)} FROM ${quoteIdentifier(this._table)}${clause}${this._buildOrder()}${limitClause}${offsetClause}`;
+      const selectReplacements = [...replacements];
+
+      if (this._limit != null) selectReplacements.push(this._limit);
+      if (this._offset != null) selectReplacements.push(this._offset);
+
+      const rows = this._head
+        ? []
+        : await runQuery(selectSql, selectReplacements, QueryTypes.SELECT);
+
+      let count;
+      if (this._count) {
+        const countSql = `SELECT COUNT(*)::int AS count FROM ${quoteIdentifier(this._table)}${clause}`;
+        const countRows = await runQuery(countSql, replacements, QueryTypes.SELECT);
+        count = Number(countRows?.[0]?.count || 0);
+      }
+
+      return {
+        data: this._single ? (rows[0] || null) : rows,
+        error: null,
+        count,
+      };
+    }
+
+    async _executeInsert() {
+      const rows = Array.isArray(this._insertRows) ? this._insertRows.filter(Boolean) : [];
+      if (!rows.length) {
+        return { data: [], error: null };
+      }
+
+      const columns = Array.from(new Set(rows.flatMap((row) => Object.keys(row || {}))));
+      if (!columns.length) {
+        return { data: [], error: null };
+      }
+
+      const replacements = [];
+      let nextIndex = 1;
+      const valuesSql = rows.map((row) => {
+        const placeholders = columns.map((column) => {
+          replacements.push(normalizeQueryValue(row?.[column] ?? null));
+          return `$${nextIndex++}`;
+        });
+        return `(${placeholders.join(', ')})`;
+      }).join(', ');
+
+      const sql = `INSERT INTO ${quoteIdentifier(this._table)} (${columns.map(quoteIdentifier).join(', ')}) VALUES ${valuesSql}`;
+      await runQuery(sql, replacements, QueryTypes.INSERT);
+      return { data: rows, error: null };
+    }
+
+    async _executeUpdate() {
+      const patch = this._updatePatch || {};
+      const columns = Object.keys(patch);
+      if (!columns.length) {
+        return { data: [], error: null };
+      }
+
+      const replacements = [];
+      let nextIndex = 1;
+      const setClause = columns.map((column) => {
+        replacements.push(normalizeQueryValue(patch[column]));
+        return `${quoteIdentifier(column)} = $${nextIndex++}`;
+      }).join(', ');
+
+      const where = this._buildWhere(nextIndex);
+      const sql = `UPDATE ${quoteIdentifier(this._table)} SET ${setClause}${where.clause}`;
+      await runQuery(sql, [...replacements, ...where.replacements], QueryTypes.UPDATE);
+      return { data: [], error: null };
+    }
+
+    async _executeDelete() {
+      const where = this._buildWhere(1);
+      const sql = `DELETE FROM ${quoteIdentifier(this._table)}${where.clause}`;
+      await runQuery(sql, where.replacements, QueryTypes.DELETE);
+      return { data: [], error: null };
+    }
+
+    async _execute() {
+      try {
+        if (this._operation === 'insert') return await this._executeInsert();
+        if (this._operation === 'update') return await this._executeUpdate();
+        if (this._operation === 'delete') return await this._executeDelete();
+        return await this._executeSelect();
+      } catch (error) {
+        return {
+          data: this._single ? null : [],
+          error: { message: error.message },
+          count: undefined,
+        };
+      }
+    }
+
+    then(resolve, reject) {
+      return this._execute().then(resolve, reject);
+    }
+  }
+
+  return {
+    from: (table) => new QueryBuilder(table),
+    rpc: (name) => ({
+      then: async (resolve) => {
+        try {
+          const rows = await runQuery(`SELECT * FROM ${quoteIdentifier(name)}()`, [], QueryTypes.SELECT);
+          resolve({ data: rows?.[0] ?? null, error: null });
+        } catch (error) {
+          resolve({ data: null, error: { message: error.message } });
+        }
+        return { catch: () => {} };
+      },
+    }),
+    _mode: dialect,
+  };
+}
+
+if (!USE_SUPABASE && HAS_DATABASE_URL) {
+  try {
+    const sequelizeModule = require('./config/database');
+    const sequelize = sequelizeModule?.sequelize || sequelizeModule;
+    db = buildSqlAdapter(
+      (sql, bind, type) => sequelize.query(sql, { bind, type }),
+      'postgres',
+    );
+    mode = 'supabase';
+    console.log('[DB] Postgres adapter via DATABASE_URL');
+  } catch (error) {
+    console.error('[DB] Postgres adapter error:', error.message);
+  }
+}
+
+if (!USE_SUPABASE && !db) {
   const dbPath = process.env.DATABASE_PATH || path.join(__dirname, 'storage', 'retrodex.sqlite');
   try {
     const Database = require('better-sqlite3');
