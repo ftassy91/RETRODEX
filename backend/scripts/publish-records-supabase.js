@@ -11,6 +11,9 @@ const {
   normalizeTimestamp,
   parseJsonLike,
   stringifyJson,
+  normalizeJsonForDiff,
+  normalizeNumberForDiff,
+  rowsDiffer,
   buildSourceRecordKey,
   buildFieldProvenanceKey,
   buildQualityRecordKey,
@@ -108,40 +111,65 @@ function fetchLocalRows(sqlite, filterIds = null) {
 }
 
 function sourceRecordNeedsUpdate(remoteRow, localRow) {
-  return (
-    normalizeText(remoteRow.source_url) !== normalizeText(localRow.source_url)
-    || normalizeText(remoteRow.source_license) !== normalizeText(localRow.source_license)
-    || String(remoteRow.compliance_status || '') !== String(localRow.compliance_status || '')
-    || normalizeTimestamp(remoteRow.ingested_at) !== normalizeTimestamp(localRow.ingested_at)
-    || normalizeTimestamp(remoteRow.last_verified_at) !== normalizeTimestamp(localRow.last_verified_at)
-    || Number(remoteRow.confidence_level || 0) !== Number(localRow.confidence_level || 0)
-    || normalizeText(remoteRow.notes) !== normalizeText(localRow.notes)
-  );
+  return rowsDiffer([
+    'source_url',
+    'source_license',
+    'compliance_status',
+    'ingested_at',
+    'last_verified_at',
+    'confidence_level',
+    'notes',
+  ], remoteRow, localRow, {
+    source_url: normalizeText,
+    source_license: normalizeText,
+    compliance_status: normalizeText,
+    ingested_at: normalizeTimestamp,
+    last_verified_at: normalizeTimestamp,
+    confidence_level: normalizeNumberForDiff,
+    notes: normalizeText,
+  });
 }
 
 function fieldProvenanceNeedsUpdate(remoteRow, localRow) {
-  return (
-    Number(remoteRow.source_record_id || 0) !== Number(localRow.source_record_id || 0)
-    || normalizeText(remoteRow.value_hash) !== normalizeText(localRow.value_hash)
-    || Number(remoteRow.is_inferred || 0) !== Number(localRow.is_inferred || 0)
-    || Number(remoteRow.confidence_level || 0) !== Number(localRow.confidence_level || 0)
-    || normalizeTimestamp(remoteRow.verified_at) !== normalizeTimestamp(localRow.verified_at)
-  );
+  return rowsDiffer([
+    'source_record_id',
+    'value_hash',
+    'is_inferred',
+    'confidence_level',
+    'verified_at',
+  ], remoteRow, localRow, {
+    source_record_id: normalizeNumberForDiff,
+    value_hash: normalizeText,
+    is_inferred: normalizeNumberForDiff,
+    confidence_level: normalizeNumberForDiff,
+    verified_at: normalizeTimestamp,
+  });
 }
 
 function qualityRecordNeedsUpdate(remoteRow, localRow) {
-  return (
-    Number(remoteRow.completeness_score || 0) !== Number(localRow.completeness_score || 0)
-    || Number(remoteRow.confidence_score || 0) !== Number(localRow.confidence_score || 0)
-    || Number(remoteRow.source_coverage_score || 0) !== Number(localRow.source_coverage_score || 0)
-    || Number(remoteRow.freshness_score || 0) !== Number(localRow.freshness_score || 0)
-    || Number(remoteRow.overall_score || 0) !== Number(localRow.overall_score || 0)
-    || String(remoteRow.tier || '') !== String(localRow.tier || '')
-    || stringifyJson(parseJsonLike(remoteRow.missing_critical_fields, null)) !== localRow.missing_critical_fields
-    || stringifyJson(parseJsonLike(remoteRow.breakdown_json, null)) !== localRow.breakdown_json
-    || Number(remoteRow.priority_score || 0) !== Number(localRow.priority_score || 0)
-    || normalizeTimestamp(remoteRow.updated_at) !== normalizeTimestamp(localRow.updated_at)
-  );
+  return rowsDiffer([
+    'completeness_score',
+    'confidence_score',
+    'source_coverage_score',
+    'freshness_score',
+    'overall_score',
+    'tier',
+    'missing_critical_fields',
+    'breakdown_json',
+    'priority_score',
+    'updated_at',
+  ], remoteRow, localRow, {
+    completeness_score: normalizeNumberForDiff,
+    confidence_score: normalizeNumberForDiff,
+    source_coverage_score: normalizeNumberForDiff,
+    freshness_score: normalizeNumberForDiff,
+    overall_score: normalizeNumberForDiff,
+    tier: normalizeText,
+    missing_critical_fields: normalizeJsonForDiff,
+    breakdown_json: normalizeJsonForDiff,
+    priority_score: normalizeNumberForDiff,
+    updated_at: normalizeTimestamp,
+  });
 }
 
 async function ensureRemoteSchema(client) {
@@ -452,16 +480,31 @@ async function main() {
       records: {
         localRows: local.sourceRecords.length,
         remoteRows: remoteSourceRows.length,
+        insertRows: pendingSourceRows.filter((row) => !remoteSourceMap.get(buildSourceRecordKey(row))).length,
+        updateRows: pendingSourceRows.filter((row) => remoteSourceMap.get(buildSourceRecordKey(row))).length,
+        unchangedRows: Math.max(local.sourceRecords.length - pendingSourceRows.length, 0),
+        invalidRows: 0,
+        filteredRows: 0,
         pendingRows: pendingSourceRows.length,
       },
       fieldProvenance: {
         localRows: localProvenanceRows.length,
         remoteRows: remoteProvenanceRows.length,
+        insertRows: pendingProvenanceRows.filter((row) => !remoteProvenanceMap.get(buildFieldProvenanceKey(row))).length,
+        updateRows: pendingProvenanceRows.filter((row) => remoteProvenanceMap.get(buildFieldProvenanceKey(row))).length,
+        unchangedRows: Math.max(localProvenanceRows.length - pendingProvenanceRows.length, 0),
+        invalidRows: 0,
+        filteredRows: 0,
         pendingRows: pendingProvenanceRows.length,
       },
       quality: {
         localRows: local.qualityRecords.length,
         remoteRows: remoteQualityRows.length,
+        insertRows: pendingQualityRows.filter((row) => !remoteQualityMap.get(buildQualityRecordKey(row))).length,
+        updateRows: pendingQualityRows.filter((row) => remoteQualityMap.get(buildQualityRecordKey(row))).length,
+        unchangedRows: Math.max(local.qualityRecords.length - pendingQualityRows.length, 0),
+        invalidRows: 0,
+        filteredRows: 0,
         pendingRows: pendingQualityRows.length,
       },
       sample: {
@@ -483,6 +526,11 @@ async function main() {
           tier: row.tier,
           overall_score: row.overall_score,
         })),
+      },
+      sampleInvalid: {
+        source_records: [],
+        field_provenance: [],
+        quality_records: [],
       },
     }, null, 2));
   } finally {

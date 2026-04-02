@@ -5,6 +5,11 @@ const path = require('path');
 const dotenv = require('dotenv');
 const Database = require('better-sqlite3');
 const { Client } = require('pg');
+const {
+  normalizeJsonForDiff,
+  normalizeBooleanForDiff,
+  rowsDiffer,
+} = require('./_supabase-publish-common');
 
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
@@ -91,20 +96,33 @@ function buildMediaKey(row) {
 }
 
 function mediaNeedsUpdate(remoteRow, localRow) {
-  return (
-    normalizeText(remoteRow.provider) !== normalizeText(localRow.provider)
-    || normalizeText(remoteRow.compliance_status) !== normalizeText(localRow.compliance_status)
-    || normalizeText(remoteRow.storage_mode) !== normalizeText(localRow.storage_mode)
-    || normalizeText(remoteRow.title) !== normalizeText(localRow.title)
-    || normalizeText(remoteRow.preview_url) !== normalizeText(localRow.preview_url)
-    || normalizeText(remoteRow.asset_subtype) !== normalizeText(localRow.asset_subtype)
-    || normalizeText(remoteRow.license_status) !== normalizeText(localRow.license_status)
-    || Boolean(remoteRow.ui_allowed) !== Boolean(localRow.ui_allowed)
-    || normalizeText(remoteRow.healthcheck_status) !== normalizeText(localRow.healthcheck_status)
-    || normalizeJsonText(remoteRow.notes) !== normalizeJsonText(localRow.notes)
-    || normalizeTimestamp(remoteRow.last_checked_at) !== normalizeTimestamp(localRow.last_checked_at)
-    || normalizeJsonText(remoteRow.source_context) !== normalizeJsonText(localRow.source_context)
-  );
+  return rowsDiffer([
+    'provider',
+    'compliance_status',
+    'storage_mode',
+    'title',
+    'preview_url',
+    'asset_subtype',
+    'license_status',
+    'ui_allowed',
+    'healthcheck_status',
+    'notes',
+    'last_checked_at',
+    'source_context',
+  ], remoteRow, localRow, {
+    provider: normalizeText,
+    compliance_status: normalizeText,
+    storage_mode: normalizeText,
+    title: normalizeText,
+    preview_url: normalizeText,
+    asset_subtype: normalizeText,
+    license_status: normalizeText,
+    ui_allowed: normalizeBooleanForDiff,
+    healthcheck_status: normalizeText,
+    notes: normalizeJsonForDiff,
+    last_checked_at: normalizeTimestamp,
+    source_context: normalizeJsonForDiff,
+  });
 }
 
 function getLocalMediaRows(sqlite) {
@@ -250,17 +268,27 @@ async function getRemoteMediaRows(client) {
 async function syncMedia(client, localRows) {
   const remoteMap = await getRemoteMediaRows(client);
   const pending = [];
+  let insertRows = 0;
+  let updateRows = 0;
 
   for (const localRow of localRows) {
     const remoteRow = remoteMap.get(buildMediaKey(localRow));
     if (!remoteRow || mediaNeedsUpdate(remoteRow, localRow)) {
-      pending.push(localRow);
+      pending.push({ row: localRow, mode: remoteRow ? 'update' : 'insert' });
+      if (remoteRow) {
+        updateRows += 1;
+      } else {
+        insertRows += 1;
+      }
     }
   }
 
   if (APPLY && pending.length) {
-    for (const row of pending) {
-      await client.query(`
+    for (const item of pending) {
+      const row = item.row;
+      const normalizedSourceContext = normalizeJsonText(row.source_context);
+      try {
+        await client.query(`
         INSERT INTO public.media_references (
           entity_type,
           entity_id,
@@ -311,8 +339,20 @@ async function syncMedia(client, localRows) {
         row.healthcheck_status || 'unchecked',
         row.notes,
         row.last_checked_at,
-        normalizeJsonText(row.source_context),
+        normalizedSourceContext,
       ]);
+      } catch (error) {
+        console.error(JSON.stringify({
+          table: 'media_references',
+          key: buildMediaKey(row),
+          mode: item.mode,
+          failingField: 'source_context',
+          sourceValue: row.source_context,
+          normalizedValue: normalizedSourceContext,
+          error: error.message,
+        }, null, 2));
+        throw error;
+      }
     }
   }
 
@@ -334,6 +374,11 @@ async function syncMedia(client, localRows) {
   return {
     localRows: localRows.length,
     remoteRows: Number(countRow.rows[0]?.total || 0),
+    insertRows,
+    updateRows,
+    unchangedRows: Math.max(localRows.length - pending.length, 0),
+    invalidRows: 0,
+    filteredRows: 0,
     coverRows: Number(countRow.rows[0]?.covers || 0),
     manualRows: Number(countRow.rows[0]?.manuals || 0),
     mapRows: Number(countRow.rows[0]?.maps || 0),
@@ -342,7 +387,8 @@ async function syncMedia(client, localRows) {
     endingRows: Number(countRow.rows[0]?.endings || 0),
     scanRows: Number(countRow.rows[0]?.scans || 0),
     pendingRows: pending.length,
-    samplePending: pending.slice(0, 5),
+    samplePending: pending.slice(0, 5).map((item) => ({ ...item.row, mode: item.mode })),
+    sampleInvalid: [],
   };
 }
 

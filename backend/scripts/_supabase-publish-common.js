@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const dotenv = require('dotenv');
 const Database = require('better-sqlite3');
 const { Client } = require('pg');
@@ -163,6 +164,90 @@ function stringifyJson(value) {
     return null;
   }
   return JSON.stringify(sortJsonValue(value));
+}
+
+function normalizeJsonForDiff(value) {
+  if (value == null || value === '') {
+    return null;
+  }
+
+  if (typeof value === 'string') {
+    const normalized = String(value).trim();
+    if (!normalized) {
+      return null;
+    }
+
+    if (/^[\[{"]/.test(normalized)) {
+      try {
+        return stringifyJson(JSON.parse(normalized));
+      } catch (_error) {
+        return JSON.stringify(normalized);
+      }
+    }
+
+    return JSON.stringify(normalized);
+  }
+
+  if (Array.isArray(value) || typeof value === 'object') {
+    return stringifyJson(value);
+  }
+
+  return String(value);
+}
+
+function normalizeBooleanForDiff(value) {
+  const normalized = coerceBoolean(value);
+  return normalized == null ? null : normalized;
+}
+
+function normalizeNumberForDiff(value) {
+  return coerceNumber(value);
+}
+
+function rowsDiffer(fields, remoteRow, localRow, normalizers = {}) {
+  return fields.some((field) => {
+    const normalize = normalizers[field] || ((value) => value ?? null);
+    return normalize(remoteRow?.[field]) !== normalize(localRow?.[field]);
+  });
+}
+
+function slugifyAscii(value) {
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function shortStableHash(value) {
+  return crypto.createHash('sha1').update(String(value || ''), 'utf8').digest('hex').slice(0, 10);
+}
+
+function buildCanonicalPersonId(name, options = {}) {
+  const rawName = normalizeText(name);
+  const fallbackSeed = normalizeText(options.fallbackSeed);
+
+  if (!rawName && !fallbackSeed) {
+    return null;
+  }
+
+  const slug = slugifyAscii(rawName);
+  if (slug) {
+    return `person:${slug}`;
+  }
+
+  const seed = rawName || fallbackSeed;
+  if (!seed) {
+    return null;
+  }
+
+  return `person:unnamed-${shortStableHash(seed)}`;
+}
+
+function isValidPersonId(value) {
+  return /^person:[a-z0-9]+(?:-[a-z0-9]+)*$/.test(String(value || '').trim());
 }
 
 function coerceBoolean(value) {
@@ -410,8 +495,15 @@ module.exports = {
   normalizeKeyPart,
   parseJsonLike,
   stringifyJson,
+  normalizeJsonForDiff,
+  normalizeBooleanForDiff,
+  normalizeNumberForDiff,
+  rowsDiffer,
   coerceBoolean,
   coerceNumber,
+  slugifyAscii,
+  buildCanonicalPersonId,
+  isValidPersonId,
   readJsonIfExists,
   readJsonLines,
   findLatestFile,

@@ -7,8 +7,13 @@ const {
   createRemoteClient,
   openReadonlySqlite,
   normalizeText,
+  normalizeNumberForDiff,
+  rowsDiffer,
   parseJsonLike,
   coerceNumber,
+  slugifyAscii,
+  buildCanonicalPersonId,
+  isValidPersonId,
   tableExists,
   fetchRemoteSourceRecords,
   buildSourceRecordKey,
@@ -25,16 +30,6 @@ const {
 const APPLY = process.argv.includes('--apply');
 const ARGS = parseArgs(process.argv.slice(2));
 const FILTER_IDS = parseIdFilter(ARGS);
-
-function slugify(value) {
-  return String(value || '')
-    .trim()
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
 
 function normalizeRole(value, fallback = 'developer') {
   const raw = String(value || fallback).trim().toLowerCase();
@@ -110,23 +105,33 @@ function readLocalPeople(sqlite, remoteSourceIdByLocalId) {
     SELECT id, name, normalized_name, primary_role, source_record_id
     FROM people
     ORDER BY id ASC
-  `).all().map((row) => ({
-    id: String(row.id),
-    name: String(row.name),
-    normalized_name: String(row.normalized_name),
-    primary_role: normalizeText(row.primary_role),
-    source_record_id: row.source_record_id ? (remoteSourceIdByLocalId.get(Number(row.source_record_id)) || null) : null,
-  }));
+  `).all().map((row) => {
+    const name = normalizeText(row.name);
+    const normalizedName = slugifyAscii(normalizeText(row.normalized_name) || name);
+    const canonicalId = isValidPersonId(row.id)
+      ? String(row.id)
+      : buildCanonicalPersonId(name, { fallbackSeed: row.id });
+
+    return {
+      id: canonicalId,
+      legacy_id: String(row.id),
+      name,
+      normalized_name: normalizedName || (canonicalId ? canonicalId.replace(/^person:/, '') : null),
+      primary_role: normalizeText(row.primary_role),
+      source_record_id: row.source_record_id ? (remoteSourceIdByLocalId.get(Number(row.source_record_id)) || null) : null,
+    };
+  });
 }
 
-function readLocalGamePeople(sqlite, remoteSourceIdByLocalId) {
+function readLocalGamePeople(sqlite, remoteSourceIdByLocalId, legacyPersonIdMap) {
   return sqlite.prepare(`
     SELECT game_id, person_id, role, billing_order, source_record_id, confidence, is_inferred
     FROM game_people
     ORDER BY game_id ASC, COALESCE(billing_order, 9999) ASC, person_id ASC
   `).all().map((row) => ({
     game_id: String(row.game_id),
-    person_id: String(row.person_id),
+    person_id: legacyPersonIdMap.get(String(row.person_id)) || String(row.person_id),
+    legacy_person_id: String(row.person_id),
     role: normalizeRole(row.role),
     billing_order: row.billing_order == null ? null : Number(row.billing_order),
     source_record_id: row.source_record_id ? (remoteSourceIdByLocalId.get(Number(row.source_record_id)) || null) : null,
@@ -144,6 +149,8 @@ function buildFallbackPeopleAndBindings(sqlite, peopleById, normalizedNameToId, 
 
   const people = [];
   const bindings = [];
+  const invalidPeople = [];
+  const invalidBindings = [];
   const gameHasBindings = new Set();
 
   for (const key of gamePeopleKeySet) {
@@ -161,19 +168,29 @@ function buildFallbackPeopleAndBindings(sqlite, peopleById, normalizedNameToId, 
       ...parseContributorArray(game.ost_composers, 'composer'),
     ];
 
-    const developerName = normalizeText(game.developer);
+      const developerName = normalizeText(game.developer);
     if (developerName) {
       contributors.push({ name: developerName, role: 'developer' });
     }
 
     let billingOrder = 1;
     for (const contributor of contributors) {
-      const normalizedName = contributor.normalizedName || slugify(contributor.name);
-      if (!normalizedName) {
+      const normalizedName = slugifyAscii(contributor.normalizedName || contributor.name);
+      const canonicalId = buildCanonicalPersonId(contributor.name, { fallbackSeed: `${gameId}:${billingOrder}:${contributor.role}` });
+      if (!canonicalId) {
+        invalidPeople.push({
+          game_id: gameId,
+          contributor: contributor.name,
+          role: contributor.role,
+          reason: 'missing_canonical_person_id',
+        });
         continue;
       }
 
-      let personId = contributor.personId || normalizedNameToId.get(normalizedName) || `person:${normalizedName}`;
+      let personId = contributor.personId;
+      if (!isValidPersonId(personId)) {
+        personId = normalizedNameToId.get(normalizedName) || canonicalId;
+      }
       if (!normalizedNameToId.has(normalizedName)) {
         normalizedNameToId.set(normalizedName, personId);
       } else {
@@ -202,6 +219,17 @@ function buildFallbackPeopleAndBindings(sqlite, peopleById, normalizedNameToId, 
         is_inferred: Boolean(contributor.isInferred),
       };
 
+      if (!isValidPersonId(binding.person_id)) {
+        invalidBindings.push({
+          game_id: gameId,
+          person_id: binding.person_id,
+          role: binding.role,
+          reason: 'invalid_person_id',
+        });
+        billingOrder += 1;
+        continue;
+      }
+
       const key = buildGamePeopleKey(binding);
       if (!gamePeopleKeySet.has(key)) {
         gamePeopleKeySet.add(key);
@@ -212,7 +240,7 @@ function buildFallbackPeopleAndBindings(sqlite, peopleById, normalizedNameToId, 
     }
   }
 
-  return { people, bindings };
+  return { people, bindings, invalidPeople, invalidBindings };
 }
 
 function buildMusicRows(sqlite, peopleById, normalizedNameToId, gamePeopleKeySet) {
@@ -223,6 +251,8 @@ function buildMusicRows(sqlite, peopleById, normalizedNameToId, gamePeopleKeySet
   const releaseRows = [];
   const extraPeople = [];
   const extraBindings = [];
+  const invalidPeople = [];
+  const invalidBindings = [];
 
   const creditByGameId = new Map((creditsPayload || []).map((entry) => [String(entry.itemId), entry]));
 
@@ -288,12 +318,22 @@ function buildMusicRows(sqlite, peopleById, normalizedNameToId, gamePeopleKeySet
 
     let billingOrder = 1;
     for (const contributor of contributorRows) {
-      const normalizedName = normalizeText(contributor.normalizedName) || slugify(contributor.name);
-      if (!normalizedName) {
+      const normalizedName = slugifyAscii(normalizeText(contributor.normalizedName) || contributor.name);
+      const canonicalId = buildCanonicalPersonId(contributor.name, { fallbackSeed: `${gameId}:${billingOrder}:composer` });
+      if (!canonicalId) {
+        invalidPeople.push({
+          game_id: gameId,
+          contributor: contributor.name,
+          role: contributor.role || 'composer',
+          reason: 'missing_canonical_person_id',
+        });
         continue;
       }
 
-      let personId = contributor.personId || normalizedNameToId.get(normalizedName) || `person:${normalizedName}`;
+      let personId = contributor.personId;
+      if (!isValidPersonId(personId)) {
+        personId = normalizedNameToId.get(normalizedName) || canonicalId;
+      }
       if (!normalizedNameToId.has(normalizedName)) {
         normalizedNameToId.set(normalizedName, personId);
       } else {
@@ -322,6 +362,17 @@ function buildMusicRows(sqlite, peopleById, normalizedNameToId, gamePeopleKeySet
         is_inferred: Boolean(contributor.isInferred || contributor.source?.isInferred),
       };
 
+      if (!isValidPersonId(binding.person_id)) {
+        invalidBindings.push({
+          game_id: gameId,
+          person_id: binding.person_id,
+          role: binding.role,
+          reason: 'invalid_person_id',
+        });
+        billingOrder += 1;
+        continue;
+      }
+
       const key = buildGamePeopleKey(binding);
       if (!gamePeopleKeySet.has(key)) {
         gamePeopleKeySet.add(key);
@@ -338,6 +389,8 @@ function buildMusicRows(sqlite, peopleById, normalizedNameToId, gamePeopleKeySet
     releaseRows: uniqueBy(releaseRows, buildOstReleaseKey),
     extraPeople,
     extraBindings,
+    invalidPeople,
+    invalidBindings,
   };
 }
 
@@ -437,45 +490,67 @@ async function fetchRemoteGameIdSet(client) {
 }
 
 function peopleNeedsUpdate(remoteRow, localRow) {
-  return (
-    normalizeText(remoteRow.name) !== normalizeText(localRow.name)
-    || normalizeText(remoteRow.normalized_name) !== normalizeText(localRow.normalized_name)
-    || normalizeText(remoteRow.primary_role) !== normalizeText(localRow.primary_role)
-    || Number(remoteRow.source_record_id || 0) !== Number(localRow.source_record_id || 0)
-  );
+  return rowsDiffer([
+    'name',
+    'normalized_name',
+    'primary_role',
+    'source_record_id',
+  ], remoteRow, localRow, {
+    name: normalizeText,
+    normalized_name: normalizeText,
+    primary_role: normalizeText,
+    source_record_id: normalizeNumberForDiff,
+  });
 }
 
 function gamePeopleNeedsUpdate(remoteRow, localRow) {
-  return (
-    Number(remoteRow.billing_order || 0) !== Number(localRow.billing_order || 0)
-    || Number(remoteRow.source_record_id || 0) !== Number(localRow.source_record_id || 0)
-    || Number(remoteRow.confidence || 0) !== Number(localRow.confidence || 0)
-    || Boolean(remoteRow.is_inferred) !== Boolean(localRow.is_inferred)
-  );
+  return rowsDiffer([
+    'billing_order',
+    'source_record_id',
+    'confidence',
+    'is_inferred',
+  ], remoteRow, localRow, {
+    billing_order: normalizeNumberForDiff,
+    source_record_id: normalizeNumberForDiff,
+    confidence: normalizeNumberForDiff,
+    is_inferred: (value) => Boolean(value),
+  });
 }
 
 function ostNeedsUpdate(remoteRow, localRow) {
-  return (
-    normalizeText(remoteRow.title) !== normalizeText(localRow.title)
-    || Number(remoteRow.source_record_id || 0) !== Number(localRow.source_record_id || 0)
-    || Number(remoteRow.confidence || 0) !== Number(localRow.confidence || 0)
-    || Boolean(remoteRow.needs_release_enrichment) !== Boolean(localRow.needs_release_enrichment)
-  );
+  return rowsDiffer([
+    'title',
+    'source_record_id',
+    'confidence',
+    'needs_release_enrichment',
+  ], remoteRow, localRow, {
+    title: normalizeText,
+    source_record_id: normalizeNumberForDiff,
+    confidence: normalizeNumberForDiff,
+    needs_release_enrichment: (value) => Boolean(value),
+  });
 }
 
 function ostTrackNeedsUpdate(remoteRow, localRow) {
-  return (
-    normalizeText(remoteRow.composer_person_id) !== normalizeText(localRow.composer_person_id)
-    || Number(remoteRow.source_record_id || 0) !== Number(localRow.source_record_id || 0)
-    || Number(remoteRow.confidence || 0) !== Number(localRow.confidence || 0)
-  );
+  return rowsDiffer([
+    'composer_person_id',
+    'source_record_id',
+    'confidence',
+  ], remoteRow, localRow, {
+    composer_person_id: normalizeText,
+    source_record_id: normalizeNumberForDiff,
+    confidence: normalizeNumberForDiff,
+  });
 }
 
 function ostReleaseNeedsUpdate(remoteRow, localRow) {
-  return (
-    Number(remoteRow.source_record_id || 0) !== Number(localRow.source_record_id || 0)
-    || Number(remoteRow.confidence || 0) !== Number(localRow.confidence || 0)
-  );
+  return rowsDiffer([
+    'source_record_id',
+    'confidence',
+  ], remoteRow, localRow, {
+    source_record_id: normalizeNumberForDiff,
+    confidence: normalizeNumberForDiff,
+  });
 }
 
 async function upsertPerson(client, row) {
@@ -611,20 +686,61 @@ async function main() {
 
     const peopleById = new Map();
     const normalizedNameToId = new Map();
+    const invalidPeople = [];
+    const invalidBindings = [];
 
-    const localPeople = readLocalPeople(sqlite, remoteSourceIdByLocalId);
-    const localGamePeople = readLocalGamePeople(sqlite, remoteSourceIdByLocalId)
-      .filter((row) => !FILTER_IDS || FILTER_IDS.has(String(row.game_id)));
+    const localPeopleRaw = readLocalPeople(sqlite, remoteSourceIdByLocalId);
+    const legacyPersonIdMap = new Map();
+    const localPeople = [];
+
+    for (const person of localPeopleRaw) {
+      if (person.legacy_id) {
+        legacyPersonIdMap.set(person.legacy_id, person.id);
+      }
+
+      if (!person.name || !isValidPersonId(person.id)) {
+        invalidPeople.push({
+          legacy_id: person.legacy_id,
+          person_id: person.id,
+          name: person.name,
+          reason: !person.name ? 'missing_name' : 'invalid_person_id',
+        });
+        continue;
+      }
+
+      localPeople.push(person);
+    }
+
+    const localGamePeople = readLocalGamePeople(sqlite, remoteSourceIdByLocalId, legacyPersonIdMap)
+      .filter((row) => !FILTER_IDS || FILTER_IDS.has(String(row.game_id)))
+      .filter((row) => {
+        if (isValidPersonId(row.person_id)) {
+          return true;
+        }
+
+        invalidBindings.push({
+          game_id: row.game_id,
+          person_id: row.person_id,
+          legacy_person_id: row.legacy_person_id,
+          role: row.role,
+          reason: 'invalid_person_id',
+        });
+        return false;
+      });
 
     for (const person of localPeople) {
       peopleById.set(person.id, person);
-      normalizedNameToId.set(person.normalized_name, person.id);
+      if (person.normalized_name) {
+        normalizedNameToId.set(person.normalized_name, person.id);
+      }
     }
 
     const gamePeopleKeySet = new Set(localGamePeople.map(buildGamePeopleKey));
 
     const musicRows = buildMusicRows(sqlite, peopleById, normalizedNameToId, gamePeopleKeySet);
     const fallback = buildFallbackPeopleAndBindings(sqlite, peopleById, normalizedNameToId, gamePeopleKeySet);
+    invalidPeople.push(...musicRows.invalidPeople, ...fallback.invalidPeople);
+    invalidBindings.push(...musicRows.invalidBindings, ...fallback.invalidBindings);
 
     const allPeople = uniqueBy([
       ...localPeople,
@@ -638,6 +754,18 @@ async function main() {
       ...fallback.bindings,
     ], buildGamePeopleKey)
       .filter((row) => remoteGameIds.has(String(row.game_id)))
+      .filter((row) => {
+        if (isValidPersonId(row.person_id)) {
+          return true;
+        }
+        invalidBindings.push({
+          game_id: row.game_id,
+          person_id: row.person_id,
+          role: row.role,
+          reason: 'invalid_person_id_post_merge',
+        });
+        return false;
+      })
       .filter((row) => !FILTER_IDS || FILTER_IDS.has(String(row.game_id)));
 
     const allOst = uniqueBy(musicRows.ostRows, buildOstKey)
@@ -653,6 +781,19 @@ async function main() {
       ...allOstTracks.map((row) => normalizeText(row.composer_person_id)).filter(Boolean),
     ]);
     const retainedPeople = allPeople.filter((row) => referencedPersonIds.has(String(row.id)));
+    const validRetainedPersonIds = new Set(retainedPeople.map((row) => String(row.id)));
+    const filteredGamePeople = allGamePeople.filter((row) => {
+      if (validRetainedPersonIds.has(String(row.person_id))) {
+        return true;
+      }
+      invalidBindings.push({
+        game_id: row.game_id,
+        person_id: row.person_id,
+        role: row.role,
+        reason: 'missing_retained_person',
+      });
+      return false;
+    });
 
     const peopleTableExists = await tableExists(client, 'people');
     const gamePeopleTableExists = await tableExists(client, 'game_people');
@@ -660,11 +801,14 @@ async function main() {
     const ostTracksTableExists = await tableExists(client, 'ost_tracks');
     const ostReleasesTableExists = await tableExists(client, 'ost_releases');
 
-    const remotePeopleMap = mapBy(
-      peopleTableExists
-        ? await fetchRemoteRows(client, 'people', ['id', 'name', 'normalized_name', 'primary_role', 'source_record_id'])
-        : [],
-      buildPersonKey
+    const remotePeopleRows = peopleTableExists
+      ? await fetchRemoteRows(client, 'people', ['id', 'name', 'normalized_name', 'primary_role', 'source_record_id'])
+      : [];
+    const remotePeopleMap = mapBy(remotePeopleRows, buildPersonKey);
+    const remotePeopleByNormalizedName = new Map(
+      remotePeopleRows
+        .map((row) => [normalizeText(row.normalized_name), row])
+        .filter(([normalizedName]) => Boolean(normalizedName))
     );
     const remoteGamePeopleMap = mapBy(
       gamePeopleTableExists
@@ -687,11 +831,32 @@ async function main() {
       : [];
     const remoteReleaseMap = mapBy(remoteReleaseRows, buildOstReleaseKey);
 
-    const pendingPeople = retainedPeople.filter((row) => {
+    const personIdRemap = new Map();
+    for (const row of retainedPeople) {
+      const remoteMatch = remotePeopleByNormalizedName.get(normalizeText(row.normalized_name));
+      if (remoteMatch && isValidPersonId(remoteMatch.id) && remoteMatch.id !== row.id) {
+        personIdRemap.set(row.id, String(remoteMatch.id));
+      }
+    }
+
+    const reconciledPeople = uniqueBy(retainedPeople.map((row) => ({
+      ...row,
+      id: personIdRemap.get(row.id) || row.id,
+    })), buildPersonKey);
+    const reconciledGamePeople = uniqueBy(filteredGamePeople.map((row) => ({
+      ...row,
+      person_id: personIdRemap.get(row.person_id) || row.person_id,
+    })), buildGamePeopleKey);
+    const reconciledOstTracks = uniqueBy(allOstTracks.map((row) => ({
+      ...row,
+      composer_person_id: personIdRemap.get(row.composer_person_id) || row.composer_person_id,
+    })), buildOstTrackKey);
+
+    const pendingPeople = reconciledPeople.filter((row) => {
       const remoteRow = remotePeopleMap.get(buildPersonKey(row));
       return !remoteRow || peopleNeedsUpdate(remoteRow, row);
     });
-    const pendingGamePeople = allGamePeople.filter((row) => {
+    const pendingGamePeople = reconciledGamePeople.filter((row) => {
       const remoteRow = remoteGamePeopleMap.get(buildGamePeopleKey(row));
       return !remoteRow || gamePeopleNeedsUpdate(remoteRow, row);
     });
@@ -699,7 +864,7 @@ async function main() {
       const remoteRow = remoteOstMap.get(buildOstKey(row));
       return !remoteRow || ostNeedsUpdate(remoteRow, row);
     });
-    const pendingTracks = allOstTracks.filter((row) => {
+    const pendingTracks = reconciledOstTracks.filter((row) => {
       const remoteRow = remoteTrackMap.get(buildOstTrackKey(row));
       return !remoteRow || ostTrackNeedsUpdate(remoteRow, row);
     });
@@ -710,7 +875,17 @@ async function main() {
 
     if (APPLY) {
       for (const row of pendingPeople) {
-        await upsertPerson(client, row);
+        try {
+          await upsertPerson(client, row);
+        } catch (error) {
+          console.error(JSON.stringify({
+            table: 'people',
+            key: buildPersonKey(row),
+            row,
+            error: error.message,
+          }, null, 2));
+          throw error;
+        }
       }
       for (const row of pendingGamePeople) {
         await upsertGamePerson(client, row);
@@ -741,32 +916,57 @@ async function main() {
       filterIds: FILTER_IDS ? [...FILTER_IDS] : null,
       people: {
         tableExists: peopleTableExists,
-        localRows: retainedPeople.length,
+        localRows: reconciledPeople.length,
         remoteRows: remotePeopleMap.size,
+        insertRows: pendingPeople.filter((row) => !remotePeopleMap.get(buildPersonKey(row))).length,
+        updateRows: pendingPeople.filter((row) => remotePeopleMap.get(buildPersonKey(row))).length,
+        unchangedRows: Math.max(reconciledPeople.length - pendingPeople.length, 0),
+        invalidRows: invalidPeople.length,
+        filteredRows: Math.max(allPeople.length - reconciledPeople.length, 0),
         pendingRows: pendingPeople.length,
       },
       game_people: {
         tableExists: gamePeopleTableExists,
-        localRows: allGamePeople.length,
+        localRows: reconciledGamePeople.length,
         remoteRows: remoteGamePeopleMap.size,
+        insertRows: pendingGamePeople.filter((row) => !remoteGamePeopleMap.get(buildGamePeopleKey(row))).length,
+        updateRows: pendingGamePeople.filter((row) => remoteGamePeopleMap.get(buildGamePeopleKey(row))).length,
+        unchangedRows: Math.max(reconciledGamePeople.length - pendingGamePeople.length, 0),
+        invalidRows: invalidBindings.length,
+        filteredRows: allGamePeople.length - reconciledGamePeople.length,
         pendingRows: pendingGamePeople.length,
       },
       ost: {
         tableExists: ostTableExists,
         localRows: allOst.length,
         remoteRows: remoteOstMap.size,
+        insertRows: pendingOst.filter((row) => !remoteOstMap.get(buildOstKey(row))).length,
+        updateRows: pendingOst.filter((row) => remoteOstMap.get(buildOstKey(row))).length,
+        unchangedRows: Math.max(allOst.length - pendingOst.length, 0),
+        invalidRows: 0,
+        filteredRows: musicRows.ostRows.length - allOst.length,
         pendingRows: pendingOst.length,
       },
       ost_tracks: {
         tableExists: ostTracksTableExists,
-        localRows: allOstTracks.length,
+        localRows: reconciledOstTracks.length,
         remoteRows: remoteTrackMap.size,
+        insertRows: pendingTracks.filter((row) => !remoteTrackMap.get(buildOstTrackKey(row))).length,
+        updateRows: pendingTracks.filter((row) => remoteTrackMap.get(buildOstTrackKey(row))).length,
+        unchangedRows: Math.max(reconciledOstTracks.length - pendingTracks.length, 0),
+        invalidRows: 0,
+        filteredRows: musicRows.trackRows.length - reconciledOstTracks.length,
         pendingRows: pendingTracks.length,
       },
       ost_releases: {
         tableExists: ostReleasesTableExists,
         localRows: allOstReleases.length,
         remoteRows: remoteReleaseMap.size,
+        insertRows: pendingReleases.filter((row) => !remoteReleaseMap.get(buildOstReleaseKey(row))).length,
+        updateRows: pendingReleases.filter((row) => remoteReleaseMap.get(buildOstReleaseKey(row))).length,
+        unchangedRows: Math.max(allOstReleases.length - pendingReleases.length, 0),
+        invalidRows: 0,
+        filteredRows: musicRows.releaseRows.length - allOstReleases.length,
         pendingRows: pendingReleases.length,
       },
       samplePending: {
@@ -775,8 +975,14 @@ async function main() {
         ost: pendingOst.slice(0, 5).map((row) => ({ id: row.id, game_id: row.game_id, needs_release_enrichment: row.needs_release_enrichment })),
         ost_tracks: pendingTracks.slice(0, 5).map((row) => ({ ost_id: row.ost_id, track_title: row.track_title })),
       },
+      sampleInvalid: {
+        people: invalidPeople.slice(0, 5),
+        game_people: invalidBindings.slice(0, 5),
+        ost: [],
+        ost_tracks: [],
+      },
       skipped: {
-        game_people_filtered_out: localGamePeople.length + musicRows.extraBindings.length + fallback.bindings.length - allGamePeople.length,
+        game_people_filtered_out: localGamePeople.length + musicRows.extraBindings.length + fallback.bindings.length - filteredGamePeople.length,
         ost_filtered_out: musicRows.ostRows.length - allOst.length,
         ost_tracks_filtered_out: musicRows.trackRows.length - allOstTracks.length,
         ost_releases_filtered_out: musicRows.releaseRows.length - allOstReleases.length,

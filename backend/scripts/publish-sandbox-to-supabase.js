@@ -194,6 +194,7 @@ function writeReport(report) {
 function main() {
   const args = parseArgs(process.argv.slice(2));
   const dryRun = args.write !== true;
+  const withLegacyMigration = args['with-legacy-migration'] === true;
   const env = buildEnvironmentSummary();
   const steps = [];
 
@@ -225,10 +226,12 @@ function main() {
   steps.push(runCommand("curation-pass1", process.execPath, curationArgs));
 
   if (!env.hasSupabaseUrl || !env.hasSupabaseServiceKey) {
-    steps.push(skippedStep(
-      "publish-supabase",
-      "Missing SUPABASE_URL or service key in the current environment.",
-    ));
+    if (withLegacyMigration) {
+      steps.push(skippedStep(
+        "publish-legacy-migration",
+        "Missing SUPABASE_URL or service key in the current environment.",
+      ));
+    }
     steps.push(skippedStep(
       "publish-structural",
       "Missing SUPABASE_URL or service key in the current environment.",
@@ -258,10 +261,12 @@ function main() {
       "Missing SUPABASE_URL or service key in the current environment.",
     ));
   } else if (!env.hasValidSupabaseUrl) {
-    steps.push(skippedStep(
-      "publish-supabase",
-      "Supabase URL is configured but is not an HTTP(S) REST URL.",
-    ));
+    if (withLegacyMigration) {
+      steps.push(skippedStep(
+        "publish-legacy-migration",
+        "Supabase URL is configured but is not an HTTP(S) REST URL.",
+      ));
+    }
     steps.push(skippedStep(
       "publish-structural",
       "Supabase URL is configured but is not an HTTP(S) REST URL.",
@@ -291,23 +296,19 @@ function main() {
       "Supabase URL is configured but is not an HTTP(S) REST URL.",
     ));
   } else {
-    const publishArgs = [path.join(ROOT, "scripts", "migrate", "sqlite_to_supabase.js")];
-    if (dryRun) {
-      publishArgs.push("--dry-run");
+    if (withLegacyMigration) {
+      const publishArgs = [path.join(ROOT, "scripts", "migrate", "sqlite_to_supabase.js")];
+      if (dryRun) {
+        publishArgs.push("--dry-run");
+      }
+      steps.push(runCommand("publish-legacy-migration", process.execPath, publishArgs));
     }
-    steps.push(runCommand("publish-supabase", process.execPath, publishArgs));
 
     const structuralArgs = [path.join(ROOT, "backend", "scripts", "publish-structural-supabase.js")];
     if (!dryRun) {
       structuralArgs.push("--apply");
     }
     steps.push(runCommand("publish-structural", process.execPath, structuralArgs));
-
-    const mediaArgs = [path.join(ROOT, "backend", "scripts", "publish-media-references-supabase.js")];
-    if (!dryRun) {
-      mediaArgs.push("--apply");
-    }
-    steps.push(runCommand("publish-media", process.execPath, mediaArgs));
 
     const recordsArgs = [path.join(ROOT, "backend", "scripts", "publish-records-supabase.js")];
     if (!dryRun) {
@@ -326,6 +327,12 @@ function main() {
       creditsMusicArgs.push("--apply");
     }
     steps.push(runCommand("publish-credits-music", process.execPath, creditsMusicArgs));
+
+    const mediaArgs = [path.join(ROOT, "backend", "scripts", "publish-media-references-supabase.js")];
+    if (!dryRun) {
+      mediaArgs.push("--apply");
+    }
+    steps.push(runCommand("publish-media", process.execPath, mediaArgs));
 
     const externalAssetsArgs = [path.join(ROOT, "backend", "scripts", "publish-external-assets-supabase.js")];
     if (!dryRun) {
@@ -366,6 +373,7 @@ function main() {
       ? (env.hasValidSupabaseUrl ? "configured" : "invalid url")
       : "not configured"
   }`);
+  console.log(`Legacy path : ${withLegacyMigration ? "enabled" : "disabled"}`);
   console.log("");
 
   for (const step of steps) {

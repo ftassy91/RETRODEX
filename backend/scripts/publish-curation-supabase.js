@@ -10,6 +10,10 @@ const {
   normalizeTimestamp,
   stringifyJson,
   parseJsonLike,
+  normalizeJsonForDiff,
+  normalizeBooleanForDiff,
+  normalizeNumberForDiff,
+  rowsDiffer,
   tableExists,
 } = require('./_supabase-publish-common')
 
@@ -82,10 +86,30 @@ function byKey(rows, key) {
 }
 
 function rowChanged(remoteRow, localRow, fields) {
-  return fields.some((field) => {
-    const remote = remoteRow?.[field] ?? null
-    const local = localRow?.[field] ?? null
-    return String(remote) !== String(local)
+  return rowsDiffer(fields, remoteRow, localRow, {
+    console_id: normalizeText,
+    profile_version: normalizeText,
+    profile_mode: normalizeText,
+    content_profile_json: normalizeJsonForDiff,
+    profile_basis_json: normalizeJsonForDiff,
+    relevant_expected: normalizeNumberForDiff,
+    pass_key: normalizeText,
+    status: normalizeText,
+    selection_score: normalizeNumberForDiff,
+    target_rank: normalizeNumberForDiff,
+    is_target: normalizeBooleanForDiff,
+    completion_score: normalizeNumberForDiff,
+    relevant_filled: normalizeNumberForDiff,
+    missing_relevant_sections_json: normalizeJsonForDiff,
+    critical_errors_json: normalizeJsonForDiff,
+    validation_summary_json: normalizeJsonForDiff,
+    last_validated_at: normalizeTimestamp,
+    locked_at: normalizeTimestamp,
+    published_at: normalizeTimestamp,
+    content_version: normalizeText,
+    immutable_hash: normalizeText,
+    slot_rank: normalizeNumberForDiff,
+    is_active: normalizeBooleanForDiff,
   })
 }
 
@@ -336,23 +360,55 @@ async function main() {
       profiles: {
         localRows: local.profiles.length,
         remoteRows: remote.profiles.length,
+        insertRows: pendingProfiles.filter((row) => !remoteProfiles.has(row.game_id)).length,
+        updateRows: pendingProfiles.filter((row) => remoteProfiles.has(row.game_id)).length,
+        unchangedRows: Math.max(local.profiles.length - pendingProfiles.length, 0),
+        invalidRows: 0,
+        filteredRows: localAll.profiles.length - local.profiles.length,
         pendingRows: pendingProfiles.length,
       },
       states: {
         localRows: local.states.length,
         remoteRows: remote.states.length,
+        insertRows: pendingStates.filter((row) => !remoteStates.has(row.game_id)).length,
+        updateRows: pendingStates.filter((row) => remoteStates.has(row.game_id)).length,
+        unchangedRows: Math.max(local.states.length - pendingStates.length, 0),
+        invalidRows: 0,
+        filteredRows: localAll.states.length - local.states.length,
         pendingRows: pendingStates.length,
       },
       events: {
         localRows: local.events.length,
         remoteRows: remote.events.length,
+        insertRows: pendingEvents.length,
+        updateRows: 0,
+        unchangedRows: Math.max(local.events.length - pendingEvents.length, 0),
+        invalidRows: 0,
+        filteredRows: localAll.events.length - local.events.length,
         pendingRows: pendingEvents.length,
       },
       slots: {
         localRows: local.slots.length,
         remoteRows: remote.slots.length,
+        insertRows: pendingSlots.filter((row) => !remoteSlots.has(row.game_id)).length,
+        updateRows: pendingSlots.filter((row) => remoteSlots.has(row.game_id)).length,
+        unchangedRows: Math.max(local.slots.length - pendingSlots.length, 0),
+        invalidRows: 0,
+        filteredRows: localAll.slots.length - local.slots.length,
         pendingRows: pendingSlots.length,
         staleManagedRows,
+      },
+      samplePending: {
+        profiles: pendingProfiles.slice(0, 5).map((row) => ({ game_id: row.game_id, console_id: row.console_id })),
+        states: pendingStates.slice(0, 5).map((row) => ({ game_id: row.game_id, status: row.status })),
+        events: pendingEvents.slice(0, 5).map((row) => ({ event_key: row.event_key, game_id: row.game_id })),
+        slots: pendingSlots.slice(0, 5).map((row) => ({ game_id: row.game_id, console_id: row.console_id, slot_rank: row.slot_rank })),
+      },
+      sampleInvalid: {
+        profiles: [],
+        states: [],
+        events: [],
+        slots: [],
       },
     }, null, 2))
   } finally {
