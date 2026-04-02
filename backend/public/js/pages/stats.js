@@ -711,7 +711,7 @@ function initAccordions() {
       button.setAttribute('aria-expanded', String(!expanded))
       const indicator = button.querySelector('.detail-accordion-indicator')
       if (indicator) {
-        indicator.textContent = expanded ? '+' : '−'
+        indicator.textContent = expanded ? '+' : '-'
       }
       content.hidden = expanded
     })
