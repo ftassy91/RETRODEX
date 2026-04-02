@@ -1,0 +1,2839 @@
+{
+  "batchKey": "strong_pages_lot_1_richness",
+  "batchType": "richness",
+  "reviewStatus": "ready",
+  "notes": "Strong pages lot 1 synopsis and media uplift on high-priority franchise-linked pages.",
+  "generatedFrom": {
+    "source": "strong_pages_lot_1_editorial_seed",
+    "generatedAt": "2026-04-02T20:25:06.598Z",
+    "seedPath": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\backend\\scripts\\enrichment\\manifests\\strong-pages-lot-1-editorial-seed.json",
+    "top1200Path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\backend\\data\\audit\\top1200\\2026-04-01T21-53-22-253Z_top1200_selection_band.json",
+    "externalAssetsPath": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\polish-retrodex\\outputs\\external_assets.jsonl",
+    "runId": "prd-assets-full-20260331T063500Z"
+  },
+  "sources": [
+    "internal",
+    "polish_retrodex_external_assets"
+  ],
+  "writeTargets": [
+    "games",
+    "game_editorial",
+    "media_references",
+    "source_records",
+    "field_provenance"
+  ],
+  "publishDomains": [
+    "records",
+    "editorial",
+    "media",
+    "ui"
+  ],
+  "postChecks": [
+    "records",
+    "editorial",
+    "media",
+    "ui"
+  ],
+  "ids": [
+    "final-fantasy-vi-super-nintendo",
+    "contra-iii-alien-wars-super-nintendo",
+    "mega-man-x-super-nintendo",
+    "super-mario-kart-super-nintendo",
+    "super-metroid-super-nintendo",
+    "castlevania-circle-of-the-moon-game-boy-advance",
+    "castlevania-order-of-ecclesia-nintendo-ds",
+    "contra-hard-corps-sega-genesis",
+    "final-fantasy-ix-playstation",
+    "final-fantasy-vi-advance-game-boy-advance",
+    "final-fantasy-vii-playstation",
+    "final-fantasy-viii-playstation",
+    "metroid-zero-mission-game-boy-advance",
+    "sonic-the-hedgehog-sega-genesis",
+    "super-mario-all-stars-super-nintendo",
+    "super-mario-rpg-super-nintendo",
+    "super-mario-world-super-nintendo",
+    "yoshi-island-super-nintendo",
+    "majoras-mask-nintendo-64",
+    "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+    "castlevania-aria-of-sorrow-game-boy-advance",
+    "castlevania-dawn-of-sorrow-nintendo-ds",
+    "new-super-mario-bros-nintendo-ds",
+    "sonic-the-hedgehog-2-sega-genesis",
+    "super-castlevania-iv-super-nintendo",
+    "tekken-3-playstation",
+    "castlevania-chronicles-playstation",
+    "castlevania-bloodlines-sega-genesis",
+    "castlevania-harmony-of-dissonance-game-boy-advance",
+    "final-fantasy-tactics-playstation",
+    "final-fantasy-tactics-advance-game-boy-advance",
+    "final-fantasy-v-super-nintendo",
+    "final-fantasy-xii-revenant-wings-nintendo-ds",
+    "mega-man-7-super-nintendo",
+    "mega-man-x4-playstation",
+    "megaman-zero-game-boy-advance",
+    "megaman-zero-2-game-boy-advance",
+    "mega-man-zero-3-game-boy-advance",
+    "metroid-prime-hunters-nintendo-ds",
+    "resident-evil-3-nemesis-playstation",
+    "super-mario-advance-game-boy-advance",
+    "castlevania-nintendo-64",
+    "final-fantasy-iii-nintendo-entertainment-system",
+    "castlevania-legacy-of-darkness-nintendo-64",
+    "the-legend-of-zelda-nintendo-entertainment-system",
+    "castlevania-nintendo-entertainment-system",
+    "contra-nintendo-entertainment-system",
+    "mega-man-2-nintendo-entertainment-system",
+    "castlevania-iii-draculas-curse-nintendo-entertainment-system",
+    "final-fantasy-nintendo-entertainment-system",
+    "final-fantasy-ii-nintendo-entertainment-system",
+    "final-fantasy-legend-ii-game-boy",
+    "mega-man-nintendo-entertainment-system"
+  ],
+  "payload": [
+    {
+      "gameId": "final-fantasy-vi-super-nintendo",
+      "title": "Final Fantasy VI",
+      "synopsis": "Terra is pulled into a rebellion against the Gestahlian Empire, and the fall of its magitek order turns her journey into a globe-spanning fight over power, memory, and the fate of a ruined world.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "sourceField": "manual_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/scans/snes.html",
+          "url": "https://www.vgmuseum.com/scans/snes/snesff3.jpg",
+          "previewUrl": "https://www.vgmuseum.com/scans/snes/snesff3.jpg",
+          "assetSubtype": "manual",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_0599fd0f28e5f22e",
+            "asset_id": "asset_76a133904fb968a8",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:53:29.981Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/snes/a/ff3.htm",
+          "url": "https://www.vgmuseum.com/end/snes/a/ff3.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/snes/a/ff3.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_5dfb015586236b76",
+            "asset_id": "asset_5a5749fe8b3f406c",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:22.124Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 5,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.71
+      }
+    },
+    {
+      "gameId": "contra-iii-alien-wars-super-nintendo",
+      "title": "Contra III: The Alien Wars",
+      "synopsis": "Bill Rizer and Lance Bean return to a planet already overrun by alien forces, pushing through collapsing war zones and boss-heavy fronts to cut the invasion off at its source.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/snes/a/contra3.htm",
+          "url": "https://www.vgmuseum.com/end/snes/a/contra3.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/snes/a/contra3.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_29c734e5710f0715",
+            "asset_id": "asset_7f3e67d577a1ba4a",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:21.559Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 13,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.66
+      }
+    },
+    {
+      "gameId": "mega-man-x-super-nintendo",
+      "title": "Mega Man X",
+      "synopsis": "X enters the Maverick wars to stop Sigma's uprising, using armor upgrades and rescued abilities to turn a desperate manhunt into a new generation of Mega Man combat.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "sourceField": "manual_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/scans/snes.html",
+          "url": "https://www.vgmuseum.com/scans/snes/snesmmx.jpg",
+          "previewUrl": "https://www.vgmuseum.com/scans/snes/snesmmx.jpg",
+          "assetSubtype": "manual",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_f5ee1d82385e0093",
+            "asset_id": "asset_abb9b392b9f3daaf",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:53:31.394Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/snes/a/mmx2.htm",
+          "url": "https://www.vgmuseum.com/end/snes/a/mmx2.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/snes/a/mmx2.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_14359e6b64e4358d",
+            "asset_id": "asset_b07559875cc95024",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:23.462Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 18,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.66
+      }
+    },
+    {
+      "gameId": "super-mario-kart-super-nintendo",
+      "title": "Super Mario Kart",
+      "synopsis": "Nintendo turns the Mushroom Kingdom cast into a rivalry circuit of drifting, item traps, and tight track knowledge, where every cup is decided by momentum as much as speed.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/snes/a/kart.htm",
+          "url": "https://www.vgmuseum.com/end/snes/a/kart.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/snes/a/kart.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_0f9e01bbc113d463",
+            "asset_id": "asset_44a1e0f1a7874143",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:24.689Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 22,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.66
+      }
+    },
+    {
+      "gameId": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "synopsis": "Samus returns to Zebes after the last Metroid is stolen, and the rescue mission becomes a solitary descent through hidden chambers, ancient ruins, and escalating biomechanical threats.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "sourceField": "manual_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/scans/snes.html",
+          "url": "https://www.vgmuseum.com/scans/snes/snessm.jpg",
+          "previewUrl": "https://www.vgmuseum.com/scans/snes/snessm.jpg",
+          "assetSubtype": "manual",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_21ae416070f5bcd0",
+            "asset_id": "asset_13f453e87a1f9849",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:53:33.933Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/snes/a/supermetroid.htm",
+          "url": "https://www.vgmuseum.com/end/snes/a/supermetroid.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/snes/a/supermetroid.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_8d09c8646aec81f7",
+            "asset_id": "asset_a27a8f9fc730ba80",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:25.024Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 23,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.66
+      }
+    },
+    {
+      "gameId": "castlevania-circle-of-the-moon-game-boy-advance",
+      "title": "Castlevania: Circle of the Moon",
+      "synopsis": "Nathan Graves enters Dracula's castle to rescue his master, climbing through a hostile labyrinth while the DSS card system turns each discovery into a new layer of survival and offense.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "sourceField": "manual_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/scans/gba.html",
+          "url": "https://www.vgmuseum.com/scans/gba/cvcotm-4.jpg",
+          "previewUrl": "https://www.vgmuseum.com/scans/gba/cvcotm-4.jpg",
+          "assetSubtype": "manual",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_c57de07f527ea17a",
+            "asset_id": "asset_03d9e467125169fe",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:53:51.425Z"
+        },
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/GBA/index.htm#CastlevaniaCircleOfTheMoon",
+          "url": "https://www.vgmaps.com/Atlas/GBA/Castlevania-CircleOfTheMoon-CeremonialRoom.png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/GBA/Castlevania-CircleOfTheMoon-CeremonialRoom.png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_031b04a5bde72ad9",
+            "asset_id": "asset_db33c91d46b5b883",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:50:03.388Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/gba/a/cotm.htm",
+          "url": "https://www.vgmuseum.com/end/gba/a/cotm.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/gba/a/cotm.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_2f45bb32b44f98e7",
+            "asset_id": "asset_8f09d8b21e777c25",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:50.937Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 62,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "castlevania-order-of-ecclesia-nintendo-ds",
+      "title": "Castlevania: Order of Ecclesia",
+      "synopsis": "Shanoa becomes the bearer of the Ecclesia glyphs after Dracula's seal ritual fails, and her search for the missing Dominus fragments leads from isolated villages back to the castle itself.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/nds/a/cvooe.htm",
+          "url": "https://www.vgmuseum.com/end/nds/a/cvooe.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/nds/a/cvooe.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_e097825ad39fb992",
+            "asset_id": "asset_7f3ff8d95c3ca059",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:53.577Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 63,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "contra-hard-corps-sega-genesis",
+      "title": "Contra: Hard Corps",
+      "synopsis": "A new Hard Corps squad is sent into a city-scale uprising driven by rogue weapons and bio-mechanical experiments, with branching routes that push the war into multiple catastrophic endings.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/genesis/a/contrahard.htm",
+          "url": "https://www.vgmuseum.com/end/genesis/a/contrahard.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/genesis/a/contrahard.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_622614c50cd2ccae",
+            "asset_id": "asset_cd21b383c743b6ab",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:46.298Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 66,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "final-fantasy-ix-playstation",
+      "title": "Final Fantasy IX",
+      "synopsis": "A kidnapping plot pulls Zidane, Garnet, Vivi, and Steiner into a continental war, then far beyond it, as the journey unfolds into a meditation on memory, identity, and mortality.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "sourceField": "manual_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/scans/psx.html",
+          "url": "https://www.vgmuseum.com/scans/psx/ff9_manual.JPG",
+          "previewUrl": "https://www.vgmuseum.com/scans/psx/ff9_manual.JPG",
+          "assetSubtype": "manual",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_fa186e906add7183",
+            "asset_id": "asset_a6a9cfacb3419968",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:53:44.881Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/psx/b/ff9.htm",
+          "url": "https://www.vgmuseum.com/end/psx/b/ff9.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/psx/b/ff9.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_2943e66b40b47d09",
+            "asset_id": "asset_fc536c67e97fc73f",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:36.049Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 76,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "final-fantasy-vi-advance-game-boy-advance",
+      "title": "Final Fantasy VI Advance",
+      "synopsis": "The Game Boy Advance version preserves Terra's rebellion against the empire and adds portable-friendly extras, extending one of the series' broadest ensemble dramas onto handheld hardware.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/GBA/index.htm#FinalFantasyVIAdvance",
+          "url": "https://www.vgmaps.com/Atlas/GBA/FinalFantasyVIAdvance-Unused-3.png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/GBA/FinalFantasyVIAdvance-Unused-3.png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_f6e4bcd268e79ccc",
+            "asset_id": "asset_81eb61769c10e664",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:50:38.547Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 77,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "final-fantasy-vii-playstation",
+      "title": "Final Fantasy VII",
+      "synopsis": "Cloud joins Avalanche in a strike against Shinra, but the sabotage campaign spirals into a world-scale pursuit of Sephiroth, where eco-terror, corporate ruin, and personal memory collapse into one crisis.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/psx/c/ff7.htm",
+          "url": "https://www.vgmuseum.com/end/psx/c/ff7.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/psx/c/ff7.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_6ed6a35e8245bb88",
+            "asset_id": "asset_fba404479f80fefc",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:35.775Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 78,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "final-fantasy-viii-playstation",
+      "title": "Final Fantasy VIII",
+      "synopsis": "Squall's military training collides with a war between sorceresses, and the SeeD operation gradually becomes a time-bending conflict about memory loss, loyalty, and impossible succession.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/psx/a/ff8.htm",
+          "url": "https://www.vgmuseum.com/end/psx/a/ff8.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/psx/a/ff8.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_f8e5d40eeea72bab",
+            "asset_id": "asset_97aafc5fcdf5e504",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:35.912Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 79,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "metroid-zero-mission-game-boy-advance",
+      "title": "Metroid: Zero Mission",
+      "synopsis": "This retelling of Samus's first mission rebuilds Zebes with faster traversal and a stealthy post-Mother Brain epilogue, reframing the original hunt as a more complete origin story.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/GBA/index.htm#MetroidZeroMission",
+          "url": "https://www.vgmaps.com/Atlas/GBA/Metroid-ZeroMission-Chozodia(Guide).png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/GBA/Metroid-ZeroMission-Chozodia(Guide).png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_a7432c2890407a97",
+            "asset_id": "asset_d91fd0855eef89bb",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:52:37.775Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/gba/d/mzm.htm",
+          "url": "https://www.vgmuseum.com/end/gba/d/mzm.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/gba/d/mzm.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_62c3c165672ac2cd",
+            "asset_id": "asset_ad43ecd2291000f0",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:52.504Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 100,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "sonic-the-hedgehog-sega-genesis",
+      "title": "Sonic the Hedgehog",
+      "synopsis": "Sonic races through South Island to break Robotnik's machine empire, turning speed, slopes, and hidden routes into a platforming style built around flow rather than stop-start precision.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/genesis/a/sonic.htm",
+          "url": "https://www.vgmuseum.com/end/genesis/a/sonic.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/genesis/a/sonic.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_3c30441322bc0fcf",
+            "asset_id": "asset_b67b19a8d7a3ea2c",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:48.056Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 115,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "super-mario-all-stars-super-nintendo",
+      "title": "Super Mario All-Stars",
+      "synopsis": "Nintendo repackages the NES Mario quartet with new 16-bit presentation, making the Mushroom Kingdom's foundational platform adventures readable again as a curated anthology.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "sourceField": "manual_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/scans/snes.html",
+          "url": "https://www.vgmuseum.com/scans/snes/snesmas.jpg",
+          "previewUrl": "https://www.vgmuseum.com/scans/snes/snesmas.jpg",
+          "assetSubtype": "manual",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_37864bf00d118701",
+            "asset_id": "asset_aea4e3ad9f54214e",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:53:33.109Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/snes/a/smas_1.htm",
+          "url": "https://www.vgmuseum.com/end/snes/a/smas_1.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/snes/a/smas_1.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_e0763881d42a83d1",
+            "asset_id": "asset_e24babde7a1e333b",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:24.580Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 123,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "super-mario-rpg-super-nintendo",
+      "title": "Super Mario RPG",
+      "synopsis": "Mario's chase after Bowser is interrupted by the fall of Exor, sending him into a party-based quest that mixes timing-driven combat with a playful crossover of platform and RPG language.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "sourceField": "manual_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/scans/snes.html",
+          "url": "https://www.vgmuseum.com/scans/snes/snesmrpg.jpg",
+          "previewUrl": "https://www.vgmuseum.com/scans/snes/snesmrpg.jpg",
+          "assetSubtype": "manual",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_cfd0a03834a3a0f2",
+            "asset_id": "asset_14941a58906a5206",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:53:33.244Z"
+        },
+        {
+          "mediaType": "sprite_sheet",
+          "sourceField": "sprite_sheet_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/rips/snes/",
+          "url": "https://www.vgmuseum.com/rips/snes/mariorpg.html",
+          "previewUrl": "https://www.vgmuseum.com/rips/snes/mariorpg.html",
+          "assetSubtype": "assorted_sprites",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_4861d8ec15e2c122",
+            "asset_id": "asset_9b684e8f5c70c163",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:58.662Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 124,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "super-mario-world-super-nintendo",
+      "title": "Super Mario World",
+      "synopsis": "Mario and Luigi arrive on Dinosaur Land for a holiday that immediately turns into a rescue mission, with Yoshi and a maze of exits transforming the journey into a generous exploration platformer.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "sourceField": "manual_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/scans/snes.html",
+          "url": "https://www.vgmuseum.com/scans/snes/snessmw.jpg",
+          "previewUrl": "https://www.vgmuseum.com/scans/snes/snessmw.jpg",
+          "assetSubtype": "manual",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_aab62c65ba0da0d4",
+            "asset_id": "asset_7937179bf49dd1af",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:53:33.382Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/snes/a/smw.htm",
+          "url": "https://www.vgmuseum.com/end/snes/a/smw.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/snes/a/smw.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_62574e3781843cb0",
+            "asset_id": "asset_e6f9f95263ed0072",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:24.801Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 125,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "yoshi-island-super-nintendo",
+      "title": "Super Mario World 2: Yoshi's Island",
+      "synopsis": "The Yoshis escort Baby Mario across a storybook island to reunite the brothers, using flutter jumps, eggs, and layered map routes to turn escort into invention rather than restriction.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/snes/a/smw2.htm",
+          "url": "https://www.vgmuseum.com/end/snes/a/smw2.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/snes/a/smw2.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_3090cffc7f471675",
+            "asset_id": "asset_c05055a2ea710bc0",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:24.912Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 126,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "majoras-mask-nintendo-64",
+      "title": "The Legend of Zelda: Majora's Mask",
+      "synopsis": "Link enters Termina under a three-day moonfall countdown, and the repeating cycle pushes every mask, schedule, and side story into a compressed tragedy about time and intervention.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/N64/index.htm#LegendOfZeldaMajorasMask",
+          "url": "https://www.vgmaps.com/Atlas/N64/LegendOfZelda-Majora'sMask-TerminaField(Mini-Map).png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/N64/LegendOfZelda-Majora'sMask-TerminaField(Mini-Map).png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_f251e94f477ab71a",
+            "asset_id": "asset_f3ebbd79d8ec655a",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:41:14.596Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 129,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+      "title": "The Legend of Zelda: Ocarina of Time",
+      "synopsis": "Link leaves Kokiri Forest to stop Ganondorf's rise, and the pilgrimage across Hyrule becomes a time-split epic where dungeon mastery and musical ritual structure the entire quest.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/N64/index.htm#LegendOfZeldaOcarinaOfTime",
+          "url": "https://www.vgmaps.com/Atlas/N64/LegendOfZelda-OcarinaOfTime-Future-Ganon'sCastle(Escape)(Top).jpg",
+          "previewUrl": "https://www.vgmaps.com/Atlas/N64/LegendOfZelda-OcarinaOfTime-Future-Ganon'sCastle(Escape)(Top).jpg",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_9346ac460e8e994c",
+            "asset_id": "asset_580f6e14d4f26309",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:43:10.092Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 130,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.57
+      }
+    },
+    {
+      "gameId": "castlevania-aria-of-sorrow-game-boy-advance",
+      "title": "Castlevania: Aria of Sorrow",
+      "synopsis": "Soma Cruz is drawn into a solar eclipse and into Dracula's castle, where the Tactical Soul system turns every enemy encounter into a possible new power and a clue to his own identity.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "sourceField": "manual_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/scans/gba.html",
+          "url": "https://www.vgmuseum.com/scans/gba/cvaos-4.jpg",
+          "previewUrl": "https://www.vgmuseum.com/scans/gba/cvaos-4.jpg",
+          "assetSubtype": "manual",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_f20ebed4fc315dad",
+            "asset_id": "asset_288dbcc0da60564d",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:53:50.566Z"
+        },
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/GBA/index.htm#CastlevaniaAriaOfSorrow",
+          "url": "https://www.vgmaps.com/Atlas/GBA/Castlevania-AriaOfSorrow-BossRush.png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/GBA/Castlevania-AriaOfSorrow-BossRush.png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_90ac6ba815cac03f",
+            "asset_id": "asset_ac4f743e53c96761",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:49:56.706Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/gba/c/cvaos.htm",
+          "url": "https://www.vgmuseum.com/end/gba/c/cvaos.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/gba/c/cvaos.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_cc13a48b37d1ee3e",
+            "asset_id": "asset_15acec6e82efc74c",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:51.157Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 147,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.56
+      }
+    },
+    {
+      "gameId": "castlevania-dawn-of-sorrow-nintendo-ds",
+      "title": "Castlevania: Dawn of Sorrow",
+      "synopsis": "Soma tries to live beyond Dracula's legacy, but a new cult seeks to awaken it again, forcing him back through soul-harvesting combat and portrait-era experimentation on Nintendo DS.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/nds/a/cvdos.htm",
+          "url": "https://www.vgmuseum.com/end/nds/a/cvdos.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/nds/a/cvdos.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_420d652d30323606",
+            "asset_id": "asset_02d674f9fecf35c7",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:53.461Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 148,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.56
+      }
+    },
+    {
+      "gameId": "new-super-mario-bros-nintendo-ds",
+      "title": "New Super Mario Bros.",
+      "synopsis": "Bowser's attack resets Mario's classic rescue loop on dual screens, blending familiar side-scrolling with giant transformations and modern pacing to relaunch 2D Mario for a new handheld era.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/nds/a/newmario.htm",
+          "url": "https://www.vgmuseum.com/end/nds/a/newmario.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/nds/a/newmario.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_a05be349bd8cdf92",
+            "asset_id": "asset_b2fbc9c5ff93b241",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:54.756Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 156,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.56
+      }
+    },
+    {
+      "gameId": "sonic-the-hedgehog-2-sega-genesis",
+      "title": "Sonic the Hedgehog 2",
+      "synopsis": "Sonic and Tails race across West Side Island to stop the Death Egg, scaling the series' speed formula up with longer stages, co-op support, and a sharper sense of mechanical escalation.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/genesis/a/sonic2.htm",
+          "url": "https://www.vgmuseum.com/end/genesis/a/sonic2.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/genesis/a/sonic2.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_dd7c8248afc12808",
+            "asset_id": "asset_c22651239940c9ee",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:48.167Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 159,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.56
+      }
+    },
+    {
+      "gameId": "super-castlevania-iv-super-nintendo",
+      "title": "Super Castlevania IV",
+      "synopsis": "Simon Belmont storms Dracula's castle in a broad 16-bit remake that turns whip control, rotation effects, and environmental mood into the central language of the hunt.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "sourceField": "manual_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/scans/snes.html",
+          "url": "https://www.vgmuseum.com/scans/snes/snescv4.jpg",
+          "previewUrl": "https://www.vgmuseum.com/scans/snes/snescv4.jpg",
+          "assetSubtype": "manual",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_5b456ae06352b07c",
+            "asset_id": "asset_39f94ac2cda432b8",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:53:32.634Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/snes/a/cv4.htm",
+          "url": "https://www.vgmuseum.com/end/snes/a/cv4.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/snes/a/cv4.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_66f65d1c0cf280c3",
+            "asset_id": "asset_ffed81e56f76acfc",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:24.357Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 163,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.56
+      }
+    },
+    {
+      "gameId": "tekken-3-playstation",
+      "title": "Tekken 3",
+      "synopsis": "The King of Iron Fist Tournament returns under the shadow of Ogre, and the new generation of Mishima conflict pushes movement, juggling, and character rhythm to a new standard on PlayStation.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/psx/b/tek3jin.htm",
+          "url": "https://www.vgmuseum.com/end/psx/b/tek3jin.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/psx/b/tek3jin.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_ab01b8e1233f7247",
+            "asset_id": "asset_172cdfb9044db17b",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:37.759Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 167,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.56
+      }
+    },
+    {
+      "gameId": "castlevania-chronicles-playstation",
+      "title": "Castlevania Chronicles",
+      "synopsis": "This PlayStation remake of X68000 Castlevania rebuilds Simon's assault with arranged presentation and alternate modes, preserving a severe version of the series inside a cleaner package.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/psx/c/cvchro.htm",
+          "url": "https://www.vgmuseum.com/end/psx/c/cvchro.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/psx/c/cvchro.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_362a1e8689ca93ad",
+            "asset_id": "asset_da997ef02c0e4e86",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:35.374Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 192,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "castlevania-bloodlines-sega-genesis",
+      "title": "Castlevania: Bloodlines",
+      "synopsis": "John Morris and Eric Lecarde chase Dracula's revival across war-era Europe, using two distinct move sets to turn the campaign into one of the series' most kinetic 16-bit hunts.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/genesis/a/cvbl.htm",
+          "url": "https://www.vgmuseum.com/end/genesis/a/cvbl.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/genesis/a/cvbl.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_5b36da677fdcf86d",
+            "asset_id": "asset_d05c820a69934ae0",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:45.943Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 193,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "castlevania-harmony-of-dissonance-game-boy-advance",
+      "title": "Castlevania: Harmony of Dissonance",
+      "synopsis": "Juste Belmont enters a doubled castle to rescue Lydie, and the dash-heavy movement plus spellbook layering makes this search faster and more unstable than its predecessor.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/GBA/index.htm#CastlevaniaHarmonyOfDissonance",
+          "url": "https://www.vgmaps.com/Atlas/GBA/Castlevania-HarmonyOfDissonance-CastleB-WaterwayOfAquatic.png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/GBA/Castlevania-HarmonyOfDissonance-CastleB-WaterwayOfAquatic.png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_e8c05e2e8befd537",
+            "asset_id": "asset_abb725b91b93f401",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:50:13.513Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/gba/a/cvhod.htm",
+          "url": "https://www.vgmuseum.com/end/gba/a/cvhod.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/gba/a/cvhod.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_5cd8018beaa15ed7",
+            "asset_id": "asset_98016dbda7928044",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:51.046Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 194,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "final-fantasy-tactics-playstation",
+      "title": "Final Fantasy Tactics",
+      "synopsis": "Ramza Beoulve is drawn from noble warfare into a conspiracy around the Zodiac Stones, where tactical battles and political betrayal steadily rewrite the official history of Ivalice.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/psx/a/fft.htm",
+          "url": "https://www.vgmuseum.com/end/psx/a/fft.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/psx/a/fft.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_4ca8976155f941b4",
+            "asset_id": "asset_cbca48bf18ca5748",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:36.186Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 209,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "final-fantasy-tactics-advance-game-boy-advance",
+      "title": "Final Fantasy Tactics Advance",
+      "synopsis": "A group of children opens a magical book and wakes inside a softened Ivalice, where clan missions and judge rules turn the tactics formula into a portable campaign about escape and belonging.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/GBA/index.htm#FinalFantasyTacticsAdvance",
+          "url": "https://www.vgmaps.com/Atlas/GBA/FinalFantasyTacticsAdvance-Shop.png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/GBA/FinalFantasyTacticsAdvance-Shop.png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_3778bbf125267f72",
+            "asset_id": "asset_57ca17fd3be6eeec",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:50:40.332Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/gba/c/fft.htm",
+          "url": "https://www.vgmuseum.com/end/gba/c/fft.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/gba/c/fft.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_9d35ca7d71d05daf",
+            "asset_id": "asset_dc1f9260b83f660f",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:51.379Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 210,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "final-fantasy-v-super-nintendo",
+      "title": "Final Fantasy V",
+      "synopsis": "Bartz and his allies chase the collapse of the crystals across two worlds, and the job system turns the journey into a flexible experiment in party building and encounter design.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/snes/c/ff5.htm",
+          "url": "https://www.vgmuseum.com/end/snes/c/ff5.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/snes/c/ff5.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_b79ff7602b92a117",
+            "asset_id": "asset_538a9ddb0da2af8b",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:22.244Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 211,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "final-fantasy-xii-revenant-wings-nintendo-ds",
+      "title": "Final Fantasy XII: Revenant Wings",
+      "synopsis": "Vaan and Penelo stumble into floating islands and sky pirates after Final Fantasy XII, shifting Ivalice into a faster handheld strategy-RPG built around summoning and airship-era adventure.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/nds/a/ff12.htm",
+          "url": "https://www.vgmuseum.com/end/nds/a/ff12.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/nds/a/ff12.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_e9e35fc1af540493",
+            "asset_id": "asset_61230c4e1cafe241",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:54.048Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 212,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "mega-man-7-super-nintendo",
+      "title": "Mega Man 7",
+      "synopsis": "Dr. Wily escapes into a new robot wave on Super Nintendo, and Mega Man's larger sprite set and expanded arsenal recast the series' boss-routing structure in 16-bit form.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/snes/a/mm7.htm",
+          "url": "https://www.vgmuseum.com/end/snes/a/mm7.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/snes/a/mm7.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_5fe01cfd87d61e07",
+            "asset_id": "asset_bbcde8e6f2187c44",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:23.238Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 233,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "mega-man-x4-playstation",
+      "title": "Mega Man X4",
+      "synopsis": "The Repliforce conflict splits the campaign between X and Zero, letting the Maverick Hunter crisis read as both a battlefield collapse and a turning point in the series' internal loyalties.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/psx/a/mmx4.htm",
+          "url": "https://www.vgmuseum.com/end/psx/a/mmx4.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/psx/a/mmx4.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_b7c45731fda18c43",
+            "asset_id": "asset_479bcc25410306dc",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:36.576Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 235,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "megaman-zero-game-boy-advance",
+      "title": "Mega Man Zero",
+      "synopsis": "Zero is awakened to defend a hunted resistance inside Neo Arcadia, and the mission structure turns every rank, subweapon, and cyber-elf choice into a harsher form of Mega Man combat.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/GBA/index.htm#MegaManZero",
+          "url": "https://www.vgmaps.com/Atlas/GBA/MegaManZero-NeoArcadiaCore.png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/GBA/MegaManZero-NeoArcadiaCore.png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_f31676901732bcbc",
+            "asset_id": "asset_d7ef4a948176e7ad",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:52:18.282Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/gba/a/mmz.htm",
+          "url": "https://www.vgmuseum.com/end/gba/a/mmz.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/gba/a/mmz.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_ea27d9c8c4da342c",
+            "asset_id": "asset_e815ce8cbd0d6aad",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:52.150Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 236,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "megaman-zero-2-game-boy-advance",
+      "title": "Mega Man Zero 2",
+      "synopsis": "Zero returns from exile to rebuild the resistance and confront the Four Guardians, with broader movement tools and EX skills pushing the campaign toward speed and technical mastery.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/GBA/index.htm#MegaManZero2",
+          "url": "https://www.vgmaps.com/Atlas/GBA/MegaManZero2-FinalArea.png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/GBA/MegaManZero2-FinalArea.png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_14ee58cab5faf5e1",
+            "asset_id": "asset_54e192d12baf1132",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:52:23.504Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/gba/d/mmz2.htm",
+          "url": "https://www.vgmuseum.com/end/gba/d/mmz2.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/gba/d/mmz2.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_5722ff822c09e504",
+            "asset_id": "asset_3fe59baffd48bb90",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:52.283Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 237,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "mega-man-zero-3-game-boy-advance",
+      "title": "Mega Man Zero 3",
+      "synopsis": "A revived Dark Elf crisis drags Zero into the deepest layer of Neo Arcadia's history, and the refinement of forms, recoil weapons, and mission rhythm makes the portable war feel fully matured.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/GBA/index.htm#MegaManZero3",
+          "url": "https://www.vgmaps.com/Atlas/GBA/MegaManZero3-AbandonedResearchLab.png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/GBA/MegaManZero3-AbandonedResearchLab.png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_8e394738acd17968",
+            "asset_id": "asset_04929db40e293140",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:52:28.147Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/gba/e/mmz3.htm",
+          "url": "https://www.vgmuseum.com/end/gba/e/mmz3.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/gba/e/mmz3.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_b2a1efb931d7d001",
+            "asset_id": "asset_5688c517a8cb4652",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:52.393Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 238,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "metroid-prime-hunters-nintendo-ds",
+      "title": "Metroid Prime Hunters",
+      "synopsis": "Samus competes with rival bounty hunters for Alimbic relics, translating Prime's scan-and-fire language into a portable arena of stylus aiming, duels, and fragmented ancient ruins.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/nds/a/mph.htm",
+          "url": "https://www.vgmuseum.com/end/nds/a/mph.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/nds/a/mph.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_94cfb11abc342dec",
+            "asset_id": "asset_113245e059f54f8c",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:54.639Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 239,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "resident-evil-3-nemesis-playstation",
+      "title": "Resident Evil 3: Nemesis",
+      "synopsis": "Jill Valentine tries to escape Raccoon City while Nemesis hunts surviving S.T.A.R.S. members, turning pursuit and branching decisions into the core tension of the outbreak.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/psx/c/re3.htm",
+          "url": "https://www.vgmuseum.com/end/psx/c/re3.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/psx/c/re3.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_c603ead805d3d32d",
+            "asset_id": "asset_85a0b2474693a74c",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:37.045Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 259,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "super-mario-advance-game-boy-advance",
+      "title": "Super Mario Advance",
+      "synopsis": "The handheld remake of Super Mario Bros. 2 reframes the dream-world rescue with sharper portability and character-specific movement, turning a familiar detour into a launch-era showcase.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/gba/a/maradv.htm",
+          "url": "https://www.vgmuseum.com/end/gba/a/maradv.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/gba/a/maradv.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_7d033d4e84980885",
+            "asset_id": "asset_0b82fae51bc8b2c9",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:52.860Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 272,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.52
+      }
+    },
+    {
+      "gameId": "castlevania-nintendo-64",
+      "title": "Castlevania",
+      "synopsis": "Set in a 3D reimagining of Dracula's war, the Nintendo 64 Castlevania follows multiple hunters through shifting castle routes, platforming hazards, and survival-horror pacing.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "sourceField": "manual_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/scans/n64.html",
+          "url": "https://www.vgmuseum.com/scans/n64/n64cv.jpg",
+          "previewUrl": "https://www.vgmuseum.com/scans/n64/n64cv.jpg",
+          "assetSubtype": "manual",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_9642ca273fb17e11",
+            "asset_id": "asset_f7b90487f9a6581a",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:53:35.435Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/n64/a/cv.htm",
+          "url": "https://www.vgmuseum.com/end/n64/a/cv.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/n64/a/cv.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_2e5ae8300b167cb9",
+            "asset_id": "asset_f90ea3aa37bfb311",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:28.496Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 299,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.51
+      }
+    },
+    {
+      "gameId": "final-fantasy-iii-nintendo-entertainment-system",
+      "title": "Final Fantasy III",
+      "synopsis": "Four Onion Knights answer the crystal's call and cross a floating world on the edge of collapse, while the first full job-change system makes party identity the real engine of progression.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/nes/a/ff3nes.htm",
+          "url": "https://www.vgmuseum.com/end/nes/a/ff3nes.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/nes/a/ff3nes.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_1fb8c9a744065fd2",
+            "asset_id": "asset_91d84b1aa883635a",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:11.135Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 340,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.5
+      }
+    },
+    {
+      "gameId": "castlevania-legacy-of-darkness-nintendo-64",
+      "title": "Castlevania: Legacy of Darkness",
+      "synopsis": "Cornell's hunt for his kidnapped sister expands the Nintendo 64 branch of Castlevania with alternate routes, heavier atmosphere, and a broader look at Dracula's 3D domain.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/n64/b/cvlod.htm",
+          "url": "https://www.vgmuseum.com/end/n64/b/cvlod.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/n64/b/cvlod.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_8f11ad657c9e7801",
+            "asset_id": "asset_18e789bae3a70a1b",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:28.608Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 555,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.47
+      }
+    },
+    {
+      "gameId": "the-legend-of-zelda-nintendo-entertainment-system",
+      "title": "The Legend of Zelda",
+      "synopsis": "Link gathers the Triforce of Wisdom's fragments across an open Hyrule, and the game's sparse clues turn discovery itself into the rhythm of the adventure.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/NES/index.htm#LegendOfZelda",
+          "url": "https://www.vgmaps.com/Atlas/NES/LegendOfZelda-Warps.png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/NES/LegendOfZelda-Warps.png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_7295e97ef1bb770f",
+            "asset_id": "asset_2c821a82f3c38239",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:32:22.408Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 706,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.45
+      }
+    },
+    {
+      "gameId": "castlevania-nintendo-entertainment-system",
+      "title": "Castlevania",
+      "synopsis": "Simon Belmont enters Dracula's castle with a whip, sub-weapons, and very little margin for error, establishing the series as a procession of traps, monsters, and stage-by-stage resolve.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/NES/index.htm#Castlevania",
+          "url": "https://www.vgmaps.com/Atlas/NES/Castlevania-Level06.png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/NES/Castlevania-Level06.png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_99ad58bddba7177f",
+            "asset_id": "asset_998e533c2d89a398",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:30:01.491Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/nes/a/cv.htm",
+          "url": "https://www.vgmuseum.com/end/nes/a/cv.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/nes/a/cv.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_9b5428e77c9f7e70",
+            "asset_id": "asset_8588c33240eb8cbc",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:10.032Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 718,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.43
+      }
+    },
+    {
+      "gameId": "contra-nintendo-entertainment-system",
+      "title": "Contra",
+      "synopsis": "Bill and Lance assault an alien stronghold through jungle fronts, base interiors, and pseudo-3D corridors, defining run-and-gun escalation through speed, pattern reading, and two-player pressure.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/NES/index.htm#Contra",
+          "url": "https://www.vgmaps.com/Atlas/NES/Contra-Stage8-Alien'sLair.png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/NES/Contra-Stage8-Alien'sLair.png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_fed72e87d9c16945",
+            "asset_id": "asset_bcbac0de0ae11c03",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:30:28.810Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/nes/b/contraj.htm",
+          "url": "https://www.vgmuseum.com/end/nes/b/contraj.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/nes/b/contraj.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_a5d739942de6db03",
+            "asset_id": "asset_f88ee1c7018fd91d",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:10.474Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 719,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.43
+      }
+    },
+    {
+      "gameId": "mega-man-2-nintendo-entertainment-system",
+      "title": "Mega Man 2",
+      "synopsis": "Dr. Wily returns with a new robot lineup, and Mega Man's second major campaign sharpens the weapon loop into a cleaner, more expressive blueprint for the series.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/NES/index.htm#MegaManII",
+          "url": "https://www.vgmaps.com/Atlas/NES/MegaManII-DrWily-Level6(Enemies).png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/NES/MegaManII-DrWily-Level6(Enemies).png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_8685b1922dd1c8f0",
+            "asset_id": "asset_56946a5a7b5757bd",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:32:58.390Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/nes/a/mm2.htm",
+          "url": "https://www.vgmuseum.com/end/nes/a/mm2.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/nes/a/mm2.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_2ea09a2e26e29766",
+            "asset_id": "asset_6d85f180c33a588c",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:12.016Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 721,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.43
+      }
+    },
+    {
+      "gameId": "castlevania-iii-draculas-curse-nintendo-entertainment-system",
+      "title": "Castlevania III: Dracula's Curse",
+      "synopsis": "Trevor Belmont leads the first clan assault on Dracula, with branching stages and recruitable allies broadening the castle march into a more strategic version of classic Castlevania.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "manual",
+          "sourceField": "manual_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/scans/nes.html",
+          "url": "https://www.vgmuseum.com/scans/nes/nescv3.jpg",
+          "previewUrl": "https://www.vgmuseum.com/scans/nes/nescv3.jpg",
+          "assetSubtype": "manual",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_ac6e9adc8e21238e",
+            "asset_id": "asset_7ec8cf47f826e222",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:53:23.015Z"
+        },
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/NES/index.htm#CastlevaniaIIIDraculasCurse",
+          "url": "https://www.vgmaps.com/Atlas/NES/CastlevaniaIII-Dracula'sCurse-Level10-CastleKeep(Unmarked).png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/NES/CastlevaniaIII-Dracula'sCurse-Level10-CastleKeep(Unmarked).png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_c63dc43ab25b5347",
+            "asset_id": "asset_ddef07ae1bc816ae",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:30:12.641Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/nes/a/cv3.htm",
+          "url": "https://www.vgmuseum.com/end/nes/a/cv3.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/nes/a/cv3.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_58f431c651e12fe2",
+            "asset_id": "asset_3c504718dfdbb180",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:10.142Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 745,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.4
+      }
+    },
+    {
+      "gameId": "final-fantasy-nintendo-entertainment-system",
+      "title": "Final Fantasy",
+      "synopsis": "Four Warriors of Light set out to restore the crystals, and the first Final Fantasy lays down the series' template of class identity, world travel, and escalating mythic stakes.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/NES/index.htm#FinalFantasy",
+          "url": "https://www.vgmaps.com/Atlas/NES/FinalFantasy-TempleOfFiends(Past).png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/NES/FinalFantasy-TempleOfFiends(Past).png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_0db81c7a83553c14",
+            "asset_id": "asset_d94cc7843657b8a4",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:31:14.621Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/nes/a/ff.htm",
+          "url": "https://www.vgmuseum.com/end/nes/a/ff.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/nes/a/ff.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_0e3e06568d492495",
+            "asset_id": "asset_bc19386af7320da6",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:10.915Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 761,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.4
+      }
+    },
+    {
+      "gameId": "final-fantasy-ii-nintendo-entertainment-system",
+      "title": "Final Fantasy II",
+      "synopsis": "Firion and the Wild Rose rebellion fight a rising empire in a darker campaign where character growth comes from repeated action rather than from fixed class roles.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/nes/a/ff2nes.htm",
+          "url": "https://www.vgmuseum.com/end/nes/a/ff2nes.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/nes/a/ff2nes.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_bbdf502cba26bf97",
+            "asset_id": "asset_955caf2b2f74c35d",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:11.025Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 762,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "band": "core1000",
+        "priorityScore": 0.4
+      }
+    },
+    {
+      "gameId": "final-fantasy-legend-ii-game-boy",
+      "title": "Final Fantasy Legend II",
+      "synopsis": "A search for the heroine's father becomes a world-hopping hunt for the MAGI, blending SaGa's species-driven growth with a more emotional handheld quest structure.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/gb/a/ffl2.htm",
+          "url": "https://www.vgmuseum.com/end/gb/a/ffl2.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/gb/a/ffl2.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_b0c779dc7471ce49",
+            "asset_id": "asset_bb87e5d366b638f9",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:03.122Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 763,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.4
+      }
+    },
+    {
+      "gameId": "mega-man-nintendo-entertainment-system",
+      "title": "Mega Man",
+      "synopsis": "Dr. Light's robot must stop Dr. Wily's uprising, and the first Mega Man introduces the weapon-stealing boss loop that would define the series from stage select onward.",
+      "sourceName": "internal",
+      "sourceType": "knowledge_registry",
+      "sourceUrl": null,
+      "confidenceLevel": 0.84,
+      "notes": "Strong pages lot 1 synopsis uplift for high-priority franchise-linked pages.",
+      "media": [
+        {
+          "mediaType": "map",
+          "sourceField": "map_reference",
+          "provider": "vgmaps",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmaps.com/Atlas/NES/index.htm#MegaMan",
+          "url": "https://www.vgmaps.com/Atlas/NES/MegaMan-DrWily-Level4.png",
+          "previewUrl": "https://www.vgmaps.com/Atlas/NES/MegaMan-DrWily-Level4.png",
+          "assetSubtype": "atlas_map",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_8232788965dc642f",
+            "asset_id": "asset_617014ec00077561",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:32:45.492Z"
+        },
+        {
+          "mediaType": "ending",
+          "sourceField": "ending_reference",
+          "provider": "vgmuseum",
+          "sourceType": "external_reference",
+          "sourceUrl": "https://www.vgmuseum.com/end/nes/a/mm.htm",
+          "url": "https://www.vgmuseum.com/end/nes/a/mm.htm",
+          "previewUrl": "https://www.vgmuseum.com/end/nes/a/mm.htm",
+          "assetSubtype": "ending_gallery",
+          "complianceStatus": "approved_with_review",
+          "licenseStatus": "reference_only",
+          "uiAllowed": true,
+          "healthcheckStatus": "ok",
+          "notes": [],
+          "sourceContext": {
+            "run_id": "prd-assets-full-20260331T063500Z",
+            "source_record_id": "src_06757ab6fe6c2a95",
+            "asset_id": "asset_bcc78d7d0533f314",
+            "schema_version": "polish-retrodex.external_assets.v1"
+          },
+          "lastCheckedAt": "2026-03-31T06:54:11.907Z"
+        }
+      ],
+      "candidateContext": {
+        "rank": 781,
+        "tier": "Tier A",
+        "curationStatus": "published",
+        "band": "core1000",
+        "priorityScore": 0.4
+      }
+    }
+  ]
+}

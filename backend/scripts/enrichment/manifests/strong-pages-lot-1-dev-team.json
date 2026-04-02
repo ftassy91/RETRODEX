@@ -1,0 +1,179 @@
+{
+  "batchKey": "strong_pages_lot_1_dev_team",
+  "batchType": "dev_team",
+  "reviewStatus": "ready",
+  "notes": "Strong pages lot 1 developer-team uplift from the latest Wikidata credit snapshot.",
+  "generatedFrom": {
+    "source": "wikidata_credit_snapshot",
+    "generatedAt": "2026-04-02T20:26:08.459Z",
+    "snapshotPath": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\backend\\data\\enrichment\\wikidata\\2026-04-02T06-17-16-974Z_wikidata_credit_snapshot.json",
+    "top1200Path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\backend\\data\\audit\\top1200\\2026-04-01T21-53-22-253Z_top1200_selection_band.json"
+  },
+  "sources": [
+    "wikidata",
+    "wikipedia"
+  ],
+  "writeTargets": [
+    "games",
+    "game_people",
+    "people",
+    "source_records",
+    "field_provenance"
+  ],
+  "publishDomains": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "postChecks": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "ids": [
+    "a-q-renkan-awa-sega-genesis",
+    "aleck-bordon-adventure-tower-and-shaft-game-boy-advance",
+    "alentejo-tinto-s-law-game-boy",
+    "auto-zone-game-boy-color",
+    "awogue-sega-genesis"
+  ],
+  "payload": [
+    {
+      "gameId": "a-q-renkan-awa-sega-genesis",
+      "title": "A Q Renkan Awa",
+      "devTeam": [
+        {
+          "role": "developer",
+          "name": "C&E",
+          "confidence": 0.84,
+          "isInferred": false
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://fr.wikipedia.org/wiki/A_Q_Renkan_Awa",
+      "confidenceLevel": 0.84,
+      "notes": "Developer credits extracted from frwiki infobox for A Q Renkan Awa",
+      "isInferred": false,
+      "candidateContext": {
+        "rank": 173,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q2819867",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q2819867"
+      }
+    },
+    {
+      "gameId": "aleck-bordon-adventure-tower-and-shaft-game-boy-advance",
+      "title": "Aleck Bordon Adventure: Tower and Shaft",
+      "devTeam": [
+        {
+          "role": "developer",
+          "name": "Zoinkity",
+          "confidence": 0.84,
+          "isInferred": false
+        },
+        {
+          "role": "developer",
+          "name": "Altron",
+          "confidence": 0.84,
+          "isInferred": false
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://fr.wikipedia.org/wiki/Aleck_Bordon_Adventure%3A_Tower_and_Shaft",
+      "confidenceLevel": 0.84,
+      "notes": "Developer credits extracted from frwiki infobox for Aleck Bordon Adventure: Tower and Shaft",
+      "isInferred": false,
+      "candidateContext": {
+        "rank": 181,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q61995854",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q61995854"
+      }
+    },
+    {
+      "gameId": "alentejo-tinto-s-law-game-boy",
+      "title": "Alentejo: Tinto's Law",
+      "devTeam": [
+        {
+          "role": "developer",
+          "name": "Loading Studios",
+          "confidence": 0.84,
+          "isInferred": false
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Alentejo%3A_Tinto's_Law",
+      "confidenceLevel": 0.84,
+      "notes": "Developer credits extracted from enwiki infobox for Alentejo: Tinto's Law",
+      "isInferred": false,
+      "candidateContext": {
+        "rank": 825,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q134373821",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q134373821"
+      }
+    },
+    {
+      "gameId": "auto-zone-game-boy-color",
+      "title": "Auto Zone",
+      "devTeam": [
+        {
+          "role": "developer",
+          "name": "C= Keith Harvey",
+          "confidence": 0.84,
+          "isInferred": false
+        },
+        {
+          "role": "developer",
+          "name": "Rajcsányi László",
+          "confidence": 0.84,
+          "isInferred": false
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://hu.wikipedia.org/wiki/Auto_Zone",
+      "confidenceLevel": 0.84,
+      "notes": "Developer credits extracted from huwiki infobox for Auto Zone",
+      "isInferred": false,
+      "candidateContext": {
+        "rank": 818,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q116753634",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q116753634"
+      }
+    },
+    {
+      "gameId": "awogue-sega-genesis",
+      "title": "Awogue",
+      "devTeam": [
+        {
+          "role": "developer",
+          "name": "Sega CS",
+          "confidence": 0.84,
+          "isInferred": false
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://fr.wikipedia.org/wiki/Awogue",
+      "confidenceLevel": 0.84,
+      "notes": "Developer credits extracted from frwiki infobox for Awogue",
+      "isInferred": false,
+      "candidateContext": {
+        "rank": 182,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q79327185",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q79327185"
+      }
+    }
+  ]
+}

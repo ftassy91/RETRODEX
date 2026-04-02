@@ -1,0 +1,391 @@
+{
+  "batchKey": "strong_pages_lot_1_composers",
+  "batchType": "composers",
+  "reviewStatus": "ready",
+  "notes": "Strong pages lot 1 composer uplift from the latest Wikidata credit snapshot.",
+  "generatedFrom": {
+    "source": "wikidata_credit_snapshot",
+    "generatedAt": "2026-04-02T20:26:08.458Z",
+    "snapshotPath": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\backend\\data\\enrichment\\wikidata\\2026-04-02T06-17-16-974Z_wikidata_credit_snapshot.json",
+    "top1200Path": "C:\\Users\\ftass\\OneDrive\\Bureau\\RETRODEXseed\\backend\\data\\audit\\top1200\\2026-04-01T21-53-22-253Z_top1200_selection_band.json"
+  },
+  "sources": [
+    "wikidata",
+    "wikipedia"
+  ],
+  "writeTargets": [
+    "games",
+    "game_people",
+    "people",
+    "source_records",
+    "field_provenance"
+  ],
+  "publishDomains": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "postChecks": [
+    "records",
+    "credits_music",
+    "ui"
+  ],
+  "ids": [
+    "1-vs-100-nintendo-ds",
+    "19-03-ueno-hatsu-yakou-ressha-playstation",
+    "64-ozumo-nintendo-64",
+    "akuma-kun-nes",
+    "alien-syndrome-nes",
+    "anetto-futatabi-sega-genesis",
+    "antarctic-adventure-nes",
+    "arabian-nights-sabaku-no-seirei-o-super-nintendo",
+    "babe-and-friends-game-boy-color",
+    "barbie-super-model-sega-genesis",
+    "bases-loaded-game-boy",
+    "chrono-resurrection-nintendo-64"
+  ],
+  "payload": [
+    {
+      "gameId": "1-vs-100-nintendo-ds",
+      "title": "1 vs. 100",
+      "ostComposers": [
+        {
+          "name": "奥利斯特·布林布林",
+          "role": "composer",
+          "confidence": 0.8,
+          "billingOrder": 1
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://zh.wikipedia.org/wiki/%E4%BB%A5%E4%B8%80%E6%95%8C%E7%99%BE_(%E6%B8%B8%E6%88%8F)",
+      "confidenceLevel": 0.8,
+      "notes": "Composer credits extracted from zhwiki infobox for 以一敌百 (游戏)",
+      "candidateContext": {
+        "rank": 344,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q4596044",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q4596044"
+      }
+    },
+    {
+      "gameId": "19-03-ueno-hatsu-yakou-ressha-playstation",
+      "title": "19:03 Ueno Hatsu Yakou Ressha",
+      "ostComposers": [
+        {
+          "name": "村田尚司",
+          "role": "composer",
+          "confidence": 0.82,
+          "billingOrder": 1
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://ja.wikipedia.org/wiki/19%E6%99%8203%E5%88%86_%E4%B8%8A%E9%87%8E%E7%99%BA%E5%A4%9C%E5%85%89%E5%88%97%E8%BB%8A",
+      "confidenceLevel": 0.82,
+      "notes": "Composer credits extracted from jawiki infobox for 19時03分 上野発夜光列車",
+      "candidateContext": {
+        "rank": 316,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q108619909",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q108619909"
+      }
+    },
+    {
+      "gameId": "64-ozumo-nintendo-64",
+      "title": "64 Ōzumō",
+      "ostComposers": [
+        {
+          "name": "Minako Adachi",
+          "role": "composer",
+          "confidence": 0.8,
+          "billingOrder": 1
+        },
+        {
+          "name": "Takuya Yokota",
+          "role": "composer",
+          "confidence": 0.8,
+          "billingOrder": 2
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://pt.wikipedia.org/wiki/64_%C5%8Czum%C5%8D",
+      "confidenceLevel": 0.8,
+      "notes": "Composer credits extracted from ptwiki infobox for 64 Ōzumō",
+      "candidateContext": {
+        "rank": 351,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q2712783",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q2712783"
+      }
+    },
+    {
+      "gameId": "akuma-kun-nes",
+      "title": "Akuma-kun",
+      "ostComposers": [
+        {
+          "name": "Takeo Yamashita",
+          "role": "composer",
+          "confidence": 0.8,
+          "billingOrder": 1
+        },
+        {
+          "name": "Yūsuke Honma",
+          "role": "composer",
+          "confidence": 0.8,
+          "billingOrder": 2
+        },
+        {
+          "name": "Nozomi Aoki",
+          "role": "composer",
+          "confidence": 0.8,
+          "billingOrder": 3
+        },
+        {
+          "name": "Akio Izutsu",
+          "role": "composer",
+          "confidence": 0.8,
+          "billingOrder": 4
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://de.wikipedia.org/wiki/Akuma-kun",
+      "confidenceLevel": 0.8,
+      "notes": "Composer credits extracted from dewiki infobox for Akuma-kun",
+      "candidateContext": {
+        "rank": 859,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q423722",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q423722"
+      }
+    },
+    {
+      "gameId": "alien-syndrome-nes",
+      "title": "Alien Syndrome",
+      "ostComposers": [
+        {
+          "name": "中林亨",
+          "role": "composer",
+          "confidence": 0.82,
+          "billingOrder": 1
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://ja.wikipedia.org/wiki/%E3%82%A8%E3%82%A4%E3%83%AA%E3%82%A2%E3%83%B3%E3%82%B7%E3%83%B3%E3%83%89%E3%83%AD%E3%83%BC%E3%83%A0",
+      "confidenceLevel": 0.82,
+      "notes": "Composer credits extracted from jawiki infobox for エイリアンシンドローム",
+      "candidateContext": {
+        "rank": 826,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q3273389",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q3273389"
+      }
+    },
+    {
+      "gameId": "anetto-futatabi-sega-genesis",
+      "title": "Anetto Futatabi",
+      "ostComposers": [
+        {
+          "name": "Motoi Sakuraba",
+          "role": "composer",
+          "confidence": 0.9,
+          "billingOrder": 1
+        }
+      ],
+      "sourceName": "wikidata",
+      "sourceType": "reference",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q2851483",
+      "confidenceLevel": 0.9,
+      "notes": "Composer credits curated from Wikidata entity Q2851483",
+      "candidateContext": {
+        "rank": 357,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q2851483",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q2851483"
+      }
+    },
+    {
+      "gameId": "antarctic-adventure-nes",
+      "title": "Antarctic Adventure",
+      "ostComposers": [
+        {
+          "name": "Émile Waldteufel",
+          "role": "composer",
+          "confidence": 0.8,
+          "billingOrder": 1
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://pl.wikipedia.org/wiki/Antarctic_Adventure",
+      "confidenceLevel": 0.8,
+      "notes": "Composer credits extracted from plwiki infobox for Antarctic Adventure",
+      "candidateContext": {
+        "rank": 862,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q1323953",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q1323953"
+      }
+    },
+    {
+      "gameId": "arabian-nights-sabaku-no-seirei-o-super-nintendo",
+      "title": "Arabian Nights: Sabaku no Seirei-ō",
+      "ostComposers": [
+        {
+          "name": "Takashi Horiguchi",
+          "role": "composer",
+          "confidence": 0.82,
+          "billingOrder": 1
+        },
+        {
+          "name": "Ichiro Nemoto",
+          "role": "composer",
+          "confidence": 0.82,
+          "billingOrder": 2
+        },
+        {
+          "name": "Daisuke Tamura",
+          "role": "composer",
+          "confidence": 0.82,
+          "billingOrder": 3
+        },
+        {
+          "name": "根本一郎",
+          "role": "composer",
+          "confidence": 0.82,
+          "billingOrder": 4
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Arabian_Nights%3A_Sabaku_no_Seirei-%C5%8D",
+      "confidenceLevel": 0.82,
+      "notes": "Composer credits extracted from enwiki infobox for Arabian Nights: Sabaku no Seirei-ō",
+      "candidateContext": {
+        "rank": 359,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q4783378",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q4783378"
+      }
+    },
+    {
+      "gameId": "babe-and-friends-game-boy-color",
+      "title": "Babe and Friends",
+      "ostComposers": [
+        {
+          "name": "Gerard Gourley",
+          "role": "composer",
+          "confidence": 0.8,
+          "billingOrder": 1
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://es.wikipedia.org/wiki/Babe_and_Friends",
+      "confidenceLevel": 0.8,
+      "notes": "Composer credits extracted from eswiki infobox for Babe and Friends",
+      "candidateContext": {
+        "rank": 866,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q115804942",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q115804942"
+      }
+    },
+    {
+      "gameId": "barbie-super-model-sega-genesis",
+      "title": "Barbie: Super Model",
+      "ostComposers": [
+        {
+          "name": "Danny Toft",
+          "role": "composer",
+          "confidence": 0.82,
+          "billingOrder": 1
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Barbie%3A_Super_Model",
+      "confidenceLevel": 0.82,
+      "notes": "Composer credits extracted from enwiki infobox for Barbie: Super Model",
+      "candidateContext": {
+        "rank": 333,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q2016922",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q2016922"
+      }
+    },
+    {
+      "gameId": "bases-loaded-game-boy",
+      "title": "Bases Loaded",
+      "ostComposers": [
+        {
+          "name": "Kouji Murata",
+          "role": "composer",
+          "confidence": 0.82,
+          "billingOrder": 1
+        },
+        {
+          "name": "Akihito Hayashi",
+          "role": "composer",
+          "confidence": 0.82,
+          "billingOrder": 2
+        },
+        {
+          "name": "村田幸史",
+          "role": "composer",
+          "confidence": 0.82,
+          "billingOrder": 3
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Bases_Loaded_(video_game)",
+      "confidenceLevel": 0.82,
+      "notes": "Composer credits extracted from enwiki infobox for Bases Loaded (video game)",
+      "candidateContext": {
+        "rank": 867,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q518547",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q518547"
+      }
+    },
+    {
+      "gameId": "chrono-resurrection-nintendo-64",
+      "title": "Chrono Resurrection",
+      "ostComposers": [
+        {
+          "name": "Mathew Valente",
+          "role": "composer",
+          "confidence": 0.82,
+          "billingOrder": 1
+        }
+      ],
+      "sourceName": "wikipedia",
+      "sourceType": "reference",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Chrono_Resurrection",
+      "confidenceLevel": 0.82,
+      "notes": "Composer credits extracted from enwiki infobox for Chrono Resurrection",
+      "candidateContext": {
+        "rank": 338,
+        "tier": "Tier A",
+        "curationStatus": "locked",
+        "wikidataQid": "Q2668608",
+        "wikidataUrl": "https://www.wikidata.org/wiki/Q2668608"
+      }
+    }
+  ]
+}

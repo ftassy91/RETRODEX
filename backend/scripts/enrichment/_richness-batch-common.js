@@ -21,6 +21,18 @@ function stringifyJson(value) {
   return JSON.stringify(value)
 }
 
+function normalizeNotes(value) {
+  if (value === undefined || value === null) return null
+  if (Array.isArray(value)) {
+    const parts = value
+      .map((item) => String(item || '').trim())
+      .filter(Boolean)
+    return parts.length ? parts.join(' | ') : null
+  }
+  const normalized = String(value).trim()
+  return normalized || null
+}
+
 function readManifest(manifestPath) {
   const manifest = readBatchManifest(manifestPath)
   if (manifest.batchType !== 'richness') {
@@ -56,7 +68,7 @@ function buildSourceDescriptor({
     sourceLicense: url ? 'reference_only' : null,
     complianceStatus,
     confidenceLevel,
-    notes,
+    notes: normalizeNotes(notes),
   }
 }
 
