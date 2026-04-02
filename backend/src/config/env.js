@@ -34,6 +34,11 @@ const SUPABASE_ANON_KEY_KEYS = [
   'SUPERDATA_Anon_Key',
 ]
 
+const VERCEL_PUBLIC_SUPABASE_FALLBACK = {
+  url: 'https://doipqgkhfzqvmzrdfvuq.supabase.co',
+  anonKey: 'sb_publishable_9ABSdylyVHbMkyA40-PmvA_BdwUj9jX',
+}
+
 function firstDefined(keys = []) {
   for (const key of keys) {
     const value = process.env[key]
@@ -96,12 +101,17 @@ function deriveSupabaseUrlFromDatabaseUrl(databaseUrl) {
 
 function resolveSupabaseEnv() {
   const databaseUrl = firstMatching(DATABASE_URL_KEYS, looksLikeDatabaseUrl)
-  const publicUrl = firstMatching(SUPABASE_URL_KEYS, looksLikeHttpUrl) || deriveSupabaseUrlFromDatabaseUrl(databaseUrl)
+  const useVercelPublicFallback = Boolean(process.env.VERCEL)
+  const publicUrl = firstMatching(SUPABASE_URL_KEYS, looksLikeHttpUrl)
+    || deriveSupabaseUrlFromDatabaseUrl(databaseUrl)
+    || (useVercelPublicFallback ? VERCEL_PUBLIC_SUPABASE_FALLBACK.url : null)
+  const anonKey = firstDefined(SUPABASE_ANON_KEY_KEYS)
+    || (useVercelPublicFallback ? VERCEL_PUBLIC_SUPABASE_FALLBACK.anonKey : null)
 
   return {
     url: publicUrl,
     serviceKey: firstDefined(SUPABASE_SERVICE_KEY_KEYS),
-    anonKey: firstDefined(SUPABASE_ANON_KEY_KEYS),
+    anonKey,
     databaseUrl,
   }
 }

@@ -16,8 +16,19 @@ logRuntimeDbContext()
 
 const { mode: supabaseMode, db: supabaseDb } = require('../db_supabase')
 const { createApp } = require('./runtime/create-app')
-const { getLegacyRuntime, bindRuntimeLocals } = require('./runtime/legacy-runtime')
 const { createRuntimeReady } = require('./runtime/runtime-ready')
+
+function loadLegacyRuntimeModule() {
+  return require('./runtime/legacy-runtime')
+}
+
+function getLegacyRuntime(...args) {
+  return loadLegacyRuntimeModule().getLegacyRuntime(...args)
+}
+
+function bindRuntimeLocals(...args) {
+  return loadLegacyRuntimeModule().bindRuntimeLocals(...args)
+}
 
 const useSupabaseServerlessRoutes = Boolean(
   process.env.VERCEL
