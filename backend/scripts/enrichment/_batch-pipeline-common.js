@@ -117,9 +117,10 @@ function assertNoPendingMarkers(parsed, label) {
 }
 
 function runPublishSequence(scriptPath, idsCsv, cwd, label) {
-  runNode([scriptPath, `--ids=${idsCsv}`], cwd, `${label} dry-run`)
-  runNode([scriptPath, `--ids=${idsCsv}`, '--apply'], cwd, `${label} apply`)
-  const postCheckStdout = runNode([scriptPath, `--ids=${idsCsv}`], cwd, `${label} post-check`)
+  const baseArgs = idsCsv ? [scriptPath, `--ids=${idsCsv}`] : [scriptPath]
+  runNode(baseArgs, cwd, `${label} dry-run`)
+  runNode([...baseArgs, '--apply'], cwd, `${label} apply`)
+  const postCheckStdout = runNode(baseArgs, cwd, `${label} post-check`)
   const postCheck = extractJson(postCheckStdout)
   assertNoPendingMarkers(postCheck, `${label} post-check`)
   return postCheck

@@ -44,6 +44,11 @@ const DEFAULTS_BY_TYPE = {
       'field_provenance',
     ],
   },
+  richness: {
+    publishDomains: ['records', 'editorial', 'media', 'ui'],
+    postChecks: ['records', 'editorial', 'media', 'ui'],
+    writeTargets: ['games', 'game_editorial', 'media_references', 'source_records', 'field_provenance'],
+  },
 }
 
 function isPlainObject(value) {
@@ -208,6 +213,43 @@ function normalizeMediaPayloadEntry(entry) {
   }
 }
 
+function normalizeStructuredValue(value) {
+  if (value === undefined) return null
+  if (value === null) return null
+  if (typeof value === 'string') {
+    const normalized = normalizeString(value, '')
+    return normalized || null
+  }
+  if (Array.isArray(value)) return value.map((item) => (isPlainObject(item) ? { ...item } : item)).filter((item) => !isEmptyValue(item))
+  if (isPlainObject(value)) return { ...value }
+  return value
+}
+
+function normalizeRichnessPayloadEntry(entry) {
+  return {
+    ...entry,
+    gameId: normalizeString(entry?.gameId || entry?.id, ''),
+    title: normalizeString(entry?.title, ''),
+    sourceName: normalizeString(entry?.sourceName, ''),
+    sourceType: normalizeString(entry?.sourceType, ''),
+    sourceUrl: normalizeNullableString(entry?.sourceUrl),
+    confidenceLevel: normalizeNumeric(entry?.confidenceLevel),
+    notes: normalizeString(entry?.notes, ''),
+    summary: normalizeString(entry?.summary, ''),
+    synopsis: normalizeString(entry?.synopsis, ''),
+    tagline: normalizeString(entry?.tagline, ''),
+    devAnecdotes: normalizeStructuredValue(entry?.devAnecdotes ?? entry?.dev_anecdotes),
+    cheatCodes: normalizeStructuredValue(entry?.cheatCodes ?? entry?.cheat_codes),
+    versions: normalizeStructuredValue(entry?.versions),
+    avgDurationMain: normalizeNumeric(entry?.avgDurationMain ?? entry?.avg_duration_main),
+    avgDurationComplete: normalizeNumeric(entry?.avgDurationComplete ?? entry?.avg_duration_complete),
+    speedrunWr: normalizeStructuredValue(entry?.speedrunWr ?? entry?.speedrun_wr),
+    ostTracks: normalizeStructuredValue(entry?.ostTracks ?? entry?.ost_notable_tracks),
+    media: Array.isArray(entry?.media) ? entry.media.map((item) => (isPlainObject(item) ? { ...item } : item)).filter(Boolean) : [],
+    candidateContext: normalizeContext(entry?.candidateContext),
+  }
+}
+
 function normalizeCompetitiveRecordEntry(entry) {
   if (!isPlainObject(entry)) return null
   return {
@@ -316,6 +358,7 @@ function normalizePayloadEntry(batchType, entry) {
   if (batchType === 'composers') return normalizeComposerPayloadEntry(entry)
   if (batchType === 'media') return normalizeMediaPayloadEntry(entry)
   if (batchType === 'competitive') return normalizeCompetitivePayloadEntry(entry)
+  if (batchType === 'richness') return normalizeRichnessPayloadEntry(entry)
   return isPlainObject(entry) ? { ...entry } : entry
 }
 
@@ -404,6 +447,7 @@ function normalizeBatchType(value, fallback = 'premium') {
   if (raw === 'dev_team' || raw === 'devteam') return 'dev_team'
   if (raw === 'media') return 'media'
   if (raw === 'competitive') return 'competitive'
+  if (['richness', 'editorial_depth', 'development_context', 'player_utility', 'expert_signals'].includes(raw)) return 'richness'
   return raw
 }
 
@@ -544,6 +588,38 @@ function inspectCompetitivePayload(manifest, issues) {
   })
 }
 
+function inspectRichnessPayload(manifest, issues) {
+  manifest.payload.forEach((entry, index) => {
+    const scope = `payload[${index}]`
+    const hasEditorialWork = Boolean(
+      normalizeString(entry.summary, '')
+      || normalizeString(entry.synopsis, '')
+      || normalizeString(entry.tagline, '')
+      || !isEmptyValue(entry.devAnecdotes)
+      || !isEmptyValue(entry.cheatCodes)
+      || !isEmptyValue(entry.versions)
+      || entry.avgDurationMain !== null
+      || entry.avgDurationComplete !== null
+      || !isEmptyValue(entry.speedrunWr)
+      || !isEmptyValue(entry.ostTracks)
+    )
+    const hasMediaWork = Array.isArray(entry.media) && entry.media.length > 0
+
+    if (!entry.gameId) addIssue(issues, scope, 'missing gameId')
+    if (!hasEditorialWork && !hasMediaWork) addIssue(issues, scope, 'richness payload has no actionable content')
+    if (hasEditorialWork && !normalizeString(entry.sourceName, '')) addIssue(issues, scope, 'missing sourceName')
+    if (hasEditorialWork && !normalizeString(entry.sourceType, '')) addIssue(issues, scope, 'missing sourceType')
+
+    ;(entry.media || []).forEach((media, mediaIndex) => {
+      const mediaScope = `${scope}.media[${mediaIndex}]`
+      if (!normalizeString(media.mediaType, '')) addIssue(issues, mediaScope, 'missing mediaType')
+      if (!normalizeString(media.sourceField, '')) addIssue(issues, mediaScope, 'missing sourceField')
+      if (!normalizeString(media.provider, '')) addIssue(issues, mediaScope, 'missing provider')
+      if (!normalizeString(media.url, '')) addIssue(issues, mediaScope, 'missing url')
+    })
+  })
+}
+
 function inspectManifest(manifest) {
   const issues = []
 
@@ -560,6 +636,7 @@ function inspectManifest(manifest) {
   else if (manifest.batchType === 'composers') inspectComposerPayload(manifest, issues)
   else if (manifest.batchType === 'media') inspectMediaPayload(manifest, issues)
   else if (manifest.batchType === 'competitive') inspectCompetitivePayload(manifest, issues)
+  else if (manifest.batchType === 'richness') inspectRichnessPayload(manifest, issues)
   else addIssue(issues, 'manifest', `unsupported batchType: ${manifest.batchType}`)
 
   return issues

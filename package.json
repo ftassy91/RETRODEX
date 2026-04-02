@@ -48,7 +48,11 @@
     "enrichment:freeze-top1000": "node backend/scripts/enrichment/generate-top-1000-work-catalog.js",
     "enrichment:freeze-extension200": "node backend/scripts/enrichment/generate-extension-200-work-catalog.js",
     "enrichment:freeze-top1200-band": "node backend/scripts/enrichment/generate-top1200-selection-band.js",
-    "enrichment:report-top1200": "node backend/scripts/enrichment/report-top1200-progress.js"
+    "enrichment:report-top1200": "node backend/scripts/enrichment/report-top1200-progress.js",
+    "enrichment:report-top1200-richness": "node backend/scripts/enrichment/report-top1200-richness.js",
+    "enrichment:generate-editorial-depth-internal-backfill": "node backend/scripts/enrichment/generate-editorial-depth-internal-backfill-manifest.js",
+    "enrichment:generate-dev-team-structured-backfill": "node backend/scripts/enrichment/generate-dev-team-structured-backfill-manifest.js",
+    "enrichment:generate-strategywiki-cheats": "node backend/scripts/enrichment/generate-strategywiki-cheats-manifest.js"
   },
   "keywords": [],
   "author": "",

@@ -26,6 +26,7 @@ const JSON_FIELDS = new Set([
 
 const COLUMN_DEFINITIONS = [
   ['slug', 'text'],
+  ['tagline', 'text'],
   ['lore', 'text'],
   ['gameplay_description', 'text'],
   ['characters', 'jsonb'],
@@ -216,6 +217,7 @@ function getLocalRows(sqlite) {
       g.id,
       g.title,
       NULLIF(g.slug, '') AS slug,
+      NULLIF(g.tagline, '') AS tagline,
       COALESCE(NULLIF(mr.url, ''), NULLIF(g.cover_url, ''), NULLIF(g.coverImage, '')) AS cover_url,
       COALESCE(NULLIF(ge.summary, ''), NULLIF(g.summary, '')) AS summary,
       COALESCE(NULLIF(ge.synopsis, ''), NULLIF(g.synopsis, '')) AS synopsis,
@@ -294,6 +296,7 @@ function getLocalRows(sqlite) {
         id: row.id,
         title: row.title,
         slug: normalizeText(row.slug),
+        tagline: normalizeText(row.tagline),
         cover_url: normalizeText(row.cover_url),
         summary: normalizeText(row.summary),
         synopsis: normalizeText(row.synopsis),
@@ -349,6 +352,7 @@ async function getRemoteRows(client) {
     SELECT
       id,
       slug,
+      tagline,
       cover_url,
       summary,
       synopsis,
@@ -462,6 +466,7 @@ function buildUpdatePayload(localRow, remoteRow) {
   const payload = {};
   const fields = [
     'slug',
+    'tagline',
     'cover_url',
     'summary',
     'synopsis',

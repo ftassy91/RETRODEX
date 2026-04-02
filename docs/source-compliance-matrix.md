@@ -83,6 +83,26 @@
   - `ost_releases`
   - `ost_tracks`
 
+### StrategyWiki
+
+- Status: `approved_with_review`
+- Allowed use:
+  - short structured gameplay/editorial support
+  - `cheat_codes`
+  - `versions`
+  - short `synopsis` / `tagline` support when the page is explicit and attribution is preserved
+  - reference-style `manual` / tips pointers
+- Restrictions:
+  - no long verbatim copying
+  - no image ingestion
+  - keep explicit source attribution and review notes
+  - use reviewed local snapshots/manifests, not opportunistic product writes
+- Product scope:
+  - `source_records`
+  - `field_provenance`
+  - `game_editorial`
+  - selected UI/runtime support fields
+
 ### IGDB / Twitch
 
 - Status: `approved_with_review`

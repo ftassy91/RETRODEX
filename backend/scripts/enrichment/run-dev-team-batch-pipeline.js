@@ -18,6 +18,11 @@ const {
 const REPO_ROOT = path.resolve(__dirname, '..', '..', '..')
 const BACKEND_ROOT = path.resolve(__dirname, '..', '..')
 const APPLY_SCRIPT = path.join(__dirname, 'apply-dev-team-batch.js')
+const MAX_IDS_ARG_LENGTH = 7000
+
+function shouldUseGlobalScope(idsCsv) {
+  return !idsCsv || idsCsv.length > MAX_IDS_ARG_LENGTH
+}
 
 function main() {
   const args = parsePipelineArgs(process.argv)
@@ -32,6 +37,7 @@ function main() {
   const dryRun = extractJson(dryRunStdout)
   const ids = dryRun.summary.targets.map((target) => target.gameId)
   const idsCsv = ids.join(',')
+  const useGlobalScope = shouldUseGlobalScope(idsCsv)
 
   console.log(JSON.stringify({
     pipeline: 'dev-team-batch',
@@ -40,6 +46,7 @@ function main() {
     dryOnly: args.dryOnly,
     targets: ids,
     targetedGames: ids.length,
+    useGlobalScope,
   }, null, 2))
 
   if (args.dryOnly) return
@@ -58,12 +65,16 @@ function main() {
     console.log(JSON.stringify({ backupPath }, null, 2))
 
     runNode([APPLY_SCRIPT, `--manifest=${manifest.manifestPath}`, '--apply'], REPO_ROOT, 'dev team batch apply')
-    const auditStdout = runNode([path.join(BACKEND_ROOT, 'scripts', 'run-audit.js'), `--ids=${idsCsv}`], BACKEND_ROOT, 'run-audit')
+    const auditArgs = useGlobalScope
+      ? [path.join(BACKEND_ROOT, 'scripts', 'run-audit.js')]
+      : [path.join(BACKEND_ROOT, 'scripts', 'run-audit.js'), `--ids=${idsCsv}`]
+    const auditStdout = runNode(auditArgs, BACKEND_ROOT, 'run-audit')
     const auditSummaryPath = readAuditSummaryPath(auditStdout)
 
-    runPublishSequence(path.join(BACKEND_ROOT, 'scripts', 'publish-records-supabase.js'), idsCsv, BACKEND_ROOT, 'publish-records')
-    runPublishSequence(path.join(BACKEND_ROOT, 'scripts', 'publish-credits-music-supabase.js'), idsCsv, BACKEND_ROOT, 'publish-credits-music')
-    runPublishSequence(path.join(BACKEND_ROOT, 'scripts', 'sync-supabase-ui-fields.js'), idsCsv, BACKEND_ROOT, 'sync-supabase-ui-fields')
+    const publishIdsCsv = useGlobalScope ? null : idsCsv
+    runPublishSequence(path.join(BACKEND_ROOT, 'scripts', 'publish-records-supabase.js'), publishIdsCsv, BACKEND_ROOT, 'publish-records')
+    runPublishSequence(path.join(BACKEND_ROOT, 'scripts', 'publish-credits-music-supabase.js'), publishIdsCsv, BACKEND_ROOT, 'publish-credits-music')
+    runPublishSequence(path.join(BACKEND_ROOT, 'scripts', 'sync-supabase-ui-fields.js'), publishIdsCsv, BACKEND_ROOT, 'sync-supabase-ui-fields')
     runPostValidation(BACKEND_ROOT, args.withTests)
 
     console.log(JSON.stringify({
@@ -72,6 +83,7 @@ function main() {
       targets: ids.length,
       backupPath,
       auditSummaryPath,
+      useGlobalScope,
       withTests: args.withTests,
     }, null, 2))
 

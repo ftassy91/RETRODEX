@@ -73,6 +73,12 @@ const SOURCE_POLICY = {
     legalFeasibility: 0.85,
     sourceAvailability: 0.82,
   },
+  strategywiki: {
+    name: 'StrategyWiki',
+    status: 'approved_with_review',
+    legalFeasibility: 0.78,
+    sourceAvailability: 0.74,
+  },
   libretro: {
     name: 'libretro-database',
     status: 'reference_only',

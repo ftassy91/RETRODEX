@@ -1,0 +1,148 @@
+{
+  "generatedAt": "2026-04-02T07:30:00.000Z",
+  "source": "StrategyWiki",
+  "scope": "top1200_cheats_seed",
+  "notes": "Reviewed local snapshot for top1200 cheat-code uplift. Facts only, concise effect labels, no long copied prose.",
+  "entries": [
+    {
+      "gameId": "goldeneye-007-nintendo-64",
+      "title": "GoldenEye 007",
+      "pageUrl": "https://strategywiki.org/wiki/GoldenEye_007/Cheats",
+      "field": "cheat_codes",
+      "cheatCodes": [
+        {
+          "name": "DK Mode",
+          "code": "Beat Runway on Agent in 5:00 or less",
+          "effect": "Changes character body proportions."
+        },
+        {
+          "name": "Infinite ammo",
+          "code": "Beat Control on Secret Agent in 10:00 or less",
+          "effect": "Unlimited ammunition."
+        },
+        {
+          "name": "Invincibility",
+          "code": "Beat Facility on 00 Agent in 2:05 or less",
+          "effect": "Immunity to damage."
+        },
+        {
+          "name": "Golden Gun",
+          "code": "Complete Egyptian",
+          "effect": "Unlocks the Golden Gun in the cheat menu."
+        }
+      ]
+    },
+    {
+      "gameId": "perfect-dark-nintendo-64",
+      "title": "Perfect Dark",
+      "pageUrl": "https://strategywiki.org/wiki/Perfect_Dark/Cheats_%26_Unlockables",
+      "field": "cheat_codes",
+      "cheatCodes": [
+        {
+          "name": "Invincible",
+          "code": "Beat Area 51 - Escape on Agent in 3:50 or less",
+          "effect": "Invincibility cheat for solo play."
+        },
+        {
+          "name": "Cloaking Device",
+          "code": "Beat G5 Building - Reconnaissance on Agent in 1:40 or less",
+          "effect": "Unlocks the cloaking device cheat."
+        },
+        {
+          "name": "Unlimited Ammo",
+          "code": "Beat Pelagic II - Exploration on Special Agent in 7:07 or less",
+          "effect": "Unlimited ammo."
+        },
+        {
+          "name": "All Guns in Solo",
+          "code": "Beat Skedar Ruins - Battle Shrine on Perfect Agent in 5:31 or less",
+          "effect": "Unlocks all solo weapons."
+        }
+      ]
+    },
+    {
+      "gameId": "tenchu-stealth-assassins-playstation",
+      "title": "Tenchu: Stealth Assassins",
+      "pageUrl": "https://strategywiki.org/wiki/Tenchu:_Stealth_Assassins/Cheats",
+      "field": "cheat_codes",
+      "cheatCodes": [
+        {
+          "name": "Restore Health",
+          "code": "Pause, then Left Left Down Down Square Square Triangle Square",
+          "effect": "Restores health."
+        },
+        {
+          "name": "Unlock All Missions",
+          "code": "Mission Select: hold R2, then Left Left Down Down Square Square Triangle Square",
+          "effect": "Unlocks all missions."
+        },
+        {
+          "name": "Choose Mission Layout",
+          "code": "Mission Select: hold R1, then Left Left Down Down Square Square Triangle Cross",
+          "effect": "Chooses mission layout variation."
+        },
+        {
+          "name": "Carry 99 Items",
+          "code": "Item Select: hold L1, then Left Left Down Down Square Square Triangle Square",
+          "effect": "Raises inventory capacity to 99 items."
+        }
+      ]
+    },
+    {
+      "gameId": "banjo-kazooie-nintendo-64",
+      "title": "Banjo-Kazooie",
+      "pageUrl": "https://strategywiki.org/wiki/Banjo-Kazooie/Other_Cheats",
+      "field": "cheat_codes",
+      "cheatCodes": [
+        {
+          "name": "Infinite lives",
+          "code": "CHEATLOTSOFGOESWITHMANYBANJOS",
+          "effect": "Infinite lives."
+        },
+        {
+          "name": "Infinite air",
+          "code": "CHEATGIVETHEBEARLOTSOFAIR",
+          "effect": "Infinite air supply."
+        },
+        {
+          "name": "Infinite Eggs",
+          "code": "CHEATBANJOBEGSFORPLENTYOFEGGS",
+          "effect": "Infinite eggs."
+        },
+        {
+          "name": "Max energy bar",
+          "code": "CHEATANENERGYBARTOGETYOUFAR",
+          "effect": "Maximum health bar."
+        }
+      ]
+    },
+    {
+      "gameId": "banjo-tooie-nintendo-64",
+      "title": "Banjo-Tooie",
+      "pageUrl": "https://strategywiki.org/wiki/Banjo-Tooie/Cheats",
+      "field": "cheat_codes",
+      "cheatCodes": [
+        {
+          "name": "HONEYKING",
+          "code": "CHEATOHONEYKING",
+          "effect": "Unlimited health and air bubbles."
+        },
+        {
+          "name": "NESTKING",
+          "code": "CHEATONESTKING",
+          "effect": "Unlimited eggs."
+        },
+        {
+          "name": "JIGGYWIGGYSPECIAL",
+          "code": "CHEATOJIGGYWIGGYSPECIAL",
+          "effect": "Unlocks all worlds."
+        },
+        {
+          "name": "SUPERBANJO",
+          "code": "CHEATOSUPERBANJO",
+          "effect": "Increases Banjo and Kazooie's movement speed."
+        }
+      ]
+    }
+  ]
+}
