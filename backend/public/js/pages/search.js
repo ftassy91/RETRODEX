@@ -142,7 +142,7 @@
   }
 
   function appendPresenceChips(container, item) {
-    if (item.curation?.isPublished) container.appendChild(createChip('Publié', 'is-primary'));
+    if (item.curation?.isPublished) container.appendChild(createChip('Publie', 'is-primary'));
     if (item.signals?.hasMaps) container.appendChild(createChip('MAP'));
     if (item.signals?.hasManuals) container.appendChild(createChip('MANUAL'));
     if (item.signals?.hasSprites) container.appendChild(createChip('SPRITE'));
@@ -152,7 +152,7 @@
   function renderPublicationBanner(publication) {
     if (!bannerEl) return;
     if (!publication) {
-      bannerEl.textContent = 'Explorer lit une surface curée : seules les fiches visibles sont recherchées ici.';
+      bannerEl.textContent = 'RetroDex lit une surface curee : seules les fiches visibles sont recherchees ici.';
       return;
     }
 
@@ -160,7 +160,7 @@
     const consoles = Number(publication.consoleCount || 0);
     const total = Number(publication.catalogGamesCount || 0);
     const totalCopy = total > 0 ? ` sur ${total} jeux en base` : '';
-    bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} fiches visibles | ${consoles} consoles | sélection validée${totalCopy}.`;
+    bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} fiches visibles | ${consoles} consoles | selection validee${totalCopy}.`;
   }
 
   async function preloadPublicationBanner() {
@@ -187,7 +187,7 @@
 
   function buildSummaryCopy(item, context) {
     if (context === 'retromarket' && item.meta?.loosePrice != null) {
-      const rarity = item.meta?.rarity ? `Rareté ${item.meta.rarity}` : 'Signal marché';
+      const rarity = item.meta?.rarity ? `Rarete ${item.meta.rarity}` : 'Signal marche';
       return `${rarity} | ${fmtPrice(item.meta.loosePrice) || 'n/a'} loose | lecture collector contextuelle.`;
     }
 
@@ -195,9 +195,9 @@
   }
 
   function buildActionLabel(item) {
-    if (item.type === 'franchise') return 'Voir franchise →';
-    if (item.type === 'console') return 'Voir console →';
-    return 'Ouvrir la fiche →';
+    if (item.type === 'franchise') return 'Voir franchise ->';
+    if (item.type === 'console') return 'Voir console ->';
+    return 'Ouvrir la fiche ->';
   }
 
   function renderSignals(item, context) {
@@ -205,7 +205,7 @@
     grid.className = 'sc-signal-grid';
 
     if (item.type === 'game' && (context === 'retromarket' || context === 'all') && item.meta?.loosePrice != null) {
-      grid.appendChild(createSignalCard('Réf. loose', fmtPrice(item.meta.loosePrice) || 'n/a'));
+      grid.appendChild(createSignalCard('Ref. loose', fmtPrice(item.meta.loosePrice) || 'n/a'));
     }
 
     if (item.meta?.metascore) {
@@ -231,7 +231,7 @@
     }
 
     if (item.type === 'game' && item.meta?.rarity) {
-      grid.appendChild(createSignalCard('Rareté', item.meta.rarity));
+      grid.appendChild(createSignalCard('Rarete', item.meta.rarity));
     } else if (item.type === 'game' && window.RetroDexContentSignals?.buildRichness) {
       const contentSignals = buildItemContentSignals(item);
       if (contentSignals) {
@@ -268,14 +268,14 @@
 
   function renderResults(results, context) {
     if (!results.length) {
-      renderEmpty('Aucun résultat visible.');
-      if (countEl) countEl.textContent = '0 résultat';
+      renderEmpty('Aucun rÃ©sultat visible.');
+      if (countEl) countEl.textContent = '0 rÃ©sultat';
       return;
     }
 
     const contextLabel = window.RetroDexSearch?.CTX?.[context]?.label || context.toUpperCase();
     if (countEl) {
-      countEl.textContent = `${results.length} résultat(s) | ${contextLabel}`;
+      countEl.textContent = `${results.length} rÃ©sultat(s) | ${contextLabel}`;
     }
 
     resultsEl.innerHTML = '';
@@ -372,7 +372,7 @@
 
       if (contentSignals) {
         chipRow.appendChild(createChip(`Richesse ${contentSignals.band.shortLabel}`, `is-richness is-${contentSignals.band.key}`));
-        chipRow.appendChild(createChip(`État ${contentSignals.completionState.shortLabel}`, 'is-completion'));
+        chipRow.appendChild(createChip(`Ã‰tat ${contentSignals.completionState.shortLabel}`, 'is-completion'));
         chipRow.appendChild(createChip(`Confiance ${contentSignals.confidence.shortLabel}`, 'is-confidence'));
       } else if (item.meta?.rarity) {
         chipRow.appendChild(createChip(item.meta.rarity, 'is-hot'));
@@ -398,7 +398,7 @@
 
   async function doSearch(query, context) {
     if (!window.RetroDexSearch) {
-      renderState('Chargement', 'Le moteur de recherche est en cours d’initialisation.');
+      renderState('Chargement', 'Le moteur de recherche est en cours dâ€™initialisation.');
       window.setTimeout(() => doSearch(query, context), 400);
       return;
     }
@@ -413,7 +413,7 @@
       renderResults(results, context);
       syncUrl(query, context);
     } catch (_error) {
-      renderState('Recherche indisponible', 'Le moteur de recherche n’a pas pu répondre pour cette session.', 'is-error');
+      renderState('Recherche indisponible', 'Le moteur de recherche nâ€™a pas pu rÃ©pondre pour cette session.', 'is-error');
     }
   }
 

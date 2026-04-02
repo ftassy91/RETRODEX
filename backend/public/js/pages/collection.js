@@ -230,8 +230,8 @@
 
   function getTabLabel(tab) {
     if (tab === 'wanted') return 'la wishlist'
-    if (tab === 'for_sale') return 'la liste à vendre'
-    return 'votre étagère'
+    if (tab === 'for_sale') return 'la liste a vendre'
+    return 'votre etagere'
   }
 
   function getTabSignalLabel(tab) {
@@ -271,25 +271,25 @@
     if (activeTab === 'wanted') {
       return {
         title: 'Wishlist vide',
-        copy: 'Ouvrez Explorer pour ajouter un jeu à surveiller.',
-        linkLabel: 'Explorer les fiches',
+        copy: 'Ouvrez RetroDex pour ajouter un jeu a surveiller.',
+        linkLabel: 'Ouvrir RetroDex',
       }
     }
 
     if (activeTab === 'for_sale') {
       return {
-        title: 'Liste à vendre vide',
+        title: 'Liste a vendre vide',
         copy: isPublicForSaleView
-          ? 'Aucune entrée n’est actuellement proposée.'
-          : 'Ajoutez un jeu à vendre depuis votre étagère.',
-        linkLabel: 'Explorer les fiches',
+          ? 'Aucune entree n est actuellement proposee.'
+          : 'Ajoutez un jeu a vendre depuis votre etagere.',
+        linkLabel: 'Ouvrir RetroDex',
       }
     }
 
     return {
-      title: 'Votre étagère est vide.',
+      title: 'Votre etagere est vide.',
       copy: '',
-      linkLabel: 'Explorer les fiches',
+      linkLabel: 'Ouvrir RetroDex',
     }
   }
 
@@ -388,7 +388,7 @@
     const mintPrice = Number(game.mintPrice || 0)
     const paid = Number(item.price_paid || 0)
     const gain = paid > 0 ? loosePrice - paid : null
-    const previewCopy = note || game.tagline || game.summary || game.synopsis || 'Aucune note ou lecture complémentaire pour cette entrée.'
+    const previewCopy = note || game.tagline || game.summary || game.synopsis || 'Aucune note ou lecture complementaire pour cette entree.'
     hideEditForm()
 
     collectionDetailEl.style.display = 'block'
@@ -401,7 +401,7 @@
           <span class="surface-signal-value is-alert">${escapeHtml(formatPreviewValue(loosePrice))}</span>
         </div>
         <div class="surface-signal-card">
-          <span class="surface-signal-label">Payé</span>
+          <span class="surface-signal-label">Paye</span>
           <span class="surface-signal-value">${escapeHtml(paid > 0 ? formatCurrency(paid) : 'n/a')}</span>
         </div>
         <div class="surface-signal-card">
@@ -423,7 +423,7 @@
       detailChipRowEl.innerHTML = `
         <span class="surface-chip is-primary">${escapeHtml(item.condition || 'Archive')}</span>
         <span class="surface-chip">${escapeHtml(getTabSignalLabel(activeTab))}</span>
-        ${item.purchase_date ? `<span class="surface-chip">Entrée ${escapeHtml(item.purchase_date)}</span>` : ''}
+        ${item.purchase_date ? `<span class="surface-chip">Entree ${escapeHtml(item.purchase_date)}</span>` : ''}
         ${item.price_threshold ? `<span class="surface-chip">Seuil ${escapeHtml(formatCurrency(item.price_threshold))}</span>` : ''}
         ${game.rarity ? `<span class="surface-chip is-hot">${escapeHtml(game.rarity)}</span>` : ''}
       `
@@ -436,10 +436,10 @@
     renderDetailMetascore(game.metascore)
 
     detailRow2El.innerHTML = `
-      <a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="terminal-action-link">Ouvrir la fiche →</a>
-      <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="terminal-action-link">Lecture marché avancée →</a>
-      <a href="/encyclopedia.html?game=${encodeURIComponent(gameId)}" class="terminal-action-link">Archive / encyclopédie →</a>
-      <a href="/games-list.html" class="terminal-action-link">Retour à Explorer →</a>
+      <a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="terminal-action-link">Ouvrir la fiche &rarr;</a>
+      <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="terminal-action-link">Lecture avancee &rarr;</a>
+      <a href="/encyclopedia.html?game=${encodeURIComponent(gameId)}" class="terminal-action-link">Archive / encyclopedie &rarr;</a>
+      <a href="/games-list.html" class="terminal-action-link">Retour a RetroDex &rarr;</a>
       ${isPublicForSaleView && activeTab === 'for_sale' ? '' : `
         <button id="collection-edit-btn" class="terminal-inline-btn" type="button">
           MODIFIER
@@ -518,7 +518,7 @@
     } else {
       spacer.innerHTML = `
         <div class="terminal-quiet-note">
-          ${items.length} entrée(s) visibles. <a href="/games-list.html" class="terminal-action-link">→ Explorer</a>
+          ${items.length} entree(s) visibles. <a href="/games-list.html" class="terminal-action-link">&rarr; RetroDex</a>
         </div>
       `
     }
@@ -536,7 +536,7 @@
     clearSelection()
     setHtml(
       collectionListContainerEl,
-      collectionStateMarkup('Aucun résultat visible', 'Aucun item ne correspond aux filtres actifs. Ajustez la recherche ou la console.')
+      collectionStateMarkup('Aucun resultat visible', 'Aucun item ne correspond aux filtres actifs. Ajustez la recherche ou la console.')
     )
   }
 
@@ -582,7 +582,7 @@
     }
 
     renderCollection(visibleItems, preferredItemId)
-    const baseLabel = `${visibleItems.length} entrée(s)`
+    const baseLabel = `${visibleItems.length} entree(s)`
     setStatus(visibleItems.length === allCollectionItems.length
       ? `${baseLabel} dans ${getTabLabel(activeTab)}.`
       : `${baseLabel} visible(s) sur ${allCollectionItems.length} dans ${getTabLabel(activeTab)}.`)
@@ -591,7 +591,7 @@
   async function copySaleLink() {
     try {
       await navigator.clipboard.writeText(`${window.location.origin}/collection.html?view=for_sale`)
-      setStatus('Lien de vente copié.')
+      setStatus('Lien de vente copie.')
       if (copyFeedbackTimer) {
         window.clearTimeout(copyFeedbackTimer)
       }
@@ -608,7 +608,7 @@
 
     const item = enrichedItems.find((entry) => String(entry.id || entry.gameId || '') === String(itemId))
     const title = getGame(item).title || 'ce jeu'
-    if (!window.confirm(`Retirer "${title}" ${activeTab === 'wanted' ? 'de votre wishlist' : activeTab === 'for_sale' ? 'de votre liste à vendre' : 'de votre étagère'} ?`)) {
+    if (!window.confirm(`Retirer "${title}" ${activeTab === 'wanted' ? 'de votre wishlist' : activeTab === 'for_sale' ? 'de votre liste a vendre' : 'de votre etagere'} ?`)) {
       return
     }
 
@@ -616,7 +616,7 @@
     try {
       await fetchJson(`/api/collection/${encodeURIComponent(itemId)}`, { method: 'DELETE' })
       await loadCollection()
-      setStatus('Jeu retiré.')
+      setStatus('Jeu retire.')
     } catch (error) {
       setStatus(`Erreur suppression : ${error.message}`)
     }
@@ -641,7 +641,7 @@
       })
       hideEditForm()
       await loadCollection(editingItemId)
-      setStatus('Fiche collection mise à jour.')
+      setStatus('Fiche collection mise a jour.')
     } catch (error) {
       setStatus(`Erreur mise à jour : ${error.message}`)
     } finally {
@@ -651,7 +651,7 @@
 
   function exportCollectionCsv() {
     if (!enrichedItems.length) {
-      setStatus('Aucun item à exporter.')
+      setStatus('Aucun item a exporter.')
       return
     }
 
@@ -684,13 +684,13 @@
     link.click()
     link.remove()
     window.URL.revokeObjectURL(url)
-    setStatus(`Export CSV généré pour ${enrichedItems.length} item(s).`)
+    setStatus(`Export CSV genere pour ${enrichedItems.length} item(s).`)
   }
 
   async function loadCollection(preferredItemId = null) {
     clearSelection()
     setStatus('Chargement de la collection...')
-    setHtml(collectionListContainerEl, collectionStateMarkup('Chargement', 'Lecture des lignes de collection et des signaux associés.'))
+    setHtml(collectionListContainerEl, collectionStateMarkup('Chargement', 'Lecture des lignes de collection et des signaux associes.'))
 
     try {
       const payload = await fetchCollection(activeTab, isPublicForSaleView)
@@ -716,7 +716,7 @@
         collectionStateMarkup(
           'Collection indisponible',
           'Impossible de lire les lignes locales pour le moment.',
-          '<div class="terminal-empty-copy"><a href="/games-list.html" class="terminal-action-link">Ouvrir Explorer →</a></div>'
+          '<div class="terminal-empty-copy"><a href="/games-list.html" class="terminal-action-link">Ouvrir RetroDex &rarr;</a></div>'
         )
       )
       clearSelection()

@@ -11537,3 +11537,179 @@ body .product-universe-frame.is-dex {
   }
 }
 
+
+
+/* ========================================
+   GAME-PAGE FIRST STABILITY OVERRIDES
+======================================== */
+.global-product-nav {
+  align-items: stretch;
+}
+
+.global-product-home {
+  align-self: stretch;
+}
+
+.global-product-links {
+  flex: 1 1 520px;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.global-product-link {
+  min-width: 0;
+  min-height: 52px;
+  gap: 3px;
+  padding: 9px 12px;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.global-product-link .nav-label,
+.global-product-link .nav-copy {
+  display: block;
+  width: 100%;
+}
+
+.global-product-link .nav-copy {
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.global-product-home,
+.hub-page-title,
+.page-title,
+.product-universe-title,
+.hub-module-title,
+.filters-sidebar-title {
+  overflow-wrap: anywhere;
+}
+
+.catalog-page-head,
+.secondary-page-head {
+  align-items: start;
+  gap: 22px;
+}
+
+.catalog-head-tools {
+  min-width: 0;
+}
+
+.hub-intent-grid-three {
+  gap: 12px;
+}
+
+.hub-intent-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.hub-intent-copy,
+.hub-intro,
+.catalog-intro,
+.catalog-search-jump-copy,
+.product-universe-copy {
+  max-width: 52ch;
+}
+
+.hub-intent-links {
+  margin-top: auto;
+}
+
+.product-universe-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.product-universe-links a {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid rgba(45, 61, 41, 0.56);
+  background: rgba(8, 12, 8, 0.78);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.product-universe-overlap {
+  max-width: 60ch;
+}
+
+.collection-toolbar-group > * {
+  min-width: 0;
+}
+
+.collection-cockpit-grid {
+  grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.9fr);
+}
+
+.collection-preview-summary {
+  max-width: none;
+}
+
+.surface-action-row,
+.detail-hero-actions {
+  align-items: flex-start;
+  row-gap: 10px;
+  column-gap: 12px;
+}
+
+.detail-hero-actions a {
+  white-space: normal;
+}
+
+.terminal-query-line {
+  align-items: center;
+}
+
+.terminal-query-input {
+  min-width: 0;
+  width: 100%;
+}
+
+.terminal-query-count {
+  flex: 0 0 auto;
+}
+
+.hub-module-copy,
+.hub-intro,
+.catalog-search-jump-copy,
+.catalog-panel-copy,
+.product-universe-copy,
+.collection-preview-summary {
+  overflow-wrap: anywhere;
+}
+
+.terminal-summary-bar {
+  align-items: stretch;
+}
+
+.terminal-summary-cell,
+.hub-intent-card,
+.hub-module,
+.catalog-head-tools,
+.collection-cockpit-main,
+.collection-cockpit-side {
+  min-width: 0;
+}
+
+.collection-cockpit-main {
+  overflow: hidden;
+}
+
+.collection-table-header {
+  overflow-x: auto;
+}
+
+@media (max-width: 780px) {
+  .global-product-links,
+  .product-universe-links {
+    grid-template-columns: 1fr;
+  }
+}

@@ -10,13 +10,13 @@
     <meta name="apple-mobile-web-app-title" content="RetroDex">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
-    <title>RetroDex - Collection</title>
-    <meta name="description" content="Cockpit personnel RetroDex : étagère, wishlist, valeur et priorités de lecture." />
+    <title>RetroDex - Ma collection</title>
+    <meta name="description" content="Cockpit personnel RetroDex : etagere, wishlist, valeur et priorites de lecture." />
     <meta property="og:title" content="Collection | RetroDex" />
-    <meta property="og:description" content="Cockpit personnel RetroDex : étagère, wishlist, valeur et priorités de lecture." />
+    <meta property="og:description" content="Cockpit personnel RetroDex : etagere, wishlist, valeur et priorites de lecture." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260402g" />
+    <link rel="stylesheet" href="/style.css?v=20260402h" />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -24,12 +24,12 @@
       <a class="global-product-home" href="/hub.html">Hub</a>
       <div class="global-product-links">
         <a class="global-product-link" href="/games-list.html">
-          <span class="nav-label">Explorer</span>
+          <span class="nav-label">RetroDex</span>
           <span class="nav-copy">catalogue | recherche | fiches</span>
         </a>
         <a class="global-product-link is-active" href="/collection.html">
           <span class="nav-label">Collection</span>
-          <span class="nav-copy">étagère | wishlist | suivi</span>
+          <span class="nav-copy">etagere | wishlist | suivi</span>
         </a>
       </div>
     </nav>
@@ -37,9 +37,9 @@
       <!-- MA COLLECTION -->
       <nav class="breadcrumb" aria-label="Fil d'ariane">
         <a href="/hub.html">HUB</a>
-        <span class="sep" aria-hidden="true">›</span>
+        <span class="sep" aria-hidden="true">&rsaquo;</span>
         <span class="section">COLLECTION</span>
-        <span class="sep" aria-hidden="true">›</span>
+        <span class="sep" aria-hidden="true">&rsaquo;</span>
         <span class="current">COCKPIT PERSONNEL</span>
       </nav>
 
@@ -52,13 +52,13 @@
           <div class="product-universe-chip">PERSONAL COCKPIT</div>
         </div>
         <p class="product-universe-copy">
-          La collection relie l'archive à votre usage personnel : ce que vous possédez, ce que vous visez,
+          La collection relie l'archive a votre usage personnel : ce que vous possedez, ce que vous visez,
           ce qu'il faut relire ou qualifier.
         </p>
         <div class="product-universe-links">
           <a class="is-active" href="/collection.html">Cockpit</a>
-          <a href="/games-list.html">Explorer</a>
-          <a href="/search.html">Recherche rapide</a>
+          <a href="/games-list.html">RetroDex</a>
+          <a href="/search.html">Entree rapide</a>
         </div>
       </section>
 
@@ -69,7 +69,7 @@
       <section class="collection-cockpit-shell">
         <div class="terminal-summary-bar collection-summary-hero" id="collection-summary-bar">
           <div class="terminal-summary-cell">
-            <div class="terminal-summary-label">ENTRÉES</div>
+            <div class="terminal-summary-label">ENTREES</div>
             <div class="terminal-summary-value" id="stat-total">-</div>
           </div>
           <div class="terminal-summary-cell">
@@ -77,7 +77,7 @@
             <div class="terminal-summary-value neutral" id="stat-value-loose">-</div>
           </div>
           <div class="terminal-summary-cell">
-            <div class="terminal-summary-label">PAYÉ</div>
+            <div class="terminal-summary-label">PAYE</div>
             <div class="terminal-summary-value" id="stat-paid">-</div>
           </div>
           <div class="terminal-summary-cell">
@@ -95,15 +95,15 @@
         </div>
 
         <div class="collection-cockpit-topline terminal-context">
-          <a href="/games-list.html" class="terminal-action-link">Ouvrir Explorer -></a>
-          <a href="/search.html" class="terminal-action-link">Entrée rapide -></a>
+          <a href="/games-list.html" class="terminal-action-link">Ouvrir RetroDex -&gt;</a>
+          <a href="/search.html" class="terminal-action-link">Entree rapide -&gt;</a>
         </div>
 
         <div class="terminal-filter-bar collection-mode-bar" style="margin-top:0">
           <div class="terminal-filter-group">
-            <button class="terminal-filter-btn active" data-list="owned" type="button">ÉTAGÈRE</button>
+            <button class="terminal-filter-btn active" data-list="owned" type="button">ETAGERE</button>
             <button class="terminal-filter-btn" data-list="wanted" type="button">WISHLIST</button>
-            <button class="terminal-filter-btn" data-list="for_sale" type="button">À VENDRE</button>
+            <button class="terminal-filter-btn" data-list="for_sale" type="button">A VENDRE</button>
           </div>
           <div class="terminal-filter-group" style="margin-left:auto">
             <button class="terminal-filter-btn" id="copy-sale-link-btn" type="button" style="display:none">COPIER LIEN</button>
@@ -120,9 +120,9 @@
             <select id="collection-sort-select" class="collection-toolbar-select">
               <option value="title_asc">Titre A-Z</option>
               <option value="title_desc">Titre Z-A</option>
-              <option value="paid_desc">Prix d'achat décroissant</option>
+              <option value="paid_desc">Prix d'achat decroissant</option>
               <option value="paid_asc">Prix d'achat croissant</option>
-              <option value="value_desc">Valeur loose décroissante</option>
+              <option value="value_desc">Valeur loose decroissante</option>
             </select>
           </div>
           <div class="terminal-filter-group" style="margin-left:auto">
@@ -141,9 +141,9 @@
                 <span role="columnheader"></span>
                 <span role="columnheader">TITRE</span>
                 <span role="columnheader">SUPPORT</span>
-                <span role="columnheader">ÉTAT</span>
+                <span role="columnheader">ETAT</span>
                 <span role="columnheader" style="text-align:right">LOOSE</span>
-                <span role="columnheader" style="text-align:right">PAYÉ</span>
+                <span role="columnheader" style="text-align:right">PAYE</span>
                 <span role="columnheader" style="text-align:right">DELTA</span>
               </div>
             </div>
@@ -162,35 +162,15 @@
               <div class="terminal-preview-row surface-action-row" id="detail-row2"></div>
               <form id="collection-edit-form" class="collection-form collection-edit-form" hidden>
                 <div class="collection-controls">
-                  <select id="edit-condition" class="collection-condition-select" aria-label="État du jeu">
+                  <select id="edit-condition" class="collection-condition-select" aria-label="Etat du jeu">
                     <option value="Loose">Loose</option>
                     <option value="CIB">CIB</option>
                     <option value="Mint">Mint</option>
                   </select>
-                  <input
-                    id="edit-price-paid"
-                    class="collection-condition-select"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    inputmode="decimal"
-                    placeholder="Prix d'achat"
-                    aria-label="Prix d'achat"
-                  />
-                  <input
-                    id="edit-purchase-date"
-                    class="collection-condition-select"
-                    type="date"
-                    aria-label="Date d'achat"
-                  />
+                  <input id="edit-price-paid" class="collection-condition-select" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Prix d'achat" aria-label="Prix d'achat" />
+                  <input id="edit-purchase-date" class="collection-condition-select" type="date" aria-label="Date d'achat" />
                 </div>
-                <textarea
-                  id="edit-notes"
-                  class="collection-note-input"
-                  rows="2"
-                  maxlength="320"
-                  placeholder="Notes personnelles..."
-                ></textarea>
+                <textarea id="edit-notes" class="collection-note-input" rows="2" maxlength="320" placeholder="Notes personnelles..."></textarea>
                 <div class="collection-edit-actions">
                   <button id="collection-edit-save-btn" class="terminal-inline-btn" type="submit">ENREGISTRER</button>
                   <button id="collection-edit-cancel-btn" class="terminal-inline-btn" type="button">ANNULER</button>
@@ -205,7 +185,7 @@
         <span><kbd>[UP/DN]</kbd> Naviguer</span>
         <span><kbd>[Enter]</kbd> Ouvrir la fiche</span>
         <span><kbd>[Del]</kbd> Retirer avec confirmation</span>
-        <span><kbd>[/]</kbd> Ajouter depuis Explorer</span>
+        <span><kbd>[/]</kbd> Ajouter depuis RetroDex</span>
       </div>
 
       <div class="footer-igdb">
@@ -220,7 +200,7 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/collection.js?v=20260402g"></script>
+    <script src="/js/pages/collection.js?v=20260402h"></script>
     <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>

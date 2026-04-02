@@ -66,7 +66,7 @@ const textCmp = (left, right) => String(left || '').localeCompare(String(right |
 
 function mediaSignalLabels(game) {
   const labels = []
-  if (game?.curation?.isPublished) labels.push('Publié')
+  if (game?.curation?.isPublished) labels.push('Publie')
   if (game?.signals?.hasMaps) labels.push('MAP')
   if (game?.signals?.hasManuals) labels.push('MANUAL')
   if (game?.signals?.hasSprites) labels.push('SPRITE')
@@ -76,7 +76,7 @@ function mediaSignalLabels(game) {
 
 function renderSignalChips(labels = [], classes = 'surface-chip') {
   return labels.length
-    ? `<div class="surface-chip-row">${labels.map((label, index) => `<span class="${classes}${index === 0 && label === 'Publié' ? ' is-primary' : ''}">${esc(label)}</span>`).join('')}</div>`
+    ? `<div class="surface-chip-row">${labels.map((label, index) => `<span class="${classes}${index === 0 && label === 'Publie' ? ' is-primary' : ''}">${esc(label)}</span>`).join('')}</div>`
     : ''
 }
 
@@ -84,7 +84,7 @@ function setCatalogPublicationCopy(summary = null) {
   if (!summary) {
     if (subtitleEl) subtitleEl.textContent = `${totalGames} jeux en base`
     if (curationBannerEl) {
-      curationBannerEl.textContent = 'Surface publique curée. Chargement des signaux de publication.'
+      curationBannerEl.textContent = 'Surface publique curee. Chargement des signaux de publication.'
     }
     return
   }
@@ -98,7 +98,7 @@ function setCatalogPublicationCopy(summary = null) {
     subtitleEl.textContent = `${published} fiches visibles | ${consoles} consoles | ${label}`
   }
   if (curationBannerEl) {
-    curationBannerEl.textContent = `${label} : ${published} fiches visibles sur ${total} jeux en base. Explorer lit une sélection validée, pas l'intégralité du fonds.`
+    curationBannerEl.textContent = `${label} : ${published} fiches visibles sur ${total} jeux en base. RetroDex lit une selection validee, pas l'integralite du fonds.`
   }
 }
 
@@ -120,7 +120,7 @@ function toggleAdvanced(forceOpen) {
     : advancedFiltersEl.hidden
 
   advancedFiltersEl.hidden = !open
-  toggleAdvancedEl.textContent = open ? '- Filtres avancés' : '+ Filtres avancés'
+  toggleAdvancedEl.textContent = open ? '- Filtres avances' : '+ Filtres avances'
 }
 
 function toggleFiltersPanel(forceOpen) {
@@ -335,9 +335,9 @@ function quickDetailStateMarkup(title, copy) {
   `
 }
 
-function renderQuickDetailEmpty(message = 'Survoler ou sélectionner un jeu') {
+function renderQuickDetailEmpty(message = 'Survoler ou selectionner un jeu') {
   quickDetailEl.className = 'quick-detail-placeholder terminal-empty-state'
-  quickDetailEl.innerHTML = quickDetailStateMarkup('Preview Explorer', message)
+  quickDetailEl.innerHTML = quickDetailStateMarkup('Lecture rapide', message)
 }
 
 function detailPrice(value) {
@@ -367,7 +367,7 @@ function quickDetailMarkup(game, currentState) {
     ? `
       <div class="surface-chip-row detail-reading-chip-row">
         <span class="surface-chip is-primary">Richesse : ${esc(contentSignals.band.shortLabel)}</span>
-        <span class="surface-chip">État : ${esc(contentSignals.completionState.shortLabel)}</span>
+        <span class="surface-chip">Etat : ${esc(contentSignals.completionState.shortLabel)}</span>
         <span class="surface-chip">Confiance : ${esc(contentSignals.confidence.shortLabel)}</span>
       </div>
       <div class="detail-reading-note">${esc(contentSignals.band.note)}</div>
@@ -406,9 +406,9 @@ function quickDetailMarkup(game, currentState) {
       <div id="preview-metascore" class="preview-metascore"></div>
       ${description ? `<div class="detail-description surface-summary-copy">${description}</div>` : ''}
       <div class="detail-link-group surface-action-row">
-        <a class="detail-link terminal-action-link" href="${detailHref}">Ouvrir la fiche →</a>
-        <a class="detail-link terminal-action-link" href="/collection.html">Aller à Collection →</a>
-        <a class="detail-link terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title || '')}">Qualification avancée →</a>
+        <a class="detail-link terminal-action-link" href="${detailHref}">Ouvrir la fiche &rarr;</a>
+        <a class="detail-link terminal-action-link" href="/collection.html">Aller a Collection &rarr;</a>
+        <a class="detail-link terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title || '')}">Lecture avancee &rarr;</a>
       </div>
     </div>
   `

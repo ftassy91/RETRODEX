@@ -1,4 +1,4 @@
-﻿'use strict'
+'use strict'
 
 const CoreFormat = window.RetroDexFormat || {}
 const CoreApi = window.RetroDexApi || {}
@@ -416,9 +416,9 @@ function renderHeroSection(game) {
 
               <div id="game-relations" class="game-relations"></div>
               <div class="surface-action-row detail-hero-actions">
-                <a class="terminal-action-link" href="/games-list.html">Retour à Explorer →</a>
+                <a class="terminal-action-link" href="/games-list.html">Retour a RetroDex &rarr;</a>
                 <a class="terminal-action-link" href="/collection.html">Ouvrir Collection →</a>
-                <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title)}&from=${encodeURIComponent(game.id)}">Qualification avancée →</a>
+                <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title)}&from=${encodeURIComponent(game.id)}">Lecture avancee &rarr;</a>
               </div>
             </div>
           </div>

@@ -11,24 +11,24 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <title>RetroDex &mdash; Fiche jeu</title>
-    <meta name="description" content="Fiche RetroDex d'un jeu rétro : archive, lecture, collection et qualification contextuelle." />
+    <meta name="description" content="Fiche RetroDex d'un jeu retro : archive, lecture, collection et qualification contextuelle." />
     <meta property="og:title" content="Fiche jeu | RetroDex" />
-    <meta property="og:description" content="Fiche RetroDex d'un jeu rétro : archive, lecture, collection et qualification contextuelle." />
+    <meta property="og:description" content="Fiche RetroDex d'un jeu retro : archive, lecture, collection et qualification contextuelle." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260402g" />
+    <link rel="stylesheet" href="/style.css?v=20260402h" />
   </head>
   <body>
     <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
       <a class="global-product-home" href="/hub.html">Hub</a>
       <div class="global-product-links">
         <a class="global-product-link is-active" href="/games-list.html">
-          <span class="nav-label">Explorer</span>
+          <span class="nav-label">RetroDex</span>
           <span class="nav-copy">catalogue | recherche | fiches</span>
         </a>
         <a class="global-product-link" href="/collection.html">
           <span class="nav-label">Collection</span>
-          <span class="nav-copy">étagère | wishlist | suivi</span>
+          <span class="nav-copy">etagere | wishlist | suivi</span>
         </a>
       </div>
     </nav>
@@ -36,7 +36,7 @@
       <nav class="breadcrumb">
         <a href="/hub.html">HUB</a>
         <span class="sep">&rsaquo;</span>
-        <a id="catalog-back-link" href="/games-list.html">EXPLORER</a>
+        <a id="catalog-back-link" href="/games-list.html">RETRODEX</a>
         <span class="sep">&rsaquo;</span>
         <span class="current" id="breadcrumb-title">&mdash;</span>
       </nav>
@@ -64,35 +64,15 @@
           </div>
           <div id="collection-form" class="collection-form">
             <div class="collection-controls">
-              <select id="collection-condition" class="collection-condition-select" aria-label="État">
+              <select id="collection-condition" class="collection-condition-select" aria-label="Etat">
                 <option value="Loose">Loose</option>
                 <option value="CIB">CIB</option>
                 <option value="Mint">Mint</option>
               </select>
-              <input
-                id="collection-price-paid"
-                class="collection-condition-select"
-                type="number"
-                min="0"
-                step="0.01"
-                inputmode="decimal"
-                placeholder="Prix"
-                aria-label="Prix"
-              />
-              <input
-                id="collection-purchase-date"
-                class="collection-condition-select"
-                type="date"
-                aria-label="Date"
-              />
+              <input id="collection-price-paid" class="collection-condition-select" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Prix" aria-label="Prix" />
+              <input id="collection-purchase-date" class="collection-condition-select" type="date" aria-label="Date" />
             </div>
-            <textarea
-              id="collection-notes"
-              class="collection-note-input"
-              maxlength="320"
-              rows="2"
-              placeholder="Notes"
-            ></textarea>
+            <textarea id="collection-notes" class="collection-note-input" maxlength="320" rows="2" placeholder="Notes"></textarea>
           </div>
           <div id="collection-status" class="status-text"></div>
         </div>
@@ -100,7 +80,7 @@
 
       <section id="editorial-shell" class="editorial-card detail-accordion" hidden>
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="editorial-content">
-          <span>Archive / Encyclopédie</span>
+          <span>Archive / Encyclopedie</span>
           <span class="detail-accordion-indicator">▸</span>
         </button>
         <div id="editorial-content" class="detail-accordion-content" hidden></div>
@@ -133,7 +113,7 @@
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
     <script src="/js/core/content-signals.js"></script>
-    <script src="/js/pages/game-detail.js?v=20260402g"></script>
+    <script src="/js/pages/game-detail.js?v=20260402h"></script>
     <script src="/js/features/experience-layer.js"></script>
     <div class="footer-attribution">
       Covers :
