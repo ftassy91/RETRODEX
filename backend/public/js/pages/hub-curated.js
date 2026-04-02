@@ -50,28 +50,28 @@
         if (leftScore !== rightScore) return rightScore - leftScore
         return (Number(right.metascore) || 0) - (Number(left.metascore) || 0)
       })
-      .slice(0, 4)
+      .slice(0, 3)
   }
 
   function buildCard(item) {
     const signals = item._contentSignals
     const href = `/game-detail.html?id=${encodeURIComponent(item.id)}`
     const summary = String(item.summary || item.synopsis || '').trim()
-    const meta = [item.console, item.year].filter(Boolean).map((part) => esc(part)).join(' · ')
-    const note = signals?.band?.note || 'Lecture prioritaire.'
+    const meta = [item.console, item.year].filter(Boolean).map((part) => esc(part)).join(' | ')
+    const shortSummary = summary ? `${summary.slice(0, 104)}${summary.length > 104 ? '...' : ''}` : 'Fiche recommandee.'
+
     return `
       <article class="hub-encyclo-card hub-rich-card">
         <div class="hub-encyclo-card-title">${esc(item.title || 'Sans titre')}</div>
         <div class="hub-encyclo-card-meta">${meta || 'Archive RetroDex'}</div>
         <div class="surface-chip-row hub-rich-chip-row">
           ${signals ? `<span class="surface-chip is-primary">${esc(signals.band.shortLabel)}</span>` : ''}
-          ${signals ? `<span class="surface-chip">${esc(signals.completionState.shortLabel)}</span>` : ''}
+          ${signals ? `<span class="surface-chip">Etat ${esc(signals.completionState.shortLabel)}</span>` : ''}
           ${item.metascore ? `<span class="surface-chip is-hot">MS ${esc(item.metascore)}</span>` : ''}
         </div>
-        <p class="hub-module-copy">${esc(summary ? `${summary.slice(0, 118)}${summary.length > 118 ? '...' : ''}` : note)}</p>
+        <p class="hub-card-copy">${esc(shortSummary)}</p>
         <div class="hub-universe-actions">
           <a class="hub-inline-link" href="${href}">ouvrir la fiche</a>
-          <a class="hub-inline-link" href="/collection.html">ouvrir la collection</a>
         </div>
       </article>
     `
@@ -93,27 +93,27 @@
       const consoles = Number(publication.consoleCount || 0)
       const withSynopsis = Number(statsPayload?.encyclopedia_stats?.with_synopsis || 0)
 
-      bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} jeux publiés | ${consoles} consoles | archive publique en progression.`
+      bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} fiches visibles | ${consoles} consoles`
       setText(publishedEl, String(published || '--'))
       setText(totalEl, String(total || '--'))
       setText(synopsisEl, String(withSynopsis || '--'))
       setText(consolesEl, String(consoles || '--'))
-      setText(publicationSignalEl, `${published} fiches visibles sur ${total || 'n/a'}`)
-      setText(editorialSignalEl, `${withSynopsis} fiches avec synopsis exploitable`)
-      setText(archiveSignalEl, richItems.length ? `${richItems.length} lectures fortes mises en avant` : 'sélection en cours')
+      setText(publicationSignalEl, `${published} visibles`)
+      setText(editorialSignalEl, `${withSynopsis} lectures`)
+      setText(archiveSignalEl, richItems.length ? `${richItems.length} picks` : 'en cours')
 
       if (!richItems.length) {
-        renderState('Aucune lecture forte', 'La vitrine du hub se remplira au fur et à mesure des publications riches.')
+        renderState('Aucune fiche forte', 'La selection se remplira avec les publications riches.')
         return
       }
 
       richGridEl.innerHTML = richItems.map(buildCard).join('')
     } catch (_error) {
-      bannerEl.textContent = "Surface publique curée. Le hub reste une porte d'entrée vers l'exploration, la collection et les fiches."
+      bannerEl.textContent = 'Hub RetroDex | entree vers l index, les fiches et la collection'
       setText(publicationSignalEl, 'indisponible')
       setText(editorialSignalEl, 'indisponible')
       setText(archiveSignalEl, 'indisponible')
-      renderState('Signaux indisponibles', 'Impossible de lire la vitrine de reprise pour cette session.')
+      renderState('Signaux indisponibles', 'Impossible de lire la vitrine pour cette session.')
     }
   }
 

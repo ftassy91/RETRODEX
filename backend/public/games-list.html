@@ -9,49 +9,47 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="RetroDex" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-    <title>RetroDex - Catalogue</title>
-    <meta name="description" content="Catalogue RetroDex : filtrer, comparer rapidement et ouvrir les bonnes fiches." />
-    <meta property="og:title" content="RetroDex | Catalogue" />
-    <meta property="og:description" content="Catalogue RetroDex : filtrer, comparer rapidement et ouvrir les bonnes fiches." />
+    <title>RetroDex - Index</title>
+    <meta name="description" content="RetroDex : index public, filtres utiles, fiches a ouvrir." />
+    <meta property="og:title" content="RetroDex | Index" />
+    <meta property="og:description" content="RetroDex : index public, filtres utiles, fiches a ouvrir." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260402h" />
+    <link rel="stylesheet" href="/style.css?v=20260402i" />
     <script src="/js/core/content-signals.js"></script>
-    <script src="/js/renderGameRow.js?v=20260402h"></script>
+    <script src="/js/renderGameRow.js?v=20260402i"></script>
   </head>
   <body>
-    <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
-      <a class="global-product-home" href="/hub.html">Hub</a>
-      <div class="global-product-links">
-        <a class="global-product-link is-active" href="/games-list.html">
-          <span class="nav-label">RetroDex</span>
-          <span class="nav-copy">catalogue | recherche | fiches</span>
-        </a>
-        <a class="global-product-link" href="/collection.html">
-          <span class="nav-label">Collection</span>
-          <span class="nav-copy">etagere | wishlist | suivi</span>
-        </a>
-      </div>
+    <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
+      <a class="global-product-link" href="/hub.html">
+        <span class="nav-label">Hub</span>
+        <span class="nav-copy">entrer | ouvrir | reprendre</span>
+      </a>
+      <a class="global-product-link is-active" href="/games-list.html">
+        <span class="nav-label">RetroDex</span>
+        <span class="nav-copy">index | recherche | fiches</span>
+      </a>
+      <a class="global-product-link" href="/collection.html">
+        <span class="nav-label">Collection</span>
+        <span class="nav-copy">etagere | valeur | priorites</span>
+      </a>
     </nav>
 
-    <main class="catalog-shell catalog-page">
-      <header class="catalog-header catalog-page-head">
+    <main class="catalog-shell catalog-page retrodex-index-page">
+      <!-- RETRODEX CATALOGUE -->
+      <header class="catalog-header catalog-page-head retrodex-index-head">
         <div class="catalog-page-titlezone">
           <nav class="breadcrumb">
             <a href="/hub.html">HUB</a>
             <span class="sep">&rsaquo;</span>
             <span class="section">RETRODEX</span>
             <span class="sep">&rsaquo;</span>
-            <span class="current">CATALOGUE</span>
+            <span class="current">INDEX</span>
           </nav>
-          <div class="detail-kicker">RETRODEX</div>
+          <div class="detail-kicker">INDEX</div>
           <h1 class="page-title">RETRODEX</h1>
-          <p id="catalog-subtitle" class="page-subtitle">Chargement du fonds publie...</p>
-          <p id="catalog-curation-banner" class="pass1-surface-banner">Surface publiee en preparation...</p>
-          <p class="catalog-intro">
-            RetroDex sert a trouver vite un jeu, comparer l'essentiel, puis ouvrir la fiche
-            qui merite une vraie lecture.
-          </p>
+          <p id="catalog-subtitle" class="page-subtitle">Chargement du fonds public...</p>
+          <p id="catalog-curation-banner" class="pass1-surface-banner">Chargement des signaux de publication...</p>
         </div>
 
         <div class="catalog-head-tools">
@@ -59,17 +57,14 @@
             <input
               type="text"
               id="global-search"
-              placeholder="/ Entrer par l'entree rapide..."
+              placeholder="/ Entree rapide"
               readonly
               onclick="location.href='/search.html'"
               style="cursor:pointer"
             />
           </div>
-          <div class="catalog-search-jump-copy">
-            Entree rapide et catalogue decrivent le meme systeme de lecture.
-          </div>
           <div class="page-nav-inline">
-            <a href="/search.html">Entree rapide</a>
+            <a href="/search.html">Recherche</a>
             <span>&middot;</span>
             <a href="/franchises.html">Franchises</a>
             <span>&middot;</span>
@@ -78,50 +73,25 @@
         </div>
       </header>
 
-      <section class="product-universe-frame is-dex" aria-label="Univers parent">
-        <div class="product-universe-head">
-          <div>
-            <div class="detail-kicker">PRIMARY UNIVERSE</div>
-            <h2 class="product-universe-title">RETRODEX</h2>
-          </div>
-          <div class="product-universe-chip">CATALOGUE</div>
-        </div>
-        <p class="product-universe-copy">
-          Surface maitresse de lecture. On filtre, on compare rapidement, puis on ouvre la fiche
-          jeu. Les lectures marche avancee restent secondaires.
-        </p>
-        <div class="product-universe-links">
-          <a class="is-active" href="/games-list.html">RetroDex</a>
-          <a href="/search.html">Entree rapide</a>
-          <a href="/franchises.html">Franchises</a>
-          <a href="/collection.html">Collection</a>
-        </div>
-        <div class="product-universe-overlap">
-          Le marche reste dans la fiche jeu, la collection et la lecture avancee.
-        </div>
-      </section>
-
-      <section class="bloomberg-layout catalog-layout">
+      <section class="bloomberg-layout catalog-layout catalog-layout-lean">
         <aside class="bloomberg-sidebar catalog-sidebar">
           <button id="filters-mobile-toggle" class="filters-mobile-toggle" type="button" aria-expanded="false">+ FILTRES</button>
           <div id="filters-sidebar-content" class="filters-sidebar-content">
             <section class="search-panel catalog-filter-panel">
               <div class="catalog-panel-head">
                 <div>
-                  <div class="detail-kicker">RETRODEX FILTERS</div>
-                  <div class="filters-sidebar-title">Trouver puis ouvrir</div>
+                  <div class="detail-kicker">FILTERS</div>
+                  <div class="filters-sidebar-title">Filtrer</div>
                 </div>
-                <div class="catalog-panel-copy">Filtrer le fonds par plateforme, rarete, periode et tendance.</div>
               </div>
 
               <div class="search-grid">
                 <div class="field field-query-primary">
-                  <label for="query">Recherche locale</label>
-                  <input id="query" type="text" placeholder="Rechercher un jeu, une console..." autocomplete="off" />
-                  <div class="field-helper">Titre, console, annee ou genre dans la surface publiee.</div>
+                  <label for="query">Recherche</label>
+                  <input id="query" type="text" placeholder="Jeu, console, annee..." autocomplete="off" />
                 </div>
                 <div class="field">
-                  <label for="console">Console</label>
+                  <label for="console">Support</label>
                   <select id="console"><option value="">Toutes</option></select>
                 </div>
                 <div class="field">
@@ -145,9 +115,7 @@
                 </div>
               </div>
 
-              <button id="toggle-advanced" type="button" class="catalog-advanced-toggle">
-                + Filtres avances
-              </button>
+              <button id="toggle-advanced" type="button" class="catalog-advanced-toggle">+ Avances</button>
 
               <div id="advanced-filters" class="catalog-advanced-filters" hidden>
                 <div class="filter-grid">
@@ -173,24 +141,24 @@
                     <input id="year-max" type="number" min="1970" max="2012" placeholder="2012" />
                   </div>
                   <div class="field">
-                    <label for="sort-by">Trier par</label>
+                    <label for="sort-by">Trier</label>
                     <select id="sort-by">
-                      <option value="rarity_desc" selected>Rarete ↓</option>
-                      <option value="title_asc">Titre A → Z</option>
-                      <option value="title_desc">Titre Z → A</option>
-                      <option value="loose_asc">Prix loose ↑</option>
-                      <option value="loose_desc">Prix loose ↓</option>
-                      <option value="mint_asc">Prix mint ↑</option>
-                      <option value="mint_desc">Prix mint ↓</option>
-                      <option value="meta_asc">Metascore ↑</option>
-                      <option value="meta_desc">Metascore ↓</option>
-                      <option value="metascore_asc">Metascore ↑</option>
-                      <option value="metascore_desc">Metascore ↓</option>
-                      <option value="year_asc">Annee ↑</option>
-                      <option value="year_desc">Annee ↓</option>
+                      <option value="rarity_desc" selected>Rarete &#8595;</option>
+                      <option value="title_asc">Titre A &#8594; Z</option>
+                      <option value="title_desc">Titre Z &#8594; A</option>
+                      <option value="loose_asc">Prix loose &#8593;</option>
+                      <option value="loose_desc">Prix loose &#8595;</option>
+                      <option value="mint_asc">Prix mint &#8593;</option>
+                      <option value="mint_desc">Prix mint &#8595;</option>
+                      <option value="meta_asc">Metascore &#8593;</option>
+                      <option value="meta_desc">Metascore &#8595;</option>
+                      <option value="metascore_asc">Metascore &#8593;</option>
+                      <option value="metascore_desc">Metascore &#8595;</option>
+                      <option value="year_asc">Annee &#8593;</option>
+                      <option value="year_desc">Annee &#8595;</option>
                     </select>
                     <div class="catalog-sort-shortcuts">
-                      <button id="sort-metascore-desc" type="button" class="filter-btn" title="Trier par note">MS ↓</button>
+                      <button id="sort-metascore-desc" type="button" class="filter-btn" title="Trier par note">MS &#8595;</button>
                     </div>
                   </div>
                 </div>
@@ -204,10 +172,10 @@
           </div>
         </aside>
 
-        <section class="bloomberg-center catalog-main">
+        <section class="bloomberg-center catalog-main catalog-main-wide">
           <section class="results-bar catalog-results-bar">
             <div>
-              <div class="detail-kicker">RETRODEX SIGNALS</div>
+              <div class="detail-kicker">INDEX</div>
               <div id="results-summary" class="results-summary-line">Lecture de l'index...</div>
             </div>
             <div id="loading-indicator" class="status-bar"></div>
@@ -223,13 +191,6 @@
             <button id="next-button" class="btn btn-secondary" type="button">Suivant</button>
           </section>
         </section>
-
-        <aside class="bloomberg-right detail-sidebar catalog-preview-sidebar">
-          <section id="quick-detail" class="quick-detail-placeholder terminal-empty-state">
-            <div class="terminal-empty-title">Lecture rapide</div>
-            <div class="terminal-empty-copy">Survolez ou selectionnez un jeu pour lire un resume court avant d'ouvrir la fiche.</div>
-          </section>
-        </aside>
       </section>
     </main>
 
@@ -240,7 +201,7 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/games-list.js?v=20260402h"></script>
+    <script src="/js/pages/games-list.js?v=20260402i"></script>
     <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>

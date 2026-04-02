@@ -24,35 +24,19 @@ const advancedFiltersEl = document.getElementById('advanced-filters')
 const toggleAdvancedEl = document.getElementById('toggle-advanced')
 const filtersMobileToggleEl = document.getElementById('filters-mobile-toggle')
 const filtersSidebarContentEl = document.getElementById('filters-sidebar-content')
-const quickDetailEl = document.getElementById('quick-detail')
 const metascoreSortButtonEl = document.getElementById('sort-metascore-desc')
 const CoreApi = window.RetroDexApi || {}
 
 let debounceTimer
 let currentOffset = 0
-let totalGames = 507
-let masterGames = []
+let totalGames = 0
 let fetchedGames = []
 let filteredGames = []
-let selectedGameId = ''
 let collectionIndex = null
 let publicationSummary = null
 
-const RARITY_DESC_ORDER = {
-  LEGENDARY: 0,
-  EPIC: 1,
-  RARE: 2,
-  UNCOMMON: 3,
-  COMMON: 4,
-}
-
-const RARITY_ASC_ORDER = {
-  COMMON: 0,
-  UNCOMMON: 1,
-  RARE: 2,
-  EPIC: 3,
-  LEGENDARY: 4,
-}
+const RARITY_DESC_ORDER = { LEGENDARY: 0, EPIC: 1, RARE: 2, UNCOMMON: 3, COMMON: 4 }
+const RARITY_ASC_ORDER = { COMMON: 0, UNCOMMON: 1, RARE: 2, EPIC: 3, LEGENDARY: 4 }
 
 const esc = (value) => String(value ?? '')
   .replaceAll('&', '&amp;')
@@ -64,42 +48,12 @@ const esc = (value) => String(value ?? '')
 const num = (value) => Number(value) || 0
 const textCmp = (left, right) => String(left || '').localeCompare(String(right || ''), 'fr', { sensitivity: 'base' })
 
-function mediaSignalLabels(game) {
-  const labels = []
-  if (game?.curation?.isPublished) labels.push('Publie')
-  if (game?.signals?.hasMaps) labels.push('MAP')
-  if (game?.signals?.hasManuals) labels.push('MANUAL')
-  if (game?.signals?.hasSprites) labels.push('SPRITE')
-  if (game?.signals?.hasEndings) labels.push('ENDING')
-  return labels
-}
-
-function renderSignalChips(labels = [], classes = 'surface-chip') {
-  return labels.length
-    ? `<div class="surface-chip-row">${labels.map((label, index) => `<span class="${classes}${index === 0 && label === 'Publie' ? ' is-primary' : ''}">${esc(label)}</span>`).join('')}</div>`
-    : ''
-}
-
-function setCatalogPublicationCopy(summary = null) {
-  if (!summary) {
-    if (subtitleEl) subtitleEl.textContent = `${totalGames} jeux en base`
-    if (curationBannerEl) {
-      curationBannerEl.textContent = 'Surface publique curee. Chargement des signaux de publication.'
-    }
-    return
+async function fetchJson(url) {
+  const response = await fetch(url)
+  if (!response.ok) {
+    throw new Error(`${response.status} ${response.statusText}`)
   }
-
-  publicationSummary = summary
-  const published = Number(summary.publishedGamesCount || 0)
-  const consoles = Number(summary.consoleCount || 0)
-  const total = Number(summary.catalogGamesCount || totalGames || 0)
-  const label = summary.label || 'Pass 1'
-  if (subtitleEl) {
-    subtitleEl.textContent = `${published} fiches visibles | ${consoles} consoles | ${label}`
-  }
-  if (curationBannerEl) {
-    curationBannerEl.textContent = `${label} : ${published} fiches visibles sur ${total} jeux en base. RetroDex lit une selection validee, pas l'integralite du fonds.`
-  }
+  return response.json()
 }
 
 function normalizeSortKey(value) {
@@ -115,10 +69,7 @@ function yearVal(value) {
 }
 
 function toggleAdvanced(forceOpen) {
-  const open = typeof forceOpen === 'boolean'
-    ? forceOpen
-    : advancedFiltersEl.hidden
-
+  const open = typeof forceOpen === 'boolean' ? forceOpen : advancedFiltersEl.hidden
   advancedFiltersEl.hidden = !open
   toggleAdvancedEl.textContent = open ? '- Filtres avances' : '+ Filtres avances'
 }
@@ -136,31 +87,30 @@ function toggleFiltersPanel(forceOpen) {
 function goToPage(page) {
   const limit = Number.parseInt(limitEl?.value || '20', 10) || 20
   currentOffset = Math.max(0, (page - 1) * limit)
-  loadGames()
+  render(state())
   window.scrollTo(0, 0)
 }
 
 function renderPageNumbers(currentPage, totalPages) {
   if (!pageNumbersEl) return
-
   if (totalPages <= 1) {
     pageNumbersEl.innerHTML = ''
     return
   }
 
   pageNumbersEl.innerHTML = ''
-  let pages = []
+  const pages = []
 
   if (totalPages <= 7) {
-    pages = Array.from({ length: totalPages }, (_, index) => index + 1)
+    for (let page = 1; page <= totalPages; page += 1) pages.push(page)
   } else {
-    pages = [1, 2]
-    if (currentPage > 4) pages.push('...')
-    for (let page = Math.max(3, currentPage - 1); page <= Math.min(totalPages - 2, currentPage + 1); page += 1) {
+    pages.push(1)
+    if (currentPage > 3) pages.push('...')
+    for (let page = Math.max(2, currentPage - 1); page <= Math.min(totalPages - 1, currentPage + 1); page += 1) {
       pages.push(page)
     }
-    if (currentPage < totalPages - 3) pages.push('...')
-    pages.push(totalPages - 1, totalPages)
+    if (currentPage < totalPages - 2) pages.push('...')
+    pages.push(totalPages)
   }
 
   pages.forEach((page) => {
@@ -181,14 +131,6 @@ function renderPageNumbers(currentPage, totalPages) {
   })
 }
 
-async function fetchJson(url) {
-  const response = await fetch(url)
-  if (!response.ok) {
-    throw new Error(`${response.status} ${response.statusText}`)
-  }
-  return response.json()
-}
-
 function readStateFromUrl() {
   const params = new URLSearchParams(location.search)
   queryEl.value = params.get('q') || ''
@@ -200,14 +142,12 @@ function readStateFromUrl() {
   sortEl.value = normalizeSortKey(params.get('sort') || 'rarity_desc')
   yearMinEl.value = yearVal(params.get('yearMin'))
   yearMaxEl.value = yearVal(params.get('yearMax'))
-  selectedGameId = params.get('selected') || ''
   currentOffset = Math.max(0, Number.parseInt(params.get('offset') || '0', 10) || 0)
 }
 
 function state() {
   let yearMin = yearVal(yearMinEl.value)
   let yearMax = yearVal(yearMaxEl.value)
-
   if (yearMin && yearMax && yearMin > yearMax) {
     const swap = yearMin
     yearMin = yearMax
@@ -241,7 +181,6 @@ function updateUrl(currentState) {
     ['limit', String(currentState.limit)],
     ['sort', currentState.sort],
     ['offset', String(currentState.offset)],
-    ['selected', selectedGameId],
   ]
 
   entries.forEach(([key, value]) => {
@@ -291,6 +230,14 @@ function sortGames(items, sortKey) {
   })
 }
 
+function getCollectionState(gameId) {
+  if (!collectionIndex || !gameId) return null
+  if (collectionIndex.ownedIds?.has(gameId)) return 'owned'
+  if (collectionIndex.wantedIds?.has(gameId)) return 'wanted'
+  if (collectionIndex.forSaleIds?.has(gameId)) return 'for_sale'
+  return null
+}
+
 function detailUrl(gameId, currentState) {
   const params = new URLSearchParams()
   ;[
@@ -313,201 +260,59 @@ function detailUrl(gameId, currentState) {
   return `/game-detail.html?${params.toString()}`
 }
 
-function getCollectionState(gameId) {
-  if (!collectionIndex || !gameId) {
-    return null
-  }
-
-  if (collectionIndex.ownedIds?.has(gameId)) return 'owned'
-  if (collectionIndex.wantedIds?.has(gameId)) return 'wanted'
-  if (collectionIndex.forSaleIds?.has(gameId)) return 'for_sale'
-  return null
-}
-
 function navigateTo(gameId) {
   window.location.href = detailUrl(gameId, state())
 }
 
-function quickDetailStateMarkup(title, copy) {
-  return `
-    <div class="terminal-empty-title">${esc(title)}</div>
-    <div class="terminal-empty-copy">${esc(copy)}</div>
-  `
-}
-
-function renderQuickDetailEmpty(message = 'Survoler ou selectionner un jeu') {
-  quickDetailEl.className = 'quick-detail-placeholder terminal-empty-state'
-  quickDetailEl.innerHTML = quickDetailStateMarkup('Lecture rapide', message)
-}
-
-function detailPrice(value) {
-  const amount = Number(value)
-  if (!Number.isFinite(amount) || amount <= 0) {
-    return '<div class="price-value empty">$--</div>'
+function setCatalogPublicationCopy(summary = null) {
+  if (!summary) {
+    if (subtitleEl) subtitleEl.textContent = `${totalGames} jeux visibles dans l'index`
+    if (curationBannerEl) curationBannerEl.textContent = 'Lecture de publication en cours.'
+    return
   }
-  return `<div class="price-value">$${Math.round(amount)}</div>`
+
+  publicationSummary = summary
+  const published = Number(summary.publishedGamesCount || 0)
+  const consoles = Number(summary.consoleCount || 0)
+  const total = Number(summary.catalogGamesCount || totalGames || 0)
+  const label = summary.label || 'Pass 1'
+
+  if (subtitleEl) subtitleEl.textContent = `${published} fiches visibles | ${consoles} supports`
+  if (curationBannerEl) curationBannerEl.textContent = `${label} | ${published} fiches sur ${total} jeux`
 }
 
-function shortSummary(game) {
-  const text = String(game.summary || game.description || '').trim()
-  if (!text) return ''
-  return text.length > 220 ? `${esc(text.slice(0, 217))}...` : esc(text)
-}
+function populateGenres(source) {
+  const genres = [...new Set((source || fetchedGames)
+    .map((game) => String(game.genre || '').trim())
+    .filter((genre) => genre && genre !== 'Other'))].sort(textCmp)
 
-function quickDetailMarkup(game, currentState) {
-  const description = shortSummary(game)
-  const collectionState = getCollectionState(game.id)
-  const detailHref = detailUrl(game.id, currentState)
-  const visibleGenre = game.genre && game.genre !== 'Other' ? game.genre : ''
-  const signalMarkup = renderSignalChips(mediaSignalLabels(game))
-  const contentSignals = window.RetroDexContentSignals?.buildRichness
-    ? window.RetroDexContentSignals.buildRichness(game)
-    : null
-  const readingRow = contentSignals
-    ? `
-      <div class="surface-chip-row detail-reading-chip-row">
-        <span class="surface-chip is-primary">Richesse : ${esc(contentSignals.band.shortLabel)}</span>
-        <span class="surface-chip">Etat : ${esc(contentSignals.completionState.shortLabel)}</span>
-        <span class="surface-chip">Confiance : ${esc(contentSignals.confidence.shortLabel)}</span>
-      </div>
-      <div class="detail-reading-note">${esc(contentSignals.band.note)}</div>
-    `
-    : ''
-  return `
-    <div class="detail-content">
-      <div class="detail-title">${esc(game.title || 'Sans titre')}</div>
-      <div class="detail-badges">
-        <span class="badge-platform">${esc(game.console || 'Console inconnue')}</span>
-        <span class="badge-year">${esc(game.year || 'n/a')}</span>
-        <span class="result-badge rarity-badge rarity-${esc(String(game.rarity || 'common').toLowerCase())}">${esc(game.rarity || 'COMMON')}</span>
-        ${collectionState === 'owned' ? '<span class="result-owned-badge">COLLECTION</span>' : ''}
-      </div>
-      <div class="surface-signal-grid">
-        <div class="surface-signal-card">
-          <span class="surface-signal-label">Loose</span>
-          <span class="surface-signal-value is-alert">${esc(Number(game.loosePrice) > 0 ? `$${Math.round(Number(game.loosePrice))}` : 'n/a')}</span>
-        </div>
-        <div class="surface-signal-card">
-          <span class="surface-signal-label">CIB</span>
-          <span class="surface-signal-value">${esc(Number(game.cibPrice) > 0 ? `$${Math.round(Number(game.cibPrice))}` : 'n/a')}</span>
-        </div>
-        <div class="surface-signal-card">
-          <span class="surface-signal-label">Mint</span>
-          <span class="surface-signal-value">${esc(Number(game.mintPrice) > 0 ? `$${Math.round(Number(game.mintPrice))}` : 'n/a')}</span>
-        </div>
-      </div>
-      <div class="surface-chip-row">
-        ${visibleGenre ? `<span class="surface-chip is-primary">${esc(visibleGenre)}</span>` : ''}
-        <span class="surface-chip">${esc(game.rarity || 'ARCHIVE')}</span>
-        ${game.metascore ? `<span class="surface-chip is-hot">MS ${esc(game.metascore)}</span>` : '<span class="surface-chip">NO SCORE</span>'}
-      </div>
-      ${readingRow}
-      ${signalMarkup}
-      <div id="preview-metascore" class="preview-metascore"></div>
-      ${description ? `<div class="detail-description surface-summary-copy">${description}</div>` : ''}
-      <div class="detail-link-group surface-action-row">
-        <a class="detail-link terminal-action-link" href="${detailHref}">Ouvrir la fiche &rarr;</a>
-        <a class="detail-link terminal-action-link" href="/collection.html">Aller a Collection &rarr;</a>
-        <a class="detail-link terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title || '')}">Lecture avancee &rarr;</a>
-      </div>
-    </div>
-  `
-}
-
-function renderPreviewMetascore(game) {
-  if (!quickDetailEl || !window.RetroDexMetascore) return
-  const previewMeta = quickDetailEl.querySelector('#preview-metascore')
-  if (!previewMeta) return
-  previewMeta.innerHTML = ''
-  if (game?.metascore) {
-    previewMeta.appendChild(window.RetroDexMetascore.renderBlock(game.metascore))
-  }
-}
-
-function syncSortShortcutState() {
-  if (!metascoreSortButtonEl) return
-  metascoreSortButtonEl.classList.toggle('active', normalizeSortKey(sortEl?.value) === 'metascore_desc')
-}
-
-function markSelectedRow() {
-  resultsEl.querySelectorAll('.result-row').forEach((rowEl) => {
-    rowEl.classList.toggle('is-selected', rowEl.dataset.gameId === selectedGameId)
+  genreEl.innerHTML = '<option value="">Tous</option>'
+  genres.forEach((genre) => {
+    const option = document.createElement('option')
+    option.value = genre
+    option.textContent = genre
+    if (genreEl.dataset.pending === genre) option.selected = true
+    genreEl.appendChild(option)
   })
 }
 
-async function loadQuickDetail(gameId) {
-  selectedGameId = gameId
-  markSelectedRow()
-  updateUrl(state())
-  quickDetailEl.className = 'quick-detail-loading terminal-empty-state'
-  quickDetailEl.innerHTML = quickDetailStateMarkup('Chargement', 'Lecture des signaux visibles et des actions disponibles.')
-
-  try {
-    const game = await fetchJson(`/api/games/${encodeURIComponent(gameId)}`)
-    quickDetailEl.className = ''
-    quickDetailEl.innerHTML = quickDetailMarkup(game, state())
-    renderPreviewMetascore(game)
-  } catch (error) {
-    quickDetailEl.className = 'quick-detail-placeholder terminal-empty-state'
-    quickDetailEl.innerHTML = quickDetailStateMarkup('Détail indisponible', `Impossible de charger le détail (${error.message})`)
-  }
-}
-
-function previewQuickDetail(game, currentState) {
-  if (!quickDetailEl || !game) return
-  if (selectedGameId === game.id) return
-  quickDetailEl.className = ''
-  quickDetailEl.innerHTML = quickDetailMarkup(game, currentState)
-  renderPreviewMetascore(game)
-}
-
 function renderSummary(currentState, total) {
-  const pills = [
-    publicationSummary?.passKey
-      ? `<span class="summary-pill active">${esc(publicationSummary.label || 'Pass 1')}</span>`
-      : '',
-    publicationSummary?.publishedGamesCount
-      ? `<span class="summary-pill active">${esc(publicationSummary.publishedGamesCount)} publiés</span>`
-      : '',
-    publicationSummary?.consoleCount
-      ? `<span class="summary-pill active">${esc(publicationSummary.consoleCount)} consoles</span>`
-      : '',
-    `<span class="summary-pill active">${total} jeux</span>`,
-    `<span class="summary-pill ${currentState.console ? 'active' : ''}">console: ${esc(currentState.console || 'Toutes')}</span>`,
-    `<span class="summary-pill ${currentState.rarity ? 'active' : ''}">rareté : ${esc(currentState.rarity || 'Toutes')}</span>`,
-    `<span class="summary-pill ${currentState.genre ? 'active' : ''}">genre: ${esc(currentState.genre || 'Tous')}</span>`,
-  ].filter(Boolean)
-
-  if (currentState.trend) {
-    pills.push(`<span class="summary-pill active">tendance: ${esc(currentState.trend)}</span>`)
-  }
-
+  const parts = [`${total} jeu${total > 1 ? 'x' : ''}`]
+  if (currentState.console) parts.push(esc(currentState.console))
+  if (currentState.rarity) parts.push(`rarete ${esc(currentState.rarity)}`)
+  if (currentState.genre) parts.push(esc(currentState.genre))
+  if (currentState.trend) parts.push(`tendance ${esc(currentState.trend)}`)
   if (currentState.yearMin || currentState.yearMax) {
-    pills.push(`<span class="summary-pill active">année : ${esc(currentState.yearMin || 1970)}-${esc(currentState.yearMax || 2012)}</span>`)
+    parts.push(`${esc(currentState.yearMin || 1970)}-${esc(currentState.yearMax || 2012)}`)
   }
 
-  resultsSummaryEl.innerHTML = pills.join('')
+  resultsSummaryEl.innerHTML = `<span class="results-summary-main">${parts.join(' | ')}</span>`
 }
 
 function suggestions() {
-  const fallback = [
-    { title: 'Panzer Dragoon Saga', metascore: 98 },
-    { title: 'Chrono Trigger', metascore: 95 },
-    { title: 'Super Mario World', metascore: 94 },
-    { title: 'The Legend of Zelda: A Link to the Past', metascore: 95 },
-    { title: 'Final Fantasy VII', metascore: 92 },
-    { title: 'Radiant Silvergun', metascore: 94 },
-  ]
-  const pool = [...(masterGames.length ? masterGames : fallback)]
+  return [...fetchedGames]
     .sort((left, right) => num(right.metascore) - num(left.metascore) || textCmp(left.title, right.title))
-    .slice(0, 24)
-  const picks = []
-
-  while (pool.length && picks.length < 3) {
-    picks.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0])
-  }
-
-  return picks
+    .slice(0, 3)
 }
 
 function renderEmpty(currentState) {
@@ -517,13 +322,11 @@ function renderEmpty(currentState) {
 
   resultsEl.innerHTML = `
     <div class="empty-state">
-      <div><strong>Aucun jeu trouvé${suffix}</strong></div>
+      <div><strong>Aucune fiche visible${suffix}</strong></div>
       <div style="margin-top:8px;">Essayez : ${picks.map((game) => esc(game.title)).join(' | ') || 'un autre filtre'}.</div>
       ${picks.length ? `<div class="suggestions">${picks.map((game) => `<button type="button" class="suggestion-btn" data-suggestion="${esc(game.title)}">${esc(game.title)}</button>`).join('')}</div>` : ''}
     </div>
   `
-
-  renderQuickDetailEmpty('Aucun signal dans cette fenêtre de recherche.')
 
   resultsEl.querySelectorAll('[data-suggestion]').forEach((button) => {
     button.addEventListener('click', () => {
@@ -546,7 +349,6 @@ function applyFilters(currentState) {
     if (currentState.trend && trend !== currentState.trend) return false
     if (currentState.yearMin && (!year || year < currentState.yearMin)) return false
     if (currentState.yearMax && (!year || year > currentState.yearMax)) return false
-
     return true
   })
 }
@@ -563,7 +365,7 @@ function render(currentState) {
   renderSummary(currentState, total)
   pageIndicatorEl.textContent = total
     ? `Page ${page}/${totalPages} - ${start + 1}-${end} sur ${total}`
-    : 'Page 1/1 - 0 résultat'
+    : 'Page 1/1 - 0 resultat'
   prevButtonEl.disabled = start <= 0
   nextButtonEl.disabled = end >= total
   renderPageNumbers(page, totalPages)
@@ -579,27 +381,16 @@ function render(currentState) {
       collectionState: getCollectionState(game.id),
       onClick: () => navigateTo(game.id),
     })
-    rowEl.addEventListener('mouseenter', () => previewQuickDetail(game, currentState))
-    rowEl.addEventListener('focus', () => previewQuickDetail(game, currentState))
     rowEl.setAttribute('role', 'link')
     rowEl.setAttribute('tabindex', '0')
-    resultsEl.appendChild(rowEl)
-  })
-
-  resultsEl.querySelectorAll('.result-row').forEach((rowEl) => {
     rowEl.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()
-        navigateTo(rowEl.dataset.gameId)
+        navigateTo(game.id)
       }
     })
+    resultsEl.appendChild(rowEl)
   })
-
-  if (selectedGameId) {
-    markSelectedRow()
-  } else if (pageItems[0]) {
-    previewQuickDetail(pageItems[0], currentState)
-  }
 }
 
 function renderLoadingSkeletons() {
@@ -609,7 +400,6 @@ function renderLoadingSkeletons() {
     <div class="skeleton skeleton-line-full"></div>
     <div class="skeleton skeleton-line-medium"></div>
     <div class="skeleton skeleton-line-full"></div>
-    <div class="skeleton skeleton-line-short"></div>
   `
 }
 
@@ -624,7 +414,6 @@ async function loadConsoles() {
   consoles.forEach((item) => {
     const consoleName = item.platform || item.name || item.title || ''
     if (!consoleName) return
-
     const option = document.createElement('option')
     option.value = consoleName
     option.textContent = `${consoleName} (${Number(item.gamesCount) || 0})`
@@ -633,38 +422,31 @@ async function loadConsoles() {
   })
 }
 
-function populateGenres(source) {
-  const genres = [...new Set((source || masterGames)
-    .map((game) => String(game.genre || '').trim())
-    .filter((genre) => genre && genre !== 'Other'))].sort(textCmp)
-  if (genreEl.options.length > 1 || !genres.length) return
-
-  genres.forEach((genre) => {
-    const option = document.createElement('option')
-    option.value = genre
-    option.textContent = genre
-    if (genreEl.dataset.pending === genre) option.selected = true
-    genreEl.appendChild(option)
-  })
-}
-
 async function loadMeta() {
   try {
     const statsPayload = await fetchJson('/api/stats')
     totalGames = statsPayload.total_games || statsPayload.totals?.games || totalGames
-  } catch (_) {
-    masterGames = masterGames || []
+  } catch (_error) {
+    totalGames = totalGames || 0
   }
 
-  subtitleEl.textContent = `${totalGames} jeux en base`
+  if (subtitleEl) subtitleEl.textContent = `${totalGames} jeux en base`
   setCatalogPublicationCopy(publicationSummary)
-  populateGenres()
+}
+
+async function loadCollectionSignals() {
+  if (typeof CoreApi.fetchCollectionIndex !== 'function') return
+  try {
+    collectionIndex = await CoreApi.fetchCollectionIndex()
+  } catch (_error) {
+    collectionIndex = null
+  }
 }
 
 async function loadGames() {
   const currentState = state()
   updateUrl(currentState)
-  loadingIndicatorEl.textContent = 'Chargement du catalogue...'
+  loadingIndicatorEl.textContent = 'Chargement...'
   renderLoadingSkeletons()
 
   const params = new URLSearchParams()
@@ -678,9 +460,6 @@ async function loadGames() {
     fetchedGames = Array.isArray(payload.items) ? payload.items : []
     publicationSummary = payload.publication || publicationSummary
     setCatalogPublicationCopy(publicationSummary)
-    if (!masterGames.length || (!currentState.q && !currentState.console)) {
-      masterGames = fetchedGames.slice()
-    }
     populateGenres(fetchedGames)
     applyFilters(currentState)
 
@@ -692,20 +471,8 @@ async function loadGames() {
     render(currentState)
     loadingIndicatorEl.textContent = ''
   } catch (error) {
-    loadingIndicatorEl.textContent = 'Catalogue indisponible pour cette session.'
+    loadingIndicatorEl.textContent = 'Catalogue indisponible.'
     resultsEl.innerHTML = '<div class="empty-state">Impossible de charger le catalogue.</div>'
-  }
-}
-
-async function loadCollectionSignals() {
-  if (typeof CoreApi.fetchCollectionIndex !== 'function') {
-    return
-  }
-
-  try {
-    collectionIndex = await CoreApi.fetchCollectionIndex()
-  } catch (_error) {
-    collectionIndex = null
   }
 }
 
@@ -726,8 +493,6 @@ function resetFilters() {
   sortEl.value = 'rarity_desc'
   limitEl.value = '20'
   currentOffset = 0
-  selectedGameId = ''
-  renderQuickDetailEmpty()
   toggleAdvanced(false)
   loadGames()
 }
@@ -745,7 +510,7 @@ queryEl.addEventListener('input', () => {
   debounceTimer = setTimeout(() => {
     currentOffset = 0
     loadGames()
-  }, 300)
+  }, 250)
 })
 
 queryEl.addEventListener('keydown', (event) => {
@@ -760,81 +525,63 @@ queryEl.addEventListener('keydown', (event) => {
   }
 })
 
-;
-[consoleEl, rarityEl, genreEl, trendEl, limitEl, sortEl].forEach((element) => {
+;[consoleEl, rarityEl, genreEl, trendEl, limitEl, sortEl].forEach((element) => {
   element.addEventListener('change', () => {
     currentOffset = 0
-    syncSortShortcutState()
     loadGames()
   })
 })
 
-;
-[yearMinEl, yearMaxEl].forEach((element) => {
+;[yearMinEl, yearMaxEl].forEach((element) => {
   element.addEventListener('input', () => {
     clearTimeout(debounceTimer)
     debounceTimer = setTimeout(() => {
       currentOffset = 0
       loadGames()
-    }, 300)
-  })
-  element.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault()
-      searchNow()
-    }
+    }, 250)
   })
 })
 
 prevButtonEl.addEventListener('click', () => {
   const currentState = state()
   currentOffset = Math.max(0, currentState.offset - currentState.limit)
-  loadGames()
+  render(state())
 })
 
 nextButtonEl.addEventListener('click', () => {
   const currentState = state()
   if (currentState.offset + currentState.limit < filteredGames.length) {
     currentOffset = currentState.offset + currentState.limit
-    loadGames()
+    render(state())
   }
 })
 
 metascoreSortButtonEl?.addEventListener('click', () => {
   sortEl.value = 'metascore_desc'
   currentOffset = 0
-  syncSortShortcutState()
   loadGames()
 })
 
 document.addEventListener('keydown', (event) => {
   const tag = event.target?.tagName
   const inField = tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA' || event.target?.isContentEditable
-
-  if (event.key === 'Escape' && queryEl.value) {
-    queryEl.value = ''
-    currentOffset = 0
-    loadGames()
-    return
-  }
-
   if (inField) return
 
   const currentState = state()
   if (event.key === 'ArrowLeft' && currentState.offset > 0) {
     event.preventDefault()
     currentOffset = Math.max(0, currentState.offset - currentState.limit)
-    loadGames()
+    render(state())
   }
   if (event.key === 'ArrowRight' && currentState.offset + currentState.limit < filteredGames.length) {
     event.preventDefault()
     currentOffset = currentState.offset + currentState.limit
-    loadGames()
+    render(state())
   }
 })
 
 readStateFromUrl()
-syncSortShortcutState()
+
 window.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search)
   const hasAdv = params.get('genre')
@@ -858,11 +605,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 Promise.all([loadConsoles(), loadMeta(), loadCollectionSignals()])
   .then(() => loadGames())
-  .then(() => {
-    if (selectedGameId) loadQuickDetail(selectedGameId)
-  })
   .catch((error) => {
     loadingIndicatorEl.textContent = `Erreur initiale: ${error.message}`
     resultsEl.innerHTML = '<div class="empty-state">Chargement impossible.</div>'
   })
-

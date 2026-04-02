@@ -12,18 +12,16 @@ function escapeHtml(value) {
 function renderPresenceBadges(game) {
   const signals = game?.signals || {}
   const badges = []
+  const docsCount = Number(Boolean(signals.hasMaps)) + Number(Boolean(signals.hasManuals))
+  const mediaCount = Number(Boolean(signals.hasSprites)) + Number(Boolean(signals.hasEndings))
 
   if (game?.curation?.isPublished) {
-    badges.push('<span class="presence-badge is-curated">PUBLIÉ</span>')
+    badges.push('<span class="presence-badge is-curated">PUBLIE</span>')
   }
-  if (signals.hasMaps) badges.push('<span class="presence-badge">MAP</span>')
-  if (signals.hasManuals) badges.push('<span class="presence-badge">MANUAL</span>')
-  if (signals.hasSprites) badges.push('<span class="presence-badge">SPRITE</span>')
-  if (signals.hasEndings) badges.push('<span class="presence-badge">ENDING</span>')
+  if (docsCount > 0) badges.push('<span class="presence-badge">DOCS</span>')
+  if (mediaCount > 0) badges.push('<span class="presence-badge">MEDIA</span>')
 
-  return badges.length
-    ? `<span class="result-presence-row">${badges.join('')}</span>`
-    : ''
+  return badges.length ? `<span class="result-presence-row">${badges.join('')}</span>` : ''
 }
 
 function renderGameRow(game, options = {}) {
@@ -65,15 +63,17 @@ function renderGameRow(game, options = {}) {
   const contentSignals = window.RetroDexContentSignals?.buildRichness
     ? window.RetroDexContentSignals.buildRichness(game)
     : null
-  const loosePrice = showPrice
-    ? (game.loosePrice ? `$${Math.round(game.loosePrice)}` : '—')
-    : ''
+  const loosePrice = showPrice ? (game.loosePrice ? `$${Math.round(game.loosePrice)}` : '-') : ''
   const showOwnedBadge = String(collectionState || '').toLowerCase() === 'owned'
   const archiveBadges = [
     contentSignals ? `<span class="presence-badge is-richness is-${escapeHtml(contentSignals.band.key)}">${escapeHtml(contentSignals.band.shortLabel)}</span>` : '',
-    contentSignals ? `<span class="presence-badge is-state">${escapeHtml(contentSignals.completionState.shortLabel)}</span>` : '',
-    contentSignals ? `<span class="presence-badge is-state">${escapeHtml(contentSignals.confidence.shortLabel)}</span>` : '',
+    contentSignals ? `<span class="presence-badge is-state">Etat ${escapeHtml(contentSignals.completionState.shortLabel)}</span>` : '',
+    contentSignals ? `<span class="presence-badge is-state">Confiance ${escapeHtml(contentSignals.confidence.shortLabel)}</span>` : '',
   ].filter(Boolean).join('')
+  const summary = String(game.summary || game.synopsis || game.tagline || '').trim()
+  const summaryHtml = summary
+    ? `<span class="result-summary">${escapeHtml(summary.length > 132 ? `${summary.slice(0, 132).trimEnd()}...` : summary)}</span>`
+    : ''
 
   el.innerHTML = `
     <span class="result-row-indicator">&rsaquo;</span>
@@ -83,6 +83,7 @@ function renderGameRow(game, options = {}) {
         <span class="result-meta">${escapeHtml(consoleName)} &middot; ${escapeHtml(year)}${genre ? ` &middot; ${escapeHtml(genre)}` : ''}</span>
       </span>
       ${archiveBadges ? `<span class="result-presence-row result-archive-row">${archiveBadges}</span>` : ''}
+      ${summaryHtml}
       ${renderPresenceBadges(game)}
     </div>
     <div class="result-signal">
@@ -114,13 +115,13 @@ function renderGameRow(game, options = {}) {
     if (window.RetroDexMetascore && game.metascore) {
       const badge = window.RetroDexMetascore.renderBadge(game.metascore, 'micro')
       const label = window.RetroDexMetascore.getLabel(game.metascore)
-      badge.title = `Metascore : ${game.metascore}/100 · ${label}`
+      badge.title = `Metascore : ${game.metascore}/100 | ${label}`
       badge.addEventListener('mouseenter', () => {
-        window.RetroDexExperience?.showStatus?.(`METASCORE ${game.metascore}/100 · ${label}`)
+        window.RetroDexExperience?.showStatus?.(`METASCORE ${game.metascore}/100 | ${label}`)
       })
       metascoreEl.appendChild(badge)
     } else {
-      metascoreEl.innerHTML = '<span class="result-metascore-empty">—</span>'
+      metascoreEl.innerHTML = '<span class="result-metascore-empty">-</span>'
     }
   }
 

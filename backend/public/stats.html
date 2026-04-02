@@ -10,28 +10,29 @@
     <meta name="apple-mobile-web-app-title" content="RetroDex" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
-    <title>RetroDex - Lecture marche avancee</title>
-    <meta name="description" content="Lecture marche avancee : chronologie, comparaison et qualification contextuelle." />
-    <meta property="og:title" content="Lecture marche avancee | RetroDex" />
-    <meta property="og:description" content="Lecture marche avancee : chronologie, comparaison et qualification contextuelle." />
+    <title>RetroDex - Lecture avancee</title>
+    <meta name="description" content="Qualification RetroDex : lecture avancee, comparaison, chronologie." />
+    <meta property="og:title" content="Lecture avancee | RetroDex" />
+    <meta property="og:description" content="Lecture avancee : chronologie, comparaison et qualification contextuelle." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260402h" />
+    <link rel="stylesheet" href="/style.css?v=20260402i" />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
-    <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
-      <a class="global-product-home" href="/hub.html">Hub</a>
-      <div class="global-product-links">
-        <a class="global-product-link" href="/games-list.html">
-          <span class="nav-label">RetroDex</span>
-          <span class="nav-copy">catalogue | recherche | fiches</span>
-        </a>
-        <a class="global-product-link" href="/collection.html">
-          <span class="nav-label">Collection</span>
-          <span class="nav-copy">etagere | wishlist | suivi</span>
-        </a>
-      </div>
+    <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
+      <a class="global-product-link" href="/hub.html">
+        <span class="nav-label">Hub</span>
+      <span class="nav-copy">entrer | ouvrir | reprendre</span>
+      </a>
+      <a class="global-product-link" href="/games-list.html">
+        <span class="nav-label">RetroDex</span>
+      <span class="nav-copy">index | recherche | fiches</span>
+      </a>
+      <a class="global-product-link" href="/collection.html">
+        <span class="nav-label">Collection</span>
+      <span class="nav-copy">etagere | valeur | priorites</span>
+      </a>
     </nav>
 
     <main id="main-content" class="detail-shell market-detail-shell">
@@ -40,30 +41,18 @@
         <span class="sep" aria-hidden="true">&#8250;</span>
         <a href="/games-list.html">RETRODEX</a>
         <span class="sep" aria-hidden="true">&#8250;</span>
-        <span class="current">LECTURE MARCHE AVANCEE</span>
+        <span class="current" id="market-breadcrumb-name">LECTURE AVANCEE</span>
       </nav>
 
-      <section class="product-universe-frame is-market">
-        <div class="product-universe-head">
-          <div>
-            <div class="detail-kicker">SECONDARY SURFACE</div>
-            <h1 class="product-universe-title">LECTURE MARCHE AVANCEE</h1>
-          </div>
-          <div class="product-universe-chip">QUALIFICATION</div>
+      <header class="secondary-page-head market-page-head">
+        <div>
+          <div class="detail-kicker">SECONDAIRE</div>
+          <h1 class="page-title">QUALIFICATION</h1>
         </div>
-        <p class="product-universe-copy">
-          Cette surface sert a approfondir un signal prix, une comparaison ou une chronologie.
-          La voie normale reste la fiche jeu.
-        </p>
-        <div class="product-universe-links">
-          <a href="/game-detail.html?id=tetris-game-boy">Voir une fiche</a>
-          <a href="/games-list.html">Retour a RetroDex</a>
-          <a href="/collection.html">Aller a Collection</a>
-        </div>
-      </section>
+        <p class="page-subtitle">Lecture experte, apres la fiche.</p>
+      </header>
 
       <section id="market-hero" class="hero-card market-hero-card">
-        <div class="detail-file-label">QUALIFICATION LAYER</div>
         <div class="terminal-query-line market-search-shell surface-query-shell">
           <span class="terminal-query-label">QUERY :</span>
           <input
@@ -76,11 +65,8 @@
           />
           <span class="terminal-query-count" id="market-search-count"></span>
         </div>
-        <div class="market-search-helper">
-          Ici, on qualifie un signal marche deja repere depuis une fiche, RetroDex ou la collection.
-        </div>
         <div id="market-hero-summary" class="market-hero-summary">
-          <div class="loading-card market-empty-card">Selectionner un jeu.</div>
+          <div class="loading-card market-empty-card">Choisir un jeu.</div>
         </div>
         <div id="market-search-header" class="terminal-table-header market-search-header" style="grid-template-columns: 1fr 90px 90px 90px 90px 80px" hidden>
           <span>JEU</span>
@@ -92,7 +78,7 @@
         </div>
         <div id="market-search-results" class="market-search-results" aria-live="polite">
           <div class="terminal-empty-state search-empty" style="text-align:center;color:var(--text-muted);padding:1.5rem 0">
-            <div class="terminal-empty-copy">Choisir un jeu pour lire un signal marche avance.</div>
+            <div class="terminal-empty-copy">Ouvrir un jeu pour aller plus loin.</div>
           </div>
         </div>
       </section>
@@ -123,7 +109,7 @@
           <span class="detail-accordion-indicator">+</span>
         </button>
         <div id="market-market-content" class="detail-accordion-content" hidden>
-          <p class="market-empty-copy" style="text-align:center;color:var(--text-muted);padding:1rem 0">Tendances, confiance et qualification collector.</p>
+          <p class="market-empty-copy" style="text-align:center;color:var(--text-muted);padding:1rem 0">Tendance, confiance et qualification collector.</p>
         </div>
       </section>
 
@@ -148,7 +134,7 @@
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
     <script src="/js/core/content-signals.js"></script>
-    <script src="/js/pages/stats.js?v=20260402h"></script>
+    <script src="/js/pages/stats.js?v=20260402i"></script>
     <div class="footer-attribution">
       Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
     </div>

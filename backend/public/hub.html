@@ -11,177 +11,126 @@
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="icon" type="image/png" href="/icons/icon-192.png">
   <title>RetroDex - Hub</title>
-  <meta name="description" content="Cockpit d'orientation RetroDex : entrer dans le catalogue, reprendre une lecture et ouvrir les bonnes fiches.">
+  <meta name="description" content="Hub RetroDex : entrer, ouvrir une fiche forte, reprendre la collection.">
   <meta property="og:title" content="Hub | RetroDex">
-  <meta property="og:description" content="Cockpit d'orientation RetroDex : entrer dans le catalogue, reprendre une lecture et ouvrir les bonnes fiches.">
+  <meta property="og:description" content="Cockpit d'orientation RetroDex : entrer dans RetroDex, reprendre la collection et ouvrir les bonnes fiches.">
   <meta property="og:type" content="website">
   <meta name="robots" content="index, follow">
-  <link rel="stylesheet" href="/style.css?v=20260402h">
+  <link rel="stylesheet" href="/style.css?v=20260402i">
 </head>
 <body class="hub-page hub-orientation-page">
-  <nav class="global-product-nav" aria-label="Navigation produit RetroDex">
-    <a class="global-product-home is-active" href="/hub.html">Hub</a>
-    <div class="global-product-links">
-      <a class="global-product-link is-active" href="/games-list.html">
-        <span class="nav-label">RetroDex</span>
-        <span class="nav-copy">catalogue | recherche | fiches</span>
-      </a>
-      <a class="global-product-link" href="/collection.html">
-        <span class="nav-label">Collection</span>
-        <span class="nav-copy">etagere | wishlist | suivi</span>
-      </a>
-    </div>
+  <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
+    <a class="global-product-link is-active" href="/hub.html">
+      <span class="nav-label">Hub</span>
+      <span class="nav-copy">entrer | ouvrir | reprendre</span>
+    </a>
+    <a class="global-product-link" href="/games-list.html">
+      <span class="nav-label">RetroDex</span>
+      <span class="nav-copy">index | recherche | fiches</span>
+    </a>
+    <a class="global-product-link" href="/collection.html">
+      <span class="nav-label">Collection</span>
+      <span class="nav-copy">etagere | valeur | priorites</span>
+    </a>
   </nav>
 
-  <main class="page-shell hub-page hub-orientation-page">
+  <main class="page-shell hub-page hub-orientation-page hub-focused-page">
     <nav class="breadcrumb hub-breadcrumb" aria-label="Fil d'ariane">
       <span class="section">HUB</span>
       <span class="sep">&rsaquo;</span>
       <span class="current">ORIENTATION</span>
     </nav>
 
-    <section class="hub-orientation-head">
-      <div class="hub-identity-panel">
-        <div class="hub-system-line" id="hub-curation-banner">Chargement des signaux de publication...</div>
-        <div class="hub-kicker">KNOWLEDGE TERMINAL</div>
-        <h1 class="hub-page-title">RETRODEX</h1>
-        <p class="hub-intro">
-          Entrez dans RetroDex, ouvrez la bonne fiche, puis poursuivez depuis la collection
-          ou la lecture avancee si necessaire.
-        </p>
+    <section class="hub-focus-shell">
+      <div class="hub-system-line" id="hub-curation-banner">Chargement...</div>
+      <div class="hub-focus-head">
+        <div>
+          <div class="hub-kicker">ORIENTATION</div>
+          <h1 class="hub-page-title">RETRODEX</h1>
+        </div>
+        <p class="hub-intro">Un point d'entree. Une fiche forte. Puis la suite.</p>
+      </div>
 
-        <form class="hub-search-form" action="/search.html" method="get">
-          <input
-            id="hub-search-input"
-            class="hub-search-input"
-            type="search"
-            name="q"
-            placeholder="titre, console, franchise, serie..."
-            aria-label="Rechercher"
-            autocomplete="off"
-            autofocus
-            spellcheck="false"
-          >
-          <button class="hub-search-button" type="submit">ENTRER</button>
-        </form>
+      <form class="hub-search-form" action="/search.html" method="get">
+        <input
+          id="hub-search-input"
+          class="hub-search-input"
+          type="search"
+          name="q"
+          placeholder="titre, console, franchise..."
+          aria-label="Rechercher"
+          autocomplete="off"
+          autofocus
+          spellcheck="false"
+        >
+        <button class="hub-search-button" type="submit">OUVRIR</button>
+      </form>
 
-        <div class="hub-stats hub-stats-compact">
-          <div class="hub-stat is-primary">
-            <span id="hub-stat-published" class="val">--</span>
-            <span class="lbl">fiches publiees</span>
-          </div>
-          <div class="hub-stat">
-            <span id="hub-stat-total" class="val">--</span>
-            <span class="lbl">jeux en base</span>
-          </div>
-          <div class="hub-stat">
-            <span id="hub-stat-synopsis" class="val">--</span>
-            <span class="lbl">lectures editoriales</span>
-          </div>
-          <div class="hub-stat">
-            <span id="hub-stat-consoles" class="val">--</span>
-            <span class="lbl">consoles visibles</span>
-          </div>
+      <div class="hub-stats hub-stats-compact">
+        <div class="hub-stat is-primary">
+          <span id="hub-stat-published" class="val">--</span>
+          <span class="lbl">fiches</span>
+        </div>
+        <div class="hub-stat">
+          <span id="hub-stat-total" class="val">--</span>
+          <span class="lbl">jeux</span>
+        </div>
+        <div class="hub-stat">
+          <span id="hub-stat-synopsis" class="val">--</span>
+          <span class="lbl">lectures</span>
+        </div>
+        <div class="hub-stat">
+          <span id="hub-stat-consoles" class="val">--</span>
+          <span class="lbl">supports</span>
         </div>
       </div>
     </section>
 
-    <section class="hub-intent-panel">
-      <div class="hub-intent-head">
-        <div>
-          <div class="hub-panel-label">PRIMARY PATHS</div>
-          <div class="hub-module-title">Choisir la bonne entree</div>
-        </div>
-        <div class="hub-module-copy">Le hub oriente. La lecture forte se fait ensuite dans les fiches.</div>
-      </div>
+    <section class="hub-intent-panel hub-intent-panel-compact">
       <div class="hub-intent-grid hub-intent-grid-three">
         <article class="hub-intent-card">
           <span class="hub-intent-label">RetroDex</span>
-          <p class="hub-intent-copy">Parcourir le fonds, filtrer vite et ouvrir la bonne fiche.</p>
+          <p class="hub-intent-copy">Trouver un jeu.</p>
           <div class="hub-intent-links"><a href="/games-list.html">Ouvrir RetroDex</a></div>
         </article>
         <article class="hub-intent-card">
           <span class="hub-intent-label">Collection</span>
-          <p class="hub-intent-copy">Reprendre votre etagere, votre wishlist et les jeux a revoir.</p>
+          <p class="hub-intent-copy">Reprendre l'etagere.</p>
           <div class="hub-intent-links"><a href="/collection.html">Ouvrir Collection</a></div>
         </article>
         <article class="hub-intent-card">
           <span class="hub-intent-label">Qualification</span>
-          <p class="hub-intent-copy">Approfondir un signal marche ou une comparaison avancee.</p>
-          <div class="hub-intent-links"><a href="/stats.html">Lecture avancee</a></div>
+          <p class="hub-intent-copy">Lire plus loin si besoin.</p>
+          <div class="hub-intent-links"><a href="/stats.html">Ouvrir la qualification</a></div>
         </article>
       </div>
     </section>
 
-    <section class="hub-secondary-grid hub-secondary-grid-main">
-      <div class="hub-secondary-main">
-        <section class="hub-module">
-          <div class="hub-module-head">
-            <div>
-              <div class="hub-module-kicker">READ NEXT</div>
-              <h2 class="hub-module-title">Fiches fortes a ouvrir</h2>
-            </div>
-            <a class="hub-module-link" href="/games-list.html">Voir tout RetroDex</a>
-          </div>
-          <p class="hub-module-copy">
-            Selection courte de fiches deja assez riches pour donner une vraie lecture de l'archive.
-          </p>
-          <div id="hub-rich-grid" class="hub-encyclo-grid">
-            <div class="terminal-empty-state hub-empty-state">
-              <div class="terminal-empty-title">Chargement</div>
-              <div class="terminal-empty-copy">Lecture des fiches les plus denses.</div>
-            </div>
-          </div>
-        </section>
+    <section class="hub-module hub-feature-shell">
+      <div class="hub-module-head">
+        <div>
+          <div class="hub-module-kicker">A OUVRIR</div>
+          <h2 class="hub-module-title">Fiches fortes</h2>
+        </div>
+        <a class="hub-module-link" href="/games-list.html">Tout RetroDex</a>
       </div>
-
-      <aside class="hub-secondary-side">
-        <section class="hub-module hub-signals-panel">
-          <div class="hub-module-head">
-            <div>
-              <div class="hub-module-kicker">REPRISE</div>
-              <h2 class="hub-module-title">Continuer sans detour</h2>
-            </div>
-          </div>
-          <p class="hub-module-copy">
-            Revenir a la collection, entrer dans RetroDex ou ouvrir une lecture avancee.
-          </p>
-          <div class="hub-system-actions hub-system-actions-stack">
-            <a class="hub-action-inline" href="/collection.html">ouvrir la collection</a>
-            <a class="hub-action-inline" href="/games-list.html">ouvrir RetroDex</a>
-            <a class="hub-action-inline" href="/stats.html">lecture marche avancee</a>
-          </div>
-        </section>
-
-        <section class="hub-module hub-signals-panel">
-          <div class="hub-module-head">
-            <div>
-              <div class="hub-module-kicker">SYSTEM SIGNALS</div>
-              <h2 class="hub-module-title">Lecture de surface</h2>
-            </div>
-          </div>
-          <div class="hub-system-grid">
-            <div class="hub-system-row">
-              <span class="hub-system-key">publication</span>
-              <span id="hub-system-publication" class="hub-system-value">chargement</span>
-            </div>
-            <div class="hub-system-row">
-              <span class="hub-system-key">lecture editoriale</span>
-              <span id="hub-system-editorial" class="hub-system-value">chargement</span>
-            </div>
-            <div class="hub-system-row">
-              <span class="hub-system-key">archive</span>
-              <span id="hub-system-archive" class="hub-system-value">chargement</span>
-            </div>
-          </div>
-        </section>
-      </aside>
+      <div id="hub-rich-grid" class="hub-encyclo-grid">
+        <div class="terminal-empty-state hub-empty-state">
+          <div class="terminal-empty-title">Chargement</div>
+          <div class="terminal-empty-copy">Lecture des fiches fortes.</div>
+        </div>
+      </div>
+      <div class="hub-signal-line">
+        <span><strong>Publication</strong> <span id="hub-system-publication">chargement</span></span>
+        <span><strong>Editorial</strong> <span id="hub-system-editorial">chargement</span></span>
+        <span><strong>Archive</strong> <span id="hub-system-archive">chargement</span></span>
+      </div>
     </section>
   </main>
 
   <script src="/js/core/api.js"></script>
   <script src="/js/core/format.js"></script>
   <script src="/js/core/content-signals.js"></script>
-  <script src="/js/pages/hub-curated.js?v=20260402h"></script>
+  <script src="/js/pages/hub-curated.js?v=20260402i"></script>
 </body>
 </html>

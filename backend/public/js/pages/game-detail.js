@@ -369,15 +369,14 @@ function renderHeroSection(game) {
   const summary = String(game.summary || game.synopsis || '').trim()
   const metascoreValue = game.metascore ? String(game.metascore) : 'n/a'
   const refPrice = game.loosePrice && Number(game.loosePrice) > 0
-    ? `<span class="detail-hero-reference">Référence loose : $${Number(game.loosePrice).toFixed(0)}</span>`
-    : '<span class="detail-hero-reference is-empty">Qualification marché limitée</span>'
+    ? `<span class="detail-hero-reference">Reference loose : $${Number(game.loosePrice).toFixed(0)}</span>`
+    : '<span class="detail-hero-reference is-empty">Marche secondaire</span>'
+
   heroEl.innerHTML = `
     <div class="detail-hero-shell">
-      <div class="detail-hero-status">
-        <span class="terminal-preview-label">GAME PAGE</span>
-      </div>
+      <div class="detail-hero-status"><span class="terminal-preview-label">FICHE</span></div>
 
-      <div class="hero-grid detail-hero-grid">
+      <div class="hero-grid detail-hero-grid detail-hero-grid-tight">
         <section class="game-header detail-identity-panel">
           <div class="game-header-main">
             <div class="game-cover-slot">
@@ -394,14 +393,13 @@ function renderHeroSection(game) {
 
               <div class="detail-hero-meta-strip">
                 <span class="detail-hero-meta-value">${escapeHtml(meta.consoleName)}</span>
-                <span>•</span>
+                <span>|</span>
                 <span class="detail-hero-meta-value">${escapeHtml(game.year || 'n/a')}</span>
-                <span>•</span>
-                <span id="hero-metascore-value" class="detail-hero-meta-value">${game.metascore ? escapeHtml(metascoreValue) : buildEmptyStateHtml('Non noté')}</span>
+                <span>|</span>
+                <span id="hero-metascore-value" class="detail-hero-meta-value">${game.metascore ? escapeHtml(metascoreValue) : buildEmptyStateHtml('Non note')}</span>
               </div>
 
               <div class="detail-hero-developer">${escapeHtml(meta.developerName)}</div>
-
               <div id="hero-content-status" class="detail-hero-chip-row"></div>
               <p id="hero-content-note" class="detail-status-copy"></p>
 
@@ -417,25 +415,23 @@ function renderHeroSection(game) {
               <div id="game-relations" class="game-relations"></div>
               <div class="surface-action-row detail-hero-actions">
                 <a class="terminal-action-link" href="/games-list.html">Retour a RetroDex &rarr;</a>
-                <a class="terminal-action-link" href="/collection.html">Ouvrir Collection →</a>
+                <a class="terminal-action-link is-primary" href="#collection-shell">Voir Collection &rarr;</a>
                 <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title)}&from=${encodeURIComponent(game.id)}">Lecture avancee &rarr;</a>
               </div>
             </div>
           </div>
         </section>
+
         <aside class="detail-market-panel detail-hero-aside">
-          <div class="detail-kicker">FIRST READ</div>
-          <div class="detail-domain-heading">Lecture immédiate</div>
-          <p class="detail-status-copy detail-hero-aside-copy">
-            La fiche concentre l'essentiel : richesse visible, état de publication, confiance et premier signal de qualification.
-          </p>
+          <div class="detail-kicker">LECTURE</div>
+          <div class="detail-domain-heading">Ce qu'il faut voir d'abord</div>
           <div id="hero-reading-grid" class="surface-signal-grid detail-identity-signal-grid">
             ${buildHeroSignalCard('Richesse', 'Chargement', 'is-primary')}
-            ${buildHeroSignalCard('État', 'En cours')}
-            ${buildHeroSignalCard('Confiance', 'À qualifier')}
+            ${buildHeroSignalCard('Etat', 'En cours')}
+            ${buildHeroSignalCard('Confiance', 'A qualifier')}
           </div>
           <div id="hero-reading-highlights" class="surface-chip-row"></div>
-          <p id="hero-reading-note" class="detail-reading-note">Lecture en cours de qualification.</p>
+          <p id="hero-reading-note" class="detail-reading-note">Collection et qualification restent en soutien.</p>
           ${refPrice}
         </aside>
       </div>
@@ -501,42 +497,35 @@ function renderDetailContentStatus() {
     if (readingGridEl) {
       readingGridEl.innerHTML = [
         buildHeroSignalCard('Richesse', 'Chargement', 'is-primary'),
-        buildHeroSignalCard('État', 'En cours'),
-        buildHeroSignalCard('Confiance', 'À qualifier'),
+        buildHeroSignalCard('Etat', 'En cours'),
+        buildHeroSignalCard('Confiance', 'A qualifier'),
       ].join('')
     }
-    if (readingHighlightsEl) {
-      readingHighlightsEl.innerHTML = ''
-    }
-    if (readingNoteEl) {
-      readingNoteEl.textContent = 'Lecture en cours de qualification.'
-    }
+    if (readingHighlightsEl) readingHighlightsEl.innerHTML = ''
+    if (readingNoteEl) readingNoteEl.textContent = 'Lecture en cours de qualification.'
     return
   }
 
   rowEl.innerHTML = `
-    <span class="surface-chip is-primary">Richesse : ${escapeHtml(signals.band.shortLabel)}</span>
-    <span class="surface-chip">État : ${escapeHtml(signals.completionState.shortLabel)}</span>
-    <span class="surface-chip">Confiance : ${escapeHtml(signals.confidence.shortLabel)}</span>
-    ${signals.highlights.slice(0, 2).map((label) => `<span class="surface-chip">${escapeHtml(label)}</span>`).join('')}
+    <span class="surface-chip is-primary">Richesse ${escapeHtml(signals.band.shortLabel)}</span>
+    <span class="surface-chip">Etat ${escapeHtml(signals.completionState.shortLabel)}</span>
+    <span class="surface-chip">Confiance ${escapeHtml(signals.confidence.shortLabel)}</span>
   `
   noteEl.textContent = signals.band.note
   if (readingGridEl) {
     readingGridEl.innerHTML = [
       buildHeroSignalCard('Richesse', signals.band.shortLabel, 'is-primary'),
-      buildHeroSignalCard('État', signals.completionState.shortLabel),
+      buildHeroSignalCard('Etat', signals.completionState.shortLabel),
       buildHeroSignalCard('Confiance', signals.confidence.shortLabel),
     ].join('')
   }
   if (readingHighlightsEl) {
     readingHighlightsEl.innerHTML = signals.highlights
-      .slice(0, 3)
+      .slice(0, 2)
       .map((label) => `<span class="surface-chip">${escapeHtml(label)}</span>`)
       .join('')
   }
-  if (readingNoteEl) {
-    readingNoteEl.textContent = signals.band.note
-  }
+  if (readingNoteEl) readingNoteEl.textContent = signals.band.note
 }
 
 function confidenceClass(value) {
@@ -3145,7 +3134,7 @@ function initDetailAccordions() {
     }
 
     toggleEl.dataset.bound = 'true'
-    const defaultOpen = ['editorial-shell', 'stats-shell'].includes(sectionEl.id)
+    const defaultOpen = ['collection-shell', 'editorial-shell'].includes(sectionEl.id)
     setAccordionState(sectionEl, defaultOpen)
     toggleEl.addEventListener('click', () => {
       const expanded = toggleEl.getAttribute('aria-expanded') === 'true'

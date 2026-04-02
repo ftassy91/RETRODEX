@@ -271,7 +271,7 @@
     if (activeTab === 'wanted') {
       return {
         title: 'Wishlist vide',
-        copy: 'Ouvrez RetroDex pour ajouter un jeu a surveiller.',
+        copy: 'Ouvrez RetroDex pour ajouter un jeu a suivre.',
         linkLabel: 'Ouvrir RetroDex',
       }
     }
@@ -287,7 +287,7 @@
     }
 
     return {
-      title: 'Votre etagere est vide.',
+      title: 'Etagere vide',
       copy: '',
       linkLabel: 'Ouvrir RetroDex',
     }
@@ -388,7 +388,7 @@
     const mintPrice = Number(game.mintPrice || 0)
     const paid = Number(item.price_paid || 0)
     const gain = paid > 0 ? loosePrice - paid : null
-    const previewCopy = note || game.tagline || game.summary || game.synopsis || 'Aucune note ou lecture complementaire pour cette entree.'
+    const previewCopy = note || game.tagline || game.summary || game.synopsis || 'Sans note personnelle. La fiche reste la meilleure lecture.'
     hideEditForm()
 
     collectionDetailEl.style.display = 'block'
@@ -437,9 +437,7 @@
 
     detailRow2El.innerHTML = `
       <a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="terminal-action-link">Ouvrir la fiche &rarr;</a>
-      <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="terminal-action-link">Lecture avancee &rarr;</a>
-      <a href="/encyclopedia.html?game=${encodeURIComponent(gameId)}" class="terminal-action-link">Archive / encyclopedie &rarr;</a>
-      <a href="/games-list.html" class="terminal-action-link">Retour a RetroDex &rarr;</a>
+      <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="terminal-action-link">Qualifier &rarr;</a>
       ${isPublicForSaleView && activeTab === 'for_sale' ? '' : `
         <button id="collection-edit-btn" class="terminal-inline-btn" type="button">
           MODIFIER
@@ -518,7 +516,7 @@
     } else {
       spacer.innerHTML = `
         <div class="terminal-quiet-note">
-          ${items.length} entree(s) visibles. <a href="/games-list.html" class="terminal-action-link">&rarr; RetroDex</a>
+          ${items.length} entree(s) visibles. <a href="/games-list.html" class="terminal-action-link">&rarr; Ouvrir RetroDex</a>
         </div>
       `
     }
@@ -715,7 +713,7 @@
         collectionListContainerEl,
         collectionStateMarkup(
           'Collection indisponible',
-          'Impossible de lire les lignes locales pour le moment.',
+          'Impossible de lire les lignes de collection pour le moment.',
           '<div class="terminal-empty-copy"><a href="/games-list.html" class="terminal-action-link">Ouvrir RetroDex &rarr;</a></div>'
         )
       )

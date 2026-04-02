@@ -1,41 +1,24 @@
-'use strict';
-/**
- * backend/public/js/pages/search.js
- * Search Core inline surface.
- */
+'use strict'
+
 ;(() => {
   const inputEl = document.getElementById('search-router-input')
-    || document.getElementById('search-input')
-    || document.querySelector('input[placeholder*="titre"], input[placeholder*="console"], input[type="search"]');
-  const resultsEl = document.getElementById('search-core-results');
-  const countEl = document.getElementById('search-core-count');
-  const bannerEl = document.getElementById('search-curation-banner');
-  const tabEls = document.querySelectorAll('.ctx-tab[data-ctx]');
+  const resultsEl = document.getElementById('search-core-results')
+  const countEl = document.getElementById('search-core-count')
+  const bannerEl = document.getElementById('search-curation-banner')
 
   if (!inputEl || !resultsEl) {
-    return;
+    return
   }
 
-  const params = new URLSearchParams(window.location.search);
-  const allowedContexts = ['all', 'retrodex', 'retromarket', 'collection', 'neoretro'];
+  const params = new URLSearchParams(window.location.search)
+  let currentQuery = params.get('q') || ''
+  let searchTimer = null
 
-  let currentQuery = params.get('q') || '';
-  let currentContext = allowedContexts.includes(params.get('ctx')) ? params.get('ctx') : 'all';
-  let searchTimer = null;
-
-  function syncUrl(query, context) {
-    const url = new URL(window.location.href);
-    if (query) url.searchParams.set('q', query);
-    else url.searchParams.delete('q');
-
-    if (context && context !== 'all') url.searchParams.set('ctx', context);
-    else url.searchParams.delete('ctx');
-
-    window.history.replaceState({}, '', `${url.pathname}${url.search}`);
-  }
-
-  function fmtPrice(price) {
-    return price != null && Number(price) > 0 ? `$${Number(price).toFixed(0)}` : '';
+  function syncUrl(query) {
+    const url = new URL(window.location.href)
+    if (query) url.searchParams.set('q', query)
+    else url.searchParams.delete('q')
+    window.history.replaceState({}, '', `${url.pathname}${url.search}`)
   }
 
   function escapeHtml(value) {
@@ -44,58 +27,23 @@
       .replaceAll('<', '&lt;')
       .replaceAll('>', '&gt;')
       .replaceAll('"', '&quot;')
-      .replaceAll("'", '&#039;');
-  }
-
-  function createFallbackMetascoreBadge(score) {
-    const badge = document.createElement('span');
-    badge.className = 'metascore-badge metascore-badge--micro metascore-badge--good';
-    badge.textContent = String(score);
-    badge.title = `Metascore : ${score}/100`;
-    return badge;
-  }
-
-  function createMetascoreBadge(score) {
-    if (!score) return null;
-    if (window.RetroDexMetascore?.renderBadge) {
-      const badge = window.RetroDexMetascore.renderBadge(score, 'micro');
-      badge.title = `Metascore : ${score}/100`;
-      return badge;
-    }
-    return createFallbackMetascoreBadge(score);
-  }
-
-  function createSignalCard(label, value, modifier = '') {
-    const card = document.createElement('div');
-    card.className = `surface-signal-card${modifier ? ` ${modifier}` : ''}`;
-
-    const cardLabel = document.createElement('span');
-    cardLabel.className = 'surface-signal-label';
-    cardLabel.textContent = label;
-
-    const cardValue = document.createElement('span');
-    cardValue.className = 'surface-signal-value';
-    cardValue.textContent = value;
-
-    card.appendChild(cardLabel);
-    card.appendChild(cardValue);
-    return card;
+      .replaceAll("'", '&#039;')
   }
 
   function createChip(label, modifier = '') {
-    const chip = document.createElement('span');
-    chip.className = `sc-chip${modifier ? ` ${modifier}` : ''}`;
-    chip.textContent = label;
-    return chip;
+    const chip = document.createElement('span')
+    chip.className = `sc-chip${modifier ? ` ${modifier}` : ''}`
+    chip.textContent = label
+    return chip
   }
 
   function buildItemContentSignals(item) {
     if (!window.RetroDexContentSignals?.buildRichness || item.type !== 'game') {
-      return null;
+      return null
     }
 
-    const meta = item.meta || {};
-    const game = {
+    const meta = item.meta || {}
+    return window.RetroDexContentSignals.buildRichness({
       ...meta,
       title: item.title,
       summary: meta.summary,
@@ -106,146 +54,31 @@
       cibPrice: meta.cibPrice,
       mintPrice: meta.mintPrice,
       metascore: meta.metascore,
-      avg_duration_main: meta.avg_duration_main || meta.avgDurationMain,
-      avg_duration_complete: meta.avg_duration_complete || meta.avgDurationComplete,
-      source_confidence: meta.source_confidence || meta.sourceConfidence || 0,
-      manual_url: meta.manual_url || meta.manualUrl,
-      dev_team: meta.dev_team || meta.devTeam,
       curation: item.curation || meta.curation || null,
-      signals: item.signals || meta.signals || {
-        hasMaps: Boolean(meta.hasMaps),
-        hasManuals: Boolean(meta.hasManuals),
-        hasSprites: Boolean(meta.hasSprites),
-        hasEndings: Boolean(meta.hasEndings),
-      },
-    };
-
-    const archive = {
-      avg_duration_main: game.avg_duration_main,
-      avg_duration_complete: game.avg_duration_complete,
-      manual_url: game.manual_url,
-      dev_anecdotes: meta.dev_anecdotes || meta.devAnecdotes,
-      cheat_codes: meta.cheat_codes || meta.cheatCodes,
-      versions: meta.versions,
-      ost: {
-        notable_tracks: meta.ost_notable_tracks || meta.ostTracks,
-      },
-    };
-
-    const encyclopedia = {
-      dev_team: meta.dev_team || meta.devTeam,
-      dev_anecdotes: meta.dev_anecdotes || meta.devAnecdotes,
-      cheat_codes: meta.cheat_codes || meta.cheatCodes,
-    };
-
-    return window.RetroDexContentSignals.buildRichness(game, { archive, encyclopedia });
-  }
-
-  function appendPresenceChips(container, item) {
-    if (item.curation?.isPublished) container.appendChild(createChip('Publie', 'is-primary'));
-    if (item.signals?.hasMaps) container.appendChild(createChip('MAP'));
-    if (item.signals?.hasManuals) container.appendChild(createChip('MANUAL'));
-    if (item.signals?.hasSprites) container.appendChild(createChip('SPRITE'));
-    if (item.signals?.hasEndings) container.appendChild(createChip('ENDING'));
+      signals: item.signals || meta.signals || {},
+    })
   }
 
   function renderPublicationBanner(publication) {
-    if (!bannerEl) return;
+    if (!bannerEl) return
     if (!publication) {
-      bannerEl.textContent = 'RetroDex lit une surface curee : seules les fiches visibles sont recherchees ici.';
-      return;
+      bannerEl.textContent = 'RetroDex lit uniquement la surface publiee.'
+      return
     }
 
-    const published = Number(publication.publishedGamesCount || 0);
-    const consoles = Number(publication.consoleCount || 0);
-    const total = Number(publication.catalogGamesCount || 0);
-    const totalCopy = total > 0 ? ` sur ${total} jeux en base` : '';
-    bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} fiches visibles | ${consoles} consoles | selection validee${totalCopy}.`;
+    const published = Number(publication.publishedGamesCount || 0)
+    const consoles = Number(publication.consoleCount || 0)
+    bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} fiches visibles | ${consoles} consoles`
   }
 
   async function preloadPublicationBanner() {
-    if (!bannerEl) return;
     try {
-      const response = await fetch('/api/items?limit=1');
-      const payload = await response.json();
-      renderPublicationBanner(payload.publication || null);
+      const response = await fetch('/api/items?limit=1')
+      const payload = await response.json()
+      renderPublicationBanner(payload.publication || null)
     } catch (_error) {
-      renderPublicationBanner(null);
+      renderPublicationBanner(null)
     }
-  }
-
-  function buildSecondaryCopy(item) {
-    const parts = [];
-    if (item.type === 'game' && item.meta?.genre) parts.push(item.meta.genre);
-    if (item.type === 'game' && item.meta?.developer) parts.push(item.meta.developer);
-    if (item.type === 'franchise' && item.meta?.developer) parts.push(item.meta.developer);
-    if (item.type === 'console' && item.meta?.manufacturer) parts.push(item.meta.manufacturer);
-    if (item.meta?.synopsis) parts.push('lecture');
-    if (item.meta?.loosePrice != null) parts.push('qualification');
-    return parts.join(' | ');
-  }
-
-  function buildSummaryCopy(item, context) {
-    if (context === 'retromarket' && item.meta?.loosePrice != null) {
-      const rarity = item.meta?.rarity ? `Rarete ${item.meta.rarity}` : 'Signal marche';
-      return `${rarity} | ${fmtPrice(item.meta.loosePrice) || 'n/a'} loose | lecture collector contextuelle.`;
-    }
-
-    return item.meta?.tagline || item.meta?.summary || item.meta?.synopsis || '';
-  }
-
-  function buildActionLabel(item) {
-    if (item.type === 'franchise') return 'Voir franchise ->';
-    if (item.type === 'console') return 'Voir console ->';
-    return 'Ouvrir la fiche ->';
-  }
-
-  function renderSignals(item, context) {
-    const grid = document.createElement('div');
-    grid.className = 'sc-signal-grid';
-
-    if (item.type === 'game' && (context === 'retromarket' || context === 'all') && item.meta?.loosePrice != null) {
-      grid.appendChild(createSignalCard('Ref. loose', fmtPrice(item.meta.loosePrice) || 'n/a'));
-    }
-
-    if (item.meta?.metascore) {
-      const scoreCard = document.createElement('div');
-      scoreCard.className = 'surface-signal-card';
-
-      const scoreLabel = document.createElement('span');
-      scoreLabel.className = 'surface-signal-label';
-      scoreLabel.textContent = 'Metascore';
-
-      const scoreValue = document.createElement('div');
-      scoreValue.className = 'surface-signal-value';
-      const badge = createMetascoreBadge(item.meta.metascore);
-      if (badge) {
-        scoreValue.appendChild(badge);
-      } else {
-        scoreValue.textContent = String(item.meta.metascore);
-      }
-
-      scoreCard.appendChild(scoreLabel);
-      scoreCard.appendChild(scoreValue);
-      grid.appendChild(scoreCard);
-    }
-
-    if (item.type === 'game' && item.meta?.rarity) {
-      grid.appendChild(createSignalCard('Rarete', item.meta.rarity));
-    } else if (item.type === 'game' && window.RetroDexContentSignals?.buildRichness) {
-      const contentSignals = buildItemContentSignals(item);
-      if (contentSignals) {
-        grid.appendChild(createSignalCard('Richesse', contentSignals.band.shortLabel));
-      }
-    } else {
-      grid.appendChild(createSignalCard('Type', String(item.type || '').toUpperCase()));
-    }
-
-    if (!grid.children.length) {
-      grid.appendChild(createSignalCard('Type', String(item.type || '').toUpperCase()));
-    }
-
-    return grid;
   }
 
   function renderEmpty(message) {
@@ -254,224 +87,151 @@
         <div class="terminal-empty-title">Recherche</div>
         <div class="terminal-empty-copy">${message}</div>
       </div>
-    `;
+    `
   }
 
-  function renderState(title, copy, tone = '') {
-    resultsEl.innerHTML = `
-      <div class="terminal-empty-state search-empty${tone ? ` ${tone}` : ''}">
-        <div class="terminal-empty-title">${title}</div>
-        <div class="terminal-empty-copy">${copy}</div>
-      </div>
-    `;
-  }
-
-  function renderResults(results, context) {
+  function renderResults(results) {
     if (!results.length) {
-      renderEmpty('Aucun rÃ©sultat visible.');
-      if (countEl) countEl.textContent = '0 rÃ©sultat';
-      return;
+      renderEmpty('Aucun resultat visible.')
+      if (countEl) countEl.textContent = '0 resultat'
+      return
     }
 
-    const contextLabel = window.RetroDexSearch?.CTX?.[context]?.label || context.toUpperCase();
-    if (countEl) {
-      countEl.textContent = `${results.length} rÃ©sultat(s) | ${contextLabel}`;
-    }
+    if (countEl) countEl.textContent = `${results.length} resultat(s)`
+    resultsEl.innerHTML = ''
 
-    resultsEl.innerHTML = '';
     results.forEach((item) => {
-      const contentSignals = buildItemContentSignals(item);
-      const row = document.createElement('a');
-      row.className = 'sc-row';
-      row.href = item.href;
+      const contentSignals = buildItemContentSignals(item)
+      const row = document.createElement('a')
+      row.className = 'sc-row sc-row-lean'
+      row.href = item.href
 
-      const coverSrc = item.meta?.coverImage || item.coverImage || null;
-      const coverEl = coverSrc
-        ? `<img src="${escapeHtml(coverSrc)}" alt="" class="sc-result-cover" width="80" height="80" loading="lazy" style="width:80px;height:80px;object-fit:cover;border:1px solid rgba(155,188,15,0.3);flex-shrink:0;">`
-        : `<span class="sc-result-cover-placeholder" style="width:80px;height:80px;min-width:80px;background:rgba(155,188,15,0.08);border:1px solid rgba(155,188,15,0.2);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:0.9rem;color:#9bbc0f;flex-shrink:0;">${escapeHtml((item.title || '?')[0].toUpperCase())}</span>`;
-      row.insertAdjacentHTML('beforeend', coverEl);
+      const main = document.createElement('div')
+      main.className = 'sc-main'
 
-      const main = document.createElement('div');
-      main.className = 'sc-main';
+      const title = document.createElement('span')
+      title.className = 'sc-title'
+      title.textContent = item.title
+      main.appendChild(title)
 
-      const identity = document.createElement('div');
-      identity.className = 'sc-identity';
+      const subtitle = document.createElement('span')
+      subtitle.className = 'sc-sub'
+      subtitle.textContent = item.subtitle || ''
+      main.appendChild(subtitle)
 
-      const title = document.createElement('span');
-      title.className = 'sc-title';
-      title.textContent = item.title;
-
-      const subline = document.createElement('div');
-      subline.className = 'sc-subline';
-      if (window.RetroDexAssets && item.meta?.console) {
-        const supportIcon = window.RetroDexAssets.createSupportImg(item.meta.console, 14);
-        supportIcon.classList.add('sc-support-icon');
-        subline.appendChild(supportIcon);
+      const summaryText = item.meta?.tagline || item.meta?.summary || item.meta?.synopsis || ''
+      if (summaryText) {
+        const summary = document.createElement('span')
+        summary.className = 'sc-summary'
+        summary.textContent = summaryText.slice(0, 126) + (summaryText.length > 126 ? '...' : '')
+        main.appendChild(summary)
       }
 
-      const subtitle = document.createElement('span');
-      subtitle.className = 'sc-sub';
-      subtitle.textContent = item.subtitle || '';
-
-      identity.appendChild(title);
-      subline.appendChild(subtitle);
-      identity.appendChild(subline);
-      main.appendChild(identity);
-
-      const secondaryCopy = buildSecondaryCopy(item);
-      if (secondaryCopy) {
-        const secondary = document.createElement('span');
-        secondary.className = 'sc-secondary';
-        secondary.textContent = secondaryCopy;
-        main.appendChild(secondary);
-      }
-
-      const summaryCopy = buildSummaryCopy(item, context);
-      if (summaryCopy) {
-        const summary = document.createElement('span');
-        summary.className = 'sc-summary';
-        summary.textContent = summaryCopy;
-        main.appendChild(summary);
-      }
-
-      if (contentSignals) {
-        const readingNote = document.createElement('span');
-        readingNote.className = 'sc-reading-note';
-        readingNote.textContent = contentSignals.band.note;
-        main.appendChild(readingNote);
-      }
-
-      const loreSnippet = item.meta?.loreSnippet
-        ? `${item.meta.loreSnippet}...`
-        : item.meta?.lore
-          ? `${item.meta.lore.substring(0, 80)}...`
-          : '';
-      if (loreSnippet) {
-        const lore = document.createElement('span');
-        lore.className = 'sc-summary';
-        lore.textContent = loreSnippet;
-        main.appendChild(lore);
-      }
-
-      const chipRow = document.createElement('div');
-      chipRow.className = 'sc-chip-row';
-
+      const chipRow = document.createElement('div')
+      chipRow.className = 'sc-chip-row'
       if (item.type === 'game' && item.meta?.console) {
-        chipRow.appendChild(createChip(item.meta.console, 'is-primary'));
+        chipRow.appendChild(createChip(item.meta.console, 'is-primary'))
       } else {
-        chipRow.appendChild(createChip(String(item.type || 'entry').toUpperCase(), 'is-primary'));
+        chipRow.appendChild(createChip(String(item.type || 'entry').toUpperCase(), 'is-primary'))
       }
-
-      if (item.meta?.year) {
-        chipRow.appendChild(createChip(String(item.meta.year)));
-      }
-
-      if (item.meta?.metascore) {
-        chipRow.appendChild(createChip(`MS ${item.meta.metascore}`));
-      }
-
+      if (item.meta?.year) chipRow.appendChild(createChip(String(item.meta.year)))
       if (contentSignals) {
-        chipRow.appendChild(createChip(`Richesse ${contentSignals.band.shortLabel}`, `is-richness is-${contentSignals.band.key}`));
-        chipRow.appendChild(createChip(`Ã‰tat ${contentSignals.completionState.shortLabel}`, 'is-completion'));
-        chipRow.appendChild(createChip(`Confiance ${contentSignals.confidence.shortLabel}`, 'is-confidence'));
+        chipRow.appendChild(createChip(`Richesse ${contentSignals.band.shortLabel}`, `is-richness is-${contentSignals.band.key}`))
+        chipRow.appendChild(createChip(`Etat ${contentSignals.completionState.shortLabel}`, 'is-completion'))
+        chipRow.appendChild(createChip(`Confiance ${contentSignals.confidence.shortLabel}`, 'is-confidence'))
       } else if (item.meta?.rarity) {
-        chipRow.appendChild(createChip(item.meta.rarity, 'is-hot'));
+        chipRow.appendChild(createChip(item.meta.rarity, 'is-hot'))
       }
+      main.appendChild(chipRow)
 
-      if (item.type === 'game') {
-        appendPresenceChips(chipRow, item);
+      row.appendChild(main)
+
+      const signal = document.createElement('div')
+      signal.className = 'sc-signal-grid sc-signal-grid-lean'
+      if (item.meta?.metascore) {
+        const score = document.createElement('div')
+        score.className = 'surface-signal-card'
+        score.innerHTML = `
+          <span class="surface-signal-label">Metascore</span>
+          <span class="surface-signal-value">${escapeHtml(String(item.meta.metascore))}</span>
+        `
+        signal.appendChild(score)
       }
+      if (item.meta?.loosePrice != null && item.type === 'game') {
+        const price = document.createElement('div')
+        price.className = 'surface-signal-card'
+        price.innerHTML = `
+          <span class="surface-signal-label">Loose</span>
+          <span class="surface-signal-value">${Number(item.meta.loosePrice) > 0 ? `$${Math.round(Number(item.meta.loosePrice))}` : 'n/a'}</span>
+        `
+        signal.appendChild(price)
+      }
+      if (!signal.children.length) {
+        const typeCard = document.createElement('div')
+        typeCard.className = 'surface-signal-card'
+        typeCard.innerHTML = `
+          <span class="surface-signal-label">Type</span>
+          <span class="surface-signal-value">${escapeHtml(String(item.type || '').toUpperCase())}</span>
+        `
+        signal.appendChild(typeCard)
+      }
+      row.appendChild(signal)
 
-      main.appendChild(chipRow);
+      const action = document.createElement('span')
+      action.className = 'sc-action'
+      action.textContent = item.type === 'game' ? 'Ouvrir la fiche ->' : 'Voir ->'
+      row.appendChild(action)
 
-      row.appendChild(main);
-      row.appendChild(renderSignals(item, context));
-
-      const action = document.createElement('span');
-      action.className = 'sc-action';
-      action.textContent = buildActionLabel(item);
-      row.appendChild(action);
-
-      resultsEl.appendChild(row);
-    });
+      resultsEl.appendChild(row)
+    })
   }
 
-  async function doSearch(query, context) {
+  async function doSearch(query) {
     if (!window.RetroDexSearch) {
-      renderState('Chargement', 'Le moteur de recherche est en cours dâ€™initialisation.');
-      window.setTimeout(() => doSearch(query, context), 400);
-      return;
+      renderEmpty('Chargement du moteur...')
+      window.setTimeout(() => doSearch(query), 400)
+      return
     }
 
-    if (countEl) {
-      countEl.textContent = 'Recherche...';
-    }
+    if (countEl) countEl.textContent = 'Recherche...'
 
     try {
-      const results = await window.RetroDexSearch.search(query, {}, context, 30);
-      renderPublicationBanner(window.RetroDexSearch.lastPayload?.()?.publication || null);
-      renderResults(results, context);
-      syncUrl(query, context);
+      const results = await window.RetroDexSearch.search(query, {}, 'all', 30)
+      renderPublicationBanner(window.RetroDexSearch.lastPayload?.()?.publication || null)
+      renderResults(results)
+      syncUrl(query)
     } catch (_error) {
-      renderState('Recherche indisponible', 'Le moteur de recherche nâ€™a pas pu rÃ©pondre pour cette session.', 'is-error');
+      renderEmpty('La recherche est indisponible pour cette session.')
     }
-  }
-
-  function setActiveTab(context) {
-    tabEls.forEach((tab) => {
-      tab.classList.toggle('active', tab.dataset.ctx === context);
-    });
   }
 
   function showIdleState() {
-    const contextLabel = window.RetroDexSearch?.CTX?.[currentContext]?.label || currentContext.toUpperCase();
-    if (countEl) {
-      countEl.textContent = contextLabel === 'TOUS'
-        ? ''
-        : `Contexte actif | ${contextLabel}`;
-    }
-    renderEmpty('Saisissez un titre, une console ou une franchise.');
-    syncUrl('', currentContext);
+    if (countEl) countEl.textContent = ''
+    renderEmpty('Saisissez un titre, une console ou une franchise.')
+    syncUrl('')
   }
 
-  tabEls.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      currentContext = tab.dataset.ctx || 'all';
-      setActiveTab(currentContext);
-
-      if (currentQuery) doSearch(currentQuery, currentContext);
-      else showIdleState();
-    });
-  });
-
   inputEl.addEventListener('input', () => {
-    window.clearTimeout(searchTimer);
+    window.clearTimeout(searchTimer)
     searchTimer = window.setTimeout(() => {
-      currentQuery = inputEl.value.trim();
-      if (currentQuery.length >= 2) doSearch(currentQuery, currentContext);
-      else if (!currentQuery) showIdleState();
-    }, 200);
-  });
+      currentQuery = inputEl.value.trim()
+      if (currentQuery.length >= 2) doSearch(currentQuery)
+      else if (!currentQuery) showIdleState()
+    }, 200)
+  })
 
   inputEl.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
-      inputEl.value = '';
-      currentQuery = '';
-      showIdleState();
+      inputEl.value = ''
+      currentQuery = ''
+      showIdleState()
     }
-  });
+  })
 
-  const routerResults = document.getElementById('search-router-results');
-  if (routerResults) routerResults.hidden = true;
+  inputEl.value = currentQuery
+  window.RetroDexSearch?.preload?.()
+  preloadPublicationBanner()
 
-  const legacyFooter = document.querySelector('.terminal-footer');
-  if (legacyFooter) legacyFooter.hidden = true;
-
-  inputEl.value = currentQuery;
-  setActiveTab(currentContext);
-  window.RetroDexSearch?.preload?.();
-  preloadPublicationBanner();
-
-  if (currentQuery.length >= 2) doSearch(currentQuery, currentContext);
-  else showIdleState();
-})();
+  if (currentQuery.length >= 2) doSearch(currentQuery)
+  else showIdleState()
+})()
