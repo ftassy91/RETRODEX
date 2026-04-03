@@ -164,17 +164,28 @@ function titlesMatch(a, b) {
 // ── DB helpers ────────────────────────────────────────────────────────────
 async function getAllGames() {
   if (USE_SUPABASE) {
-    const { data, error } = await supabase
-      .from('games')
-      .select('id,title,console,source_name')
-      .eq('type', 'game');
-    if (error) { console.error('[ERROR] getAllGames failed:', error.message); return []; }
-    return data || [];
+    // Supabase paginates at 1000 rows — fetch all pages
+    const PAGE = 1000;
+    const all = [];
+    let from = 0;
+    while (true) {
+      const { data, error } = await supabase
+        .from('games')
+        .select('id,title,console')
+        .eq('type', 'game')
+        .range(from, from + PAGE - 1);
+      if (error) { console.error('[ERROR] getAllGames failed:', error.message); return []; }
+      if (!data || data.length === 0) break;
+      all.push(...data);
+      if (data.length < PAGE) break;
+      from += PAGE;
+    }
+    return all;
   }
   // SQLite
   try {
     return db.prepare(
-      "SELECT id,title,console,source_name FROM games WHERE type='game'"
+      "SELECT id,title,console FROM games WHERE type='game'"
     ).all();
   } catch (err) {
     console.error('[ERROR] Failed to query games:', err.message);
@@ -186,55 +197,57 @@ async function getGameEditorial(gameId) {
   if (USE_SUPABASE) {
     const { data, error } = await supabase
       .from('game_editorial')
-      .select('completion_times')
+      .select('avg_duration_main,avg_duration_complete')
       .eq('game_id', gameId)
       .single();
     if (error && error.code !== 'PGRST116') {
       console.error(`  [ERROR] getGameEditorial failed for ${gameId}:`, error.message);
     }
-    return data?.completion_times ? JSON.parse(data.completion_times) : null;
+    return data || null;
   }
   // SQLite
   try {
     const row = db.prepare(
-      'SELECT completion_times FROM game_editorial WHERE game_id=?'
+      'SELECT avg_duration_main, avg_duration_complete FROM game_editorial WHERE game_id=?'
     ).get(gameId);
-    return row?.completion_times ? JSON.parse(row.completion_times) : null;
+    return row || null;
   } catch (err) {
     console.warn(`  [WARN] getGameEditorial (SQLite) failed for ${gameId}:`, err.message);
     return null;
   }
 }
 
-async function upsertGameEditorial(gameId, completionTimes) {
+async function upsertGameEditorial(gameId, hltbData) {
+  const fields = {};
+  if (hltbData.main !== null)         fields.avg_duration_main     = hltbData.main;
+  if (hltbData.completionist !== null) fields.avg_duration_complete = hltbData.completionist;
+
   if (DRY) {
-    const summary = JSON.stringify(completionTimes);
-    console.log(`  [DRY] game_editorial[${gameId}].completion_times = ${summary}`);
+    console.log(`  [DRY] game_editorial[${gameId}] ← ${JSON.stringify(fields)}`);
     return;
   }
 
   if (USE_SUPABASE) {
     const { error } = await supabase
       .from('game_editorial')
-      .upsert({
-        game_id: gameId,
-        completion_times: JSON.stringify(completionTimes)
-      }, { onConflict: 'game_id' });
+      .upsert({ game_id: gameId, ...fields }, { onConflict: 'game_id' });
     if (error) console.error(`  [ERROR] upsertGameEditorial failed for ${gameId}:`, error.message);
   } else {
-    // SQLite — upsert logic
     const existing = db.prepare(
-      'SELECT id FROM game_editorial WHERE game_id=?'
+      'SELECT game_id FROM game_editorial WHERE game_id=?'
     ).get(gameId);
 
     if (existing) {
+      const sets = Object.keys(fields).map(k => `${k}=?`).join(', ');
       db.prepare(
-        'UPDATE game_editorial SET completion_times=? WHERE game_id=?'
-      ).run(JSON.stringify(completionTimes), gameId);
+        `UPDATE game_editorial SET ${sets} WHERE game_id=?`
+      ).run(...Object.values(fields), gameId);
     } else {
+      const cols = ['game_id', ...Object.keys(fields)].join(', ');
+      const phs  = ['?', ...Object.keys(fields).map(() => '?')].join(', ');
       db.prepare(
-        'INSERT INTO game_editorial (game_id, completion_times) VALUES (?, ?)'
-      ).run(gameId, JSON.stringify(completionTimes));
+        `INSERT INTO game_editorial (${cols}) VALUES (${phs})`
+      ).run(gameId, ...Object.values(fields));
     }
   }
 }
@@ -263,7 +276,7 @@ async function main() {
 
     // Check if already has completion times
     const existing = await getGameEditorial(game.id);
-    if (existing && (existing.main || existing.extras || existing.completionist || existing.all)) {
+    if (existing && (existing.avg_duration_main || existing.avg_duration_complete)) {
       skipped++;
       process.stdout.write(
         `\r  ${i + 1}/${gamesToProcess.length} | ${matched} matched · ${updated} updated · ${skipped} skipped · ${errors} errors`
@@ -293,14 +306,8 @@ async function main() {
       continue;
     }
 
-    // Build completion_times object — only include non-null values
-    const completionTimes = {};
-    if (hltbData.main !== null) completionTimes.main = hltbData.main;
-    if (hltbData.extras !== null) completionTimes.extras = hltbData.extras;
-    if (hltbData.completionist !== null) completionTimes.completionist = hltbData.completionist;
-    if (hltbData.all !== null) completionTimes.all = hltbData.all;
-
-    if (Object.keys(completionTimes).length === 0) {
+    // Skip if no usable data
+    if (hltbData.main === null && hltbData.completionist === null) {
       skipped++;
       process.stdout.write(
         `\r  ${i + 1}/${gamesToProcess.length} | ${matched} matched · ${updated} updated · ${skipped} skipped · ${errors} errors`
@@ -310,7 +317,7 @@ async function main() {
     }
 
     // Upsert
-    await upsertGameEditorial(game.id, completionTimes);
+    await upsertGameEditorial(game.id, hltbData);
     matched++;
     updated++;
 
