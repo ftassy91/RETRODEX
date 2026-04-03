@@ -415,7 +415,7 @@ function renderHeroSection(game) {
               <div id="game-relations" class="game-relations"></div>
               <div class="surface-action-row detail-hero-actions">
                 <a class="terminal-action-link" href="/games-list.html">Retour a RetroDex &rarr;</a>
-                <a class="terminal-action-link is-primary" href="#collection-shell">Voir Collection &rarr;</a>
+                <a class="terminal-action-link is-primary" href="#collection-shell">Collection &rarr;</a>
                 <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title)}&from=${encodeURIComponent(game.id)}">Lecture avancee &rarr;</a>
               </div>
             </div>
@@ -424,14 +424,14 @@ function renderHeroSection(game) {
 
         <aside class="detail-market-panel detail-hero-aside">
           <div class="detail-kicker">LECTURE</div>
-          <div class="detail-domain-heading">Ce qu'il faut voir d'abord</div>
+          <div class="detail-domain-heading">Voir d'abord</div>
           <div id="hero-reading-grid" class="surface-signal-grid detail-identity-signal-grid">
             ${buildHeroSignalCard('Richesse', 'Chargement', 'is-primary')}
-            ${buildHeroSignalCard('Etat', 'En cours')}
+            ${buildHeroSignalCard('État', 'En cours')}
             ${buildHeroSignalCard('Confiance', 'A qualifier')}
           </div>
           <div id="hero-reading-highlights" class="surface-chip-row"></div>
-          <p id="hero-reading-note" class="detail-reading-note">Collection et qualification restent en soutien.</p>
+          <p id="hero-reading-note" class="detail-reading-note">Lire d'abord. Qualifier ensuite.</p>
           ${refPrice}
         </aside>
       </div>
@@ -497,25 +497,25 @@ function renderDetailContentStatus() {
     if (readingGridEl) {
       readingGridEl.innerHTML = [
         buildHeroSignalCard('Richesse', 'Chargement', 'is-primary'),
-        buildHeroSignalCard('Etat', 'En cours'),
+        buildHeroSignalCard('État', 'En cours'),
         buildHeroSignalCard('Confiance', 'A qualifier'),
       ].join('')
     }
     if (readingHighlightsEl) readingHighlightsEl.innerHTML = ''
-    if (readingNoteEl) readingNoteEl.textContent = 'Lecture en cours de qualification.'
+    if (readingNoteEl) readingNoteEl.textContent = 'Lecture en cours.'
     return
   }
 
   rowEl.innerHTML = `
     <span class="surface-chip is-primary">Richesse ${escapeHtml(signals.band.shortLabel)}</span>
-    <span class="surface-chip">Etat ${escapeHtml(signals.completionState.shortLabel)}</span>
+    <span class="surface-chip">État ${escapeHtml(signals.completionState.shortLabel)}</span>
     <span class="surface-chip">Confiance ${escapeHtml(signals.confidence.shortLabel)}</span>
   `
   noteEl.textContent = signals.band.note
   if (readingGridEl) {
     readingGridEl.innerHTML = [
       buildHeroSignalCard('Richesse', signals.band.shortLabel, 'is-primary'),
-      buildHeroSignalCard('Etat', signals.completionState.shortLabel),
+      buildHeroSignalCard('État', signals.completionState.shortLabel),
       buildHeroSignalCard('Confiance', signals.confidence.shortLabel),
     ].join('')
   }

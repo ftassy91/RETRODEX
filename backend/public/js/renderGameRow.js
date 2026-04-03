@@ -28,7 +28,7 @@ function renderGameRow(game, options = {}) {
   const {
     linkTo = 'game-detail',
     showPrice = true,
-    showRarity = true,
+    showRarity = false,
     collectionState = null,
   } = options
 
@@ -59,7 +59,6 @@ function renderGameRow(game, options = {}) {
   const rarity = game.rarity || ''
   const year = game.year || 'n/a'
   const consoleName = game.console || ''
-  const genre = game.genre && game.genre !== 'Other' ? game.genre : ''
   const contentSignals = window.RetroDexContentSignals?.buildRichness
     ? window.RetroDexContentSignals.buildRichness(game)
     : null
@@ -67,12 +66,12 @@ function renderGameRow(game, options = {}) {
   const showOwnedBadge = String(collectionState || '').toLowerCase() === 'owned'
   const archiveBadges = [
     contentSignals ? `<span class="presence-badge is-richness is-${escapeHtml(contentSignals.band.key)}">${escapeHtml(contentSignals.band.shortLabel)}</span>` : '',
-    contentSignals ? `<span class="presence-badge is-state">Etat ${escapeHtml(contentSignals.completionState.shortLabel)}</span>` : '',
+    contentSignals ? `<span class="presence-badge is-state">État ${escapeHtml(contentSignals.completionState.shortLabel)}</span>` : '',
     contentSignals ? `<span class="presence-badge is-state">Confiance ${escapeHtml(contentSignals.confidence.shortLabel)}</span>` : '',
   ].filter(Boolean).join('')
   const summary = String(game.summary || game.synopsis || game.tagline || '').trim()
   const summaryHtml = summary
-    ? `<span class="result-summary">${escapeHtml(summary.length > 132 ? `${summary.slice(0, 132).trimEnd()}...` : summary)}</span>`
+    ? `<span class="result-summary">${escapeHtml(summary.length > 116 ? `${summary.slice(0, 116).trimEnd()}...` : summary)}</span>`
     : ''
 
   el.innerHTML = `
@@ -80,16 +79,15 @@ function renderGameRow(game, options = {}) {
     <div class="result-info">
       <span class="result-title" title="${escapeHtml(game.title || '')}">${escapeHtml(game.title || '')}${showOwnedBadge ? '<span class="result-owned-badge">COLLECTION</span>' : ''}</span>
       <span class="result-meta-row">
-        <span class="result-meta">${escapeHtml(consoleName)} &middot; ${escapeHtml(year)}${genre ? ` &middot; ${escapeHtml(genre)}` : ''}</span>
+        <span class="result-meta">${escapeHtml(consoleName)} &middot; ${escapeHtml(year)}</span>
       </span>
       ${archiveBadges ? `<span class="result-presence-row result-archive-row">${archiveBadges}</span>` : ''}
       ${summaryHtml}
-      ${renderPresenceBadges(game)}
     </div>
     <div class="result-signal">
       ${showPrice ? `<span class="result-price">${loosePrice}</span>` : ''}
       <span class="result-metascore"></span>
-      ${showRarity ? `<span class="result-rarity" style="color:${rarityColors[rarity] || 'var(--text-muted)'}">${escapeHtml(rarity || 'COMMON')}</span>` : ''}
+      ${showRarity && rarity ? `<span class="result-rarity" style="color:${rarityColors[rarity] || 'var(--text-muted)'}">${escapeHtml(rarity)}</span>` : ''}
     </div>
   `
 
@@ -128,4 +126,5 @@ function renderGameRow(game, options = {}) {
   return el
 }
 
+if (typeof window !== 'undefined') window.renderGameRow = renderGameRow
 if (typeof module !== 'undefined') module.exports = { renderGameRow }

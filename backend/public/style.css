@@ -12433,3 +12433,372 @@ body {
     display: none;
   }
 }
+
+/* ========================================
+   PUBLIC READING 7/10+
+======================================== */
+.global-product-nav.global-product-nav-unified {
+  width: min(1040px, calc(100% - 24px));
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px;
+  margin: 24px auto 18px;
+}
+
+.global-product-nav.global-product-nav-unified .global-product-link {
+  min-height: 66px;
+  padding: 11px 14px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.global-product-nav.global-product-nav-unified .nav-label,
+.global-product-nav.global-product-nav-unified .nav-copy {
+  display: block;
+  width: 100%;
+}
+
+.global-product-nav.global-product-nav-unified .nav-copy {
+  max-width: none;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+}
+
+.hub-focused-page,
+.retrodex-index-page,
+.retrodex-search-page,
+.collection-cockpit-page,
+.market-detail-shell,
+.detail-shell {
+  gap: 14px;
+}
+
+.hub-focus-shell,
+.detail-hero-shell,
+.collection-cockpit-shell,
+.catalog-sidebar,
+.catalog-results-panel,
+.collection-cockpit-main,
+.collection-cockpit-side {
+  box-shadow: none;
+}
+
+.hub-focus-shell,
+.detail-hero-shell,
+.collection-cockpit-shell {
+  padding: 20px 22px;
+}
+
+.hub-focus-head,
+.retrodex-index-head,
+.retrodex-search-page .secondary-page-head,
+.collection-page-head,
+.market-page-head {
+  gap: 12px;
+  align-items: end;
+}
+
+.hub-intro-shell,
+.retrodex-index-page .catalog-page-titlezone,
+.retrodex-search-page .page-title-wrap,
+.collection-page-head .page-title-wrap,
+.market-page-head .page-title-wrap {
+  max-width: 36rem;
+}
+
+.hub-intro,
+.retrodex-index-page .page-subtitle,
+.retrodex-search-page .page-subtitle,
+.collection-page-head .page-subtitle,
+.market-page-head .page-subtitle {
+  max-width: 24ch;
+  margin-top: 4px;
+  line-height: 1.36;
+}
+
+.hub-stats-compact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.hub-stat .lbl {
+  letter-spacing: 0.08em;
+}
+
+.hub-intent-grid-three,
+.hub-encyclo-grid {
+  gap: 10px;
+}
+
+.hub-intent-card,
+.hub-rich-card,
+.catalog-sidebar,
+.catalog-results-panel,
+.collection-cockpit-main,
+.collection-cockpit-side,
+.detail-accordion {
+  background: rgba(8, 13, 8, 0.94);
+  border-color: rgba(28, 42, 28, 0.88);
+}
+
+.hub-intent-card,
+.hub-rich-card {
+  min-height: 0;
+}
+
+.hub-intent-label,
+.hub-encyclo-card-title {
+  line-height: 1.08;
+}
+
+.hub-card-copy,
+.hub-intent-copy,
+.detail-status-copy,
+.detail-reading-note,
+.collection-preview-summary,
+.sc-summary,
+.result-summary {
+  color: #7f9975;
+}
+
+.hub-card-copy,
+.hub-intent-copy {
+  max-width: 28ch;
+}
+
+.hub-universe-actions,
+.hub-intent-links {
+  margin-top: 10px;
+}
+
+.catalog-layout-lean {
+  grid-template-columns: minmax(220px, 248px) minmax(0, 1fr);
+  gap: 16px;
+}
+
+.catalog-sidebar {
+  position: sticky;
+  top: 12px;
+  padding: 16px 16px 18px;
+}
+
+.filters-sidebar-content .search-panel {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.catalog-results-panel {
+  padding: 18px 20px;
+}
+
+.results-summary-line,
+.retrodex-index-page .pass1-surface-banner,
+.retrodex-search-page .pass1-surface-banner,
+.collection-public-banner {
+  font-size: 0.64rem;
+  letter-spacing: 0.07em;
+}
+
+.result-row.result-row-catalog,
+.sc-row.sc-row-lean {
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 14px;
+  align-items: start;
+  padding: 15px 0;
+}
+
+.result-row-indicator,
+.sc-action {
+  display: none;
+}
+
+.result-title,
+.sc-title {
+  font-size: 0.98rem;
+  line-height: 1.08;
+}
+
+.result-meta-row,
+.sc-sub {
+  margin-top: 4px;
+}
+
+.result-meta,
+.sc-sub {
+  font-size: 0.66rem;
+  letter-spacing: 0.07em;
+  color: #6f8867;
+}
+
+.result-archive-row,
+.sc-chip-row {
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.result-summary,
+.sc-summary {
+  max-width: 44ch;
+  margin-top: 8px;
+  font-size: 0.73rem;
+}
+
+.result-presence-row:not(.result-archive-row) {
+  display: none;
+}
+
+.result-signal,
+.sc-signal-grid-lean {
+  min-width: 72px;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.surface-signal-card {
+  padding: 9px 10px;
+}
+
+.surface-signal-card .surface-signal-label {
+  font-size: 0.58rem;
+}
+
+.surface-signal-card .surface-signal-value {
+  font-size: 0.75rem;
+}
+
+.search-result-link-shell {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.search-result-link-shell:hover .result-title,
+.search-result-link-shell:focus-visible .result-title,
+.result-row.result-row-catalog:hover .result-title,
+.result-row.result-row-catalog:focus-visible .result-title {
+  color: #c8f986;
+}
+
+.detail-shell {
+  width: min(1040px, calc(100% - 24px));
+}
+
+.detail-hero-grid-tight {
+  grid-template-columns: minmax(0, 1.9fr) minmax(220px, 0.82fr);
+  gap: 18px;
+}
+
+.detail-hero-title {
+  max-width: 14ch;
+  line-height: 0.94;
+}
+
+.hero-summary {
+  max-width: 56ch;
+  font-size: 0.83rem;
+  line-height: 1.54;
+}
+
+.detail-market-panel {
+  padding-left: 18px;
+}
+
+.detail-hero-actions .terminal-action-link:last-child {
+  opacity: 0.76;
+}
+
+.detail-accordion {
+  padding: 16px 18px;
+}
+
+.detail-accordion-toggle {
+  padding: 0;
+}
+
+.detail-accordion-content {
+  padding-top: 14px;
+}
+
+.collection-cockpit-grid {
+  grid-template-columns: minmax(0, 1.58fr) minmax(290px, 0.88fr);
+  gap: 16px;
+}
+
+.collection-cockpit-main,
+.collection-cockpit-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.terminal-table-header.collection-table-header {
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+}
+
+#collection-list-container .terminal-row {
+  padding: 10px 0;
+}
+
+.collection-preview-shell {
+  top: 12px;
+  padding: 16px;
+}
+
+.surface-action-row,
+.terminal-preview-row.surface-action-row {
+  gap: 8px;
+}
+
+@media (max-width: 980px) {
+  .hub-encyclo-grid,
+  .hub-intent-grid-three,
+  .catalog-layout-lean,
+  .detail-hero-grid-tight,
+  .collection-cockpit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-sidebar,
+  .collection-preview-shell {
+    position: static;
+  }
+
+  .detail-market-panel {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .global-product-nav.global-product-nav-unified {
+    width: min(100%, calc(100% - 16px));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .global-product-nav.global-product-nav-unified .global-product-link {
+    min-height: 52px;
+    padding: 10px 8px;
+  }
+
+  .hub-focused-page,
+  .retrodex-index-page,
+  .retrodex-search-page,
+  .collection-cockpit-page,
+  .market-detail-shell,
+  .detail-shell {
+    width: min(100%, calc(100% - 16px));
+  }
+
+  .hub-focus-shell,
+  .detail-hero-shell,
+  .collection-cockpit-shell,
+  .catalog-results-panel,
+  .catalog-sidebar {
+    padding: 16px;
+  }
+}

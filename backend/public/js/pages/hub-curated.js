@@ -58,7 +58,7 @@
     const href = `/game-detail.html?id=${encodeURIComponent(item.id)}`
     const summary = String(item.summary || item.synopsis || '').trim()
     const meta = [item.console, item.year].filter(Boolean).map((part) => esc(part)).join(' | ')
-    const shortSummary = summary ? `${summary.slice(0, 104)}${summary.length > 104 ? '...' : ''}` : 'Fiche recommandee.'
+    const shortSummary = summary ? `${summary.slice(0, 90)}${summary.length > 90 ? '...' : ''}` : 'Fiche forte.'
 
     return `
       <article class="hub-encyclo-card hub-rich-card">
@@ -66,12 +66,12 @@
         <div class="hub-encyclo-card-meta">${meta || 'Archive RetroDex'}</div>
         <div class="surface-chip-row hub-rich-chip-row">
           ${signals ? `<span class="surface-chip is-primary">${esc(signals.band.shortLabel)}</span>` : ''}
-          ${signals ? `<span class="surface-chip">Etat ${esc(signals.completionState.shortLabel)}</span>` : ''}
+          ${signals ? `<span class="surface-chip">État ${esc(signals.completionState.shortLabel)}</span>` : ''}
           ${item.metascore ? `<span class="surface-chip is-hot">MS ${esc(item.metascore)}</span>` : ''}
         </div>
         <p class="hub-card-copy">${esc(shortSummary)}</p>
         <div class="hub-universe-actions">
-          <a class="hub-inline-link" href="${href}">ouvrir la fiche</a>
+          <a class="hub-inline-link" href="${href}">Ouvrir</a>
         </div>
       </article>
     `
@@ -93,27 +93,27 @@
       const consoles = Number(publication.consoleCount || 0)
       const withSynopsis = Number(statsPayload?.encyclopedia_stats?.with_synopsis || 0)
 
-      bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} fiches visibles | ${consoles} consoles`
+      bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} fiches | ${consoles} supports`
       setText(publishedEl, String(published || '--'))
       setText(totalEl, String(total || '--'))
       setText(synopsisEl, String(withSynopsis || '--'))
       setText(consolesEl, String(consoles || '--'))
       setText(publicationSignalEl, `${published} visibles`)
       setText(editorialSignalEl, `${withSynopsis} lectures`)
-      setText(archiveSignalEl, richItems.length ? `${richItems.length} picks` : 'en cours')
+      setText(archiveSignalEl, richItems.length ? `${richItems.length} picks` : '--')
 
       if (!richItems.length) {
-        renderState('Aucune fiche forte', 'La selection se remplira avec les publications riches.')
+        renderState('Aucune fiche forte', 'La selection arrive.')
         return
       }
 
       richGridEl.innerHTML = richItems.map(buildCard).join('')
     } catch (_error) {
-      bannerEl.textContent = 'Hub RetroDex | entree vers l index, les fiches et la collection'
+      bannerEl.textContent = 'Hub RetroDex'
       setText(publicationSignalEl, 'indisponible')
       setText(editorialSignalEl, 'indisponible')
       setText(archiveSignalEl, 'indisponible')
-      renderState('Signaux indisponibles', 'Impossible de lire la vitrine pour cette session.')
+      renderState('Signaux indisponibles', 'Impossible de lire la vitrine.')
     }
   }
 

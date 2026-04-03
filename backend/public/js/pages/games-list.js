@@ -266,8 +266,8 @@ function navigateTo(gameId) {
 
 function setCatalogPublicationCopy(summary = null) {
   if (!summary) {
-    if (subtitleEl) subtitleEl.textContent = `${totalGames} jeux visibles dans l'index`
-    if (curationBannerEl) curationBannerEl.textContent = 'Lecture de publication en cours.'
+    if (subtitleEl) subtitleEl.textContent = `${totalGames} jeux dans RetroDex`
+    if (curationBannerEl) curationBannerEl.textContent = 'Surface publiee'
     return
   }
 
@@ -277,8 +277,8 @@ function setCatalogPublicationCopy(summary = null) {
   const total = Number(summary.catalogGamesCount || totalGames || 0)
   const label = summary.label || 'Pass 1'
 
-  if (subtitleEl) subtitleEl.textContent = `${published} fiches visibles | ${consoles} supports`
-  if (curationBannerEl) curationBannerEl.textContent = `${label} | ${published} fiches sur ${total} jeux`
+  if (subtitleEl) subtitleEl.textContent = `${published} fiches | ${consoles} supports`
+  if (curationBannerEl) curationBannerEl.textContent = `${label} | ${published}/${total}`
 }
 
 function populateGenres(source) {
@@ -322,7 +322,7 @@ function renderEmpty(currentState) {
 
   resultsEl.innerHTML = `
     <div class="empty-state">
-      <div><strong>Aucune fiche visible${suffix}</strong></div>
+      <div><strong>Aucune fiche${suffix}</strong></div>
       <div style="margin-top:8px;">Essayez : ${picks.map((game) => esc(game.title)).join(' | ') || 'un autre filtre'}.</div>
       ${picks.length ? `<div class="suggestions">${picks.map((game) => `<button type="button" class="suggestion-btn" data-suggestion="${esc(game.title)}">${esc(game.title)}</button>`).join('')}</div>` : ''}
     </div>
@@ -446,7 +446,7 @@ async function loadCollectionSignals() {
 async function loadGames() {
   const currentState = state()
   updateUrl(currentState)
-  loadingIndicatorEl.textContent = 'Chargement...'
+  loadingIndicatorEl.textContent = 'Lecture...'
   renderLoadingSkeletons()
 
   const params = new URLSearchParams()
@@ -471,8 +471,8 @@ async function loadGames() {
     render(currentState)
     loadingIndicatorEl.textContent = ''
   } catch (error) {
-    loadingIndicatorEl.textContent = 'Catalogue indisponible.'
-    resultsEl.innerHTML = '<div class="empty-state">Impossible de charger le catalogue.</div>'
+    loadingIndicatorEl.textContent = 'RetroDex indisponible.'
+    resultsEl.innerHTML = '<div class="empty-state">Impossible de lire RetroDex.</div>'
   }
 }
 
@@ -606,6 +606,6 @@ window.addEventListener('DOMContentLoaded', () => {
 Promise.all([loadConsoles(), loadMeta(), loadCollectionSignals()])
   .then(() => loadGames())
   .catch((error) => {
-    loadingIndicatorEl.textContent = `Erreur initiale: ${error.message}`
+    loadingIndicatorEl.textContent = 'Erreur initiale.'
     resultsEl.innerHTML = '<div class="empty-state">Chargement impossible.</div>'
   })

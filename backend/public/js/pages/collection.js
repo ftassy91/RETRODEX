@@ -271,7 +271,7 @@
     if (activeTab === 'wanted') {
       return {
         title: 'Wishlist vide',
-        copy: 'Ouvrez RetroDex pour ajouter un jeu a suivre.',
+        copy: 'Ajoutez un jeu a suivre.',
         linkLabel: 'Ouvrir RetroDex',
       }
     }
@@ -280,15 +280,15 @@
       return {
         title: 'Liste a vendre vide',
         copy: isPublicForSaleView
-          ? 'Aucune entree n est actuellement proposee.'
-          : 'Ajoutez un jeu a vendre depuis votre etagere.',
+          ? 'Aucune entree visible.'
+          : 'Ajoutez un jeu a vendre.',
         linkLabel: 'Ouvrir RetroDex',
       }
     }
 
     return {
       title: 'Etagere vide',
-      copy: '',
+      copy: 'Commencez par une fiche.',
       linkLabel: 'Ouvrir RetroDex',
     }
   }
@@ -388,7 +388,7 @@
     const mintPrice = Number(game.mintPrice || 0)
     const paid = Number(item.price_paid || 0)
     const gain = paid > 0 ? loosePrice - paid : null
-    const previewCopy = note || game.tagline || game.summary || game.synopsis || 'Sans note personnelle. La fiche reste la meilleure lecture.'
+    const previewCopy = note || game.tagline || game.summary || game.synopsis || 'La fiche reste la meilleure lecture.'
     hideEditForm()
 
     collectionDetailEl.style.display = 'block'
@@ -437,7 +437,7 @@
 
     detailRow2El.innerHTML = `
       <a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="terminal-action-link">Ouvrir la fiche &rarr;</a>
-      <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="terminal-action-link">Qualifier &rarr;</a>
+      <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="terminal-action-link">Lecture avancee &rarr;</a>
       ${isPublicForSaleView && activeTab === 'for_sale' ? '' : `
         <button id="collection-edit-btn" class="terminal-inline-btn" type="button">
           MODIFIER
@@ -516,7 +516,7 @@
     } else {
       spacer.innerHTML = `
         <div class="terminal-quiet-note">
-          ${items.length} entree(s) visibles. <a href="/games-list.html" class="terminal-action-link">&rarr; Ouvrir RetroDex</a>
+          ${items.length} entree(s). <a href="/games-list.html" class="terminal-action-link">&rarr; Ouvrir RetroDex</a>
         </div>
       `
     }
@@ -583,13 +583,13 @@
     const baseLabel = `${visibleItems.length} entree(s)`
     setStatus(visibleItems.length === allCollectionItems.length
       ? `${baseLabel} dans ${getTabLabel(activeTab)}.`
-      : `${baseLabel} visible(s) sur ${allCollectionItems.length} dans ${getTabLabel(activeTab)}.`)
+      : `${baseLabel} sur ${allCollectionItems.length} dans ${getTabLabel(activeTab)}.`)
   }
 
   async function copySaleLink() {
     try {
       await navigator.clipboard.writeText(`${window.location.origin}/collection.html?view=for_sale`)
-      setStatus('Lien de vente copie.')
+      setStatus('Lien copie.')
       if (copyFeedbackTimer) {
         window.clearTimeout(copyFeedbackTimer)
       }
@@ -616,7 +616,7 @@
       await loadCollection()
       setStatus('Jeu retire.')
     } catch (error) {
-      setStatus(`Erreur suppression : ${error.message}`)
+      setStatus('Erreur suppression.')
     }
   }
 
@@ -639,7 +639,7 @@
       })
       hideEditForm()
       await loadCollection(editingItemId)
-      setStatus('Fiche collection mise a jour.')
+      setStatus('Fiche mise a jour.')
     } catch (error) {
       setStatus(`Erreur mise à jour : ${error.message}`)
     } finally {
@@ -682,13 +682,13 @@
     link.click()
     link.remove()
     window.URL.revokeObjectURL(url)
-    setStatus(`Export CSV genere pour ${enrichedItems.length} item(s).`)
+    setStatus('Export CSV pret.')
   }
 
   async function loadCollection(preferredItemId = null) {
     clearSelection()
-    setStatus('Chargement de la collection...')
-    setHtml(collectionListContainerEl, collectionStateMarkup('Chargement', 'Lecture des lignes de collection et des signaux associes.'))
+    setStatus('Chargement...')
+    setHtml(collectionListContainerEl, collectionStateMarkup('Chargement', 'Lecture de la collection.'))
 
     try {
       const payload = await fetchCollection(activeTab, isPublicForSaleView)
@@ -713,12 +713,12 @@
         collectionListContainerEl,
         collectionStateMarkup(
           'Collection indisponible',
-          'Impossible de lire les lignes de collection pour le moment.',
+          'Impossible de lire la collection.',
           '<div class="terminal-empty-copy"><a href="/games-list.html" class="terminal-action-link">Ouvrir RetroDex &rarr;</a></div>'
         )
       )
       clearSelection()
-      setStatus(`Erreur collection : ${error.message}`)
+      setStatus('Erreur collection.')
     }
   }
 

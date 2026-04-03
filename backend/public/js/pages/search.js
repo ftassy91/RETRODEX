@@ -62,13 +62,13 @@
   function renderPublicationBanner(publication) {
     if (!bannerEl) return
     if (!publication) {
-      bannerEl.textContent = 'RetroDex lit uniquement la surface publiee.'
+      bannerEl.textContent = 'Surface publiee'
       return
     }
 
     const published = Number(publication.publishedGamesCount || 0)
     const consoles = Number(publication.consoleCount || 0)
-    bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} fiches visibles | ${consoles} consoles`
+    bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} fiches | ${consoles} supports`
   }
 
   async function preloadPublicationBanner() {
@@ -84,15 +84,43 @@
   function renderEmpty(message) {
     resultsEl.innerHTML = `
       <div class="terminal-empty-state search-empty">
-        <div class="terminal-empty-title">Recherche</div>
+        <div class="terminal-empty-title">RetroDex</div>
         <div class="terminal-empty-copy">${message}</div>
       </div>
     `
   }
 
+  function renderGameResult(item) {
+    const game = {
+      ...(item.meta || {}),
+      id: item.id,
+      title: item.title,
+      signals: item.signals || item.meta?.signals || {},
+      curation: item.curation || item.meta?.curation || null,
+    }
+
+    if (typeof window.renderGameRow === 'function') {
+      const row = window.renderGameRow(game, {
+        showPrice: true,
+        showRarity: false,
+      })
+      const link = document.createElement('a')
+      link.className = 'search-result-link-shell'
+      link.href = item.href
+      link.appendChild(row)
+      return link
+    }
+
+    const fallback = document.createElement('a')
+    fallback.className = 'sc-row sc-row-lean'
+    fallback.href = item.href
+    fallback.textContent = item.title
+    return fallback
+  }
+
   function renderResults(results) {
     if (!results.length) {
-      renderEmpty('Aucun resultat visible.')
+      renderEmpty('Aucun resultat.')
       if (countEl) countEl.textContent = '0 resultat'
       return
     }
@@ -101,6 +129,11 @@
     resultsEl.innerHTML = ''
 
     results.forEach((item) => {
+      if (item.type === 'game') {
+        resultsEl.appendChild(renderGameResult(item))
+        return
+      }
+
       const contentSignals = buildItemContentSignals(item)
       const row = document.createElement('a')
       row.className = 'sc-row sc-row-lean'
@@ -129,7 +162,7 @@
 
       const chipRow = document.createElement('div')
       chipRow.className = 'sc-chip-row'
-      if (item.type === 'game' && item.meta?.console) {
+      if (item.meta?.console) {
         chipRow.appendChild(createChip(item.meta.console, 'is-primary'))
       } else {
         chipRow.appendChild(createChip(String(item.type || 'entry').toUpperCase(), 'is-primary'))
@@ -137,7 +170,7 @@
       if (item.meta?.year) chipRow.appendChild(createChip(String(item.meta.year)))
       if (contentSignals) {
         chipRow.appendChild(createChip(`Richesse ${contentSignals.band.shortLabel}`, `is-richness is-${contentSignals.band.key}`))
-        chipRow.appendChild(createChip(`Etat ${contentSignals.completionState.shortLabel}`, 'is-completion'))
+        chipRow.appendChild(createChip(`État ${contentSignals.completionState.shortLabel}`, 'is-completion'))
         chipRow.appendChild(createChip(`Confiance ${contentSignals.confidence.shortLabel}`, 'is-confidence'))
       } else if (item.meta?.rarity) {
         chipRow.appendChild(createChip(item.meta.rarity, 'is-hot'))
@@ -179,7 +212,7 @@
 
       const action = document.createElement('span')
       action.className = 'sc-action'
-      action.textContent = item.type === 'game' ? 'Ouvrir la fiche ->' : 'Voir ->'
+      action.textContent = 'Voir ->'
       row.appendChild(action)
 
       resultsEl.appendChild(row)
@@ -188,7 +221,7 @@
 
   async function doSearch(query) {
     if (!window.RetroDexSearch) {
-      renderEmpty('Chargement du moteur...')
+      renderEmpty('Chargement...')
       window.setTimeout(() => doSearch(query), 400)
       return
     }
@@ -201,13 +234,13 @@
       renderResults(results)
       syncUrl(query)
     } catch (_error) {
-      renderEmpty('La recherche est indisponible pour cette session.')
+      renderEmpty('Recherche indisponible.')
     }
   }
 
   function showIdleState() {
     if (countEl) countEl.textContent = ''
-    renderEmpty('Saisissez un titre, une console ou une franchise.')
+    renderEmpty('Titre, console ou franchise.')
     syncUrl('')
   }
 
