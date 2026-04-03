@@ -26,16 +26,53 @@ const DRY   = args.includes('--dry-run');
 const LIMIT = args.includes('--limit') ? parseInt(args[args.indexOf('--limit') + 1]) : null;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-const HLTB_API_URL = 'https://howlongtobeat.com/api/search';
+const HLTB_BASE = 'https://howlongtobeat.com';
+const HLTB_API_URL = 'https://howlongtobeat.com/api/find';
 const RATE_LIMIT_MS = 1500; // 1.5 seconds between requests
+
+// ── Resolve HLTB session credentials ─────────────────────────────────────
+// HLTB uses a session init endpoint that returns a short-lived token + keys.
+// Endpoint: GET /api/find/init?t=<timestamp>
+// Returns: { token, hpKey, hpVal }
+let _hltbAuth = null;
+let _hltbAuthFetchedAt = 0;
+const HLTB_AUTH_TTL_MS = 10 * 60 * 1000; // refresh every 10 minutes
+
+async function resolveHltbAuth() {
+  const now = Date.now();
+  if (_hltbAuth && (now - _hltbAuthFetchedAt) < HLTB_AUTH_TTL_MS) return _hltbAuth;
+
+  try {
+    const res = await fetch(`${HLTB_BASE}/api/find/init?t=${now}`, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+        'Referer': HLTB_BASE,
+      },
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!res.ok) throw new Error(`Init returned ${res.status}`);
+    const data = await res.json();
+    if (!data.token) throw new Error('No token in init response');
+    _hltbAuth = { token: data.token, hpKey: data.hpKey, hpVal: data.hpVal };
+    _hltbAuthFetchedAt = now;
+    console.log(`  [HLTB] Session initialized (hpKey: ${data.hpKey})`);
+    return _hltbAuth;
+  } catch (err) {
+    console.error(`  [ERROR] Failed to initialize HLTB session: ${err.message}`);
+    return null;
+  }
+}
 
 // ── Fetch from HowLongToBeat API ──────────────────────────────────────────
 async function fetchHLTBData(gameTitle) {
+  const auth = await resolveHltbAuth();
+  if (!auth) return null;
+
   const payload = {
     searchType: 'games',
-    searchTerms: [gameTitle],
+    searchTerms: gameTitle.trim().split(' '),
     searchPage: 1,
-    size: 5,
+    size: 20,
     searchOptions: {
       games: {
         userId: 0,
@@ -43,16 +80,20 @@ async function fetchHLTBData(gameTitle) {
         sortCategory: 'popular',
         rangeCategory: 'main',
         rangeTime: { min: null, max: null },
-        gameplay: {
-          perspective: '',
-          flow: '',
-          genre: ''
-        },
+        gameplay: { perspective: '', flow: '', genre: '', difficulty: '' },
         rangeYear: { min: '', max: '' },
         modifier: ''
-      }
-    }
+      },
+      users: { sortCategory: 'postcount' },
+      lists: { sortCategory: 'follows' },
+      filter: '',
+      sort: 0,
+      randomizer: 0
+    },
+    useCache: true,
   };
+  // HLTB requires [hpKey]: hpVal injected directly into the payload body
+  if (auth.hpKey) payload[auth.hpKey] = auth.hpVal;
 
   try {
     const res = await fetch(HLTB_API_URL, {
@@ -60,24 +101,32 @@ async function fetchHLTBData(gameTitle) {
       headers: {
         'Content-Type': 'application/json',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
-        'Referer': 'https://howlongtobeat.com'
+        'Referer': HLTB_BASE,
+        'Origin': HLTB_BASE,
+        'x-auth-token': auth.token,
+        'x-hp-key': auth.hpKey,
+        'x-hp-val': auth.hpVal,
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(10000),
     });
 
+    // Session expired — clear cache so next call re-initializes
+    if (res.status === 401 || res.status === 403) {
+      _hltbAuth = null;
+      console.warn(`  [WARN] HLTB session expired (${res.status}), will re-init on next call`);
+      return null;
+    }
+
     if (!res.ok) {
-      console.log(`  [WARN] HLTB returned ${res.status} for "${gameTitle}"`);
+      console.warn(`  [WARN] HLTB returned ${res.status} for "${gameTitle}"`);
       return null;
     }
 
     const data = await res.json();
     const games = data.data || [];
+    if (!games.length) return null;
 
-    if (!games.length) {
-      return null;
-    }
-
-    // Return first match
     const match = games[0];
     return {
       title: match.game_name || gameTitle,
@@ -87,7 +136,7 @@ async function fetchHLTBData(gameTitle) {
       all: match.comp_all ? Math.round((match.comp_all / 3600) * 10) / 10 : null
     };
   } catch (err) {
-    console.log(`  [ERROR] HLTB fetch failed for "${gameTitle}": ${err.message}`);
+    console.warn(`  [WARN] HLTB fetch failed for "${gameTitle}": ${err.message}`);
     return null;
   }
 }

@@ -86,15 +86,17 @@ async function fetchPriceCharting(game) {
     if (!res.ok) return null;
     const html = await res.text();
 
-    // Extraire les prix depuis les IDs PriceCharting
-    const extract = (id) => {
-      const m = html.match(new RegExp(`id="${id}"[^>]*>[^<]*<span[^>]*>\\\$?([\\d,]+\\.?\\d*)`));
-      return m ? parseFloat(m[1].replace(',','')) : null;
+    // Extraire les prix depuis les classes PriceCharting
+    // HTML pattern: <td class="price numeric used_price"><span class="js-price">$9.98</span>
+    const extract = (cls) => {
+      const pattern = 'class="[^"]*\\b' + cls + '\\b[^"]*"[^>]*>[\\s\\S]*?<span[^>]*>[$]?([\\d,]+\\.?\\d*)';
+      const m = html.match(new RegExp(pattern));
+      return m ? parseFloat(m[1].replace(/,/g, '')) : null;
     };
 
-    const loose  = extract('used_price')     || extract('price-used');
-    const cib    = extract('complete_price') || extract('price-complete');
-    const mint   = extract('new_price')      || extract('price-new');
+    const loose  = extract('used_price');
+    const cib    = extract('cib_price');
+    const mint   = extract('new_price');
     const graded = extract('graded_price');
 
     if (!loose && !cib && !mint) return null;
@@ -196,7 +198,7 @@ async function getGames() {
     return data || [];
   }
   const rarityClause = RARITY ? `AND rarity IN (${RARITY.map(()=>'?').join(',')})` : '';
-  return db.prepare(`SELECT id,title,console,rarity,loosePrice,cibPrice,mintPrice FROM games WHERE type='game' ${rarityClause} LIMIT ?`)
+  return db.prepare(`SELECT id,title,console,rarity,loose_price AS loosePrice,cib_price AS cibPrice,mint_price AS mintPrice FROM games WHERE type='game' ${rarityClause} LIMIT ?`)
     .all(...(RARITY||[]), LIMIT);
 }
 
@@ -238,8 +240,14 @@ async function updateGamePrices(id, prices) {
     const { error } = await supabase.from('games').update(supaFields).eq('id', id);
     if (error) console.error(`[DB] updateGamePrices failed for ${id}:`, error.message);
   } else {
-    const sets = Object.keys(fields).map(k=>`${k}=?`).join(',');
-    if (sets) db.prepare(`UPDATE games SET ${sets} WHERE id=?`).run(...Object.values(fields), id);
+    // SQLite uses snake_case column names
+    const sqliteFields = {};
+    if (fields.loosePrice)          sqliteFields.loose_price         = fields.loosePrice;
+    if (fields.cibPrice)            sqliteFields.cib_price           = fields.cibPrice;
+    if (fields.mintPrice)           sqliteFields.mint_price          = fields.mintPrice;
+    if (fields.source_confidence)   sqliteFields.source_confidence   = fields.source_confidence;
+    const sets = Object.keys(sqliteFields).map(k=>`${k}=?`).join(',');
+    if (sets) db.prepare(`UPDATE games SET ${sets} WHERE id=?`).run(...Object.values(sqliteFields), id);
   }
 }
 
