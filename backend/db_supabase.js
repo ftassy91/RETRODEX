@@ -387,6 +387,7 @@ if (!db) {
     '[DB] FATAL: No database connection established. ' +
     'Set SUPABASE_URL + SUPABASE_ANON_KEY (or SUPABASE_SERVICE_KEY), DATABASE_URL, or ensure better-sqlite3 is installed.'
   );
+  process.exit(1);
 }
 
 function buildSQLiteAdapter(sqlite) {

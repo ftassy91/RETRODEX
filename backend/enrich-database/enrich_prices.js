@@ -83,7 +83,10 @@ async function fetchPriceCharting(game) {
       },
       signal: AbortSignal.timeout(8000),
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      if (res.status !== 404) console.warn(`  [WARN] PriceCharting returned ${res.status} for "${game.title}" (${game.console})`);
+      return null;
+    }
     const html = await res.text();
 
     // Extraire les prix depuis les classes PriceCharting
@@ -464,14 +467,18 @@ async function insertPriceObservation(obs) {
     const { error } = await supabase.from('price_observations').insert([obs]);
     if (error) console.error('[DB] insertPriceObservation failed:', error.message);
   } else {
-    db.prepare(
-      `INSERT INTO price_observations
-       (game_id, condition, price, currency, observed_at, source_name, listing_reference, confidence)
-       VALUES (?,?,?,?,?,?,?,?)`
-    ).run(
-      obs.game_id, obs.condition, obs.price, obs.currency,
-      obs.observed_at, obs.source_name, obs.listing_reference, obs.confidence
-    );
+    try {
+      db.prepare(
+        `INSERT INTO price_observations
+         (game_id, condition, price, currency, observed_at, source_name, listing_reference, confidence)
+         VALUES (?,?,?,?,?,?,?,?)`
+      ).run(
+        obs.game_id, obs.condition, obs.price, obs.currency,
+        obs.observed_at, obs.source_name, obs.listing_reference, obs.confidence
+      );
+    } catch (err) {
+      console.error('[DB] insertPriceObservation (SQLite) failed:', err.message);
+    }
   }
 }
 

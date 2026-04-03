@@ -58,15 +58,14 @@ async function resolveHltbAuth() {
     console.log(`  [HLTB] Session initialized (hpKey: ${data.hpKey})`);
     return _hltbAuth;
   } catch (err) {
-    console.error(`  [ERROR] Failed to initialize HLTB session: ${err.message}`);
-    return null;
+    // Auth failure is unrecoverable for this run — abort rather than silently burning through all games
+    throw new Error(`HLTB session init failed: ${err.message}`);
   }
 }
 
 // ── Fetch from HowLongToBeat API ──────────────────────────────────────────
 async function fetchHLTBData(gameTitle) {
-  const auth = await resolveHltbAuth();
-  if (!auth) return null;
+  const auth = await resolveHltbAuth(); // throws on failure — propagates to main()
 
   const payload = {
     searchType: 'games',
@@ -136,7 +135,7 @@ async function fetchHLTBData(gameTitle) {
       all: match.comp_all ? Math.round((match.comp_all / 3600) * 10) / 10 : null
     };
   } catch (err) {
-    console.warn(`  [WARN] HLTB fetch failed for "${gameTitle}": ${err.message}`);
+    console.error(`  [ERROR] HLTB fetch failed for "${gameTitle}": ${err.message}`);
     return null;
   }
 }
@@ -202,6 +201,7 @@ async function getGameEditorial(gameId) {
       .single();
     if (error && error.code !== 'PGRST116') {
       console.error(`  [ERROR] getGameEditorial failed for ${gameId}:`, error.message);
+      return undefined; // distinct from null (not found) — caller should skip upsert
     }
     return data || null;
   }
@@ -233,21 +233,25 @@ async function upsertGameEditorial(gameId, hltbData) {
       .upsert({ game_id: gameId, ...fields }, { onConflict: 'game_id' });
     if (error) console.error(`  [ERROR] upsertGameEditorial failed for ${gameId}:`, error.message);
   } else {
-    const existing = db.prepare(
-      'SELECT game_id FROM game_editorial WHERE game_id=?'
-    ).get(gameId);
+    try {
+      const existing = db.prepare(
+        'SELECT game_id FROM game_editorial WHERE game_id=?'
+      ).get(gameId);
 
-    if (existing) {
-      const sets = Object.keys(fields).map(k => `${k}=?`).join(', ');
-      db.prepare(
-        `UPDATE game_editorial SET ${sets} WHERE game_id=?`
-      ).run(...Object.values(fields), gameId);
-    } else {
-      const cols = ['game_id', ...Object.keys(fields)].join(', ');
-      const phs  = ['?', ...Object.keys(fields).map(() => '?')].join(', ');
-      db.prepare(
-        `INSERT INTO game_editorial (${cols}) VALUES (${phs})`
-      ).run(gameId, ...Object.values(fields));
+      if (existing) {
+        const sets = Object.keys(fields).map(k => `${k}=?`).join(', ');
+        db.prepare(
+          `UPDATE game_editorial SET ${sets} WHERE game_id=?`
+        ).run(...Object.values(fields), gameId);
+      } else {
+        const cols = ['game_id', ...Object.keys(fields)].join(', ');
+        const phs  = ['?', ...Object.keys(fields).map(() => '?')].join(', ');
+        db.prepare(
+          `INSERT INTO game_editorial (${cols}) VALUES (${phs})`
+        ).run(gameId, ...Object.values(fields));
+      }
+    } catch (err) {
+      console.error(`  [ERROR] upsertGameEditorial (SQLite) failed for ${gameId}:`, err.message);
     }
   }
 }
@@ -276,6 +280,14 @@ async function main() {
 
     // Check if already has completion times
     const existing = await getGameEditorial(game.id);
+    if (existing === undefined) {
+      // getGameEditorial logged the error — skip to avoid blind upsert
+      errors++;
+      process.stdout.write(
+        `\r  ${i + 1}/${gamesToProcess.length} | ${matched} matched · ${updated} updated · ${skipped} skipped · ${errors} errors`
+      );
+      continue;
+    }
     if (existing && (existing.avg_duration_main || existing.avg_duration_complete)) {
       skipped++;
       process.stdout.write(

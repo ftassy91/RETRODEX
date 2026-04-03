@@ -69,7 +69,8 @@ function buildRemotePgConfig() {
   let password = '';
   try {
     password = decodeURIComponent(new URL(rawUrl).password || '');
-  } catch (_) {
+  } catch (parseErr) {
+    console.warn(`[export] Failed to parse DATABASE_URL as URL (${parseErr.message}), falling back to regex`);
     const passwordMatch = rawUrl.match(/postgres(?:\.[\w-]+)?:([^@]+)@/);
     password = passwordMatch ? decodeURIComponent(passwordMatch[1]) : '';
   }
