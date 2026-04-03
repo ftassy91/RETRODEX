@@ -16,9 +16,9 @@ Read order before opening older docs:
 
 - Public runtime: stabilized and canonical
 - Public routes: domain-based, no flat wrappers left
-- Public data layer: Supabase-first through [db_supabase.js](./backend/db_supabase.js)
-- Back-office routes: isolated under [backend/src/routes/admin](./backend/src/routes/admin)
-- Back-office services: isolated under [backend/src/services/admin](./backend/src/services/admin)
+- Public data layer: Supabase-first through [db_supabase.js](../backend/db_supabase.js)
+- Back-office routes: isolated under [backend/src/routes/admin](../backend/src/routes/admin)
+- Back-office services: isolated under [backend/src/services/admin](../backend/src/services/admin)
 - Active technical lot by default: none
 - Canonical enrichment mission prompt: [CODEX_PROMPT_ENRICHMENT_PIPELINE.md](./CODEX_PROMPT_ENRICHMENT_PIPELINE.md)
 
@@ -47,17 +47,17 @@ Read order before opening older docs:
 
 Closed on its approved perimeter:
 
-- [game-read-service.js](./backend/src/services/admin/game-read-service.js): split, now façade
-- [curation-service.js](./backend/src/services/admin/curation-service.js): split, now façade
-- [audit-service.js](./backend/src/services/admin/audit-service.js): split, now façade
-- [console-service.js](./backend/src/services/admin/console-service.js): isolated cleanly
-- [enrichment-backlog-service.js](./backend/src/services/admin/enrichment-backlog-service.js): clarified and retained
+- [game-read-service.js](../backend/src/services/admin/game-read-service.js): split, now façade
+- [curation-service.js](../backend/src/services/admin/curation-service.js): split, now façade
+- [audit-service.js](../backend/src/services/admin/audit-service.js): split, now façade
+- [console-service.js](../backend/src/services/admin/console-service.js): isolated cleanly
+- [enrichment-backlog-service.js](../backend/src/services/admin/enrichment-backlog-service.js): clarified and retained
 
 ### Enrichment Lot 1 Foundations
 
 Opened and completed as an additive admin/back-office lot:
 
-- premium foundation added under [backend/src/services/admin/enrichment](./backend/src/services/admin/enrichment)
+- premium foundation added under [backend/src/services/admin/enrichment](../backend/src/services/admin/enrichment)
 - no new persistence table opened
 - existing canonical tables reused for:
   - coverage
@@ -65,7 +65,7 @@ Opened and completed as an additive admin/back-office lot:
   - quality scoring
   - run logging
 - read-only CLI added:
-  - [recompute-enrichment-coverage.js](./backend/scripts/enrichment/recompute-enrichment-coverage.js)
+  - [recompute-enrichment-coverage.js](../backend/scripts/enrichment/recompute-enrichment-coverage.js)
 - reference audit:
   - [ENRICHMENT_LOT1_FOUNDATIONS.md](./docs/ENRICHMENT_LOT1_FOUNDATIONS.md)
 
@@ -75,8 +75,8 @@ Do not break these:
 
 - active public routes must not read DB directly
 - active public routes must not import Sequelize models directly
-- public runtime reads go through [db_supabase.js](./backend/db_supabase.js)
-- `snake_case -> camelCase` normalization remains centralized in [normalize.js](./backend/src/lib/normalize.js)
+- public runtime reads go through [db_supabase.js](../backend/db_supabase.js)
+- `snake_case -> camelCase` normalization remains centralized in [normalize.js](../backend/src/lib/normalize.js)
 - back-office logic stays under `routes/admin` and `services/admin`
 - do not absorb admin services into public services without a dedicated lot
 - no prod mutation without explicit human validation
@@ -114,8 +114,8 @@ Reference:
 
 These are not open projects by default:
 
-- quarantine items under [backend/src/_quarantine](./backend/src/_quarantine)
-- [20260331_007_collection_runtime_canonical.js](./backend/migrations/_pending_review/20260331_007_collection_runtime_canonical.js)
+- quarantine items under [backend/src/_quarantine](../backend/src/_quarantine)
+- [20260331_007_collection_runtime_canonical.js](../backend/migrations/_pending_review/20260331_007_collection_runtime_canonical.js)
 - [docs/_superseded](./docs/_superseded)
 - unrelated dirty worktree files listed in [LEGACY_AUDIT.md](./docs/LEGACY_AUDIT.md)
 

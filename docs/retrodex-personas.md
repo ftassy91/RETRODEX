@@ -3,12 +3,12 @@
 This document stores three reusable UX review personas for RetroDex.
 
 Use them whenever a change affects:
-- [backend/public/hub.html](./backend/public/hub.html)
-- [backend/public/games-list.html](./backend/public/games-list.html)
-- [backend/public/search.html](./backend/public/search.html)
-- [backend/public/game-detail.html](./backend/public/game-detail.html)
-- [backend/public/collection.html](./backend/public/collection.html)
-- [backend/public/stats.html](./backend/public/stats.html)
+- [backend/public/hub.html](../backend/public/hub.html)
+- [backend/public/games-list.html](../backend/public/games-list.html)
+- [backend/public/search.html](../backend/public/search.html)
+- [backend/public/game-detail.html](../backend/public/game-detail.html)
+- [backend/public/collection.html](../backend/public/collection.html)
+- [backend/public/stats.html](../backend/public/stats.html)
 
 They are aligned with [AGENTS.md](./AGENTS.md):
 - RetroDex is a retro knowledge engine

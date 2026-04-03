@@ -68,7 +68,7 @@ function buildRemotePgConfig() {
   const rawUrl = env.SUPABASE_Project_URL || env.DATABASE_URL || '';
   let password = '';
   try {
-    password = new URL(rawUrl).password || '';
+    password = decodeURIComponent(new URL(rawUrl).password || '');
   } catch (_) {
     const passwordMatch = rawUrl.match(/postgres(?:\.[\w-]+)?:([^@]+)@/);
     password = passwordMatch ? decodeURIComponent(passwordMatch[1]) : '';

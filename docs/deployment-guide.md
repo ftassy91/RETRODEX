@@ -12,10 +12,10 @@ Current authority for deployment/runtime shape:
 
 ## Current deployment reality
 
-- public static surface is served from [backend/public/](./backend/public/)
-- Vercel routes `/api/*` to [backend/src/server.js](./backend/src/server.js)
-- Vercel routes `/` to [backend/public/hub.html](./backend/public/hub.html)
-- public runtime is Supabase-first through [backend/db_supabase.js](./backend/db_supabase.js)
+- public static surface is served from [backend/public/](../backend/public/)
+- Vercel routes `/api/*` to [backend/src/server.js](../backend/src/server.js)
+- Vercel routes `/` to [backend/public/hub.html](../backend/public/hub.html)
+- public runtime is Supabase-first through [backend/db_supabase.js](../backend/db_supabase.js)
 - local SQLite is staging/back-office only
 
 ## Historical note

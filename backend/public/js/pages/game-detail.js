@@ -2258,7 +2258,7 @@ async function loadSimilar(gameId) {
   removeRelatedModule('similar-games')
 
   try {
-    const data = await fetchJson(`/api/games/${gameId}/similar`)
+    const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/similar`)
     if (!data.ok || !safeArray(data.games).length) {
       return
     }

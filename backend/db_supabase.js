@@ -385,7 +385,7 @@ if (!USE_SUPABASE && !db) {
 if (!db) {
   console.error(
     '[DB] FATAL: No database connection established. ' +
-    'Set SUPABASE_URL+SUPABASE_KEY, DATABASE_URL, or ensure better-sqlite3 is installed.'
+    'Set SUPABASE_URL + SUPABASE_ANON_KEY (or SUPABASE_SERVICE_KEY), DATABASE_URL, or ensure better-sqlite3 is installed.'
   );
 }
 

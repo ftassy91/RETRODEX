@@ -23,26 +23,26 @@ RetroDex is currently one repository with:
 ## Canonical workspace
 
 - repository root: `RETRODEXseed`
-- canonical public runtime: [backend/](./backend/)
-- canonical public UI: [backend/public/](./backend/public/)
-- canonical admin layer: [backend/src/routes/admin/](./backend/src/routes/admin/) and [backend/src/services/admin/](./backend/src/services/admin/)
+- canonical public runtime: [backend/](../backend/)
+- canonical public UI: [backend/public/](../backend/public/)
+- canonical admin layer: [backend/src/routes/admin/](../backend/src/routes/admin/) and [backend/src/services/admin/](../backend/src/services/admin/)
 - secondary prototype surface: [frontend/](./frontend/)
 
 ## What lives where
 
-- [backend/](./backend/) serves the active public runtime and the canonical back-office code
-- [backend/public/](./backend/public/) contains the active public pages and client-side code
-- [backend/src/routes/](./backend/src/routes/) contains the active public route tree
-- [backend/src/services/](./backend/src/services/) contains active public logic
-- [backend/src/services/admin/](./backend/src/services/admin/) contains audit, curation, enrichment, and other back-office logic
+- [backend/](../backend/) serves the active public runtime and the canonical back-office code
+- [backend/public/](../backend/public/) contains the active public pages and client-side code
+- [backend/src/routes/](../backend/src/routes/) contains the active public route tree
+- [backend/src/services/](../backend/src/services/) contains active public logic
+- [backend/src/services/admin/](../backend/src/services/admin/) contains audit, curation, enrichment, and other back-office logic
 - [frontend/](./frontend/) is a prototype/exploration space, not the default product surface
 - [docs/](./docs/) contains active and historical documentation
 - [docs/_superseded/](./docs/_superseded/) contains non-canonical historical documents
 
 ## Data reality
 
-- public runtime/prod truth: [backend/db_supabase.js](./backend/db_supabase.js)
-- local staging/back-office DB: [backend/storage/retrodex.sqlite](./backend/storage/retrodex.sqlite)
+- public runtime/prod truth: [backend/db_supabase.js](../backend/db_supabase.js)
+- local staging/back-office DB: [backend/storage/retrodex.sqlite](../backend/storage/retrodex.sqlite)
 
 Local SQLite is not the production truth.
 It is the staging environment for:

@@ -8,13 +8,13 @@ Closure note:
 - the classification below is historical
 - the stabilized current state is tracked in [ARCHITECTURE.md](./docs/ARCHITECTURE.md), [DECISIONS.md](./docs/DECISIONS.md), and [CLAUDE_CONTINUITY_BRIEF.md](./docs/CLAUDE_CONTINUITY_BRIEF.md)
 
-Scope limited to the retained non-canonical services under [backend/src/services/admin](./backend/src/services/admin):
+Scope limited to the retained non-canonical services under [backend/src/services/admin](../backend/src/services/admin):
 
-- [audit-service.js](./backend/src/services/admin/audit-service.js)
-- [game-read-service.js](./backend/src/services/admin/game-read-service.js)
-- [console-service.js](./backend/src/services/admin/console-service.js)
-- [curation-service.js](./backend/src/services/admin/curation-service.js)
-- [enrichment-backlog-service.js](./backend/src/services/admin/enrichment-backlog-service.js)
+- [audit-service.js](../backend/src/services/admin/audit-service.js)
+- [game-read-service.js](../backend/src/services/admin/game-read-service.js)
+- [console-service.js](../backend/src/services/admin/console-service.js)
+- [curation-service.js](../backend/src/services/admin/curation-service.js)
+- [enrichment-backlog-service.js](../backend/src/services/admin/enrichment-backlog-service.js)
 
 This audit does not open a refactor by itself. It classifies first.
 
@@ -22,18 +22,18 @@ This audit does not open a refactor by itself. It classifies first.
 
 | Service | Size | Active consumers | Public overlap | Proposed plan |
 | --- | ---: | --- | --- | --- |
-| [backend/src/services/admin/audit-service.js](./backend/src/services/admin/audit-service.js) | 849 | admin audit route, `run-audit.js` | medium | `decouper` |
-| [backend/src/services/admin/game-read-service.js](./backend/src/services/admin/game-read-service.js) | 843 | `audit-service`, `console-service`, `curation-service` | high | `decouper` |
-| [backend/src/services/admin/console-service.js](./backend/src/services/admin/console-service.js) | 485 | `curation-service`, `enrichment-backlog-service` | medium | `isoler` |
-| [backend/src/services/admin/curation-service.js](./backend/src/services/admin/curation-service.js) | 824 | `run-pass1-curation.js`, `run-pass1-enrichment-backlog.js`, tests | medium | `decouper` |
-| [backend/src/services/admin/enrichment-backlog-service.js](./backend/src/services/admin/enrichment-backlog-service.js) | 553 | `run-pass1-enrichment-backlog.js`, tests | low | `conserver` |
+| [backend/src/services/admin/audit-service.js](../backend/src/services/admin/audit-service.js) | 849 | admin audit route, `run-audit.js` | medium | `decouper` |
+| [backend/src/services/admin/game-read-service.js](../backend/src/services/admin/game-read-service.js) | 843 | `audit-service`, `console-service`, `curation-service` | high | `decouper` |
+| [backend/src/services/admin/console-service.js](../backend/src/services/admin/console-service.js) | 485 | `curation-service`, `enrichment-backlog-service` | medium | `isoler` |
+| [backend/src/services/admin/curation-service.js](../backend/src/services/admin/curation-service.js) | 824 | `run-pass1-curation.js`, `run-pass1-enrichment-backlog.js`, tests | medium | `decouper` |
+| [backend/src/services/admin/enrichment-backlog-service.js](../backend/src/services/admin/enrichment-backlog-service.js) | 553 | `run-pass1-enrichment-backlog.js`, tests | low | `conserver` |
 
 ## Service Fiches
 
 ### `audit-service.js`
 
 - Path:
-  [backend/src/services/admin/audit-service.js](./backend/src/services/admin/audit-service.js)
+  [backend/src/services/admin/audit-service.js](../backend/src/services/admin/audit-service.js)
 - Real responsibility:
   combines at least four concerns:
   - audit summary generation
@@ -41,11 +41,11 @@ This audit does not open a refactor by itself. It classifies first.
   - divergence reporting between legacy and canonical views
   - persistence of `quality_records` plus audit JSON exports
 - Active consumers:
-  - [backend/src/routes/admin/audit.js](./backend/src/routes/admin/audit.js)
-  - [backend/scripts/run-audit.js](./backend/scripts/run-audit.js)
+  - [backend/src/routes/admin/audit.js](../backend/src/routes/admin/audit.js)
+  - [backend/scripts/run-audit.js](../backend/scripts/run-audit.js)
 - Public overlap:
-  - overlaps with [public-publication-service.js](./backend/src/services/public-publication-service.js) for publication/visibility signals
-  - overlaps indirectly with [public-game-reader.js](./backend/src/services/public-game-reader.js) and [public-console-service.js](./backend/src/services/public-console-service.js) on canonical content presence and console metadata
+  - overlaps with [public-publication-service.js](../backend/src/services/public-publication-service.js) for publication/visibility signals
+  - overlaps indirectly with [public-game-reader.js](../backend/src/services/public-game-reader.js) and [public-console-service.js](../backend/src/services/public-console-service.js) on canonical content presence and console metadata
   - does not overlap with a canonical public audit surface; its audit-specific role is still unique
 - Why not absorb now:
   the service still depends on Sequelize models and back-office-only scoring/output logic; moving it into public services would blur the runtime boundary again
@@ -60,17 +60,17 @@ This audit does not open a refactor by itself. It classifies first.
 ### `game-read-service.js`
 
 - Path:
-  [backend/src/services/admin/game-read-service.js](./backend/src/services/admin/game-read-service.js)
+  [backend/src/services/admin/game-read-service.js](../backend/src/services/admin/game-read-service.js)
 - Real responsibility:
   legacy hydrated read model for games, used as the common data substrate of the admin services
 - Active consumers:
-  - [backend/src/services/admin/audit-service.js](./backend/src/services/admin/audit-service.js)
-  - [backend/src/services/admin/console-service.js](./backend/src/services/admin/console-service.js)
-  - [backend/src/services/admin/curation-service.js](./backend/src/services/admin/curation-service.js)
+  - [backend/src/services/admin/audit-service.js](../backend/src/services/admin/audit-service.js)
+  - [backend/src/services/admin/console-service.js](../backend/src/services/admin/console-service.js)
+  - [backend/src/services/admin/curation-service.js](../backend/src/services/admin/curation-service.js)
 - Public overlap:
-  - high overlap with [public-game-reader.js](./backend/src/services/public-game-reader.js)
-  - overlap with [public-publication-service.js](./backend/src/services/public-publication-service.js) for published visibility
-  - partial overlap with [public-runtime-payload-service.js](./backend/src/services/public-runtime-payload-service.js) on hydrated catalog payloads
+  - high overlap with [public-game-reader.js](../backend/src/services/public-game-reader.js)
+  - overlap with [public-publication-service.js](../backend/src/services/public-publication-service.js) for published visibility
+  - partial overlap with [public-runtime-payload-service.js](../backend/src/services/public-runtime-payload-service.js) on hydrated catalog payloads
 - Why not absorb now:
   its output shape is still tied to Sequelize-backed admin workflows and legacy field semantics; direct absorption would risk forcing admin concerns back into the public read layer
 - Proposed plan:
@@ -84,15 +84,15 @@ This audit does not open a refactor by itself. It classifies first.
 ### `console-service.js`
 
 - Path:
-  [backend/src/services/admin/console-service.js](./backend/src/services/admin/console-service.js)
+  [backend/src/services/admin/console-service.js](../backend/src/services/admin/console-service.js)
 - Real responsibility:
   builds admin/legacy console item payloads and console-grouped game views for curation workflows
 - Active consumers:
-  - [backend/src/services/admin/curation-service.js](./backend/src/services/admin/curation-service.js)
-  - [backend/src/services/admin/enrichment-backlog-service.js](./backend/src/services/admin/enrichment-backlog-service.js)
+  - [backend/src/services/admin/curation-service.js](../backend/src/services/admin/curation-service.js)
+  - [backend/src/services/admin/enrichment-backlog-service.js](../backend/src/services/admin/enrichment-backlog-service.js)
 - Public overlap:
-  - overlaps with [public-console-service.js](./backend/src/services/public-console-service.js) for console lookup, aliases, and catalog identity
-  - overlaps with [public-runtime-payload-service.js](./backend/src/services/public-runtime-payload-service.js) for console/game listing
+  - overlaps with [public-console-service.js](../backend/src/services/public-console-service.js) for console lookup, aliases, and catalog identity
+  - overlaps with [public-runtime-payload-service.js](../backend/src/services/public-runtime-payload-service.js) for console/game listing
 - Why not absorb now:
   the current consumer set is entirely admin-side and still depends on the admin game read model
 - Proposed plan:
@@ -103,7 +103,7 @@ This audit does not open a refactor by itself. It classifies first.
 ### `curation-service.js`
 
 - Path:
-  [backend/src/services/admin/curation-service.js](./backend/src/services/admin/curation-service.js)
+  [backend/src/services/admin/curation-service.js](../backend/src/services/admin/curation-service.js)
 - Real responsibility:
   mixes:
   - heuristic content profiling
@@ -112,12 +112,12 @@ This audit does not open a refactor by itself. It classifies first.
   - report writing
   - persistence into curation tables
 - Active consumers:
-  - [backend/scripts/run-pass1-curation.js](./backend/scripts/run-pass1-curation.js)
-  - [backend/scripts/run-pass1-enrichment-backlog.js](./backend/scripts/run-pass1-enrichment-backlog.js) for `PASS1_KEY`
-  - [backend/tests/curation-service.test.js](./backend/tests/curation-service.test.js)
-  - [backend/src/services/admin/enrichment-backlog-service.js](./backend/src/services/admin/enrichment-backlog-service.js)
+  - [backend/scripts/run-pass1-curation.js](../backend/scripts/run-pass1-curation.js)
+  - [backend/scripts/run-pass1-enrichment-backlog.js](../backend/scripts/run-pass1-enrichment-backlog.js) for `PASS1_KEY`
+  - [backend/tests/curation-service.test.js](../backend/tests/curation-service.test.js)
+  - [backend/src/services/admin/enrichment-backlog-service.js](../backend/src/services/admin/enrichment-backlog-service.js)
 - Public overlap:
-  - overlaps with [public-publication-service.js](./backend/src/services/public-publication-service.js) on the same canonical curation/publication tables
+  - overlaps with [public-publication-service.js](../backend/src/services/public-publication-service.js) on the same canonical curation/publication tables
   - no direct overlap with active public route logic, but both layers reason about publication state
 - Why not absorb now:
   the heuristics and PASS 1 workflow are explicitly editorial/back-office concerns, not public runtime concerns
@@ -132,12 +132,12 @@ This audit does not open a refactor by itself. It classifies first.
 ### `enrichment-backlog-service.js`
 
 - Path:
-  [backend/src/services/admin/enrichment-backlog-service.js](./backend/src/services/admin/enrichment-backlog-service.js)
+  [backend/src/services/admin/enrichment-backlog-service.js](../backend/src/services/admin/enrichment-backlog-service.js)
 - Real responsibility:
   derives backlog targets from curation state plus media counters, then emits backlog reports
 - Active consumers:
-  - [backend/scripts/run-pass1-enrichment-backlog.js](./backend/scripts/run-pass1-enrichment-backlog.js)
-  - [backend/tests/enrichment-backlog-service.test.js](./backend/tests/enrichment-backlog-service.test.js)
+  - [backend/scripts/run-pass1-enrichment-backlog.js](../backend/scripts/run-pass1-enrichment-backlog.js)
+  - [backend/tests/enrichment-backlog-service.test.js](../backend/tests/enrichment-backlog-service.test.js)
 - Public overlap:
   - low direct overlap with public services
   - it depends on admin curation state and console helpers, but it is mostly a derived reporting layer
@@ -150,11 +150,11 @@ This audit does not open a refactor by itself. It classifies first.
 
 ## Recommended Order If a Future Refactor Lot Opens
 
-1. [backend/src/services/admin/game-read-service.js](./backend/src/services/admin/game-read-service.js)
-2. [backend/src/services/admin/curation-service.js](./backend/src/services/admin/curation-service.js)
-3. [backend/src/services/admin/audit-service.js](./backend/src/services/admin/audit-service.js)
-4. [backend/src/services/admin/console-service.js](./backend/src/services/admin/console-service.js)
-5. [backend/src/services/admin/enrichment-backlog-service.js](./backend/src/services/admin/enrichment-backlog-service.js)
+1. [backend/src/services/admin/game-read-service.js](../backend/src/services/admin/game-read-service.js)
+2. [backend/src/services/admin/curation-service.js](../backend/src/services/admin/curation-service.js)
+3. [backend/src/services/admin/audit-service.js](../backend/src/services/admin/audit-service.js)
+4. [backend/src/services/admin/console-service.js](../backend/src/services/admin/console-service.js)
+5. [backend/src/services/admin/enrichment-backlog-service.js](../backend/src/services/admin/enrichment-backlog-service.js)
 
 ## Immediate Conclusions
 

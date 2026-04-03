@@ -52,7 +52,7 @@ If that interpretation is not accepted, do **not** run the apply step. Revise th
 
 Run:
 
-- [20260331_009_games_status_backfill_preview.sql](./backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
+- [20260331_009_games_status_backfill_preview.sql](../backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
 
 Confirm that the returned JSON still matches the expected volumes above.
 
@@ -60,13 +60,13 @@ Confirm that the returned JSON still matches the expected volumes above.
 
 Only after explicit human approval, run:
 
-- [20260331_010_games_status_backfill_apply.sql](./backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql)
+- [20260331_010_games_status_backfill_apply.sql](../backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql)
 
 ### 3. Re-preview
 
 Immediately re-run:
 
-- [20260331_009_games_status_backfill_preview.sql](./backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
+- [20260331_009_games_status_backfill_preview.sql](../backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
 
 Confirm:
 
