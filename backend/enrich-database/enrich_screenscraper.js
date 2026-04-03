@@ -152,7 +152,8 @@ async function getGamesWithoutCover(limit = null) {
 
     if (limit) query = query.limit(limit);
 
-    const { data } = await query;
+    const { data, error } = await query;
+    if (error) { console.error('[ERROR] getGamesWithoutCover failed:', error.message); return []; }
     return data || [];
   }
 
@@ -169,13 +170,14 @@ async function insertMediaReference(gameId, url, type, provider = 'screenscraper
   }
 
   if (USE_SUPABASE) {
-    await supabase.from('media_references').insert({
+    const { error } = await supabase.from('media_references').insert({
       game_id: gameId,
       url: url,
       type: type,
       provider: provider,
       storage_mode: 'external_reference',
     });
+    if (error) console.error(`  [ERROR] insertMediaReference failed for ${gameId}:`, error.message);
   } else {
     db.prepare(`
       INSERT INTO media_references (game_id, url, type, provider, storage_mode)
@@ -191,10 +193,11 @@ async function updateGameCoverUrl(gameId, coverUrl) {
   }
 
   if (USE_SUPABASE) {
-    await supabase
+    const { error } = await supabase
       .from('games')
       .update({ cover_url: coverUrl })
       .eq('id', gameId);
+    if (error) console.error(`  [ERROR] updateGameCoverUrl failed for ${gameId}:`, error.message);
   } else {
     db.prepare('UPDATE games SET cover_url = ? WHERE id = ?').run(coverUrl, gameId);
   }

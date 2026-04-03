@@ -56,18 +56,18 @@ Interpretation:
 
 ## Backfill Artifacts
 
-Canonical rules live in [games-status-rules.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/lib/games-status-rules.js).
+Canonical rules live in [games-status-rules.js](./backend/scripts/lib/games-status-rules.js).
 
 Generated SQL artifacts:
 
-- preview only: [20260331_009_games_status_backfill_preview.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
-- apply prepared only: [20260331_010_games_status_backfill_apply.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql)
+- preview only: [20260331_009_games_status_backfill_preview.sql](./backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
+- apply prepared only: [20260331_010_games_status_backfill_apply.sql](./backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql)
 
 Dry-run audit script:
 
-- [audit-games-status-columns.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/audit-games-status-columns.js)
-- human approval dossier: [PHASE3_BACKFILL_APPROVAL.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_APPROVAL.md)
-- execution report: [PHASE3_BACKFILL_EXECUTION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_EXECUTION.md)
+- [audit-games-status-columns.js](./backend/scripts/audit-games-status-columns.js)
+- human approval dossier: [PHASE3_BACKFILL_APPROVAL.md](./docs/PHASE3_BACKFILL_APPROVAL.md)
+- execution report: [PHASE3_BACKFILL_EXECUTION.md](./docs/PHASE3_BACKFILL_EXECUTION.md)
 
 Rules:
 

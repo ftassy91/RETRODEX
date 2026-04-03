@@ -5,10 +5,10 @@
 This document is an orientation map, not the canonical source of truth.
 
 Read first:
-1. [AGENTS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/AGENTS.md)
-2. [docs/CLAUDE_CONTINUITY_BRIEF.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CLAUDE_CONTINUITY_BRIEF.md)
-3. [docs/ARCHITECTURE.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ARCHITECTURE.md)
-4. [docs/DECISIONS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/DECISIONS.md)
+1. [AGENTS.md](./AGENTS.md)
+2. [docs/CLAUDE_CONTINUITY_BRIEF.md](./docs/CLAUDE_CONTINUITY_BRIEF.md)
+3. [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)
+4. [docs/DECISIONS.md](./docs/DECISIONS.md)
 
 If this file conflicts with those documents, this file loses.
 
@@ -23,26 +23,26 @@ RetroDex is currently one repository with:
 ## Canonical workspace
 
 - repository root: `RETRODEXseed`
-- canonical public runtime: [backend/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/)
-- canonical public UI: [backend/public/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/)
-- canonical admin layer: [backend/src/routes/admin/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin/) and [backend/src/services/admin/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/)
-- secondary prototype surface: [frontend/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/frontend/)
+- canonical public runtime: [backend/](./backend/)
+- canonical public UI: [backend/public/](./backend/public/)
+- canonical admin layer: [backend/src/routes/admin/](./backend/src/routes/admin/) and [backend/src/services/admin/](./backend/src/services/admin/)
+- secondary prototype surface: [frontend/](./frontend/)
 
 ## What lives where
 
-- [backend/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/) serves the active public runtime and the canonical back-office code
-- [backend/public/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/) contains the active public pages and client-side code
-- [backend/src/routes/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/) contains the active public route tree
-- [backend/src/services/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/) contains active public logic
-- [backend/src/services/admin/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/) contains audit, curation, enrichment, and other back-office logic
-- [frontend/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/frontend/) is a prototype/exploration space, not the default product surface
-- [docs/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/) contains active and historical documentation
-- [docs/_superseded/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/_superseded/) contains non-canonical historical documents
+- [backend/](./backend/) serves the active public runtime and the canonical back-office code
+- [backend/public/](./backend/public/) contains the active public pages and client-side code
+- [backend/src/routes/](./backend/src/routes/) contains the active public route tree
+- [backend/src/services/](./backend/src/services/) contains active public logic
+- [backend/src/services/admin/](./backend/src/services/admin/) contains audit, curation, enrichment, and other back-office logic
+- [frontend/](./frontend/) is a prototype/exploration space, not the default product surface
+- [docs/](./docs/) contains active and historical documentation
+- [docs/_superseded/](./docs/_superseded/) contains non-canonical historical documents
 
 ## Data reality
 
-- public runtime/prod truth: [backend/db_supabase.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/db_supabase.js)
-- local staging/back-office DB: [backend/storage/retrodex.sqlite](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/storage/retrodex.sqlite)
+- public runtime/prod truth: [backend/db_supabase.js](./backend/db_supabase.js)
+- local staging/back-office DB: [backend/storage/retrodex.sqlite](./backend/storage/retrodex.sqlite)
 
 Local SQLite is not the production truth.
 It is the staging environment for:

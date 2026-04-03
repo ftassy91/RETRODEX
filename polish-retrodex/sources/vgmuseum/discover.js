@@ -3,6 +3,9 @@
 const { fetchText } = require("../../core/shared");
 const { parseFramesetGamepics, parseRipsList, parseScansPage, parseSimpleList } = require("./parse");
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const RATE_LIMIT_MS = 1000;
+
 function scopeToSectionKeys(scopes, config) {
   const explicit = (scopes || [])
     .filter((scope) => scope.startsWith("section:"))
@@ -26,6 +29,7 @@ async function discover({ config, scopes = [] }) {
       continue;
     }
 
+    await sleep(RATE_LIMIT_MS);
     const entry = await fetchText(sectionConfig.entry_url, { timeoutMs: 30000 });
     if (!entry.ok) {
       throw new Error(`VGMuseum section ${sectionKey} failed with status ${entry.status}.`);
@@ -37,6 +41,7 @@ async function discover({ config, scopes = [] }) {
         throw new Error(`VGMuseum section ${sectionKey} has no frame "b".`);
       }
       const listUrl = new URL(frameMatch[1], entry.url).toString();
+      await sleep(RATE_LIMIT_MS);
       const list = await fetchText(listUrl, { timeoutMs: 30000 });
       if (!list.ok) {
         throw new Error(`VGMuseum section list ${listUrl} failed with status ${list.status}.`);

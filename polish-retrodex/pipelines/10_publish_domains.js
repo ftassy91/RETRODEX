@@ -41,7 +41,7 @@ function loadBackendEnv() {
 
 function parseProjectReference(env) {
   const raw = env.SUPABASE_URL || env.SUPABASE_Project_URL || env.SUPERDATA_Project_URL || '';
-  const match = String(raw).match(/doipqgkhfzqvmzrdfvuq|([a-z0-9]{20})/i);
+  const match = String(raw).match(/([a-z0-9]{20})/i);
   return match ? String(match[0]) : '';
 }
 
@@ -52,8 +52,13 @@ function buildRemotePgConfig() {
   };
   const projectReference = parseProjectReference(env);
   const rawUrl = env.SUPABASE_Project_URL || env.DATABASE_URL || '';
-  const passwordMatch = rawUrl.match(/postgres(?:\.[^:]+)?:\[?([^\]@]+)\]?@/i);
-  const password = passwordMatch ? passwordMatch[1] : '';
+  let password = '';
+  try {
+    password = new URL(rawUrl).password || '';
+  } catch (_) {
+    const passwordMatch = rawUrl.match(/postgres(?:\.[\w-]+)?:([^@]+)@/);
+    password = passwordMatch ? decodeURIComponent(passwordMatch[1]) : '';
+  }
 
   if (!projectReference || !password) {
     return null;

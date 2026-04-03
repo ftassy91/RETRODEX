@@ -13,8 +13,8 @@ Its role is to keep the project aligned and prevent drift.
 
 When documents disagree:
 1. this file sets product and structural direction
-2. [docs/ARCHITECTURE.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ARCHITECTURE.md) sets the active architecture
-3. [docs/DECISIONS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/DECISIONS.md) records validated decisions
+2. [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) sets the active architecture
+3. [docs/DECISIONS.md](./docs/DECISIONS.md) records validated decisions
 4. older or conflicting documents must be treated as suspect until verified
 
 ## 1. What RetroDex Is
@@ -102,19 +102,19 @@ If the answer is no, it is not a priority.
 
 ### Canonical
 
-- [backend/public/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/) = active public UI
-- [backend/src/routes/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/) = canonical public runtime tree
-- [backend/src/services/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/) = canonical public logic
-- [backend/src/routes/admin/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin/) + [backend/src/services/admin/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/) = canonical back-office
-- [backend/db_supabase.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/db_supabase.js) = public runtime source of truth
-- [backend/storage/retrodex.sqlite](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/storage/retrodex.sqlite) = staging/back-office only, never prod truth
+- [backend/public/](./backend/public/) = active public UI
+- [backend/src/routes/](./backend/src/routes/) = canonical public runtime tree
+- [backend/src/services/](./backend/src/services/) = canonical public logic
+- [backend/src/routes/admin/](./backend/src/routes/admin/) + [backend/src/services/admin/](./backend/src/services/admin/) = canonical back-office
+- [backend/db_supabase.js](./backend/db_supabase.js) = public runtime source of truth
+- [backend/storage/retrodex.sqlite](./backend/storage/retrodex.sqlite) = staging/back-office only, never prod truth
 
 ### Secondary / non-canonical
 
-- [frontend/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/frontend/) = secondary prototype / exploration area
-- [RETRODEXseedV0/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/RETRODEXseedV0/) = legacy archive/reference
-- [backend/src/_quarantine/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/_quarantine/) = inactive quarantine area
-- [docs/_superseded/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/_superseded/) = non-canonical documentation
+- [frontend/](./frontend/) = secondary prototype / exploration area
+- [RETRODEXseedV0/](./RETRODEXseedV0/) = legacy archive/reference
+- [backend/src/_quarantine/](./backend/src/_quarantine/) = inactive quarantine area
+- [docs/_superseded/](./docs/_superseded/) = non-canonical documentation
 
 ### Surface rule
 
@@ -217,17 +217,17 @@ Avoid:
 ## 9. Start Here
 
 To resume the project correctly, read in this order:
-1. [AGENTS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/AGENTS.md)
-2. [docs/CLAUDE_CONTINUITY_BRIEF.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CLAUDE_CONTINUITY_BRIEF.md)
-3. [docs/ARCHITECTURE.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ARCHITECTURE.md)
-4. [docs/DECISIONS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/DECISIONS.md)
+1. [AGENTS.md](./AGENTS.md)
+2. [docs/CLAUDE_CONTINUITY_BRIEF.md](./docs/CLAUDE_CONTINUITY_BRIEF.md)
+3. [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)
+4. [docs/DECISIONS.md](./docs/DECISIONS.md)
 
 Then, depending on the lot:
-- [docs/ENRICHMENT_LOT1_FOUNDATIONS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ENRICHMENT_LOT1_FOUNDATIONS.md)
-- [docs/enrichment-pipeline.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/enrichment-pipeline.md)
-- [docs/PHASE3_DB_READINESS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_DB_READINESS.md)
-- [docs/FRONTEND.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/FRONTEND.md)
-- [docs/source-compliance-matrix.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/source-compliance-matrix.md)
+- [docs/ENRICHMENT_LOT1_FOUNDATIONS.md](./docs/ENRICHMENT_LOT1_FOUNDATIONS.md)
+- [docs/enrichment-pipeline.md](./docs/enrichment-pipeline.md)
+- [docs/PHASE3_DB_READINESS.md](./docs/PHASE3_DB_READINESS.md)
+- [docs/FRONTEND.md](./docs/FRONTEND.md)
+- [docs/source-compliance-matrix.md](./docs/source-compliance-matrix.md)
 
 Older or divergent docs must be verified before they are used as decision inputs.
 

@@ -18,14 +18,14 @@ Ce dossier contient les artefacts DB gardes hors du flux automatique.
 ## `20260331_009_games_status_backfill_preview.sql`
 
 - Statut : `historical_validated`
-- Raison : SQL de preview genere a partir de [games-status-rules.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/lib/games-status-rules.js) pour deriver les statuts et comparer `stored` vs `derived`.
-- Decision : ne jamais l'editer a la main ; toute modification passe par le module canonique puis par [generate-games-status-sql.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/generate-games-status-sql.js).
+- Raison : SQL de preview genere a partir de [games-status-rules.js](./backend/scripts/lib/games-status-rules.js) pour deriver les statuts et comparer `stored` vs `derived`.
+- Decision : ne jamais l'editer a la main ; toute modification passe par le module canonique puis par [generate-games-status-sql.js](./backend/scripts/generate-games-status-sql.js).
 - Resultat : utilise pour le preview pre-apply et le controle post-apply du backfill prod execute le 31 mars 2026.
 
 ## `20260331_010_games_status_backfill_apply.sql`
 
 - Statut : `historical_applied`
-- Raison : SQL d'`UPDATE` genere a partir de [games-status-rules.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/lib/games-status-rules.js) pour appliquer le backfill uniquement sur les lignes divergentes.
+- Raison : SQL d'`UPDATE` genere a partir de [games-status-rules.js](./backend/scripts/lib/games-status-rules.js) pour appliquer le backfill uniquement sur les lignes divergentes.
 - Decision : execute manuellement en production le 31 mars 2026 apres validation humaine explicite.
 - Resultat : `UPDATE 1517`, puis controle post-apply avec `divergenceCounts = 0`.
 
@@ -34,4 +34,4 @@ Ce dossier contient les artefacts DB gardes hors du flux automatique.
 - Statut : `deferred_future_rule`
 - Raison : une revue preview-only du 31 mars 2026 a valide sur le principe une future regle `price_status` ou `pricecharting` est une estimation et `ebay` la seule vente reelle retenue, avec seuil `N = 3`.
 - Decision : ne pas generer ni appliquer de nouveau SQL tant qu'aucune ingestion `ebay` n'existe dans `price_history`.
-- Source de reference : la section future de [games-status-rules.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/lib/games-status-rules.js) et [PHASE3_DB_READINESS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_DB_READINESS.md).
+- Source de reference : la section future de [games-status-rules.js](./backend/scripts/lib/games-status-rules.js) et [PHASE3_DB_READINESS.md](./docs/PHASE3_DB_READINESS.md).

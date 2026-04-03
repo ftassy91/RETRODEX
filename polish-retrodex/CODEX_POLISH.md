@@ -18,13 +18,13 @@ It reads the existing local source, validates and prepares canonical data, and o
 ## Real session facts
 
 - Source SQLite path used by Sprint 1:
-  - `C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/storage/retrodex.sqlite`
+  - `./backend/storage/retrodex.sqlite`
 - Real game rows read from `games` with `type='game'`:
   - `1491`
 - `backend/src/lib/normalize.js` was not present at the path described in the brief
 - `backend/enrich-database/` was not present as written in the brief
 - A real bootstrap file exists at:
-  - `C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/enrich database/bootstrap.js`
+  - `./backend/enrich database/bootstrap.js`
 
 ## Sprint 1 outputs
 

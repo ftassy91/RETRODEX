@@ -29,7 +29,7 @@ async function fetchItemsPayload(query = {}) {
       search: query.q,
       ids: scope.enabled && scope.ids.length ? scope.ids : null,
     }),
-    getStats().catch(() => ({})),
+    getStats().catch((err) => { console.warn('[stats] getStats failed:', err.message); return {} }),
   ])
 
   const hydratedItems = await hydrateGameCovers(items)

@@ -3,14 +3,14 @@
 This document stores three reusable UX review personas for RetroDex.
 
 Use them whenever a change affects:
-- [backend/public/hub.html](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/hub.html)
-- [backend/public/games-list.html](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/games-list.html)
-- [backend/public/search.html](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/search.html)
-- [backend/public/game-detail.html](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/game-detail.html)
-- [backend/public/collection.html](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/collection.html)
-- [backend/public/stats.html](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/stats.html)
+- [backend/public/hub.html](./backend/public/hub.html)
+- [backend/public/games-list.html](./backend/public/games-list.html)
+- [backend/public/search.html](./backend/public/search.html)
+- [backend/public/game-detail.html](./backend/public/game-detail.html)
+- [backend/public/collection.html](./backend/public/collection.html)
+- [backend/public/stats.html](./backend/public/stats.html)
 
-They are aligned with [AGENTS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/AGENTS.md):
+They are aligned with [AGENTS.md](./AGENTS.md):
 - RetroDex is a retro knowledge engine
 - game pages are the center
 - market is a context layer

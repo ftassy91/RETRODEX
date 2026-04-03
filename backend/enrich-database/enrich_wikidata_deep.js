@@ -160,11 +160,12 @@ function titlesMatch(a, b) {
 // ── DB helpers ───────────────────────────────────────────────────────────
 async function getGamesByConsole(consoleName) {
   if (USE_SUPABASE) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('games')
       .select('id,title,console,year,developer,genre,metascore,publisher,composer,source_name')
       .eq('console', consoleName)
       .eq('type', 'game');
+    if (error) { console.error('[ERROR] getGamesByConsole failed:', error.message); return []; }
     return data || [];
   }
   // SQLite — composer/publisher may not exist as columns; handle gracefully
@@ -187,7 +188,8 @@ async function updateGame(id, fields) {
     return;
   }
   if (USE_SUPABASE) {
-    await supabase.from('games').update(fields).eq('id', id);
+    const { error } = await supabase.from('games').update(fields).eq('id', id);
+    if (error) console.error(`  [ERROR] Failed to update game ${id}:`, error.message);
   } else {
     const keys = Object.keys(fields);
     const sets = keys.map(k => {

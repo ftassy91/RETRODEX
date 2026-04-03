@@ -7,10 +7,10 @@ This document is preserved for history only.
 It reflects a local runtime convergence direction explored during Phase 0 and is no longer canonical.
 
 Use these documents instead:
-1. [AGENTS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/AGENTS.md)
-2. [docs/CLAUDE_CONTINUITY_BRIEF.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CLAUDE_CONTINUITY_BRIEF.md)
-3. [docs/ARCHITECTURE.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ARCHITECTURE.md)
-4. [docs/DECISIONS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/DECISIONS.md)
+1. [AGENTS.md](./AGENTS.md)
+2. [docs/CLAUDE_CONTINUITY_BRIEF.md](./docs/CLAUDE_CONTINUITY_BRIEF.md)
+3. [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)
+4. [docs/DECISIONS.md](./docs/DECISIONS.md)
 
 ## Historical Summary
 

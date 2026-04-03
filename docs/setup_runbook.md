@@ -138,7 +138,7 @@ Use it to:
 - stop for manual review before any external write
 
 Runbook:
-- [docs/notion-sync-runbook.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/notion-sync-runbook.md)
+- [docs/notion-sync-runbook.md](./docs/notion-sync-runbook.md)
 
 ## Contributor rules
 - Treat `backend/public/` as the canonical frontend location.

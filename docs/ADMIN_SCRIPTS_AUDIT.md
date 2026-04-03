@@ -10,9 +10,9 @@ Closure note:
 
 Scope limited to:
 
-- [backend/scripts/run-audit.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/run-audit.js)
-- [backend/scripts/run-pass1-curation.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/run-pass1-curation.js)
-- [backend/scripts/run-pass1-enrichment-backlog.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/run-pass1-enrichment-backlog.js)
+- [backend/scripts/run-audit.js](./backend/scripts/run-audit.js)
+- [backend/scripts/run-pass1-curation.js](./backend/scripts/run-pass1-curation.js)
+- [backend/scripts/run-pass1-enrichment-backlog.js](./backend/scripts/run-pass1-enrichment-backlog.js)
 
 No deletion is approved in this audit. This document classifies first; any cleanup lot must come later.
 
@@ -20,22 +20,22 @@ No deletion is approved in this audit. This document classifies first; any clean
 
 | Script | Role | Side effects | Current usage | Proposed status |
 | --- | --- | --- | --- | --- |
-| [backend/scripts/run-audit.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/run-audit.js) | recompute audit outputs and `quality_records` | migrations, DB upserts, JSON files on disk | documented, chained by `publish-sandbox-to-supabase.js`, manually runnable | `refactor` |
-| [backend/scripts/run-pass1-curation.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/run-pass1-curation.js) | PASS 1 curation dataset, reports, optional persistence | migrations, disk reports always, DB writes only with `--apply` | documented, root npm scripts, chained by `publish-sandbox-to-supabase.js` | `refactor` |
-| [backend/scripts/run-pass1-enrichment-backlog.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/run-pass1-enrichment-backlog.js) | PASS 1 backlog report generation | migrations, JSON + Markdown reports on disk | documented, root npm script, manual workflow | `garder` |
+| [backend/scripts/run-audit.js](./backend/scripts/run-audit.js) | recompute audit outputs and `quality_records` | migrations, DB upserts, JSON files on disk | documented, chained by `publish-sandbox-to-supabase.js`, manually runnable | `refactor` |
+| [backend/scripts/run-pass1-curation.js](./backend/scripts/run-pass1-curation.js) | PASS 1 curation dataset, reports, optional persistence | migrations, disk reports always, DB writes only with `--apply` | documented, root npm scripts, chained by `publish-sandbox-to-supabase.js` | `refactor` |
+| [backend/scripts/run-pass1-enrichment-backlog.js](./backend/scripts/run-pass1-enrichment-backlog.js) | PASS 1 backlog report generation | migrations, JSON + Markdown reports on disk | documented, root npm script, manual workflow | `garder` |
 
 ## Script Fiches
 
 ### `run-audit.js`
 
 - Path:
-  [backend/scripts/run-audit.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/run-audit.js)
+  [backend/scripts/run-audit.js](./backend/scripts/run-audit.js)
 - Role:
   recompute the local audit snapshot after data changes, regenerate timestamped audit reports, and refresh `quality_records`
 - Direct dependencies:
-  - [backend/src/database.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/database.js)
-  - [backend/src/services/migration-runner.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/migration-runner.js)
-  - [backend/src/services/admin/audit-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/audit-service.js)
+  - [backend/src/database.js](./backend/src/database.js)
+  - [backend/src/services/migration-runner.js](./backend/src/services/migration-runner.js)
+  - [backend/src/services/admin/audit-service.js](./backend/src/services/admin/audit-service.js)
 - Real side effects:
   - `lecture DB`: yes
   - `ecriture disque`: yes, timestamped JSON files under `data/audit`
@@ -47,9 +47,9 @@ No deletion is approved in this audit. This document classifies first; any clean
   - migration side effects mean it is not a pure read-only report command
 - Current usage:
   - `manuel`: yes
-  - `documente`: yes, in [docs/ENRICHMENT.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ENRICHMENT.md) and [docs/enrichment-pipeline.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/enrichment-pipeline.md)
+  - `documente`: yes, in [docs/ENRICHMENT.md](./docs/ENRICHMENT.md) and [docs/enrichment-pipeline.md](./docs/enrichment-pipeline.md)
   - `teste`: no direct test found
-  - `orchestrated`: yes, called by [publish-sandbox-to-supabase.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/publish-sandbox-to-supabase.js)
+  - `orchestrated`: yes, called by [publish-sandbox-to-supabase.js](./backend/scripts/publish-sandbox-to-supabase.js)
 - Proposed status:
   `refactor`
 - Why:
@@ -62,13 +62,13 @@ No deletion is approved in this audit. This document classifies first; any clean
 ### `run-pass1-curation.js`
 
 - Path:
-  [backend/scripts/run-pass1-curation.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/run-pass1-curation.js)
+  [backend/scripts/run-pass1-curation.js](./backend/scripts/run-pass1-curation.js)
 - Role:
   build the PASS 1 curation dataset, always emit report files, and optionally persist curation state when `--apply` is passed
 - Direct dependencies:
-  - [backend/src/database.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/database.js)
-  - [backend/src/services/migration-runner.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/migration-runner.js)
-  - [backend/src/services/admin/curation-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/curation-service.js)
+  - [backend/src/database.js](./backend/src/database.js)
+  - [backend/src/services/migration-runner.js](./backend/src/services/migration-runner.js)
+  - [backend/src/services/admin/curation-service.js](./backend/src/services/admin/curation-service.js)
 - Real side effects:
   - `lecture DB`: yes
   - `ecriture disque`: yes, reports are always written under `data/audit`
@@ -86,10 +86,10 @@ No deletion is approved in this audit. This document classifies first; any clean
   - filesystem output remains non-idempotent because timestamps change on each run
 - Current usage:
   - `manuel`: yes
-  - `documente`: yes, in [docs/ENRICHMENT.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ENRICHMENT.md)
+  - `documente`: yes, in [docs/ENRICHMENT.md](./docs/ENRICHMENT.md)
   - `teste`: no direct script test found
-  - `npm script`: yes, via root [package.json](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/package.json)
-  - `orchestrated`: yes, called by [publish-sandbox-to-supabase.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/publish-sandbox-to-supabase.js)
+  - `npm script`: yes, via root [package.json](./package.json)
+  - `orchestrated`: yes, called by [publish-sandbox-to-supabase.js](./backend/scripts/publish-sandbox-to-supabase.js)
 - Proposed status:
   `refactor`
 - Why:
@@ -102,14 +102,14 @@ No deletion is approved in this audit. This document classifies first; any clean
 ### `run-pass1-enrichment-backlog.js`
 
 - Path:
-  [backend/scripts/run-pass1-enrichment-backlog.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/run-pass1-enrichment-backlog.js)
+  [backend/scripts/run-pass1-enrichment-backlog.js](./backend/scripts/run-pass1-enrichment-backlog.js)
 - Role:
   generate the PASS 1 enrichment backlog report and write JSON + Markdown backlog outputs
 - Direct dependencies:
-  - [backend/src/database.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/database.js)
-  - [backend/src/services/migration-runner.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/migration-runner.js)
-  - [backend/src/services/admin/curation-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/curation-service.js)
-  - [backend/src/services/admin/enrichment-backlog-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment-backlog-service.js)
+  - [backend/src/database.js](./backend/src/database.js)
+  - [backend/src/services/migration-runner.js](./backend/src/services/migration-runner.js)
+  - [backend/src/services/admin/curation-service.js](./backend/src/services/admin/curation-service.js)
+  - [backend/src/services/admin/enrichment-backlog-service.js](./backend/src/services/admin/enrichment-backlog-service.js)
 - Real side effects:
   - `lecture DB`: yes
   - `ecriture disque`: yes, JSON + Markdown reports under `data/audit`
@@ -121,9 +121,9 @@ No deletion is approved in this audit. This document classifies first; any clean
   - within a stable migrated schema, this behaves as a reproducible report generator
 - Current usage:
   - `manuel`: yes
-  - `documente`: yes, in [docs/ENRICHMENT.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ENRICHMENT.md)
+  - `documente`: yes, in [docs/ENRICHMENT.md](./docs/ENRICHMENT.md)
   - `teste`: no direct script test found
-  - `npm script`: yes, via root [package.json](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/package.json)
+  - `npm script`: yes, via root [package.json](./package.json)
   - `orchestrated`: no orchestrator call found outside manual/npm usage
 - Proposed status:
   `garder`
@@ -138,18 +138,18 @@ No deletion is approved in this audit. This document classifies first; any clean
 
 - None of the three scripts should be removed in this lot.
 - Two scripts deserve a dedicated refactor later:
-  - [backend/scripts/run-audit.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/run-audit.js)
-  - [backend/scripts/run-pass1-curation.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/run-pass1-curation.js)
+  - [backend/scripts/run-audit.js](./backend/scripts/run-audit.js)
+  - [backend/scripts/run-pass1-curation.js](./backend/scripts/run-pass1-curation.js)
 - One script is currently acceptable to keep:
-  - [backend/scripts/run-pass1-enrichment-backlog.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/run-pass1-enrichment-backlog.js)
+  - [backend/scripts/run-pass1-enrichment-backlog.js](./backend/scripts/run-pass1-enrichment-backlog.js)
 
 ## Recommended Follow-up After Validation
 
 If Option B is opened later, the first priority should be the services that make these scripts possible:
 
-- [backend/src/services/admin/audit-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/audit-service.js)
-- [backend/src/services/admin/curation-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/curation-service.js)
-- [backend/src/services/admin/enrichment-backlog-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment-backlog-service.js)
+- [backend/src/services/admin/audit-service.js](./backend/src/services/admin/audit-service.js)
+- [backend/src/services/admin/curation-service.js](./backend/src/services/admin/curation-service.js)
+- [backend/src/services/admin/enrichment-backlog-service.js](./backend/src/services/admin/enrichment-backlog-service.js)
 
 The purpose of that next lot would not be deletion by default, but contract clarification:
 

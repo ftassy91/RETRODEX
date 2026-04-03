@@ -64,7 +64,7 @@ router.get('/api/games/:id/detail', handleAsync(async (req, res) => {
 
   const [domains, storedProfile] = await Promise.all([
     fetchGameKnowledgeDomains(game),
-    fetchGameContentProfileRow(game.id).catch(() => null),
+    fetchGameContentProfileRow(game.id).catch((err) => { console.warn('[detail] content profile failed:', err.message); return null }),
   ])
 
   const archive = buildArchivePayload(game, domains)

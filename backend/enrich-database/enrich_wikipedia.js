@@ -68,7 +68,8 @@ async function getGames() {
   if (USE_SUPABASE) {
     let q = supabase.from('games').select('id,title,console,year,developer').eq('type','game').is('synopsis',null);
     if (CONSOLE_F) q = q.eq('console', CONSOLE_F);
-    const { data } = await q.limit(LIMIT);
+    const { data, error } = await q.limit(LIMIT);
+    if (error) { console.error('[ERROR] getGames failed:', error.message); return []; }
     return data || [];
   }
   const where = CONSOLE_F ? `AND console=?` : '';
@@ -79,8 +80,10 @@ async function getGames() {
 
 async function save(id, fields) {
   if (DRY_RUN) { console.log(`  [DRY] ${id}`, Object.keys(fields)); return; }
-  if (USE_SUPABASE) await supabase.from('games').update(fields).eq('id', id);
-  else {
+  if (USE_SUPABASE) {
+    const { error } = await supabase.from('games').update(fields).eq('id', id);
+    if (error) console.error(`  [ERROR] Failed to save for ${id}:`, error.message);
+  } else {
     const sets = Object.keys(fields).map(k=>`${k}=?`).join(',');
     db.prepare(`UPDATE games SET ${sets} WHERE id=?`).run(...Object.values(fields), id);
   }

@@ -6,12 +6,12 @@ This document records the actual production execution of the `games` status back
 
 Canonical rules:
 
-- [games-status-rules.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/lib/games-status-rules.js)
+- [games-status-rules.js](./backend/scripts/lib/games-status-rules.js)
 
 SQL artifacts used:
 
-- preview: [20260331_009_games_status_backfill_preview.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
-- apply: [20260331_010_games_status_backfill_apply.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql)
+- preview: [20260331_009_games_status_backfill_preview.sql](./backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
+- apply: [20260331_010_games_status_backfill_apply.sql](./backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql)
 
 ## 1. Pre-Apply Preview
 

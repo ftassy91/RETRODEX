@@ -115,10 +115,11 @@ function titlesMatch(a, b) {
 // ── DB helpers ────────────────────────────────────────────────────────────
 async function getAllGames() {
   if (USE_SUPABASE) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('games')
       .select('id,title,console,source_name')
       .eq('type', 'game');
+    if (error) { console.error('[ERROR] getAllGames failed:', error.message); return []; }
     return data || [];
   }
   // SQLite
@@ -134,11 +135,14 @@ async function getAllGames() {
 
 async function getGameEditorial(gameId) {
   if (USE_SUPABASE) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('game_editorial')
       .select('completion_times')
       .eq('game_id', gameId)
       .single();
+    if (error && error.message !== 'JSON object requested, multiple (or no) rows returned') {
+      console.error(`  [ERROR] getGameEditorial failed for ${gameId}:`, error.message);
+    }
     return data?.completion_times ? JSON.parse(data.completion_times) : null;
   }
   // SQLite
@@ -160,12 +164,13 @@ async function upsertGameEditorial(gameId, completionTimes) {
   }
 
   if (USE_SUPABASE) {
-    await supabase
+    const { error } = await supabase
       .from('game_editorial')
       .upsert({
         game_id: gameId,
         completion_times: JSON.stringify(completionTimes)
       }, { onConflict: 'game_id' });
+    if (error) console.error(`  [ERROR] upsertGameEditorial failed for ${gameId}:`, error.message);
   } else {
     // SQLite — upsert logic
     const existing = db.prepare(

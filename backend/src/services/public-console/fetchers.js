@@ -17,12 +17,10 @@ const {
 } = require('./catalog')
 
 async function fetchPublishedConsoles() {
-  const scope = await fetchPublishedGameScope().catch(() => ({
-    enabled: false,
-    ids: [],
-    set: new Set(),
-    consoleIds: [],
-  }))
+  const scope = await fetchPublishedGameScope().catch((err) => {
+    console.error('[publication] fetchPublishedGameScope failed:', err.message)
+    return { enabled: false, ids: [], set: new Set(), consoleIds: [] }
+  })
   const fallback = listConsoles().map((entry) => buildStaticConsoleRecord(entry))
   const { data, error } = await db
     .from('consoles')

@@ -179,7 +179,9 @@ function ensurePriceHistoryTable() {
       created_at TEXT DEFAULT (datetime('now')),
       FOREIGN KEY(game_id) REFERENCES games(id) ON DELETE CASCADE
     )`).run();
-  } catch {}
+  } catch (err) {
+    console.error('[DB] Failed to create price_history table:', err.message);
+  }
 }
 
 // ── DB helpers ─────────────────────────────────────────────────────────────
@@ -188,7 +190,8 @@ async function getGames() {
     let q = supabase.from('games').select('id,title,console,rarity,loosePrice:loose_price,cibPrice:cib_price,mintPrice:mint_price')
       .eq('type','game');
     if (RARITY) q = q.in('rarity', RARITY);
-    const { data } = await q.limit(LIMIT);
+    const { data, error } = await q.limit(LIMIT);
+    if (error) { console.error('[DB] getGames failed:', error.message); return []; }
     return data || [];
   }
   const rarityClause = RARITY ? `AND rarity IN (${RARITY.map(()=>'?').join(',')})` : '';
@@ -198,7 +201,8 @@ async function getGames() {
 
 async function hasPriceHistory(gameId) {
   if (USE_SUPABASE) {
-    const { data } = await supabase.from('price_history').select('id').eq('game_id', gameId).limit(1);
+    const { data, error } = await supabase.from('price_history').select('id').eq('game_id', gameId).limit(1);
+    if (error) { console.error('[DB] hasPriceHistory failed:', error.message); return false; }
     return data && data.length > 0;
   }
   return !!db.prepare('SELECT id FROM price_history WHERE game_id=? LIMIT 1').get(gameId);
@@ -207,7 +211,8 @@ async function hasPriceHistory(gameId) {
 async function insertHistory(entries) {
   if (DRY) { console.log(`  [DRY] Would insert ${entries.length} price_history rows`); return; }
   if (USE_SUPABASE) {
-    await supabase.from('price_history').insert(entries);
+    const { error } = await supabase.from('price_history').insert(entries);
+    if (error) console.error('[DB] insertHistory failed:', error.message);
   } else {
     const stmt = db.prepare('INSERT INTO price_history (game_id,price,condition,sale_date,source,listing_title) VALUES (?,?,?,?,?,?)');
     const txn  = db.transaction(() => entries.forEach(e => stmt.run(e.game_id,e.price,e.condition,e.sale_date,e.source,e.listing_title)));
@@ -229,7 +234,8 @@ async function updateGamePrices(id, prices) {
     if (fields.cibPrice)            supaFields.cib_price            = fields.cibPrice;
     if (fields.mintPrice)           supaFields.mint_price           = fields.mintPrice;
     if (fields.source_confidence)   supaFields.source_confidence    = fields.source_confidence;
-    await supabase.from('games').update(supaFields).eq('id', id);
+    const { error } = await supabase.from('games').update(supaFields).eq('id', id);
+    if (error) console.error(`[DB] updateGamePrices failed for ${id}:`, error.message);
   } else {
     const sets = Object.keys(fields).map(k=>`${k}=?`).join(',');
     if (sets) db.prepare(`UPDATE games SET ${sets} WHERE id=?`).run(...Object.values(fields), id);
@@ -419,17 +425,20 @@ function ensurePriceObservationsTable() {
     )`).run();
     db.prepare(`CREATE INDEX IF NOT EXISTS idx_price_obs_game_id ON price_observations(game_id)`).run();
     db.prepare(`CREATE INDEX IF NOT EXISTS idx_price_obs_listing_ref ON price_observations(listing_reference)`).run();
-  } catch (_) {}
+  } catch (err) {
+    console.error('[DB] Failed to create price_observations table:', err.message);
+  }
 }
 
 // Batch-check which listing_references already exist — avoids N+1 queries.
 async function fetchExistingRefs(refs) {
   if (!refs.length) return new Set();
   if (USE_SUPABASE) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('price_observations')
       .select('listing_reference')
       .in('listing_reference', refs);
+    if (error) { console.error('[DB] fetchExistingRefs failed:', error.message); return new Set(); }
     return new Set((data || []).map(r => r.listing_reference));
   }
   const placeholders = refs.map(() => '?').join(',');
@@ -442,7 +451,8 @@ async function fetchExistingRefs(refs) {
 async function insertPriceObservation(obs) {
   if (DRY) return;
   if (USE_SUPABASE) {
-    await supabase.from('price_observations').insert([obs]);
+    const { error } = await supabase.from('price_observations').insert([obs]);
+    if (error) console.error('[DB] insertPriceObservation failed:', error.message);
   } else {
     db.prepare(
       `INSERT INTO price_observations
