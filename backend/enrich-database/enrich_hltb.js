@@ -140,7 +140,7 @@ async function getGameEditorial(gameId) {
       .select('completion_times')
       .eq('game_id', gameId)
       .single();
-    if (error && error.message !== 'JSON object requested, multiple (or no) rows returned') {
+    if (error && error.code !== 'PGRST116') {
       console.error(`  [ERROR] getGameEditorial failed for ${gameId}:`, error.message);
     }
     return data?.completion_times ? JSON.parse(data.completion_times) : null;
@@ -151,7 +151,8 @@ async function getGameEditorial(gameId) {
       'SELECT completion_times FROM game_editorial WHERE game_id=?'
     ).get(gameId);
     return row?.completion_times ? JSON.parse(row.completion_times) : null;
-  } catch {
+  } catch (err) {
+    console.warn(`  [WARN] getGameEditorial (SQLite) failed for ${gameId}:`, err.message);
     return null;
   }
 }

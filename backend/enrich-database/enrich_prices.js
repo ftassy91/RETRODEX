@@ -100,6 +100,7 @@ async function fetchPriceCharting(game) {
     if (!loose && !cib && !mint) return null;
     return { loose, cib, mint, graded, url, source_confidence: 0.65 };
   } catch (e) {
+    console.warn(`  [WARN] PriceCharting fetch failed for "${game.title}" (${game.console}): ${e.message}`);
     return null;
   }
 }
@@ -261,7 +262,7 @@ function parseChartDataFromHtml(html) {
         .replace(/:\s*undefined/g, ':null');
       const obj = JSON.parse(jsonStr);
       if (obj && typeof obj === 'object') return obj;
-    } catch (_) {}
+    } catch (e) { console.warn('[price-chart] Strategy 1 parse failed:', e.message); }
   }
 
   // Strategy 2 — var chartData = {...}
@@ -273,7 +274,7 @@ function parseChartDataFromHtml(html) {
         .replace(/:\s*undefined/g, ':null');
       const obj = JSON.parse(jsonStr);
       if (obj && typeof obj === 'object') return obj;
-    } catch (_) {}
+    } catch (e) { console.warn('[price-chart] Strategy 2 parse failed:', e.message); }
   }
 
   // Strategy 3 — Google Charts arrayToDataTable with new Date(y, m, d) rows
@@ -296,7 +297,7 @@ function parseChartDataFromHtml(html) {
         });
       }
       if (rows.length > 0) return { _googleChartRows: rows };
-    } catch (_) {}
+    } catch (e) { console.warn('[price-chart] Strategy 3 parse failed:', e.message); }
   }
 
   // Strategy 4 — per-condition timestamp arrays: var used_data = [[ts,price],...]
@@ -313,7 +314,7 @@ function parseChartDataFromHtml(html) {
       try {
         s4result[key] = JSON.parse(cm[1]);
         s4found = true;
-      } catch (_) {}
+      } catch (e) { console.warn(`[price-chart] Strategy 4 (${key}) parse failed:`, e.message); }
     }
   }
   if (s4found) return { _tsArrays: s4result };
@@ -398,7 +399,8 @@ async function fetchPriceChartingHistory(game) {
     const html = await res.text();
     const raw  = parseChartDataFromHtml(html);
     return normaliseChartData(raw);
-  } catch (_) {
+  } catch (e) {
+    console.warn(`  [WARN] PriceCharting history fetch failed for "${game.title}": ${e.message}`);
     return [];
   }
 }

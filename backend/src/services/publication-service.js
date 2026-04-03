@@ -15,7 +15,11 @@ async function getTableNames() {
     tablesPromise = sequelize.getQueryInterface()
       .showAllTables()
       .then((tables) => new Set((tables || []).map((tableName) => String(tableName || '').replace(/"/g, '').toLowerCase())))
-      .catch((err) => { console.error('[publication] getTableNames failed:', err.message); return new Set() })
+      .catch((err) => {
+        console.error('[publication] getTableNames failed:', err.message)
+        tablesPromise = null // allow retry on next call
+        return new Set()
+      })
   }
 
   return tablesPromise
