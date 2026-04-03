@@ -272,7 +272,7 @@ async function insertMediaReference(gameId, coverUrl) {
         VALUES ('game', ?, 'cover', ?, 'igdb', 'approved_with_review', 'external_reference')
       `).run(gameId, coverUrl);
     } catch (err) {
-      console.log(`  [WARN] media_references insert failed for ${gameId}: ${err.message}`);
+      console.error(`  [ERROR] media_references insert failed for ${gameId}: ${err.message}`);
     }
   }
 }
