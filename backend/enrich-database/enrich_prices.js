@@ -222,7 +222,11 @@ async function insertHistory(entries) {
   } else {
     const stmt = db.prepare('INSERT INTO price_history (game_id,price,condition,sale_date,source,listing_title) VALUES (?,?,?,?,?,?)');
     const txn  = db.transaction(() => entries.forEach(e => stmt.run(e.game_id,e.price,e.condition,e.sale_date,e.source,e.listing_title)));
-    txn();
+    try {
+      txn();
+    } catch (err) {
+      console.error(`[DB] insertHistory (SQLite) failed for game_id=${entries[0]?.game_id}:`, err.message);
+    }
   }
 }
 

@@ -212,8 +212,8 @@ async function getGameEditorial(gameId) {
     ).get(gameId);
     return row || null;
   } catch (err) {
-    console.warn(`  [WARN] getGameEditorial (SQLite) failed for ${gameId}:`, err.message);
-    return null;
+    console.error(`  [ERROR] getGameEditorial (SQLite) failed for ${gameId}:`, err.message);
+    return undefined;
   }
 }
 
@@ -297,7 +297,18 @@ async function main() {
     }
 
     // Query HLTB
-    const hltbData = await fetchHLTBData(game.title);
+    let hltbData;
+    try {
+      hltbData = await fetchHLTBData(game.title);
+    } catch (err) {
+      console.error(`  [ERROR] fetchHLTBData fatal for "${game.title}": ${err.message}`);
+      errors++;
+      process.stdout.write(
+        `\r  ${i + 1}/${gamesToProcess.length} | ${matched} matched · ${updated} updated · ${skipped} skipped · ${errors} errors`
+      );
+      await sleep(RATE_LIMIT_MS);
+      continue;
+    }
 
     if (!hltbData) {
       errors++;
