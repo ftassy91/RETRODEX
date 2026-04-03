@@ -127,7 +127,8 @@ const V = {
 async function getGames() {
   if (GAME_ID) {
     if (USE_SUPABASE) {
-      const { data } = await supabase.from('games').select('*').eq('id', GAME_ID).single();
+      const { data, error } = await supabase.from('games').select('*').eq('id', GAME_ID).single();
+      if (error) { console.error('[ERROR] getGames (single) failed:', error.message); return []; }
       return data ? [data] : [];
     }
     return db.prepare('SELECT * FROM games WHERE id=?').all(GAME_ID);
@@ -146,7 +147,8 @@ async function getGames() {
   if (USE_SUPABASE) {
     let q = supabase.from('games').select('*').eq('type','game');
     if (RARITY) q = q.in('rarity', RARITY);
-    const { data } = await q.limit(LIMIT);
+    const { data, error } = await q.limit(LIMIT);
+    if (error) { console.error('[ERROR] getGames failed:', error.message); return []; }
     return (data || []).filter(g => {
       if (FIELD === 'synopsis')    return !g.synopsis;
       if (FIELD === 'tagline')     return !g.tagline;
@@ -165,8 +167,12 @@ async function getGames() {
 async function saveField(id, field, value) {
   if (DRY) { console.log(`  [DRY] ${field}: ${JSON.stringify(value).slice(0,60)}`); return; }
   const v = typeof value === 'object' ? JSON.stringify(value) : value;
-  if (USE_SUPABASE) await supabase.from('games').update({ [field]: v }).eq('id', id);
-  else db.prepare(`UPDATE games SET ${field}=? WHERE id=?`).run(v, id);
+  if (USE_SUPABASE) {
+    const { error } = await supabase.from('games').update({ [field]: v }).eq('id', id);
+    if (error) console.error(`  [ERROR] Failed to save ${field} for ${id}:`, error.message);
+  } else {
+    db.prepare(`UPDATE games SET ${field}=? WHERE id=?`).run(v, id);
+  }
 }
 
 // ── Process one game ───────────────────────────────────────────────────────

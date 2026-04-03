@@ -15,24 +15,24 @@
 
 - Production and local now use the same public route topology.
 - The canonical active route tree is materialized under:
-  - [backend/src/routes/games](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/games)
-  - [backend/src/routes/search](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/search)
-  - [backend/src/routes/collection](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/collection)
-  - [backend/src/routes/market](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/market)
-  - [backend/src/routes/franchises](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/franchises)
-  - [backend/src/routes/prices](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/prices)
-  - [backend/src/routes/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin)
-- The active runtime is mounted through [index.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/index.js).
+  - [backend/src/routes/games](../backend/src/routes/games)
+  - [backend/src/routes/search](../backend/src/routes/search)
+  - [backend/src/routes/collection](../backend/src/routes/collection)
+  - [backend/src/routes/market](../backend/src/routes/market)
+  - [backend/src/routes/franchises](../backend/src/routes/franchises)
+  - [backend/src/routes/prices](../backend/src/routes/prices)
+  - [backend/src/routes/admin](../backend/src/routes/admin)
+- The active runtime is mounted through [index.js](../backend/src/routes/index.js).
 - Active public routes no longer read the DB directly.
-- Runtime normalization goes through [normalize.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/lib/normalize.js).
+- Runtime normalization goes through [normalize.js](../backend/src/lib/normalize.js).
 - `db_supabase.js` is the runtime source of truth for active public reads.
 - The old flat route wrappers were removed after verification that the canonical domain tree is the only mounted runtime surface.
-- `src/config` now exposes both [env.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/env.js) and [database.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/database.js).
+- `src/config` now exposes both [env.js](../backend/src/config/env.js) and [database.js](../backend/src/config/database.js).
 
 ## Market / Legacy Decisions Validated
 
 - Phase 5 migrated the remaining frontend consumers away from the flat legacy market endpoints.
-- [market.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/market.js) and [legacy-market.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/legacy-market.js) are removed.
+- [market.js](../backend/src/routes/market.js) and [legacy-market.js](../backend/src/routes/legacy-market.js) are removed.
 - `legacy-market-*` services are removed.
 - Canonical market and game detail endpoints now cover:
   - `/api/stats`
@@ -53,51 +53,51 @@
 
 ## Admin / Back-Office Decisions Validated
 
-- The explicit back-office route tree lives under [backend/src/routes/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin) and remains unmounted by default in the public runtime.
-- The retained back-office service layer lives under [backend/src/services/admin](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin).
+- The explicit back-office route tree lives under [backend/src/routes/admin](../backend/src/routes/admin) and remains unmounted by default in the public runtime.
+- The retained back-office service layer lives under [backend/src/services/admin](../backend/src/services/admin).
 - The admin/services lot is closed on its perimeter.
 
 Stabilized service outcomes:
 
-- [game-read-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/game-read-service.js) is now a façade over [backend/src/services/admin/game-read](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/game-read).
-- [curation-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/curation-service.js) is now a façade over [backend/src/services/admin/curation](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/curation).
-- [audit-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/audit-service.js) is now a façade over [backend/src/services/admin/audit](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/audit).
-- [console-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/console-service.js) remains an isolated orchestrator with pure helpers in [console-profile.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/console-profile.js).
-- [enrichment-backlog-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment-backlog-service.js) remains a retained orchestrator with pure helpers in [enrichment-backlog-profile.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment-backlog-profile.js).
-- Lot 1 premium enrichment foundations are additive under [backend/src/services/admin/enrichment](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/enrichment).
+- [game-read-service.js](../backend/src/services/admin/game-read-service.js) is now a façade over [backend/src/services/admin/game-read](../backend/src/services/admin/game-read).
+- [curation-service.js](../backend/src/services/admin/curation-service.js) is now a façade over [backend/src/services/admin/curation](../backend/src/services/admin/curation).
+- [audit-service.js](../backend/src/services/admin/audit-service.js) is now a façade over [backend/src/services/admin/audit](../backend/src/services/admin/audit).
+- [console-service.js](../backend/src/services/admin/console-service.js) remains an isolated orchestrator with pure helpers in [console-profile.js](../backend/src/services/admin/console-profile.js).
+- [enrichment-backlog-service.js](../backend/src/services/admin/enrichment-backlog-service.js) remains a retained orchestrator with pure helpers in [enrichment-backlog-profile.js](../backend/src/services/admin/enrichment-backlog-profile.js).
+- Lot 1 premium enrichment foundations are additive under [backend/src/services/admin/enrichment](../backend/src/services/admin/enrichment).
 - Lot 1 premium enrichment foundations do not open new persistence tables.
 - Existing canonical tables remain the authority for:
   - curation coverage
   - provenance / evidence
   - quality scoring
   - run logging
-- Read-only premium coverage preview is exposed through [recompute-enrichment-coverage.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/recompute-enrichment-coverage.js).
+- Read-only premium coverage preview is exposed through [recompute-enrichment-coverage.js](../backend/scripts/enrichment/recompute-enrichment-coverage.js).
 
 ## Phase 0 Discoveries and Final Placement
 
 ### `collection-service.js`
 
-- File: [backend/src/_quarantine/collection-service.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/_quarantine/collection-service.js)
+- File: [backend/src/_quarantine/collection-service.js](../backend/src/_quarantine/collection-service.js)
 - Decision: `quarantine`
 - Reason: pushes a `Sequelize + services` runtime incompatible with the confirmed production target
 
 ### `20260331_007_collection_runtime_canonical.js`
 
-- File: [backend/migrations/_pending_review/20260331_007_collection_runtime_canonical.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_007_collection_runtime_canonical.js)
+- File: [backend/migrations/_pending_review/20260331_007_collection_runtime_canonical.js](../backend/migrations/_pending_review/20260331_007_collection_runtime_canonical.js)
 - Decision: `pending_review`
 - Reason: collection multi-user migration not validated for production
 
 ### `runtime-db-architecture.md`
 
-- File: [docs/_superseded/runtime-db-architecture.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/_superseded/runtime-db-architecture.md)
+- File: [docs/_superseded/runtime-db-architecture.md](./docs/_superseded/runtime-db-architecture.md)
 - Decision: `superseded`
 - Reason: incompatible with the confirmed `db_supabase.js` production target
 
 ### `runtime-db-context.js`
 
-- File: [backend/src/_quarantine/runtime-db-context.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/_quarantine/runtime-db-context.js)
+- File: [backend/src/_quarantine/runtime-db-context.js](../backend/src/_quarantine/runtime-db-context.js)
 - Decision: `quarantine`
-- Reason: its environment-resolution responsibility is now absorbed by [env.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/env.js)
+- Reason: its environment-resolution responsibility is now absorbed by [env.js](../backend/src/config/env.js)
 
 ## DB State and Gates
 
@@ -114,9 +114,9 @@ Stabilized service outcomes:
 
 References:
 
-- [PHASE3_DB_READINESS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_DB_READINESS.md)
-- [PHASE3_BACKFILL_EXECUTION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_EXECUTION.md)
-- [CONSOLE_DEVELOPER_TRANSITION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CONSOLE_DEVELOPER_TRANSITION.md)
+- [PHASE3_DB_READINESS.md](./docs/PHASE3_DB_READINESS.md)
+- [PHASE3_BACKFILL_EXECUTION.md](./docs/PHASE3_BACKFILL_EXECUTION.md)
+- [CONSOLE_DEVELOPER_TRANSITION.md](./docs/CONSOLE_DEVELOPER_TRANSITION.md)
 
 ## Current Project State
 

@@ -10,7 +10,7 @@ Lay the execution foundation for `top1200` richness uplift so weak/intermediate 
 
 ### Reporting
 
-- Added [report-top1200-richness.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/report-top1200-richness.js).
+- Added [report-top1200-richness.js](../../backend/scripts/enrichment/report-top1200-richness.js).
 - The reporter measures `top1200` coverage for:
   - `summary`
   - `synopsis`
@@ -31,8 +31,8 @@ Lay the execution foundation for `top1200` richness uplift so weak/intermediate 
 
 ### Doctrine / source policy
 
-- Added `StrategyWiki` to [source-policy.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/source-policy.js) as `approved_with_review`.
-- Extended [source-compliance-matrix.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/source-compliance-matrix.md) with the allowed StrategyWiki scope for:
+- Added `StrategyWiki` to [source-policy.js](../../backend/src/config/source-policy.js) as `approved_with_review`.
+- Extended [source-compliance-matrix.md](./docs/source-compliance-matrix.md) with the allowed StrategyWiki scope for:
   - `cheat_codes`
   - `versions`
   - short editorial support
@@ -40,10 +40,10 @@ Lay the execution foundation for `top1200` richness uplift so weak/intermediate 
 
 ### New richness batch family
 
-- Added `batchType=richness` support in [\_batch-manifest-common.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/_batch-manifest-common.js).
-- Added [\_richness-batch-common.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/_richness-batch-common.js).
-- Added [apply-richness-batch.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/apply-richness-batch.js).
-- Added [run-richness-batch-pipeline.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/run-richness-batch-pipeline.js).
+- Added `batchType=richness` support in [\_batch-manifest-common.js](../../backend/scripts/enrichment/_batch-manifest-common.js).
+- Added [\_richness-batch-common.js](../../backend/scripts/enrichment/_richness-batch-common.js).
+- Added [apply-richness-batch.js](../../backend/scripts/enrichment/apply-richness-batch.js).
+- Added [run-richness-batch-pipeline.js](../../backend/scripts/enrichment/run-richness-batch-pipeline.js).
 
 Supported writes:
 
@@ -77,7 +77,7 @@ Write guarantees:
 
 ### Runtime/UI sync
 
-- Extended [sync-supabase-ui-fields.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/sync-supabase-ui-fields.js) so `tagline` is now part of the public runtime sync surface.
+- Extended [sync-supabase-ui-fields.js](../../backend/scripts/sync-supabase-ui-fields.js) so `tagline` is now part of the public runtime sync surface.
 
 ## First executed wave
 
@@ -91,7 +91,7 @@ Applied one real `expert-signals` wave with the existing competitive pipeline us
 
 Artifacts:
 
-- manifest: [generated_competitive_speedrun_20260402070524.json](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/manifests/generated/generated_competitive_speedrun_20260402070524.json)
+- manifest: [generated_competitive_speedrun_20260402070524.json](../../backend/scripts/enrichment/manifests/generated/generated_competitive_speedrun_20260402070524.json)
 - backup: `backend/storage/retrodex.sqlite.backup_20260402_090552_generated_competitive_speedrun_20260402070524`
 
 Applied gain:
@@ -125,14 +125,14 @@ Applied one real `editorial-depth` wave using a new internal backfill generator 
 
 New tooling:
 
-- [generate-editorial-depth-internal-backfill-manifest.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/generate-editorial-depth-internal-backfill-manifest.js)
+- [generate-editorial-depth-internal-backfill-manifest.js](../../backend/scripts/enrichment/generate-editorial-depth-internal-backfill-manifest.js)
 - npm scripts:
   - root: `npm run enrichment:generate-editorial-depth-internal-backfill`
   - backend: `npm run enrichment:generate-editorial-depth-internal-backfill`
 
 Artifacts:
 
-- manifest: [generated_editorial_depth_internal_backfill_20260402071141.json](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/manifests/generated/generated_editorial_depth_internal_backfill_20260402071141.json)
+- manifest: [generated_editorial_depth_internal_backfill_20260402071141.json](../../backend/scripts/enrichment/manifests/generated/generated_editorial_depth_internal_backfill_20260402071141.json)
 - backup: `backend/storage/retrodex.sqlite.backup_20260402_091146_generated_editorial_depth_internal_backfill_20260402071141`
 - scoped audit: `backend/data/audit/2026-04-02T07-11-46-941Z_scoped_33_summary.json`
 
@@ -164,7 +164,7 @@ Applied one large `dev_team` structural backfill wave to make the `top1200` deve
 
 New tooling:
 
-- [generate-dev-team-structured-backfill-manifest.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/generate-dev-team-structured-backfill-manifest.js)
+- [generate-dev-team-structured-backfill-manifest.js](../../backend/scripts/enrichment/generate-dev-team-structured-backfill-manifest.js)
 - npm scripts:
   - root: `npm run enrichment:generate-dev-team-structured-backfill`
   - backend: `npm run enrichment:generate-dev-team-structured-backfill`
@@ -178,7 +178,7 @@ Backfill policy:
 
 Artifacts:
 
-- manifest: [generated_dev_team_structured_backfill_20260402071439.json](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/manifests/generated/generated_dev_team_structured_backfill_20260402071439.json)
+- manifest: [generated_dev_team_structured_backfill_20260402071439.json](../../backend/scripts/enrichment/manifests/generated/generated_dev_team_structured_backfill_20260402071439.json)
 - backup: `backend/storage/retrodex.sqlite.backup_20260402_091454_generated_dev_team_structured_backfill_20260402071439`
 - full audit: `backend/data/audit/2026-04-02T07-15-20-362Z_summary.json`
 
@@ -215,14 +215,14 @@ Applied one first external-source `cheat_codes` wave from a reviewed local Strat
 New assets:
 
 - local snapshot: `backend/data/strategywiki/2026-04-02_top1200_cheats_snapshot.json`
-- [generate-strategywiki-cheats-manifest.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/generate-strategywiki-cheats-manifest.js)
+- [generate-strategywiki-cheats-manifest.js](../../backend/scripts/enrichment/generate-strategywiki-cheats-manifest.js)
 - npm scripts:
   - root: `npm run enrichment:generate-strategywiki-cheats`
   - backend: `npm run enrichment:generate-strategywiki-cheats`
 
 Artifacts:
 
-- manifest: [generated_strategywiki_cheats_20260402072649.json](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/manifests/generated/generated_strategywiki_cheats_20260402072649.json)
+- manifest: [generated_strategywiki_cheats_20260402072649.json](../../backend/scripts/enrichment/manifests/generated/generated_strategywiki_cheats_20260402072649.json)
 - backup: `backend/storage/retrodex.sqlite.backup_20260402_092656_generated_strategywiki_cheats_20260402072649`
 - scoped audit: `backend/data/audit/2026-04-02T07-26-56-884Z_scoped_4_summary.json`
 

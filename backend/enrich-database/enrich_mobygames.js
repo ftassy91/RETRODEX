@@ -223,7 +223,8 @@ async function getGamesToEnrich(consoleName) {
     if (consoleName) query = query.eq('console', consoleName);
     if (LIMIT > 0)   query = query.limit(LIMIT);
 
-    const { data } = await query;
+    const { data, error } = await query;
+    if (error) { console.error('[DB] getGamesToEnrich failed:', error.message); return []; }
     return data || [];
   }
 
@@ -257,7 +258,8 @@ async function updateGame(id, fields) {
   }
 
   if (USE_SUPABASE) {
-    await supabase.from('games').update(fields).eq('id', id);
+    const { error } = await supabase.from('games').update(fields).eq('id', id);
+    if (error) console.error(`  [ERROR] Failed to update game ${id}:`, error.message);
   } else {
     const keys = Object.keys(fields);
     const sets = keys.map(k => {

@@ -12,6 +12,6 @@ Ce dossier contient du travail local identifié pendant la Phase 0, mais non ret
 ## `runtime-db-context.js`
 
 - Statut : `quarantine`
-- Raison : sa responsabilité infra a été absorbée par [env.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/env.js), mais il reste conservé ici pour garder `collection-service.js` autoporté en quarantaine.
+- Raison : sa responsabilité infra a été absorbée par [env.js](./backend/src/config/env.js), mais il reste conservé ici pour garder `collection-service.js` autoporté en quarantaine.
 - Décision : ne pas le réintégrer dans `services/`.
 - Révision prévue : suppression finale quand la quarantaine `collection` sera tranchée.

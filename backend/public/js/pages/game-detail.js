@@ -1629,7 +1629,7 @@ async function loadEncyclopedia(gameId) {
   }
 
   try {
-    const data = await fetchJson(`/api/games/${gameId}/encyclopedia`)
+    const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/encyclopedia`)
     if (!data.ok) {
       currentEncyclopediaData = null
       renderEditorialContent()
@@ -1660,7 +1660,7 @@ async function loadEncyclopedia(gameId) {
 
 async function loadFranchise(gameId) {
   try {
-    const data = await fetchJson(`/api/games/${gameId}/franchise`)
+    const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/franchise`)
     if (!data.ok || !data.franchise) {
       return
     }
@@ -1676,7 +1676,9 @@ async function loadFranchise(gameId) {
         FRANCHISE | ${escapeHtml(franchise.name)} (${escapeHtml(franchise.first_game || 'n/a')}-${escapeHtml(franchise.last_game || 'n/a')}) ->
       </a>
     `
-  } catch (_error) {}
+  } catch (_error) {
+    console.warn('[game-detail] franchise load failed:', _error?.message)
+  }
 }
 
 function renderSummary(game) {
@@ -2256,7 +2258,7 @@ async function loadSimilar(gameId) {
   removeRelatedModule('similar-games')
 
   try {
-    const data = await fetchJson(`/api/games/${gameId}/similar`)
+    const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/similar`)
     if (!data.ok || !safeArray(data.games).length) {
       return
     }

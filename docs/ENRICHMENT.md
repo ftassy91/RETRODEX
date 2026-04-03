@@ -6,7 +6,7 @@
 - Supabase production n'est jamais écrite sans validation humaine.
 - Les scripts de publication Supabase nécessitent un environnement valide :
   - `SUPABASE_URL`
-  - `SUPABASE_SERVICE_KEY` ou équivalent résolu par [env.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/config/env.js)
+  - `SUPABASE_SERVICE_KEY` ou équivalent résolu par [env.js](../backend/src/config/env.js)
 - Les scripts doivent être considérés comme non autorisés en prod si leur comportement `dry-run` n'est pas explicitement confirmé.
 
 ## Scripts

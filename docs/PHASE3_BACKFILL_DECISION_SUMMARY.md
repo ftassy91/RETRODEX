@@ -6,7 +6,7 @@ Historical note:
 
 - this decision summary was the final pre-apply decision sheet
 - the production backfill was executed successfully on March 31, 2026
-- see [PHASE3_BACKFILL_EXECUTION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_EXECUTION.md) for the executed result
+- see [PHASE3_BACKFILL_EXECUTION.md](./docs/PHASE3_BACKFILL_EXECUTION.md) for the executed result
 - a later preview-only review on March 31, 2026 approved a future `price_status v2` rule in principle
 - that future rule is suspended until the first `ebay` ingestion exists in `price_history`
 - no second production backfill is authorized yet
@@ -52,7 +52,7 @@ If that interpretation is not accepted, do **not** run the apply step. Revise th
 
 Run:
 
-- [20260331_009_games_status_backfill_preview.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
+- [20260331_009_games_status_backfill_preview.sql](../backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
 
 Confirm that the returned JSON still matches the expected volumes above.
 
@@ -60,13 +60,13 @@ Confirm that the returned JSON still matches the expected volumes above.
 
 Only after explicit human approval, run:
 
-- [20260331_010_games_status_backfill_apply.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql)
+- [20260331_010_games_status_backfill_apply.sql](../backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql)
 
 ### 3. Re-preview
 
 Immediately re-run:
 
-- [20260331_009_games_status_backfill_preview.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
+- [20260331_009_games_status_backfill_preview.sql](../backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
 
 Confirm:
 

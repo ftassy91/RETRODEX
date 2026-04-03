@@ -17,9 +17,9 @@ Close the remaining safe-yield credit debt inside the already stable `top1200` t
 
 ### Open-source credit bootstrap
 
-- Added [bootstrap-wikidata-credit-snapshot.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/bootstrap-wikidata-credit-snapshot.js)
-- Added [generate-wikidata-credit-manifests.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/generate-wikidata-credit-manifests.js)
-- Added [generate-top1200-credit-blocked-residue.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/generate-top1200-credit-blocked-residue.js)
+- Added [bootstrap-wikidata-credit-snapshot.js](../../backend/scripts/enrichment/bootstrap-wikidata-credit-snapshot.js)
+- Added [generate-wikidata-credit-manifests.js](../../backend/scripts/enrichment/generate-wikidata-credit-manifests.js)
+- Added [generate-top1200-credit-blocked-residue.js](../../backend/scripts/enrichment/generate-top1200-credit-blocked-residue.js)
 
 ### Safe-yield waves applied
 
@@ -41,12 +41,12 @@ Close the remaining safe-yield credit debt inside the already stable `top1200` t
 
 ### Stability hardening
 
-- Patched [backend/scripts/enrichment/_composer-batch-common.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/_composer-batch-common.js) to support non-Latin people names via deterministic hash fallback slugs.
-- Patched [backend/scripts/enrichment/_dev-team-batch-common.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/_dev-team-batch-common.js) with the same fallback for future-proofing.
+- Patched [backend/scripts/enrichment/_composer-batch-common.js](../../backend/scripts/enrichment/_composer-batch-common.js) to support non-Latin people names via deterministic hash fallback slugs.
+- Patched [backend/scripts/enrichment/_dev-team-batch-common.js](../../backend/scripts/enrichment/_dev-team-batch-common.js) with the same fallback for future-proofing.
 
 ## Outcome
 
-Measured with [report-top1200-progress.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/report-top1200-progress.js) against [2026-04-01T22-44-17-604Z_games.json](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/data/audit/2026-04-01T22-44-17-604Z_games.json):
+Measured with [report-top1200-progress.js](../../backend/scripts/enrichment/report-top1200-progress.js) against [2026-04-01T22-44-17-604Z_games.json](../../backend/data/audit/2026-04-01T22-44-17-604Z_games.json):
 
 - `top1200.complete_or_better = 1200/1200`
 - `top1200.missingDevTeam = 0`
@@ -61,7 +61,7 @@ Net gain:
 
 The remaining unresolved cases were written to:
 
-- [2026-04-01T22-46-10-395Z_top1200_credit_blocked_residue.json](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/data/enrichment/credits/2026-04-01T22-46-10-395Z_top1200_credit_blocked_residue.json)
+- [2026-04-01T22-46-10-395Z_top1200_credit_blocked_residue.json](../../backend/data/enrichment/credits/2026-04-01T22-46-10-395Z_top1200_credit_blocked_residue.json)
 
 Current blocked summary:
 

@@ -7,21 +7,21 @@ This file is a lightweight entry document for Claude-style agents.
 It is **not** the primary source of truth anymore.
 
 Read in this order before acting:
-1. [AGENTS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/AGENTS.md)
-2. [docs/CLAUDE_CONTINUITY_BRIEF.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/CLAUDE_CONTINUITY_BRIEF.md)
-3. [docs/ARCHITECTURE.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/ARCHITECTURE.md)
-4. [docs/DECISIONS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/DECISIONS.md)
+1. [AGENTS.md](./AGENTS.md)
+2. [docs/CLAUDE_CONTINUITY_BRIEF.md](./docs/CLAUDE_CONTINUITY_BRIEF.md)
+3. [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)
+4. [docs/DECISIONS.md](./docs/DECISIONS.md)
 
 If this file conflicts with those documents, this file loses.
 
 ## Current Working Truth
 
 - RetroDex is a **retro-gaming knowledge terminal**
-- public runtime is stabilized and canonical under [backend/public/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/public/) and [backend/src/routes/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/)
-- public runtime reads are **Supabase-first** through [backend/db_supabase.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/db_supabase.js)
+- public runtime is stabilized and canonical under [backend/public/](./backend/public/) and [backend/src/routes/](./backend/src/routes/)
+- public runtime reads are **Supabase-first** through [backend/db_supabase.js](./backend/db_supabase.js)
 - local SQLite is a **staging/back-office environment**, not prod truth
-- admin logic lives under [backend/src/routes/admin/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/routes/admin/) and [backend/src/services/admin/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/src/services/admin/)
-- [frontend/](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/frontend/) is a **secondary prototype/exploration area**, not the default product surface
+- admin logic lives under [backend/src/routes/admin/](./backend/src/routes/admin/) and [backend/src/services/admin/](./backend/src/services/admin/)
+- [frontend/](./frontend/) is a **secondary prototype/exploration area**, not the default product surface
 
 ## Product Orientation
 
@@ -59,4 +59,4 @@ When resuming work:
 - do not assume local SQLite is runtime truth
 - do not open broad refactors implicitly
 
-Open explicit lots, keep scope narrow, and align with [AGENTS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/AGENTS.md).
+Open explicit lots, keep scope narrow, and align with [AGENTS.md](./AGENTS.md).

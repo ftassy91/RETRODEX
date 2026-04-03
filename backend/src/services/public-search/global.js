@@ -29,7 +29,7 @@ async function searchGlobal(query, context, limit, scope) {
       label: SEARCH_CONTEXT_LABELS[context] || SEARCH_CONTEXT_LABELS.all,
       items: [],
       count: 0,
-      publication: buildPublicationSummary(scope, await getStats().catch(() => ({}))),
+      publication: buildPublicationSummary(scope, await getStats().catch((err) => { console.warn('[stats] getStats failed:', err.message); return {} })),
     }
   }
 
@@ -43,7 +43,7 @@ async function searchGlobal(query, context, limit, scope) {
     }),
     fetchGlobalConsoleResults(query, limit),
     fetchGlobalFranchiseResults(query, limit),
-    getStats().catch(() => ({})),
+    getStats().catch((err) => { console.warn('[stats] getStats failed:', err.message); return {} }),
   ])
 
   let hydratedGames = await hydrateGameCovers(filterPublishedGames(gamesPayload.items || [], scope))

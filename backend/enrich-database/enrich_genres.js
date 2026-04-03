@@ -124,7 +124,8 @@ const RAWG_GENRE_MAP = {
 // ── DB helpers ─────────────────────────────────────────────────────────────
 async function getAllGames() {
   if (USE_SUPABASE) {
-    const { data } = await supabase.from('games').select('id,title,console,genre').eq('type','game');
+    const { data, error } = await supabase.from('games').select('id,title,console,genre').eq('type','game');
+    if (error) { console.error('[ERROR] getAllGames failed:', error.message); return []; }
     return data || [];
   }
   return db.prepare("SELECT id,title,console,genre FROM games WHERE type='game'").all();
@@ -132,8 +133,9 @@ async function getAllGames() {
 
 async function getGamesOtherGenre() {
   if (USE_SUPABASE) {
-    const { data } = await supabase.from('games').select('id,title,console,year')
+    const { data, error } = await supabase.from('games').select('id,title,console,year')
       .eq('type','game').or('genre.eq.Other,genre.is.null').limit(LIMIT);
+    if (error) { console.error('[ERROR] getGamesOtherGenre failed:', error.message); return []; }
     return data || [];
   }
   return db.prepare("SELECT id,title,console,year FROM games WHERE type='game' AND (genre='Other' OR genre IS NULL) LIMIT ?").all(LIMIT);
@@ -141,8 +143,12 @@ async function getGamesOtherGenre() {
 
 async function save(id, genre) {
   if (DRY_RUN) { console.log(`  [DRY] ${id} → ${genre}`); return; }
-  if (USE_SUPABASE) await supabase.from('games').update({ genre }).eq('id', id);
-  else db.prepare('UPDATE games SET genre=? WHERE id=?').run(genre, id);
+  if (USE_SUPABASE) {
+    const { error } = await supabase.from('games').update({ genre }).eq('id', id);
+    if (error) console.error(`  [ERROR] Failed to save genre for ${id}:`, error.message);
+  } else {
+    db.prepare('UPDATE games SET genre=? WHERE id=?').run(genre, id);
+  }
 }
 
 // ── Normalize ──────────────────────────────────────────────────────────────

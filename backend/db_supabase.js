@@ -302,6 +302,7 @@ function buildSqlAdapter(runQuery, dialect = 'sqlite') {
         if (this._operation === 'delete') return await this._executeDelete();
         return await this._executeSelect();
       } catch (error) {
+        console.error('[DB] Query error:', error.message);
         return {
           data: this._single ? null : [],
           error: { message: error.message },
@@ -340,7 +341,7 @@ if (!USE_SUPABASE && HAS_DATABASE_URL) {
       (sql, replacements, type) => sequelize.query(sql, { bind: replacements, type }),
       'postgres',
     );
-    mode = 'supabase';
+    mode = 'postgres';
     console.log('[DB] Postgres adapter via DATABASE_URL');
   } catch (error) {
     console.error('[DB] Postgres adapter error:', error.message);
@@ -358,7 +359,7 @@ if (!USE_SUPABASE && !db && process.env.VERCEL) {
       ),
       HAS_DATABASE_URL ? 'postgres' : 'sqlite',
     );
-    mode = 'supabase';
+    mode = HAS_DATABASE_URL ? 'postgres' : 'sqlite';
     console.log(`[DB] Vercel SQL adapter fallback -> ${HAS_DATABASE_URL ? 'postgres' : 'sqlite'}`);
   } catch (error) {
     console.error('[DB] Vercel SQL adapter fallback error:', error.message);
@@ -379,6 +380,14 @@ if (!USE_SUPABASE && !db) {
     console.error('[DB] SQLite error:', error.message);
     console.error('[DB] Set SUPABASE_URL + SUPABASE_ANON_KEY in backend/.env');
   }
+}
+
+if (!db) {
+  console.error(
+    '[DB] FATAL: No database connection established. ' +
+    'Set SUPABASE_URL + SUPABASE_ANON_KEY (or SUPABASE_SERVICE_KEY), DATABASE_URL, or ensure better-sqlite3 is installed.'
+  );
+  process.exit(1);
 }
 
 function buildSQLiteAdapter(sqlite) {
@@ -644,16 +653,6 @@ async function queryGamesViaSequelize(sequelize, filters) {
      LIMIT 5000`,
     { replacements }
   );
-
-  const debugRow = rows.find(r => r.id === 'panzer-dragoon-saga-sega-saturn');
-  if (debugRow) {
-    console.log('[queryGamesViaSequelize DEBUG]', JSON.stringify({
-      id: debugRow.id,
-      coverImage: debugRow.coverImage,
-      cover_url: debugRow.cover_url,
-      coverimage: debugRow.coverimage,
-    }));
-  }
 
   return { items: rows, total: rows.length };
 }

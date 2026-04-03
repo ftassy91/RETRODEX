@@ -18,12 +18,12 @@ Measured before this wave:
 
 ### Tooling fixes
 
-- Patched [generate-wikidata-credit-manifests.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/generate-wikidata-credit-manifests.js) so it only loads `*_wikidata_credit_snapshot.json` files and fails clearly if the snapshot shape is invalid.
-- Extended [bootstrap-wikidata-credit-snapshot.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/bootstrap-wikidata-credit-snapshot.js) to include more Wikipedia language lanes in the base snapshot sweep.
+- Patched [generate-wikidata-credit-manifests.js](../../backend/scripts/enrichment/generate-wikidata-credit-manifests.js) so it only loads `*_wikidata_credit_snapshot.json` files and fails clearly if the snapshot shape is invalid.
+- Extended [bootstrap-wikidata-credit-snapshot.js](../../backend/scripts/enrichment/bootstrap-wikidata-credit-snapshot.js) to include more Wikipedia language lanes in the base snapshot sweep.
 
 ### New safe-yield extender
 
-- Added [extend-wikidata-composer-snapshot.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/extend-wikidata-composer-snapshot.js).
+- Added [extend-wikidata-composer-snapshot.js](../../backend/scripts/enrichment/extend-wikidata-composer-snapshot.js).
 - The extender:
   - revisits blocked composer entries that already have a `wikidataQid`
   - scans all usable Wikipedia sitelinks, not just the base language subset
@@ -39,7 +39,7 @@ Measured before this wave:
 
 ## Outcome
 
-Measured after the wave with [report-top1200-progress.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/enrichment/report-top1200-progress.js) against [2026-04-02T06-18-44-327Z_games.json](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/data/audit/2026-04-02T06-18-44-327Z_games.json):
+Measured after the wave with [report-top1200-progress.js](../../backend/scripts/enrichment/report-top1200-progress.js) against [2026-04-02T06-18-44-327Z_games.json](../../backend/data/audit/2026-04-02T06-18-44-327Z_games.json):
 
 - `top1200.complete_or_better = 1200/1200`
 - `top1200.missingDevTeam = 0`
@@ -53,7 +53,7 @@ Net gain for this restart wave:
 
 Updated blocked residue:
 
-- [2026-04-02T06-19-07-487Z_top1200_credit_blocked_residue.json](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/data/enrichment/credits/2026-04-02T06-19-07-487Z_top1200_credit_blocked_residue.json)
+- [2026-04-02T06-19-07-487Z_top1200_credit_blocked_residue.json](../../backend/data/enrichment/credits/2026-04-02T06-19-07-487Z_top1200_credit_blocked_residue.json)
 
 Current blocked summary:
 

@@ -188,7 +188,8 @@ const SEED_GAMES = [
 // ── DB helpers ─────────────────────────────────────────────────────────────
 async function gameExists(title, console_) {
   if (USE_SUPABASE) {
-    const { data } = await supabase.from('games').select('id').eq('title',title).eq('console',console_).limit(1);
+    const { data, error } = await supabase.from('games').select('id').eq('title',title).eq('console',console_).limit(1);
+    if (error) { console.error('[DB] gameExists failed:', error.message); return false; }
     return data && data.length > 0;
   }
   return !!db.prepare('SELECT id FROM games WHERE title=? AND console=? LIMIT 1').get(title, console_);
@@ -197,13 +198,14 @@ async function gameExists(title, console_) {
 async function insertGame(game) {
   if (DRY) { console.log(`  [DRY] ${game.title} (${game.console})`); return; }
   if (USE_SUPABASE) {
-    await supabase.from('games').insert({
+    const { error } = await supabase.from('games').insert({
       id: game.id, title: game.title, console: game.console, year: game.year,
       developer: game.developer, genre: game.genre, metascore: game.metascore,
       rarity: game.rarity, type: 'game',
       loose_price: game.loosePrice, cib_price: game.cibPrice, mint_price: game.mintPrice,
       source_confidence: 0.5,
     });
+    if (error) console.error(`[DB] insertGame failed for "${game.title}":`, error.message);
   } else {
     db.prepare(`INSERT OR IGNORE INTO games
       (id,title,console,year,developer,genre,metascore,rarity,type,loosePrice,cibPrice,mintPrice,source_confidence)

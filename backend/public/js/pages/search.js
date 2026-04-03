@@ -85,7 +85,7 @@
     resultsEl.innerHTML = `
       <div class="terminal-empty-state search-empty">
         <div class="terminal-empty-title">Recherche</div>
-        <div class="terminal-empty-copy">${message}</div>
+        <div class="terminal-empty-copy">${escapeHtml(message)}</div>
       </div>
     `
   }

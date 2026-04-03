@@ -35,7 +35,7 @@ async function fetchConsolesPayload() {
     fetchPublishedConsoles(),
     fetchAllSupabaseGames(),
     fetchPublishedGameScope(),
-    getStats().catch(() => ({})),
+    getStats().catch((err) => { console.warn('[stats] getStats failed:', err.message); return {} }),
   ])
   const gamesByConsole = buildConsoleGamesMap(filterPublishedGames(games, scope), catalog)
   const knownKeys = new Set()
@@ -83,7 +83,7 @@ async function fetchConsoleDetailPayload(consoleId) {
     fetchPublishedConsoles(),
     fetchAllSupabaseGames(),
     fetchPublishedGameScope(),
-    getStats().catch(() => ({})),
+    getStats().catch((err) => { console.warn('[stats] getStats failed:', err.message); return {} }),
   ])
 
   const consoleItem = findConsoleInCatalog(catalog, consoleId)

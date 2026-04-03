@@ -49,8 +49,8 @@
 - `npm run smoke` : OK
 
 ## Scripts
-- read-only audit: [audit-db-integrity.js](/C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/audit-db-integrity.js)
-- one-shot repair used for this lot: [repair-staging-db-integrity.js](/C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/repair-staging-db-integrity.js)
+- read-only audit: [audit-db-integrity.js](/../backend/scripts/audit-db-integrity.js)
+- one-shot repair used for this lot: [repair-staging-db-integrity.js](/../backend/scripts/repair-staging-db-integrity.js)
 
 ## Notes
 - some missing companies had no reliable text name in `games`; for those, the repair script used a conservative humanized version of the existing slug ID

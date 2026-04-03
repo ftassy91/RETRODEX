@@ -6,7 +6,7 @@ Historical note:
 
 - this approval dossier was used for the human decision before production execution
 - the production backfill was executed successfully on March 31, 2026
-- see [PHASE3_BACKFILL_EXECUTION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_EXECUTION.md) for the executed result
+- see [PHASE3_BACKFILL_EXECUTION.md](./docs/PHASE3_BACKFILL_EXECUTION.md) for the executed result
 
 This document is the human validation dossier for the production apply step of the `games` status backfill.
 
@@ -14,16 +14,16 @@ It does **not** authorize execution by itself.
 
 Canonical source of truth for the rules:
 
-- [games-status-rules.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/lib/games-status-rules.js)
+- [games-status-rules.js](../backend/scripts/lib/games-status-rules.js)
 
 Supporting readiness document:
 
-- [PHASE3_DB_READINESS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_DB_READINESS.md)
+- [PHASE3_DB_READINESS.md](./docs/PHASE3_DB_READINESS.md)
 
 Prepared SQL artifacts:
 
-- preview: [20260331_009_games_status_backfill_preview.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
-- apply: [20260331_010_games_status_backfill_apply.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql)
+- preview: [20260331_009_games_status_backfill_preview.sql](../backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
+- apply: [20260331_010_games_status_backfill_apply.sql](../backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql)
 
 ## 1. Expected Derived Volumes
 
@@ -66,7 +66,7 @@ Current divergence counts before apply:
 
 ## 2. Short Rule Summary
 
-This section is intentionally short. The exact canonical rules remain in [games-status-rules.js](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/scripts/lib/games-status-rules.js).
+This section is intentionally short. The exact canonical rules remain in [games-status-rules.js](../backend/scripts/lib/games-status-rules.js).
 
 - `editorial_status`
   - `complete` if `summary` or `synopsis` is substantive and at least 2 additional editorial signals exist
@@ -153,7 +153,7 @@ Only execute this after explicit human approval.
 
 In the Supabase SQL editor on the production project:
 
-1. Open [20260331_009_games_status_backfill_preview.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
+1. Open [20260331_009_games_status_backfill_preview.sql](../backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
 2. Copy its full contents
 3. Paste into the SQL editor
 4. Run it
@@ -165,7 +165,7 @@ Do **not** continue if the preview no longer matches the baseline.
 
 In the same production SQL editor:
 
-1. Open [20260331_010_games_status_backfill_apply.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql)
+1. Open [20260331_010_games_status_backfill_apply.sql](../backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql)
 2. Copy its full contents
 3. Paste into the SQL editor
 4. Run it as `postgres` on the production database
@@ -176,7 +176,7 @@ No automation. No script wrapper. No background apply.
 
 Immediately after the apply:
 
-1. Re-run [20260331_009_games_status_backfill_preview.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
+1. Re-run [20260331_009_games_status_backfill_preview.sql](../backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
 2. Confirm all of the following:
 
 - `totalGamesAudited = 1517`
@@ -218,7 +218,7 @@ WHERE type = 'game';
 
 Rollback verification:
 
-1. Re-run [20260331_009_games_status_backfill_preview.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
+1. Re-run [20260331_009_games_status_backfill_preview.sql](../backend/migrations/_pending_review/20260331_009_games_status_backfill_preview.sql)
 2. Confirm that:
 
 - `storedCounts.editorial_status.empty = 1517`
@@ -238,4 +238,4 @@ Approve the production apply only if all of the following are true:
 - the team accepts that these three status columns will stop being uniformly `empty`
 - the rollback path is understood and acceptable
 
-If one of these conditions is not met, keep [20260331_010_games_status_backfill_apply.sql](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql) blocked.
+If one of these conditions is not met, keep [20260331_010_games_status_backfill_apply.sql](../backend/migrations/_pending_review/20260331_010_games_status_backfill_apply.sql) blocked.

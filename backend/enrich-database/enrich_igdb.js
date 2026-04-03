@@ -235,7 +235,7 @@ async function updateGame(id, fields) {
 
   if (USE_SUPABASE) {
     const { error } = await supabase.from('games').update(fields).eq('id', id);
-    if (error) console.log(`  [WARN] Supabase update failed for ${id}: ${error.message}`);
+    if (error) console.error(`  [ERROR] Supabase update failed for ${id}: ${error.message}`);
   } else {
     const keys = Object.keys(fields);
     const sets = keys.map(k => `${k}=?`).join(', ');
@@ -263,7 +263,7 @@ async function insertMediaReference(gameId, coverUrl) {
       onConflict: 'entity_type,entity_id,media_type,url',
       ignoreDuplicates: true,
     });
-    if (error) console.log(`  [WARN] media_references insert failed for ${gameId}: ${error.message}`);
+    if (error) console.error(`  [ERROR] media_references insert failed for ${gameId}: ${error.message}`);
   } else {
     try {
       db.prepare(`
@@ -272,7 +272,7 @@ async function insertMediaReference(gameId, coverUrl) {
         VALUES ('game', ?, 'cover', ?, 'igdb', 'approved_with_review', 'external_reference')
       `).run(gameId, coverUrl);
     } catch (err) {
-      console.log(`  [WARN] media_references insert failed for ${gameId}: ${err.message}`);
+      console.error(`  [ERROR] media_references insert failed for ${gameId}: ${err.message}`);
     }
   }
 }

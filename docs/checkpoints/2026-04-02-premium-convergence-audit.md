@@ -3,7 +3,7 @@
 Date: 2026-04-02
 
 ## Doctrine de référence
-- [AGENTS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/AGENTS.md) reste la doctrine produit supérieure.
+- [AGENTS.md](./AGENTS.md) reste la doctrine produit supérieure.
 - Conséquence directe:
   - `RetroDex` est le coeur du produit.
   - la fiche jeu est la surface reine.

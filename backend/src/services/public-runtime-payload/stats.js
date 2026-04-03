@@ -18,7 +18,7 @@ function median(values) {
 }
 
 async function fetchStatsPayload() {
-  const statsBase = await getStats().catch(() => ({}))
+  const statsBase = await getStats().catch((err) => { console.warn('[stats] getStats failed:', err.message); return {} })
   const games = await fetchAllSupabaseGames()
   const { count: rawFranchiseCount, error: franchiseError } = await db
     .from('franchise_entries')

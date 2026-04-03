@@ -4,6 +4,9 @@ const { normalizePlatform } = require("../../core/normalize-platforms");
 const { absolutizeUrl, fetchText } = require("../../core/shared");
 const { extractSections, parsePlatformPage } = require("./parse");
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const RATE_LIMIT_MS = 1000;
+
 function sectionMatchesScope(section, scopePlatforms) {
   const normalizedSection = normalizePlatform(
     section.label
@@ -37,6 +40,7 @@ async function discover({ config, scopes = [] }) {
       continue;
     }
 
+    await sleep(RATE_LIMIT_MS);
     const platformResponse = await fetchText(platformUrl, { timeoutMs: 30000 });
     if (!platformResponse.ok) {
       throw new Error(`VGMaps platform page ${platformUrl} failed with status ${platformResponse.status}.`);

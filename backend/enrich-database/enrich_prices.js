@@ -83,23 +83,29 @@ async function fetchPriceCharting(game) {
       },
       signal: AbortSignal.timeout(8000),
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      if (res.status !== 404) console.warn(`  [WARN] PriceCharting returned ${res.status} for "${game.title}" (${game.console})`);
+      return null;
+    }
     const html = await res.text();
 
-    // Extraire les prix depuis les IDs PriceCharting
-    const extract = (id) => {
-      const m = html.match(new RegExp(`id="${id}"[^>]*>[^<]*<span[^>]*>\\\$?([\\d,]+\\.?\\d*)`));
-      return m ? parseFloat(m[1].replace(',','')) : null;
+    // Extraire les prix depuis les classes PriceCharting
+    // HTML pattern: <td class="price numeric used_price"><span class="js-price">$9.98</span>
+    const extract = (cls) => {
+      const pattern = 'class="[^"]*\\b' + cls + '\\b[^"]*"[^>]*>[\\s\\S]*?<span[^>]*>[$]?([\\d,]+\\.?\\d*)';
+      const m = html.match(new RegExp(pattern));
+      return m ? parseFloat(m[1].replace(/,/g, '')) : null;
     };
 
-    const loose  = extract('used_price')     || extract('price-used');
-    const cib    = extract('complete_price') || extract('price-complete');
-    const mint   = extract('new_price')      || extract('price-new');
+    const loose  = extract('used_price');
+    const cib    = extract('cib_price');
+    const mint   = extract('new_price');
     const graded = extract('graded_price');
 
     if (!loose && !cib && !mint) return null;
     return { loose, cib, mint, graded, url, source_confidence: 0.65 };
   } catch (e) {
+    console.warn(`  [WARN] PriceCharting fetch failed for "${game.title}" (${game.console}): ${e.message}`);
     return null;
   }
 }
@@ -179,7 +185,9 @@ function ensurePriceHistoryTable() {
       created_at TEXT DEFAULT (datetime('now')),
       FOREIGN KEY(game_id) REFERENCES games(id) ON DELETE CASCADE
     )`).run();
-  } catch {}
+  } catch (err) {
+    console.error('[DB] Failed to create price_history table:', err.message);
+  }
 }
 
 // ── DB helpers ─────────────────────────────────────────────────────────────
@@ -188,17 +196,19 @@ async function getGames() {
     let q = supabase.from('games').select('id,title,console,rarity,loosePrice:loose_price,cibPrice:cib_price,mintPrice:mint_price')
       .eq('type','game');
     if (RARITY) q = q.in('rarity', RARITY);
-    const { data } = await q.limit(LIMIT);
+    const { data, error } = await q.limit(LIMIT);
+    if (error) { console.error('[DB] getGames failed:', error.message); return []; }
     return data || [];
   }
   const rarityClause = RARITY ? `AND rarity IN (${RARITY.map(()=>'?').join(',')})` : '';
-  return db.prepare(`SELECT id,title,console,rarity,loosePrice,cibPrice,mintPrice FROM games WHERE type='game' ${rarityClause} LIMIT ?`)
+  return db.prepare(`SELECT id,title,console,rarity,loose_price AS loosePrice,cib_price AS cibPrice,mint_price AS mintPrice FROM games WHERE type='game' ${rarityClause} LIMIT ?`)
     .all(...(RARITY||[]), LIMIT);
 }
 
 async function hasPriceHistory(gameId) {
   if (USE_SUPABASE) {
-    const { data } = await supabase.from('price_history').select('id').eq('game_id', gameId).limit(1);
+    const { data, error } = await supabase.from('price_history').select('id').eq('game_id', gameId).limit(1);
+    if (error) { console.error('[DB] hasPriceHistory failed:', error.message); return false; }
     return data && data.length > 0;
   }
   return !!db.prepare('SELECT id FROM price_history WHERE game_id=? LIMIT 1').get(gameId);
@@ -207,11 +217,16 @@ async function hasPriceHistory(gameId) {
 async function insertHistory(entries) {
   if (DRY) { console.log(`  [DRY] Would insert ${entries.length} price_history rows`); return; }
   if (USE_SUPABASE) {
-    await supabase.from('price_history').insert(entries);
+    const { error } = await supabase.from('price_history').insert(entries);
+    if (error) console.error('[DB] insertHistory failed:', error.message);
   } else {
     const stmt = db.prepare('INSERT INTO price_history (game_id,price,condition,sale_date,source,listing_title) VALUES (?,?,?,?,?,?)');
     const txn  = db.transaction(() => entries.forEach(e => stmt.run(e.game_id,e.price,e.condition,e.sale_date,e.source,e.listing_title)));
-    txn();
+    try {
+      txn();
+    } catch (err) {
+      console.error(`[DB] insertHistory (SQLite) failed for game_id=${entries[0]?.game_id}:`, err.message);
+    }
   }
 }
 
@@ -229,10 +244,17 @@ async function updateGamePrices(id, prices) {
     if (fields.cibPrice)            supaFields.cib_price            = fields.cibPrice;
     if (fields.mintPrice)           supaFields.mint_price           = fields.mintPrice;
     if (fields.source_confidence)   supaFields.source_confidence    = fields.source_confidence;
-    await supabase.from('games').update(supaFields).eq('id', id);
+    const { error } = await supabase.from('games').update(supaFields).eq('id', id);
+    if (error) console.error(`[DB] updateGamePrices failed for ${id}:`, error.message);
   } else {
-    const sets = Object.keys(fields).map(k=>`${k}=?`).join(',');
-    if (sets) db.prepare(`UPDATE games SET ${sets} WHERE id=?`).run(...Object.values(fields), id);
+    // SQLite uses snake_case column names
+    const sqliteFields = {};
+    if (fields.loosePrice)          sqliteFields.loose_price         = fields.loosePrice;
+    if (fields.cibPrice)            sqliteFields.cib_price           = fields.cibPrice;
+    if (fields.mintPrice)           sqliteFields.mint_price          = fields.mintPrice;
+    if (fields.source_confidence)   sqliteFields.source_confidence   = fields.source_confidence;
+    const sets = Object.keys(sqliteFields).map(k=>`${k}=?`).join(',');
+    if (sets) db.prepare(`UPDATE games SET ${sets} WHERE id=?`).run(...Object.values(sqliteFields), id);
   }
 }
 
@@ -255,7 +277,7 @@ function parseChartDataFromHtml(html) {
         .replace(/:\s*undefined/g, ':null');
       const obj = JSON.parse(jsonStr);
       if (obj && typeof obj === 'object') return obj;
-    } catch (_) {}
+    } catch (e) { console.warn('[price-chart] Strategy 1 parse failed:', e.message); }
   }
 
   // Strategy 2 — var chartData = {...}
@@ -267,7 +289,7 @@ function parseChartDataFromHtml(html) {
         .replace(/:\s*undefined/g, ':null');
       const obj = JSON.parse(jsonStr);
       if (obj && typeof obj === 'object') return obj;
-    } catch (_) {}
+    } catch (e) { console.warn('[price-chart] Strategy 2 parse failed:', e.message); }
   }
 
   // Strategy 3 — Google Charts arrayToDataTable with new Date(y, m, d) rows
@@ -290,7 +312,7 @@ function parseChartDataFromHtml(html) {
         });
       }
       if (rows.length > 0) return { _googleChartRows: rows };
-    } catch (_) {}
+    } catch (e) { console.warn('[price-chart] Strategy 3 parse failed:', e.message); }
   }
 
   // Strategy 4 — per-condition timestamp arrays: var used_data = [[ts,price],...]
@@ -307,7 +329,7 @@ function parseChartDataFromHtml(html) {
       try {
         s4result[key] = JSON.parse(cm[1]);
         s4found = true;
-      } catch (_) {}
+      } catch (e) { console.warn(`[price-chart] Strategy 4 (${key}) parse failed:`, e.message); }
     }
   }
   if (s4found) return { _tsArrays: s4result };
@@ -392,7 +414,8 @@ async function fetchPriceChartingHistory(game) {
     const html = await res.text();
     const raw  = parseChartDataFromHtml(html);
     return normaliseChartData(raw);
-  } catch (_) {
+  } catch (e) {
+    console.warn(`  [WARN] PriceCharting history fetch failed for "${game.title}": ${e.message}`);
     return [];
   }
 }
@@ -419,17 +442,20 @@ function ensurePriceObservationsTable() {
     )`).run();
     db.prepare(`CREATE INDEX IF NOT EXISTS idx_price_obs_game_id ON price_observations(game_id)`).run();
     db.prepare(`CREATE INDEX IF NOT EXISTS idx_price_obs_listing_ref ON price_observations(listing_reference)`).run();
-  } catch (_) {}
+  } catch (err) {
+    console.error('[DB] Failed to create price_observations table:', err.message);
+  }
 }
 
 // Batch-check which listing_references already exist — avoids N+1 queries.
 async function fetchExistingRefs(refs) {
   if (!refs.length) return new Set();
   if (USE_SUPABASE) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('price_observations')
       .select('listing_reference')
       .in('listing_reference', refs);
+    if (error) { console.error('[DB] fetchExistingRefs failed:', error.message); return new Set(); }
     return new Set((data || []).map(r => r.listing_reference));
   }
   const placeholders = refs.map(() => '?').join(',');
@@ -442,16 +468,21 @@ async function fetchExistingRefs(refs) {
 async function insertPriceObservation(obs) {
   if (DRY) return;
   if (USE_SUPABASE) {
-    await supabase.from('price_observations').insert([obs]);
+    const { error } = await supabase.from('price_observations').insert([obs]);
+    if (error) console.error('[DB] insertPriceObservation failed:', error.message);
   } else {
-    db.prepare(
-      `INSERT INTO price_observations
-       (game_id, condition, price, currency, observed_at, source_name, listing_reference, confidence)
-       VALUES (?,?,?,?,?,?,?,?)`
-    ).run(
-      obs.game_id, obs.condition, obs.price, obs.currency,
-      obs.observed_at, obs.source_name, obs.listing_reference, obs.confidence
-    );
+    try {
+      db.prepare(
+        `INSERT INTO price_observations
+         (game_id, condition, price, currency, observed_at, source_name, listing_reference, confidence)
+         VALUES (?,?,?,?,?,?,?,?)`
+      ).run(
+        obs.game_id, obs.condition, obs.price, obs.currency,
+        obs.observed_at, obs.source_name, obs.listing_reference, obs.confidence
+      );
+    } catch (err) {
+      console.error('[DB] insertPriceObservation (SQLite) failed:', err.message);
+    }
   }
 }
 

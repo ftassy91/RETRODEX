@@ -8,17 +8,21 @@ function tableNamesMatch(tableName, target) {
   return String(tableName || '').replace(/"/g, '').toLowerCase() === String(target || '').toLowerCase()
 }
 
-let tablesPromise = null
+let tablesCache = null
 
 async function getTableNames() {
-  if (!tablesPromise) {
-    tablesPromise = sequelize.getQueryInterface()
-      .showAllTables()
-      .then((tables) => new Set((tables || []).map((tableName) => String(tableName || '').replace(/"/g, '').toLowerCase())))
-      .catch(() => new Set())
+  if (tablesCache) return tablesCache
+
+  let tables
+  try {
+    tables = await sequelize.getQueryInterface().showAllTables()
+  } catch (err) {
+    console.error('[publication] getTableNames failed:', err.message)
+    return new Set() // tablesCache stays null so next call retries
   }
 
-  return tablesPromise
+  tablesCache = new Set((tables || []).map((t) => String(t || '').replace(/"/g, '').toLowerCase()))
+  return tablesCache
 }
 
 async function tableExists(target) {

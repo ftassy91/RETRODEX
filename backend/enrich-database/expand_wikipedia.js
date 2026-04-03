@@ -46,12 +46,13 @@ function makeId(title, console_) {
 // ── DB helpers ─────────────────────────────────────────────────────────────
 async function gameExists(title, console_) {
   if (USE_SUPABASE) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('games')
       .select('id')
       .eq('title', title)
       .eq('console', console_)
       .limit(1);
+    if (error) { console.error('[DB] gameExists failed:', error.message); return false; }
     return data && data.length > 0;
   }
   return !!db.prepare(
@@ -65,7 +66,7 @@ async function insertGame(game) {
     return;
   }
   if (USE_SUPABASE) {
-    await supabase.from('games').insert({
+    const { error } = await supabase.from('games').insert({
       id: game.id,
       title: game.title,
       console: game.console,
@@ -77,6 +78,7 @@ async function insertGame(game) {
       source_confidence: 0.60,
       source_name: 'wikipedia_list',
     });
+    if (error) console.error(`[DB] insertGame failed for "${game.title}":`, error.message);
   } else {
     db.prepare(`
       INSERT OR IGNORE INTO games

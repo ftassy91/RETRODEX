@@ -56,6 +56,6 @@ That gate is independent from the `console` / `developer` transition, but both c
 
 Reference documents:
 
-- [PHASE3_DB_READINESS.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_DB_READINESS.md)
-- [PHASE3_BACKFILL_EXECUTION.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/PHASE3_BACKFILL_EXECUTION.md)
-- [LEGACY_AUDIT.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/LEGACY_AUDIT.md)
+- [PHASE3_DB_READINESS.md](./docs/PHASE3_DB_READINESS.md)
+- [PHASE3_BACKFILL_EXECUTION.md](./docs/PHASE3_BACKFILL_EXECUTION.md)
+- [LEGACY_AUDIT.md](./docs/LEGACY_AUDIT.md)

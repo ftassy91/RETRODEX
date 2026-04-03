@@ -12,7 +12,7 @@
 - `frontend/` is a secondary prototype area and should only be touched explicitly.
 
 ## Session flow
-1. Read [docs/setup_runbook.md](C:/Users/ftass/OneDrive/Bureau/RETRODEXseed/docs/setup_runbook.md).
+1. Read [docs/setup_runbook.md](./docs/setup_runbook.md).
 2. Confirm whether the task belongs to canonical runtime/back-office work in `backend/` or explicit prototype work in `frontend/`.
 3. Make one focused change set at a time.
 4. For completeness/back-office work, use `/completion.html` and `/api/audit/completion` as the canonical internal read surface.
