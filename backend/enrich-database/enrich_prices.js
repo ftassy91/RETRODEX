@@ -192,7 +192,7 @@ async function getGames() {
     return data || [];
   }
   const rarityClause = RARITY ? `AND rarity IN (${RARITY.map(()=>'?').join(',')})` : '';
-  return db.prepare(`SELECT id,title,console,rarity,loosePrice,cibPrice,mintPrice FROM games WHERE type='game' ${rarityClause} LIMIT ?`)
+  return db.prepare(`SELECT id,title,console,rarity,loose_price AS loosePrice,cib_price AS cibPrice,mint_price AS mintPrice FROM games WHERE type='game' ${rarityClause} LIMIT ?`)
     .all(...(RARITY||[]), LIMIT);
 }
 
@@ -231,8 +231,11 @@ async function updateGamePrices(id, prices) {
     if (fields.source_confidence)   supaFields.source_confidence    = fields.source_confidence;
     await supabase.from('games').update(supaFields).eq('id', id);
   } else {
-    const sets = Object.keys(fields).map(k=>`${k}=?`).join(',');
-    if (sets) db.prepare(`UPDATE games SET ${sets} WHERE id=?`).run(...Object.values(fields), id);
+    const colMap = { loosePrice: 'loose_price', cibPrice: 'cib_price', mintPrice: 'mint_price', sourceConfidence: 'source_confidence', sourceName: 'source_name' };
+    const sqlFields = {};
+    for (const [k, v] of Object.entries(fields)) { sqlFields[colMap[k] || k] = v; }
+    const sets = Object.keys(sqlFields).map(k=>`${k}=?`).join(',');
+    if (sets) db.prepare(`UPDATE games SET ${sets} WHERE id=?`).run(...Object.values(sqlFields), id);
   }
 }
 
