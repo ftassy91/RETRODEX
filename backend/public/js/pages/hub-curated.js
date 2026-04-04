@@ -10,6 +10,7 @@
   const editorialSignalEl = document.getElementById('hub-system-editorial')
   const archiveSignalEl = document.getElementById('hub-system-archive')
   const richGridEl = document.getElementById('hub-rich-grid')
+  const discoverGridEl = document.getElementById('hub-discover-grid')
   const esc = window.RetroDexFormat?.escapeHtml || ((value) => String(value ?? ''))
   const buildRichness = window.RetroDexContentSignals?.buildRichness
 
@@ -35,6 +36,50 @@
         <div class="terminal-empty-title">${esc(title)}</div>
         <div class="terminal-empty-copy">${esc(copy)}</div>
       </div>
+    `
+  }
+
+  const RARITY_ORDER = { LEGENDARY: 0, EPIC: 1, RARE: 2, UNCOMMON: 3, COMMON: 4 }
+
+  function pickDiscoverItems(items = [], count = 6) {
+    // Take items that have a cover image, sorted by metascore then rarity
+    const withCovers = items.filter((item) => String(item.coverImage || '').trim())
+    withCovers.sort((a, b) => {
+      const ms = (Number(b.metascore) || 0) - (Number(a.metascore) || 0)
+      if (ms !== 0) return ms
+      return (RARITY_ORDER[a.rarity] ?? 5) - (RARITY_ORDER[b.rarity] ?? 5)
+    })
+    // Spread across different consoles to avoid all NES games
+    const seen = new Set()
+    const spread = []
+    for (const item of withCovers) {
+      if (spread.length >= count) break
+      if (!seen.has(item.console)) {
+        seen.add(item.console)
+        spread.push(item)
+      }
+    }
+    // Fill remaining slots if spread didn't reach count
+    for (const item of withCovers) {
+      if (spread.length >= count) break
+      if (!spread.includes(item)) spread.push(item)
+    }
+    return spread.slice(0, count)
+  }
+
+  function buildCoverCard(item) {
+    const href = `/game-detail.html?id=${encodeURIComponent(item.id)}&source=hub-discover`
+    const rarityClass = String(item.rarity || 'COMMON').toLowerCase()
+    return `
+      <a class="hub-discover-card rarity-${esc(rarityClass)}" href="${href}" title="${esc(item.title || '')}">
+        <div class="hub-discover-cover">
+          <img src="${esc(item.coverImage)}" alt="${esc(item.title || '')}" loading="lazy" />
+        </div>
+        <div class="hub-discover-info">
+          <div class="hub-discover-title">${esc(item.title || 'Sans titre')}</div>
+          <div class="hub-discover-meta">${esc(item.console || '')}${item.year ? ` · ${esc(item.year)}` : ''}</div>
+        </div>
+      </a>
     `
   }
 
@@ -88,6 +133,14 @@
       const publication = itemsPayload.publication || consolesPayload.publication || {}
       const items = Array.isArray(itemsPayload.items) ? itemsPayload.items : []
       const richItems = pickRichItems(items)
+      const discoverItems = pickDiscoverItems(items)
+
+      // All dynamic values below are wrapped by esc() — safe for innerHTML
+      if (discoverGridEl) {
+        discoverGridEl.innerHTML = discoverItems.length
+          ? discoverItems.map(buildCoverCard).join('')
+          : ''
+      }
       const published = Number(publication.publishedGamesCount || 0)
       const total = Number(publication.catalogGamesCount || statsPayload.total_games || 0)
       const consoles = Number(publication.consoleCount || 0)
