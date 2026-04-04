@@ -73,6 +73,8 @@ function renderGameRow(game, options = {}) {
     ? window.RetroDexContentSignals.buildRichness(game)
     : null
   const loosePrice = showPrice ? (game.loosePrice ? `$${Math.round(game.loosePrice)}` : '-') : ''
+  const cibPrice = showPrice && game.cibPrice ? `$${Math.round(game.cibPrice)}` : null
+  const mintPrice = showPrice && game.mintPrice ? `$${Math.round(game.mintPrice)}` : null
   const confidenceTier = priceConfidenceTier(game)
   const showOwnedBadge = String(collectionState || '').toLowerCase() === 'owned'
   const archiveBadges = [
@@ -97,7 +99,12 @@ function renderGameRow(game, options = {}) {
       ${renderPresenceBadges(game)}
     </div>
     <div class="result-signal">
-      ${showPrice ? `<span class="result-price"${confidenceTier ? ` title="Prix loose · ${escapeHtml(confidenceTier)}"` : ''}>${loosePrice}</span>` : ''}
+      ${showPrice ? `
+        <span class="result-price-group">
+          <span class="result-price result-price-loose"${confidenceTier ? ` title="Prix loose · ${escapeHtml(confidenceTier)}"` : ''}>${loosePrice}</span>
+          ${cibPrice ? `<span class="result-price result-price-cib" title="Prix CIB">${cibPrice}</span>` : ''}
+          ${mintPrice ? `<span class="result-price result-price-mint" title="Prix Mint">${mintPrice}</span>` : ''}
+        </span>` : ''}
       <span class="result-metascore"></span>
       ${showRarity ? `<span class="result-rarity" style="color:${rarityColors[rarity] || 'var(--text-muted)'}">${escapeHtml(rarity || 'COMMON')}</span>` : ''}
     </div>

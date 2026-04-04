@@ -65,6 +65,24 @@
         >
         <button class="hub-search-button" type="submit">OUVRIR</button>
       </form>
+      <button id="hub-random-btn" class="hub-random-button" type="button" aria-label="Ouvrir une fiche au hasard">HASARD &rarr;</button>
+      <script>
+        document.getElementById('hub-random-btn').addEventListener('click', async function() {
+          this.textContent = '...'
+          this.disabled = true
+          try {
+            const res = await fetch('/api/games/random')
+            if (!res.ok) throw new Error('no game')
+            const data = await res.json()
+            if (data && data.id) {
+              location.href = '/game-detail.html?id=' + encodeURIComponent(data.id)
+              return
+            }
+          } catch(_) {}
+          this.textContent = 'HASARD \u2192'
+          this.disabled = false
+        })
+      </script>
 
       <div class="hub-stats hub-stats-compact">
         <div class="hub-stat is-primary">
