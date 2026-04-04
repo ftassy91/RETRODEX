@@ -5,6 +5,7 @@ const consoleEl = document.getElementById('console')
 const rarityEl = document.getElementById('rarity')
 const limitEl = document.getElementById('limit')
 const genreEl = document.getElementById('genre')
+const completenessEl = document.getElementById('completeness')
 const trendEl = document.getElementById('filter-trend')
 const yearMinEl = document.getElementById('year-min')
 const yearMaxEl = document.getElementById('year-max')
@@ -137,6 +138,7 @@ function readStateFromUrl() {
   consoleEl.dataset.pending = params.get('console') || ''
   rarityEl.value = params.get('rarity') || ''
   genreEl.dataset.pending = params.get('genre') || ''
+  completenessEl.value = params.get('completeness') || ''
   trendEl.value = params.get('trend') || ''
   limitEl.value = ['20', '50', '100'].includes(params.get('limit')) ? params.get('limit') : '20'
   sortEl.value = normalizeSortKey(params.get('sort') || 'rarity_desc')
@@ -159,6 +161,7 @@ function state() {
     console: consoleEl.value,
     rarity: rarityEl.value,
     genre: genreEl.value,
+    completeness: completenessEl?.value || '',
     trend: trendEl.value,
     yearMin,
     yearMax,
@@ -175,6 +178,7 @@ function updateUrl(currentState) {
     ['console', currentState.console],
     ['rarity', currentState.rarity],
     ['genre', currentState.genre],
+    ['completeness', currentState.completeness],
     ['trend', currentState.trend],
     ['yearMin', currentState.yearMin ? String(currentState.yearMin) : ''],
     ['yearMax', currentState.yearMax ? String(currentState.yearMax) : ''],
@@ -343,9 +347,12 @@ function applyFilters(currentState) {
     const genre = String(game.genre || '')
     const year = num(game.year)
     const trend = String(game.trend?.mint || '')
+    const richness = window.RetroDexContentSignals?.buildRichness?.(game) || {}
+    const bandKey = richness.band?.key || ''
 
     if (currentState.rarity && rarity !== currentState.rarity) return false
     if (currentState.genre && genre !== currentState.genre) return false
+    if (currentState.completeness && bandKey !== currentState.completeness) return false
     if (currentState.trend && trend !== currentState.trend) return false
     if (currentState.yearMin && (!year || year < currentState.yearMin)) return false
     if (currentState.yearMax && (!year || year > currentState.yearMax)) return false
@@ -487,6 +494,7 @@ function resetFilters() {
   consoleEl.value = ''
   rarityEl.value = ''
   genreEl.value = ''
+  completenessEl.value = ''
   trendEl.value = ''
   yearMinEl.value = ''
   yearMaxEl.value = ''
@@ -503,6 +511,11 @@ filtersMobileToggleEl.addEventListener('click', () => toggleFiltersPanel())
 resetFiltersEl.addEventListener('click', (event) => {
   event.preventDefault()
   resetFilters()
+})
+
+completenessEl.addEventListener('change', () => {
+  currentOffset = 0
+  loadGames()
 })
 
 queryEl.addEventListener('input', () => {
