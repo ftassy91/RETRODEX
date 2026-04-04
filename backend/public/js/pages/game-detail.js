@@ -433,6 +433,7 @@ function renderHeroSection(game) {
           <div id="hero-reading-highlights" class="surface-chip-row"></div>
           <p id="hero-reading-note" class="detail-reading-note">Collection et qualification restent en soutien.</p>
           ${refPrice}
+          <div id="price-timestamp" class="price-timestamp" hidden></div>
         </aside>
       </div>
     </div>
@@ -2469,6 +2470,22 @@ function normalizeHistoryPayload(data) {
   }
 }
 
+async function updatePriceTimestamp(gameId) {
+  try {
+    const response = await fetch(`/api/games/${encodeURIComponent(gameId)}/price-history`)
+    if (!response.ok) return
+    const data = await response.json()
+    const lastDate = data?.series?.loose?.last_observation?.date
+    const el = document.getElementById('price-timestamp')
+    if (!el || !lastDate) return
+    const formatted = String(lastDate).slice(0, 10)
+    el.textContent = `Prix mis à jour le : ${formatted}`
+    el.hidden = false
+  } catch (_err) {
+    // silent — timestamp is non-critical
+  }
+}
+
 async function loadPriceHistory(gameId) {
   const response = await fetch(`/api/games/${encodeURIComponent(gameId)}/price-history`)
   if (!response.ok) {
@@ -3084,6 +3101,7 @@ async function loadPage() {
     renderHeroSection(currentGame)
     renderProvenance(currentGame)
     renderDetailContentStatus()
+    updatePriceTimestamp(currentGame.id)
 
     const coverImgEl = document.getElementById('game-cover-img')
     if (coverImgEl) {

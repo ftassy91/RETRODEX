@@ -118,6 +118,7 @@ function toItemPayload(game) {
     developer: item.developer || null,
     metascore: item.metascore ?? null,
     trend: item.trend || null,
+    sourceConfidence: item.source_confidence != null ? Number(item.source_confidence) : null,
     curation: {
       status: item.curation?.status || null,
       isPublished: Boolean(item.curation?.isPublished),

@@ -12666,3 +12666,21 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ── B3: Price confidence tooltip (result list) ──────────────────────────── */
+.result-price[title] {
+  cursor: help;
+  text-decoration: underline dotted rgba(155, 188, 15, 0.4);
+  text-underline-offset: 2px;
+}
+
+/* ── A5: Price timestamp on game detail hero ─────────────────────────────── */
+.price-timestamp {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 6px;
+  opacity: 0.7;
+}
