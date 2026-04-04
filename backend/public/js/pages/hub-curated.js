@@ -137,9 +137,11 @@
 
       // All dynamic values below are wrapped by esc() — safe for innerHTML
       if (discoverGridEl) {
-        discoverGridEl.innerHTML = discoverItems.length
-          ? discoverItems.map(buildCoverCard).join('')
-          : ''
+        if (discoverItems.length) {
+          discoverGridEl.innerHTML = discoverItems.map(buildCoverCard).join('')
+        } else {
+          discoverGridEl.closest('.hub-discover-shell')?.remove()
+        }
       }
       const published = Number(publication.publishedGamesCount || 0)
       const total = Number(publication.catalogGamesCount || statsPayload.total_games || 0)
@@ -162,6 +164,7 @@
 
       richGridEl.innerHTML = richItems.map(buildCard).join('')
     } catch (_error) {
+      if (discoverGridEl) discoverGridEl.closest('.hub-discover-shell')?.remove()
       bannerEl.textContent = 'Hub RetroDex | entree vers l index, les fiches et la collection'
       setText(publicationSignalEl, 'indisponible')
       setText(editorialSignalEl, 'indisponible')
