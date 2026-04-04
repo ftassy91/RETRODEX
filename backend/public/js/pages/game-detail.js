@@ -2481,8 +2481,8 @@ async function updatePriceTimestamp(gameId) {
     const formatted = String(lastDate).slice(0, 10)
     el.textContent = `Prix mis à jour le : ${formatted}`
     el.hidden = false
-  } catch (_err) {
-    // silent — timestamp is non-critical
+  } catch (err) {
+    console.warn('[RetroDex] updatePriceTimestamp failed:', err.message)
   }
 }
 
