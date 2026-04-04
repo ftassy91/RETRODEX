@@ -1689,18 +1689,18 @@ function renderSummary(game) {
   }
 
   const summary = String(game.summary || game.synopsis || '').trim()
-  summaryShellEl.hidden = !summary
-  // formatMultilineHtml calls escapeHtml() before adding <br /> — safe for innerHTML
-  summaryEl.innerHTML = summary ? formatMultilineHtml(summary) : ''
-
   const synopsisBandEl = document.getElementById('synopsis-band')
-  if (synopsisBandEl) {
-    if (summary) {
-      synopsisBandEl.innerHTML = formatMultilineHtml(summary) // same escapeHtml-safe function
-      synopsisBandEl.hidden = false
-    } else {
-      synopsisBandEl.hidden = true
-    }
+
+  if (synopsisBandEl && summary) {
+    // Show summary in the dedicated band below hero; hide the in-hero duplicate
+    synopsisBandEl.innerHTML = formatMultilineHtml(summary) // formatMultilineHtml calls escapeHtml() — safe
+    synopsisBandEl.hidden = false
+    summaryShellEl.hidden = true
+  } else {
+    // No band available — fall back to in-hero summary
+    summaryShellEl.hidden = !summary
+    summaryEl.innerHTML = summary ? formatMultilineHtml(summary) : ''
+    if (synopsisBandEl) synopsisBandEl.hidden = true
   }
 }
 
