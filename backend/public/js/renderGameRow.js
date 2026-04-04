@@ -24,6 +24,15 @@ function renderPresenceBadges(game) {
   return badges.length ? `<span class="result-presence-row">${badges.join('')}</span>` : ''
 }
 
+function priceConfidenceTier(game) {
+  if (!game.loosePrice) return null
+  const conf = Number(game.sourceConfidence)
+  if (conf >= 0.7) return 'T1 Fiable'
+  if (conf >= 0.5) return 'T2 Estimé'
+  if (conf > 0) return 'T3 Indicatif'
+  return 'Prix estimé'
+}
+
 function renderGameRow(game, options = {}) {
   const {
     linkTo = 'game-detail',
@@ -64,14 +73,7 @@ function renderGameRow(game, options = {}) {
     ? window.RetroDexContentSignals.buildRichness(game)
     : null
   const loosePrice = showPrice ? (game.loosePrice ? `$${Math.round(game.loosePrice)}` : '-') : ''
-  const priceConfidenceTier = (() => {
-    const conf = Number(game.sourceConfidence)
-    if (!game.loosePrice) return null
-    if (conf >= 0.7) return 'T1 Fiable'
-    if (conf >= 0.5) return 'T2 Estimé'
-    if (conf > 0) return 'T3 Indicatif'
-    return 'Prix estimé'
-  })()
+  const confidenceTier = priceConfidenceTier(game)
   const showOwnedBadge = String(collectionState || '').toLowerCase() === 'owned'
   const archiveBadges = [
     contentSignals ? `<span class="presence-badge is-richness is-${escapeHtml(contentSignals.band.key)}">${escapeHtml(contentSignals.band.shortLabel)}</span>` : '',
@@ -95,7 +97,7 @@ function renderGameRow(game, options = {}) {
       ${renderPresenceBadges(game)}
     </div>
     <div class="result-signal">
-      ${showPrice ? `<span class="result-price"${priceConfidenceTier ? ` title="Prix loose · ${escapeHtml(priceConfidenceTier)}"` : ''}>${loosePrice}</span>` : ''}
+      ${showPrice ? `<span class="result-price"${confidenceTier ? ` title="Prix loose · ${escapeHtml(confidenceTier)}"` : ''}>${loosePrice}</span>` : ''}
       <span class="result-metascore"></span>
       ${showRarity ? `<span class="result-rarity" style="color:${rarityColors[rarity] || 'var(--text-muted)'}">${escapeHtml(rarity || 'COMMON')}</span>` : ''}
     </div>
