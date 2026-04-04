@@ -4217,6 +4217,14 @@ body {
   letter-spacing: 0.05em;
 }
 
+.hub-module-title-hint {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  cursor: help;
+}
+
 .hub-module-link {
   color: var(--text-alert);
   font-family: var(--font-mono);
@@ -4991,25 +4999,25 @@ body {
 }
 
 .game-cover-slot {
-  width: 192px;
+  width: 220px;
   flex-shrink: 0;
 }
 
 .game-cover-container {
-  width: 192px;
-  height: 192px;
-  border: 2px solid rgba(155, 188, 15, 0.4);
+  width: 220px;
+  height: 290px;
+  border: 2px solid rgba(155, 188, 15, 0.5);
   background:
     linear-gradient(180deg, rgba(5, 8, 5, 0.98), rgba(9, 12, 9, 0.98)),
-    radial-gradient(circle at center, rgba(155, 188, 15, 0.06), transparent 52%);
+    radial-gradient(circle at center, rgba(155, 188, 15, 0.08), transparent 52%);
   box-shadow:
-    0 0 20px rgba(155, 188, 15, 0.15),
-    inset 0 0 0 1px rgba(155, 188, 15, 0.04);
+    0 0 28px rgba(155, 188, 15, 0.2),
+    inset 0 0 0 1px rgba(155, 188, 15, 0.06);
 }
 
 #game-cover-img {
-  width: 192px;
-  min-height: 192px;
+  width: 220px;
+  height: 290px;
   object-fit: cover;
   image-rendering: auto;
   display: block;
@@ -5930,7 +5938,7 @@ body {
 
   .game-cover-slot {
     width: 100%;
-    max-width: 192px;
+    max-width: 220px;
   }
 
   .game-meta-cluster {
@@ -12397,6 +12405,29 @@ body {
   max-width: 58ch;
   font-size: 0.85rem;
   line-height: 1.58;
+}
+
+.synopsis-band {
+  padding: 18px 26px;
+  border-left: 3px solid rgba(155, 188, 15, 0.5);
+  background: rgba(10, 14, 10, 0.55);
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  max-width: 72ch;
+}
+
+.provenance-line {
+  padding: 7px 26px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
 }
 
 .detail-hero-reference {

@@ -381,7 +381,7 @@ function renderHeroSection(game) {
           <div class="game-header-main">
             <div class="game-cover-slot">
               <div class="game-cover-container">
-                <img id="game-cover-img" src="" alt="${escapeHtml(game.title || '')}" width="160" height="160" />
+                <img id="game-cover-img" src="" alt="${escapeHtml(game.title || '')}" width="220" height="290" />
               </div>
             </div>
 
@@ -1690,9 +1690,46 @@ function renderSummary(game) {
 
   const summary = String(game.summary || game.synopsis || '').trim()
   summaryShellEl.hidden = !summary
-  summaryEl.innerHTML = summary
-    ? formatMultilineHtml(summary)
-    : ''
+  // formatMultilineHtml calls escapeHtml() before adding <br /> — safe for innerHTML
+  summaryEl.innerHTML = summary ? formatMultilineHtml(summary) : ''
+
+  const synopsisBandEl = document.getElementById('synopsis-band')
+  if (synopsisBandEl) {
+    if (summary) {
+      synopsisBandEl.innerHTML = formatMultilineHtml(summary) // same escapeHtml-safe function
+      synopsisBandEl.hidden = false
+    } else {
+      synopsisBandEl.hidden = true
+    }
+  }
+}
+
+function renderProvenance(game) {
+  const el = document.getElementById('provenance-line')
+  if (!el) return
+
+  const parts = []
+  if (game.createdAt || game.indexedAt) {
+    const raw = game.createdAt || game.indexedAt
+    const date = new Date(raw)
+    if (!Number.isNaN(date.getTime())) {
+      parts.push(`Indexe le ${date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' })}`)
+    }
+  }
+  if (game.sources?.length) {
+    parts.push(`${game.sources.length} source${game.sources.length > 1 ? 's' : ''}`)
+  }
+  if (game.rarity) {
+    parts.push(`Rarete : ${escapeHtml(game.rarity)}`)
+  }
+
+  if (!parts.length) {
+    el.hidden = true
+    return
+  }
+
+  el.textContent = parts.join(' · ')
+  el.hidden = false
 }
 
 function renderStats(game) {
@@ -3045,6 +3082,7 @@ async function loadPage() {
     }
 
     renderHeroSection(currentGame)
+    renderProvenance(currentGame)
     renderDetailContentStatus()
 
     const coverImgEl = document.getElementById('game-cover-img')
