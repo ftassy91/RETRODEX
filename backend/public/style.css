@@ -12433,3 +12433,125 @@ body {
     display: none;
   }
 }
+
+/* ── Ingest Data Viz ─────────────────────────────────────────────────────── */
+
+.hub-ingest-wrap {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.hub-ingest-board {
+  flex-shrink: 0;
+  border: 1px solid rgba(67, 95, 60, 0.4);
+  line-height: 0;
+  box-shadow: 0 0 24px rgba(155, 188, 15, 0.06);
+}
+
+.hub-ingest-board canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+
+.hub-ingest-panel {
+  flex: 1;
+  min-width: 130px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hub-ingest-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.hub-ingest-kicker {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.hub-ingest-game-title {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.hub-ingest-game-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.hub-ingest-score-val {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 700;
+  color: #9bbc0f;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.hub-ingest-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.hub-ingest-atom {
+  font-size: 15px;
+  opacity: 0.2;
+  transition: opacity .25s;
+  cursor: default;
+}
+
+.hub-ingest-atom.has {
+  opacity: 1;
+}
+
+.hub-ingest-combo {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #9bbc0f;
+  min-height: 16px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .2s, transform .2s;
+  letter-spacing: .05em;
+}
+
+.hub-ingest-combo.is-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hub-ingest-quality-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  color: #9bbc0f;
+  letter-spacing: .08em;
+  align-self: center;
+}
+
+@media (max-width: 540px) {
+  .hub-ingest-wrap {
+    flex-direction: column;
+  }
+
+  .hub-ingest-board canvas {
+    width: 100%;
+    height: auto;
+    max-width: 288px;
+  }
+}
