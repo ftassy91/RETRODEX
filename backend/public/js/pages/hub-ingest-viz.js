@@ -9,7 +9,7 @@
   const H = ROWS * CELL  // 352
 
   // Each atom type maps to a game field.
-  // Column affinity groups similar fields spatially so same-type atoms cluster.
+  // 🎮 is the anchor: a complete record = 🎮 + 3 or more adjacent field atoms.
   // Field checks use camelCase keys as returned by /api/items
   const ATOMS = [
     { key: 'base',  emoji: '🎮', color: '#9bbc0f', label: 'Jeu',    colPref: [3,4,5],      check: ()  => true },
@@ -67,6 +67,22 @@
   }
 
   function pickCol(key) {
+    // Field atoms (non-base) prefer to land near an existing 🎮 atom so
+    // they can pair with it. This makes the anchor mechanic feel natural.
+    if (key !== 'base') {
+      const baseCols = []
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          if (grid[r][c]?.key === 'base') baseCols.push(c)
+        }
+      }
+      if (baseCols.length && Math.random() < 0.62) {
+        const anchor = baseCols[Math.floor(Math.random() * baseCols.length)]
+        const near = [anchor - 1, anchor, anchor + 1].filter(c => c >= 0 && c < COLS && targetRow(c) >= 0)
+        if (near.length) return near[Math.floor(Math.random() * near.length)]
+      }
+    }
+    // Fallback: use declared column preference
     const a = ATOM[key]
     const usePref = Math.random() < 0.68
     const pool = usePref ? a.colPref : Array.from({ length: COLS }, (_, i) => i)
@@ -92,50 +108,32 @@
   }
 
   // ── Match detection ───────────────────────────────────────────────────────
+  // A record is complete when a 🎮 atom has 3+ adjacent field atoms (any type).
+  // All of them — the anchor and its field neighbors — clear together.
   function findMatches() {
     const hits = new Set()
-    const mark = cells => cells.forEach(([r, c]) => hits.add(`${r},${c}`))
 
-    // Horizontal
     for (let r = 0; r < ROWS; r++) {
-      for (let c = 0; c <= COLS - 3; c++) {
-        const k = grid[r][c]?.key
-        if (!k) continue
-        let n = 1
-        while (c + n < COLS && grid[r][c + n]?.key === k) n++
-        if (n >= 3) mark(Array.from({ length: n }, (_, i) => [r, c + i]))
-        c += n - 1
-      }
-    }
-    // Vertical
-    for (let c = 0; c < COLS; c++) {
-      for (let r = 0; r <= ROWS - 3; r++) {
-        const k = grid[r][c]?.key
-        if (!k) continue
-        let n = 1
-        while (r + n < ROWS && grid[r + n][c]?.key === k) n++
-        if (n >= 3) mark(Array.from({ length: n }, (_, i) => [r + i, c]))
-        r += n - 1
-      }
-    }
-    // Diagonal ↘
-    for (let r = 0; r <= ROWS - 3; r++) {
-      for (let c = 0; c <= COLS - 3; c++) {
-        const k = grid[r][c]?.key
-        if (!k) continue
-        let n = 1
-        while (r + n < ROWS && c + n < COLS && grid[r + n][c + n]?.key === k) n++
-        if (n >= 3) mark(Array.from({ length: n }, (_, i) => [r + i, c + i]))
-      }
-    }
-    // Diagonal ↙
-    for (let r = 0; r <= ROWS - 3; r++) {
-      for (let c = COLS - 1; c >= 2; c--) {
-        const k = grid[r][c]?.key
-        if (!k) continue
-        let n = 1
-        while (r + n < ROWS && c - n >= 0 && grid[r + n][c - n]?.key === k) n++
-        if (n >= 3) mark(Array.from({ length: n }, (_, i) => [r + i, c - i]))
+      for (let c = 0; c < COLS; c++) {
+        if (grid[r][c]?.key !== 'base') continue
+
+        const neighbors = []
+        for (let dr = -1; dr <= 1; dr++) {
+          for (let dc = -1; dc <= 1; dc++) {
+            if (dr === 0 && dc === 0) continue
+            const nr = r + dr, nc = c + dc
+            if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS) {
+              const cell = grid[nr][nc]
+              if (cell && cell.key !== 'base') neighbors.push(`${nr},${nc}`)
+            }
+          }
+        }
+
+        // 3+ field atoms adjacent = complete record
+        if (neighbors.length >= 3) {
+          hits.add(`${r},${c}`)
+          neighbors.forEach(k => hits.add(k))
+        }
       }
     }
 
@@ -222,19 +220,21 @@
       nextStart = now
       return
     }
-    score += matches.length * (cascade ? 100 : 50)
+    // Score: each field atom in a cleared record is worth 60 pts. Cascade ×2.
+    const fieldAtoms = matches.filter(({ r, c }) => grid[r][c]?.key !== 'base')
+    score += fieldAtoms.length * (cascade ? 120 : 60)
     matches.forEach(({ r, c }) => { if (grid[r][c]) grid[r][c].glowing = true })
-    showCombo(matches.length, cascade)
+    showCombo(fieldAtoms.length, cascade)
     glowStart = now
     phase = 'glowing'
   }
 
-  function showCombo(n, cascade) {
+  function showCombo(fields, cascade) {
     if (!elCombo) return
-    const txt = cascade  ? `✨ CASCADE ×${n}`
-              : n >= 6   ? `🔥 MEGA ×${n}!!`
-              : n >= 4   ? `⚡ SUPER ×${n}`
-              :             `✓ MATCH ×${n}`
+    const txt = cascade         ? `✨ CASCADE ${fields} champs`
+              : fields >= ATOMS.length - 1 ? `🔥 FICHE COMPLÈTE!`
+              : fields >= 5     ? `⚡ FICHE RICHE ${fields}`
+              :                    `✓ FICHE ${fields} champs`
     set(elCombo, txt)
     elCombo.classList.add('is-active')
     clearTimeout(comboTmo)
@@ -327,9 +327,10 @@
         applyGravity()
         const cascade = findMatches()
         if (cascade.length) {
-          score += cascade.length * 100
+          const cascadeFields = cascade.filter(({ r, c }) => grid[r][c]?.key !== 'base')
+          score += cascadeFields.length * 120
           cascade.forEach(({ r, c }) => { if (grid[r][c]) grid[r][c].glowing = true })
-          showCombo(cascade.length, true)
+          showCombo(cascadeFields.length, true)
           glowStart = now
           phase = 'glowing'
         } else {
