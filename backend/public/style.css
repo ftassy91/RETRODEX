@@ -2881,6 +2881,26 @@ body { padding-bottom: 24px; }
   background: rgba(61, 220, 61, 0.08);
 }
 
+.hub-random-button {
+  display: block;
+  margin-top: 0.6rem;
+  padding: 0 14px;
+  height: 36px;
+  border: 1px solid rgba(155, 188, 15, 0.35);
+  background: transparent;
+  color: rgba(155, 188, 15, 0.6);
+  font: 12px monospace;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.hub-random-button:hover {
+  color: #9bbc0f;
+  border-color: #9bbc0f;
+  background: rgba(155, 188, 15, 0.05);
+}
+
 .hub-quick-links {
   font-size: 12px;
   color: rgba(168, 216, 168, 0.7);
@@ -5099,6 +5119,75 @@ body {
 .detail-hero-reference.is-empty {
   color: #3a5a3a;
   font-style: italic;
+}
+
+/* Three-condition price panel in hero */
+.detail-hero-price-panel {
+  margin-top: 0.5rem;
+}
+
+.detail-hero-price-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.detail-hero-price-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 52px;
+}
+
+.detail-hero-price-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detail-hero-price-value {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gb-green, #9bbc0f);
+}
+
+.detail-hero-sources {
+  margin-top: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #5a7a5a;
+  font-style: italic;
+}
+
+/* CIB/Mint price labels in list */
+.result-price-group {
+  display: flex;
+  gap: 0.4rem;
+  align-items: baseline;
+  justify-content: flex-end;
+}
+
+.result-price-cib {
+  font-size: 0.78rem;
+  color: var(--condition-cib, #4ecdc4);
+  opacity: 0.8;
+}
+
+.result-price-mint {
+  font-size: 0.78rem;
+  color: var(--condition-mint, #ffd700);
+  opacity: 0.8;
+}
+
+/* Retrodex index loading state */
+.retrodex-index-shell .index-loading {
+  padding: 0.5rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
 }
 
 .game-tagline-shell {

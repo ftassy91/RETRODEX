@@ -55,7 +55,7 @@ function buildEncyclopediaPayload(game, domains = {}) {
 async function fetchAllSupabaseGames() {
   return fetchRowsInBatches(
     'games',
-    'id,title,console,year,genre,developer,metascore,rarity,summary,synopsis,source_confidence,slug,cover_url,loose_price,cib_price,mint_price',
+    'id,title,console,year,genre,developer,metascore,rarity,summary,synopsis,source_confidence,slug,cover_url,loose_price,cib_price,mint_price,price_last_updated,source_names',
     (query) => query.eq('type', 'game'),
     { column: 'title', options: { ascending: true } }
   )
@@ -119,6 +119,8 @@ function toItemPayload(game) {
     metascore: item.metascore ?? null,
     trend: item.trend || null,
     sourceConfidence: item.source_confidence != null ? Number(item.source_confidence) : null,
+    priceLastUpdated: item.price_last_updated || null,
+    sourceNames: item.source_names || null,
     curation: {
       status: item.curation?.status || null,
       isPublished: Boolean(item.curation?.isPublished),

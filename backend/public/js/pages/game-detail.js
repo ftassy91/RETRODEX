@@ -368,8 +368,19 @@ function renderHeroSection(game) {
   const meta = resolveGameMeta(game)
   const summary = String(game.summary || game.synopsis || '').trim()
   const metascoreValue = game.metascore ? String(game.metascore) : 'n/a'
-  const refPrice = game.loosePrice && Number(game.loosePrice) > 0
-    ? `<span class="detail-hero-reference">Reference loose : $${Number(game.loosePrice).toFixed(0)}</span>`
+  const hasAnyPrice = (game.loosePrice || game.cibPrice || game.mintPrice)
+  const trustMeta = game.sourceConfidence != null
+    ? getTrustMeta(Math.round(Number(game.sourceConfidence) * 100))
+    : { tier: 'T0', label: 'INCONNU' }
+  const pricePanel = hasAnyPrice
+    ? `<div class="detail-hero-price-panel">
+        <div class="detail-hero-price-row">
+          ${game.loosePrice ? `<div class="detail-hero-price-cell"><span class="detail-hero-price-label">Loose</span><span class="detail-hero-price-value">$${Math.round(game.loosePrice)}</span></div>` : ''}
+          ${game.cibPrice ? `<div class="detail-hero-price-cell"><span class="detail-hero-price-label">CIB</span><span class="detail-hero-price-value">$${Math.round(game.cibPrice)}</span></div>` : ''}
+          ${game.mintPrice ? `<div class="detail-hero-price-cell"><span class="detail-hero-price-label">Mint</span><span class="detail-hero-price-value">$${Math.round(game.mintPrice)}</span></div>` : ''}
+        </div>
+        <span class="trust-badge trust-${escapeHtml(trustMeta.tier)}" style="${escapeHtml(getTrustBadgeStyle(trustMeta.tier))}">${escapeHtml(getTrustBadgeText(trustMeta.tier))}</span>
+      </div>`
     : '<span class="detail-hero-reference is-empty">Marche secondaire</span>'
 
   heroEl.innerHTML = `
@@ -432,8 +443,9 @@ function renderHeroSection(game) {
           </div>
           <div id="hero-reading-highlights" class="surface-chip-row"></div>
           <p id="hero-reading-note" class="detail-reading-note">Collection et qualification restent en soutien.</p>
-          ${refPrice}
+          ${pricePanel}
           <div id="price-timestamp" class="price-timestamp" hidden></div>
+          ${game.sourceNames ? `<div class="detail-hero-sources">Sources : ${escapeHtml(game.sourceNames)}</div>` : ''}
         </aside>
       </div>
     </div>
@@ -628,6 +640,8 @@ async function loadRetrodexIndex(gameId) {
     return
   }
 
+  indexEl.innerHTML = '<div class="index-loading">Chargement des prix...</div>'
+
   try {
     const payload = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/index`)
     const entries = safeArray(payload.index)
@@ -690,9 +704,10 @@ async function loadRetrodexIndex(gameId) {
         `).join('')}
       </div>
     `
-  } catch (_error) {
-    indexEl.className = 'index-insufficient'
-    indexEl.textContent = 'Donnees insuffisantes - contribuez un prix'
+  } catch (err) {
+    console.error('[game-detail] loadRetrodexIndex failed for game', gameId, err)
+    indexEl.className = 'index-error'
+    indexEl.textContent = 'Erreur de chargement des prix'
   }
 }
 
@@ -3134,6 +3149,7 @@ async function loadPage() {
     await loadFranchise(currentGame.id)
     renderSummary(currentGame)
     renderStats(currentGame)
+    loadRetrodexIndex(currentGame.id).catch((err) => console.error('[game-detail] loadRetrodexIndex unhandled', err))
     collectionButtonEl.addEventListener('click', handleCollectionAction)
     wishlistButtonEl?.addEventListener('click', handleWishlistAction)
     collectionRemoveButtonEl?.addEventListener('click', handleCollectionRemove)
@@ -3193,7 +3209,7 @@ function initDetailAccordions() {
     }
 
     toggleEl.dataset.bound = 'true'
-    const defaultOpen = ['collection-shell', 'editorial-shell'].includes(sectionEl.id)
+    const defaultOpen = ['collection-shell', 'editorial-shell', 'stats-shell'].includes(sectionEl.id)
     setAccordionState(sectionEl, defaultOpen)
     toggleEl.addEventListener('click', () => {
       const expanded = toggleEl.getAttribute('aria-expanded') === 'true'
