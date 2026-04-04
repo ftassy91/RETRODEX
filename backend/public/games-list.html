@@ -124,6 +124,16 @@
                     <select id="genre"><option value="">Tous</option></select>
                   </div>
                   <div class="field">
+                    <label for="completeness">Completude</label>
+                    <select id="completeness">
+                      <option value="">Toutes</option>
+                      <option value="dense">Archive dense (9+)</option>
+                      <option value="solid">Lecture solide (6-8)</option>
+                      <option value="growing">En progression (3-5)</option>
+                      <option value="light">Base stable (0-2)</option>
+                    </select>
+                  </div>
+                  <div class="field">
                     <label for="filter-trend">Tendance</label>
                     <select id="filter-trend">
                       <option value="">Toutes</option>
@@ -199,7 +209,7 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/games-list.js?v=20260404d"></script>
+    <script src="/js/pages/games-list.js?v=20260404e"></script>
     <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>
