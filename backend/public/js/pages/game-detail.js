@@ -3102,6 +3102,7 @@ async function loadPage() {
     renderProvenance(currentGame)
     renderDetailContentStatus()
     updatePriceTimestamp(currentGame.id)
+    loadPriceHistory(currentGame.id)
 
     const coverImgEl = document.getElementById('game-cover-img')
     if (coverImgEl) {

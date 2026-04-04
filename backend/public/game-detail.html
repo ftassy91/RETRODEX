@@ -16,7 +16,7 @@
     <meta property="og:description" content="Fiche RetroDex d'un jeu retro : archive, lecture, collection et qualification contextuelle." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260404d" />
+    <link rel="stylesheet" href="/style.css?v=20260404e" />
   </head>
   <body>
     <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
@@ -101,6 +101,22 @@
         </div>
       </section>
 
+      <section id="price-history-shell" class="price-history detail-accordion" hidden>
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="price-history-content">
+          <span>Historique des prix</span>
+          <span class="detail-accordion-indicator">&#9656;</span>
+        </button>
+        <div id="price-history-content" class="detail-accordion-content" hidden>
+          <div class="chart-toggle"></div>
+          <div class="period-selector"></div>
+          <div class="chart-container">
+            <svg id="price-chart" style="width:100%;height:300px"></svg>
+          </div>
+          <div id="chart-labels" class="chart-labels"></div>
+          <div class="price-stats-row"></div>
+        </div>
+      </section>
+
       <section id="related-shell" class="related-card detail-accordion" hidden>
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="related-content">
           <span>Prolonger la lecture</span>
@@ -118,7 +134,7 @@
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
     <script src="/js/core/content-signals.js"></script>
-    <script src="/js/pages/game-detail.js?v=20260404d"></script>
+    <script src="/js/pages/game-detail.js?v=20260404e"></script>
     <script src="/js/features/experience-layer.js"></script>
     <div class="footer-attribution">
       Covers :
