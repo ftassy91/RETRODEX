@@ -470,6 +470,8 @@
   function renderCollectionRow(item, index) {
     const game = getGame(item)
     const loosePrice = Number(game.loosePrice || 0)
+    const cibPrice = Number(game.cibPrice || 0)
+    const mintPrice = Number(game.mintPrice || 0)
     const paid = Number(item.price_paid || 0)
     const gain = paid > 0 ? loosePrice - paid : null
     const gainStr = gain !== null
@@ -484,13 +486,15 @@
     row.setAttribute('role', 'row')
     row.dataset.itemId = String(item.id || item.gameId || '')
     row.dataset.index = String(index)
-    row.style.gridTemplateColumns = '12px 1fr 90px 60px 70px 70px 70px'
+    row.style.gridTemplateColumns = '12px 1fr 90px 60px 70px 70px 70px 70px 70px'
     row.innerHTML = `
       <span role="cell" class="terminal-row-indicator">></span>
       <span role="cell" style="color:var(--text-primary)">${escapeHtml(game.title || '?')}</span>
       <span role="cell" style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '-')}</span>
       <span role="cell" class="condition-badge badge--condition" data-condition="${escapeHtml(item.condition || '')}" style="font-size:9px;border:1px solid var(--border);padding:1px 4px;text-align:center">${escapeHtml(item.condition || '-')}</span>
       <span role="cell" style="text-align:right;color:var(--text-alert)">${loosePrice ? formatCurrency(loosePrice) : '-'}</span>
+      <span role="cell" style="text-align:right;color:var(--text-muted)">${cibPrice ? formatCurrency(cibPrice) : '-'}</span>
+      <span role="cell" style="text-align:right;color:var(--text-muted)">${mintPrice ? formatCurrency(mintPrice) : '-'}</span>
       <span role="cell" style="text-align:right;color:var(--text-muted)">${paid ? formatCurrency(paid) : '-'}</span>
       <span role="cell" style="text-align:right" class="${gainClass}">${gainStr}</span>
     `
