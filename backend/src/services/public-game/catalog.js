@@ -55,7 +55,7 @@ function buildEncyclopediaPayload(game, domains = {}) {
 async function fetchAllSupabaseGames() {
   return fetchRowsInBatches(
     'games',
-    'id,title,console,year,genre,developer,metascore,rarity,summary,synopsis,source_confidence,slug,cover_url,loose_price,cib_price,mint_price',
+    'id,title,console,year,genre,developer,metascore,rarity,summary,synopsis,source_confidence,slug,cover_url,loose_price,cib_price,mint_price,price_last_updated,source_names',
     (query) => query.eq('type', 'game'),
     { column: 'title', options: { ascending: true } }
   )
