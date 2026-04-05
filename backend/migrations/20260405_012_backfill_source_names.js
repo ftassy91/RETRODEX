@@ -32,7 +32,7 @@ module.exports = {
     const dialect = sequelize.getDialect()
 
     if (dialect === 'postgres') {
-      await sequelize.query(`
+      const [, meta] = await sequelize.query(`
         UPDATE games g
         SET source_names = sub.names
         FROM (
@@ -49,6 +49,7 @@ module.exports = {
         WHERE g.id = sub.game_id
           AND g.source_names IS NULL
       `)
+      console.info(`[migration 012] Postgres backfill complete: ${meta?.rowCount ?? 'unknown'} rows updated`)
     } else {
       // SQLite fallback: fetch game_ids from price_history, aggregate in JS, bulk-update
       const [rows] = await sequelize.query(`
@@ -81,6 +82,9 @@ module.exports = {
         }
       }
       console.info(`[migration 012] SQLite backfill complete: ${updated} updated, ${failed} failed`)
+      if (failed > 0) {
+        throw new Error(`[migration 012] Backfill partially failed: ${failed} game(s) not updated. Check logs for game_ids.`)
+      }
     }
   },
 }

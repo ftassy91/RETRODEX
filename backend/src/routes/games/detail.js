@@ -91,6 +91,11 @@ router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games/:id/regions', handleAsync(async (req, res) => {
+  const game = await readGame(req.params.id)
+  if (!game) {
+    return res.status(404).json({ ok: false, error: 'Game not found' })
+  }
+
   const regions = await fetchGameRegions(req.params.id)
   return res.json({ ok: true, regions })
 }))

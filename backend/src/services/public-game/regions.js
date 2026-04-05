@@ -9,7 +9,10 @@ async function fetchGameRegions(gameId) {
     .eq('game_id', gameId)
 
   if (error) {
-    throw new Error(error.message)
+    const err = new Error(`fetchGameRegions failed for game ${gameId}: ${error.message}`)
+    err.supabaseCode = error.code
+    err.supabaseDetails = error.details
+    throw err
   }
 
   return (data || []).map((r) => r.region_code).filter(Boolean)
