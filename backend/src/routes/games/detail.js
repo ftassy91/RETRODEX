@@ -20,6 +20,9 @@ const {
   fetchMarketIndex,
 } = require('../../services/public-market-index-service')
 const {
+  fetchGameRegions,
+} = require('../../services/public-game/regions')
+const {
   createMarketReport,
 } = require('../../services/public-market-report-service')
 
@@ -85,6 +88,16 @@ router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
   }
 
   return res.json(payload)
+}))
+
+router.get('/api/games/:id/regions', handleAsync(async (req, res) => {
+  const game = await readGame(req.params.id)
+  if (!game) {
+    return res.status(404).json({ ok: false, error: 'Game not found' })
+  }
+
+  const regions = await fetchGameRegions(req.params.id)
+  return res.json({ ok: true, regions })
 }))
 
 router.get('/api/games/:id/index', handleAsync(async (req, res) => {

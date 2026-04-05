@@ -5165,21 +5165,61 @@ body {
 /* CIB/Mint price labels in list */
 .result-price-group {
   display: flex;
-  gap: 0.4rem;
-  align-items: baseline;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+}
+
+.result-price-secondary {
+  display: flex;
+  gap: 0.35rem;
+  opacity: 0.6;
 }
 
 .result-price-cib {
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   color: var(--condition-cib, #4ecdc4);
-  opacity: 0.8;
 }
 
 .result-price-mint {
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   color: var(--condition-mint, #ffd700);
-  opacity: 0.8;
+}
+
+/* Region chips in hero */
+.hero-region-chips {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
+}
+
+.region-chip {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border: 1px solid rgba(155, 188, 15, 0.3);
+  color: rgba(155, 188, 15, 0.7);
+  letter-spacing: 0.06em;
+}
+
+.region-chip.region-JP { border-color: rgba(255, 80, 80, 0.4); color: rgba(255, 120, 120, 0.8); }
+.region-chip.region-US { border-color: rgba(80, 140, 255, 0.4); color: rgba(120, 170, 255, 0.8); }
+.region-chip.region-EU { border-color: rgba(80, 200, 150, 0.4); color: rgba(120, 220, 170, 0.8); }
+
+/* Price date and accordion price hint */
+.detail-hero-price-date {
+  margin-top: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #4a6a4a;
+}
+
+.accordion-price-hint {
+  font-size: 0.68rem;
+  color: rgba(155, 188, 15, 0.5);
+  font-weight: 400;
+  margin-left: 0.5rem;
 }
 
 /* Retrodex index loading state */

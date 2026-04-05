@@ -102,8 +102,7 @@ function renderGameRow(game, options = {}) {
       ${showPrice ? `
         <span class="result-price-group">
           <span class="result-price result-price-loose"${confidenceTier ? ` title="Prix loose · ${escapeHtml(confidenceTier)}"` : ''}>${loosePrice}</span>
-          ${cibPrice ? `<span class="result-price result-price-cib" title="Prix CIB">${cibPrice}</span>` : ''}
-          ${mintPrice ? `<span class="result-price result-price-mint" title="Prix Mint">${mintPrice}</span>` : ''}
+          ${(cibPrice || mintPrice) ? `<span class="result-price-secondary">${cibPrice ? `<span class="result-price-cib" title="Prix CIB">${cibPrice}</span>` : ''}${mintPrice ? `<span class="result-price-mint" title="Prix Mint">${mintPrice}</span>` : ''}</span>` : ''}
         </span>` : ''}
       <span class="result-metascore"></span>
       ${showRarity ? `<span class="result-rarity" style="color:${rarityColors[rarity] || 'var(--text-muted)'}">${escapeHtml(rarity || 'COMMON')}</span>` : ''}
