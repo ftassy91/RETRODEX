@@ -636,8 +636,6 @@ function formatIndexRange(low, high) {
   return `$${Math.round(lowNumber)} - $${Math.round(highNumber)}`
 }
 
-const REGION_LABELS = { JP: 'JP', US: 'US', EU: 'EU', AU: 'AU', KR: 'KR' }
-
 async function loadGameRegions(gameId) {
   const chipsEl = document.getElementById('hero-region-chips')
   if (!chipsEl) return
@@ -648,10 +646,10 @@ async function loadGameRegions(gameId) {
     if (!regions.length) return
 
     chipsEl.innerHTML = regions
-      .map((r) => `<span class="region-chip region-${escapeHtml(r)}">${escapeHtml(REGION_LABELS[r] || r)}</span>`)
+      .map((r) => `<span class="region-chip region-${escapeHtml(r)}">${escapeHtml(r)}</span>`)
       .join('')
   } catch (err) {
-    console.warn('[game-detail] region chips failed', err)
+    console.error('[game-detail] loadGameRegions failed for game', gameId, err)
   }
 }
 
@@ -3180,7 +3178,7 @@ async function loadPage() {
     renderSummary(currentGame)
     renderStats(currentGame)
     loadRetrodexIndex(currentGame.id).catch((err) => console.error('[game-detail] loadRetrodexIndex unhandled', err))
-    loadGameRegions(currentGame.id)
+    loadGameRegions(currentGame.id).catch((err) => console.error('[game-detail] loadGameRegions unhandled', err))
     collectionButtonEl.addEventListener('click', handleCollectionAction)
     wishlistButtonEl?.addEventListener('click', handleWishlistAction)
     collectionRemoveButtonEl?.addEventListener('click', handleCollectionRemove)

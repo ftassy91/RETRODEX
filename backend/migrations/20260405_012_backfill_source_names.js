@@ -7,6 +7,8 @@
 //
 // Only updates rows where source_names IS NULL — safe to re-run.
 
+// Single source of truth for slug → display name mapping.
+// Postgres path builds its CASE expression from this; SQLite path uses it directly.
 const SOURCE_DISPLAY_NAMES = {
   pricecharting: 'PriceCharting',
   ebay: 'eBay',
@@ -16,6 +18,13 @@ const SOURCE_DISPLAY_NAMES = {
   vgpc: 'VGPC',
 }
 
+function buildPostgresCaseExpr() {
+  const branches = Object.entries(SOURCE_DISPLAY_NAMES)
+    .map(([slug, label]) => `WHEN '${slug}' THEN '${label}'`)
+    .join('\n                ')
+  return `CASE source\n                ${branches}\n                ELSE initcap(source)\n              END`
+}
+
 module.exports = {
   id: '20260405_012_backfill_source_names',
   description: 'Backfill games.source_names from price_history.source (Sprint B)',
@@ -23,8 +32,6 @@ module.exports = {
     const dialect = sequelize.getDialect()
 
     if (dialect === 'postgres') {
-      // Single-pass update using a lateral subquery — works in both Supabase (PostgREST) and direct Postgres
-      // Aggregate and map raw source slugs to display names in a single pass
       await sequelize.query(`
         UPDATE games g
         SET source_names = sub.names
@@ -32,15 +39,7 @@ module.exports = {
           SELECT
             game_id,
             string_agg(
-              DISTINCT CASE source
-                WHEN 'pricecharting' THEN 'PriceCharting'
-                WHEN 'ebay'          THEN 'eBay'
-                WHEN 'mobygames'     THEN 'MobyGames'
-                WHEN 'moby'          THEN 'MobyGames'
-                WHEN 'igdb'          THEN 'IGDB'
-                WHEN 'vgpc'          THEN 'VGPC'
-                ELSE initcap(source)
-              END,
+              DISTINCT ${buildPostgresCaseExpr()},
               ', ' ORDER BY source
             ) AS names
           FROM price_history
@@ -59,6 +58,8 @@ module.exports = {
         GROUP BY game_id
       `)
 
+      let updated = 0
+      let failed = 0
       for (const row of rows) {
         const displayNames = (row.sources || '')
           .split(',')
@@ -66,13 +67,20 @@ module.exports = {
           .filter(Boolean)
           .join(', ')
 
-        if (displayNames) {
+        if (!displayNames) continue
+
+        try {
           await sequelize.query(
             `UPDATE games SET source_names = :names WHERE id = :id AND source_names IS NULL`,
             { replacements: { names: displayNames, id: row.game_id } }
           )
+          updated += 1
+        } catch (err) {
+          console.error('[migration 012] Failed to update game_id', row.game_id, err)
+          failed += 1
         }
       }
+      console.info(`[migration 012] SQLite backfill complete: ${updated} updated, ${failed} failed`)
     }
   },
 }

@@ -3,7 +3,6 @@
 
 const { Router } = require('express')
 
-const { db } = require('../../../db_supabase')
 const { handleAsync } = require('../../helpers/query')
 const { toGameSummary } = require('../../lib/normalize')
 const { buildGameDetailDataLayer } = require('../../helpers/game-detail-data-layer')
@@ -20,6 +19,9 @@ const {
 const {
   fetchMarketIndex,
 } = require('../../services/public-market-index-service')
+const {
+  fetchGameRegions,
+} = require('../../services/public-game/regions')
 const {
   createMarketReport,
 } = require('../../services/public-market-report-service')
@@ -89,16 +91,7 @@ router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games/:id/regions', handleAsync(async (req, res) => {
-  const { data, error } = await db
-    .from('game_regions')
-    .select('region_code')
-    .eq('game_id', req.params.id)
-
-  if (error) {
-    return res.status(500).json({ ok: false, error: error.message })
-  }
-
-  const regions = (data || []).map((r) => r.region_code).filter(Boolean)
+  const regions = await fetchGameRegions(req.params.id)
   return res.json({ ok: true, regions })
 }))
 
