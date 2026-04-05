@@ -444,7 +444,9 @@ function renderHeroSection(game) {
           <div id="hero-reading-highlights" class="surface-chip-row"></div>
           <p id="hero-reading-note" class="detail-reading-note">Collection et qualification restent en soutien.</p>
           ${pricePanel}
+          <div id="hero-region-chips" class="hero-region-chips"></div>
           <div id="price-timestamp" class="price-timestamp" hidden></div>
+          ${game.priceLastUpdated ? `<div class="detail-hero-price-date">Mis à jour : ${escapeHtml(game.priceLastUpdated)}</div>` : ''}
           ${game.sourceNames ? `<div class="detail-hero-sources">Sources : ${escapeHtml(game.sourceNames)}</div>` : ''}
         </aside>
       </div>
@@ -632,6 +634,25 @@ function formatIndexRange(low, high) {
   }
 
   return `$${Math.round(lowNumber)} - $${Math.round(highNumber)}`
+}
+
+const REGION_LABELS = { JP: 'JP', US: 'US', EU: 'EU', AU: 'AU', KR: 'KR' }
+
+async function loadGameRegions(gameId) {
+  const chipsEl = document.getElementById('hero-region-chips')
+  if (!chipsEl) return
+
+  try {
+    const payload = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/regions`)
+    const regions = (payload.regions || []).slice(0, 6)
+    if (!regions.length) return
+
+    chipsEl.innerHTML = regions
+      .map((r) => `<span class="region-chip region-${escapeHtml(r)}">${escapeHtml(REGION_LABELS[r] || r)}</span>`)
+      .join('')
+  } catch (err) {
+    console.warn('[game-detail] region chips failed', err)
+  }
 }
 
 async function loadRetrodexIndex(gameId) {
@@ -1791,6 +1812,15 @@ function renderStats(game) {
       statMeta.innerHTML = buildEmptyStateHtml('Non noté')
       statMeta.style.color = ''
     }
+  }
+
+  // Inject price summary into the Qualification toggle label so Marc sees it without opening
+  const statsToggle = document.querySelector('#stats-shell .detail-accordion-toggle span:first-child')
+  if (statsToggle && game.loosePrice) {
+    const parts = [`Loose $${Math.round(game.loosePrice)}`]
+    if (game.cibPrice) parts.push(`CIB $${Math.round(game.cibPrice)}`)
+    if (game.mintPrice) parts.push(`Mint $${Math.round(game.mintPrice)}`)
+    statsToggle.innerHTML = `Qualification &amp; Prix <span class="accordion-price-hint">${escapeHtml(parts.join(' · '))}</span>`
   }
 }
 
@@ -3150,6 +3180,7 @@ async function loadPage() {
     renderSummary(currentGame)
     renderStats(currentGame)
     loadRetrodexIndex(currentGame.id).catch((err) => console.error('[game-detail] loadRetrodexIndex unhandled', err))
+    loadGameRegions(currentGame.id)
     collectionButtonEl.addEventListener('click', handleCollectionAction)
     wishlistButtonEl?.addEventListener('click', handleWishlistAction)
     collectionRemoveButtonEl?.addEventListener('click', handleCollectionRemove)
@@ -3209,7 +3240,7 @@ function initDetailAccordions() {
     }
 
     toggleEl.dataset.bound = 'true'
-    const defaultOpen = ['collection-shell', 'editorial-shell', 'stats-shell'].includes(sectionEl.id)
+    const defaultOpen = ['collection-shell', 'editorial-shell'].includes(sectionEl.id)
     setAccordionState(sectionEl, defaultOpen)
     toggleEl.addEventListener('click', () => {
       const expanded = toggleEl.getAttribute('aria-expanded') === 'true'
