@@ -2,9 +2,9 @@
 
 const {
   db,
-  queryGames,
   getGameById,
 } = require('../../../db_supabase')
+const catalogCache = require('./games-catalog-cache')
 const {
   normalizeGameRecord,
   compareGamesForSort,
@@ -139,30 +139,30 @@ async function fetchCanonicalGamesList(query = {}) {
   const limit = Math.min(Math.max(Number.parseInt(String(query.limit || '20'), 10) || 20, 1), 5000)
   const offset = Math.max(0, Number.parseInt(String(query.offset || '0'), 10) || 0)
   const includeTrend = String(query.include_trend || '') === '1'
-  const { items: rawItems = [] } = await queryGames({
-    sort: query.sort,
-    console: query.console,
-    rarity: query.rarity,
-    limit: 5000,
-    offset: 0,
-    search: query.q,
-  })
 
-  const filteredItems = rawItems
-    .map(normalizeGameRecord)
+  const search = String(query.q || '').trim().toLowerCase()
+  const consoleFilter = String(query.console || '').trim()
+  const rarityFilter = String(query.rarity || '').trim()
+
+  const allItems = await catalogCache.getAll()
+
+  const filteredItems = allItems
+    .filter((item) => {
+      if (consoleFilter && item.console !== consoleFilter) return false
+      if (rarityFilter && item.rarity !== rarityFilter) return false
+      if (search && !String(item.title || '').toLowerCase().includes(search)) return false
+      return true
+    })
     .sort((left, right) => compareGamesForSort(left, right, query.sort))
-  const total = filteredItems.length
-  const items = await hydrateGameCovers(filteredItems.slice(offset, offset + limit).map((item) => (
-    includeTrend
-      ? { ...item, trend: null }
-      : item
-  )))
 
-  return {
-    items,
-    returned: items.length,
-    total,
-  }
+  const total = filteredItems.length
+  const items = await hydrateGameCovers(
+    filteredItems.slice(offset, offset + limit).map((item) => (
+      includeTrend ? { ...item, trend: null } : item
+    ))
+  )
+
+  return { items, returned: items.length, total }
 }
 
 async function fetchCanonicalGameById(id) {
@@ -180,4 +180,6 @@ module.exports = {
   toItemPayload,
   fetchCanonicalGamesList,
   fetchCanonicalGameById,
+  warmUpCatalogCache: catalogCache.warmUp,
+  invalidateCatalogCache: catalogCache.invalidate,
 }
