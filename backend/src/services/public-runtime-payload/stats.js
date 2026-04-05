@@ -4,6 +4,9 @@ const { db, getStats } = require('../../../db_supabase')
 const { normalizeGameRecord } = require('../../lib/normalize')
 const { fetchAllSupabaseGames } = require('../public-game-reader')
 const { isMissingSupabaseRelationError } = require('../public-supabase-utils')
+const { LRUCache } = require('../../lib/lru-cache')
+
+const statsCache = new LRUCache(1, 60 * 1000) // single entry, 60s TTL
 
 function median(values) {
   if (!values.length) return 0
@@ -18,6 +21,8 @@ function median(values) {
 }
 
 async function fetchStatsPayload() {
+  const cached = statsCache.get('stats')
+  if (cached) return cached
   const statsBase = await getStats().catch((err) => { console.warn('[stats] getStats failed:', err.message); return {} })
   const games = await fetchAllSupabaseGames()
   const { count: rawFranchiseCount, error: franchiseError } = await db
@@ -84,7 +89,7 @@ async function fetchStatsPayload() {
     ? looseValues.reduce((sum, value) => sum + value, 0) / looseValues.length
     : 0
 
-  return {
+  const result = {
     ok: true,
     total_games: Number(statsBase.total_games) || games.length,
     total_platforms: byPlatformMap.size,
@@ -111,6 +116,9 @@ async function fetchStatsPayload() {
     source_confidence: trustStats,
     trust_stats: trustStats,
   }
+
+  statsCache.set('stats', result)
+  return result
 }
 
 module.exports = {

@@ -1,6 +1,7 @@
 'use strict'
 
-const { queryGames, getStats } = require('../../../db_supabase')
+const { getStats } = require('../../../db_supabase')
+const { getAll: getCatalogCache } = require('../public-game/games-catalog-cache')
 const { hydrateGameCovers } = require('../public-game-reader')
 const {
   buildPublicationSummary,
@@ -33,29 +34,29 @@ async function searchGlobal(query, context, limit, scope) {
     }
   }
 
-  const [gamesPayload, consoles, franchises, statsBase] = await Promise.all([
-    queryGames({
-      search: query,
-      sort: 'title_asc',
-      limit: Math.max(limit * 3, 20),
-      offset: 0,
-      ids: scope.enabled && scope.ids.length ? scope.ids : null,
-    }),
+  const searchLower = query.toLowerCase()
+  const searchLimit = Math.max(limit * 3, 20)
+  const [allCachedGames, consoles, franchises, statsBase] = await Promise.all([
+    getCatalogCache(),
     fetchGlobalConsoleResults(query, limit),
     fetchGlobalFranchiseResults(query, limit),
     getStats().catch((err) => { console.warn('[stats] getStats failed:', err.message); return {} }),
   ])
 
-  let hydratedGames = await hydrateGameCovers(filterPublishedGames(gamesPayload.items || [], scope))
-  if (!hydratedGames.length && query.length >= 4) {
-    const fuzzyGamesPayload = await queryGames({
-      sort: 'title_asc',
-      limit: 5000,
-      offset: 0,
-      ids: scope.enabled && scope.ids.length ? scope.ids : null,
-    })
+  const matchedGames = allCachedGames
+    .filter((g) => String(g.title || '').toLowerCase().includes(searchLower))
+    .filter((g) => !scope.enabled || !scope.ids.length || scope.ids.includes(g.id))
+    .sort((a, b) => String(a.title || '').localeCompare(String(b.title || ''), 'fr', { sensitivity: 'base' }))
+    .slice(0, searchLimit)
 
-    hydratedGames = (await hydrateGameCovers(filterPublishedGames(fuzzyGamesPayload.items || [], scope)))
+  let hydratedGames = await hydrateGameCovers(filterPublishedGames(matchedGames, scope))
+  if (!hydratedGames.length && query.length >= 4) {
+    const allGames = await getCatalogCache()
+    const scopedGames = scope.enabled && scope.ids.length
+      ? allGames.filter((g) => scope.ids.includes(g.id))
+      : allGames
+
+    hydratedGames = (await hydrateGameCovers(filterPublishedGames(scopedGames, scope)))
       .map((game) => ({ game, score: scoreResult(createGlobalGameResult(game, context), query) }))
       .filter((entry) => entry.score >= 60)
       .sort((left, right) => right.score - left.score

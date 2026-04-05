@@ -53,6 +53,11 @@ function buildEncyclopediaPayload(game, domains = {}) {
 }
 
 async function fetchAllSupabaseGames() {
+  // Serve from in-memory cache — avoids a 5000-row Supabase round-trip.
+  // Falls back to direct Supabase query only if cache is not yet populated.
+  const cached = await catalogCache.getAll()
+  if (cached.length) return cached
+
   return fetchRowsInBatches(
     'games',
     'id,title,console,year,genre,developer,metascore,rarity,summary,synopsis,source_confidence,slug,cover_url,loose_price,cib_price,mint_price,price_last_updated,source_names',
