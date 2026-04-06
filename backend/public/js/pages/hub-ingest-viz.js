@@ -58,19 +58,60 @@
   let phase = 'init'
   let glowStart = 0, nextStart = 0
   let comboTmo = null
+  let feedTicker = null
 
   // ── Helpers ───────────────────────────────────────────────────────────────
   function set(el, v) { if (el) el.textContent = v }
 
-  function pushFeed(atom) {
+  // ── Feed stream ────────────────────────────────────────────────────────────
+  // The feed runs continuously with randomised data from the game pool.
+  // On match: consumed rows slide out, matched game data fills the gap.
+
+  function randomFeedEntry() {
+    if (!games.length) return null
+    const g = games[Math.floor(Math.random() * games.length)]
+    const eligible = ATOMS.filter(a => a.key !== 'base' && a.check(g))
+    if (!eligible.length) return null
+    const a = eligible[Math.floor(Math.random() * eligible.length)]
+    return { emoji: a.emoji, color: a.color, key: a.key, text: a.value(g) }
+  }
+
+  function prependFeedRow(entry, isMatch) {
     if (!elFeed) return
     const row = document.createElement('div')
-    row.className = 'hub-ingest-feed-row'
-    row.innerHTML = `<span class="feed-emoji">${atom.emoji}</span><span class="feed-value" style="color:${atom.color}">${atom.feedValue}</span>`
-    elFeed.appendChild(row)
-    // Keep at most 8 visible rows
-    while (elFeed.children.length > 8) elFeed.removeChild(elFeed.firstChild)
+    row.className = 'hub-ingest-feed-row' + (isMatch ? ' is-match' : '')
+    row.dataset.key = entry.key
+    row.innerHTML = `<span class="feed-emoji">${entry.emoji}</span><span class="feed-value" style="color:${entry.color}">${entry.text}</span>`
+    elFeed.insertBefore(row, elFeed.firstChild)
+    while (elFeed.children.length > 8) elFeed.removeChild(elFeed.lastChild)
     requestAnimationFrame(() => row.classList.add('is-visible'))
+  }
+
+  function startFeedStream() {
+    if (feedTicker) clearInterval(feedTicker)
+    feedTicker = setInterval(() => {
+      const entry = randomFeedEntry()
+      if (entry) prependFeedRow(entry, false)
+    }, 820)
+  }
+
+  function flashMatchedFeed(matchedKeys, game) {
+    if (!elFeed) return
+    const keySet = new Set(matchedKeys)
+    // Remove rows whose key was matched
+    Array.from(elFeed.children).forEach(row => {
+      if (keySet.has(row.dataset.key)) {
+        row.classList.add('is-consumed')
+        setTimeout(() => row.remove(), 380)
+      }
+    })
+    // After rows collapse, prepend real match data
+    setTimeout(() => {
+      ATOMS
+        .filter(a => keySet.has(a.key) && a.check(game))
+        .reverse()
+        .forEach(a => prependFeedRow({ emoji: a.emoji, color: a.color, key: a.key, text: a.value(game) }, true))
+    }, 420)
   }
 
   // Returns the lowest empty row in a column, treating rows already claimed
@@ -188,7 +229,6 @@
     updateLegend(game)
     elPanel?.classList.remove('is-revealed')
 
-    if (elFeed) elFeed.innerHTML = ''
     queue = ['base', ...present.filter(a => a.key !== 'base').map(a => a.key).sort(() => Math.random() - .5)]
     falling = []
     lastSpawn = performance.now()
@@ -214,7 +254,6 @@
         const row = Math.round(a.targetY / CELL)
         if (row >= 0 && row < ROWS && a.col >= 0 && a.col < COLS && !grid[row][a.col]) {
           grid[row][a.col] = { key: a.key, emoji: a.emoji, color: a.color, label: a.label, opacity: 1, glowing: false, clearing: false }
-          pushFeed(a)
         }
         return false
       }
@@ -236,6 +275,9 @@
     score += fieldAtoms.length * (cascade ? 120 : 60)
     matches.forEach(({ r, c }) => { if (grid[r][c]) grid[r][c].glowing = true })
     showCombo(fieldAtoms.length, cascade)
+    // Flash feed: remove noise rows for matched types, insert real game data
+    const matchedKeys = [...new Set(matches.map(({ r, c }) => grid[r][c]?.key).filter(Boolean))]
+    flashMatchedFeed(matchedKeys, games[gameIdx])
     glowStart = now
     phase = 'glowing'
   }
@@ -371,6 +413,7 @@
       const data = await res.json()
       games = (data.items || []).sort(() => Math.random() - .5)
       if (!games.length) { set(elTitle, 'Aucune donnée'); return }
+      startFeedStream()
       startGame(games[0])
       requestAnimationFrame(loop)
     } catch {
