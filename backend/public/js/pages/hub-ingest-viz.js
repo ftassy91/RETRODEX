@@ -11,14 +11,15 @@
   // Each atom type maps to a game field.
   // 🎮 is the anchor: a complete record = 🎮 + 3 or more adjacent field atoms.
   // Field checks use camelCase keys as returned by /api/items
+  // value(g) returns the human-readable string shown in the feed when the atom lands
   const ATOMS = [
-    { key: 'base',  emoji: '🎮', color: '#9bbc0f', label: 'Jeu',    colPref: [3,4,5],      check: ()  => true },
-    { key: 'cover', emoji: '🖼️', color: '#4FC3F7', label: 'Cover',  colPref: [0,1,2],      check: g  => !!g.coverImage },
-    { key: 'price', emoji: '💰', color: '#81C784', label: 'Prix',   colPref: [4,5],        check: g  => !!(g.loosePrice || g.cibPrice) },
-    { key: 'text',  emoji: '📖', color: '#CE93D8', label: 'Texte',  colPref: [5,6,7],      check: g  => !!g.summary },
-    { key: 'score', emoji: '⭐', color: '#FFD54F', label: 'Score',  colPref: [7,8],        check: g  => !!g.metascore },
-    { key: 'mint',  emoji: '💎', color: '#B2EBF2', label: 'Mint',   colPref: [3,4],        check: g  => !!g.mintPrice },
-    { key: 'genre', emoji: '🎯', color: '#FF8A65', label: 'Genre',  colPref: [2,3,4,5,6],  check: g  => !!g.genre },
+    { key: 'base',  emoji: '🎮', color: '#9bbc0f', label: 'Jeu',    colPref: [3,4,5],      check: ()  => true,                       value: g => g.title || '—' },
+    { key: 'cover', emoji: '🖼️', color: '#4FC3F7', label: 'Cover',  colPref: [0,1,2],      check: g  => !!g.coverImage,              value: g => { const u = g.coverImage || ''; const f = u.split('/').pop().split('?')[0]; return f || u.slice(-24) || '—' } },
+    { key: 'price', emoji: '💰', color: '#81C784', label: 'Prix',   colPref: [4,5],        check: g  => !!(g.loosePrice || g.cibPrice), value: g => [g.loosePrice && `$${Math.round(g.loosePrice)} loose`, g.cibPrice && `$${Math.round(g.cibPrice)} CIB`].filter(Boolean).join(' · ') || '—' },
+    { key: 'text',  emoji: '📖', color: '#CE93D8', label: 'Texte',  colPref: [5,6,7],      check: g  => !!g.summary,                 value: g => (g.summary || '').split(' ').slice(0, 6).join(' ') + '…' },
+    { key: 'score', emoji: '⭐', color: '#FFD54F', label: 'Score',  colPref: [7,8],        check: g  => !!g.metascore,               value: g => `Metascore ${g.metascore}` },
+    { key: 'mint',  emoji: '💎', color: '#B2EBF2', label: 'Mint',   colPref: [3,4],        check: g  => !!g.mintPrice,               value: g => `$${Math.round(g.mintPrice)} mint` },
+    { key: 'genre', emoji: '🎯', color: '#FF8A65', label: 'Genre',  colPref: [2,3,4,5,6],  check: g  => !!g.genre,                   value: g => g.genre },
   ]
   const ATOM = Object.fromEntries(ATOMS.map(a => [a.key, a]))
 
@@ -41,6 +42,7 @@
   const elCombo   = document.getElementById('hub-ingest-combo')
   const elLegend  = document.getElementById('hub-ingest-legend-items')
   const elQuality = document.getElementById('hub-ingest-quality')
+  const elFeed    = document.getElementById('hub-ingest-feed')
   const elPanel   = document.querySelector('.hub-ingest-panel')
 
   // ── State ─────────────────────────────────────────────────────────────────
@@ -59,6 +61,17 @@
 
   // ── Helpers ───────────────────────────────────────────────────────────────
   function set(el, v) { if (el) el.textContent = v }
+
+  function pushFeed(atom) {
+    if (!elFeed) return
+    const row = document.createElement('div')
+    row.className = 'hub-ingest-feed-row'
+    row.innerHTML = `<span class="feed-emoji">${atom.emoji}</span><span class="feed-value" style="color:${atom.color}">${atom.feedValue}</span>`
+    elFeed.appendChild(row)
+    // Keep at most 8 visible rows
+    while (elFeed.children.length > 8) elFeed.removeChild(elFeed.firstChild)
+    requestAnimationFrame(() => row.classList.add('is-visible'))
+  }
 
   // Returns the lowest empty row in a column, treating rows already claimed
   // by in-flight atoms as occupied so two atoms never target the same cell.
@@ -175,6 +188,7 @@
     updateLegend(game)
     elPanel?.classList.remove('is-revealed')
 
+    if (elFeed) elFeed.innerHTML = ''
     queue = ['base', ...present.filter(a => a.key !== 'base').map(a => a.key).sort(() => Math.random() - .5)]
     falling = []
     lastSpawn = performance.now()
@@ -189,7 +203,8 @@
     const tr  = targetRow(col)
     if (tr < 0) return
     const a = ATOM[key]
-    falling.push({ key, emoji: a.emoji, color: a.color, label: a.label, col, y: -CELL, targetY: tr * CELL })
+    const currentGame = games[gameIdx]
+    falling.push({ key, emoji: a.emoji, color: a.color, label: a.label, feedValue: currentGame ? a.value(currentGame) : a.label, col, y: -CELL, targetY: tr * CELL })
   }
 
   function tickFalling() {
@@ -199,6 +214,7 @@
         const row = Math.round(a.targetY / CELL)
         if (row >= 0 && row < ROWS && a.col >= 0 && a.col < COLS && !grid[row][a.col]) {
           grid[row][a.col] = { key: a.key, emoji: a.emoji, color: a.color, label: a.label, opacity: 1, glowing: false, clearing: false }
+          pushFeed(a)
         }
         return false
       }

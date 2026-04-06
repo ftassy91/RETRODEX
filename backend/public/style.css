@@ -12701,6 +12701,43 @@ body {
   transform: translateY(0);
 }
 
+.hub-ingest-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-height: 160px;
+  overflow: hidden;
+}
+
+.hub-ingest-feed-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.hub-ingest-feed-row.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.feed-emoji {
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.feed-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 160px;
+}
+
 .hub-ingest-quality-badge {
   font-family: var(--font-mono);
   font-size: 9px;
