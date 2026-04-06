@@ -12713,9 +12713,8 @@ body {
   display: flex;
   align-items: baseline;
   gap: 6px;
-  opacity: 0;
   transform: translateY(-6px);
-  transition: opacity 0.25s ease, transform 0.25s ease, max-height 0.35s ease;
+  transition: transform 0.25s ease, max-height 0.35s ease;
   font-family: var(--font-mono);
   font-size: 10px;
   line-height: 1.4;
@@ -12724,20 +12723,17 @@ body {
 }
 
 .hub-ingest-feed-row.is-visible {
-  opacity: 1;
   transform: translateY(0);
 }
 
 .hub-ingest-feed-row.is-consumed {
-  opacity: 0;
   transform: translateY(10px);
   max-height: 0;
   margin: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease, max-height 0.35s ease 0.05s;
+  transition: transform 0.3s ease, max-height 0.35s ease 0.05s;
 }
 
 .hub-ingest-feed-row.is-match {
-  opacity: 1;
   transform: translateY(0);
 }
 
