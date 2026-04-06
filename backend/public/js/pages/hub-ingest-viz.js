@@ -189,7 +189,7 @@
     const tr  = targetRow(col)
     if (tr < 0) return
     const a = ATOM[key]
-    falling.push({ key, emoji: a.emoji, color: a.color, col, y: -CELL, targetY: tr * CELL })
+    falling.push({ key, emoji: a.emoji, color: a.color, label: a.label, col, y: -CELL, targetY: tr * CELL })
   }
 
   function tickFalling() {
@@ -198,7 +198,7 @@
       if (a.y >= a.targetY) {
         const row = Math.round(a.targetY / CELL)
         if (row >= 0 && row < ROWS && a.col >= 0 && a.col < COLS && !grid[row][a.col]) {
-          grid[row][a.col] = { key: a.key, emoji: a.emoji, color: a.color, opacity: 1, glowing: false, clearing: false }
+          grid[row][a.col] = { key: a.key, emoji: a.emoji, color: a.color, label: a.label, opacity: 1, glowing: false, clearing: false }
         }
         return false
       }
@@ -270,7 +270,12 @@
     ctx.textAlign    = 'center'
     ctx.textBaseline = 'middle'
     ctx.fillStyle    = atom.glowing ? '#ffffff' : '#bbbbbb'
-    ctx.fillText(atom.emoji, cx + CELL / 2, cy + CELL / 2 + 1)
+    ctx.fillText(atom.emoji, cx + CELL / 2, cy + CELL / 2 - 3)
+    if (!atom.glowing && atom.label) {
+      ctx.font      = `bold ${Math.round(CELL * .22)}px monospace`
+      ctx.fillStyle = atom.color + 'cc'
+      ctx.fillText(atom.label, cx + CELL / 2, cy + CELL - 5)
+    }
     ctx.globalAlpha = 1
   }
 
@@ -291,7 +296,7 @@
     }
 
     for (const a of falling)
-      drawAtom(a.col * CELL, a.y, { emoji: a.emoji, color: a.color, glowing: false }, 0.8)
+      drawAtom(a.col * CELL, a.y, { emoji: a.emoji, color: a.color, label: a.label, glowing: false }, 0.8)
 
     if (phase === 'spawning') {
       spawnAtom(now)
