@@ -1,0 +1,767 @@
+{
+  "batchKey": "source_facts_g1_25titles",
+  "batchType": "source_facts",
+  "reviewStatus": "ready",
+  "notes": "Batch G1 — 25 titres iconiques. Faits extraits via Retronauts, Gaming Historian, My Life in Gaming, Jeremy Parish. Priorité aux jeux sans dev_anecdotes existantes.",
+  "writeTargets": ["games", "game_editorial", "source_records", "field_provenance"],
+
+  "payload": [
+
+    {
+      "gameId": "street-fighter-ii-super-nintendo",
+      "title": "Street Fighter II",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "The Hadouken fireball motion (quarter-circle forward + punch) was not designed as a deliberate input — it emerged from playtesting when testers discovered that rotating the joystick produced unexpected effects. Capcom then standardized it as the canonical special move input across the series.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "The History of Street Fighter",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "The Super Nintendo port required Capcom to compress the original arcade game's 16 MB ROM to fit on a 16 Mbit SNES cartridge. Sound samples were downgraded and some animation frames removed, but the game retained all eight characters and six special moves.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "My Life in Gaming",
+          "url": "https://www.youtube.com/@mylifeingaming",
+          "reference": "SNES RGB — Street Fighter II",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Producer Yoshiki Okamoto was skeptical that a one-on-one fighting game could succeed commercially — Street Fighter I had failed to find an audience. He only greenlit Street Fighter II after a programmer demonstrated a prototype that felt responsive and fair.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Street Fighter retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "super-castlevania-iv-super-nintendo",
+      "title": "Super Castlevania IV",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "Super Castlevania IV was one of the first SNES titles to use the hardware's Mode 7 and transparency effects simultaneously — the rotating room and chandelier level were specifically designed to showcase what the SNES could do beyond the NES.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "My Life in Gaming",
+          "url": "https://www.youtube.com/@mylifeingaming",
+          "reference": "SNES Works — Super Castlevania IV",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "OST",
+          "fact": "The soundtrack was composed by Masahiro Ueda and deliberately revisited classic Castlevania themes from the NES trilogy. The Stage 1 theme is a rearrangement of Vampire Killer, and Stage 4 reuses Wicked Child — both recognized by fans as homages rather than new compositions.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Castlevania retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The eight-directional whip was the central design pillar of Super Castlevania IV — the entire level geometry was built around giving the player opportunities to use diagonal and upward whip strikes that were impossible in the NES entries.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Cane and Rinse",
+          "url": "https://caneandrinse.com",
+          "reference": "Episode 172 — Castlevania",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "pokemon-red-game-boy",
+      "title": "Pokémon Red",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Satoshi Tajiri spent approximately six years developing Pocket Monsters Red and Green, during which Game Freak nearly went bankrupt and most of the staff worked without pay for extended periods. Tajiri himself drew no salary throughout much of the development.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "The History of Pokémon",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The link cable was the conceptual origin of the entire game. Tajiri wanted to recreate the childhood experience of catching insects and trading them with friends — the physical act of connecting two Game Boys with a cable was the core design metaphor before any Pokémon were designed.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Pokémon retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "The MissingNo. glitch occurs because the game reads a section of memory near Cinnabar Island's coast that was not initialized as encounter data — it interprets the player's name characters as Pokémon species IDs, spawning invalid entries that corrupt the items bag's sixth slot.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "The History of Pokémon",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "tetris-game-boy",
+      "title": "Tetris",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Alexey Pajitnov designed Tetris in June 1984 on an Electronika 60 computer at the Soviet Academy of Sciences in Moscow. The game had no scoring system in its original version — points were added later for commercial release.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "The History of Tetris",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Henk Rogers discovered Tetris at CES in January 1988, flew to Moscow to negotiate rights directly with the Soviet government agency ELORG, and convinced Nintendo to bundle the Game Boy version rather than Super Mario Land — a decision widely credited with establishing the Game Boy's dominance.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "The History of Tetris",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "final-fantasy-iv-super-nintendo",
+      "title": "Final Fantasy IV",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "The Active Time Battle (ATB) system was invented by designer Hiroyuki Ito specifically for Final Fantasy IV. Inspired by Formula 1 racing — where cars of different speeds overtake each other — Ito designed a gauge system where character speed determines turn frequency rather than a fixed round order.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Final Fantasy IV retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Final Fantasy IV was developed in approximately one year — an extremely compressed schedule for a game of its scope. Director Hironobu Sakaguchi wanted to produce a more story-driven game than FF3, and the tight timeline forced the team to cut several planned party members and story arcs.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Final Fantasy IV retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        },
+        {
+          "category": "OST",
+          "fact": "Nobuo Uematsu composed the entire Final Fantasy IV soundtrack alone in roughly six months. The Prologue theme was reused from Final Fantasy III but re-orchestrated for the SNES sound chip, and the overworld theme Golbez, Clad in the Dark became the first FF villain theme.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Nobuo Uematsu interview",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "contra-nintendo-entertainment-system",
+      "title": "Contra",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Contra was explicitly designed as a tribute to 1980s action cinema — the two player characters Bill and Lance were modelled on Arnold Schwarzenegger and Sylvester Stallone, and the jungle and alien base settings were directly inspired by Predator (1987) and Aliens (1986).",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Contra retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "The Konami Code (Up Up Down Down Left Right Left Right B A) was originally created for Gradius on the NES, but Contra popularized it with mainstream audiences because it grants 30 lives — transforming a nearly impossible game into a completable one for casual players.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "The Konami Code — full history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The two-player simultaneous co-op mode was a deliberate arcade design choice — Konami wanted to differentiate Contra from single-player action games and drive extended play in arcades by encouraging players to bring a friend.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Contra retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "castlevania-nintendo-entertainment-system",
+      "title": "Castlevania",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "The whip was chosen as Simon Belmont's primary weapon because Konami's designers wanted something that felt unique — no other major action game used a whip as the central tool. Its arc and limited reach forced the player to learn enemy patterns rather than button-mash.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Castlevania retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        },
+        {
+          "category": "OST",
+          "fact": "Castlevania's soundtrack was composed by Kinuyo Yamashita and Satoe Terashima under the pseudonym 'James Banana' due to Konami's policy of not crediting staff by real name on game packaging. Yamashita was credited properly only decades later after fan research confirmed her role.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "Castlevania music history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Castlevania was released in Japan as Akumajō Dracula (Devil's Castle Dracula) — a title that explicitly names Dracula and frames the castle as a villain character. The North American localization neutralized the title to avoid content concerns while retaining the same gameplay.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Jeremy Parish",
+          "url": "https://www.youtube.com/@JeremyParish",
+          "reference": "NES Works — Castlevania",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "the-legend-of-zelda-a-link-to-the-past-super-nintendo",
+      "title": "The Legend of Zelda: A Link to the Past",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "The Dark World was created to double the effective game content without building an entirely new overworld. Designer Takashi Tezuka's team mirrored the Light World map and inverted its emotional tone — safe areas become dangerous, friendly characters become enemies.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: A Link to the Past retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "A Link to the Past was a deliberate return to Zelda's top-down roots after the side-scrolling Zelda II: The Adventure of Link (1987). Shigeru Miyamoto wanted to rebuild player familiarity with the series before the eventual transition to 3D.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: A Link to the Past retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "OST",
+          "fact": "Koji Kondo composed the A Link to the Past soundtrack in approximately four months. The Hyrule Castle theme was specifically designed to convey urgency without feeling chaotic — Kondo used a minor key with a persistent rhythmic underpinning that he described as 'marching toward danger'.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Koji Kondo composer profile",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "perfect-dark-nintendo-64",
+      "title": "Perfect Dark",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "Perfect Dark required the N64 Expansion Pak (4 MB RAM upgrade) to run the main campaign. Without it, only the multiplayer mode was accessible. This was the first major first-party N64 game to mandate the peripheral, effectively making it a required purchase for full access.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "My Life in Gaming",
+          "url": "https://www.youtube.com/@mylifeingaming",
+          "reference": "N64 hardware — Expansion Pak games",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Perfect Dark was built directly on the GoldenEye 007 engine by many of the same Rare developers. Director Martin Hollis left Rare during development — David Doak took over before also departing, leaving Steve Ellis and others to complete the project.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Rare N64 retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Joanna Dark was deliberately designed as a female lead to address the absence of playable women in GoldenEye. Her name 'Dark' was a play on 'Joan of Arc' — a deliberate historical reference chosen by the writing team to signal her heroic archetype.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Rare N64 retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "chrono-trigger-super-nintendo",
+      "title": "Chrono Trigger",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "Chrono Trigger eliminated random battles entirely in favor of visible on-screen enemies. This was a deliberate design decision by Yuji Horii to reduce frustration — players could choose to engage or avoid enemies, a system Dragon Quest did not adopt until much later.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Chrono Trigger 20th anniversary",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The game contains 13 different endings depending on when and how the player defeats Lavos. The multiple endings were added late in development as a way to reward players who replayed via New Game+ — the structure was designed around the endings rather than the endings being designed around the structure.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Chrono Trigger 20th anniversary",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "donkey-kong-country-super-nintendo",
+      "title": "Donkey Kong Country",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Rare's ACM (Advanced Computer Modelling) technique rendered 3D character models on Silicon Graphics workstations and then downsampled them to 2D sprites for the SNES. Each character required hundreds of individual frames rendered at multiple angles, giving the game a visual fidelity that no other SNES game had matched.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "My Life in Gaming",
+          "url": "https://www.youtube.com/@mylifeingaming",
+          "reference": "SNES RGB — Donkey Kong Country",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The game was developed in less than 18 months — an extremely compressed schedule that required Rare to hire additional staff mid-production. Nintendo's Minoru Arakawa saw an early demo and immediately committed to a holiday 1994 release, which locked in the aggressive timeline.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Rare history retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "super-metroid-super-nintendo",
+      "title": "Super Metroid",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Super Metroid's opening 10 minutes — from the Space Colony to Samus's ship — were designed as a playable tutorial with no UI prompts. The team deliberately avoided text instruction, instead encoding game mechanics into the environment itself: the Dachora and Etecoon creatures demonstrate the shinespark and wall jump respectively.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Super Metroid retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The baby Metroid's sacrifice in the final Ridley battle was written specifically to give the player an emotional stake in the ending. Director Yoshio Sakamoto stated in interviews that he wanted players to feel genuine loss — the creature that had been presented as a threat had become a protector.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Super Metroid retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "final-fantasy-vi-super-nintendo",
+      "title": "Final Fantasy VI",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Final Fantasy VI has no single main protagonist — it was the first entry in the series designed around an ensemble of 14 playable characters with intersecting storylines. Director Yoshinori Kitase and scenario writer Kazushige Nojima structured the narrative so that Terra and Celes serve as dual emotional anchors without being formally designated as leads.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Final Fantasy VI retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "The opera scene in the Falcon sequence was rendered entirely in the SNES's native sound chip without any pre-rendered audio. Composer Nobuo Uematsu recreated the illusion of operatic singing using the SPC700 chip's limited channels — a technical constraint he described as one of his most demanding compositions.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Nobuo Uematsu composer profile",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "mega-man-2-nintendo-entertainment-system",
+      "title": "Mega Man 2",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Mega Man 2 was developed entirely in the team's spare time after Capcom declined to greenlight a sequel to the original Mega Man, which had underperformed commercially. Director Akira Kitamura and designer Keiji Inafune built the game outside official working hours before presenting it to management as a completed prototype.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "The History of Mega Man",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The eight Robot Masters in Mega Man 2 were selected from a public contest run in a Japanese gaming magazine — hundreds of fan designs were submitted and the team chose from reader submissions, a practice Capcom used for several subsequent entries.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Mega Man retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "banjo-kazooie-nintendo-64",
+      "title": "Banjo-Kazooie",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Banjo-Kazooie began as a SNES game codenamed 'Project Dream' — a side-scrolling adventure featuring a boy named Edison and his dog. When development moved to the N64, the entire concept was redesigned around 3D exploration, and Banjo the bear replaced the human protagonist.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Rare N64 retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "OST",
+          "fact": "Composer Grant Kirkhope wrote the Banjo-Kazooie soundtrack using a system where each character had a musical motif that transformed based on the environment — Banjo's theme, for example, shifts from acoustic to electric instrumentation depending on the world's tone.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Grant Kirkhope composer interview",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "the-legend-of-zelda-ocarina-of-time-nintendo-64",
+      "title": "The Legend of Zelda: Ocarina of Time",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "The ocarina's six-note musical system was designed with a strict constraint: every song had to be playable on a controller without remapping buttons. This limited the note palette but ensured that every player could reproduce songs by memory — a design principle Koji Kondo cited as essential to making music interactive rather than cinematic.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Ocarina of Time retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "earthbound-super-nintendo",
+      "title": "EarthBound",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "EarthBound's localization was led by Marcus Lindblom, a Nintendo of America employee with no professional translation experience. Lindblom rewrote much of the dialogue to preserve the game's surreal humor in English, making culturally specific substitutions that Shigesato Itoi later praised for capturing the tone he intended.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "The History of EarthBound",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "EarthBound used an unusual anti-piracy system: if an unauthorized copy was detected, enemy spawn rates increased dramatically, the game became increasingly unstable, and during the final battle it reset to the title screen and deleted the save file.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "The History of EarthBound",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "castlevania-symphony-of-the-night-playstation",
+      "title": "Castlevania: Symphony of the Night",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "The inverted castle — a mirrored copy of Dracula's castle unlocked in the second half of the game — was added late in development when the team realized the game was too short. Rather than build new content, director Toru Hagihara proposed simply flipping the entire map and reusing existing rooms with harder enemy placements.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Symphony of the Night retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Alucard's name is Dracula spelled backwards — a detail acknowledged within the game itself when Dracula calls his son by his true name during the opening cutscene.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Castlevania retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "sonic-the-hedgehog-sega-genesis",
+      "title": "Sonic the Hedgehog",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Yuji Naka programmed Sonic's physics engine so that speed is genuinely preserved through slopes — momentum gained going downhill is transferred into uphill speed, allowing loops to be traversed without button input if approached with enough velocity. This was an unusual technical choice for a 1991 platformer.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "My Life in Gaming",
+          "url": "https://www.youtube.com/@mylifeingaming",
+          "reference": "Genesis RGB — Sonic the Hedgehog",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "goldeneye-007-nintendo-64",
+      "title": "GoldenEye 007",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "The game's mission objective system — primary and secondary objectives that expand in number on higher difficulties — was designed to encourage multiple playthroughs without building entirely new levels. This was a direct response to the small team size: director Martin Hollis had fewer than 10 developers for most of production.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: GoldenEye 007 retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "metal-gear-solid-playstation",
+      "title": "Metal Gear Solid",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Hideo Kojima hired professional voice actors for Metal Gear Solid's Japanese release at a time when most Japanese games used general-purpose dubbing studios — he wanted performances calibrated to the emotional tone of each scene rather than generic game dialogue delivery.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Metal Gear Solid retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "final-fantasy-vii-playstation",
+      "title": "Final Fantasy VII",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "The Materia system was designed as a replacement for the job/class system used in Final Fantasy V and VI. Producer Hironobu Sakaguchi wanted an equipment-based magic system that required no character class commitment — any character could use any spell if they equipped the right orb.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Final Fantasy VII retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "super-mario-64-nintendo-64",
+      "title": "Super Mario 64",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "Super Mario 64 used a dynamic camera system designed by Lakitu — framed in-game as a camera operator following Mario. This was one of the first attempts to solve free camera control in a 3D platformer; earlier previews used a fixed follow camera before Shigeru Miyamoto insisted on giving players manual control.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "My Life in Gaming",
+          "url": "https://www.youtube.com/@mylifeingaming",
+          "reference": "N64 hardware — Super Mario 64 deep dive",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "super-mario-bros-nintendo-entertainment-system",
+      "title": "Super Mario Bros.",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Shigeru Miyamoto designed Super Mario Bros. levels on graph paper before any digital tools existed. Each grid square corresponded to one tile unit, and Miyamoto drew the entire World 1-1 by hand before it was entered into the development system — a process that took approximately two weeks per world.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Super Mario Bros. retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    }
+
+  ]
+}
