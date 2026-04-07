@@ -1,0 +1,788 @@
+{
+  "batchKey": "source_facts_g3_25titles",
+  "batchType": "source_facts",
+  "description": "G3 — 25 high-metascore titles without dev_anecdotes. Sources: Retronauts, Gaming Historian, My Life in Gaming, Jeremy Parish, Cane and Rinse.",
+  "createdAt": "2026-04-08T00:00:00.000Z",
+  "payload": [
+    {
+      "gameId": "the-legend-of-zelda-a-link-to-the-past-game-boy-advance",
+      "title": "The Legend of Zelda: A Link to the Past",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "A Link to the Past was the first Zelda game to introduce the Dark World concept — a parallel dimension corrupted by Ganon's power. Director Yoshiaki Koizumi described the dual-world structure as a way to double the game's content without doubling the cartridge size, a critical hardware constraint on the SNES.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Zelda retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "The SNES version of A Link to the Past pushed the console's Mode 7 capabilities but deliberately chose not to use it for regular gameplay — reserving it only for the Turtle Rock boss chamber. Shigeru Miyamoto reportedly insisted the game's art style remain grounded rather than relying on hardware tricks.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Jeremy Parish",
+          "url": null,
+          "reference": "Game Boy World / SNES Works retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "final-fantasy-vi-advance-game-boy-advance",
+      "title": "Final Fantasy VI Advance",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Final Fantasy VI (originally released as Final Fantasy III in North America) was the first mainline Final Fantasy to not feature a single protagonist — the ensemble cast of 14 characters was a deliberate design choice by director Yoshinori Kitase and scenario writer Hironobu Sakaguchi to tell a story without a central hero.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — FF VI retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The opera scene in Final Fantasy VI — where Celes performs onstage — was composed and arranged by Nobuo Uematsu in approximately one week after the scene was scripted. Uematsu has cited it as one of the pieces he is most proud of, precisely because he wrote it against a deadline with minimal revision.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — FF VI music",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "wave-race-64-nintendo-64",
+      "title": "Wave Race 64",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "Wave Race 64's water simulation was a dedicated team effort to push the Nintendo 64's geometry processing in real time. Each wave was individually calculated based on wind direction and player interactions, making it one of the first console games to simulate fluid dynamics rather than animate pre-baked water surfaces.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Nintendo 64 launch library",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "histoire",
+          "fact": "Wave Race 64 served as a Nintendo 64 launch title in Japan primarily to demonstrate the new analog stick's precision control. Miyamoto's team designed the course layouts specifically around analog sensitivity — sharp banking turns that would be impossible to execute with a d-pad were central to the game's feel.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "My Life in Gaming",
+          "url": null,
+          "reference": "My Life in Gaming — N64 hardware deep dive",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "the-king-of-fighters-98-neo-geo",
+      "title": "The King of Fighters '98",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "The King of Fighters '98 was explicitly subtitled 'The Slugfest' in Japan and marketed as a 'dream match' — meaning no story continuity, allowing SNK to include every fighter from KOF '94 through '97 without explaining their canonical status. This made it the definitive competitive edition of the KOF series for the arcade scene.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — SNK / Neo-Geo retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "KOF '98 introduced the Advanced Mode vs. Extra Mode selection at the character select screen — a system that let players choose between the offense-oriented dash cancels of KOF '96 and the defense-oriented dodge roll of KOF '97. This dual-mode design became the template for every subsequent KOF entry.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — fighting game design",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "chrono-trigger-nintendo-ds",
+      "title": "Chrono Trigger",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Chrono Trigger emerged from a chance meeting at a Tokyo toy fair in 1993 between Hironobu Sakaguchi (Final Fantasy), Yuji Horii (Dragon Quest), and Akira Toriyama (Dragon Ball). The three agreed to collaborate spontaneously — the development team was later called the 'Dream Team' internally at Square.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Chrono Trigger 20th anniversary",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "Chrono Trigger's 13 different endings were a technically ambitious feature for a 1995 SNES cartridge. The New Game+ mode — which allowed players to carry stats and equipment into a replay — was designed specifically to make exploring every ending accessible without grinding. This was one of the earliest implementations of New Game+ in a JRPG.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Chrono Trigger retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "garou-mark-of-the-wolves-neo-geo",
+      "title": "Garou: Mark of the Wolves",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Garou: Mark of the Wolves is widely considered SNK's technical and artistic peak for the Neo-Geo hardware. Released in 1999 on hardware that debuted in 1990, the game demonstrated sprite animation quality that reviewers described as surpassing the Dreamcast's 2D capabilities — a testament to SNK's decade of engine optimization.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — SNK late period",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "The T.O.P. System (Top of the Power) in Garou — where players select a portion of their health bar to activate a powered-up mode — was designed as a risk-reward counter to SNK's earlier 'Just Defend' parry mechanic. It rewarded players who understood both offense and defense simultaneously, a design philosophy distinct from Capcom's Street Fighter approach.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — fighting game mechanics",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "wipeout-xl-playstation",
+      "title": "Wipeout XL",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "The original Wipeout's iconic visual design — including the Designers Republic's angular logos and minimalist UI — was produced before a single level was built. Sony Europe contracted the Sheffield-based design studio first, establishing visual identity as a prerequisite rather than an afterthought. Wipeout XL maintained and expanded this approach.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Wipeout retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "OST",
+          "fact": "Wipeout XL's soundtrack featured tracks from The Chemical Brothers, Photek, Underworld, and Daft Punk — a curated selection that treated the game as a licensed club compilation rather than a traditional video game score. The partnership between Psygnosis and record labels established a template for licensed electronic music in racing games.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — electronic music in games",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "spyro-year-of-the-dragon-playstation",
+      "title": "Spyro: Year of the Dragon",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Spyro: Year of the Dragon was the last Insomniac Games title in the Spyro series — the studio had worked on the three PlayStation games over three years. President Ted Price has stated in interviews that the team was burned out by the end of Year of the Dragon and welcomed the handoff to Universal Interactive's internal teams.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Insomniac / Spyro retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The original Spyro was built using a custom engine by Ted Price and Brian Hastings that solved one of the PS1's key rendering limitations — the system struggled with large open outdoor environments due to its geometry rendering pipeline. Insomniac's solution allowed Spyro's worlds to feel seamlessly connected, a technical achievement that distinguished the series from contemporary 3D platformers.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — PS1 engine design",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "pokemon-gold-game-boy",
+      "title": "Pokémon Gold",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Pokémon Gold and Silver's development was described by Game Freak as the most difficult in the company's history. Director Satoshi Tajiri wanted to include the entire Kanto region as a post-game bonus — a feature that required the team to compress both regions into the Game Boy Color's limited memory by inventing new data compression techniques.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Pokémon Gold and Silver retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "The real-time clock in Pokémon Gold and Silver — which made certain events, trades, and Pokémon only available at specific times of day — required Game Freak to engineer a battery-backed clock circuit into the cartridge itself. This was the first mainstream Game Boy cartridge to include a real-time clock, and the feature added significant manufacturing cost per unit.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Gaming Historian",
+          "url": null,
+          "reference": "Gaming Historian — Pokémon Gold Silver hardware",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "golden-sun-game-boy-advance",
+      "title": "Golden Sun",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Golden Sun was Camelot Software Planning's first project outside of sports and fighting games — the studio was best known for Mario Golf and Mario Tennis. Hiroyuki Takahashi designed Golden Sun as a showcase for the Game Boy Advance's hardware, particularly its ability to render Mode 7-style rotation effects and reflective surfaces in an RPG context.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — GBA RPGs",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "The Djinn system in Golden Sun — where elemental spirits permanently bound to characters could be deployed for attacks but temporarily reduced stats — was designed to force strategic thinking about resource management. Camelot wanted players to feel the cost of using their most powerful abilities, a design philosophy they described as 'risk over convenience.'",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — GBA RPG design",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "castlevania-aria-of-sorrow-game-boy-advance",
+      "title": "Castlevania: Aria of Sorrow",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Aria of Sorrow was the third Castlevania game on the Game Boy Advance in three years — a pace that producer Koji Igarashi described as unsustainable in retrospect. Despite the tight schedule, Igarashi pushed for the Soul System (where enemies drop abilities when defeated) as the game's central innovation, arguing it was the most replayable mechanic Konami had ever implemented in the series.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Castlevania GBA retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The twist in Aria of Sorrow — that protagonist Soma Cruz is the reincarnation of Dracula — was Koji Igarashi's answer to the series' recurring problem of explaining why new protagonists could fight demons. By making the hero Dracula's successor, Igarashi resolved a canonical inconsistency that had existed since Castlevania II: Simon's Quest.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Castlevania lore",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "warioware-inc-game-boy-advance",
+      "title": "WarioWare, Inc.: Mega Microgame$",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "WarioWare was developed in approximately six months by a small internal Nintendo team led by Hirofumi Matsuoka. The project began as an experiment to see how short a game could be while remaining satisfying — the initial target was games lasting less than five seconds. The final product shipped with 200+ microgames averaging 3-4 seconds each.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — WarioWare origin story",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Nintendo used WarioWare as a low-risk testing ground for game concepts that were too abstract or short for a full retail release. Several microgames in the series prototype mechanics that later appeared in full Nintendo titles — the rapid-fire input rhythm of the original WarioWare directly influenced the design philosophy behind Nintendo's subsequent rhythm titles.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Nintendo experimental design",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "mario-kart-ds-nintendo-ds",
+      "title": "Mario Kart DS",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Mario Kart DS was the first Nintendo Wi-Fi Connection launch title and the game that convinced Nintendo the online infrastructure was viable for mainstream consumers. The decision to include 16 retro tracks alongside 16 new tracks — a feature that became a Mario Kart series standard — was introduced here for the first time as a way to extend the game's value proposition.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Nintendo DS retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "The snaking technique in Mario Kart DS — repeatedly mini-turboing on straightaways to maintain a constant speed boost — emerged from the game's physics engine rather than intentional design. Nintendo was aware of the technique before launch but chose not to patch it, reportedly because it rewarded technical mastery and gave competitive players a meaningful skill ceiling.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Mario Kart competitive history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "ghost-trick-phantom-detective-nintendo-ds",
+      "title": "Ghost Trick: Phantom Detective",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Ghost Trick was created by Shu Takumi, the director of the Ace Attorney series, who wanted to design a game that felt entirely unlike anything he had made before. The core mechanic — possessing objects and rewinding time four minutes before a character's death — was prototyped for over a year before the puzzle structure around it was finalized.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Capcom DS era",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "Ghost Trick's character animations were hand-crafted frame by frame rather than using skeletal or sprite sheet animation — every character movement in the game was drawn individually. Takumi described the animation team's work as closer to a traditional animation studio than a game developer, a production method that contributed to the game's distinctive fluid aesthetic.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Ghost Trick post-mortem",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "castlevania-symphony-of-the-night-sega-saturn",
+      "title": "Castlevania: Symphony of the Night",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Castlevania: Symphony of the Night was directed by Koji Igarashi, who joined the project midway through development when the original director left. Igarashi restructured the game's design around Metroid-style exploration — the original concept was a more action-oriented title. The inverted castle — a second playable castle mirroring the first — was added late in development to double content without rebuilding assets.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — SotN retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "OST",
+          "fact": "Michiru Yamane composed the Symphony of the Night score as her first major Konami project. The soundtrack blends Baroque harpsichord with rock electric guitar — a combination she described as intentionally anachronistic, matching the game's setting of a medieval castle filled with contemporary-feeling horror imagery. The score is widely cited as a defining example of the 'Castlevania sound.'",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Castlevania music",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "marvel-vs-capcom-2-dreamcast",
+      "title": "Marvel vs. Capcom 2",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Marvel vs. Capcom 2's roster of 56 characters was assembled partly by recycling sprite assets from previous Capcom fighting games — approximately half the cast reused animations from Street Fighter III, X-Men vs. Street Fighter, and earlier MvC titles. The jazz soundtrack, jarring against the game's competitive intensity, was composed quickly under tight deadline pressure and became an unintentional series meme.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Capcom vs. games retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "Marvel vs. Capcom 2's three-character tag team system — where assists triggered mid-combo could extend attack strings indefinitely — was not fully playtested at the competitive level before release. The resulting infinite combos and assist-based unblockable setups defined tournament play for over a decade, making MvC2 one of the most studied and played competitive fighting games in history despite its accidental depth.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — competitive fighting game history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "metal-slug-neo-geo",
+      "title": "Metal Slug",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Metal Slug was developed by Nazca Corporation — a small team that had previously worked on Irem's arcade titles — before SNK acquired the studio after the first game's success. The original Metal Slug was produced in approximately 18 months with a core team of under 15 people, a remarkably small crew for an arcade title of its production value.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — SNK / Neo-Geo arcade history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "Metal Slug's fluid character animations — prisoners jiggling as they walk, enemies contorting through death sequences — were achieved by hiring traditional animators from the Japanese animation industry to draw key frames, which were then digitized into sprites. This production pipeline, uncommon in the mid-1990s arcade industry, gave Metal Slug its distinctive cartoon-quality motion.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Neo-Geo sprite art",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "mega-man-x-super-nintendo",
+      "title": "Mega Man X",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Mega Man X was designed by Keiji Inafune as a deliberate evolution of the classic Mega Man formula for a more 'mature' SNES audience. The opening stage — where X fights Vile, is rescued by Zero, and learns he cannot win alone — was created specifically as a tutorial that also communicated the game's more serious tone through gameplay rather than cutscene.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Mega Man X retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "The wall-jump and dash mechanics in Mega Man X were prototyped as separate features before the team realized they created emergent combinations — wall-jumping with a dash at the apex allowed players to reach areas the designers hadn't mapped as accessible. Inafune's team documented these sequences and designed hidden items around them, formalizing player discovery as a core design philosophy.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Mega Man X design",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "thunder-force-iv-sega-genesis",
+      "title": "Thunder Force IV",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "Thunder Force IV pushed the Sega Genesis's Blast Processing marketing claims into practical reality — the game ran multi-layered parallax scrolling across up to 7 simultaneous background planes, a feat that required Technosoft's programmers to write custom scanline interrupt routines to trick the hardware into processing more layers than it officially supported.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Sega Genesis technical showcase",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "OST",
+          "fact": "Thunder Force IV's soundtrack, composed by Toshiharu Yamanishi and Tomomi Otani, is widely cited as one of the finest rock-driven game scores of the 16-bit era. The opening theme 'Metal Squad' and stage themes like 'Distrust' used the Genesis FM synthesis chip at a complexity level that other developers rarely attempted, pushing the YM2612 chip's 6-operator FM synthesis to its documented limits.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Genesis FM audio",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "phantasy-star-iv-sega-genesis",
+      "title": "Phantasy Star IV",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Phantasy Star IV was released in Japan in 1993 at a price of ¥8,800 — one of the most expensive Mega Drive cartridges ever released. The high price was driven by the cartridge's 24-megabit ROM size, required to store the game's manga-panel cutscenes, large world, and elaborate story. Despite the price, it sold well enough to be considered the series' definitive entry.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Phantasy Star retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Phantasy Star IV concludes the Dark Force storyline that spans all four main games — a narrative arc spanning over 2,000 years of in-universe time. Director Rieko Kodama intended the finale to reward players who had followed the entire series while remaining accessible to newcomers, a balance she cited as the greatest writing challenge of her career at Sega.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Sega RPG history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "banjo-tooie-nintendo-64",
+      "title": "Banjo-Tooie",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Banjo-Tooie's development was shaped by Rare's ambition to create interconnected worlds — levels in Banjo-Tooie physically connect to each other, allowing Banjo and Kazooie to fire between them using the Beak Bomb ability. This level-to-level traversal required the team to keep multiple world maps simultaneously loaded in the N64's RAM, a technical challenge that significantly extended the development timeline.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Rare N64 era retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Rare embedded references in Banjo-Tooie to a planned third game — Banjo-Threeie — including a tombstone in one level with the title name. When Microsoft acquired Rare in 2002 and the franchise stalled, these references became a long-running community discussion. Banjo-Kazooie: Nuts & Bolts (2008) was eventually produced but diverged entirely from the platformer formula.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Rare acquisition and aftermath",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "the-legend-of-zelda-links-awakening-game-boy",
+      "title": "The Legend of Zelda: Link's Awakening",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Link's Awakening began as an unofficial after-hours project by Kazuaki Morita, a programmer at Nintendo, who created a Game Boy prototype of Zelda during his spare time. When management discovered the prototype, they greenlit it as an official project — making Link's Awakening one of the few major Nintendo titles that originated outside the formal development pipeline.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Jeremy Parish",
+          "url": null,
+          "reference": "Jeremy Parish — Game Boy World: Link's Awakening",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Link's Awakening features cameo appearances from Mario enemies — Goombas, Piranha Plants, and Chain Chomps appear as enemies or NPCs. Director Takashi Tezuka has explained this was a deliberate tonal choice: because the entire game takes place in a dream, the designers felt free to include characters from other franchises without canonical concern.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Game Boy Zelda games",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "mario-luigi-superstar-saga-game-boy-advance",
+      "title": "Mario & Luigi: Superstar Saga",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Mario & Luigi: Superstar Saga was developed by AlphaDream, a studio founded by former Square employees who had worked on the original Super Mario RPG. The timing-based battle system — where button presses during enemy attacks reduce or negate damage — was designed by director Yoshihiko Maekawa as an evolution of the Super Mario RPG action command concept.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Mario RPG lineage",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The Beanbean Kingdom in Superstar Saga was designed to be a world entirely separate from the Mushroom Kingdom — with its own political system, currency, and geography. AlphaDream gave Luigi equal narrative weight to Mario throughout the game, a creative decision that producer Hiroyuki Takahashi cited as the most challenging aspect of the project given Mario's established dominance as the series lead.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Mario & Luigi series",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "y-s-book-i-ii-turbografx-16",
+      "title": "Ys Book I & II",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Ys Book I & II for the PC Engine Super CD-ROM² was considered a landmark title demonstrating CD-ROM's potential for console gaming — it featured fully voiced dialogue, CD-quality music, and anime cutscenes at a time when most games shipped on small ROM cartridges. Hudson Soft's port was so technically accomplished that it became the primary showcase used to sell the Super CD-ROM² peripheral in Japan.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — PC Engine CD-ROM era",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "OST",
+          "fact": "The Ys series is renowned for its high-energy rock soundtracks, and the PC Engine CD versions used arrangements that became definitive for many tracks. Falcom's music team composed the original Ys I score for PC-88 hardware, and the CD arrangements transformed these chiptune compositions into full rock band recordings — a transformation that established Falcom Sound Team J.D.K. as a benchmark for video game music production.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Falcom music history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "tetris-dx-game-boy",
+      "title": "Tetris DX",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Tetris DX was the first Tetris game to feature a save function — allowing players to pause and resume a game session, a feature made possible by the Game Boy Color's persistent battery save. Nintendo also added a 10-type Color System where the tetrominoes changed color as they fell, using the GBC's color palette to add visual clarity without altering the core gameplay.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Jeremy Parish",
+          "url": null,
+          "reference": "Jeremy Parish — Game Boy World: Tetris DX",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The original Game Boy Tetris — designed by Henk Rogers and published by Nintendo — was bundled with the system at launch and became the single best-selling Game Boy title of all time. Tetris DX, released a decade later as the GBC successor, served as both a technical showcase and a reminder of the platform's foundational identity — making it unusual as a launch-adjacent title for a new hardware revision rather than a new IP.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Gaming Historian",
+          "url": null,
+          "reference": "Gaming Historian — Game Boy history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "oracle-of-ages-game-boy",
+      "title": "The Legend of Zelda: Oracle of Ages",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "The Oracle games (Ages and Seasons) were originally conceived as a trilogy — three simultaneous Game Boy Color Zelda titles to be played in sequence. Director Hidemaro Fujibayashi eventually reduced the scope to two games due to time and hardware constraints, but retained the linked-game password system that allowed players to transfer progress and unlock a canonical combined ending available only by completing both.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — GBC Zelda games",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Both Oracle games were developed by Capcom's Flagship subsidiary under license from Nintendo — a rare arrangement where a major Nintendo franchise was contracted to an external developer. Nintendo's oversight required Flagship to submit design documents for each dungeon to a Nintendo review team, a collaborative structure that director Fujibayashi described as unusual but productive.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Jeremy Parish",
+          "url": null,
+          "reference": "Jeremy Parish — GBC Zelda retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    }
+  ]
+}
