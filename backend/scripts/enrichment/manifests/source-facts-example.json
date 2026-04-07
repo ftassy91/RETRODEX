@@ -1,0 +1,76 @@
+{
+  "batchKey": "source_facts_example_retronauts_ep42",
+  "batchType": "source_facts",
+  "reviewStatus": "ready",
+  "notes": "Example manifest — facts extracted from Retronauts episode 42 (Chrono Trigger retrospective)",
+  "writeTargets": ["games", "game_editorial", "source_records", "field_provenance"],
+
+  "payload": [
+    {
+      "gameId": "chrono-trigger-super-nintendo",
+      "title": "Chrono Trigger",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Yasunori Mitsuda composed the majority of the soundtrack but suffered a stomach ulcer from overwork, forcing Nobuo Uematsu to take over and complete roughly ten tracks.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com/article/42/retronauts-episode-42-chrono-trigger",
+          "reference": "Episode 42 — Chrono Trigger retrospective",
+          "timestamp": "37:29",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "The Active Time Battle system in Chrono Trigger was designed to allow up to three party members to use combination techniques called Dual and Triple Techs, requiring specific character pairings that the development team balanced manually.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com/article/42/retronauts-episode-42-chrono-trigger",
+          "reference": "Episode 42 — Chrono Trigger retrospective",
+          "timestamp": "51:12",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "super-mario-64-nintendo-64",
+      "title": "Super Mario 64",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "The analog stick on the Nintendo 64 controller was designed in direct response to Super Mario 64's movement system — the hardware and the game were developed in parallel to ensure the controls felt natural.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "My Life in Gaming",
+          "url": "https://www.youtube.com/watch?v=EXAMPLE",
+          "reference": "N64 hardware deep dive",
+          "timestamp": "12:10",
+          "confidence": "medium",
+          "status": "verify"
+        }
+      ]
+    },
+    {
+      "gameId": "castlevania-super-nintendo",
+      "title": "Super Castlevania IV",
+      "facts": [
+        {
+          "category": "gameplay",
+          "fact": "Widely considered the most accessible entry in the classic Castlevania series due to the eight-directional whip control, which allows players to hit enemies above, below, and diagonally.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "reddit",
+          "sourceName": "r/retrogaming",
+          "url": "https://www.reddit.com/r/retrogaming/comments/EXAMPLE",
+          "reference": "Thread: Best entry point for Castlevania newcomers",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "verify"
+        }
+      ]
+    }
+  ]
+}
