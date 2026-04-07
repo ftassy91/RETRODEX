@@ -1,145 +1,94 @@
-# RetroDex — Définition de la fiche complète (Phase 1)
+# Standard de complétude fiche canonique — Phase 1
 
-**Référence :** `origin/main` @ `b4f3a2e` (2026-04-06)
-**Date :** 2026-04-07
-**Avertissement :** cette définition est dérivée de l'état réel observé dans le repo.
-Elle n'est pas un idéal abstrait. Elle est conçue pour être mesurable et atteignable.
+**Référence :** `origin/main` @ 2026-04-07
+**Périmètre :** 1491 jeux actuels — objectif 4000 fiches canoniques
 
 ---
 
-## Principe de construction
+## Contexte
 
-La définition est fondée sur :
-1. ce que l'API expose réellement (`buildArchivePayload`, `toItemPayload`)
-2. ce que les scripts d'enrichissement peuvent raisonnablement remplir
-3. ce que le système de scoring premium existant (`scoring.js` / `rules.js`) évalue déjà
-
-Elle s'aligne avec le scoring existant, sans le redéfinir.
+RetroDex vise 4000 fiches canoniques complètes. Ce document définit le standard réaliste mesurable à partir des champs réellement présents dans le repo (base: origin/main @ 2026-04-07), pour 1491 jeux actuels.
 
 ---
 
 ## Standard minimum réaliste — Phase 1
 
-C'est la définition opérationnelle pour valider qu'une fiche peut compter dans le cap des 4000.
+Une fiche est considérée **canonique minimale** si elle satisfait tous les critères suivants.
 
-### Champs obligatoires (bloquants — gate)
+### Identité (obligatoire)
 
-Ces champs doivent être présents et non vides :
+- `title` présent
+- `console` présent
+- `year` présent
+- `slug` unique et valide
+- `cover_url` OU `coverImage` présent
 
-| Champ | Source | Table / chemin |
-|-------|--------|---------------|
-| `id` | catalogue initial | games |
-| `title` | catalogue initial | games |
-| `console` | catalogue initial | games |
-| `year` | catalogue initial | games |
-| `cover_url` ou `coverImage` non vide | IGDB / ScreenScraper | games ou media_references |
-| `summary` ou `synopsis` (≥70 caractères) | G2 batches | games ou game_editorial |
-| `developer` (string) ou au moins 1 entrée dans game_companies rôle developer | G3 batches | games + game_companies |
+### Signal éditorial (obligatoire)
 
-Ces 7 critères correspondent au **gate identity** du système de scoring existant (`evaluateIdentityBlock` dans `scoring.js`) étendu à `editorial_seed` et `studio_seed`.
+- `summary` (≥ 20 chars) OU `synopsis` (≥ 70 chars) — au moins l'un des deux
+- `lore` (≥ 50 chars) — contexte narratif minimum
 
-### Champs fortement recommandés (impact score fort)
+### Crédit studio (obligatoire)
 
-Ces champs ne bloquent pas le seuil mais font passer la fiche de `growing` à `solid` :
+- `developer` OU entrée `game_companies` avec rôle developer/publisher
 
-| Champ | Impact scoring | Source probable |
-|-------|---------------|-----------------|
-| `genre` | identité | IGDB, MobyGames |
-| `rarity` | identité | catalogue |
-| `synopsis` long (≥120 caractères) | editorial | G2 batches |
-| au moins 1 composer dans `game_people` ou `ost_composers` | music | G4 batches |
-| au moins 1 entrée `media_references` (manual, map, ou archive_item) | media | lots médias |
-| `price_history` : au moins 1 observation | marché | PriceCharting |
+### État actuel vs standard minimum
 
-### Champs bonus (enrichissement éditorial non bloquant)
+| Critère | Actuel | Commentaire |
+|---------|--------|-------------|
+| Identité complète | 98% (cover) | 24 jeux sans cover — JP-only obscurs |
+| Editorial seed | 100% | Complet |
+| Lore | 95% | 73 manquants = tous obscurs, 0 métascore |
+| Studio credit | ~99% | 5 vrais trous comblés, 123 via game_companies |
 
-| Champ | Valeur éditoriale |
-|-------|-------------------|
-| `lore` (≥80 caractères) | contexte narratif |
-| `characters` (≥1 entrée) | encyclopédie |
-| `dev_anecdotes` | profondeur |
-| `cheat_codes` | utilité pratique |
-| `versions` | archive régionale |
-| `avg_duration_main` (HLTB) | contexte lecture |
-| records/speedrun (≥1 entrée) | compétitif |
-| `game_achievement_profiles` | compétitif |
+**Fiches satisfaisant le standard minimum : ~1418 / 1491 (95%)**
 
 ---
 
-## Traduction en score existant
+## Critères de qualité recommandés (non bloquants)
 
-Le système `scoring.js` calcule déjà un `completenessScore` sur 5 blocs pondérés.
-
-Une fiche satisfaisant le **standard minimum réaliste** ci-dessus correspond à :
-- `isPublishable = true` (gate identity passé : tous les CORE_IDENTITY_KEYS présents)
-- `completenessScore ≥ 55` (tier bronze minimum)
-
-Une fiche **fortement recommandée** correspond à :
-- `completenessScore ≥ 60` (candidat top100)
-- `editorial.richEnough = true` (summary + au moins un autre champ éditorial)
-
-Ces seuils sont déjà codifiés dans `TIER_THRESHOLDS` de `rules.js`. Ils n'ont pas à être redéfinis.
+- `gameplay_description` (≥ 50 chars) — 95% couvert
+- `characters` — 79% couvert (genre-dépendant : racing/puzzle sans personnages OK)
+- `ost_composers` avec noms individuels — 84% couvert
+- `genre` — partiel
 
 ---
 
-## Ce que signifie "4000 fiches canoniques"
+## Standard cible étendu — Post-consolidation (objectif 4000 fiches)
 
-4000 fiches comptent dans l'objectif si :
-- `isPublishable = true`
-- `completenessScore ≥ 55`
+### Niveau Silver (fiche enrichie)
 
-L'objectif "4000 fiches solides" montée de gamme serait :
-- `completenessScore ≥ 70` (silver)
-- au moins cover + summary/synopsis + developer/company confirmé
+Tout le minimum +
 
----
+- `characters` avec au minimum 1-3 entrées structurées (nom + rôle)
+- `ost_composers` avec noms individuels (pas noms de compagnies)
+- `ost_notable_tracks` avec 3-5 pistes
+- `game_people` : au moins 1 entrée director ou producer
+- `dev_team` JSON avec noms individuels (pas studio seul)
+- `tagline` (si applicable)
 
-## Standard cible étendu — Post-consolidation
+### Niveau Gold (fiche référence)
 
-Ce standard n'est pas requis pour le cap 4000 mais définit l'ambition documentaire à terme.
+Tout le Silver +
 
-### Identité complète
-- `consoleId` effectivement renseigné (après transition string→FK)
-- `developerId` + `publisherId` effectivement renseignés
-- `releaseDate` précise (et non juste `year`)
-- Releases régionales dans `releases`
+- `dev_anecdotes` (au moins 1 entrée)
+- `cheat_codes` (si applicable)
+- `avg_duration_main` (source HLTB)
+- `speedrun_wr` (si communauté active)
+- `youtube_id` (gameplay vidéo)
+- `versions` (variantes régionales documentées)
+- `price_history` active (≥ 3 observations)
 
-### Editorial riche
-- `summary` + `synopsis` (deux champs distincts non vides)
-- `lore` substantiel
-- `gameplay_description` substantiel
-- `characters` structurés (≥3 entrées)
-- `versions` documentées
-- `dev_anecdotes` (≥1 anecdote)
+### Réalisme des niveaux cibles
 
-### Crédits complets
-- Developer + publisher + au moins 2 rôles individuels (director, composer, designer)
-- Données dans `game_credits` (Phase 1 normalized) opérationnel
-
-### Musique tracée
-- `ost` + au moins 3 `ost_tracks` + 1 `ost_releases`
-- Compositeurs dans `game_people` (rôle composer)
-- Données dans `game_ost` + `game_ost_tracks` (Phase 1 normalized) opérationnel
-
-### Médias complets
-- Cover validée (`ui_allowed = true`)
-- Manual (archive.org)
-- Au moins 1 parmi : map, sprite_sheet, ending, archive_item
-- `youtube_id` vérifié
-
-### Marché tracé
-- `price_history` avec ≥5 observations
-- `price_summary` opérationnel (P25/P50/P75)
-- `price_status` renseigné
-
-### Compétitif (si pertinent)
-- `game_competitive_profiles.speedrun_relevant` = true + au moins 1 record entry
-- Ou `game_achievement_profiles` renseigné
+| Niveau | Fiches actuelles | Effort restant |
+|--------|-----------------|----------------|
+| Minimum (95%) | ~1418 / 1491 | Fermer 73 lore vides (obscurs) |
+| Silver | ~350 / 1491 | Enrichissement individuel par fiche |
+| Gold | ~50 / 1491 | Données externes (HLTB, speedrun.com, YouTube) |
 
 ---
 
-## Note sur la dualité de structure éditoriale
+## Note sur les genres sans personnages
 
-Pendant la phase 1, `game_editorial` est canonique si présent, `games.*` est fallback.
-Le standard minimum fonctionne dans les deux cas (les deux chemins sont couverts par `buildArchivePayload`).
-À terme, `game_editorial` devrait être la source unique pour les champs éditoriaux.
+Les jeux de type racing (Gran Turismo, Daytona USA), puzzle (Tetris, Columns), sport (Power Golf) n'ont pas de personnages narratifs. Le champ `characters` vide pour ces jeux n'est **pas un manque** — c'est le comportement correct. Le standard minimum ne doit pas l'exiger pour ces genres.

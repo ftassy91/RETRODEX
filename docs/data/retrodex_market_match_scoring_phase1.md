@@ -1,130 +1,83 @@
-# RetroDex — Score de match marché (Phase 1)
+# Scoring de match marché — Phase 1
 
-**Référence :** `origin/main` @ `b4f3a2e` (2026-04-06)
 **Date :** 2026-04-07
-**Périmètre :** score léger pour évaluer si une observation brute peut être rattachée à une fiche avec confiance.
-Pas de moteur de pricing. Pas d'ingestion multi-source.
 
 ---
 
-## Objectif du score de match marché
+## Contexte
 
-Répondre à la question :
-
-> "Cette observation de prix brute (PriceCharting, future eBay) peut-elle être
-> rattachée proprement à cette fiche / cette variante de cette fiche ?"
-
-Le score de match n'est pas un prix. C'est une **confiance de rattachement**.
+Ce document définit un scoring de match marché léger, fondé exclusivement sur les champs marché réels présents dans le schéma. Objectif: identifier rapidement si une fiche est "viable marché" pour RetroMarket.
 
 ---
 
-## Dimensions de match disponibles (fondées sur les champs réels)
+## Principe
 
-### Dimension 1 — Identité du jeu (match fiche)
-
-| Signal | Table / champ | Disponibilité |
-|--------|--------------|---------------|
-| Titre normalisé | games.title | plein |
-| Plateforme | games.console | plein |
-| Année | games.year | plein |
-| Slug | games.slug | plein |
-| Barcode | games.barcode | faible |
-
-Un match fort nécessite au minimum : titre + plateforme.
-Un match parfait : titre + plateforme + année.
-
-### Dimension 2 — Variante (condition)
-
-| Signal | Table / champ | Disponibilité |
-|--------|--------------|---------------|
-| Condition (loose/cib/mint) | price_history.condition | partiel |
-| Condition (loose/cib/mint) | price_observations.condition | partiel |
-
-La normalisation de condition est déjà dans `backfill_price_summary.js` : lowercase loose/cib/mint.
-
-### Dimension 3 — Source connue
-
-| Signal | Table / champ | Disponibilité |
-|--------|--------------|---------------|
-| Nom de la source | price_history.source | partiel |
-| Sources lisibles | games.source_names | partiel |
-
-Sources actuellement ingérées : PriceCharting. eBay à venir.
+Le scoring marché n'est PAS un score de qualité éditoriale. C'est un score de **fiabilité et fraîcheur des données de prix**. Il est indépendant du scoring de complétude existant.
 
 ---
 
-## Score de match minimal (Phase 1)
+## Champs disponibles pour le scoring marché
 
-Trois niveaux, fondés uniquement sur les champs réels disponibles :
-
-### Niveau `confirmed`
-- Titre exact match (normalisé) + plateforme match + condition présente
-- Source connue (PriceCharting)
-- `price_last_updated` < 90 jours
-
-### Niveau `probable`
-- Titre match (avec tolérance fuzzy légère) + plateforme match
-- Condition présente
-- Source connue
-
-### Niveau `uncertain`
-- Titre match partiel OU plateforme manquante
-- OU source inconnue
-- OU condition absente
+| Champ | Table | Disponibilité |
+|-------|-------|--------------|
+| `loose_price` | games | ~700 fiches |
+| `cib_price` | games | ~700 fiches |
+| `mint_price` | games | partiel |
+| `price_last_updated` | games | ~700 fiches |
+| `source_names` | games | ~700 fiches |
+| `rarity` | games | partiel |
+| `price_history` rows | price_history | 136 895 lignes total |
+| `price_summary.trend_90d` | price_summary | créé, non lu |
 
 ---
 
-## Règle d'affichage dérivée
+## Scoring de match marché (0-100)
 
-| Niveau match | Affichage recommandé |
-|--------------|----------------------|
-| `confirmed` | prix affiché avec confidence `high` ou `medium` |
-| `probable` | prix affiché avec confidence `low`, mention "estimation" |
-| `uncertain` | prix masqué ou affiché avec avertissement visible |
-| absent | bloc prix masqué |
+### Composantes
 
-Cette règle est alignée avec `priceConfidenceTier` déjà dans `renderGameRow.js`.
+| Composante | Points | Condition |
+|------------|--------|-----------|
+| Prix loose disponible | 25 | `loose_price IS NOT NULL` |
+| Prix CIB disponible | 15 | `cib_price IS NOT NULL` |
+| Prix mint disponible | 10 | `mint_price IS NOT NULL` |
+| Données fraîches | 20 | `price_last_updated` < 30 jours |
+| Source documentée | 10 | `source_names` non vide, ≥ 1 source |
+| ≥ 3 observations price_history | 15 | COUNT observations > 2 |
+| Rarity défini | 5 | `rarity IS NOT NULL` |
 
----
+**Total : 100 points**
 
-## Ce que le score de match NE fait PAS en Phase 1
+### Tiers marché
 
-- Il ne dé-duplique pas les observations brutes entre sources
-- Il ne gère pas les éditions régionales (cela nécessite `releases`)
-- Il ne calcule pas un prix fair value
-- Il ne fait pas de ML / embedding sur les titres
-- Il ne gère pas eBay (pas encore ingéré)
-
----
-
-## Préparation pour le score de match v2 (post-Phase 1)
-
-Quand eBay sera ingéré dans `price_history`, le score v2 nécessitera :
-
-1. **N = 3 observations eBay** (déjà validé dans DECISIONS.md comme seuil `price_status v2`)
-2. Distinction `pricecharting` (estimation) vs `ebay` (vente réelle) dans le rattachement
-3. `price_summary.confidence_score` comme signal de confiance agrégé (déjà dans le schéma)
-
-Ces éléments sont préparés par les tables existantes. Aucune nouvelle table n'est nécessaire.
+| Tier | Seuil | Signification |
+|------|-------|---------------|
+| Hot | ≥ 75 | Prix complets, frais, multi-sources |
+| Active | 50-74 | Prix partiels ou données < 60 jours |
+| Stale | 25-49 | Prix présents mais anciens |
+| Missing | < 25 | Données marché insuffisantes |
 
 ---
 
-## Implémentation minimale suggérée (si justifiée)
+## État actuel estimé
 
-Si un score de match doit être calculé programmatiquement, la fonction minimale est :
+- Fiches Hot : ~200-300 (games avec prix complets et récents)
+- Fiches Active : ~400-500
+- Fiches Stale : ~200
+- Fiches Missing : ~600+ (pas de données prix)
 
-```javascript
-function computeMarketMatchLevel(observation, game) {
-  const titleMatch = normalizeTitle(observation.title) === normalizeTitle(game.title)
-  const platformMatch = normalizePlatform(observation.platform) === normalizePlatform(game.console)
-  const conditionPresent = ['loose', 'cib', 'mint'].includes(String(observation.condition || '').toLowerCase())
-  const sourceKnown = Boolean(observation.source)
+---
 
-  if (titleMatch && platformMatch && conditionPresent && sourceKnown) return 'confirmed'
-  if (titleMatch && platformMatch) return 'probable'
-  return 'uncertain'
-}
-```
+## Évolution vers price_summary
 
-Cette fonction n'existe pas encore dans le repo. Elle serait additive et sans dette structurelle.
-Elle n'est à créer que si un cas d'usage concret la justifie.
+Quand `price_summary` sera activé dans le runtime public, remplacer les composantes inline par :
+
+- `p50 (loose) disponible` → 25 pts
+- `p50 (cib) disponible` → 15 pts
+- `trend_90d disponible` → 20 pts (remplace "données fraîches")
+- `confidence_score ≥ 0.7` → 15 pts (remplace observations count)
+
+---
+
+## Implémentation recommandée
+
+Ce scoring peut être calculé dans `coverage-service.js` comme nouveau bloc optionnel, sans interférer avec le scoring de complétude existant. Il peut aussi être exposé dans l'API admin comme `market_score`.

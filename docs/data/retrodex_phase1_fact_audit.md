@@ -1,432 +1,151 @@
-# RetroDex — Phase 1 Audit Factuel
+# RetroDex — Phase 1 Fact Audit
 
-**Référence repo :** `origin/main` @ `b4f3a2e` (2026-04-06 12:12)
 **Date de production :** 2026-04-07
-**Statut :** audit de base — non spéculatif
+**Statut :** audit factuel — non spéculatif
 
 ---
 
-## A. Tables / entités confirmées
+## 1. Architecture stabilisée [confirmé]
 
-### A1. Table centrale
-
-| Table | Statut | Rôle |
-|-------|--------|------|
-| `games` | **[confirmé]** | Entité centrale. Porte l'identité, le pricing inline, les médias de référence, les champs éditoriaux inline (fallback), les statuts de curation. |
-
-### A2. Tables canoniques actives (lues par les services publics)
-
-| Table | Statut | Rôle |
-|-------|--------|------|
-| `game_editorial` | **[confirmé]** | Contenu éditorial structuré (summary, synopsis, lore, gameplay, characters, dev_anecdotes, cheat_codes, versions, durées, speedrun_wr). Canonique si présent — games.* sert de fallback. |
-| `game_people` | **[confirmé]** | Crédits individuels (game_id → person_id, role, billing_order, confidence). |
-| `game_companies` | **[confirmé]** | Crédits sociétés (game_id → company_id, role, confidence). |
-| `people` | **[confirmé]** | Entités personnes (id, name, normalized_name, primary_role). |
-| `companies` | **[probable]** | Entités sociétés. Référencée dans `credits.js` mais sans migration locale visible. Existe en Supabase. |
-| `media_references` | **[confirmé]** | Tous types de médias externes avec compliance complète (cover, manual, map, sprite_sheet, ending, archive_item, youtube_video, screenshot, scan). |
-| `ost` | **[confirmé]** | Albums OST (game_id, title, confidence, needs_release_enrichment). |
-| `ost_tracks` | **[confirmé]** | Pistes OST (ost_id, track_title, track_number, composer_person_id, confidence). |
-| `ost_releases` | **[confirmé]** | Éditions physiques OST (region_code, release_date, catalog_number, label). |
-| `game_competitive_profiles` | **[confirmé]** | Profil compétitif (speedrun_relevant, score_attack_relevant, leaderboard_relevant, achievement_competitive). |
-| `game_record_categories` | **[confirmé]** | Catégories de records (label, record_kind, source_name, is_primary). |
-| `game_record_entries` | **[confirmé]** | Entrées de records (rank_position, player_handle, score_display). |
-| `game_achievement_profiles` | **[confirmé]** | Profil RetroAchievements (points_total, achievement_count, leaderboard_count). |
-| `game_content_profiles` | **[confirmé]** | Profils d'enrichissement (content_profile_json, profile_version, relevant_expected). |
-| `game_curation_states` | **[confirmé]** | Lifecycle de curation (pass_key, status, completion_score, is_target, published_at). |
-| `quality_records` | **[confirmé]** | Scoring qualité back-office (completeness_score, confidence_score, tier). |
-| `price_history` | **[confirmé]** | Historique de prix (game_id, price, condition, sale_date, source). |
-
-### A3. Tables normalisées "Phase 1" (migration 009 — créées, backfill prêt, NON lues par services publics)
-
-| Table | Statut | Rôle prévu |
-|-------|--------|------------|
-| `game_credits` | **[confirmé]** | Unification de game_people + game_companies. Les anciennes tables ne sont PAS supprimées. |
-| `price_summary` | **[confirmé]** | Snapshot prix agrégés (P25/P50/P75 par condition : loose/cib/mint, trend_90d, confidence_score). |
-| `game_ost` | **[confirmé]** | Version clean de `ost` (title, track_count, primary_release_date, primary_label). |
-| `game_ost_tracks` | **[confirmé]** | Version clean de `ost_tracks` (duration_seconds ajouté). |
-| `competitive_profiles` | **[confirmé]** | Version simplifiée de game_competitive_profiles (is_speedrun_relevant, is_score_attack_relevant, is_achievement_relevant). |
-| `competitive_records` | **[confirmé]** | Version plate de game_record_entries (category_label, record_kind : speedrun/score/achievement). |
-
-### A4. Tables gouvernance / enrichissement (back-office uniquement)
-
-| Table | Statut | Rôle |
-|-------|--------|------|
-| `source_records` | **[confirmé]** | Traçabilité source par champ/entité. |
-| `field_provenance` | **[confirmé]** | Provenance par champ (value_hash, is_inferred, confidence_level). |
-| `enrichment_runs` | **[confirmé]** | Log des runs d'enrichissement. |
-| `game_curation_events` | **[confirmé]** | Événements lifecycle curation (from_status, to_status, diff_summary_json). |
-| `console_publication_slots` | **[confirmé]** | Slots de publication par console (slot_rank, is_active). |
-| `market_snapshots` | **[confirmé]** | Snapshots marché calculés (loose/cib/mint_price, trend_signal, confidence_score). |
-| `price_observations` | **[confirmé]** | Observations brutes de prix (condition, price, source_name, listing_reference). |
-| `releases` | **[confirmé]** | Releases régionales (game_id, console_id, region_code, release_date, edition_name). |
-
-### A5. Tables admin / modèles
-
-| Table | Statut | Rôle |
-|-------|--------|------|
-| `retrodex_index` | **[à vérifier]** | Index marché (item_id, condition, index_value, range_low/high, confidence_pct, trend). Modèle Sequelize présent mais usage routes non vérifié. |
-| `collection_items` | **[confirmé]** | Collection utilisateur (game_id, user_session). |
+- Public runtime : Supabase-first via `backend/db_supabase.js`
+- Back-office : isolé sous `src/routes/admin` et `src/services/admin`
+- Enrichissement premium : `src/services/admin/enrichment/`
+- SQLite local : staging/back-office uniquement — NOT prod truth
 
 ---
 
-## B. Champs confirmés par table
+## 2. Migrations appliquées — 13 au total
 
-### B1. `games` (table centrale)
+| Migration | Contenu |
+|-----------|---------|
+| 20260326_001 | Tables canoniques core : releases, game_editorial, people, game_people, game_companies, price_observations, market_snapshots, media_references, source_records, field_provenance, quality_records, enrichment_runs |
+| 20260326_002 | Index runtime + dédup price_observations |
+| 20260327_001 | Index de performance |
+| 20260330_003 | Ajout sur games : youtube_id, youtube_verified, archive_id, archive_verified |
+| 20260330_004 | Align game_editorial, people, game_people, ost, ost_tracks, ost_releases |
+| 20260330_005 | Extend media_references : title, preview_url, asset_subtype, license_status, ui_allowed, healthcheck_status, notes, source_context, last_checked_at |
+| 20260330_006 | Curation : game_content_profiles, game_curation_states, game_curation_events, console_publication_slots |
+| 20260401_007 | Ajout sur games : tagline, cover_url, synopsis, dev_anecdotes, dev_team, cheat_codes + create price_history |
+| 20260401_008 | Competitive : game_competitive_profiles, game_record_categories, game_record_entries, game_achievement_profiles |
+| 20260402_009 | Phase 1 normalized : game_credits, price_summary, game_ost, game_ost_tracks, competitive_profiles, competitive_records |
+| 20260402_010 | Index pour les 6 nouvelles tables normalisées |
+| 20260404_011 | Ajout sur games : price_last_updated, source_names |
+| 20260405_012 | Backfill games.source_names depuis price_history.source |
 
-**Identité / core :**
-- `id` TEXT PK
-- `title` TEXT NOT NULL
-- `console` TEXT NOT NULL — string libre, contrat runtime effectif
-- `consoleId` TEXT — FK vers une future table consoles, PAS le contrat runtime actuel [confirmé]
-- `year` INTEGER NOT NULL
-- `releaseDate` DATEONLY — date précise, plus spécifique que year
-- `developer` TEXT — string libre, contrat runtime effectif
-- `developerId` TEXT — FK companies, PAS le contrat runtime actuel
-- `publisherId` TEXT — FK companies, PAS le contrat runtime actuel
-- `genre` TEXT
-- `metascore` INTEGER
-- `rarity` TEXT (LEGENDARY / EPIC / RARE / UNCOMMON / COMMON)
-- `type` TEXT DEFAULT 'game' — game | console | accessory | ost | collector_edition
-- `slug` TEXT UNIQUE — auto-généré
-- `source_confidence` FLOAT DEFAULT 0.5
-- `franch_id` TEXT — FK franchise non visible dans migrations [à vérifier]
-- `barcode` TEXT — code-barres physique
-- `tagline` TEXT
-
-**Cover / médias de référence :**
-- `cover_url` TEXT
-- `coverImage` TEXT — ambiguïté : même valeur que cover_url dans normalizeCoverFields
-- `manual_url` TEXT
-- `youtube_id` TEXT **[confirmé prod]**
-- `youtube_verified` BOOLEAN **[confirmé prod]**
-- `archive_id` TEXT **[confirmé prod]**
-- `archive_verified` BOOLEAN **[confirmé prod]**
-
-**Editorial inline (fallback quand game_editorial absent) :**
-- `summary` TEXT
-- `synopsis` TEXT
-- `lore` TEXT
-- `gameplay_description` TEXT
-- `characters` TEXT (JSON)
-- `versions` TEXT (JSON)
-- `dev_anecdotes` TEXT
-- `dev_team` TEXT (JSON)
-- `cheat_codes` TEXT (JSON)
-- `speedrun_wr` TEXT (JSON)
-
-**Music inline (fallback) :**
-- `ost_composers` TEXT (JSON)
-- `ost_notable_tracks` TEXT (JSON)
-- `avg_duration_main` FLOAT
-- `avg_duration_complete` FLOAT
-
-**Pricing :**
-- `loose_price` FLOAT (field: loosePrice dans Sequelize)
-- `cib_price` FLOAT
-- `mint_price` FLOAT
-
-**Statuts Phase 3 [confirmés prod] :**
-- `editorial_status` TEXT
-- `media_status` TEXT
-- `price_status` TEXT
-
-**Nouveaux [confirmés prod, migration 011/012] :**
-- `price_last_updated` DATEONLY — date dernière maj prix depuis sources marché
-- `source_names` TEXT — sources attribution lisible (ex : "MobyGames, IGDB, PriceCharting")
-
-### B2. `game_editorial`
-summary, synopsis, lore, dev_notes, cheat_codes, characters, gameplay_description, dev_anecdotes, versions, avg_duration_main, avg_duration_complete, speedrun_wr, source_record_id
-
-### B3. `people`
-id, name, normalized_name, primary_role, source_record_id
-
-### B4. `game_people`
-game_id, person_id, role, billing_order, source_record_id, confidence (DEFAULT 0.5), is_inferred
-
-### B5. `game_companies`
-game_id, company_id, role, source_record_id, confidence, is_inferred
-
-### B6. `media_references`
-entity_type, entity_id, media_type, url, provider, compliance_status, storage_mode, title, preview_url, asset_subtype, license_status, ui_allowed, healthcheck_status, notes, source_context, last_checked_at, source_record_id
-
-### B7. `ost`
-id, game_id, title, source_record_id, confidence, needs_release_enrichment
-
-### B8. `ost_tracks`
-ost_id, track_title, track_number, composer_person_id, source_record_id, confidence
-
-### B9. `ost_releases`
-ost_id, region_code, release_date, catalog_number, label, source_record_id, confidence
-
-### B10. `game_competitive_profiles`
-game_id, speedrun_relevant, score_attack_relevant, leaderboard_relevant, achievement_competitive, primary_source, source_summary, freshness_checked_at
-
-### B11. `game_record_categories`
-game_id, category_key, label, record_kind, value_direction, external_url, source_name, source_type, is_primary, display_order
-
-### B12. `game_record_entries`
-category_id, game_id, rank_position, player_handle, score_raw, score_display, achieved_at, external_url, source_name
-
-### B13. `game_achievement_profiles`
-game_id, source_name, source_type, points_total, achievement_count, leaderboard_count, mastery_summary, high_score_summary, observed_at
-
-### B14. `game_curation_states`
-game_id, console_id, pass_key, status, selection_score, target_rank, is_target, completion_score, relevant_expected, relevant_filled, missing_relevant_sections_json, validation_summary_json, locked_at, published_at, content_version, immutable_hash
-
-### B15. `price_history`
-game_id, price, condition, sale_date, source, listing_title, listing_url
-
-### B16. `price_summary` (Phase 1 normalized, non lue)
-game_id, loose_price_p50, loose_price_p25, loose_price_p75, loose_sample_count, cib_price_p50/p25/p75, cib_sample_count, mint_price_p50/p25/p75, mint_sample_count, trend_90d, last_observed_at, confidence_score, computed_at
-
-### B17. `game_credits` (Phase 1 normalized, non lue)
-game_id, credited_entity_id, credited_entity_type (person|company), role, billing_order, source_record_id, confidence, is_inferred
+1 migration pending_review : `20260331_007_collection_runtime_canonical.js`
 
 ---
 
-## C. Champs lus par l'API publique
+## 3. Tables — inventaire complet
 
-### C1. Catalogue — `fetchCanonicalGamesList` → `toItemPayload`
+### Table centrale
 
-Lecture depuis `games` via `queryGames` + `fetchAllSupabaseGames` :
-```
-id, title, console, year, genre, developer, metascore, rarity, summary, synopsis,
-source_confidence, slug, cover_url, loose_price, cib_price, mint_price,
-price_last_updated, source_names
-```
+- **games** — Entité centrale. 40+ champs. Porte l'identité, le pricing inline, les médias de référence, les champs éditoriaux inline (fallback), et les statuts de curation.
 
-Transformé en payload :
-- id, title, platform/console, year, genre, rarity, type, slug
-- loosePrice, cibPrice, mintPrice
-- priceLastUpdated, sourceNames
-- coverImage, cover_url, synopsis, summary, developer, metascore, trend
-- curation.{status, isPublished, passKey}
-- signals.{hasMaps, hasManuals, hasSprites, hasEndings}
+### Tables canoniques actives (lues par services publics)
 
-### C2. Fiche archive — `buildArchivePayload`
+- **game_editorial** — Contenu éditorial structuré (summary, synopsis, lore, gameplay_description, characters, dev_anecdotes, cheat_codes, versions, durées, speedrun_wr). Canonique si présent ; games.* sert de fallback.
+- **game_people** — Crédits individuels (game_id → person_id, role, billing_order, confidence).
+- **game_companies** — Crédits sociétés (game_id → company_id, role, confidence).
+- **people** — Entités personnes (id, name, normalized_name, primary_role).
+- **companies** — Entités sociétés. Référencée dans credits.js ; pas de migration locale visible. [probable Supabase only]
+- **media_references** — Tous types de médias externes avec compliance complète.
+- **ost** — Albums OST (game_id, title, confidence, needs_release_enrichment).
+- **ost_tracks** — Pistes OST (ost_id, track_title, track_number, composer_person_id, confidence).
+- **ost_releases** — Éditions physiques OST (region_code, release_date, catalog_number, label).
+- **game_competitive_profiles** — Profil compétitif (speedrun_relevant, score_attack_relevant, leaderboard_relevant, achievement_competitive).
+- **game_record_categories** — Catégories de records (label, record_kind, source_name, is_primary).
+- **game_record_entries** — Entrées de records (rank_position, player_handle, score_display).
+- **game_achievement_profiles** — Profil RetroAchievements (points_total, achievement_count, leaderboard_count).
+- **game_content_profiles** — Profils d'enrichissement (content_profile_json, profile_version, relevant_expected).
+- **game_curation_states** — Lifecycle de curation (pass_key, status, completion_score, is_target, published_at).
+- **quality_records** — Scoring qualité back-office (completeness_score, confidence_score, tier).
+- **price_history** — Historique de prix (game_id, price, condition, sale_date, source).
 
-Lecture principale depuis `games` (tous champs `*` via `getGameById`).
-Lecture secondaire depuis :
-- `game_editorial` (summary, synopsis, lore, gameplay_description, characters, dev_anecdotes, cheat_codes, versions, avg_duration_main, avg_duration_complete, speedrun_wr)
-- `media_references` (media_type, url, provider, compliance_status, storage_mode, title, preview_url, asset_subtype, license_status, ui_allowed, healthcheck_status, notes, source_context)
-- `game_content_profiles` (content_profile_json, profile_version, profile_mode, relevant_expected)
-- `game_people` → joint `people` (name, normalized_name, role, billing_order, confidence)
-- `game_companies` → joint `companies` (name, country, role)
-- `ost` (id, title)
-- `ost_tracks` → joint `ost` (track_title, track_number, composer_person_id)
-- `ost_releases` → joint `ost` (region_code, release_date, catalog_number, label)
-- `game_competitive_profiles`, `game_record_categories`, `game_record_entries`, `game_achievement_profiles`
+### Tables normalisées Phase 1 (créées, non lues par services publics)
 
-### C3. Encyclopédie — `buildEncyclopediaPayload`
+- **game_credits** — Unification de game_people + game_companies. Anciennes tables non supprimées.
+- **price_summary** — Snapshot prix agrégés (P25/P50/P75 par condition, trend_90d, confidence_score).
+- **game_ost** — Version clean de ost (title, track_count, primary_release_date, primary_label).
+- **game_ost_tracks** — Version clean de ost_tracks (duration_seconds ajouté).
+- **competitive_profiles** — Version simplifiée de game_competitive_profiles.
+- **competitive_records** — Version plate de game_record_entries (category_label, record_kind).
 
-Sous-ensemble de la fiche archive, sans media, sans OST releases.
+### Tables gouvernance / enrichissement (back-office uniquement)
 
-### C4. Prix — `fetchSeedPriceHistory`
+- **source_records** — Traçabilité source par champ/entité.
+- **field_provenance** — Provenance par champ (value_hash, is_inferred, confidence_level).
+- **enrichment_runs** — Log des runs d'enrichissement.
+- **game_curation_events** — Événements lifecycle curation (from_status, to_status, diff_summary_json).
+- **console_publication_slots** — Slots de publication par console (slot_rank, is_active).
+- **market_snapshots** — Snapshots marché calculés (loose/cib/mint_price, trend_signal, confidence_score).
+- **price_observations** — Observations brutes de prix (condition, price, source_name, listing_reference).
+- **releases** — Releases régionales (game_id, console_id, region_code, release_date, edition_name).
 
-Lecture depuis `price_history` (price, condition, sale_date).
+### Tables model (admin)
 
----
-
-## D. Champs visibles / utilisés côté UI
-
-### D1. Liste catalogue (`games-list.html`)
-- Cover, titre, plateforme, année
-- Rarity badge
-- Prix loose / CIB / MINT (migration B5)
-- Date dernière màj prix (`price_last_updated`)
-- Sources attribution (`source_names`)
-- Confidence tier (tooltip)
-- Filtre C2 : archive density (dense / solid / growing / light)
-
-### D2. Fiche détail (`game-detail.html`)
-- Identité : titre, plateforme, année, genre, développeur
-- Cover + références médias (archive.org, YouTube)
-- Synopsis / lore / gameplay_description
-- Bloc Production : companies + dev team
-- Bloc Musique : composers, tracks, OST releases
-- Bloc Compétitif : records, achievements
-- Médias : manuals, maps, sprites, endings, screenshots
-- Prix avec historique graphé (`feat/price-history-graph`)
-- Timestamp dernière màj prix (Sprint A5+B3)
-
-### D3. Hub (`hub.html`)
-- Ingest viz feed (stream d'atomes de données enrichies)
-- Discover grid
+- **retrodex_index** — Index marché. Modèle Sequelize présent localement. Usage routes non vérifié. [à vérifier]
+- **collection_items** — Collection utilisateur (game_id, user_session).
 
 ---
 
-## E. Scripts qui enrichissent réellement les champs
+## 4. Ce que l'API expose réellement
 
-### E1. Pipeline legacy (`backend/enrich-database/`)
+### Catalogue — toItemPayload
 
-| Script | Champs enrichis |
-|--------|-----------------|
-| `enrich_igdb.js` | cover_url, year, genre, developer, metascore, synopsis |
-| `enrich_mobygames.js` | developer, publisher, year, genre |
-| `enrich_wikipedia.js` / `enrich_wikidata_deep.js` | lore, characters, versions, dev_team, ost_composers |
-| `enrich_hltb.js` | avg_duration_main, avg_duration_complete |
-| `enrich_editorial.js` | summary, synopsis, gameplay_description |
-| `enrich_screenscraper.js` | cover_url, manual_url, archive_id |
-| `enrich_prices.js` | loose_price, cib_price, mint_price, price_history |
-| `enrich_genres.js` | genre |
-| `expand_catalog.js` | id, title, console, year — extension du catalogue |
-| `backfill_game_credits.js` | game_credits (Phase 1) depuis game_people + game_companies |
-| `backfill_game_ost.js` | game_ost + game_ost_tracks (Phase 1) depuis ost + ost_tracks |
-| `backfill_price_summary.js` | price_summary (Phase 1) depuis price_observations |
+id, title, console, year, genre, rarity, slug, loosePrice, cibPrice, mintPrice, priceLastUpdated, sourceNames, coverImage, cover_url, synopsis, summary, developer, metascore, trend, curation.{status, isPublished, passKey}, signals.{hasMaps, hasManuals, hasSprites, hasEndings}
 
-### E2. Pipeline enrichissement structuré (`backend/scripts/enrichment/`)
+### Fiche archive — buildArchivePayload
 
-| Série | Champs enrichis |
-|-------|-----------------|
-| G1 (apply-g1-enrichment) | enrichissement initial toutes catégories |
-| G2 summary (4 batches) | games.summary, game_editorial.summary |
-| G3 dev team (7 batches + autofill) | game_people (directeur, designer, programmeur, producteur), game_companies |
-| G4 composers (24 batches) | game_people (composer), ost, ost_tracks |
-| G5 premium lot 2 | enrichissement multi-domaines |
-| G6 panzer gold | fiches premium ciblées |
-| G7 premium lot 3 | enrichissement multi-domaines |
-| G8 premium lot 4 | enrichissement multi-domaines |
-| media batches | media_references |
-| competitive batches (RA, speedrun) | game_competitive_profiles, game_record_categories, game_record_entries, game_achievement_profiles |
-| richness batches | game_editorial (lore, characters, dev_anecdotes) |
+id, title, reference_ids.{youtube_id, youtube_verified, archive_id, archive_verified}, lore, gameplay_description, characters, versions, ost.{composers, notable_tracks, releases}, duration.{main, complete}, speedrun_wr, production.{developers, publishers, studios, companies, dev_team}, media.{covers, manuals, maps, sprites, assets, screenshots, scans, endings, references}, competition.{profile, featuredRecords, achievementProfile}
 
-### E3. Coverage et scoring (back-office)
+### Encyclopédie — buildEncyclopediaPayload
 
-- `recompute-enrichment-coverage.js` — CLI read-only, produit un rapport JSON de couverture premium par jeu
+summary, synopsis, lore, gameplay_description, characters, dev_anecdotes, dev_team, cheat_codes, versions, avg_duration_main, avg_duration_complete, speedrun_wr, ost_composers, ost_notable_tracks, competition
 
 ---
 
-## F. Éléments ambigus ou contradictoires
+## 5. Système de scoring premium existant
 
-### F1. Double chemin éditorial [confirmé, actif]
-`games.*` (summary, synopsis, lore, etc.) ET `game_editorial.*` coexistent.
-`buildArchivePayload` lit `game_editorial` en priorité, utilise `games.*` en fallback.
-**Conséquence :** une fiche peut avoir des données dans l'un sans l'autre. La couverture réelle est plus difficile à mesurer.
-
-### F2. Double structure credits [confirmé, phase de transition]
-`game_people` + `game_companies` (lues par services publics) et `game_credits` (créée, backfillée, non lue).
-Les anciennes tables ne seront PAS supprimées lors de la migration.
-**Conséquence :** jusqu'au raccordement des services à `game_credits`, les deux coexistent sans collision mais avec risque de désynchronisation si enrichissement continue sur les anciennes tables.
-
-### F3. Double structure OST [confirmé, phase de transition]
-`ost` + `ost_tracks` (lus) et `game_ost` + `game_ost_tracks` (créés, non lus).
-Même situation que F2.
-
-### F4. Double structure compétitif [confirmé, phase de transition]
-`game_competitive_profiles` + `game_record_entries` (lus) et `competitive_profiles` + `competitive_records` (créés, non lus).
-
-### F5. Pricing double [confirmé, phase de transition]
-`games.loose_price / cib_price / mint_price` (lus) et `price_summary` avec percentiles (créée, non lue).
-`price_summary` est structurellement plus riche (P25/P50/P75, trend_90d, confidence_score).
-
-### F6. `games.coverImage` vs `games.cover_url` [confirmé]
-Deux champs pour la même donnée dans le modèle Sequelize. `normalizeCoverFields` les harmonise à la lecture mais la source canonique reste ambiguë.
-
-### F7. `companies` sans migration locale [probable]
-Référencée dans `credits.js` (`.from('companies').select('id,name,country')`).
-Pas de migration CREATE TABLE visible pour `companies`. Existe en Supabase.
-**Conséquence :** en mode SQLite local, les credits société tombent en fallback vide ou legacy string.
-
-### F8. `franch_id` sans table franchises dans les migrations [confirmé résolu]
-`Game.js` déclare `franch_id TEXT`. Aucune migration CREATE TABLE `franchises` visible localement.
-En Supabase : la table s'appelle `franchise_entries` (pas `franchises`), avec 15 entrées.
-Structure réelle : slug, name, synopsis, first_game_year, last_game_year, developer, genres (JSONB), platforms (JSONB), **game_ids (JSONB)** — liste des IDs de jeux liés, heritage.
-104 jeux ont un `franch_id` renseigné. La route `/api/franchises*` pointe vers cette table en Supabase.
-
-### F9. `retrodex_index` — absent en Supabase [confirmé absent]
-Modèle Sequelize `RetrodexIndex.js` présent localement.
-**Table inexistante en Supabase prod.** L'usage routes est sans effet en prod.
-
-### F10. `consoleId` / `developerId` / `publisherId` — FKs inactifs en prod [confirmé, non en Supabase]
-Déclarés dans `Game.js`, présents dans les champs Sequelize.
-**Ces colonnes n'existent pas dans la table `games` en Supabase.** (44 colonnes confirmées en prod)
-Confirmé dans DECISIONS.md : runtime toujours string-driven sur `games.console` et `games.developer`.
-
-### F11. `game_companies` absent en Supabase [confirmé critique]
-La table `game_companies` est présente dans les migrations locales et lue par `credits.js`.
-**Elle n'existe pas en Supabase prod.**
-Conséquence : en prod, `buildArchivePayload` ne remonte aucune société créditée depuis cette table.
-Les crédits société tombent en fallback sur `games.dev_team` (JSON inline) ou restent vides.
-
-### F12. `games` en Supabase : colonnes manquantes vs modèle local [confirmé]
-Colonnes présentes localement (Game.js) mais absentes de `games` en Supabase (44 colonnes) :
-- `consoleId`, `developerId`, `publisherId` — FKs non appliqués en prod
-- `releaseDate` — date précise non migrée en prod
-- `barcode` — code-barres non migré en prod
-- `coverImage` — alias JavaScript uniquement, pas une colonne DB réelle (normalizeCoverFields le crée en mémoire depuis cover_url)
-
-Colonnes présentes en Supabase mais non documentées dans le modèle local :
-- `similar_ids` TEXT — IDs de jeux similaires (JSON)
+- Fichiers : `rules.js`, `scoring.js`, `coverage-loaders.js`
+- 5 blocs pondérés : identity 25%, editorial 25%, credits 20%, media 20%, music 10%
+- Tiers : gold ≥85, silver ≥70, bronze ≥55
+- Top100 candidate : publishable + score ≥60
+- CLI : `recompute-enrichment-coverage.js`
 
 ---
 
-## G. Mesures réelles Supabase (2026-04-07)
+## 6. Double-structure confirmée (ambiguïté critique)
 
-Ces chiffres sont issus de requêtes directes sur la base Supabase prod.
+| Domaine | Ancienne (lue par services publics) | Nouvelle (créée, backfillée, non lue) |
+|---------|--------------------------------------|---------------------------------------|
+| Credits | game_people + game_companies | game_credits |
+| OST | ost + ost_tracks | game_ost + game_ost_tracks |
+| Compétitif | game_competitive_profiles + game_record_entries | competitive_profiles + competitive_records |
+| Prix agrégés | games.loose_price / cib_price / mint_price | price_summary |
 
-### G1. Volume catalogue
+---
 
-| Métrique | Valeur |
-|----------|--------|
-| Total jeux dans `games` | **1 517** |
-| Jeux publiés (curation_states) | **351** |
-| Gap vers objectif 4 000 | **−2 483 jeux minimum** (catalogue à créer) |
+## 7. Ambiguïtés actives
 
-### G2. Couverture gates identity
+1. Champs éditoriaux dupliqués : `games.*` (fallback inline) vs `game_editorial` (canonique si présent) — les deux chemins actifs dans `buildArchivePayload` [confirmé]
+2. `companies` table référencée dans `credits.js` mais sans migration locale — [probable Supabase only]
+3. `franch_id` dans `Game.js` mais table `franchises` non visible dans migrations — [à vérifier]
+4. `retrodex_index` model — usage routes non vérifié — [à vérifier]
+5. `games.coverImage` (DataTypes.STRING) vs `games.cover_url` (TEXT) — ambiguïté active dans `normalizeCoverFields` [confirmé]
+6. `consoleId` / `developerId` / `publisherId` présents dans `Game.js` mais pas le contrat runtime effectif (string-driven) [confirmé]
+7. `ost_releases` (ancienne structure) vs `ost_releases` lié à `game_ost` (nouvelle) — fallback osts legacy aussi présent [confirmé]
 
-| Condition | Jeux concernés | % |
-|-----------|---------------|---|
-| `cover_url` absent | 128 / 1 517 | 8% |
-| `cover_url` présent | 1 389 / 1 517 | **92%** |
-| Pas de summary NI synopsis ≥70 car | 866 / 1 517 | **57% bloqués** |
-| `developer` absent | 283 / 1 517 | 19% |
-| Passing all 3 gates (cover + editorial + developer) | **544 / 1 517** | **36%** |
+---
 
-### G3. Couverture champs éditoriaux
+## 8. État des scripts d'enrichissement [confirmé au 2026-04-07]
 
-| Champ | Jeux couverts | % |
-|-------|--------------|---|
-| `summary` ≥70 car | 561 / 1 517 | 37% |
-| `synopsis` ≥70 car | 178 / 1 517 | 12% |
-| `lore` présent | 1 418 / 1 517 | **93%** |
-| `ost_composers` (inline JSON) | 1 249 / 1 517 | **82%** |
-| `avg_duration_main` (HLTB) | 1 171 / 1 517 | **77%** |
-| `ost_tracks` (table ost_tracks) | ~62 jeux | 4% |
-| `ost_releases` (table ost_releases) | **0** | 0% |
-| Profils compétitifs | ~10 | <1% |
+Scripts actifs dans `backend/scripts/enrichment/` :
 
-### G4. Quality records (back-office scoring, système séparé du scoring.js premium)
-
-| Tier | Jeux | Note |
-|------|------|------|
-| Tier A | 1 005 | système Tier A/B/C ≠ gold/silver/bronze |
-| Tier B | 251 | |
-| Tier C | 235 | |
-| Score moyen | **93 / 100** | basé sur completeness_score quality_records |
-| Score min | 68 / 100 | |
-
-**Important :** le système `quality_records` (Tier A/B/C) est distinct du système `scoring.js` premium (gold/silver/bronze ≥55). Ce sont deux évaluations parallèles back-office uniquement.
-
-### G5. Autres tables Supabase confirmées
-
-| Table | Lignes | Note |
-|-------|--------|------|
-| `franchise_entries` | 15 | game_ids JSONB, 104 jeux liés |
-| `consoles` | 25 | id, title, platform, year, manufacturer, media_type |
-| `game_companies` | **absent** | table manquante en Supabase prod |
-| `retrodex_index` | **absent** | table inexistante en Supabase prod |
-
-### G6. Top 10 consoles par nombre de jeux
-
-| Console | Jeux |
-|---------|------|
-| PlayStation | 191 |
-| Super Nintendo | 185 |
-| Sega Genesis | 176 |
-| Nintendo 64 | 151 |
-| Game Boy | 141 |
-| Sega Saturn | 119 |
-| NES | 92 |
-| Game Boy Advance | 91 |
-| Nintendo DS | 74 |
-| Game Boy Color | 64 |
+- `apply-g2-summary-batch-{16..53}.js` — 38 batches G2 éditoriaux appliqués (summaries tous jeux)
+- `apply-richness-batch.js` + `manifests/` — batches synopsis/lore/characters
+- `fetch-igdb-covers.js`, `fetch-igdb-covers-pass2.js` — récupération covers IGDB (42 + 22 covers)
+- `enrich-dev-team-individuals.js` — 42 jeux avec crédits individuels nommés
+- `enrich-ost-corrections.js`, `enrich-ost-corrections-pass2.js` — 85 corrections compositeurs
+- `push-ost-devteam-corrections-supabase.js` — push ciblé Supabase (overwrite)
+- `publish-editorial-supabase.js`, `publish-credits-music-supabase.js`, `sync-supabase-ui-fields.js` — pipeline sync Supabase

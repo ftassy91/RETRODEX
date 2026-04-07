@@ -1,109 +1,93 @@
-# RetroDex — Variante marché minimale (Phase 1)
+# Variante marché — Standard minimum Phase 1
 
-**Référence :** `origin/main` @ `b4f3a2e` (2026-04-06)
-**Date :** 2026-04-07
-**Avertissement :** pas de moteur de pricing. Pas d'architecture multi-source. Minimal et fondé sur les champs réels.
-
----
-
-## Principe
-
-La "variante marché" n'est pas une fiche différente.
-C'est la qualification minimale qui permet de dire :
-
-> cette fiche a suffisamment de signal marché pour être affichée avec crédibilité dans RetroMarket.
-
-Elle ne prétend pas calculer un prix juste. Elle sert à :
-- décider si le bloc prix est affiché ou masqué
-- décider du niveau de confiance à afficher
-- préparer le futur moteur sans l'industrialiser
+**Référence :** `origin/main` @ 2026-04-07
+**Périmètre :** RetroMarket — champs prix réellement présents en base
 
 ---
 
-## Champs disponibles réellement (confirmés dans le repo)
+## Contexte
 
-| Champ | Table | État |
-|-------|-------|------|
-| `loose_price` | games | partiel |
-| `cib_price` | games | partiel |
-| `mint_price` | games | partiel |
-| `price_last_updated` | games | partiel (backfill 012) |
-| `source_names` | games | partiel (backfill 012) |
-| `price_history` rows | price_history | partiel |
-| `price_summary` (P25/P50/P75) | price_summary | inconnu (non lue) |
-| `price_status` (v1) | games | partiel (phase3 backfill) |
-| `rarity` | games | partiel |
+RetroDex expose une dimension marché (RetroMarket) fondée sur les données de prix réelles en base. Ce document définit ce qu'une fiche de marché minimale requiert, fondé exclusivement sur les champs réellement présents.
 
 ---
 
-## Variante marché minimale — Phase 1
+## Champs marché disponibles dans le schéma actuel
 
-Une fiche a une **variante marché minimale valide** si elle satisfait les conditions suivantes :
+### Sur la table `games` (inline, legacy)
 
-### Condition 1 — Prix disponible
-Au moins un prix non nul parmi : `loose_price`, `cib_price`, `mint_price`
+- `loose_price` (FLOAT) — prix en loose
+- `cib_price` (FLOAT) — prix complet en boîte
+- `mint_price` (FLOAT) — prix mint / scellé
+- `price_last_updated` (TEXT) — date de dernière mise à jour
+- `source_names` (TEXT) — sources des prix (JSON array)
 
-### Condition 2 — Date de fraîcheur acceptable
-`price_last_updated` présent ET inférieur à 180 jours
+### Table `price_history` (canonique, 136 895 lignes actives)
 
-Si `price_last_updated` est absent, la condition passe en mode dégradé ("prix disponible, date inconnue").
+- `game_id`, `condition`, `price`, `currency`, `source`, `observed_at`
+- Sert de source primaire pour les prix calculés
 
-### Condition 3 — Source traçable
-`source_names` non vide (ex : "PriceCharting")
+### Table `price_summary` (Phase 1, créée, non lue par services publics)
 
----
+- `game_id`, `condition`, `p25`, `p50`, `p75`, `trend_90d`
+- Scripts backfill prêts, pas encore intégrée dans le runtime public
 
-## Niveaux de confiance affichables (fondés sur les champs réels)
+### Table `market_snapshots` + `price_observations`
 
-Ces niveaux sont déjà partiellement codifiés côté UI (`priceConfidenceTier` dans `renderGameRow`) :
-
-| Niveau | Critères | Affichage suggéré |
-|--------|----------|-------------------|
-| **high** | ≥10 observations `price_history`, `price_last_updated` < 90 jours | prix + date + badge confiance |
-| **medium** | ≥3 observations, `price_last_updated` < 180 jours | prix + date |
-| **low** | prix inline uniquement, pas d'historique ou date inconnue | prix affiché avec mention "estimation" |
-| **absent** | aucun prix disponible | bloc prix masqué |
-
-Le seuil N=3 pour `price_status v2` est déjà validé en principe (DECISIONS.md). Il s'applique ici comme seuil `medium`.
+- Back-office uniquement — agrégats de marché, pas lus par API publique
 
 ---
 
-## Ce qui manque pour la variante marché complète [à ne pas lancer en Phase 1]
+## Variante marché minimale Phase 1
 
-| Élément | Raison de report |
-|---------|-----------------|
-| `price_status v2` | gated sur ingestion eBay réelle (confirmé DECISIONS.md) |
-| `price_summary` opérationnel | backfill créé mais non raccordé aux services publics |
-| distinctions par condition (loose/CIB/mint) structurées | price_summary résoud ça mais nécessite raccordement |
-| multi-source (eBay + PriceCharting) | eBay n'est pas encore ingéré en prod |
-| éditions / variantes physiques | nécessite `releases` + édition data |
+Une fiche est **viable marché** si :
+
+- `loose_price` OU `cib_price` IS NOT NULL (prix disponible)
+- `price_last_updated` présent et < 90 jours (donnée fraîche)
+- `source_names` documenté (traçabilité source)
+
+### État actuel estimé
+
+~700 fiches ont des prix inline. Coverage exacte dépend de la fraîcheur des données (price_last_updated).
 
 ---
 
-## Variante marché cible — Post-Phase 1
+## Champs marché absents ou faibles
 
-Une fois `price_summary` raccordé aux services publics et l'ingestion eBay active :
+| Champ | État | Impact |
+|-------|------|--------|
+| `rarity` | Partiel | Affiché dans catalogue, source inconnue |
+| `trend` | Calculé à la volée depuis price_history | Fragile si pas d'observations récentes |
+| `price_summary` (p25/p50/p75) | Créé, non lu | Investissement inutilisé |
+| `mint_price` | Partiel | Donnée rarement disponible |
 
-### Unité marchande complète
+---
 
-```
-game_id
-  + loose: { p25, p50, p75, sample_count, trend_90d }
-  + cib:   { p25, p50, p75, sample_count }
-  + mint:  { p25, p50, p75, sample_count }
-  + confidence_score (0–100)
-  + last_observed_at
-  + sources: [pricecharting, ebay]
-  + price_status: v2 (ebay_confirmed | pricecharting_only | insufficient)
-```
+## Variante marché cible — Post-consolidation
 
-Cette structure est déjà schématisée dans `price_summary` (migration 009).
-Elle ne nécessite pas de nouvelle table — seulement le raccordement des services publics et l'ingestion eBay.
+Une fiche marché cible satisfait :
+
+- Prices (`loose_price`, `cib_price`, `mint_price`) issus de `price_history` avec ≥ 3 observations
+- `price_summary` activé dans runtime public (remplace inline prices)
+- `rarity` validé depuis source traçable (ex: PriceCharting rarity tier)
+- `trend_90d` calculé depuis `price_summary.trend_90d` et exposé en API
+- `source_names` avec ≥ 2 sources distinctes
+
+---
+
+## Migration vers price_summary
+
+La table `price_summary` (migration 009) est déjà créée et backfillée. L'activation dans le runtime public nécessite :
+
+1. Modifier `db_supabase.js` pour lire `price_summary` en priorité
+2. Adapter `toItemPayload` pour exposer `p50` comme prix de référence
+3. Exposer `trend_90d` dans le catalogue
+
+**Effort estimé : faible** (modification de 2-3 fonctions dans db_supabase.js + toItemPayload).
 
 ---
 
 ## Relation avec le score de complétude
 
-La variante marché minimale n'est PAS un critère du standard de fiche complète (Phase 1).
+La variante marché minimale n'est PAS un critère du standard de fiche complète Phase 1.
 Le cap des 4000 ne dépend pas de la couverture marché.
-Le signal marché est un **enrichissement de contexte**, pas une condition de publication.
+Le signal marché est un enrichissement de contexte, pas une condition de publication.
