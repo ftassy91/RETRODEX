@@ -1,0 +1,810 @@
+{
+  "batchKey": "source_facts_g2_25titles",
+  "batchType": "source_facts",
+  "reviewStatus": "ready",
+  "notes": "Batch G2 — 25 titres, positions 1-25 par metascore sans dev_anecdotes. Sources : Retronauts, Gaming Historian, My Life in Gaming, Jeremy Parish.",
+  "writeTargets": ["games", "game_editorial", "source_records", "field_provenance"],
+
+  "payload": [
+
+    {
+      "gameId": "super-mario-bros-3-nintendo-entertainment-system",
+      "title": "Super Mario Bros. 3",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Super Mario Bros. 3 was first revealed to Western audiences in the 1989 film The Wizard, nearly a full year before its North American release — a deliberate and unprecedented marketing strategy that treated a film appearance as a game reveal event.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "The History of Super Mario Bros. 3",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Miyamoto conceived the overworld map system as a board game — he wanted players to feel strategic agency between levels rather than face a linear sequence. The airship levels, which move after the player defeats a castle, were designed specifically to reinforce that board-game logic.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Super Mario Bros. 3 retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The Tanooki Suit was inspired by the Japanese folklore figure tanuki — a shapeshifting raccoon dog whose stone statues are common outside Japanese shops. The suit's statue form, which grants temporary invincibility, directly references the tanuki's association with transformation.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Jeremy Parish",
+          "url": "https://www.youtube.com/@JeremyParish",
+          "reference": "NES Works — Super Mario Bros. 3",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "yoshi-island-super-nintendo",
+      "title": "Super Mario World 2: Yoshi's Island",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "Yoshi's Island used the Super FX 2 chip — an enhanced version of the Super FX chip used in Star Fox — to power the boss scaling and rotation effects. This was the most complex use of the chip in any SNES game, enabling transformations and perspective shifts impossible without it.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "My Life in Gaming",
+          "url": "https://www.youtube.com/@mylifeingaming",
+          "reference": "SNES RGB — Yoshi's Island",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The crayon and watercolor art style was a deliberate design decision — art director Tsutomu Kaneshige wanted the game to look like a child's drawing brought to life, using rough edges and visible texture to distinguish it visually from the clean vector style of other SNES platformers.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Yoshi's Island retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The crying baby Mario sound was nearly cut during development — several team members found it too irritating during playtesting. Miyamoto insisted it remain because it created genuine emotional stakes: players would feel a psychological urgency to recover Mario that no UI element could replicate.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Yoshi's Island retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "super-mario-world-super-nintendo",
+      "title": "Super Mario World",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Yoshi was originally designed for Super Mario Bros. on the NES but was cut due to hardware limitations — the NES could not render a character that moved independently under Mario's feet. Super Mario World was the first game with sufficient hardware to realize him.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Super Mario World retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The Star Road and Special World hidden routes were designed as a secondary game for expert players — Miyamoto wanted completionists to discover a harder, stranger challenge beneath the main campaign. The Special World's level names (Gnarly, Tubular, etc.) were references to California surf slang.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Super Mario World retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "the-legend-of-zelda-nintendo-entertainment-system",
+      "title": "The Legend of Zelda",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "The Legend of Zelda used one of the first battery-backed save systems in a consumer cartridge — players could save progress permanently without passwords. The gold cartridge was chosen partly to signal this premium feature and partly to distinguish the game visually on store shelves.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Jeremy Parish",
+          "url": "https://www.youtube.com/@JeremyParish",
+          "reference": "NES Works — The Legend of Zelda",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Miyamoto designed Zelda by drawing the world map first — a grid of interconnected screens — and then filling each screen with a puzzle or challenge. This was the inverse of Super Mario Bros., which was designed as a linear sequence. The map-first approach was inspired by his childhood explorations of the countryside near Kyoto.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: The Legend of Zelda retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "the-legend-of-zelda-majoras-mask-nintendo-64",
+      "title": "The Legend of Zelda: Majora's Mask",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Majora's Mask was developed in approximately 18 months by reusing the Ocarina of Time engine — Miyamoto challenged Eiji Aonuma to make a new Zelda game quickly as a creative constraint. The tight deadline forced the team to invent the three-day loop mechanic as a way to create game length without building new environments.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Majora's Mask retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The game's dark tone was a deliberate departure from Ocarina of Time. Director Eiji Aonuma wanted to explore themes of grief and impermanence — the moon falling, the town's imminent destruction, and the NPCs' individual tragedies were all intentional narrative choices to make the world feel genuinely at stake.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Majora's Mask retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "paper-mario-nintendo-64",
+      "title": "Paper Mario",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Paper Mario began development as Super Mario RPG 2 at Intelligent Systems — a direct sequel to the SNES game co-developed by Square. When Square and Nintendo parted ways, the project continued internally at Nintendo using Intelligent Systems' own RPG framework.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Paper Mario retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "The paper art style was partly a technical decision: flat 2D characters were significantly easier to animate in 3D space on the N64's constrained hardware than fully volumetric models. The stylization was then embraced aesthetically, becoming the series' defining visual identity.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Paper Mario retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "conkers-bad-fur-day-nintendo-64",
+      "title": "Conker's Bad Fur Day",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Conker originally appeared in Diddy Kong Racing as a family-friendly character. Rare repositioned the franchise as a mature, adult-oriented property after the reception to Banjo-Kazooie made another family platformer feel commercially redundant — the redesign was a deliberate market differentiation.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Rare N64 retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The Great Mighty Poo sequence — a musical boss fight parodying The Phantom of the Opera — required composer Robin Beanland to write operatic-style lyrics performed by a bass singer. It is one of the few boss fights in a N64 game built primarily around a musical performance.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Rare N64 retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "gran-turismo-playstation",
+      "title": "Gran Turismo",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Kazunori Yamauchi spent approximately five years developing the first Gran Turismo, working largely alone in the early stages before Sony Computer Entertainment assigned resources. He described the project as an attempt to simulate what it feels like to drive a real car rather than a game approximation.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Gran Turismo retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The License Tests were inspired by the Japanese automotive licensing system, which requires candidates to pass structured assessments before receiving road permission. Yamauchi designed them to teach players real driving technique — braking points, corner entry, weight transfer — rather than just button sequences.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Gran Turismo retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "tekken-3-playstation",
+      "title": "Tekken 3",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "Tekken 3 was one of the first fighting games to use motion capture for all character animations, replacing the manually keyframed sprites used in earlier entries. The mo-cap pipeline allowed Namco to produce more naturalistic movement at a higher volume than hand-animation could achieve.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Tekken retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The PlayStation port outsold the arcade version of Tekken 3 — an unusual outcome for fighting games, where arcade versions historically held the competitive audience. The home port added Tekken Force mode and Tekken Ball, exclusive modes that expanded the game's appeal beyond competitive play.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Tekken retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "tony-hawks-pro-skater-2-playstation",
+      "title": "Tony Hawk's Pro Skater 2",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Tony Hawk personally spent time at Neversoft's offices providing feedback on trick animations — he reviewed individual frames for his character model and approved or rejected specific move sequences. His involvement extended beyond licensing to direct creative consultation.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Tony Hawk's Pro Skater retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The Manual mechanic — allowing players to chain tricks between ramps on flat ground — was absent from THPS1 and added based on feedback from professional skateboarders who noted that real skating is not purely ramp-to-ramp. The addition fundamentally changed how scores were built and redefined the game's skill ceiling.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Tony Hawk's Pro Skater retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "tomb-raider-playstation",
+      "title": "Tomb Raider",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Lara Croft was originally designed as a male character named 'Ricky Cruz.' Core Design's Toby Gard changed the protagonist to a woman because he wanted an independent, athletic lead who would be memorable and distinct from the generic male action heroes dominant at the time.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "The History of Tomb Raider",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The tank controls — where Lara turns in place before moving forward — were deliberately stiff to force deliberate movement. Lead designer Paul Douglas wanted players to slow down near traps and ledges rather than running through hazards. Gard left Core Design shortly after release, uncomfortable with the direction of Lara's marketing.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Tomb Raider retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "final-fantasy-ix-playstation",
+      "title": "Final Fantasy IX",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Final Fantasy IX was explicitly conceived as a return to the series' medieval fantasy roots after FFVII and FFVIII's modern and futuristic settings. Producer Hironobu Sakaguchi personally oversaw the project and described it as a 'love letter' to the first five Final Fantasy games.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Final Fantasy IX retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Final Fantasy IX was developed in parallel with Final Fantasy VIII by a separate team — the first time in the series' history that two mainline numbered entries were simultaneously in active production. The two teams operated independently with different creative directors.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Final Fantasy IX retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "chrono-cross-playstation",
+      "title": "Chrono Cross",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Chrono Cross features 45 playable characters — the largest roster of any single-platform RPG at its release. Lead designer Masato Kato structured most characters as optional recruits; the critical path can be completed with a small core group, and many characters exist specifically for players who explore off the main route.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Chrono Cross retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "OST",
+          "fact": "Yasunori Mitsuda composed the Chrono Cross soundtrack immediately after recovering from the illness that ended his Chrono Trigger work. He described the score as deliberately different in tone from CT — using acoustic guitars and celtic influences to signal that Cross was a separate emotional experience, not a sequel.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Yasunori Mitsuda composer profile",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "vagrant-story-playstation",
+      "title": "Vagrant Story",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Vagrant Story was developed by a team of approximately ten people at SquareSoft — unusually small for an RPG of its visual and mechanical scope. Director Yasumi Matsuno designed the entire city of Lea Monde as a seamless connected space with no loading screens between areas, a significant technical achievement on the PS1.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Vagrant Story retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The Risk mechanic — where attacking with a weapon type increases its damage but also the enemy's resistance to it — was designed to penalize players who found a single effective combination and spammed it. Matsuno wanted every encounter to require active decision-making rather than routine execution.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Vagrant Story retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "crash-bandicoot-3-warped-playstation",
+      "title": "Crash Bandicoot 3: Warped",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "Naughty Dog developed a proprietary rendering engine from scratch for the PS1 that could push significantly more polygons per frame than Sony's official SDK. The time travel mechanic in Warped was partly designed to showcase how differently the engine could render environments under Egyptian, medieval, and prehistoric lighting conditions.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Crash Bandicoot retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Crash 3 was the last Naughty Dog title developed on the PS1 before the studio transitioned to PS2 development. Several team members have noted in interviews that the time travel structure was chosen partly because it allowed each era's levels to be assigned to different designers working in parallel.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Crash Bandicoot retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "crash-team-racing-playstation",
+      "title": "Crash Team Racing",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Crash Team Racing was developed as a direct response to Mario Kart 64 — Naughty Dog explicitly benchmarked Nintendo's game throughout production and aimed to exceed it on PS1 hardware. The team considered it a technical and design challenge: proving that the PS1 could match N64 kart racing.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Crash Bandicoot retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The Power Slide boost requires three sequential drift taps to charge a maximum-speed boost — an intentional depth layer that makes skilled play demonstrably faster than casual play. Naughty Dog wanted competitive players to be able to clearly outpace newcomers, giving the game a visible skill ceiling.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Crash Bandicoot retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "soul-calibur-dreamcast",
+      "title": "Soul Calibur",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "Soul Calibur's Dreamcast port is widely considered the first console version of an arcade game to surpass the original. The Dreamcast's hardware was based on the same NAOMI arcade board as the arcade version, enabling a port at full resolution and framerate with additional content not present in arcades.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "My Life in Gaming",
+          "url": "https://www.youtube.com/@mylifeingaming",
+          "reference": "Dreamcast RGB — Soul Calibur",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The Mission Battle mode — exclusive to the Dreamcast version — contained over 200 staged combat scenarios with specific win conditions. This mode was developed specifically for the home port to give solo players a structured challenge beyond arcade and versus modes.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Dreamcast fighting game retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "skies-of-arcadia-dreamcast",
+      "title": "Skies of Arcadia",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "The entirely airborne world of Skies of Arcadia — no landmass exists in the game world — was proposed as a foundational constraint in the initial concept phase. Producer Rieko Kodama insisted every navigation and exploration system be designed around the sky, ensuring the setting was mechanically integrated rather than decorative.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Skies of Arcadia retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The Dreamcast version's random encounter rate was the game's most consistent criticism. Overworks acknowledged this in the 2002 GameCube port (Skies of Arcadia Legends), which reduced encounter frequency significantly and added new content to compensate for the change in game length.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Skies of Arcadia retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "ikaruga-dreamcast",
+      "title": "Ikaruga",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Hiroshi Iuchi designed the polarity-switching mechanic as a response to traditional bullet-hell shooters, where survival required pure reaction speed. By making same-color bullets absorbable, he transformed the genre's core challenge from reflexes to pattern recognition — a fundamentally different cognitive demand.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Treasure retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The game was first released in Japanese arcades in 2001 before the Dreamcast port. The home version added a two-player simultaneous co-op mode — rare in bullet-hell shooters — where both players' polarities interact, adding a layer of coordination not present in solo play.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Treasure retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "streets-of-rage-2-sega-genesis",
+      "title": "Streets of Rage 2",
+      "facts": [
+        {
+          "category": "OST",
+          "fact": "Yuzo Koshiro composed the Streets of Rage 2 soundtrack using a PC-88 computer he programmed himself to sequence music specifically for the Genesis's FM synthesis chip. He studied European rave and techno music from the early 1990s to give the game an electronic club sound unlike any other Genesis title.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Streets of Rage retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Streets of Rage 2 was designed to be significantly harder than the original — lead designer Ayano Koshiro (Yuzo's sister) wanted the game to feel like a genuine upgrade in challenge, not just a visual update. Each returning character received new moves to compensate for the increased enemy aggression.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Streets of Rage retrospective",
+          "timestamp": "n/a",
+          "confidence": "medium",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "radiant-silvergun-sega-saturn",
+      "title": "Radiant Silvergun",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Radiant Silvergun was never officially released outside Japan during its initial Saturn run. Used copies routinely sold for over $150 on the import market for years, making it one of the most sought-after and expensive collector items of the 32-bit era.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Treasure retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "The game's weapon leveling system persists across credits — an RPG-style progression mechanic embedded in a shooter. Designer Hiroshi Iuchi wanted to reward players who mastered all seven weapon types rather than optimizing for one, so each weapon's level is tracked and retained between play sessions.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Treasure retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "castlevania-rondo-of-blood-turbografx-16",
+      "title": "Castlevania: Rondo of Blood",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "Rondo of Blood was the first Castlevania to use the PC Engine Super CD-ROM format, enabling CD-quality audio, full voice acting in cutscenes, and animated story sequences — production values impossible on cartridge-based platforms of the era.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Castlevania retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Rondo introduced Maria Renard as an alternate playable character — a young girl who fights using animal magic. Koji Igarashi later cited her design as a precursor to the multi-character philosophy he applied in Symphony of the Night, where Alucard and Richter offer fundamentally different playstyles.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Castlevania retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "advance-wars-game-boy-advance",
+      "title": "Advance Wars",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Intelligent Systems had been making Wars series games since Famicom Wars in 1988, but Advance Wars was the first entry localized for Western audiences. Nintendo of America initially hesitated to publish it, unsure whether Western players would accept a turn-based strategy game on a handheld.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Advance Wars retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Nintendo delayed Advance Wars' North American release by two weeks following the September 11, 2001 attacks, citing sensitivity to the game's military content and combat imagery in the immediate aftermath of the event.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "The History of Advance Wars",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "mike-tysons-punch-out-nintendo-entertainment-system",
+      "title": "Mike Tyson's Punch-Out!!",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "Each opponent in Punch-Out!! was designed around a single exploitable tell — a visual cue that signals the exact timing of their attack. Designer Genyo Takeda described the game as 'a puzzle game disguised as a boxing game': players were not expected to out-reflex opponents but to read and decode them.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Punch-Out!! retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "The game was retitled Punch-Out!! and Mike Tyson was replaced by a fictional character, 'Mr. Dream,' in 1990 when Nintendo's licensing agreement with Tyson expired following his conviction. The gameplay was unchanged; only the final boss character was swapped.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "youtube",
+          "sourceName": "Gaming Historian",
+          "url": "https://www.youtube.com/@GamingHistorian",
+          "reference": "The History of Punch-Out!!",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+
+    {
+      "gameId": "donkey-kong-country-2-super-nintendo",
+      "title": "Donkey Kong Country 2: Diddy's Kong Quest",
+      "facts": [
+        {
+          "category": "OST",
+          "fact": "David Wise composed the entire DKC2 soundtrack alone. The Bramble Blast theme (Stickerbrush Symphony) was composed in a single session and has since been recognized as one of the most celebrated SNES compositions — it was voted by fans as one of the best video game tracks of the 16-bit era in multiple retrospective polls.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Donkey Kong Country retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Dixie Kong was introduced as Diddy's equal co-protagonist — the first time a Rare platformer gave a female character mechanical parity with the male lead. Her helicopter spin ability allowed her to glide further than Diddy, making her the preferred character for precision platforming sections.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": "https://retronauts.com",
+          "reference": "Episode: Donkey Kong Country retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    }
+
+  ]
+}
