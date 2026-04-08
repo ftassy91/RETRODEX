@@ -87,9 +87,14 @@ function renderGameRow(game, options = {}) {
   const relationHtml = relationCue
     ? `<span class="result-context-row">Studio ${escapeHtml(relationCue)}</span>`
     : ''
-  const summary = String(game.summary || game.synopsis || game.tagline || '').trim()
-  const summaryHtml = summary
-    ? `<span class="result-summary">${escapeHtml(summary.length > 132 ? `${summary.slice(0, 132).trimEnd()}...` : summary)}</span>`
+  function truncateText(text, max) {
+    if (!text) return '';
+    const clean = String(text).replace(/<[^>]+>/g, '').trim();
+    return clean.length > max ? clean.slice(0, max) + '\u2026' : clean;
+  }
+  const synopsisSnippet = truncateText(game.synopsis || game.summary, 90);
+  const summaryHtml = synopsisSnippet
+    ? `<span class="game-row-synopsis">${escapeHtml(synopsisSnippet)}</span>`
     : ''
 
   el.innerHTML = `
