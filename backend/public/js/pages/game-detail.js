@@ -441,6 +441,7 @@ function renderHeroSection(game) {
   const trustMeta = game.sourceConfidence != null
     ? getTrustMeta(Math.round(Number(game.sourceConfidence) * 100))
     : { tier: 'T0', label: 'INCONNU' }
+  const priceContext = buildHeroPriceContext(game, trustMeta)
   const pricePanel = hasAnyPrice
     ? `<div class="detail-hero-price-panel">
         <div class="detail-hero-price-row">
@@ -448,7 +449,6 @@ function renderHeroSection(game) {
           ${game.cibPrice ? `<div class="detail-hero-price-cell"><span class="detail-hero-price-label">CIB</span><span class="detail-hero-price-value">$${Math.round(game.cibPrice)}</span></div>` : ''}
           ${game.mintPrice ? `<div class="detail-hero-price-cell"><span class="detail-hero-price-label">Mint</span><span class="detail-hero-price-value">$${Math.round(game.mintPrice)}</span></div>` : ''}
         </div>
-        <span class="trust-badge trust-${escapeHtml(trustMeta.tier)}" style="${escapeHtml(getTrustBadgeStyle(trustMeta.tier))}">${escapeHtml(getTrustBadgeText(trustMeta.tier))}</span>
       </div>`
     : '<span class="detail-hero-reference is-empty">Marche secondaire</span>'
 
@@ -522,10 +522,10 @@ function renderHeroSection(game) {
             <div id="collection-decision-grid" class="surface-signal-grid is-five detail-decision-grid"></div>
             <p id="collection-decision-note" class="detail-reading-note"></p>
           </div>
+          ${priceContext}
           ${pricePanel}
           <div id="hero-region-chips" class="hero-region-chips"></div>
           <div id="price-timestamp" class="price-timestamp" hidden></div>
-          ${game.priceLastUpdated ? `<div class="detail-hero-price-date">Mis à jour : ${escapeHtml(game.priceLastUpdated)}</div>${buildPriceFreshnessAlert(game.priceLastUpdated)}` : ''}
           ${game.sourceNames ? `<div class="detail-hero-sources">Sources : ${escapeHtml(game.sourceNames)}</div>` : ''}
         </aside>
       </div>
@@ -734,6 +734,64 @@ function getFreshnessLabel(value) {
   if (freshness === 'aging') return 'signal en veille'
   if (freshness === 'stale') return 'signal vieillissant'
   return 'signal ancien'
+}
+
+function getPriceFreshnessMeta(priceLastUpdated) {
+  if (!priceLastUpdated) {
+    return null
+  }
+
+  const updated = new Date(priceLastUpdated)
+  if (Number.isNaN(updated.getTime())) {
+    return null
+  }
+
+  const daysAgo = Math.floor((Date.now() - updated.getTime()) / (1000 * 60 * 60 * 24))
+  const monthsAgo = Math.max(1, Math.round(daysAgo / 30))
+
+  if (daysAgo <= 30) {
+    return {
+      label: 'tres frais',
+      detail: `${daysAgo} j`,
+      dateText: formatTrustDate(priceLastUpdated),
+    }
+  }
+
+  if (daysAgo <= 90) {
+    return {
+      label: 'a surveiller',
+      detail: `${daysAgo} j`,
+      dateText: formatTrustDate(priceLastUpdated),
+    }
+  }
+
+  return {
+    label: 'ancien',
+    detail: `${monthsAgo} mois`,
+    dateText: formatTrustDate(priceLastUpdated),
+  }
+}
+
+function buildHeroPriceContext(game, trustMeta) {
+  const freshnessMeta = getPriceFreshnessMeta(game?.priceLastUpdated)
+  const trustTier = trustMeta?.tier || 'T0'
+  const shouldShowContext = trustTier !== 'T0' || freshnessMeta
+
+  if (!shouldShowContext) {
+    return ''
+  }
+
+  return `
+    <div class="detail-hero-price-context" style="display:flex;flex-direction:column;gap:8px;margin:0 0 12px;">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+        <span class="detail-hero-reference">Confiance</span>
+        <span class="trust-badge trust-${escapeHtml(trustTier)}" style="${escapeHtml(getTrustBadgeStyle(trustTier))}">${escapeHtml(getTrustBadgeText(trustTier))}</span>
+        ${freshnessMeta ? `<span class="detail-hero-reference">Fraicheur</span><span class="detail-hero-reference">${escapeHtml(freshnessMeta.label)} · ${escapeHtml(freshnessMeta.detail)}</span>` : ''}
+      </div>
+      ${freshnessMeta?.dateText ? `<div class="detail-hero-price-date">Mis a jour : ${escapeHtml(freshnessMeta.dateText)}</div>` : ''}
+      ${buildPriceFreshnessAlert(game?.priceLastUpdated)}
+    </div>
+  `
 }
 
 function buildPriceFreshnessAlert(priceLastUpdated) {
@@ -2395,7 +2453,12 @@ function upsertRelatedModule(moduleId, title, copy, bodyHtml) {
   }
 
   moduleEl.innerHTML = `
-    <div class="related-module-head"><h3>${escapeHtml(title)}</h3></div>
+    <div class="related-module-head">
+      <div>
+        <h3>${escapeHtml(title)}</h3>
+        ${copy ? `<p class="related-module-copy">${escapeHtml(copy)}</p>` : ''}
+      </div>
+    </div>
     <div class="related-module-body">${bodyHtml}</div>
   `
 
@@ -2441,11 +2504,107 @@ function renderRelatedMetascore(score) {
     : buildEmptyStateHtml('Non noté')
 }
 
-function renderRelatedPrices(current, related) {
+function normalizeRelatedText(value) {
+  return String(value || '').trim().toLowerCase()
+}
+
+function getRelatedText(candidate) {
+  return [
+    candidate?.developerCompany?.name,
+    candidate?.developer,
+    candidate?.publisherCompany?.name,
+    candidate?.publisher,
+    candidate?.console,
+  ]
+    .map(normalizeRelatedText)
+    .filter(Boolean)
+    .join(' | ')
+}
+
+function getRelatedFallbackQuery(game) {
+  const anchors = [
+    game?.developerCompany?.name,
+    game?.developer,
+    game?.publisherCompany?.name,
+    game?.publisher,
+    game?.console,
+  ]
+
+  for (const anchor of anchors) {
+    const value = String(anchor || '').trim()
+    if (!value) {
+      continue
+    }
+
+    const lower = value.toLowerCase()
+    if (['studio inconnu', 'publisher inconnu', 'n/a', 'undefined', 'unknown'].includes(lower)) {
+      continue
+    }
+
+    return value
+  }
+
+  return ''
+}
+
+function scoreRelatedCandidate(candidate, game, options = {}) {
+  const title = String(candidate.title || '').toLowerCase()
+  const currentTitle = String(game.title || '').toLowerCase()
+  const normalizedSeries = normalizeRelatedText(options.series)
+  const normalizedQuery = normalizeRelatedText(options.query)
+  const spinOffKeywords = ['party', 'kart', 'golf', 'tennis', 'tactics', 'legend', 'revenant', '& luigi', 'paper mario']
+
+  let total = 0
+
+  if (normalizedSeries) {
+    if (title.startsWith(normalizedSeries)) total += 20
+    if (currentTitle.startsWith('super mario') && title.startsWith('super mario')) total += 40
+    if (spinOffKeywords.some((keyword) => title.includes(keyword))) total -= 25
+  }
+
+  if (normalizedQuery) {
+    const relationText = getRelatedText(candidate)
+    if (relationText.includes(normalizedQuery)) total += 20
+    if (title.includes(normalizedQuery)) total += 10
+  }
+
+  if (String(candidate.console || '').toLowerCase() === String(game.console || '').toLowerCase()) {
+    total += 15
+  }
+
+  total -= Math.abs(title.length - currentTitle.length) * 0.1
+  return total
+}
+
+function collectRelatedCandidates(items, game, options = {}) {
+  const normalizedSeries = normalizeRelatedText(options.series)
+  const normalizedQuery = normalizeRelatedText(options.query)
+  const requireSeriesMatch = Boolean(options.requireSeriesMatch)
+
+  return safeArray(items)
+    .filter((item) => item.id !== game.id)
+    .filter((item) => {
+      const title = String(item.title || '').toLowerCase()
+      if (requireSeriesMatch && normalizedSeries) {
+        return title.includes(normalizedSeries)
+      }
+
+      if (normalizedQuery) {
+        const relationText = getRelatedText(item)
+        return relationText.includes(normalizedQuery) || title.includes(normalizedQuery)
+      }
+
+      return true
+    })
+    .sort((left, right) => scoreRelatedCandidate(right, game, options) - scoreRelatedCandidate(left, game, options))
+    .slice(0, 4)
+}
+
+function renderRelatedPrices(current, related, options = {}) {
   upsertRelatedModule(
     'franchise-versions',
-    'Meme franchise | autres versions',
-    '',
+    options.title || 'Meme franchise | autres versions',
+    options.copy || '',
     `
         <div class="compare-table">
           <div class="compare-row compare-header">
@@ -2480,39 +2639,51 @@ async function loadRelatedGames(game) {
   removeRelatedModule('franchise-versions')
 
   const series = extractSeries(game?.title)
-  if (!series || series.length < 3) {
-    return
-  }
-
+  let related = []
+  let relatedTitle = 'Meme franchise | autres versions'
+  let relatedCopy = ''
   try {
-    const data = await fetchJson(`/api/games?q=${encodeURIComponent(series)}&limit=50`)
-    const normalizedSeries = series.toLowerCase()
-    const currentTitle = String(game.title || '').toLowerCase()
-    const spinOffKeywords = ['party', 'kart', 'golf', 'tennis', 'tactics', 'legend', 'revenant', '& luigi', 'paper mario']
-    const related = safeArray(data.items)
-      .filter((item) => item.id !== game.id)
-      .filter((item) => String(item.title || '').toLowerCase().includes(normalizedSeries))
-      .sort((left, right) => {
-        const score = (candidate) => {
-          const title = String(candidate.title || '').toLowerCase()
-          let total = 0
-          if (title.startsWith(normalizedSeries)) total += 20
-          if (currentTitle.startsWith('super mario') && title.startsWith('super mario')) total += 40
-          if (String(candidate.console || '').toLowerCase() === String(game.console || '').toLowerCase()) total += 15
-          if (spinOffKeywords.some((keyword) => title.includes(keyword))) total -= 25
-          total -= Math.abs(title.length - currentTitle.length) * 0.1
-          return total
-        }
-
-        return score(right) - score(left)
+    if (series && series.length >= 3) {
+      const data = await fetchJson(`/api/games?q=${encodeURIComponent(series)}&limit=50`)
+      related = collectRelatedCandidates(data.items, game, {
+        series,
+        query: series,
+        requireSeriesMatch: true,
       })
-      .slice(0, 4)
-
-    if (related.length < 2) {
-      return
     }
 
-    renderRelatedPrices(game, related)
+    if (related.length < 2) {
+      const fallbackQuery = getRelatedFallbackQuery(game)
+      if (fallbackQuery) {
+        const fallbackData = await fetchJson(`/api/games?q=${encodeURIComponent(fallbackQuery)}&limit=25`)
+        const fallbackRelated = collectRelatedCandidates(fallbackData.items, game, {
+          query: fallbackQuery,
+          requireSeriesMatch: false,
+        })
+        const relaxedFallback = fallbackRelated.length ? fallbackRelated : collectRelatedCandidates(fallbackData.items, game, {
+          requireSeriesMatch: false,
+        })
+
+        const merged = new Map()
+        for (const candidate of [...related, ...relaxedFallback]) {
+          if (candidate?.id && !merged.has(candidate.id)) {
+            merged.set(candidate.id, candidate)
+          }
+        }
+
+        related = Array.from(merged.values()).slice(0, 4)
+        if (related.length && series && series.length >= 3) {
+          relatedTitle = 'Lecture prolongee | connexions proches'
+          relatedCopy = `Fallback sur ${fallbackQuery}`
+        } else if (related.length) {
+          relatedTitle = `Lecture prolongee | ${fallbackQuery}`
+        }
+      }
+    }
+
+    if (related.length) {
+      renderRelatedPrices(game, related, { title: relatedTitle, copy: relatedCopy })
+    }
   } catch (error) {
     console.warn('[RetroDex] Related franchise lookup failed:', error.message)
   }

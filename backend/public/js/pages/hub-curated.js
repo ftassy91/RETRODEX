@@ -64,7 +64,7 @@
     const summary = String(item.summary || item.synopsis || '').trim()
     const shortSummary = summary
       ? `${summary.slice(0, 116)}${summary.length > 116 ? '...' : ''}`
-      : 'Fiche a ouvrir.'
+      : 'Archive, contexte, prix et collection sur une seule fiche.'
     const meta = [item.console, item.year].filter(Boolean).map((part) => esc(part)).join(' | ')
 
     return `
@@ -73,12 +73,12 @@
         <div class="hub-encyclo-card-meta">${meta || 'Archive RetroDex'}</div>
         <div class="surface-chip-row hub-rich-chip-row">
           ${signals ? `<span class="surface-chip is-primary">${esc(signals.band.shortLabel)}</span>` : ''}
-          ${signals ? `<span class="surface-chip">Etat ${esc(signals.completionState.shortLabel)}</span>` : ''}
+          ${signals ? `<span class="surface-chip">Lecture ${esc(signals.completionState.shortLabel)}</span>` : ''}
           ${item.metascore ? `<span class="surface-chip is-hot">MS ${esc(item.metascore)}</span>` : ''}
         </div>
         <p class="hub-card-copy">${esc(shortSummary)}</p>
         <div class="hub-universe-actions">
-          <a class="hub-inline-link" href="${href}">ouvrir la fiche</a>
+          <a class="hub-inline-link" href="${href}">voir la fiche</a>
         </div>
       </article>
     `
@@ -100,27 +100,27 @@
       const consoles = Number(publication.consoleCount || 0)
       const withSynopsis = Number(statsPayload?.with_synopsis || 0)
 
-      bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} fiches visibles | ${consoles} supports`
+      bannerEl.textContent = `${published} fiches lisibles sur ${total} jeux | ${withSynopsis} avec lecture | ${consoles} consoles`
       setText(publishedEl, String(published || '--'))
       setText(totalEl, String(total || '--'))
       setText(synopsisEl, String(withSynopsis || '--'))
       setText(consolesEl, String(consoles || '--'))
-      setText(publicationSignalEl, `${published} visibles`)
-      setText(editorialSignalEl, `${withSynopsis} lectures`)
-      setText(archiveSignalEl, strongPages.length ? `${strongPages.length} fiches fortes` : 'en cours')
+      setText(publicationSignalEl, `${published} fiches`)
+      setText(editorialSignalEl, `${withSynopsis} fiches`)
+      setText(archiveSignalEl, strongPages.length ? `${strongPages.length} a ouvrir` : 'en cours')
 
       if (!strongPages.length) {
-        renderState('Aucune fiche forte', 'La vitrine se remplira avec les meilleures pages publiees.')
+        renderState('Aucune fiche mise en avant', 'La vitrine se remplira avec les fiches les plus utiles a ouvrir.')
         return
       }
 
       richGridEl.innerHTML = strongPages.map(buildCard).join('')
     } catch (_error) {
-      bannerEl.textContent = 'RetroDex | systeme de lecture et de collection'
+      bannerEl.textContent = 'RetroDex | fiches, collection, valeur'
       setText(publicationSignalEl, 'indisponible')
       setText(editorialSignalEl, 'indisponible')
       setText(archiveSignalEl, 'indisponible')
-      renderState('Signaux indisponibles', 'Impossible de charger la vitrine pour cette session.')
+      renderState('Signaux indisponibles', 'Impossible de charger les fiches a ouvrir pour cette session.')
     }
   }
 

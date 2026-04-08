@@ -6065,6 +6065,13 @@ body {
   margin-bottom: 10px;
 }
 
+.related-module-copy {
+  margin: 4px 0 0;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
 .compare-table {
   width: 100%;
 }

@@ -200,7 +200,19 @@
     editNotesEl.value = getCollectionNote(item)
   }
 
-  function startEdit(item) {
+  function focusEditField(focusField = 'condition') {
+    window.requestAnimationFrame(() => {
+      if (focusField === 'price') {
+        editPricePaidEl?.focus()
+        editPricePaidEl?.select?.()
+        return
+      }
+
+      editConditionEl?.focus()
+    })
+  }
+
+  function startEdit(item, focusField = 'condition') {
     if (!editFormEl || !item || (isPublicForSaleView && activeTab === 'for_sale')) {
       return
     }
@@ -208,7 +220,7 @@
     editingItemId = item.id || item.gameId || null
     populateEditForm(item)
     editFormEl.hidden = false
-    editConditionEl?.focus()
+    focusEditField(focusField)
   }
 
   function readEditFormValues() {
@@ -418,6 +430,63 @@
     `
   }
 
+  async function patchCollectionItem(itemId, payload, successMessage) {
+    if (!itemId) {
+      return
+    }
+
+    setStatus('Mise a jour...')
+    try {
+      await fetchJson(`/api/collection/${encodeURIComponent(itemId)}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      })
+      await loadCollection(itemId)
+      setStatus(successMessage)
+    } catch (error) {
+      setStatus(`Erreur mise a jour : ${error.message}`)
+    }
+  }
+
+  function renderFocusQuickActions(item) {
+    if (isPublicForSaleView || !item) {
+      return ''
+    }
+
+    const listType = String(item.list_type || activeTab || 'owned').toLowerCase()
+    const hasPricePaid = Number(item.price_paid || 0) > 0
+    const actions = []
+
+    if (listType === 'for_sale') {
+      actions.push(`
+        <button id="collection-return-btn" class="terminal-inline-btn" type="button">
+          REPASSER A L'ETAGERE
+        </button>
+      `)
+    } else if (listType !== 'wanted') {
+      actions.push(`
+        <button id="collection-mark-sale-btn" class="terminal-inline-btn" type="button">
+          MARQUER A VENDRE
+        </button>
+      `)
+    }
+
+    if (listType !== 'wanted' && !hasPricePaid) {
+      actions.push(`
+        <button id="collection-fill-price-btn" class="terminal-inline-btn" type="button">
+          RENSEIGNER PRIX PAYE
+        </button>
+      `)
+    }
+
+    return actions.length
+      ? `<span class="terminal-preview-row surface-action-row" style="gap:8px;flex-wrap:wrap">${actions.join('')}</span>`
+      : ''
+  }
+
   function renderDetailMetascore(score) {
     if (!detailMetascoreEl || !window.RetroDexMetascore) return
     detailMetascoreEl.innerHTML = ''
@@ -607,6 +676,7 @@
     detailRow2El.innerHTML = `
       <a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="terminal-action-link">Ouvrir la fiche &rarr;</a>
       <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="terminal-action-link">Qualifier &rarr;</a>
+      ${renderFocusQuickActions(item)}
       ${isPublicForSaleView && activeTab === 'for_sale' ? '' : `
         <button id="collection-edit-btn" class="terminal-inline-btn" type="button">
           MODIFIER
@@ -624,6 +694,18 @@
     const removeBtn = byId('collection-remove-btn')
     if (removeBtn) {
       removeBtn.onclick = () => removeFromCollection(item.id || item.gameId)
+    }
+    const markSaleBtn = byId('collection-mark-sale-btn')
+    if (markSaleBtn) {
+      markSaleBtn.onclick = () => patchCollectionItem(item.id || item.gameId, { list_type: 'for_sale' }, 'Jeu marque a vendre.')
+    }
+    const returnBtn = byId('collection-return-btn')
+    if (returnBtn) {
+      returnBtn.onclick = () => patchCollectionItem(item.id || item.gameId, { list_type: 'owned' }, 'Jeu remis a l etagere.')
+    }
+    const fillPriceBtn = byId('collection-fill-price-btn')
+    if (fillPriceBtn) {
+      fillPriceBtn.onclick = () => startEdit(item, 'price')
     }
   }
 
