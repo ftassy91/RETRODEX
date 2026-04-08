@@ -41,6 +41,7 @@ let currentArchiveData = null
 let currentGameDetailData = null
 let currentRenderedDetailTabs = new Set()
 let currentDetailHydrationRequest = 0
+let currentFullDetailSchedule = null
 const HUB_IMAGE_VERSION = '20260323b'
 let hubImageManifestPromise = null
 
@@ -1855,7 +1856,7 @@ async function loadGameDetailData(gameId) {
 
     renderEditorialContent()
     runtimeMonitor?.mark('detail-primary-ready', { gameId, scope: data.meta?.scope || 'primary' })
-    void hydrateFullGameDetailData(gameId, requestId)
+    scheduleFullGameDetailHydration(gameId, requestId)
     return true
   } catch (error) {
     currentGameDetailData = null
@@ -1863,6 +1864,31 @@ async function loadGameDetailData(gameId) {
     console.warn('[RetroDex] detail data layer load failed:', error.message)
     return false
   }
+}
+
+function scheduleFullGameDetailHydration(gameId, requestId) {
+  if (currentFullDetailSchedule) {
+    window.clearTimeout(currentFullDetailSchedule)
+    currentFullDetailSchedule = null
+  }
+
+  const runHydration = () => {
+    currentFullDetailSchedule = null
+    void hydrateFullGameDetailData(gameId, requestId)
+  }
+
+  if (typeof window.requestIdleCallback === 'function') {
+    currentFullDetailSchedule = window.setTimeout(runHydration, 180)
+    window.requestIdleCallback(() => {
+      if (currentFullDetailSchedule) {
+        window.clearTimeout(currentFullDetailSchedule)
+        runHydration()
+      }
+    }, { timeout: 1200 })
+    return
+  }
+
+  currentFullDetailSchedule = window.setTimeout(runHydration, 180)
 }
 
 async function loadEncyclopedia(gameId) {
@@ -3555,6 +3581,10 @@ async function loadPage() {
   currentArchiveData = null
   currentEncyclopediaData = null
   currentRenderedDetailTabs = new Set()
+  if (currentFullDetailSchedule) {
+    window.clearTimeout(currentFullDetailSchedule)
+    currentFullDetailSchedule = null
+  }
   buildCatalogueBackLink()
   showSkeleton()
   const slowTimer = window.setTimeout(() => {
@@ -3585,6 +3615,7 @@ async function loadPage() {
     renderHeroSection(currentGame)
     renderProvenance(currentGame)
     renderDetailContentStatus()
+    window.clearTimeout(slowTimer)
     updatePriceTimestamp(currentGame.id)
     loadPriceHistory(currentGame.id)
 
@@ -3677,6 +3708,18 @@ async function loadPage() {
 }
 
 async function hydrateFullGameDetailData(gameId, requestId) {
+  const slowTimer = window.setTimeout(() => {
+    if (requestId !== currentDetailHydrationRequest || !editorialShellEl || !editorialContentEl) {
+      return
+    }
+
+    editorialShellEl.hidden = false
+    if (!String(editorialContentEl.innerHTML || '').trim()) {
+      editorialContentEl.innerHTML = '<div class="detail-empty-state">Lecture detaillee plus lente... la fiche principale reste disponible.</div>'
+    }
+    runtimeMonitor?.mark('detail-full-slow', { gameId })
+  }, 3500)
+
   try {
     runtimeMonitor?.mark('detail-full-request', { gameId })
     const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/detail?scope=full`)
@@ -3696,6 +3739,8 @@ async function hydrateFullGameDetailData(gameId, requestId) {
       console.warn('[RetroDex] detail full hydration failed:', error.message)
       runtimeMonitor?.mark('detail-full-failed', { gameId, message: error.message })
     }
+  } finally {
+    window.clearTimeout(slowTimer)
   }
 }
 

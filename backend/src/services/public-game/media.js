@@ -1,7 +1,11 @@
 'use strict'
 
 const { db } = require('../../../db_supabase')
+const { LRUCache } = require('../../lib/lru-cache')
 const { isMissingSupabaseRelationError } = require('../public-supabase-utils')
+
+const contentProfileCache = new LRUCache(300, 5 * 60 * 1000)
+const contentProfilePromises = new Map()
 
 async function fetchGameMediaMap(gameIds = []) {
   const uniqueIds = Array.from(new Set((gameIds || []).filter(Boolean).map((value) => String(value))))
@@ -107,21 +111,48 @@ async function fetchGameEditorialRow(gameId) {
 }
 
 async function fetchGameContentProfileRow(gameId) {
+  const normalizedGameId = String(gameId || '').trim()
+  if (!normalizedGameId) {
+    return null
+  }
+
+  const cached = contentProfileCache.get(normalizedGameId)
+  if (cached) {
+    return cached
+  }
+
+  if (contentProfilePromises.has(normalizedGameId)) {
+    return contentProfilePromises.get(normalizedGameId)
+  }
+
+  const promise = (async () => {
   const { data, error } = await db
     .from('game_content_profiles')
     .select('content_profile_json,profile_version,profile_mode,profile_basis_json,relevant_expected,updated_at')
-    .eq('game_id', String(gameId || ''))
+    .eq('game_id', normalizedGameId)
     .limit(1)
     .single()
 
-  if (error) {
-    if (isMissingSupabaseRelationError(error)) {
-      return null
+    if (error) {
+      if (isMissingSupabaseRelationError(error)) {
+        contentProfileCache.set(normalizedGameId, null)
+        return null
+      }
+      throw new Error(error.message)
     }
-    throw new Error(error.message)
-  }
 
-  return data || null
+    const result = data || null
+    contentProfileCache.set(normalizedGameId, result)
+    return result
+  })()
+
+  contentProfilePromises.set(normalizedGameId, promise)
+
+  try {
+    return await promise
+  } finally {
+    contentProfilePromises.delete(normalizedGameId)
+  }
 }
 
 module.exports = {
