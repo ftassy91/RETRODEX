@@ -1,7 +1,7 @@
 'use strict'
 
 const { fetchGamePriceHistoryPayload } = require('./public-runtime-payload/game-price-history')
-const { fetchItemsPayload, fetchItemsPayloadResult } = require('./public-runtime-payload/items')
+const { fetchItemsPayload, fetchItemsPayloadResult, warmUpItemsRuntime } = require('./public-runtime-payload/items')
 const {
   fetchConsolesPayload,
   fetchConsoleDetailPayload,
@@ -12,6 +12,7 @@ module.exports = {
   fetchGamePriceHistoryPayload,
   fetchItemsPayload,
   fetchItemsPayloadResult,
+  warmUpItemsRuntime,
   fetchConsolesPayload,
   fetchConsoleDetailPayload,
   fetchStatsPayload,

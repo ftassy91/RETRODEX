@@ -19,6 +19,7 @@ const { fetchRowsInBatches, uniqueStrings } = require('../public-supabase-utils'
 
 const publishedListingScopeCache = new LRUCache(1, 60 * 1000)
 const itemsPayloadCache = new LRUCache(300, 120 * 1000)
+let publishedListingScopePromise = null
 
 function normalizeStringParam(value) {
   return String(value || '').trim()
@@ -68,23 +69,35 @@ async function fetchPublishedListingScope() {
     return cached
   }
 
-  const rows = await fetchRowsInBatches(
-    'game_curation_states',
-    'game_id,pass_key',
-    (query) => query.eq('status', 'published'),
-    { column: 'game_id', options: { ascending: true }, batchSize: 2000 }
-  )
-
-  const ids = uniqueStrings(rows.map((row) => row.game_id))
-  const scope = {
-    enabled: true,
-    ids,
-    set: new Set(ids),
-    passKey: String(rows[0]?.pass_key || '').trim() || 'pass1-premium-encyclopedic',
-    version: buildPublishedListingScopeVersion(rows),
+  if (publishedListingScopePromise) {
+    return publishedListingScopePromise
   }
-  publishedListingScopeCache.set('published-listing-scope', scope)
-  return scope
+
+  publishedListingScopePromise = (async () => {
+    const rows = await fetchRowsInBatches(
+      'game_curation_states',
+      'game_id,pass_key',
+      (query) => query.eq('status', 'published'),
+      { column: 'game_id', options: { ascending: true }, batchSize: 1000 }
+    )
+
+    const ids = uniqueStrings(rows.map((row) => row.game_id))
+    const scope = {
+      enabled: true,
+      ids,
+      set: new Set(ids),
+      passKey: String(rows[0]?.pass_key || '').trim() || 'pass1-premium-encyclopedic',
+      version: buildPublishedListingScopeVersion(rows),
+    }
+    publishedListingScopeCache.set('published-listing-scope', scope)
+    return scope
+  })()
+
+  try {
+    return await publishedListingScopePromise
+  } finally {
+    publishedListingScopePromise = null
+  }
 }
 
 function filterCatalogItems(items = [], params, scope) {
@@ -129,14 +142,16 @@ async function fetchItemsPayloadResult(query = {}) {
     yearMin,
     yearMax,
   }
-  const scope = await fetchPublishedListingScope()
+  const [scope, allGames] = await Promise.all([
+    fetchPublishedListingScope(),
+    fetchAllSupabaseGames(),
+  ])
   const cacheKey = buildItemsPayloadCacheKey(scope.version, normalizedParams)
   const cachedPayload = itemsPayloadCache.get(cacheKey)
   if (cachedPayload) {
     return { payload: cachedPayload, cacheStatus: 'hit' }
   }
 
-  const allGames = await fetchAllSupabaseGames()
   const publishedCatalog = filterCatalogItems(allGames, normalizedParams, scope)
   const total = publishedCatalog.length
   const items = publishedCatalog.slice(offset, offset + limit)
@@ -177,4 +192,10 @@ async function fetchItemsPayload(query = {}) {
 module.exports = {
   fetchItemsPayload,
   fetchItemsPayloadResult,
+  warmUpItemsRuntime: async () => {
+    await Promise.all([
+      fetchPublishedListingScope(),
+      fetchAllSupabaseGames(),
+    ])
+  },
 }

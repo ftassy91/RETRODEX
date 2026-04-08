@@ -17,6 +17,7 @@ logRuntimeDbContext()
 const { mode: supabaseMode, db: supabaseDb } = require('../db_supabase')
 const { createApp } = require('./runtime/create-app')
 const { createRuntimeReady } = require('./runtime/runtime-ready')
+const { warmUpItemsRuntime } = require('./services/public-runtime-payload-service')
 
 function loadLegacyRuntimeModule() {
   return require('./runtime/legacy-runtime')
@@ -65,6 +66,12 @@ ensureRuntimeReady = createRuntimeReady({
   getLegacyRuntime,
   bindRuntimeLocals,
 })
+
+if (supabaseMode === 'supabase') {
+  warmUpItemsRuntime().catch((error) => {
+    console.warn('[runtime-warmup] items runtime warm-up failed:', error.message)
+  })
+}
 
 async function startServer(portOverride) {
   if (!useSupabaseServerlessRoutes) {

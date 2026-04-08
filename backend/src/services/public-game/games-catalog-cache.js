@@ -1,25 +1,16 @@
 'use strict'
 
 /**
- * In-memory catalog cache — stale-while-revalidate.
- *
- * Cold start: first call blocks until Supabase responds (~500ms–1s).
- * All subsequent calls return from memory immediately (<1ms).
- * When TTL expires, stale data is returned immediately while a background
- * refresh updates the cache — no request ever waits for a refresh.
+ * In-memory catalog cache with stale-while-revalidate.
+ * First load blocks until the cache is filled.
+ * Subsequent loads return immediately and refresh in the background when stale.
  */
 
 const { mode } = require('../../../db_supabase')
 const { fetchRowsInBatches } = require('../public-supabase-utils')
 const { normalizeGameRecord } = require('../../lib/normalize')
 
-const TTL_MS = 5 * 60 * 1000 // 5 minutes
-
-const state = {
-  items: null,       // normalized game records; null until first load
-  fetchedAt: 0,
-  refreshing: false,
-}
+const TTL_MS = 5 * 60 * 1000
 
 const BASE_COLUMNS = [
   'id',
@@ -45,10 +36,23 @@ const OPTIONAL_SUPABASE_COLUMNS = [
   'source_names',
 ]
 
+const state = {
+  items: null,
+  fetchedAt: 0,
+  refreshPromise: null,
+}
+
+function getCatalogColumns() {
+  return [
+    ...BASE_COLUMNS,
+    ...(mode === 'supabase' ? OPTIONAL_SUPABASE_COLUMNS : []),
+  ].join(',')
+}
+
 async function fetchFresh() {
   const rows = await fetchRowsInBatches(
     'games',
-    [...BASE_COLUMNS, ...(mode === 'supabase' ? OPTIONAL_SUPABASE_COLUMNS : [])].join(','),
+    getCatalogColumns(),
     (query) => query.eq('type', 'game'),
     { column: 'title', options: { ascending: true }, batchSize: 1000 }
   )
@@ -57,25 +61,26 @@ async function fetchFresh() {
 }
 
 async function refresh() {
-  if (state.refreshing) return
-  state.refreshing = true
-  try {
-    const items = await fetchFresh()
-    state.items = items
-    state.fetchedAt = Date.now()
-    console.info(`[catalog-cache] Refreshed — ${items.length} games`)
-  } catch (err) {
-    console.error('[catalog-cache] Refresh failed', err)
-  } finally {
-    state.refreshing = false
+  if (state.refreshPromise) {
+    return state.refreshPromise
   }
+
+  state.refreshPromise = (async () => {
+    try {
+      const items = await fetchFresh()
+      state.items = items
+      state.fetchedAt = Date.now()
+      console.info(`[catalog-cache] Refreshed — ${items.length} games`)
+    } catch (err) {
+      console.error('[catalog-cache] Refresh failed', err)
+    } finally {
+      state.refreshPromise = null
+    }
+  })()
+
+  return state.refreshPromise
 }
 
-/**
- * Returns all cached game records.
- * - First call blocks until loaded.
- * - Subsequent calls return immediately; background refresh when stale.
- */
 async function getAll() {
   if (!state.items) {
     await refresh()
@@ -83,25 +88,21 @@ async function getAll() {
   }
 
   if (Date.now() - state.fetchedAt > TTL_MS) {
-    refresh() // fire-and-forget — stale data returned immediately
+    refresh()
   }
 
   return state.items
 }
 
-/**
- * Call once on server start to pre-populate the cache before the first
- * request arrives, eliminating the cold-start penalty entirely.
- */
 async function warmUp() {
   if (state.items) return
   await refresh()
 }
 
-/** Force-expire the cache (e.g. after a data write operation). */
 function invalidate() {
   state.items = null
   state.fetchedAt = 0
+  state.refreshPromise = null
 }
 
 module.exports = { getAll, warmUp, invalidate }
