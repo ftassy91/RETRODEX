@@ -363,7 +363,9 @@
       return 'Doublon detecte. Comparer etat, note et prix paye avant arbitrage.'
     }
     if (activeCockpitSignal === 'sell_candidates') {
-      return 'Sortie plausible. Verifier delta et pertinence avant de mettre en vente.'
+      const sellEstimate = loosePrice > 0 ? Math.round(loosePrice * 0.85) : null
+      const sellLine = sellEstimate != null ? ` Prix de vente realiste estime : $${sellEstimate} (loose marche x0.85).` : ''
+      return `Sortie plausible. Verifier delta et pertinence avant de mettre en vente.${sellLine}`
     }
     if (activeCockpitSignal === 'upgrade_candidates') {
       return 'Upgrade plausible. Comparer votre etat actuel au saut vers CIB ou Mint.'
