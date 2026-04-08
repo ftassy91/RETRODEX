@@ -9,8 +9,10 @@ const {
 } = require('../../services/public-runtime-payload-service')
 
 const router = Router()
+const PUBLIC_STATS_CACHE_CONTROL = 'public, max-age=0, s-maxage=120, stale-while-revalidate=300'
 
 router.get('/api/stats', handleAsync(async (_req, res) => {
+  res.set('Cache-Control', PUBLIC_STATS_CACHE_CONTROL)
   return res.json(await fetchStatsPayload())
 }))
 
