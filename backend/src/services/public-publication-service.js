@@ -1,5 +1,6 @@
 'use strict'
 
+const { createHash } = require('crypto')
 const { db } = require('../../db_supabase')
 const { LRUCache } = require('../lib/lru-cache')
 const { normalizeGameRecord } = require('../lib/normalize')
@@ -15,6 +16,26 @@ const scopeCache = new LRUCache(1, 60 * 1000)
 const signalCache = new LRUCache(5000, 2 * 60 * 1000)
 const curationCache = new LRUCache(5000, 2 * 60 * 1000)
 let scopeRefreshPromise = null
+
+function buildScopeVersion(slotRows = []) {
+  if (!Array.isArray(slotRows) || !slotRows.length) {
+    return 'empty'
+  }
+
+  const digest = createHash('sha1')
+  for (const row of slotRows) {
+    digest.update(String(row.console_id || ''))
+    digest.update(':')
+    digest.update(String(row.game_id || ''))
+    digest.update(':')
+    digest.update(String(row.slot_rank || ''))
+    digest.update(':')
+    digest.update(String(row.pass_key || ''))
+    digest.update('|')
+  }
+
+  return digest.digest('hex').slice(0, 16)
+}
 
 function buildPublicationSummary(scope = null, statsBase = null, extra = {}) {
   return {
@@ -283,6 +304,7 @@ async function fetchPublishedGameScope() {
     consoleIds,
     slotRows,
     passKey: passKeys[0] || DEFAULT_PUBLICATION_PASS_KEY,
+    version: buildScopeVersion(slotRows),
   }
   scopeCache.set('published-scope', scope)
   return scope
