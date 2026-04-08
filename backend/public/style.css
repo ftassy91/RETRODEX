@@ -5478,6 +5478,41 @@ body {
   min-height: 0;
 }
 
+.game-relation-link {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 120px;
+  padding: 8px 10px;
+  border: 1px solid rgba(67, 95, 60, 0.55);
+  background: rgba(9, 14, 9, 0.9);
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.game-relation-link:hover {
+  border-color: rgba(155, 188, 15, 0.55);
+  color: var(--text-primary);
+}
+
+.game-relation-link.is-accent {
+  border-color: rgba(189, 159, 84, 0.55);
+  color: var(--text-alert);
+}
+
+.game-relation-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.game-relation-value {
+  font-size: 13px;
+  line-height: 1.35;
+  color: inherit;
+}
+
 .price-panel {
   padding: 18px;
   border-radius: 0;

@@ -481,7 +481,7 @@ function renderHeroSection(game) {
 
               <div class="detail-hero-developer">
                 ${meta.developerName && meta.developerName !== 'studio inconnu'
-                  ? `<a class="detail-studio-link" href="/games-list.html?q=${encodeURIComponent(meta.developerName)}" title="Voir tous les jeux de ${escapeHtml(meta.developerName)}">${escapeHtml(meta.developerName)}</a>`
+                  ? `<a class="detail-studio-link" href="${buildRelationCatalogUrl({ q: meta.developerName }, 'developer', meta.developerName)}" title="Voir tous les jeux de ${escapeHtml(meta.developerName)}">${escapeHtml(meta.developerName)}</a>`
                   : escapeHtml(meta.developerName)}
               </div>
 
@@ -1875,26 +1875,90 @@ async function loadEncyclopedia(gameId) {
   }
 }
 
-async function loadFranchise(gameId) {
+function buildRelationCatalogUrl(filters = {}, context = '', label = '') {
+  const params = new URLSearchParams()
+  Object.entries(filters).forEach(([key, value]) => {
+    const normalized = String(value || '').trim()
+    if (normalized) {
+      params.set(key, normalized)
+    }
+  })
+  if (context) params.set('source', 'relation')
+  if (context) params.set('context', context)
+  if (label) params.set('label', label)
+  return `/games-list.html?${params.toString()}`
+}
+
+function renderGameRelations(game, franchise = null) {
+  const relationsEl = document.getElementById('game-relations')
+  if (!relationsEl || !game) {
+    return
+  }
+
+  const developerName = String(
+    game.developerCompany?.name
+      || game.developer
+      || game.publisherCompany?.name
+      || game.publisher
+      || ''
+  ).trim()
+  const consoleName = String(game.console || '').trim()
+  const year = Number.parseInt(String(game.year || ''), 10)
+  const relationLinks = []
+
+  if (franchise?.slug && franchise?.name) {
+    relationLinks.push(`
+      <a class="game-relation-link is-accent" href="/franchises.html?slug=${encodeURIComponent(franchise.slug)}">
+        <span class="game-relation-label">Franchise</span>
+        <span class="game-relation-value">${escapeHtml(franchise.name)}</span>
+      </a>
+    `)
+  }
+
+  if (developerName && !['studio inconnu', 'publisher inconnu', 'n/a', 'undefined', 'unknown'].includes(developerName.toLowerCase())) {
+    relationLinks.push(`
+      <a class="game-relation-link" href="${buildRelationCatalogUrl({ q: developerName }, 'developer', developerName)}">
+        <span class="game-relation-label">Studio</span>
+        <span class="game-relation-value">${escapeHtml(developerName)}</span>
+      </a>
+    `)
+  }
+
+  if (consoleName) {
+    relationLinks.push(`
+      <a class="game-relation-link" href="${buildRelationCatalogUrl({ console: consoleName }, 'console', consoleName)}">
+        <span class="game-relation-label">Console</span>
+        <span class="game-relation-value">${escapeHtml(consoleName)}</span>
+      </a>
+    `)
+  }
+
+  if (Number.isFinite(year) && year > 0) {
+    relationLinks.push(`
+      <a class="game-relation-link" href="${buildRelationCatalogUrl({ yearMin: year, yearMax: year }, 'period', String(year))}">
+        <span class="game-relation-label">Periode</span>
+        <span class="game-relation-value">${escapeHtml(String(year))}</span>
+      </a>
+    `)
+  }
+
+  relationsEl.innerHTML = relationLinks.join('')
+  relationsEl.hidden = relationLinks.length === 0
+}
+
+async function loadFranchise(game) {
+  const gameId = typeof game === 'string' ? game : game?.id
+  const baseGame = typeof game === 'object' ? game : currentGame
+  if (!gameId || !baseGame) {
+    return
+  }
+
   try {
     const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/franchise`)
-    if (!data.ok || !data.franchise) {
-      return
-    }
-
-    const relationsEl = document.getElementById('game-relations')
-    if (!relationsEl) {
-      return
-    }
-
-    const franchise = data.franchise
-    relationsEl.innerHTML = `
-      <a class="terminal-action-link franchise-link" href="/franchises.html?slug=${encodeURIComponent(franchise.slug)}">
-        FRANCHISE | ${escapeHtml(franchise.name)} (${escapeHtml(franchise.first_game || 'n/a')}-${escapeHtml(franchise.last_game || 'n/a')}) ->
-      </a>
-    `
+    renderGameRelations(baseGame, data.ok ? data.franchise : null)
   } catch (_error) {
     console.warn('[game-detail] franchise load failed:', _error?.message)
+    renderGameRelations(baseGame, null)
   }
 }
 
@@ -3490,7 +3554,7 @@ async function loadPage() {
       }
     }
 
-    await loadFranchise(currentGame.id)
+    await loadFranchise(currentGame)
     renderSummary(currentGame)
     renderStats(currentGame)
     loadRetrodexIndex(currentGame.id).catch((err) => console.error('[game-detail] loadRetrodexIndex unhandled', err))

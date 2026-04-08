@@ -42,6 +42,7 @@ let publicationSummary = null
 let renderMode = 'client'
 let advancedSnapshotPromise = null
 let advancedSnapshotKey = ''
+const initialSearchParams = new URLSearchParams(window.location.search)
 
 const RARITY_DESC_ORDER = { LEGENDARY: 0, EPIC: 1, RARE: 2, UNCOMMON: 3, COMMON: 4 }
 const RARITY_ASC_ORDER = { COMMON: 0, UNCOMMON: 1, RARE: 2, EPIC: 3, LEGENDARY: 4 }
@@ -74,6 +75,39 @@ function normalizeSortKey(value) {
 function yearVal(value) {
   const year = Number.parseInt(String(value || ''), 10)
   return Number.isFinite(year) ? Math.max(1970, Math.min(2012, year)) : ''
+}
+
+function relationContext(currentState = state()) {
+  const source = initialSearchParams.get('source') || ''
+  const context = initialSearchParams.get('context') || ''
+  const label = String(initialSearchParams.get('label') || '').trim()
+  if (source !== 'relation') {
+    return null
+  }
+
+  if (context === 'developer' && label) {
+    return {
+      subtitle: `Parcours relationnel | studio ${label}`,
+      banner: 'Depuis une fiche : meme studio, autres jeux, meme logique de lecture.',
+    }
+  }
+
+  if (context === 'console' && label) {
+    return {
+      subtitle: `Parcours relationnel | console ${label}`,
+      banner: 'Depuis une fiche : meme support, meme ecosysteme de lecture.',
+    }
+  }
+
+  if (context === 'period') {
+    const periodLabel = label || `${currentState.yearMin || ''}`.trim()
+    return {
+      subtitle: `Parcours relationnel | periode ${periodLabel || 'ciblee'}`,
+      banner: 'Depuis une fiche : rebond par annee pour situer un jeu dans sa periode.',
+    }
+  }
+
+  return null
 }
 
 function toggleAdvanced(forceOpen) {
@@ -323,10 +357,12 @@ function navigateTo(gameId) {
   window.location.href = detailUrl(gameId, state())
 }
 
-function setCatalogPublicationCopy(summary = null) {
+function setCatalogPublicationCopy(summary = null, currentState = state()) {
+  const relationEntry = relationContext(currentState)
+
   if (!summary) {
-    if (subtitleEl) subtitleEl.textContent = `${totalGames} jeux visibles dans l'index`
-    if (curationBannerEl) curationBannerEl.textContent = 'Lecture de publication en cours.'
+    if (subtitleEl) subtitleEl.textContent = relationEntry?.subtitle || `${totalGames} jeux visibles dans l'index`
+    if (curationBannerEl) curationBannerEl.textContent = relationEntry?.banner || 'Lecture de publication en cours.'
     updateOperatingCounts()
     return
   }
@@ -337,8 +373,8 @@ function setCatalogPublicationCopy(summary = null) {
   const total = Number(summary.catalogGamesCount || totalGames || 0)
   const label = summary.label || 'Pass 1'
 
-  if (subtitleEl) subtitleEl.textContent = `${published} fiches visibles | ${consoles} supports`
-  if (curationBannerEl) curationBannerEl.textContent = `${label} | ${published} fiches sur ${total} jeux`
+  if (subtitleEl) subtitleEl.textContent = relationEntry?.subtitle || `${published} fiches visibles | ${consoles} supports`
+  if (curationBannerEl) curationBannerEl.textContent = relationEntry?.banner || `${label} | ${published} fiches sur ${total} jeux`
   updateOperatingCounts()
 }
 
