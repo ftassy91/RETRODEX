@@ -7,6 +7,43 @@ const VALID_COLLECTION_CONDITIONS = new Set(['Loose', 'CIB', 'Mint'])
 const VALID_COLLECTION_LIST_TYPES = new Set(['owned', 'wanted', 'for_sale'])
 const VALID_COLLECTION_COMPLETENESS = new Set(['unknown', 'loose', 'partial', 'cib', 'sealed'])
 const VALID_COLLECTION_QUALIFICATION_CONFIDENCE = new Set(['unknown', 'low', 'medium', 'high'])
+const VALID_COLLECTION_REGIONS = new Set(['PAL', 'NTSC-U', 'NTSC-J', 'NTSC-B', 'MULTI', 'unknown'])
+
+const REGION_ALIASES = {
+  pal: 'PAL',
+  eu: 'PAL',
+  eur: 'PAL',
+  europe: 'PAL',
+  'europe/australie': 'PAL',
+  ntsc: 'NTSC-U',
+  'ntsc-u': 'NTSC-U',
+  ntsc_u: 'NTSC-U',
+  us: 'NTSC-U',
+  usa: 'NTSC-U',
+  na: 'NTSC-U',
+  'north america': 'NTSC-U',
+  'amerique du nord': 'NTSC-U',
+  'ntsc-j': 'NTSC-J',
+  ntsc_j: 'NTSC-J',
+  jp: 'NTSC-J',
+  jpn: 'NTSC-J',
+  japan: 'NTSC-J',
+  japon: 'NTSC-J',
+  'ntsc-b': 'NTSC-B',
+  ntsc_b: 'NTSC-B',
+  br: 'NTSC-B',
+  bra: 'NTSC-B',
+  brazil: 'NTSC-B',
+  bresil: 'NTSC-B',
+  multi: 'MULTI',
+  'multi-region': 'MULTI',
+  multiregion: 'MULTI',
+  worldwide: 'MULTI',
+  ww: 'MULTI',
+  unknown: 'unknown',
+  inconnu: 'unknown',
+  '?': 'unknown',
+}
 
 function normalizeCollectionCondition(value) {
   const raw = String(value ?? '').trim()
@@ -80,6 +117,24 @@ function normalizeCollectionQualificationConfidence(value) {
   return VALID_COLLECTION_QUALIFICATION_CONFIDENCE.has(raw) ? raw : null
 }
 
+function normalizeCollectionRegion(value) {
+  const raw = String(value ?? '').trim()
+  if (!raw) {
+    return null
+  }
+
+  if (VALID_COLLECTION_REGIONS.has(raw)) {
+    return raw
+  }
+
+  const alias = REGION_ALIASES[raw.toLowerCase()]
+  if (alias) {
+    return alias
+  }
+
+  return null
+}
+
 function hasOwnField(body, field) {
   return Object.prototype.hasOwnProperty.call(body || {}, field)
 }
@@ -106,7 +161,7 @@ function parseCollectionCreatePayload(body = {}) {
     purchaseDate: normalizeDateOnly(body?.purchase_date),
     personalNote: normalizeNullableText(body?.personal_note),
     editionNote: normalizeNullableText(body?.edition_note),
-    region: normalizeNullableShortText(body?.region),
+    region: normalizeCollectionRegion(body?.region),
     completeness: normalizeCollectionCompleteness(body?.completeness) || (listType === 'wanted' ? null : 'unknown'),
     qualificationConfidence: normalizeCollectionQualificationConfidence(body?.qualification_confidence)
       || (listType === 'wanted' ? null : 'unknown'),
@@ -142,6 +197,10 @@ function parseCollectionCreatePayload(body = {}) {
 
   if (body?.qualification_confidence != null && !VALID_COLLECTION_QUALIFICATION_CONFIDENCE.has(payload.qualificationConfidence)) {
     return { ok: false, error: 'qualification_confidence must be one of unknown, low, medium or high' }
+  }
+
+  if (body?.region != null && String(body.region).trim() && payload.region === null) {
+    return { ok: false, error: 'region must be one of PAL, NTSC-U, NTSC-J, NTSC-B, MULTI or unknown' }
   }
 
   return { ok: true, value: payload }
@@ -203,7 +262,11 @@ function parseCollectionPatchPayload(body = {}) {
   }
 
   if (hasOwnField(body, 'region')) {
-    nextValues.region = normalizeNullableShortText(body?.region)
+    const region = normalizeCollectionRegion(body?.region)
+    if (body?.region != null && String(body.region).trim() && region === null) {
+      return { ok: false, error: 'region must be one of PAL, NTSC-U, NTSC-J, NTSC-B, MULTI or unknown' }
+    }
+    nextValues.region = region
   }
 
   if (hasOwnField(body, 'completeness')) {

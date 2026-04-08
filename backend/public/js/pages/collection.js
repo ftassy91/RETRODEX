@@ -352,7 +352,14 @@
     if (editQualificationConfidenceEl) editQualificationConfidenceEl.value = getQualificationConfidence(item)
     editPricePaidEl.value = item?.price_paid != null ? String(item.price_paid) : ''
     editPurchaseDateEl.value = item?.purchase_date || ''
-    if (editRegionEl) editRegionEl.value = item?.region || ''
+    if (editRegionEl) {
+      const regionVal = item?.region || ''
+      editRegionEl.value = regionVal
+      // fallback: if the stored value is not a canonical option (legacy free text), keep as unknown
+      if (editRegionEl.value !== regionVal) {
+        editRegionEl.value = ''
+      }
+    }
     if (editEditionNoteEl) editEditionNoteEl.value = item?.edition_note || ''
     editNotesEl.value = getCollectionNote(item)
   }
@@ -980,6 +987,17 @@
     row.scrollIntoView({ block: 'nearest' })
   }
 
+  function getRegionKey(region) {
+    if (!region) return 'unknown'
+    const r = String(region).toLowerCase().replace(/[^a-z]/g, '')
+    if (r === 'pal') return 'pal'
+    if (r === 'ntscu') return 'ntscu'
+    if (r === 'ntscj') return 'ntscj'
+    if (r === 'ntscb') return 'ntscb'
+    if (r === 'multi') return 'multi'
+    return 'unknown'
+  }
+
   function renderCollectionRow(item, index) {
     const game = getGame(item)
     const loosePrice = Number(game.loosePrice || 0)
@@ -1002,6 +1020,16 @@
         ? '<span class="surface-chip collection-status-chip">WISHLIST</span>'
         : '<span class="surface-chip is-primary collection-status-chip">ETAGERE</span>'
 
+    const regionLabel = item.region || null
+    const regionKey = getRegionKey(regionLabel)
+    const regionHtml = regionLabel
+      ? `<span class="collection-row-region region--${escapeHtml(regionKey)}" title="Region : ${escapeHtml(regionLabel)}">${escapeHtml(regionLabel)}</span>`
+      : `<span class="collection-row-region region--unknown" title="Region non renseignee — affecte la valeur et l identite du jeu">?</span>`
+
+    const qualConf = getQualificationConfidence(item)
+    const qualConfLabel = getQualificationConfidenceLabel(item)
+    const confidenceHtml = `<span class="collection-row-confidence confidence--${escapeHtml(qualConf)}" title="Confiance de qualification : ${escapeHtml(qualConfLabel)}">${escapeHtml(qualConfLabel)}</span>`
+
     const row = document.createElement('div')
     row.className = 'terminal-row'
     row.setAttribute('role', 'row')
@@ -1012,6 +1040,7 @@
       <span role="cell" class="terminal-row-indicator">></span>
       <span role="cell" class="collection-row-main">
         <span class="collection-row-title">${escapeHtml(game.title || '?')}</span>
+        <span class="collection-row-meta">${regionHtml}${confidenceHtml}</span>
         <span class="collection-row-cue${actionCue.tone ? ` ${actionCue.tone}` : ''}">${escapeHtml(actionCue.label)}</span>
         <span class="collection-row-cue">${escapeHtml(qualificationCue)}</span>
         <span class="collection-row-status">${statusBadge}</span>
