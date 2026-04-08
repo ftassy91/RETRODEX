@@ -115,7 +115,41 @@
             <span class="cockpit-signal-count" id="signal-wishlist-count">0</span>
             <span class="cockpit-signal-label">WISHLIST &lt;= $25</span>
           </button>
+          <button class="cockpit-signal-card" id="signal-stale" data-signal="stale_wishlist" type="button" aria-pressed="false">
+            <span class="cockpit-signal-count" id="signal-stale-count">0</span>
+            <span class="cockpit-signal-label">WISHLIST +6 MOIS</span>
+          </button>
         </div>
+
+        <section id="collection-evolution" class="collection-evolution-panel" hidden>
+          <div class="detail-kicker">EVOLUTION</div>
+          <div class="collection-evolution-grid">
+            <div class="evolution-cell">
+              <span class="evolution-label">ACQUIS CE TRIMESTRE</span>
+              <span class="evolution-value" id="evo-this-quarter">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">TRIMESTRE PRECEDENT</span>
+              <span class="evolution-value" id="evo-last-quarter">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">COUT TOTAL</span>
+              <span class="evolution-value" id="evo-total-cost">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">VALEUR ESTIMEE</span>
+              <span class="evolution-value" id="evo-total-value">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">DELTA MOYEN</span>
+              <span class="evolution-value" id="evo-avg-delta">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">CONDITION</span>
+              <span class="evolution-value" id="evo-condition-dist">-</span>
+            </div>
+          </div>
+        </section>
 
         <div class="terminal-filter-bar collection-mode-bar" style="margin-top:0">
           <div class="terminal-filter-group">

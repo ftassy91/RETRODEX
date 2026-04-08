@@ -692,6 +692,59 @@
     collectionListContainerEl.appendChild(spacer)
   }
 
+  function renderEvolutionPanel(ownedItems) {
+    const panelEl = byId('collection-evolution')
+    if (!panelEl) return
+
+    if (!ownedItems || !ownedItems.length) {
+      panelEl.hidden = true
+      return
+    }
+
+    const now = new Date()
+    const qStart = new Date(now.getFullYear(), Math.floor(now.getMonth() / 3) * 3, 1)
+    const qPrevStart = new Date(qStart)
+    qPrevStart.setMonth(qPrevStart.getMonth() - 3)
+
+    let thisQ = 0
+    let lastQ = 0
+    let totalCost = 0
+    let totalValue = 0
+    let costCount = 0
+    let valueCount = 0
+    let deltaSum = 0
+    let deltaCount = 0
+    const condCount = { Loose: 0, CIB: 0, Mint: 0 }
+
+    for (const item of ownedItems) {
+      const dateRaw = item.purchase_date || item.created_at || item.added_at
+      if (dateRaw) {
+        const d = new Date(dateRaw)
+        if (d >= qStart) thisQ++
+        else if (d >= qPrevStart) lastQ++
+      }
+      const paid = Number(item.price_paid || 0)
+      if (paid > 0) { totalCost += paid; costCount++ }
+      const loose = Number((item.Game || item.game)?.loosePrice || 0)
+      if (loose > 0) { totalValue += loose; valueCount++ }
+      if (paid > 0 && loose > 0) { deltaSum += (loose - paid); deltaCount++ }
+      const cond = String(item.condition || 'Loose')
+      if (condCount[cond] !== undefined) condCount[cond]++
+    }
+
+    const avgDelta = deltaCount > 0 ? Math.round(deltaSum / deltaCount) : null
+
+    const setText_ = (id, val) => { const el = byId(id); if (el) el.textContent = val }
+    setText_('evo-this-quarter', String(thisQ))
+    setText_('evo-last-quarter', String(lastQ))
+    setText_('evo-total-cost', costCount > 0 ? `$${Math.round(totalCost)}` : '-')
+    setText_('evo-total-value', valueCount > 0 ? `$${Math.round(totalValue)}` : '-')
+    setText_('evo-avg-delta', avgDelta !== null ? (avgDelta >= 0 ? `+$${avgDelta}` : `-$${Math.abs(avgDelta)}`) : '-')
+    setText_('evo-condition-dist', `${condCount.Loose}L · ${condCount.CIB}C · ${condCount.Mint}M`)
+
+    panelEl.hidden = false
+  }
+
   function renderEmptyState() {
     clearSelection()
     setHtml(collectionListContainerEl, '')
@@ -754,6 +807,7 @@
     }
 
     renderCollection(visibleItems, preferredItemId)
+    if (activeTab === 'owned') renderEvolutionPanel(allCollectionItems)
     updateCockpitLead(visibleItems.length, allCollectionItems.length)
     const baseLabel = `${visibleItems.length} entree(s)`
     setStatus(visibleItems.length === allCollectionItems.length
@@ -1032,6 +1086,7 @@
       setCockpitCount('signal-upgrade-count', data.upgrade_candidates?.count || 0)
       setCockpitCount('signal-incomplete-count', data.incomplete?.count || 0)
       setCockpitCount('signal-wishlist-count', data.affordable_wishlist?.count || 0)
+      setCockpitCount('signal-stale-count', data.stale_wishlist?.count || 0)
 
       // Réordonner les cards par urgence (count décroissant, non-zéro en premier)
       if (cockpitBarEl) {
