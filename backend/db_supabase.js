@@ -531,8 +531,12 @@ function applyGameFilters(query, { console: consoleName, rarity, genre, search, 
   if (rarity) nextQuery = nextQuery.eq('rarity', rarity);
   if (genre) nextQuery = nextQuery.eq('genre', genre);
   if (search) nextQuery = nextQuery.ilike('title', `%${search}%`);
-  if (Number.isFinite(Number(yearMin))) nextQuery = nextQuery.gte('year', Number(yearMin));
-  if (Number.isFinite(Number(yearMax))) nextQuery = nextQuery.lte('year', Number(yearMax));
+  if (yearMin !== null && yearMin !== undefined && yearMin !== '' && Number.isFinite(Number(yearMin))) {
+    nextQuery = nextQuery.gte('year', Number(yearMin));
+  }
+  if (yearMax !== null && yearMax !== undefined && yearMax !== '' && Number.isFinite(Number(yearMax))) {
+    nextQuery = nextQuery.lte('year', Number(yearMax));
+  }
   if (Array.isArray(ids)) {
     if (!ids.length) {
       nextQuery = nextQuery.in('id', ['__retrodex_no_match__']);
