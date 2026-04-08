@@ -87,23 +87,23 @@ function relationContext(currentState = state()) {
 
   if (context === 'developer' && label) {
     return {
-      subtitle: `Parcours relationnel | studio ${label}`,
-      banner: 'Depuis une fiche : meme studio, autres jeux, meme logique de lecture.',
+      subtitle: `Studio ${label} | autres jeux a ouvrir ensuite`,
+      banner: 'Rebond relationnel depuis une fiche : meme studio, autre contexte, meme univers de lecture.',
     }
   }
 
   if (context === 'console' && label) {
     return {
-      subtitle: `Parcours relationnel | console ${label}`,
-      banner: 'Depuis une fiche : meme support, meme ecosysteme de lecture.',
+      subtitle: `Console ${label} | situer un jeu dans son support`,
+      banner: 'Rebond relationnel depuis une fiche : meme support, autre lecture, meme ecosysteme.',
     }
   }
 
   if (context === 'period') {
     const periodLabel = label || `${currentState.yearMin || ''}`.trim()
     return {
-      subtitle: `Parcours relationnel | periode ${periodLabel || 'ciblee'}`,
-      banner: 'Depuis une fiche : rebond par annee pour situer un jeu dans sa periode.',
+      subtitle: `Periode ${periodLabel || 'ciblee'} | replacer un jeu dans son annee`,
+      banner: 'Rebond relationnel depuis une fiche : comparer un jeu a sa periode plutot qu a un filtre brut.',
     }
   }
 
@@ -361,8 +361,8 @@ function setCatalogPublicationCopy(summary = null, currentState = state()) {
   const relationEntry = relationContext(currentState)
 
   if (!summary) {
-    if (subtitleEl) subtitleEl.textContent = relationEntry?.subtitle || `${totalGames} jeux visibles dans l'index`
-    if (curationBannerEl) curationBannerEl.textContent = relationEntry?.banner || 'Lecture de publication en cours.'
+    if (subtitleEl) subtitleEl.textContent = relationEntry?.subtitle || `${totalGames} jeux visibles | entrez par le resultat, pas par le filtre`
+    if (curationBannerEl) curationBannerEl.textContent = relationEntry?.banner || 'Catalogue public en cours de lecture.'
     updateOperatingCounts()
     return
   }
@@ -373,7 +373,7 @@ function setCatalogPublicationCopy(summary = null, currentState = state()) {
   const total = Number(summary.catalogGamesCount || totalGames || 0)
   const label = summary.label || 'Pass 1'
 
-  if (subtitleEl) subtitleEl.textContent = relationEntry?.subtitle || `${published} fiches visibles | ${consoles} supports`
+  if (subtitleEl) subtitleEl.textContent = relationEntry?.subtitle || `${published} fiches publiees | ${consoles} supports lisibles`
   if (curationBannerEl) curationBannerEl.textContent = relationEntry?.banner || `${label} | ${published} fiches sur ${total} jeux`
   updateOperatingCounts()
 }
@@ -410,7 +410,8 @@ function populateGenres(source) {
 }
 
 function renderSummary(currentState, total) {
-  const parts = [`${total} jeu${total > 1 ? 'x' : ''}`]
+  const relationEntry = relationContext(currentState)
+  const parts = [relationEntry ? 'Parcours relationnel actif' : `${total} jeu${total > 1 ? 'x' : ''}`]
   if (currentState.console) parts.push(esc(currentState.console))
   if (currentState.rarity) parts.push(`rarete ${esc(currentState.rarity)}`)
   if (currentState.genre) parts.push(esc(currentState.genre))

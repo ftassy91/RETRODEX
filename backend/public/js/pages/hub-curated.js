@@ -71,6 +71,7 @@
       : Number(item.metascore || 0) >= 90
         ? 'repere canonique'
         : 'contexte + valeur'
+    const relationCue = String(item.developer || item.publisher || '').trim()
 
     return `
       <article class="hub-encyclo-card hub-rich-card">
@@ -79,10 +80,10 @@
         <div class="hub-encyclo-card-meta">${meta || 'Archive RetroDex'}</div>
         <div class="surface-chip-row hub-rich-chip-row">
           ${signals ? `<span class="surface-chip is-primary">${esc(signals.band.shortLabel)}</span>` : ''}
-          ${signals ? `<span class="surface-chip">Lecture ${esc(signals.completionState.shortLabel)}</span>` : ''}
           ${item.metascore ? `<span class="surface-chip is-hot">MS ${esc(item.metascore)}</span>` : ''}
         </div>
         <p class="hub-card-copy">${esc(shortSummary)}</p>
+        ${relationCue ? `<div class="hub-card-proof hub-card-proof-secondary">Studio ${esc(relationCue)}</div>` : ''}
         <div class="hub-universe-actions">
           <a class="hub-inline-link" href="${href}">voir la fiche</a>
         </div>
@@ -106,12 +107,12 @@
       const consoles = Number(publication.consoleCount || 0)
       const withSynopsis = Number(statsPayload?.with_synopsis || 0)
 
-      bannerEl.textContent = `${published} fiches prêtes | ${withSynopsis} avec lecture | ${consoles} consoles`
+      bannerEl.textContent = `${published} fiches pretes | ${withSynopsis} lectures visibles | ${consoles} supports`
       setText(publishedEl, String(published || '--'))
       setText(totalEl, String(total || '--'))
       setText(synopsisEl, String(withSynopsis || '--'))
       setText(consolesEl, String(consoles || '--'))
-      setText(publicationSignalEl, `${published} fiches prêtes`)
+      setText(publicationSignalEl, `${published} fiches pretes`)
       setText(editorialSignalEl, `${withSynopsis} resumes visibles`)
       setText(archiveSignalEl, strongPages.length ? `${strongPages.length} preuves concretes` : 'en cours')
 

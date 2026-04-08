@@ -13549,3 +13549,77 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* UX structure tightening lot */
+
+.hub-card-proof-secondary {
+  margin-top: 8px;
+  margin-bottom: 0;
+  color: #6f8868;
+}
+
+.retrodex-index-page .catalog-operating-strip {
+  grid-template-columns: 1fr;
+}
+
+.retrodex-index-page .catalog-operating-card-primary {
+  max-width: none;
+}
+
+.retrodex-index-page .catalog-operating-stats {
+  margin-top: 14px;
+}
+
+.retrodex-index-page .catalog-head-tools {
+  width: min(300px, 100%);
+}
+
+.retrodex-index-page .catalog-results-bar {
+  align-items: center;
+}
+
+.result-archive-row {
+  margin-top: 8px;
+}
+
+.result-context-row {
+  display: block;
+  margin-top: 8px;
+  color: #6f8868;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.detail-shell .detail-accordion-toggle {
+  letter-spacing: 0.08em;
+}
+
+.collection-evolution-panel {
+  margin-top: 18px;
+}
+
+.collection-preview-shell .terminal-preview-label {
+  color: #7d9574;
+}
+
+.collection-preview-shell .surface-signal-grid.is-four {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.collection-preview-shell .surface-signal-grid.is-four .surface-signal-card {
+  min-height: 72px;
+  align-content: start;
+}
+
+.market-page-head .page-subtitle {
+  max-width: 40ch;
+}
+
+@media (max-width: 720px) {
+  .collection-preview-shell .surface-signal-grid.is-four {
+    grid-template-columns: 1fr;
+  }
+}

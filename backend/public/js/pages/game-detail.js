@@ -574,11 +574,11 @@ function renderCollectionDecisionStrip(options = {}) {
   if (options.error) {
     decisionGridEl.innerHTML = `
       <div class="surface-signal-card is-primary">
-        <span class="surface-signal-label">Possession</span>
+        <span class="surface-signal-label">Statut perso</span>
         <span class="surface-signal-value">Indisponible</span>
       </div>
       <div class="surface-signal-card">
-        <span class="surface-signal-label">Suivi</span>
+        <span class="surface-signal-label">Liste</span>
         <span class="surface-signal-value">Indisponible</span>
       </div>
       <div class="surface-signal-card">
@@ -586,7 +586,7 @@ function renderCollectionDecisionStrip(options = {}) {
         <span class="surface-signal-value">Indisponible</span>
       </div>
       <div class="surface-signal-card">
-        <span class="surface-signal-label">Statut</span>
+        <span class="surface-signal-label">Signal</span>
         <span class="surface-signal-value">Indisponible</span>
       </div>
       <div class="surface-signal-card surface-signal-card--action">
@@ -603,11 +603,11 @@ function renderCollectionDecisionStrip(options = {}) {
 
   decisionGridEl.innerHTML = `
     <div class="surface-signal-card is-primary">
-      <span class="surface-signal-label">Possession</span>
+      <span class="surface-signal-label">Statut perso</span>
       <span class="surface-signal-value">${escapeHtml(decision.possessionLabel)}</span>
     </div>
     <div class="surface-signal-card">
-      <span class="surface-signal-label">Suivi</span>
+      <span class="surface-signal-label">Liste</span>
       <span class="surface-signal-value">${escapeHtml(decision.interestLabel)}</span>
     </div>
     <div class="surface-signal-card">
@@ -615,7 +615,7 @@ function renderCollectionDecisionStrip(options = {}) {
       <span class="surface-signal-value">${escapeHtml(decision.conditionLabel)}</span>
     </div>
     <div class="surface-signal-card">
-      <span class="surface-signal-label">Statut</span>
+      <span class="surface-signal-label">Signal</span>
       <span class="surface-signal-value">${escapeHtml(decision.stateLabel)}</span>
     </div>
     <div class="surface-signal-card surface-signal-card--action${actionClass ? ` ${actionClass}` : ''}">
@@ -2064,7 +2064,7 @@ function renderStats(game) {
     const parts = [`Loose $${Math.round(game.loosePrice)}`]
     if (game.cibPrice) parts.push(`CIB $${Math.round(game.cibPrice)}`)
     if (game.mintPrice) parts.push(`Mint $${Math.round(game.mintPrice)}`)
-    statsToggle.innerHTML = `Donnees avancees <span class="accordion-price-hint">${escapeHtml(parts.join(' · '))}</span>`
+    statsToggle.innerHTML = `Reference prix <span class="accordion-price-hint">${escapeHtml(parts.join(' · '))}</span>`
   }
 }
 
@@ -3618,7 +3618,7 @@ function initDetailAccordions() {
     }
 
     toggleEl.dataset.bound = 'true'
-    const defaultOpen = ['editorial-shell'].includes(sectionEl.id)
+    const defaultOpen = ['editorial-shell', 'related-shell'].includes(sectionEl.id)
     setAccordionState(sectionEl, defaultOpen)
     toggleEl.addEventListener('click', () => {
       const expanded = toggleEl.getAttribute('aria-expanded') === 'true'

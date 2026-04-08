@@ -16,7 +16,7 @@
     <meta property="og:description" content="Collection RetroDex : revue de l etagere, valeur, wishlist et arbitrages." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260408s1" />
+    <link rel="stylesheet" href="/style.css?v=20260408s3" />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -46,10 +46,10 @@
 
       <header class="secondary-page-head collection-page-head">
         <div>
-          <div class="detail-kicker">COCKPIT</div>
+          <div class="detail-kicker">REVUE</div>
           <h1 class="page-title">COLLECTION</h1>
         </div>
-        <p class="page-subtitle">Relire l'etagere, voir la priorite du moment, rouvrir la bonne fiche.</p>
+        <p class="page-subtitle">Voir la priorite du moment, relire l'etagere, puis rouvrir la bonne fiche.</p>
       </header>
 
       <div id="public-banner" class="terminal-context collection-public-banner" style="display:none;">
@@ -85,13 +85,12 @@
         </div>
 
         <div id="collection-cockpit-lead" class="terminal-context collection-status-line">
-          <strong id="collection-mode-title">REVUE UNIFIEE</strong>
-          <span id="collection-mode-copy">Une seule vue pour voir quoi verifier, quoi vendre, quoi acheter, quoi completer.</span>
+          <strong id="collection-mode-title">PRIORITE DU MOMENT</strong>
+          <span id="collection-mode-copy">Une seule vue pour voir quoi verifier, quoi sortir, quoi acheter et quoi completer.</span>
         </div>
 
         <div class="collection-cockpit-topline terminal-context">
           <a href="/games-list.html" class="terminal-action-link">Parcourir RetroDex -&gt;</a>
-          <a href="#collection-evolution" class="terminal-action-link">Voir les arbitrages -&gt;</a>
         </div>
 
         <div id="cockpit-signals" class="cockpit-signals-bar" aria-label="Signaux collection" style="display:none">
@@ -127,44 +126,6 @@
           </button>
         </div>
 
-        <section id="collection-evolution" class="collection-evolution-panel" hidden>
-          <div class="detail-kicker">EVOLUTION</div>
-          <div class="collection-evolution-grid">
-            <div class="evolution-cell">
-              <span class="evolution-label">ACQUIS CE TRIMESTRE</span>
-              <span class="evolution-value" id="evo-this-quarter">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">TRIMESTRE PRECEDENT</span>
-              <span class="evolution-value" id="evo-last-quarter">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">COUT TOTAL</span>
-              <span class="evolution-value" id="evo-total-cost">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">VALEUR ESTIMEE</span>
-              <span class="evolution-value" id="evo-total-value">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">DELTA MOYEN</span>
-              <span class="evolution-value" id="evo-avg-delta">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">CONDITION</span>
-              <span class="evolution-value" id="evo-condition-dist">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">VALEUR SORTIE</span>
-              <span class="evolution-value" id="evo-rotation-budget">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">ROTATION</span>
-              <span class="evolution-value" id="evo-rotation-wish">-</span>
-            </div>
-          </div>
-        </section>
-
         <div class="terminal-filter-bar collection-mode-bar" style="margin-top:0">
           <div class="terminal-filter-group">
             <button class="terminal-filter-btn active" data-list="all" type="button">TOUT</button>
@@ -185,7 +146,7 @@
               <option value="">Toutes les consoles</option>
             </select>
             <select id="collection-sort-select" class="collection-toolbar-select">
-              <option value="review_desc">Revue prioritaire</option>
+              <option value="review_desc">Priorite de revue</option>
               <option value="title_asc">Titre A-Z</option>
               <option value="title_desc">Titre Z-A</option>
               <option value="delta_desc">Delta decroissant</option>
@@ -227,11 +188,11 @@
 
           <aside class="collection-cockpit-side">
             <div class="terminal-preview-panel surface-preview-panel collection-preview-shell" id="collection-detail" style="display:none">
-              <div class="terminal-preview-label">FICHE CIBLE</div>
+              <div class="terminal-preview-label">REVUE CIBLE</div>
               <div class="terminal-preview-title" id="detail-title">-</div>
               <div class="terminal-preview-row surface-identity-meta" id="detail-row1"></div>
               <div class="terminal-preview-row surface-chip-row" id="detail-focus-state"></div>
-              <div class="surface-signal-grid is-five" id="detail-signal-grid"></div>
+              <div class="surface-signal-grid is-four" id="detail-signal-grid"></div>
               <div class="terminal-preview-row surface-chip-row" id="detail-chip-row"></div>
               <div class="collection-preview-summary surface-summary-copy" id="detail-summary"></div>
               <div class="terminal-preview-row terminal-context" id="detail-next-step"></div>
@@ -256,6 +217,44 @@
             </div>
           </aside>
         </section>
+
+        <section id="collection-evolution" class="collection-evolution-panel" hidden>
+          <div class="detail-kicker">EVOLUTION</div>
+          <div class="collection-evolution-grid">
+            <div class="evolution-cell">
+              <span class="evolution-label">ACQUIS CE TRIMESTRE</span>
+              <span class="evolution-value" id="evo-this-quarter">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">TRIMESTRE PRECEDENT</span>
+              <span class="evolution-value" id="evo-last-quarter">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">COUT TOTAL</span>
+              <span class="evolution-value" id="evo-total-cost">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">VALEUR ESTIMEE</span>
+              <span class="evolution-value" id="evo-total-value">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">DELTA MOYEN</span>
+              <span class="evolution-value" id="evo-avg-delta">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">CONDITION</span>
+              <span class="evolution-value" id="evo-condition-dist">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">VALEUR SORTIE</span>
+              <span class="evolution-value" id="evo-rotation-budget">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">ROTATION</span>
+              <span class="evolution-value" id="evo-rotation-wish">-</span>
+            </div>
+          </div>
+        </section>
       </section>
 
       <div class="terminal-footer">
@@ -277,7 +276,7 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/collection.js?v=20260408s1"></script>
+    <script src="/js/pages/collection.js?v=20260408s3"></script>
     <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>

@@ -28,9 +28,9 @@ function priceConfidenceTier(game) {
   if (!game.loosePrice) return null
   const conf = Number(game.sourceConfidence)
   if (conf >= 0.7) return 'T1 Fiable'
-  if (conf >= 0.5) return 'T2 Estimé'
+  if (conf >= 0.5) return 'T2 Estime'
   if (conf > 0) return 'T3 Indicatif'
-  return 'Prix estimé'
+  return 'Prix estime'
 }
 
 function renderGameRow(game, options = {}) {
@@ -80,11 +80,13 @@ function renderGameRow(game, options = {}) {
   const showOwnedBadge = collectionStateNorm === 'owned'
   const showWantedBadge = collectionStateNorm === 'wanted'
   const showSaleBadge = collectionStateNorm === 'for_sale'
-  const archiveBadges = [
-    contentSignals ? `<span class="presence-badge is-richness is-${escapeHtml(contentSignals.band.key)}">${escapeHtml(contentSignals.band.shortLabel)}</span>` : '',
-    contentSignals ? `<span class="presence-badge is-state">Etat ${escapeHtml(contentSignals.completionState.shortLabel)}</span>` : '',
-    contentSignals ? `<span class="presence-badge is-state">Confiance ${escapeHtml(contentSignals.confidence.shortLabel)}</span>` : '',
-  ].filter(Boolean).join('')
+  const archiveBadge = contentSignals
+    ? `<span class="presence-badge is-richness is-${escapeHtml(contentSignals.band.key)}">${escapeHtml(contentSignals.band.shortLabel)}</span>`
+    : ''
+  const relationCue = String(game.developer || game.publisher || '').trim()
+  const relationHtml = relationCue
+    ? `<span class="result-context-row">Studio ${escapeHtml(relationCue)}</span>`
+    : ''
   const summary = String(game.summary || game.synopsis || game.tagline || '').trim()
   const summaryHtml = summary
     ? `<span class="result-summary">${escapeHtml(summary.length > 132 ? `${summary.slice(0, 132).trimEnd()}...` : summary)}</span>`
@@ -97,7 +99,8 @@ function renderGameRow(game, options = {}) {
       <span class="result-meta-row">
         <span class="result-meta">${escapeHtml(consoleName)} &middot; ${escapeHtml(year)}${genre ? ` &middot; ${escapeHtml(genre)}` : ''}</span>
       </span>
-      ${archiveBadges ? `<span class="result-presence-row result-archive-row">${archiveBadges}</span>` : ''}
+      ${archiveBadge ? `<span class="result-presence-row result-archive-row">${archiveBadge}</span>` : ''}
+      ${relationHtml}
       ${summaryHtml}
       ${renderPresenceBadges(game)}
     </div>

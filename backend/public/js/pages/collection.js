@@ -127,7 +127,7 @@
 
     const existingValues = new Set(Array.from(collectionSortSelectEl.options).map((option) => option.value))
     const extras = [
-      ['review_desc', 'Revue prioritaire'],
+      ['review_desc', 'Priorite de revue'],
       ['delta_desc', 'Delta decroissant'],
       ['delta_asc', 'Delta croissant'],
       ['purchase_date_desc', 'Date d achat recente'],
@@ -219,12 +219,12 @@
     const condition = String(item?.condition || '').toLowerCase()
 
     if (listType === 'for_sale') return { label: 'sortie active', tone: 'is-hot' }
-    if (listType === 'owned' && paid <= 0) return { label: 'prix paye a completer', tone: '' }
-    if (listType === 'owned' && paid > 0 && loose > 0 && loose >= paid * 1.5) return { label: 'sortie rentable', tone: 'is-hot' }
-    if (listType === 'owned' && condition === 'loose' && loose > 0 && cib > 0 && cib - loose <= 20) return { label: 'upgrade CIB accessible', tone: 'is-primary' }
-    if (listType === 'wanted' && loose > 0 && loose <= threshold) return { label: 'achat accessible', tone: 'is-primary' }
-    if (listType === 'wanted') return { label: 'wishlist a qualifier', tone: '' }
-    return { label: 'lecture stable', tone: '' }
+    if (listType === 'owned' && paid <= 0) return { label: 'a completer', tone: '' }
+    if (listType === 'owned' && paid > 0 && loose > 0 && loose >= paid * 1.5) return { label: 'sortie plausible', tone: 'is-hot' }
+    if (listType === 'owned' && condition === 'loose' && loose > 0 && cib > 0 && cib - loose <= 20) return { label: 'upgrade plausible', tone: 'is-primary' }
+    if (listType === 'wanted' && loose > 0 && loose <= threshold) return { label: 'opportunite d achat', tone: 'is-primary' }
+    if (listType === 'wanted') return { label: 'a verifier', tone: '' }
+    return { label: 'stable', tone: '' }
   }
 
   function applyCollectionFilters(items) {
@@ -365,7 +365,7 @@
   function getTabSignalLabel(tab) {
     if (tab === 'all') return 'TOUT'
     if (tab === 'wanted') return 'WISHLIST'
-    if (tab === 'for_sale') return 'FOR SALE'
+    if (tab === 'for_sale') return 'A VENDRE'
     return 'COLLECTION'
   }
 
@@ -409,7 +409,7 @@
     if (!cockpitLeadEl || !modeTitleEl || !modeCopyEl) return
 
     const tabTitle = activeTab === 'all'
-      ? 'REVUE'
+      ? 'PRIORITE'
       : activeTab === 'wanted'
       ? 'WISHLIST'
       : activeTab === 'for_sale'
@@ -431,7 +431,7 @@
 
     if (hasActiveCollectionFilters()) {
       setText(modeTitleEl, `${tabTitle} | FILTRES`)
-      setText(modeCopyEl, `${visibleCount} entree(s) visibles sur ${totalCount}. Ajuster puis ouvrir la bonne fiche.`)
+      setText(modeCopyEl, `${visibleCount} entree(s) visibles sur ${totalCount}. Ajuster puis ouvrir la fiche qui merite la revue.`)
       return
     }
 
@@ -450,7 +450,7 @@
         modeCopyEl,
         priorityBits.length
           ? `Maintenant : ${priorityBits.slice(0, 3).join(' | ')}.`
-          : 'Lecture stable de l etagere. Ouvrir une fiche pour arbitrer.'
+          : 'Etagere stable. Ouvrir une fiche pour verifier contexte, valeur et action.'
       )
       return
     }
@@ -463,12 +463,12 @@
       if (duplicates) priorities.push(`${duplicates} doublon(s)`)
       if (sell) priorities.push(`${sell} sortie(s)`)
       if (incomplete) priorities.push(`${incomplete} prix paye manquant(s)`)
-      setText(modeTitleEl, 'REVUE')
+      setText(modeTitleEl, 'PRIORITE DU MOMENT')
       setText(
         modeCopyEl,
         priorities.length
           ? `Maintenant : ${priorities.slice(0, 3).join(' | ')}. La liste est deja triee pour ouvrir la prochaine decision.`
-          : 'Revue globale stable. Garder le tri de revue, puis ouvrir la prochaine fiche utile.'
+          : 'Revue globale stable. Garder le tri prioritaire puis ouvrir la prochaine fiche utile.'
       )
       return
     }
@@ -481,7 +481,7 @@
         modeCopyEl,
         affordable
           ? `${affordable} entree(s) restent accessibles maintenant.${stale ? ` ${stale} sont anciennes.` : ''} Prioriser puis qualifier.`
-          : 'Suivre la wishlist et ouvrir les fiches a fort potentiel.'
+          : 'Suivre la wishlist puis ouvrir les fiches a fort potentiel.'
       )
       return
     }
@@ -543,6 +543,33 @@
     if (gain == null) return 'n/a'
     if (gain >= 0) return `+${formatCurrency(gain)}`
     return `-${formatCurrency(Math.abs(gain))}`
+  }
+
+  function getPersonalStatusLabel(item) {
+    const listType = String(item?.list_type || activeTab || 'owned').toLowerCase()
+    if (listType === 'for_sale') return 'A vendre'
+    if (listType === 'wanted') return 'En wishlist'
+    return 'En etagere'
+  }
+
+  function getPriceTrustSummary(game) {
+    const confidence = Number(game?.sourceConfidence || 0)
+    if (confidence >= 0.7) return 'T1 fiable'
+    if (confidence >= 0.5) return 'T2 estime'
+    if (confidence > 0) return 'T3 indicatif'
+    return 'non qualifie'
+  }
+
+  function getPriceFreshnessSummary(game) {
+    const rawDate = String(game?.priceLastUpdated || game?.price_last_updated || '').trim()
+    if (!rawDate) return 'date inconnue'
+    const updatedAt = new Date(rawDate)
+    const time = updatedAt.getTime()
+    if (!Number.isFinite(time)) return 'date inconnue'
+    const ageDays = Math.floor((Date.now() - time) / 86400000)
+    if (ageDays <= 30) return 'maj recente'
+    if (ageDays <= 90) return 'maj suivie'
+    return 'maj ancienne'
   }
 
   function collectionStateMarkup(title, copy, actionMarkup = '') {
@@ -760,41 +787,39 @@
     detailRow1El.innerHTML = `${escapeHtml(consoleName)} | ${escapeHtml(year)} | ${escapeHtml(developer)}`
     if (detailFocusStateEl) {
       detailFocusStateEl.innerHTML = `
-        <span class="surface-chip is-primary">${escapeHtml(getTabSignalLabel(activeTab))}</span>
+        <span class="surface-chip is-primary">${escapeHtml(getPersonalStatusLabel(item))}</span>
         ${activeCockpitSignal ? `<span class="surface-chip is-hot">${escapeHtml(getSignalLabel(activeCockpitSignal))}</span>` : ''}
-        ${gain != null ? `<span class="surface-chip">${escapeHtml(gain >= 0 ? 'DELTA +' : 'DELTA -')}</span>` : ''}
+        <span class="surface-chip${reviewCue.tone ? ` ${reviewCue.tone}` : ''}">${escapeHtml(reviewCue.label)}</span>
       `
     }
     if (detailSignalGridEl) {
+      detailSignalGridEl.className = 'surface-signal-grid is-four'
       detailSignalGridEl.innerHTML = `
         <div class="surface-signal-card">
-          <span class="surface-signal-label">Loose</span>
+          <span class="surface-signal-label">Statut perso</span>
+          <span class="surface-signal-value">${escapeHtml(getPersonalStatusLabel(item))}</span>
+        </div>
+        <div class="surface-signal-card">
+          <span class="surface-signal-label">Valeur</span>
           <span class="surface-signal-value is-alert">${escapeHtml(formatPreviewValue(loosePrice))}</span>
         </div>
         <div class="surface-signal-card">
-          <span class="surface-signal-label">Paye</span>
-          <span class="surface-signal-value">${escapeHtml(paid > 0 ? formatCurrency(paid) : 'n/a')}</span>
-        </div>
-        <div class="surface-signal-card">
-          <span class="surface-signal-label">Delta</span>
+          <span class="surface-signal-label">Ecart</span>
           <span class="surface-signal-value${gain == null ? ' is-muted' : gain >= 0 ? ' is-hot' : ''}">${escapeHtml(formatGainValue(gain))}</span>
         </div>
         <div class="surface-signal-card">
-          <span class="surface-signal-label">CIB</span>
-          <span class="surface-signal-value">${escapeHtml(formatPreviewValue(cibPrice))}</span>
-        </div>
-        <div class="surface-signal-card">
-          <span class="surface-signal-label">Mint</span>
-          <span class="surface-signal-value">${escapeHtml(formatPreviewValue(mintPrice))}</span>
+          <span class="surface-signal-label">Confiance</span>
+          <span class="surface-signal-value">${escapeHtml(`${getPriceTrustSummary(game)} | ${getPriceFreshnessSummary(game)}`)}</span>
         </div>
       `
     }
 
     if (detailChipRowEl) {
       detailChipRowEl.innerHTML = `
-        <span class="surface-chip${reviewCue.tone ? ` ${reviewCue.tone}` : ''}">${escapeHtml(reviewCue.label)}</span>
         <span class="surface-chip is-primary">${escapeHtml(item.condition || 'Archive')}</span>
-        <span class="surface-chip">${escapeHtml(getTabSignalLabel(activeTab))}</span>
+        <span class="surface-chip">${escapeHtml(paid > 0 ? `Investi ${formatCurrency(paid)}` : 'Investi n/a')}</span>
+        ${cibPrice ? `<span class="surface-chip">CIB ${escapeHtml(formatCurrency(cibPrice))}</span>` : ''}
+        ${mintPrice ? `<span class="surface-chip">Mint ${escapeHtml(formatCurrency(mintPrice))}</span>` : ''}
         ${item.purchase_date ? `<span class="surface-chip">Entree ${escapeHtml(item.purchase_date)}</span>` : ''}
         ${item.price_threshold ? `<span class="surface-chip">Seuil ${escapeHtml(formatCurrency(item.price_threshold))}</span>` : ''}
         ${game.rarity ? `<span class="surface-chip is-hot">${escapeHtml(game.rarity)}</span>` : ''}
@@ -812,7 +837,7 @@
 
     detailRow2El.innerHTML = `
       <a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="terminal-action-link">Ouvrir la fiche &rarr;</a>
-      <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="terminal-action-link">Qualifier &rarr;</a>
+      <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="terminal-action-link">Lecture avancee &rarr;</a>
       ${renderFocusQuickActions(item)}
       ${isPublicForSaleView && activeTab === 'for_sale' ? '' : `
         <button id="collection-edit-btn" class="terminal-inline-btn" type="button">

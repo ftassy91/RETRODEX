@@ -16,7 +16,7 @@
   <meta property="og:description" content="RetroDex : chercher un jeu retro, lire sa fiche, voir sa valeur, suivre sa collection.">
   <meta property="og:type" content="website">
   <meta name="robots" content="index, follow">
-  <link rel="stylesheet" href="/style.css?v=20260408s1">
+  <link rel="stylesheet" href="/style.css?v=20260408s3">
 </head>
 <body class="hub-page hub-orientation-page">
   <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
@@ -45,10 +45,10 @@
       <div class="hub-system-line" id="hub-curation-banner">Chargement...</div>
       <div class="hub-focus-head">
         <div>
-          <div class="hub-kicker">SYSTEME</div>
+          <div class="hub-kicker">RETRODEX</div>
           <h1 class="hub-page-title">RETRODEX</h1>
         </div>
-        <p class="hub-intro">Chercher un jeu, ouvrir la bonne fiche, lire le contexte, voir la valeur, retrouver sa collection.</p>
+        <p class="hub-intro">Chercher un jeu, ouvrir la bonne fiche, voir sa lecture, sa valeur et votre suivi sans changer d'univers.</p>
       </div>
 
       <form class="hub-search-form" action="/search.html" method="get">
@@ -63,9 +63,9 @@
           autofocus
           spellcheck="false"
         >
-        <button class="hub-search-button" type="submit">OUVRIR</button>
+        <button class="hub-search-button" type="submit">CHERCHER</button>
       </form>
-      <button id="hub-random-btn" class="hub-random-button" type="button" aria-label="Ouvrir une fiche au hasard">AU HASARD &rarr;</button>
+      <button id="hub-random-btn" class="hub-random-button" type="button" aria-label="Ouvrir une fiche au hasard">UNE FICHE &rarr;</button>
       <script>
         document.getElementById('hub-random-btn').addEventListener('click', async function() {
           this.textContent = '...'
@@ -79,44 +79,44 @@
               return
             }
           } catch(_) {}
-          this.textContent = 'HASARD \u2192'
+          this.textContent = 'UNE FICHE \u2192'
           this.disabled = false
         })
       </script>
-
-        <div class="hub-stats hub-stats-compact">
-          <div class="hub-stat is-primary">
-            <span id="hub-stat-published" class="val">--</span>
-            <span class="lbl">fiches pretes</span>
-          </div>
-          <div class="hub-stat">
-            <span id="hub-stat-total" class="val">--</span>
-            <span class="lbl">catalogue total</span>
-          </div>
-          <div class="hub-stat">
-            <span id="hub-stat-synopsis" class="val">--</span>
-            <span class="lbl">avec resume</span>
-          </div>
-          <div class="hub-stat">
-            <span id="hub-stat-consoles" class="val">--</span>
-          <span class="lbl">consoles</span>
-        </div>
-      </div>
 
       <section class="hub-intent-panel hub-intent-panel-compact">
         <div class="hub-intent-grid hub-intent-grid-two">
           <article class="hub-intent-card">
             <span class="hub-intent-label">RetroDex</span>
-            <p class="hub-intent-copy">Chercher un jeu, comparer ses signaux, ouvrir la fiche qui merite la lecture.</p>
-            <div class="hub-intent-links"><a href="/games-list.html">Explorer le catalogue</a></div>
+            <p class="hub-intent-copy">Entrer par le catalogue, situer un jeu, puis ouvrir la fiche qui merite la lecture.</p>
+            <div class="hub-intent-links"><a href="/games-list.html">Explorer RetroDex</a></div>
           </article>
           <article class="hub-intent-card">
             <span class="hub-intent-label">Collection</span>
-            <p class="hub-intent-copy">Relire l'etagere, reperer un achat, une sortie, un prix manquant ou un upgrade.</p>
+            <p class="hub-intent-copy">Reprendre l'etagere, voir la priorite du moment, puis rouvrir la bonne fiche.</p>
             <div class="hub-intent-links"><a href="/collection.html">Ouvrir la collection</a></div>
           </article>
         </div>
       </section>
+
+      <div class="hub-stats hub-stats-compact" aria-label="Preuves RetroDex">
+        <div class="hub-stat is-primary">
+          <span id="hub-stat-published" class="val">--</span>
+          <span class="lbl">fiches prêtes</span>
+        </div>
+        <div class="hub-stat">
+          <span id="hub-stat-total" class="val">--</span>
+          <span class="lbl">jeux indexés</span>
+        </div>
+        <div class="hub-stat">
+          <span id="hub-stat-synopsis" class="val">--</span>
+          <span class="lbl">avec lecture</span>
+        </div>
+        <div class="hub-stat">
+          <span id="hub-stat-consoles" class="val">--</span>
+          <span class="lbl">supports</span>
+        </div>
+      </div>
     </section>
 
     <section class="hub-module hub-feature-shell">
@@ -133,17 +133,12 @@
           <div class="terminal-empty-copy">Lecture des fiches a ouvrir d'abord.</div>
         </div>
       </div>
-      <div class="hub-signal-line">
-        <span><strong>Catalogue</strong> <span id="hub-system-publication">chargement</span></span>
-        <span><strong>Lecture</strong> <span id="hub-system-editorial">chargement</span></span>
-        <span><strong>Preuve</strong> <span id="hub-system-archive">chargement</span></span>
-      </div>
     </section>
   </main>
 
   <script src="/js/core/api.js"></script>
   <script src="/js/core/format.js"></script>
   <script src="/js/core/content-signals.js"></script>
-  <script src="/js/pages/hub-curated.js?v=20260408s1"></script>
+  <script src="/js/pages/hub-curated.js?v=20260408s3"></script>
 </body>
 </html>

@@ -15,9 +15,9 @@
     <meta property="og:description" content="RetroDex : index public, filtres utiles, fiches a ouvrir." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260408s2" />
+    <link rel="stylesheet" href="/style.css?v=20260408s3" />
     <script src="/js/core/content-signals.js"></script>
-    <script src="/js/renderGameRow.js?v=20260404d"></script>
+    <script src="/js/renderGameRow.js?v=20260408s3"></script>
   </head>
   <body>
     <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
@@ -46,9 +46,8 @@
             <span class="sep">&rsaquo;</span>
             <span class="current">INDEX</span>
           </nav>
-          <div class="detail-kicker">INDEX</div>
           <h1 class="page-title">RETRODEX</h1>
-          <p id="catalog-subtitle" class="page-subtitle">Trouver une fiche, comparer, puis revenir a votre collection.</p>
+          <p id="catalog-subtitle" class="page-subtitle">Trouver la bonne fiche, situer un jeu, puis poursuivre la lecture.</p>
           <p id="catalog-curation-banner" class="pass1-surface-banner">Chargement des signaux de publication...</p>
         </div>
 
@@ -63,24 +62,14 @@
               style="cursor:pointer"
             />
           </div>
-          <div class="page-nav-inline">
-            <a href="/search.html">Recherche</a>
-            <span>&middot;</span>
-            <a href="/franchises.html">Franchises</a>
-            <span>&middot;</span>
-            <a href="/consoles.html">Consoles</a>
-          </div>
         </div>
       </header>
 
       <section class="catalog-operating-strip" aria-label="Boucle RetroDex">
         <article class="catalog-operating-card catalog-operating-card-primary">
-          <div class="catalog-operating-kicker">BOUCLE</div>
-          <h2 class="catalog-operating-title">Identifier, comparer, decider.</h2>
-          <p class="catalog-operating-copy">L'index doit aider a ouvrir la bonne fiche, situer un jeu dans votre collection et prioriser la suite.</p>
-        </article>
-        <article class="catalog-operating-card catalog-operating-card-signals" aria-live="polite">
-          <div class="catalog-operating-kicker">COLLECTION</div>
+          <div class="catalog-operating-kicker">PARCOURS</div>
+          <h2 class="catalog-operating-title">Ouvrir la bonne fiche, puis revenir avec plus de contexte.</h2>
+          <p class="catalog-operating-copy">Chaque ligne doit aider a comprendre pourquoi entrer dans la fiche, ou vous en etes deja, et quel rebond relationnel merite la suite.</p>
           <div class="catalog-operating-stats">
             <div class="catalog-operating-stat">
               <span id="catalog-owned-count" class="catalog-operating-value">--</span>
@@ -109,8 +98,7 @@
             <section class="search-panel catalog-filter-panel">
               <div class="catalog-panel-head">
                 <div>
-                  <div class="detail-kicker">FILTERS</div>
-                  <div class="filters-sidebar-title">Filtrer</div>
+                  <div class="filters-sidebar-title">Recherche et tri</div>
                 </div>
               </div>
 
@@ -221,7 +209,6 @@
         <section class="bloomberg-center catalog-main catalog-main-wide">
           <section class="results-bar catalog-results-bar">
             <div>
-              <div class="detail-kicker">INDEX</div>
               <div id="results-summary" class="results-summary-line">Lecture de l'index...</div>
             </div>
             <div id="loading-indicator" class="status-bar"></div>
@@ -247,7 +234,7 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/games-list.js?v=20260408s2"></script>
+    <script src="/js/pages/games-list.js?v=20260408s3"></script>
     <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>
