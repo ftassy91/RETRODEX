@@ -653,7 +653,7 @@
     row.style.gridTemplateColumns = '12px 1fr 90px 60px 70px 70px 70px 70px 70px'
     row.innerHTML = `
       <span role="cell" class="terminal-row-indicator">></span>
-      <span role="cell" style="color:var(--text-primary)">${escapeHtml(game.title || '?')}</span>
+      <span role="cell" style="color:var(--text-primary)">${escapeHtml(game.title || '?')}${(item.list_type === 'for_sale') ? ' <span style="color:var(--text-alert);font-size:9px;margin-left:4px">EN VENTE</span>' : ''}</span>
       <span role="cell" style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '-')}</span>
       <span role="cell" class="condition-badge badge--condition" data-condition="${escapeHtml(item.condition || '')}" style="font-size:9px;border:1px solid var(--border);padding:1px 4px;text-align:center">${escapeHtml(item.condition || '-')}</span>
       <span role="cell" style="text-align:right;color:var(--text-alert)">${loosePrice ? formatCurrency(loosePrice) : '-'}</span>
@@ -1032,6 +1032,27 @@
       setCockpitCount('signal-upgrade-count', data.upgrade_candidates?.count || 0)
       setCockpitCount('signal-incomplete-count', data.incomplete?.count || 0)
       setCockpitCount('signal-wishlist-count', data.affordable_wishlist?.count || 0)
+
+      // Réordonner les cards par urgence (count décroissant, non-zéro en premier)
+      if (cockpitBarEl) {
+        const signalOrder = [
+          { key: 'duplicates', count: data.duplicates?.count || 0 },
+          { key: 'sell_candidates', count: data.sell_candidates?.count || 0 },
+          { key: 'upgrade_candidates', count: data.upgrade_candidates?.count || 0 },
+          { key: 'incomplete', count: data.incomplete?.count || 0 },
+          { key: 'affordable_wishlist', count: data.affordable_wishlist?.count || 0 },
+        ]
+        signalOrder.sort((a, b) => {
+          if (a.count > 0 && b.count === 0) return -1
+          if (a.count === 0 && b.count > 0) return 1
+          return b.count - a.count
+        })
+        signalOrder.forEach(({ key }) => {
+          const card = cockpitBarEl.querySelector(`.cockpit-signal-card[data-signal="${key}"]`)
+          if (card) cockpitBarEl.appendChild(card)
+        })
+      }
+
       cockpitBarEl.style.display = 'grid'
       updateCockpitLead()
 
