@@ -248,12 +248,14 @@
   }
 
   function getTabLabel(tab) {
+    if (tab === 'all') return 'la collection complète'
     if (tab === 'wanted') return 'la wishlist'
     if (tab === 'for_sale') return 'la liste a vendre'
     return 'votre etagere'
   }
 
   function getTabSignalLabel(tab) {
+    if (tab === 'all') return 'TOUT'
     if (tab === 'wanted') return 'WISHLIST'
     if (tab === 'for_sale') return 'FOR SALE'
     return 'COLLECTION'
@@ -656,7 +658,15 @@
     row.style.gridTemplateColumns = '12px 1fr 90px 60px 70px 70px 70px 70px 70px'
     row.innerHTML = `
       <span role="cell" class="terminal-row-indicator">></span>
-      <span role="cell" style="color:var(--text-primary)">${escapeHtml(game.title || '?')}${(item.list_type === 'for_sale') ? ' <span style="color:var(--text-alert);font-size:9px;margin-left:4px">EN VENTE</span>' : ''}</span>
+      <span role="cell" style="color:var(--text-primary)">${escapeHtml(game.title || '?')}${(() => {
+        const lt = String(item.list_type || '').toLowerCase()
+        if (activeTab === 'all') {
+          if (lt === 'for_sale') return ' <span style="color:var(--text-alert);font-size:9px;margin-left:4px">A VENDRE</span>'
+          if (lt === 'wanted') return ' <span style="color:var(--text-secondary);font-size:9px;margin-left:4px">WISHLIST</span>'
+          return ' <span style="color:var(--text-muted);font-size:9px;margin-left:4px">ETAGERE</span>'
+        }
+        return lt === 'for_sale' ? ' <span style="color:var(--text-alert);font-size:9px;margin-left:4px">EN VENTE</span>' : ''
+      })()}</span>
       <span role="cell" style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '-')}</span>
       <span role="cell" class="condition-badge badge--condition" data-condition="${escapeHtml(item.condition || '')}" style="font-size:9px;border:1px solid var(--border);padding:1px 4px;text-align:center">${escapeHtml(item.condition || '-')}</span>
       <span role="cell" style="text-align:right;color:var(--text-alert)">${loosePrice ? formatCurrency(loosePrice) : '-'}</span>
@@ -810,7 +820,7 @@
     }
 
     renderCollection(visibleItems, preferredItemId)
-    if (activeTab === 'owned') renderEvolutionPanel(allCollectionItems)
+    if (activeTab === 'owned' || activeTab === 'all') renderEvolutionPanel(allCollectionItems)
     updateCockpitLead(visibleItems.length, allCollectionItems.length)
     const baseLabel = `${visibleItems.length} entree(s)`
     setStatus(visibleItems.length === allCollectionItems.length
@@ -924,8 +934,22 @@
     updateCockpitLead(0, allCollectionItems.length)
 
     try {
-      const payload = await fetchCollection(activeTab, isPublicForSaleView)
-      const items = payload.items.filter((item) => Object.keys(getGame(item)).length > 0)
+      let items
+      if (activeTab === 'all') {
+        const [ownedPayload, wantedPayload, salePayload] = await Promise.all([
+          fetchCollection('owned', isPublicForSaleView),
+          fetchCollection('wanted', isPublicForSaleView),
+          fetchCollection('for_sale', isPublicForSaleView),
+        ])
+        items = [
+          ...ownedPayload.items,
+          ...wantedPayload.items,
+          ...salePayload.items,
+        ].filter((item) => Object.keys(getGame(item)).length > 0)
+      } else {
+        const payload = await fetchCollection(activeTab, isPublicForSaleView)
+        items = payload.items.filter((item) => Object.keys(getGame(item)).length > 0)
+      }
       allCollectionItems = items
       populateConsoleFilter(items)
 
