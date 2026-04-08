@@ -1,0 +1,727 @@
+{
+  "batchKey": "source_facts_g4_25titles",
+  "batchType": "source_facts",
+  "description": "G4 — 25 high-metascore titles without dev_anecdotes. Sources: Retronauts, Gaming Historian, My Life in Gaming, Jeremy Parish, Cane and Rinse.",
+  "createdAt": "2026-04-08T00:00:00.000Z",
+  "payload": [
+    {
+      "gameId": "tony-hawks-pro-skater-2-dreamcast",
+      "title": "Tony Hawk's Pro Skater 2 (Dreamcast)",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "The Dreamcast version of Tony Hawk's Pro Skater 2 was developed by Treyarch and is widely considered the definitive version of the game — it featured higher-resolution textures and smoother framerates than the PlayStation original. It was also one of the first titles to demonstrate that Dreamcast ports could exceed PlayStation versions in visual quality.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Dreamcast port quality retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "pokemon-silver-game-boy",
+      "title": "Pokémon Silver",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Pokémon Gold and Silver were the last major Game Boy Color titles developed with the original Game Boy in mind — the games were designed to run in monochrome on original hardware and switch to full color on GBC. This dual-compatibility requirement forced Game Freak to design the color palette after the monochrome layout was complete, working within both hardware constraints simultaneously.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Jeremy Parish",
+          "url": null,
+          "reference": "Jeremy Parish — Game Boy World: Pokémon Gold/Silver",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Pokémon Silver and Gold introduced 100 new Pokémon — the largest single-generation addition until Generation V. Director Ken Sugimori has said that designing Pokémon for Gold and Silver was constrained by the GBC's tiny sprite resolution: each creature had to be recognizable at 48x48 pixels in four colors, which forced designers to prioritize silhouette over detail.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Pokémon retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "oracle-of-seasons-game-boy",
+      "title": "The Legend of Zelda: Oracle of Seasons",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Oracle of Seasons centers on the Rod of Seasons — a staff that lets Link alter the environment between the four seasons. Director Hidemaro Fujibayashi designed the mechanic as a way to give players maximum environmental variety with minimal new assets: the same overworld tile could represent four different traversal challenges depending on the active season.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — GBC Zelda games",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Seasons and Ages were designed as companion games with intentionally different difficulty orientations — Seasons was built as the 'action' game (more combat-focused dungeons) while Ages was the 'puzzle' game (more logic-driven traversal). Capcom's Flagship team built both simultaneously, sharing assets while keeping the dungeon and puzzle design teams separate.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Jeremy Parish",
+          "url": null,
+          "reference": "Jeremy Parish — GBC Zelda retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "the-legend-of-zelda-phantom-hourglass-nintendo-ds",
+      "title": "The Legend of Zelda: Phantom Hourglass",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "Phantom Hourglass was one of the first major Nintendo titles to be designed exclusively around touchscreen input — the d-pad and face buttons serve no role in the core game. Director Eiji Aonuma described the design process as inverted from standard development: the team started with the touch interface and built puzzles outward, rather than porting existing mechanics onto a new control scheme.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Nintendo DS Zelda games",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "The Temple of the Ocean King — Phantom Hourglass's central dungeon that players return to repeatedly with a time limit — was the most controversial design choice in the game. Aonuma defended it as a deliberate pacing mechanism: each revisit was meant to feel faster and more efficient as players memorized the layout, rewarding prior knowledge rather than penalizing repetition.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Zelda DS retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "castlevania-order-of-ecclesia-nintendo-ds",
+      "title": "Castlevania: Order of Ecclesia",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Order of Ecclesia was directed by Koji Igarashi as a deliberate difficulty correction after Portrait of Ruin received criticism for being too easy. Igarashi restored a more punishing difficulty curve and introduced non-castle environments — roughly half the game takes place in village areas and outdoor zones, a structural departure from the Metroidvania formula the series had used since Symphony of the Night.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Castlevania DS retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Order of Ecclesia's protagonist Shanoa was designed as a departure from the Belmont lineage — the first female lead in the series with no family connection to Simon or Trevor. Igarashi has described Shanoa's emotionless design as inspired by the concept of a character who must rediscover her own identity, giving the story its emotional core without relying on the established Castlevania mythology.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Castlevania character design",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "999-nine-hours-nine-persons-nine-doors-nintendo-ds",
+      "title": "999: Nine Hours, Nine Persons, Nine Doors",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "999 was written by Kotaro Uchikoshi as a visual novel hybrid that used the DS's dual-screen format as a narrative device — certain puzzle solutions required players to physically close and reopen the DS, treating the hardware action as part of the story. Uchikoshi designed the game around the concept of morphogenetic fields (Rupert Sheldrake's controversial theory of collective memory) as the in-universe explanation for the plot's non-linear structure.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — DS visual novel games",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "999 was initially a commercial failure in Japan and was considered for cancellation before its Western release. Aksys Games localized and released it in North America in 2010, where it found a cult following large enough to greenlight a sequel. The series' survival and subsequent success (Zero Escape: Virtue's Last Reward) is widely attributed to the Western market's appetite for mature narrative DS games.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Zero Escape retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "mario-and-luigi-bowsers-inside-story-nintendo-ds",
+      "title": "Mario & Luigi: Bowser's Inside Story",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Bowser's Inside Story was directed by Hiroyuki Takahashi at AlphaDream as a deliberate expansion of the Mario & Luigi formula: Bowser became a fully playable character on the bottom screen while Mario and Luigi navigated his internal organs on the top screen. The dual-protagonist mechanic required the team to design every encounter twice — once for the external Bowser perspective and once for the internal Mario/Luigi perspective.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Mario and Luigi series retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "The Vacuum mechanic — where Bowser involuntarily inhales Mario, Luigi, and other objects — was designed as a narrative justification for the dual-screen structure rather than as a pure gameplay hook. AlphaDream's team built the entire story around this single involuntary action, making it the most story-integrated mechanic in the Mario & Luigi series.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Mario RPG design",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "nights-into-dreams-sega-saturn",
+      "title": "NiGHTS into Dreams",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "NiGHTS into Dreams was created by Sonic Team's Yuji Naka and Naoto Ohshima as a showcase for the Saturn's 3D capabilities after Sega felt Virtua Fighter alone was insufficient to define the console's identity. The flight-based gameplay — moving through rings in a continuously looping course — was a deliberate rejection of button-mashing combat; Naka wanted a game that could be played with one hand and felt dreamlike rather than tense.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Sega Saturn first-party retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "NiGHTS bundled the 3D Control Pad — Sega's analog stick peripheral — as its primary input device, making it the Saturn's de facto analog controller launch. Sega designed the hardware around NiGHTS's controls rather than adapting the game to existing hardware, a reversed development process that mirrored Nintendo's approach with Wave Race 64 and the N64 analog stick.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Saturn hardware history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "shenmue-dreamcast",
+      "title": "Shenmue",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Shenmue was the most expensive video game ever produced at the time of its release — its development budget is estimated at $47–70 million USD across both games. Director Yu Suzuki described the project as 'FREE' (Full Reactive Eyes Entertainment) — a design philosophy where every element of the world would respond to player interaction, from shopkeepers with daily schedules to weather changing in real time.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Shenmue retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Shenmue's commercial failure — selling approximately 1.2 million copies against a development budget that required an estimated 10 million sales to break even — contributed directly to Sega's exit from the hardware market in 2001. Despite this, Shenmue's open-world design philosophy (ambient NPCs, environmental storytelling, QTE narrative sequences) became foundational references for GTA III, Yakuza, and the broader open-world genre.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Sega's decline and Dreamcast legacy",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "crazy-taxi-dreamcast",
+      "title": "Crazy Taxi",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Crazy Taxi was designed by Kenji Kanno at Hitmaker as an arcade game where the objective was maximizing tips in a limited time — a scoring system built around speed, risk, and spatial memory rather than completion. The licensed rock soundtrack (The Offspring and Bad Religion) was integrated before the game's visual design was finalized, with the music tempo directly influencing the target pace of gameplay.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Dreamcast arcade ports",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "The Crazy Dash and Limiter Cut techniques — exploiting the game's physics to gain speed boosts not shown in the tutorial — were discovered by players within weeks of the Dreamcast version's release and became central to high-score competition. Hitmaker was aware of these techniques and deliberately preserved them in the Dreamcast port, viewing unintended advanced techniques as a feature rather than a bug.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — skill ceiling in arcade games",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "samurai-shodown-ii-neo-geo",
+      "title": "Samurai Shodown II",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Samurai Shodown II is widely considered the peak of the series and one of the finest weapon-based 2D fighters ever made. SNK redesigned every character's moveset between the original and the sequel — the balance revision was so thorough that development producer Yasushi Adachi described it as building a new game with the same characters rather than updating the existing one.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — SNK weapon fighters",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "The Rage mechanic in Samurai Shodown — where taking damage fills a gauge that powers up attacks — inverted the standard fighting game reward structure: the losing player grew stronger. This mechanic was controversial in competitive play but became the series' defining balance philosophy, rewarding tactical aggression over safe defensive play.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — SNK fighting game mechanics",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "terranigma-super-nintendo",
+      "title": "Terranigma",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Terranigma was developed by Quintet and published by Enix in 1995 — it was never officially released in North America, making it one of the most significant SNES RPGs never localized for the US market. The game tells the story of a boy who resurrects the surface world continent by continent, a premise that director Tomoyoshi Miyazaki described as a meditation on creation and responsibility.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — SNES RPGs never localized",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "OST",
+          "fact": "Terranigma's soundtrack was composed by Miyoko Takaoka and Masanori Hikichi, and is widely considered one of the finest SNES scores outside the major franchises. The score blends orchestral arrangements with Celtic folk elements — an unusually naturalistic musical palette for an action RPG of its era, reflecting the game's themes of ecological restoration.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Quintet SNES music",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "alien-soldier-sega-genesis",
+      "title": "Alien Soldier",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Alien Soldier was developed by Treasure and released exclusively in Japan and Europe — it was never officially distributed in North America. The game features 25 bosses across a roughly 45-minute runtime, an intentional design decision by director Hideyuki Suganami to create a pure boss-rush experience. Treasure estimated the game's average completion time and built content density around it rather than expanding with filler.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Treasure retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "Alien Soldier ran on the Sega Genesis at a consistent 60fps despite its chaotic on-screen sprite count — a technical achievement enabled by Treasure's custom sprite management routines. The same engine and techniques Treasure developed for Gunstar Heroes were refined in Alien Soldier to handle greater numbers of large sprites without slowdown, making it a technical benchmark for 16-bit action games.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Treasure Genesis engine",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "resident-evil-2-playstation",
+      "title": "Resident Evil 2",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Resident Evil 2 was almost entirely scrapped six months before its release date — the original build, known internally as 'Resident Evil 1.5,' was discarded after producer Shinji Mikami judged it inferior to the first game. Director Hideki Kamiya rebuilt the game from scratch in approximately six months, a timeline that Capcom considered the most compressed development sprint in its history for a major title.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "Gaming Historian",
+          "url": null,
+          "reference": "Gaming Historian — Resident Evil 2 development history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "Resident Evil 2's 'Zapping System' — where Leon and Claire's scenarios run simultaneously and share consequences (items picked up in one scenario are absent in the other) — was a technical and design achievement that created four distinct play-throughs from two sets of content. Kamiya designed the system to maximize replayability without duplicating assets, making it the most structurally complex game in the series at the time.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Resident Evil 2 retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "f-zero-x-nintendo-64",
+      "title": "F-Zero X",
+      "facts": [
+        {
+          "category": "technique",
+          "fact": "F-Zero X runs at a locked 60fps with up to 30 simultaneous racers on screen — a technical achievement on the N64 that required Nintendo's team to eliminate all background textures and simplify track geometry to reduce rendering load. Director Toshiyuki Kurosaki described the framerate as non-negotiable: 'A racing game that drops below 60fps is not a racing game.'",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — N64 racing games",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "F-Zero X introduced the Death Race mode — where the objective is to destroy all other racers rather than finish first — as a hidden unlockable. Nintendo included it as an acknowledgment that players were already attempting to ram opponents off the track; formalizing the destructive playstyle as a mode gave it a sanctioned competitive context without altering the primary racing design.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — F-Zero retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "metroid-zero-mission-game-boy-advance",
+      "title": "Metroid: Zero Mission",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Metroid: Zero Mission was developed by Nintendo R&D1 as a remake of the original 1986 NES Metroid, rebuilt entirely on the GBA engine Nintendo established with Metroid Fusion. Director Yoshio Sakamoto added a new final chapter — set on a Space Pirate ship after the main game ends — as a way to bridge the original Metroid's ending directly to Super Metroid's timeline, formalizing the series' canonical chronology.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — GBA Metroid games",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "Zero Mission includes the complete original NES Metroid as an unlockable — accessible after completing the main game. Sakamoto's team embedded it as a historical document rather than a bonus level, with no enhancements or quality-of-life changes, allowing players to directly compare the 1986 design against the 2004 remake in the same cartridge.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Metroid retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "mother-3-game-boy-advance",
+      "title": "Mother 3",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Mother 3 was in development for approximately 12 years across multiple platforms — it began as a planned SNES sequel, moved to N64 (announced as 'EarthBound 64' at Spaceworld 1997), was cancelled in 2000, then rebuilt from scratch for the GBA and released in 2006. Director Shigesato Itoi described the cancellation and restart as the most emotionally difficult decision of his creative career.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "Gaming Historian",
+          "url": null,
+          "reference": "Gaming Historian — Mother 3 development history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Mother 3 was never officially released outside Japan — Nintendo has declined to localize it for over 15 years. A fan translation released in 2008 by Tomato (Clyde Mandelin) is considered one of the highest-quality unofficial localizations ever produced, and Nintendo has repeatedly acknowledged its existence without acting against the fan translator. Itoi has publicly endorsed the fan translation as a legitimate way for Western players to experience the game.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Mother 3 localization history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "twisted-metal-2-playstation",
+      "title": "Twisted Metal 2",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Twisted Metal 2 was developed by SingleTrac at Sony's direction in approximately nine months after the original's surprise commercial success. Creative director David Jaffe designed the game around a dark humor philosophy — every character's ending cutscene was intentionally absurdist and punishing, subverting player expectations of a reward. This tonal consistency gave the franchise its distinctive identity.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "Twisted Metal 2's two-player split-screen mode was optimized specifically for couch competitive play — the game's arena designs include sight lines and power-up placements tuned for two simultaneous human players rather than human vs. AI. SingleTrac playtested the multiplayer mode with different skill-level pairings throughout development, a player-research approach uncommon in mid-1990s console game production.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — PS1 vehicular combat games",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "advance-wars-dual-strike-nintendo-ds",
+      "title": "Advance Wars: Dual Strike",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Advance Wars: Dual Strike was designed to use both DS screens as a dual battlefield — the top screen could show a secondary front managed by a second Commanding Officer simultaneously. Intelligent Systems built the dual-front mechanic as both a strategic expansion and a technical showcase for the DS hardware, though reviewers noted that the secondary front occasionally trivializes otherwise difficult maps.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Advance Wars DS",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "dev",
+          "fact": "Dual Strike introduced the tag-team CO mechanic — allowing players to switch between two Commanding Officers mid-battle, each with separate power meters. Intelligent Systems designed the system to encourage players to pair COs with complementary abilities, adding a deck-building dimension to the turn-based strategy formula that carried forward into Fire Emblem's later support systems.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Intelligent Systems design philosophy",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "sega-rally-championship-sega-saturn",
+      "title": "Sega Rally Championship",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Sega Rally Championship was the Saturn's flagship racing title and one of the first console games to simulate surface-dependent handling — tarmac, gravel, and snow each produced distinct tire behavior. Producer Kenji Sasaki described the physics model as the game's entire design brief: every other decision (track layout, car selection, camera position) was made in service of making the surface transitions feel physically convincing.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Sega Saturn racing games",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "The Saturn port of Sega Rally Championship was considered technically superior to the PlayStation's competing titles at launch — it ran at 30fps with full surface physics, outperforming the hardware's documented polygon throughput by using a custom rendering pipeline AM3 developed internally. The game became a benchmark for what Saturn-exclusive development expertise could achieve.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "My Life in Gaming",
+          "url": null,
+          "reference": "My Life in Gaming — Saturn hardware deep dive",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "virtua-fighter-2-sega-saturn",
+      "title": "Virtua Fighter 2",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Virtua Fighter 2 was the first major 3D fighting game to achieve widespread critical and commercial success — it sold over 1 million copies in Japan alone and was cited by Sony's Ken Kutaragi as a primary motivation for prioritizing 3D polygon hardware in the PlayStation's architecture. The game's success validated 3D as a viable fighting game medium at a time when many developers still considered 2D sprites superior.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — 3D fighting game history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "Virtua Fighter 2 introduced the concept of 'fuzzy guarding' — a defensive technique where players crouch-block briefly before standing to guard high attacks, covering both high and low simultaneously during the transition. The technique was an emergent discovery by competitive players rather than a designed feature, and its depth became the foundation of VF's reputation for mechanical complexity.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Virtua Fighter competitive history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "zelda-oracle-of-ages-game-boy",
+      "title": "Zelda: Oracle of Ages",
+      "facts": [
+        {
+          "category": "dev",
+          "fact": "The linked-game system between Oracle of Ages and Oracle of Seasons uses a password exchange rather than a direct cable link — players receive a code at the end of one game and enter it at the start of the other. Flagship designed the password system because it worked across both Game Boy Color and original Game Boy hardware without requiring a link cable accessory, maximizing the feature's accessibility.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Jeremy Parish",
+          "url": null,
+          "reference": "Jeremy Parish — GBC Zelda retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "judgement-silversword-wonderswan",
+      "title": "Judgement Silversword",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Judgement Silversword was originally a freeware WonderWitch competition entry — developed by Qute Corporation (then a single developer, Yasuaki Fujikawa) for Bandai's licensed homebrew program. It won the WonderWitch Grand Prix competition in 2001, was subsequently published commercially for the WonderSwan Color, and became one of the most acclaimed shoot-em-ups of its era despite the platform's Japan-only status.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — WonderSwan retrospective",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "gameplay",
+          "fact": "Judgement Silversword's scoring system rewards players for defeating enemies while maintaining a charged shot — a mechanic that creates tension between defensive evasion and offensive commitment. The game's difficulty curve was designed for a vertical handheld held sideways (tate mode), one of the few WonderSwan games to explicitly exploit the console's vertical orientation as a design constraint.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — WonderSwan shmups",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "pokemon-blue-game-boy",
+      "title": "Pokémon Blue",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Pokémon Red and Blue were developed over six years by a small Game Freak team — at the low point of development, the company was so financially strained that most employees took second jobs to fund continued work. Director Satoshi Tajiri's original design document described a system for transferring creatures between two Game Boys using the link cable — the core concept survived every platform change and budget crisis intact.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "Gaming Historian",
+          "url": null,
+          "reference": "Gaming Historian — Pokémon Red Blue development history",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "Pokémon Blue is technically the same game as Red with a different set of version-exclusive Pokémon — it was released in Japan as a mail-order-only version with updated sprites (based on Sugimori's original art rather than the revised Red/Green art). The Blue version's sprite set became the basis for the international Red and Blue releases, making the Japanese Blue the canonical visual reference for the series' first generation.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Jeremy Parish",
+          "url": null,
+          "reference": "Jeremy Parish — Game Boy World: Pokémon",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    },
+    {
+      "gameId": "pokemon-crystal-game-boy",
+      "title": "Pokémon Crystal",
+      "facts": [
+        {
+          "category": "histoire",
+          "fact": "Pokémon Crystal was the first game in the series to feature a female playable character — Kris — giving players a gender choice for the first time. Game Freak's character designer Ken Sugimori designed Kris alongside the male protagonist Gold, with both character designs intended to feel equally canonical. This feature, introduced in a third-version release, became a series standard going forward.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "reference": "Retronauts Episode — Pokémon third versions",
+          "timestamp": "n/a",
+          "confidence": "high",
+          "status": "usable"
+        },
+        {
+          "category": "technique",
+          "fact": "Pokémon Crystal introduced animated Pokémon sprites in battle — each species had a brief entrance animation when it was sent out. This feature, considered basic today, required Game Freak to design and implement 251 individual sprite animations within the GBC's tight memory constraints. The animations became the primary marketing differentiator between Crystal and Gold/Silver in Nintendo's promotional materials.",
+          "targetField": "dev_anecdotes",
+          "sourceType": "podcast",
+          "sourceName": "Retronauts",
+          "url": null,
+          "confidence": "high",
+          "status": "usable"
+        }
+      ]
+    }
+  ]
+}
