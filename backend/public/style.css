@@ -13716,3 +13716,24 @@ body {
   color: #38bdf8;
   border: 1px solid #38bdf8;
 }
+
+/* Focus panel — primary CTA */
+.terminal-action-link.is-primary-action {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-accent, #4ade80);
+  text-decoration: none;
+}
+.terminal-action-link.is-primary-action:hover {
+  text-decoration: underline;
+}
+
+/* Focus panel — next action label */
+.focus-next-label {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--color-secondary, #888);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 3px;
+}

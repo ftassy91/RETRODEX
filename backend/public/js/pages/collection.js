@@ -796,7 +796,7 @@
       detailSignalGridEl.className = 'surface-signal-grid is-four'
       detailSignalGridEl.innerHTML = `
         <div class="surface-signal-card">
-          <span class="surface-signal-label">Statut perso</span>
+          <span class="surface-signal-label">STATUT</span>
           <span class="surface-signal-value">${escapeHtml(getPersonalStatusLabel(item))}</span>
         </div>
         <div class="surface-signal-card">
@@ -830,13 +830,13 @@
       detailSummaryEl.textContent = previewCopy
     }
     if (detailNextStepEl) {
-      detailNextStepEl.innerHTML = `<span class="collection-next-step-label">PROCHAINE ACTION</span><span class="collection-next-step-copy">${escapeHtml(focusDecision)}</span>`
+      detailNextStepEl.innerHTML = `<span class="focus-next-label">PROCHAINE ACTION</span><span class="collection-next-step-copy">${escapeHtml(focusDecision)}</span>`
     }
 
     renderDetailMetascore(game.metascore)
 
     detailRow2El.innerHTML = `
-      <a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="terminal-action-link">Ouvrir la fiche &rarr;</a>
+      <a href="/game-detail.html?id=${encodeURIComponent(gameId)}" class="terminal-action-link is-primary-action">OUVRIR LA FICHE →</a>
       <a href="/stats.html?q=${encodeURIComponent(game.title || '')}" class="terminal-action-link">Lecture avancee &rarr;</a>
       ${renderFocusQuickActions(item)}
       ${isPublicForSaleView && activeTab === 'for_sale' ? '' : `
