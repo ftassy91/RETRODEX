@@ -9,7 +9,8 @@
  * refresh updates the cache — no request ever waits for a refresh.
  */
 
-const { queryGames } = require('../../../db_supabase')
+const { mode } = require('../../../db_supabase')
+const { fetchRowsInBatches } = require('../public-supabase-utils')
 const { normalizeGameRecord } = require('../../lib/normalize')
 
 const TTL_MS = 5 * 60 * 1000 // 5 minutes
@@ -20,9 +21,39 @@ const state = {
   refreshing: false,
 }
 
+const BASE_COLUMNS = [
+  'id',
+  'title',
+  'console',
+  'year',
+  'genre',
+  'developer',
+  'metascore',
+  'rarity',
+  'summary',
+  'synopsis',
+  'source_confidence',
+  'slug',
+  'cover_url',
+  'loose_price',
+  'cib_price',
+  'mint_price',
+]
+
+const OPTIONAL_SUPABASE_COLUMNS = [
+  'price_last_updated',
+  'source_names',
+]
+
 async function fetchFresh() {
-  const { items } = await queryGames({ limit: 5000, offset: 0 })
-  return (items || []).map(normalizeGameRecord)
+  const rows = await fetchRowsInBatches(
+    'games',
+    [...BASE_COLUMNS, ...(mode === 'supabase' ? OPTIONAL_SUPABASE_COLUMNS : [])].join(','),
+    (query) => query.eq('type', 'game'),
+    { column: 'title', options: { ascending: true }, batchSize: 1000 }
+  )
+
+  return (rows || []).map(normalizeGameRecord)
 }
 
 async function refresh() {
