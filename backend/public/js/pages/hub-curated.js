@@ -55,7 +55,7 @@
 
         return String(left.title || '').localeCompare(String(right.title || ''), 'fr', { sensitivity: 'base' })
       })
-      .slice(0, 6)
+      .slice(0, 3)
   }
 
   function buildCard(item) {
@@ -100,7 +100,7 @@
       const consoles = Number(publication.consoleCount || 0)
       const withSynopsis = Number(statsPayload?.with_synopsis || 0)
 
-      bannerEl.textContent = `${published} fiches lisibles sur ${total} jeux | ${withSynopsis} avec lecture | ${consoles} consoles`
+      bannerEl.textContent = `${published} fiches lisibles | ${withSynopsis} avec lecture | ${consoles} consoles`
       setText(publishedEl, String(published || '--'))
       setText(totalEl, String(total || '--'))
       setText(synopsisEl, String(withSynopsis || '--'))

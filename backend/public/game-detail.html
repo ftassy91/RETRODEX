@@ -11,12 +11,12 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <title>RetroDex &mdash; Fiche jeu</title>
-    <meta name="description" content="Fiche RetroDex d'un jeu retro : archive, lecture, collection et qualification contextuelle." />
+    <meta name="description" content="Fiche RetroDex d'un jeu retro : lecture, contexte, valeur et collection." />
     <meta property="og:title" content="Fiche jeu | RetroDex" />
-    <meta property="og:description" content="Fiche RetroDex d'un jeu retro : archive, lecture, collection et qualification contextuelle." />
+    <meta property="og:description" content="Fiche RetroDex d'un jeu retro : lecture, contexte, valeur et collection." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260404e" />
+    <link rel="stylesheet" href="/style.css?v=20260408r1" />
   </head>
   <body>
     <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
@@ -50,9 +50,17 @@
 
       <div id="provenance-line" class="provenance-line" hidden></div>
 
+      <section id="editorial-shell" class="editorial-card detail-accordion" hidden>
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="editorial-content">
+          <span>Lecture</span>
+          <span class="detail-accordion-indicator">&#9656;</span>
+        </button>
+        <div id="editorial-content" class="detail-accordion-content" hidden></div>
+      </section>
+
       <section id="collection-shell" class="collection-card detail-accordion">
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="collection-content">
-          <span>Collection</span>
+          <span>Ma collection</span>
           <span class="detail-accordion-indicator">&#9656;</span>
         </button>
         <div id="collection-content" class="detail-accordion-content" hidden>
@@ -83,17 +91,9 @@
         </div>
       </section>
 
-      <section id="editorial-shell" class="editorial-card detail-accordion" hidden>
-        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="editorial-content">
-          <span>Archive / Encyclopedie</span>
-          <span class="detail-accordion-indicator">&#9656;</span>
-        </button>
-        <div id="editorial-content" class="detail-accordion-content" hidden></div>
-      </section>
-
       <section id="stats-shell" class="stats-card detail-accordion">
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="stats-content">
-          <span>Qualification &amp; Prix</span>
+          <span>Donnees avancees</span>
           <span class="detail-accordion-indicator">&#9656;</span>
         </button>
         <div id="stats-content" class="detail-accordion-content" hidden>
@@ -122,7 +122,7 @@
 
       <section id="related-shell" class="related-card detail-accordion" hidden>
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="related-content">
-          <span>Prolonger la lecture</span>
+          <span>Aller plus loin</span>
           <span class="detail-accordion-indicator">&#9656;</span>
         </button>
         <div id="related-content" class="detail-accordion-content" hidden></div>
@@ -137,7 +137,7 @@
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
     <script src="/js/core/content-signals.js"></script>
-    <script src="/js/pages/game-detail.js?v=20260404e"></script>
+    <script src="/js/pages/game-detail.js?v=20260408r1"></script>
     <script src="/js/features/experience-layer.js"></script>
     <div class="footer-attribution">
       Covers :

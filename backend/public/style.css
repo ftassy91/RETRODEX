@@ -10516,6 +10516,28 @@ body.hub-page .product-universe-frame {
   line-height: 1.7;
 }
 
+.detail-reading-state {
+  margin-top: 12px;
+  color: #6d8c65;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.detail-hero-price-context {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.detail-price-context-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
 .detail-decision-strip {
   margin-top: 14px;
   padding-top: 14px;
@@ -12508,6 +12530,22 @@ body {
 .detail-hero-aside {
   padding: 14px 0 0 16px;
   border-left: 1px solid rgba(31, 46, 31, 0.92);
+}
+
+.detail-hero-actions {
+  gap: 10px;
+}
+
+.detail-hero-actions .terminal-action-link {
+  flex: 0 0 auto;
+}
+
+.detail-hero-aside .detail-domain-heading {
+  margin-bottom: 10px;
+}
+
+.game-relations {
+  margin-top: 14px;
 }
 
 .detail-accordion {

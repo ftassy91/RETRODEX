@@ -11,12 +11,12 @@
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="icon" type="image/png" href="/icons/icon-192.png">
   <title>RetroDex - Hub</title>
-  <meta name="description" content="Hub RetroDex : ouvrir une fiche utile, voir la valeur d'une collection, entrer vite dans le bon jeu.">
+  <meta name="description" content="RetroDex : chercher un jeu retro, lire sa fiche, voir sa valeur, suivre sa collection.">
   <meta property="og:title" content="Hub | RetroDex">
-  <meta property="og:description" content="Cockpit d'orientation RetroDex : ouvrir une fiche utile, voir la valeur d'une collection, entrer vite dans le bon jeu.">
+  <meta property="og:description" content="RetroDex : chercher un jeu retro, lire sa fiche, voir sa valeur, suivre sa collection.">
   <meta property="og:type" content="website">
   <meta name="robots" content="index, follow">
-  <link rel="stylesheet" href="/style.css?v=20260406a">
+  <link rel="stylesheet" href="/style.css?v=20260408r1">
 </head>
 <body class="hub-page hub-orientation-page">
   <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
@@ -48,7 +48,7 @@
           <div class="hub-kicker">SYSTEME</div>
           <h1 class="hub-page-title">RETRODEX</h1>
         </div>
-        <p class="hub-intro">Voir vite ce qu'une fiche donne, ce qu'une collection vaut, et ou agir ensuite.</p>
+        <p class="hub-intro">Chercher un jeu, comprendre sa fiche, suivre sa valeur, gerer sa collection.</p>
       </div>
 
       <form class="hub-search-form" action="/search.html" method="get">
@@ -65,7 +65,7 @@
         >
         <button class="hub-search-button" type="submit">OUVRIR</button>
       </form>
-      <button id="hub-random-btn" class="hub-random-button" type="button" aria-label="Ouvrir une fiche au hasard">HASARD &rarr;</button>
+      <button id="hub-random-btn" class="hub-random-button" type="button" aria-label="Ouvrir une fiche au hasard">AU HASARD &rarr;</button>
       <script>
         document.getElementById('hub-random-btn').addEventListener('click', async function() {
           this.textContent = '...'
@@ -107,13 +107,13 @@
         <div class="hub-intent-grid hub-intent-grid-two">
           <article class="hub-intent-card">
             <span class="hub-intent-label">RetroDex</span>
-            <p class="hub-intent-copy">Trouver vite un jeu qui vaut l'ouverture, puis entrer dans la bonne fiche.</p>
-            <div class="hub-intent-links"><a href="/games-list.html">Trouver une fiche</a></div>
+            <p class="hub-intent-copy">Chercher un jeu, ouvrir sa fiche, lire ce qui compte en premier.</p>
+            <div class="hub-intent-links"><a href="/games-list.html">Explorer le catalogue</a></div>
           </article>
           <article class="hub-intent-card">
             <span class="hub-intent-label">Collection</span>
-            <p class="hub-intent-copy">Voir en une vue l'etagere, la valeur, la wishlist et ce qui peut sortir.</p>
-            <div class="hub-intent-links"><a href="/collection.html">Voir la collection</a></div>
+            <p class="hub-intent-copy">Voir l'etagere, la valeur, la wishlist et les prochaines actions.</p>
+            <div class="hub-intent-links"><a href="/collection.html">Ouvrir la collection</a></div>
           </article>
         </div>
       </section>
@@ -123,7 +123,7 @@
       <div class="hub-module-head">
         <div>
           <div class="hub-module-kicker">PREUVES</div>
-          <h2 class="hub-module-title">Fiches qui montrent la valeur de RetroDex</h2>
+          <h2 class="hub-module-title">3 fiches pour comprendre RetroDex</h2>
         </div>
         <a class="hub-module-link" href="/games-list.html">Ouvrir l'index</a>
       </div>
@@ -144,6 +144,6 @@
   <script src="/js/core/api.js"></script>
   <script src="/js/core/format.js"></script>
   <script src="/js/core/content-signals.js"></script>
-  <script src="/js/pages/hub-curated.js?v=20260408s3"></script>
+  <script src="/js/pages/hub-curated.js?v=20260408r1"></script>
 </body>
 </html>

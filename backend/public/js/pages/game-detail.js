@@ -484,12 +484,11 @@ function renderHeroSection(game) {
                   ? `<a class="detail-studio-link" href="/games-list.html?q=${encodeURIComponent(meta.developerName)}" title="Voir tous les jeux de ${escapeHtml(meta.developerName)}">${escapeHtml(meta.developerName)}</a>`
                   : escapeHtml(meta.developerName)}
               </div>
-              <div id="hero-content-status" class="detail-hero-chip-row"></div>
-              <p id="hero-content-note" class="detail-status-copy"></p>
 
               <div id="hero-summary-shell" class="hero-summary-shell"${summary ? '' : ' hidden'}>
                 <div id="hero-summary" class="hero-summary surface-summary-copy">${summary ? formatMultilineHtml(summary) : ''}</div>
               </div>
+              <p id="hero-reading-state" class="detail-reading-state">Chargement de la lecture...</p>
 
               <div class="game-tagline-shell" id="game-tagline-shell" hidden>
                 <span class="detail-inline-label">Note</span>
@@ -498,35 +497,24 @@ function renderHeroSection(game) {
 
               <div id="game-relations" class="game-relations"></div>
               <div class="surface-action-row detail-hero-actions">
-                <a class="terminal-action-link" href="/games-list.html">Retour a RetroDex &rarr;</a>
-                <a class="terminal-action-link is-primary" href="#collection-shell">Voir Collection &rarr;</a>
-                <a class="terminal-action-link" href="/stats.html?q=${encodeURIComponent(game.title)}&from=${encodeURIComponent(game.id)}">Lecture avancee &rarr;</a>
+                <a class="terminal-action-link" href="/games-list.html">Retour au catalogue &rarr;</a>
+                <a class="terminal-action-link is-primary" href="#editorial-shell">Lire la fiche &rarr;</a>
               </div>
             </div>
           </div>
         </section>
 
         <aside class="detail-market-panel detail-hero-aside">
-          <div class="detail-kicker">LECTURE</div>
-          <div class="detail-domain-heading">Ce qu'il faut voir d'abord</div>
-          <div id="hero-reading-grid" class="surface-signal-grid detail-identity-signal-grid">
-            ${buildHeroSignalCard('Richesse', 'Chargement', 'is-primary')}
-            ${buildHeroSignalCard('Etat', 'En cours')}
-            ${buildHeroSignalCard('Confiance', 'A qualifier')}
-          </div>
-          <div id="hero-reading-highlights" class="surface-chip-row"></div>
-          <p id="hero-reading-note" class="detail-reading-note">Collection et qualification restent en soutien.</p>
+          <div class="detail-kicker">DECISION</div>
+          <div class="detail-domain-heading">Valeur / confiance / action</div>
+          ${priceContext}
+          ${pricePanel}
           <div id="collection-decision-strip" class="detail-decision-strip">
-            <div class="detail-kicker">COCKPIT</div>
-            <div class="detail-domain-heading">Collection / valeur / action</div>
+            <div class="detail-kicker">COLLECTION</div>
+            <div class="detail-domain-heading">Statut / valeur / action</div>
             <div id="collection-decision-grid" class="surface-signal-grid is-five detail-decision-grid"></div>
             <p id="collection-decision-note" class="detail-reading-note"></p>
           </div>
-          ${priceContext}
-          ${pricePanel}
-          <div id="hero-region-chips" class="hero-region-chips"></div>
-          <div id="price-timestamp" class="price-timestamp" hidden></div>
-          ${game.sourceNames ? `<div class="detail-hero-sources">Sources : ${escapeHtml(game.sourceNames)}</div>` : ''}
         </aside>
       </div>
     </div>
@@ -642,57 +630,28 @@ function renderCollectionDecisionStrip(options = {}) {
 }
 
 function renderDetailContentStatus() {
-  const rowEl = document.getElementById('hero-content-status')
-  const noteEl = document.getElementById('hero-content-note')
-  const readingGridEl = document.getElementById('hero-reading-grid')
-  const readingHighlightsEl = document.getElementById('hero-reading-highlights')
-  const readingNoteEl = document.getElementById('hero-reading-note')
-  if (!rowEl || !noteEl) {
+  const readingStateEl = document.getElementById('hero-reading-state')
+  if (!readingStateEl) {
     return
   }
 
   const signals = buildDetailContentSignals()
   if (!signals) {
-    rowEl.innerHTML = ''
-    noteEl.textContent = ''
-    if (readingGridEl) {
-      readingGridEl.innerHTML = [
-        buildHeroSignalCard('Richesse', 'Chargement', 'is-primary'),
-        buildHeroSignalCard('Etat', 'En cours'),
-        buildHeroSignalCard('Confiance', 'A qualifier'),
-      ].join('')
-    }
-    if (readingHighlightsEl) readingHighlightsEl.innerHTML = ''
-    if (readingNoteEl) readingNoteEl.textContent = 'Lecture en cours de qualification.'
+    readingStateEl.textContent = 'Lecture en cours de qualification.'
     return
   }
 
-  rowEl.innerHTML = `
-    <span class="surface-chip is-primary">Richesse ${escapeHtml(signals.band.shortLabel)}</span>
-    <span class="surface-chip">Etat ${escapeHtml(signals.completionState.shortLabel)}</span>
-    <span class="surface-chip">Confiance ${escapeHtml(signals.confidence.shortLabel)}</span>
-  `
-  noteEl.textContent = signals.band.note
-  if (readingGridEl) {
-    readingGridEl.innerHTML = [
-      buildHeroSignalCard('Richesse', signals.band.shortLabel, 'is-primary'),
-      buildHeroSignalCard('Etat', signals.completionState.shortLabel),
-      buildHeroSignalCard('Confiance', signals.confidence.shortLabel),
-    ].join('')
+  const anecdoteCount = Array.isArray(currentEncyclopediaData?.dev_anecdotes)
+    ? currentEncyclopediaData.dev_anecdotes.length
+    : 0
+  const readingParts = [
+    `Lecture ${signals.band.shortLabel.toLowerCase()}`,
+    signals.band.note,
+  ]
+  if (anecdoteCount > 0) {
+    readingParts.push(`${anecdoteCount} anecdote${anecdoteCount > 1 ? 's' : ''} de developpement`)
   }
-  if (readingHighlightsEl) {
-    const highlightChips = signals.highlights
-      .slice(0, 2)
-      .map((label) => `<span class="surface-chip">${escapeHtml(label)}</span>`)
-    const anecdoteCount = Array.isArray(currentEncyclopediaData?.dev_anecdotes)
-      ? currentEncyclopediaData.dev_anecdotes.length
-      : 0
-    if (anecdoteCount > 0) {
-      highlightChips.push(`<span class="surface-chip">ANECDOTES ${anecdoteCount}</span>`)
-    }
-    readingHighlightsEl.innerHTML = highlightChips.join('')
-  }
-  if (readingNoteEl) readingNoteEl.textContent = signals.band.note
+  readingStateEl.textContent = readingParts.filter(Boolean).join(' · ')
 }
 
 function confidenceClass(value) {
@@ -776,20 +735,22 @@ function buildHeroPriceContext(game, trustMeta) {
   const freshnessMeta = getPriceFreshnessMeta(game?.priceLastUpdated)
   const trustTier = trustMeta?.tier || 'T0'
   const shouldShowContext = trustTier !== 'T0' || freshnessMeta
+  const sourceNames = String(game?.sourceNames || '').trim()
 
   if (!shouldShowContext) {
     return ''
   }
 
   return `
-    <div class="detail-hero-price-context" style="display:flex;flex-direction:column;gap:8px;margin:0 0 12px;">
-      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+    <div class="detail-hero-price-context">
+      <div class="detail-price-context-row">
         <span class="detail-hero-reference">Confiance</span>
         <span class="trust-badge trust-${escapeHtml(trustTier)}" style="${escapeHtml(getTrustBadgeStyle(trustTier))}">${escapeHtml(getTrustBadgeText(trustTier))}</span>
         ${freshnessMeta ? `<span class="detail-hero-reference">Fraicheur</span><span class="detail-hero-reference">${escapeHtml(freshnessMeta.label)} · ${escapeHtml(freshnessMeta.detail)}</span>` : ''}
       </div>
       ${freshnessMeta?.dateText ? `<div class="detail-hero-price-date">Mis a jour : ${escapeHtml(freshnessMeta.dateText)}</div>` : ''}
       ${buildPriceFreshnessAlert(game?.priceLastUpdated)}
+      ${sourceNames ? `<div class="detail-hero-sources">Sources : ${escapeHtml(sourceNames)}</div>` : ''}
     </div>
   `
 }
@@ -2032,13 +1993,13 @@ function renderStats(game) {
     }
   }
 
-  // Inject price summary into the Qualification toggle label so Marc sees it without opening
+  // Keep the advanced data block informative without letting it compete with the hero.
   const statsToggle = document.querySelector('#stats-shell .detail-accordion-toggle span:first-child')
   if (statsToggle && game.loosePrice) {
     const parts = [`Loose $${Math.round(game.loosePrice)}`]
     if (game.cibPrice) parts.push(`CIB $${Math.round(game.cibPrice)}`)
     if (game.mintPrice) parts.push(`Mint $${Math.round(game.mintPrice)}`)
-    statsToggle.innerHTML = `Qualification &amp; Prix <span class="accordion-price-hint">${escapeHtml(parts.join(' · '))}</span>`
+    statsToggle.innerHTML = `Donnees avancees <span class="accordion-price-hint">${escapeHtml(parts.join(' · '))}</span>`
   }
 }
 
@@ -3592,7 +3553,7 @@ function initDetailAccordions() {
     }
 
     toggleEl.dataset.bound = 'true'
-    const defaultOpen = ['collection-shell', 'editorial-shell'].includes(sectionEl.id)
+    const defaultOpen = ['editorial-shell'].includes(sectionEl.id)
     setAccordionState(sectionEl, defaultOpen)
     toggleEl.addEventListener('click', () => {
       const expanded = toggleEl.getAttribute('aria-expanded') === 'true'
