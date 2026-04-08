@@ -5,6 +5,7 @@
   const { escapeHtml, formatCurrency } = window.RetroDexFormat || {}
   const { fetchJson, fetchCollection, fetchCollectionSearch } = window.RetroDexApi || {}
   const { getParams } = window.RetroDexState || {}
+  const runtimeMonitor = window.RetroDexRuntimeMonitor?.createPageMonitor?.('collection')
 
   if (!byId || !qsa || !setHtml || !setText || !escapeHtml || !formatCurrency || !fetchJson || !fetchCollection || !getParams) {
     console.warn('[RetroDex] Collection bootstrap skipped: core helpers missing')
@@ -1201,6 +1202,10 @@
     setStatus('Chargement de la collection...')
     setHtml(collectionListContainerEl, collectionStateMarkup('Chargement', 'Lecture des lignes de collection et des signaux associes.'))
     updateCockpitLead(0, allCollectionItems.length)
+    const slowTimer = window.setTimeout(() => {
+      setStatus('Chargement lent... la collection reste en cours de lecture.')
+      runtimeMonitor?.mark('slow-load', { tab: activeTab })
+    }, 4500)
 
     try {
       let items
@@ -1224,6 +1229,11 @@
       }
 
       await refreshCollectionView(preferredItemId)
+      runtimeMonitor?.success({
+        tab: activeTab,
+        total: allCollectionItems.length,
+        visible: enrichedItems.length,
+      })
     } catch (error) {
       allCollectionItems = []
       enrichedItems = []
@@ -1239,6 +1249,9 @@
       clearSelection()
       setStatus(`Erreur collection : ${error.message}`)
       updateCockpitLead(0, 0)
+      runtimeMonitor?.fail(error)
+    } finally {
+      window.clearTimeout(slowTimer)
     }
   }
 

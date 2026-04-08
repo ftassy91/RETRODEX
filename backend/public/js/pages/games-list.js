@@ -31,6 +31,7 @@ const filtersMobileToggleEl = document.getElementById('filters-mobile-toggle')
 const filtersSidebarContentEl = document.getElementById('filters-sidebar-content')
 const metascoreSortButtonEl = document.getElementById('sort-metascore-desc')
 const CoreApi = window.RetroDexApi || {}
+const runtimeMonitor = window.RetroDexRuntimeMonitor?.createPageMonitor?.('games-list')
 
 let debounceTimer
 let currentOffset = 0
@@ -674,9 +675,18 @@ async function loadGames() {
   updateUrl(currentState)
   loadingIndicatorEl.textContent = 'Chargement...'
   renderLoadingSkeletons()
+  const slowTimer = window.setTimeout(() => {
+    loadingIndicatorEl.textContent = 'Chargement lent... le catalogue reste en cours de lecture.'
+    runtimeMonitor?.mark('slow-load', {
+      q: currentState.query,
+      console: currentState.console,
+      sort: currentState.sort,
+    })
+  }, 4500)
 
   try {
     if (requiresAdvancedSnapshot(currentState)) {
+      runtimeMonitor?.mark('advanced-snapshot')
       const payload = await fetchAdvancedSnapshot(currentState)
       fetchedGames = payload.items
       publicationSummary = payload.publication || publicationSummary
@@ -700,9 +710,16 @@ async function loadGames() {
     }
 
     loadingIndicatorEl.textContent = ''
+    runtimeMonitor?.success({
+      total: totalGames,
+      mode: renderMode,
+    })
   } catch (error) {
     loadingIndicatorEl.textContent = 'Catalogue indisponible.'
     resultsEl.innerHTML = '<div class="empty-state">Impossible de charger le catalogue.</div>'
+    runtimeMonitor?.fail(error)
+  } finally {
+    window.clearTimeout(slowTimer)
   }
 }
 

@@ -1,6 +1,7 @@
 'use strict'
 
 ;(() => {
+  const runtimeMonitor = window.RetroDexRuntimeMonitor?.createPageMonitor?.('hub')
   const bannerEl = document.getElementById('hub-curation-banner')
   const publishedEl = document.getElementById('hub-stat-published')
   const totalEl = document.getElementById('hub-stat-total')
@@ -119,11 +120,22 @@
   }
 
   async function loadHub() {
+    const slowTimer = window.setTimeout(() => {
+      if (bannerEl) {
+        bannerEl.textContent = 'Chargement lent | signaux RetroDex en cours de lecture'
+      }
+      runtimeMonitor?.mark('slow-load')
+    }, 4500)
+
     try {
       const [itemsResult, statsResult] = await Promise.allSettled([
         fetchJson('/api/items?limit=12&sort=metascore_desc'),
         fetchJson('/api/stats'),
       ])
+      runtimeMonitor?.mark('requests-settled', {
+        items: itemsResult.status,
+        stats: statsResult.status,
+      })
       const itemsPayload = itemsResult.status === 'fulfilled' ? itemsResult.value : { items: [], publication: {} }
       const statsPayload = statsResult.status === 'fulfilled' ? statsResult.value : {}
 
@@ -159,12 +171,19 @@
       }
 
       richGridEl.innerHTML = strongPages.map(buildCard).join('')
+      runtimeMonitor?.success({
+        cards: strongPages.length,
+        published,
+      })
     } catch (_error) {
       bannerEl.textContent = 'RetroDex | catalogue, lecture, valeur'
       setText(publicationSignalEl, 'indisponible')
       setText(editorialSignalEl, 'indisponible')
       setText(archiveSignalEl, 'indisponible')
       renderState('Signaux indisponibles', 'Impossible de charger les fiches a ouvrir pour cette session.')
+      runtimeMonitor?.fail(_error)
+    } finally {
+      window.clearTimeout(slowTimer)
     }
   }
 

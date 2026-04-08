@@ -4,6 +4,7 @@ const CoreFormat = window.RetroDexFormat || {}
 const CoreApi = window.RetroDexApi || {}
 const CoreState = window.RetroDexState || {}
 const ContentSignals = window.RetroDexContentSignals || {}
+const runtimeMonitor = window.RetroDexRuntimeMonitor?.createPageMonitor?.('game-detail')
 
 const heroEl = document.getElementById('hero')
 const statsRowEl = document.getElementById('stats-row')
@@ -3543,14 +3544,25 @@ async function loadPage() {
   currentRenderedDetailTabs = new Set()
   buildCatalogueBackLink()
   showSkeleton()
+  const slowTimer = window.setTimeout(() => {
+    if (heroEl) {
+      heroEl.innerHTML = '<div class="loading-card">Chargement lent... la fiche reste en cours de lecture.</div>'
+    }
+    if (collectionStateEl) {
+      collectionStateEl.textContent = 'Lecture lente.'
+    }
+    runtimeMonitor?.mark('slow-load', { gameId })
+  }, 5000)
 
   if (!gameId) {
     heroEl.innerHTML = '<div class="loading-card">Aucun identifiant de jeu fourni.</div>'
+    window.clearTimeout(slowTimer)
     return
   }
 
   try {
     currentGame = await fetchJson(`/api/games/${encodeURIComponent(gameId)}`)
+    runtimeMonitor?.mark('primary-game-loaded', { gameId: currentGame?.id || gameId })
     updateSeoMeta(currentGame)
 
     if (breadcrumbTitleEl) {
@@ -3612,6 +3624,7 @@ async function loadPage() {
     const relatedPromise = loadRelatedGames(currentGame)
     const detailLoaded = await loadGameDetailData(currentGame.id)
     if (!detailLoaded) {
+      runtimeMonitor?.mark('detail-fallback')
       await Promise.allSettled([
         loadEncyclopedia(currentGame.id),
         loadArchive(currentGame.id),
@@ -3624,6 +3637,10 @@ async function loadPage() {
       similarPromise,
       relatedPromise,
     ])
+    runtimeMonitor?.success({
+      gameId: currentGame?.id || gameId,
+      detailLoaded,
+    })
   } catch (error) {
     heroEl.innerHTML = '<div class="loading-card">Impossible de charger la fiche pour cette session.</div>'
     statsRowEl.innerHTML = ''
@@ -3640,6 +3657,9 @@ async function loadPage() {
     }
     if (editorialShellEl) editorialShellEl.hidden = true
     if (relatedShellEl) relatedShellEl.hidden = true
+    runtimeMonitor?.fail(error)
+  } finally {
+    window.clearTimeout(slowTimer)
   }
 }
 
