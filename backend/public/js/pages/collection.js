@@ -1096,6 +1096,7 @@
           { key: 'upgrade_candidates', count: data.upgrade_candidates?.count || 0 },
           { key: 'incomplete', count: data.incomplete?.count || 0 },
           { key: 'affordable_wishlist', count: data.affordable_wishlist?.count || 0 },
+          { key: 'stale_wishlist', count: data.stale_wishlist?.count || 0 },
         ]
         signalOrder.sort((a, b) => {
           if (a.count > 0 && b.count === 0) return -1
