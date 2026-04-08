@@ -9,6 +9,7 @@
 
 const path = require('path');
 const { QueryTypes } = require('sequelize');
+const { compareGamesForSort } = require('./src/lib/normalize');
 
 const {
   applyResolvedSupabaseEnv,
@@ -37,6 +38,9 @@ function setSequelize(seq) { _sequelizeOverride = seq; }
 function getOverrideSequelize() { return _sequelizeOverride; }
 module.exports.setSequelize = setSequelize;
 module.exports.getOverrideSequelize = getOverrideSequelize;
+
+const LARGE_IN_FILTER_THRESHOLD = 200;
+const SUPABASE_ID_BATCH_SIZE = 150;
 
 let db = null;
 let mode = 'none';
@@ -548,6 +552,34 @@ function normalizeCoverFields(row) {
   };
 }
 
+async function fetchSupabaseGamesByIdBatches(filters, sortKey, offset, limit) {
+  const allRows = [];
+  const ids = Array.isArray(filters.ids) ? filters.ids.map((value) => String(value)).filter(Boolean) : [];
+
+  for (let index = 0; index < ids.length; index += SUPABASE_ID_BATCH_SIZE) {
+    const batchIds = ids.slice(index, index + SUPABASE_ID_BATCH_SIZE);
+    const { data, error } = await applyGameFilters(
+      db.from('games').select('*'),
+      { ...filters, ids: batchIds }
+    );
+
+    if (error) {
+      throw new Error(error.message || 'Failed to fetch filtered games batch from Supabase');
+    }
+
+    if (Array.isArray(data) && data.length) {
+      allRows.push(...data.map(normalizeCoverFields));
+    }
+  }
+
+  allRows.sort((left, right) => compareGamesForSort(left, right, sortKey));
+
+  return {
+    items: allRows.slice(offset, offset + limit),
+    total: allRows.length,
+  };
+}
+
 async function fetchSupabaseRowsInBatches(table, columns, configure, { orderBy, batchSize = 1000 } = {}) {
   const rows = [];
   let from = 0;
@@ -682,6 +714,10 @@ async function queryGames({ sort, console: consoleName, rarity, limit = 20, offs
   const [column, options] = sortMap[sort] || ['title', { ascending: true }];
 
   if (mode === 'supabase') {
+    if (Array.isArray(ids) && ids.length > LARGE_IN_FILTER_THRESHOLD) {
+      return fetchSupabaseGamesByIdBatches(filters, sort, offset, limit);
+    }
+
     const { count, error: countError } = await applyGameFilters(
       db.from('games').select('id', { count: 'exact', head: true }),
       filters

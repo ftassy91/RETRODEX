@@ -5,6 +5,7 @@ const { normalizeGameRecord } = require('../lib/normalize')
 const {
   uniqueStrings,
   isMissingSupabaseRelationError,
+  fetchRowsInBatches,
 } = require('./public-supabase-utils')
 
 const PUBLICATION_MEDIA_TYPES = ['map', 'manual', 'sprite_sheet', 'ending']
@@ -151,12 +152,16 @@ function attachVisibilityMetadata(games = [], signalsMap = new Map(), curationMa
 }
 
 async function fetchPublishedGameScope() {
-  const { data, error } = await db
-    .from('console_publication_slots')
-    .select('game_id,console_id,slot_rank,pass_key')
-    .eq('is_active', true)
+  let data = []
 
-  if (error) {
+  try {
+    data = await fetchRowsInBatches(
+      'console_publication_slots',
+      'game_id,console_id,slot_rank,pass_key',
+      (query) => query.eq('is_active', true),
+      { column: 'slot_rank', options: { ascending: true } }
+    )
+  } catch (error) {
     if (isMissingSupabaseRelationError(error)) {
       return {
         enabled: false,
@@ -168,7 +173,7 @@ async function fetchPublishedGameScope() {
       }
     }
 
-    throw new Error(error.message)
+    throw error
   }
 
   const slotRows = (data || [])
