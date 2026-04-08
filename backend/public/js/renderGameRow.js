@@ -76,7 +76,10 @@ function renderGameRow(game, options = {}) {
   const cibPrice = showPrice && game.cibPrice ? `$${Math.round(game.cibPrice)}` : null
   const mintPrice = showPrice && game.mintPrice ? `$${Math.round(game.mintPrice)}` : null
   const confidenceTier = priceConfidenceTier(game)
-  const showOwnedBadge = String(collectionState || '').toLowerCase() === 'owned'
+  const collectionStateNorm = String(collectionState || '').toLowerCase()
+  const showOwnedBadge = collectionStateNorm === 'owned'
+  const showWantedBadge = collectionStateNorm === 'wanted'
+  const showSaleBadge = collectionStateNorm === 'for_sale'
   const archiveBadges = [
     contentSignals ? `<span class="presence-badge is-richness is-${escapeHtml(contentSignals.band.key)}">${escapeHtml(contentSignals.band.shortLabel)}</span>` : '',
     contentSignals ? `<span class="presence-badge is-state">Etat ${escapeHtml(contentSignals.completionState.shortLabel)}</span>` : '',
@@ -90,7 +93,7 @@ function renderGameRow(game, options = {}) {
   el.innerHTML = `
     <span class="result-row-indicator">&rsaquo;</span>
     <div class="result-info">
-      <span class="result-title" title="${escapeHtml(game.title || '')}">${escapeHtml(game.title || '')}${showOwnedBadge ? '<span class="result-owned-badge">COLLECTION</span>' : ''}</span>
+      <span class="result-title" title="${escapeHtml(game.title || '')}">${escapeHtml(game.title || '')}${showOwnedBadge ? '<span class="result-owned-badge">POSSEDE</span>' : ''}${showWantedBadge ? '<span class="result-collection-badge is-wanted">WISHLIST</span>' : ''}${showSaleBadge ? '<span class="result-collection-badge is-sale">EN VENTE</span>' : ''}</span>
       <span class="result-meta-row">
         <span class="result-meta">${escapeHtml(consoleName)} &middot; ${escapeHtml(year)}${genre ? ` &middot; ${escapeHtml(genre)}` : ''}</span>
       </span>
