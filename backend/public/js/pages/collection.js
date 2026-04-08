@@ -18,6 +18,9 @@
   const statValueCibEl = byId('stat-value-cib')
   const statValueMintEl = byId('stat-value-mint')
   const statusTextEl = byId('status-text')
+  const cockpitLeadEl = byId('collection-cockpit-lead')
+  const modeTitleEl = byId('collection-mode-title')
+  const modeCopyEl = byId('collection-mode-copy')
   const collectionSearchInputEl = byId('collection-search-input')
   const collectionConsoleFilterEl = byId('collection-console-filter')
   const collectionSortSelectEl = byId('collection-sort-select')
@@ -26,9 +29,11 @@
   const collectionDetailEl = byId('collection-detail')
   const detailTitleEl = byId('detail-title')
   const detailRow1El = byId('detail-row1')
+  const detailFocusStateEl = byId('detail-focus-state')
   const detailSignalGridEl = byId('detail-signal-grid')
   const detailChipRowEl = byId('detail-chip-row')
   const detailSummaryEl = byId('detail-summary')
+  const detailNextStepEl = byId('detail-next-step')
   const detailMetascoreEl = byId('detail-metascore')
   const detailRow2El = byId('detail-row2')
   const editFormEl = byId('collection-edit-form')
@@ -54,6 +59,7 @@
   let copyFeedbackTimer = null
   let activeCockpitSignal = null
   let cockpitSignalItems = null
+  let cockpitData = null
 
   function getGame(item) {
     return item?.Game || item?.game || {}
@@ -251,6 +257,140 @@
     return 'COLLECTION'
   }
 
+  function getSignalLabel(signalKey) {
+    switch (signalKey) {
+      case 'duplicates': return 'DOUBLONS'
+      case 'sell_candidates': return 'A VENDRE'
+      case 'upgrade_candidates': return 'A UPGRADER'
+      case 'incomplete': return 'INCOMPLETS'
+      case 'affordable_wishlist': return 'WISHLIST <= $25'
+      default: return 'ATTENTION'
+    }
+  }
+
+  function getSignalPrompt(signalKey) {
+    switch (signalKey) {
+      case 'duplicates':
+        return 'Comparer et arbitrer les doublons avant de garder ou sortir.'
+      case 'sell_candidates':
+        return 'Verifier les lignes qui peuvent sortir sans affaiblir la collection.'
+      case 'upgrade_candidates':
+        return 'Identifier les jeux ou un meilleur etat change vraiment la valeur.'
+      case 'incomplete':
+        return 'Completer ou verifier les entrees qui restent fragiles.'
+      case 'affordable_wishlist':
+        return 'Prioriser les achats accessibles avant qu ils ne sortent de portee.'
+      default:
+        return 'Lire les signaux puis agir sur la bonne fiche.'
+    }
+  }
+
+  function getActiveSignalCount() {
+    if (!activeCockpitSignal || !cockpitData?.[activeCockpitSignal]) return 0
+    return Number(cockpitData[activeCockpitSignal].count || 0)
+  }
+
+  function updateCockpitLead(visibleCount = enrichedItems.length, totalCount = allCollectionItems.length) {
+    if (!cockpitLeadEl || !modeTitleEl || !modeCopyEl) return
+
+    const tabTitle = activeTab === 'wanted'
+      ? 'WISHLIST'
+      : activeTab === 'for_sale'
+        ? 'A VENDRE'
+        : 'ETAGERE'
+
+    if (activeCockpitSignal) {
+      const signalLabel = getSignalLabel(activeCockpitSignal)
+      const count = getActiveSignalCount()
+      setText(modeTitleEl, `${tabTitle} | ${signalLabel}`)
+      setText(
+        modeCopyEl,
+        count
+          ? `${count} entree(s) a arbitrer. ${getSignalPrompt(activeCockpitSignal)}`
+          : `${signalLabel} actif. ${getSignalPrompt(activeCockpitSignal)}`
+      )
+      return
+    }
+
+    if (hasActiveCollectionFilters()) {
+      setText(modeTitleEl, `${tabTitle} | FILTRES`)
+      setText(modeCopyEl, `${visibleCount} entree(s) visibles sur ${totalCount}. Ajuster puis ouvrir la bonne fiche.`)
+      return
+    }
+
+    if (activeTab === 'owned') {
+      const priorityBits = []
+      const duplicates = Number(cockpitData?.duplicates?.count || 0)
+      const sell = Number(cockpitData?.sell_candidates?.count || 0)
+      const upgrades = Number(cockpitData?.upgrade_candidates?.count || 0)
+      if (duplicates) priorityBits.push(`${duplicates} doublon(s)`)
+      if (sell) priorityBits.push(`${sell} sortie(s) possible(s)`)
+      if (upgrades) priorityBits.push(`${upgrades} upgrade(s)`)
+      setText(modeTitleEl, 'ETAGERE')
+      setText(
+        modeCopyEl,
+        priorityBits.length
+          ? `Maintenant : ${priorityBits.slice(0, 3).join(' | ')}.`
+          : 'Lecture stable de l etagere. Ouvrir une fiche pour arbitrer.'
+      )
+      return
+    }
+
+    if (activeTab === 'wanted') {
+      const affordable = Number(cockpitData?.affordable_wishlist?.count || 0)
+      setText(modeTitleEl, 'WISHLIST')
+      setText(
+        modeCopyEl,
+        affordable
+          ? `${affordable} entree(s) restent accessibles maintenant. Prioriser puis qualifier.`
+          : 'Suivre la wishlist et ouvrir les fiches a fort potentiel.'
+      )
+      return
+    }
+
+    setText(modeTitleEl, 'A VENDRE')
+    setText(modeCopyEl, 'Verifier prix, note et etat avant diffusion ou echange.')
+  }
+
+  function buildFocusDecision(item) {
+    const game = getGame(item)
+    const loosePrice = Number(game.loosePrice || 0)
+    const cibPrice = Number(game.cibPrice || 0)
+    const paid = Number(item.price_paid || 0)
+    const gain = paid > 0 ? loosePrice - paid : null
+
+    if (activeCockpitSignal === 'duplicates') {
+      return 'Doublon detecte. Comparer etat, note et prix paye avant arbitrage.'
+    }
+    if (activeCockpitSignal === 'sell_candidates') {
+      return 'Sortie plausible. Verifier delta et pertinence avant de mettre en vente.'
+    }
+    if (activeCockpitSignal === 'upgrade_candidates') {
+      return 'Upgrade plausible. Comparer votre etat actuel au saut vers CIB ou Mint.'
+    }
+    if (activeCockpitSignal === 'incomplete') {
+      return 'Entree fragile. Verifier etat, note et metadata avant de la laisser dormir.'
+    }
+    if (activeCockpitSignal === 'affordable_wishlist') {
+      return 'Achat accessible. Ouvrir la fiche puis qualifier avant arbitrage.'
+    }
+    if (activeTab === 'wanted') {
+      return loosePrice > 0
+        ? `Point d entree a ${formatCurrency(loosePrice)}. Qualifier avant achat.`
+        : 'Wishlist en veille. Ouvrir la fiche pour verifier la qualite et le contexte.'
+    }
+    if (activeTab === 'for_sale') {
+      return 'Pret a sortir. Verifier prix, note et etat avant diffusion.'
+    }
+    if (gain != null && gain > 0) {
+      return `Delta positif ${formatCurrency(gain)}. Garder ou sortir selon la priorite de collection.`
+    }
+    if (cibPrice > loosePrice && String(item.condition || '').toLowerCase() === 'loose') {
+      return 'Loose en etagere. Regarder si un upgrade CIB change vraiment la valeur.'
+    }
+    return 'Lecture stable. Ouvrir la fiche pour verifier contexte, valeur et priorite.'
+  }
+
   function formatPreviewValue(value) {
     const numeric = Number(value || 0)
     return numeric > 0 ? formatCurrency(numeric) : 'n/a'
@@ -365,9 +505,11 @@
     selectedCollectionItem = null
     hideEditForm()
     qsa('.terminal-row', collectionListContainerEl).forEach((row) => row.classList.remove('selected'))
+    if (detailFocusStateEl) detailFocusStateEl.innerHTML = ''
     if (detailSignalGridEl) detailSignalGridEl.innerHTML = ''
     if (detailChipRowEl) detailChipRowEl.innerHTML = ''
     if (detailSummaryEl) detailSummaryEl.textContent = ''
+    if (detailNextStepEl) detailNextStepEl.textContent = ''
     if (detailMetascoreEl) detailMetascoreEl.innerHTML = ''
     if (detailRow2El) detailRow2El.innerHTML = ''
     collectionDetailEl.style.display = 'none'
@@ -400,11 +542,19 @@
     const paid = Number(item.price_paid || 0)
     const gain = paid > 0 ? loosePrice - paid : null
     const previewCopy = note || game.tagline || game.summary || game.synopsis || 'Sans note personnelle. La fiche reste la meilleure lecture.'
+    const focusDecision = buildFocusDecision(item)
     hideEditForm()
 
     collectionDetailEl.style.display = 'block'
     setText(detailTitleEl, game.title || '?')
     detailRow1El.innerHTML = `${escapeHtml(consoleName)} | ${escapeHtml(year)} | ${escapeHtml(developer)}`
+    if (detailFocusStateEl) {
+      detailFocusStateEl.innerHTML = `
+        <span class="surface-chip is-primary">${escapeHtml(getTabSignalLabel(activeTab))}</span>
+        ${activeCockpitSignal ? `<span class="surface-chip is-hot">${escapeHtml(getSignalLabel(activeCockpitSignal))}</span>` : ''}
+        ${gain != null ? `<span class="surface-chip">${escapeHtml(gain >= 0 ? 'DELTA +' : 'DELTA -')}</span>` : ''}
+      `
+    }
     if (detailSignalGridEl) {
       detailSignalGridEl.innerHTML = `
         <div class="surface-signal-card">
@@ -442,6 +592,9 @@
 
     if (detailSummaryEl) {
       detailSummaryEl.textContent = previewCopy
+    }
+    if (detailNextStepEl) {
+      detailNextStepEl.textContent = focusDecision
     }
 
     renderDetailMetascore(game.metascore)
@@ -549,7 +702,12 @@
     clearSelection()
     setHtml(
       collectionListContainerEl,
-      collectionStateMarkup('Aucun resultat visible', 'Aucun item ne correspond aux filtres actifs. Ajustez la recherche ou la console.')
+      collectionStateMarkup(
+        'Aucun resultat visible',
+        activeCockpitSignal
+          ? `Aucune entree ne correspond a ${getSignalLabel(activeCockpitSignal)} avec les filtres actifs.`
+          : 'Aucun item ne correspond aux filtres actifs. Ajustez la recherche ou la console.'
+      )
     )
   }
 
@@ -591,10 +749,12 @@
     if (!visibleItems.length && allCollectionItems.length > 0) {
       renderFilteredEmptyState()
       setStatus('Aucun item ne correspond aux filtres actifs.')
+      updateCockpitLead(0, allCollectionItems.length)
       return
     }
 
     renderCollection(visibleItems, preferredItemId)
+    updateCockpitLead(visibleItems.length, allCollectionItems.length)
     const baseLabel = `${visibleItems.length} entree(s)`
     setStatus(visibleItems.length === allCollectionItems.length
       ? `${baseLabel} dans ${getTabLabel(activeTab)}.`
@@ -704,6 +864,7 @@
     clearSelection()
     setStatus('Chargement de la collection...')
     setHtml(collectionListContainerEl, collectionStateMarkup('Chargement', 'Lecture des lignes de collection et des signaux associes.'))
+    updateCockpitLead(0, allCollectionItems.length)
 
     try {
       const payload = await fetchCollection(activeTab, isPublicForSaleView)
@@ -716,6 +877,7 @@
         updateSummaryFromItems([])
         renderEmptyState()
         setStatus(emptyListMessage().title)
+        updateCockpitLead(0, 0)
         return
       }
 
@@ -734,11 +896,15 @@
       )
       clearSelection()
       setStatus(`Erreur collection : ${error.message}`)
+      updateCockpitLead(0, 0)
     }
   }
 
   function switchCollectionTab(list, button) {
     if (isPublicForSaleView && list !== 'for_sale') return
+    if (activeCockpitSignal) {
+      clearCockpitFilter()
+    }
     activeTab = list
     syncTabUi(button)
     loadCollection()
@@ -837,6 +1003,7 @@
     activeCockpitSignal = null
     cockpitSignalItems = null
     signalCards.forEach((card) => card.setAttribute('aria-pressed', 'false'))
+    updateCockpitLead()
   }
 
   function applyCockpitFilter(signalKey, items) {
@@ -850,6 +1017,7 @@
       activeTab = targetTab
       syncTabUi()
     }
+    updateCockpitLead()
     refreshCollectionView()
   }
 
@@ -857,12 +1025,15 @@
     if (!cockpitBarEl || isPublicForSaleView) return
     try {
       const data = await fetchJson('/api/collection/cockpit')
+      cockpitData = data
+      cockpitData = data
       setCockpitCount('signal-duplicates-count', data.duplicates?.count || 0)
       setCockpitCount('signal-sell-count', data.sell_candidates?.count || 0)
       setCockpitCount('signal-upgrade-count', data.upgrade_candidates?.count || 0)
       setCockpitCount('signal-incomplete-count', data.incomplete?.count || 0)
       setCockpitCount('signal-wishlist-count', data.affordable_wishlist?.count || 0)
       cockpitBarEl.style.display = 'grid'
+      updateCockpitLead()
 
       signalCards.forEach((card) => {
         const key = card.dataset.signal
@@ -876,7 +1047,9 @@
           }
         })
       })
+      updateCockpitLead()
     } catch (_err) {
+      cockpitData = null
       // non-fatal — cockpit is additive
     }
   }
@@ -886,6 +1059,7 @@
     bindKeyboard()
     syncTabUi()
     updateSummaryFromItems([])
+    updateCockpitLead()
     loadCollection()
     loadCockpitSignals()
   }

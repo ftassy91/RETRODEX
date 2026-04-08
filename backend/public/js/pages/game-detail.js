@@ -142,6 +142,69 @@ function formatPriceHtml(value, fallback = 'Non indexé') {
   return hasIndexedPrice(value) ? escapeHtml(formatPrice(value)) : buildEmptyStateHtml(fallback)
 }
 
+function formatDecisionValue(value) {
+  return hasIndexedPrice(value) ? formatPrice(value) : 'Non indexe'
+}
+
+function buildDecisionPriceSummary(game) {
+  const parts = []
+  if (hasIndexedPrice(game?.loosePrice)) {
+    parts.push(`Loose ${formatDecisionValue(game.loosePrice)}`)
+  }
+  if (hasIndexedPrice(game?.cibPrice)) {
+    parts.push(`CIB ${formatDecisionValue(game.cibPrice)}`)
+  }
+  if (hasIndexedPrice(game?.mintPrice)) {
+    parts.push(`Mint ${formatDecisionValue(game.mintPrice)}`)
+  }
+
+  return parts.length ? parts.join(' | ') : 'Non indexe'
+}
+
+function computeCollectionDecision(game, item) {
+  const listType = item ? normalizeCollectionListType(item.list_type) : null
+  const owned = listType === 'owned' || listType === 'for_sale'
+  const wanted = listType === 'wanted'
+  const condition = String(item?.condition || '').trim()
+  const pricePaid = Number(item?.price_paid || 0)
+  const loosePrice = Number(game?.loosePrice || 0)
+  const cibPrice = Number(game?.cibPrice || 0)
+  const hasLoosePrice = hasIndexedPrice(loosePrice)
+  const hasCibPrice = hasIndexedPrice(cibPrice)
+  const cibDelta = hasLoosePrice && hasCibPrice ? cibPrice - loosePrice : null
+
+  let actionLabel = 'rien'
+  let actionNote = 'Aucun signal fort.'
+  let actionTone = ''
+
+  if (listType === 'for_sale' || (owned && pricePaid > 0 && hasLoosePrice && loosePrice >= pricePaid * 1.5)) {
+    actionLabel = 'a vendre'
+    actionNote = pricePaid > 0
+      ? 'La valeur loose depasse le prix paye de 50% ou plus.'
+      : 'Le jeu est deja marque a vendre.'
+    actionTone = 'is-hot'
+  } else if (owned && condition === 'Loose' && Number.isFinite(cibDelta) && cibDelta <= 20) {
+    actionLabel = 'a upgrader'
+    actionNote = 'Le delta Loose -> CIB reste sous $20.'
+    actionTone = 'is-primary'
+  } else if (wanted && hasLoosePrice && loosePrice <= 25) {
+    actionLabel = 'a acheter'
+    actionNote = 'Wishlist active et valeur loose sous $25.'
+    actionTone = 'is-hot'
+  }
+
+  return {
+    possessionLabel: owned ? 'Oui' : 'Non',
+    interestLabel: listType === 'wanted' ? 'Wishlist' : listType === 'for_sale' ? 'A vendre' : 'Aucun',
+    conditionLabel: item ? (condition || 'Loose') : 'n/a',
+    valueLabel: buildDecisionPriceSummary(game),
+    actionLabel,
+    actionNote,
+    actionTone,
+    stateLabel: owned ? 'Possede' : wanted ? 'Soutenu' : 'Aucun suivi',
+  }
+}
+
 function formatMetascoreHtml(value) {
   const numeric = Number(value)
   return Number.isFinite(numeric) && numeric > 0
@@ -443,6 +506,12 @@ function renderHeroSection(game) {
           </div>
           <div id="hero-reading-highlights" class="surface-chip-row"></div>
           <p id="hero-reading-note" class="detail-reading-note">Collection et qualification restent en soutien.</p>
+          <div id="collection-decision-strip" class="detail-decision-strip">
+            <div class="detail-kicker">COCKPIT</div>
+            <div class="detail-domain-heading">Collection / valeur / action</div>
+            <div id="collection-decision-grid" class="surface-signal-grid is-five detail-decision-grid"></div>
+            <p id="collection-decision-note" class="detail-reading-note"></p>
+          </div>
           ${pricePanel}
           <div id="hero-region-chips" class="hero-region-chips"></div>
           <div id="price-timestamp" class="price-timestamp" hidden></div>
@@ -472,6 +541,8 @@ function renderHeroSection(game) {
       heroMetaEl.style.color = window.RetroDexMetascore.getColor(game.metascore)
     }
   }
+
+  renderCollectionDecisionStrip()
 }
 
 function buildDetailContentSignals() {
@@ -493,6 +564,68 @@ function buildHeroSignalCard(label, value, modifier = '') {
       <span class="surface-signal-value">${escapeHtml(value)}</span>
     </div>
   `
+}
+
+function renderCollectionDecisionStrip(options = {}) {
+  const decisionGridEl = document.getElementById('collection-decision-grid')
+  const decisionNoteEl = document.getElementById('collection-decision-note')
+  if (!decisionGridEl || !decisionNoteEl || !currentGame) {
+    return
+  }
+
+  if (options.error) {
+    decisionGridEl.innerHTML = `
+      <div class="surface-signal-card is-primary">
+        <span class="surface-signal-label">Possession</span>
+        <span class="surface-signal-value">Indisponible</span>
+      </div>
+      <div class="surface-signal-card">
+        <span class="surface-signal-label">Interet</span>
+        <span class="surface-signal-value">Indisponible</span>
+      </div>
+      <div class="surface-signal-card">
+        <span class="surface-signal-label">Condition</span>
+        <span class="surface-signal-value">Indisponible</span>
+      </div>
+      <div class="surface-signal-card">
+        <span class="surface-signal-label">Valeur</span>
+        <span class="surface-signal-value">Indisponible</span>
+      </div>
+      <div class="surface-signal-card">
+        <span class="surface-signal-label">Action</span>
+        <span class="surface-signal-value">Indisponible</span>
+      </div>
+    `
+    decisionNoteEl.textContent = 'Lecture collection indisponible.'
+    return
+  }
+
+  const decision = computeCollectionDecision(currentGame, currentCollectionItem)
+  const actionClass = decision.actionTone || ''
+
+  decisionGridEl.innerHTML = `
+    <div class="surface-signal-card is-primary">
+      <span class="surface-signal-label">Possession</span>
+      <span class="surface-signal-value">${escapeHtml(decision.possessionLabel)}</span>
+    </div>
+    <div class="surface-signal-card">
+      <span class="surface-signal-label">Interet</span>
+      <span class="surface-signal-value">${escapeHtml(decision.interestLabel)}</span>
+    </div>
+    <div class="surface-signal-card">
+      <span class="surface-signal-label">Condition</span>
+      <span class="surface-signal-value">${escapeHtml(decision.conditionLabel)}</span>
+    </div>
+    <div class="surface-signal-card">
+      <span class="surface-signal-label">Valeur</span>
+      <span class="surface-signal-value">${escapeHtml(decision.valueLabel)}</span>
+    </div>
+    <div class="surface-signal-card${actionClass ? ` ${actionClass}` : ''}">
+      <span class="surface-signal-label">Action</span>
+      <span class="surface-signal-value">${escapeHtml(decision.actionLabel)}</span>
+    </div>
+  `
+  decisionNoteEl.textContent = decision.actionNote || 'Lecture de collection en cours.'
 }
 
 function renderDetailContentStatus() {
@@ -1991,8 +2124,10 @@ async function refreshCollectionStatus() {
     const payload = await fetchJson('/api/collection')
     currentCollectionItem = safeArray(payload.items).find((item) => item.gameId === currentGame.id) || null
     applyCollectionUiState(currentCollectionItem)
+    renderCollectionDecisionStrip()
   } catch (error) {
     applyCollectionUiState(null, { error })
+    renderCollectionDecisionStrip({ error: true })
   }
 }
 
@@ -2045,6 +2180,7 @@ async function handleCollectionAction() {
   } catch (error) {
     collectionStatusEl.textContent = 'Action collection indisponible pour cette session.'
     applyCollectionUiState(currentCollectionItem)
+    renderCollectionDecisionStrip()
   }
 }
 
@@ -2091,6 +2227,7 @@ async function handleWishlistAction() {
   } catch (error) {
     collectionStatusEl.textContent = 'Action wishlist indisponible pour cette session.'
     applyCollectionUiState(currentCollectionItem)
+    renderCollectionDecisionStrip()
   }
 }
 
@@ -2128,6 +2265,7 @@ async function handleCollectionRemove() {
   } catch (error) {
     collectionStatusEl.textContent = 'Suppression indisponible pour cette session.'
     applyCollectionUiState(currentCollectionItem)
+    renderCollectionDecisionStrip()
   }
 }
 

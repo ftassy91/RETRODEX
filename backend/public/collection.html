@@ -49,7 +49,7 @@
           <div class="detail-kicker">COCKPIT</div>
           <h1 class="page-title">COLLECTION</h1>
         </div>
-        <p class="page-subtitle">Posseder, viser, revenir a la fiche.</p>
+        <p class="page-subtitle">Piloter l'etagere, arbitrer la wishlist, revenir a la bonne fiche.</p>
       </header>
 
       <div id="public-banner" class="terminal-context collection-public-banner" style="display:none;">
@@ -84,9 +84,14 @@
           </div>
         </div>
 
+        <div id="collection-cockpit-lead" class="terminal-context collection-status-line">
+          <strong id="collection-mode-title">ETAGERE</strong>
+          <span id="collection-mode-copy">Lecture de la collection...</span>
+        </div>
+
         <div class="collection-cockpit-topline terminal-context">
           <a href="/games-list.html" class="terminal-action-link">Ouvrir RetroDex -&gt;</a>
-          <a href="/stats.html" class="terminal-action-link">Qualification avancee -&gt;</a>
+          <a href="/stats.html" class="terminal-action-link">Comparer / qualifier -&gt;</a>
         </div>
 
         <div id="cockpit-signals" class="cockpit-signals-bar" aria-label="Signaux collection" style="display:none">
@@ -108,7 +113,7 @@
           </button>
           <button class="cockpit-signal-card" id="signal-wishlist" data-signal="affordable_wishlist" type="button" aria-pressed="false">
             <span class="cockpit-signal-count" id="signal-wishlist-count">0</span>
-            <span class="cockpit-signal-label">WISHLIST ≤$25</span>
+            <span class="cockpit-signal-label">WISHLIST &lt;= $25</span>
           </button>
         </div>
 
@@ -170,9 +175,11 @@
               <div class="terminal-preview-label">FOCUS</div>
               <div class="terminal-preview-title" id="detail-title">-</div>
               <div class="terminal-preview-row surface-identity-meta" id="detail-row1"></div>
+              <div class="terminal-preview-row surface-chip-row" id="detail-focus-state"></div>
               <div class="surface-signal-grid is-five" id="detail-signal-grid"></div>
               <div class="terminal-preview-row surface-chip-row" id="detail-chip-row"></div>
               <div class="collection-preview-summary surface-summary-copy" id="detail-summary"></div>
+              <div class="terminal-preview-row terminal-context" id="detail-next-step"></div>
               <div id="detail-metascore" class="preview-metascore"></div>
               <div class="terminal-preview-row surface-action-row" id="detail-row2"></div>
               <form id="collection-edit-form" class="collection-form collection-edit-form" hidden>
