@@ -103,7 +103,19 @@
   function needsQualification(item) {
     const listType = String(item?.list_type || activeTab || 'owned').toLowerCase()
     if (listType === 'wanted') return false
-    return getQualificationCompleteness(item) === 'unknown' || ['unknown', 'low'].includes(getQualificationConfidence(item))
+    const region = String(item?.region || '').trim()
+    const regionMissing = !region || region === 'unknown'
+    return getQualificationCompleteness(item) === 'unknown'
+      || ['unknown', 'low'].includes(getQualificationConfidence(item))
+      || regionMissing
+  }
+
+  function getQualificationPriority(item) {
+    const region = String(item?.region || '').trim()
+    if (!region || region === 'unknown') return 'region'
+    if (getQualificationCompleteness(item) === 'unknown') return 'completeness'
+    if (['unknown', 'low'].includes(getQualificationConfidence(item))) return 'confidence'
+    return null
   }
 
   function normalizeText(value) {
@@ -381,6 +393,11 @@
       if (focusField === 'price') {
         editPricePaidEl?.focus()
         editPricePaidEl?.select?.()
+        return
+      }
+
+      if (focusField === 'region') {
+        editRegionEl?.focus()
         return
       }
 
@@ -1001,7 +1018,10 @@
     }
     const qualifyBtn = byId('collection-qualify-btn')
     if (qualifyBtn) {
-      qualifyBtn.onclick = () => startEdit(item, 'qualification')
+      qualifyBtn.onclick = () => {
+        const priority = getQualificationPriority(item)
+        startEdit(item, priority || 'qualification')
+      }
     }
   }
 
@@ -1332,9 +1352,23 @@
     }
 
     const rows = [
-      ['title', 'console', 'list_type', 'condition', 'completeness', 'qualification_confidence', 'region', 'edition_note', 'purchase_price', 'purchase_date', 'notes'],
+      [
+        'title', 'console', 'list_type', 'condition', 'completeness',
+        'qualification_confidence', 'region', 'edition_note',
+        'purchase_price', 'purchase_date',
+        'loose_price', 'cib_price', 'mint_price',
+        'price_delta', 'price_source', 'price_last_updated',
+        'notes',
+      ],
       ...enrichedItems.map((item) => {
         const game = getGame(item)
+        const loosePrice = Number(game.loosePrice || 0) || ''
+        const cibPrice = Number(game.cibPrice || 0) || ''
+        const mintPrice = Number(game.mintPrice || 0) || ''
+        const paid = Number(item.price_paid || 0)
+        const delta = paid > 0 && loosePrice ? Math.round((Number(loosePrice) - paid) * 100) / 100 : ''
+        const priceSource = String(game.sourceNames || '').trim()
+        const priceDate = String(game.priceLastUpdated || game.price_last_updated || '').trim()
         return [
           game.title || '',
           game.console || game.platform || '',
@@ -1346,6 +1380,12 @@
           item.edition_note || '',
           item.price_paid ?? '',
           item.purchase_date || '',
+          loosePrice,
+          cibPrice,
+          mintPrice,
+          delta,
+          priceSource,
+          priceDate,
           getCollectionNote(item),
         ]
       }),

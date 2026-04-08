@@ -13948,6 +13948,25 @@ body {
 .collection-row-confidence.confidence--low     { color: var(--confidence-low);  }
 .collection-row-confidence.confidence--unknown { color: var(--text-muted);      }
 
+/* ─── Shared freshness color classes (collection rows + catalog rows) ─── */
+
+.freshness--fresh { color: var(--confidence-high); }
+.freshness--mid   { color: var(--confidence-mid);  }
+.freshness--stale { color: var(--confidence-low);  }
+.freshness--none  { color: var(--text-muted);      }
+
+/* ─── Catalog row: price age chip (renderGameRow) ─── */
+
+.result-price-age {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  cursor: default;
+  opacity: 0.75;
+  margin-top: 1px;
+}
+
 /* ─── Collection row: price freshness chip ─── */
 
 .collection-row-freshness {
@@ -13960,10 +13979,7 @@ body {
   opacity: 0.8;
 }
 
-.collection-row-freshness.freshness--fresh { color: var(--confidence-high); }
-.collection-row-freshness.freshness--mid   { color: var(--confidence-mid);  }
-.collection-row-freshness.freshness--stale { color: var(--confidence-low);  }
-.collection-row-freshness.freshness--none  { color: var(--text-muted);      }
+/* freshness colors inherited from shared .freshness--* classes above */
 
 /* ─── Detail panel: region chip with color coding ─── */
 

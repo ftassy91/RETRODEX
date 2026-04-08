@@ -33,6 +33,20 @@ function priceConfidenceTier(game) {
   return 'Prix estime'
 }
 
+function buildPriceAgeChip(game) {
+  const raw = String(game?.priceLastUpdated || game?.price_last_updated || '').trim()
+  if (!raw) return null
+  const ageDays = Math.floor((Date.now() - new Date(raw).getTime()) / 86400000)
+  if (!Number.isFinite(ageDays) || ageDays < 0) return null
+  const label = ageDays === 0 ? 'auj' : ageDays < 60 ? `${ageDays}j` : ageDays < 365 ? `${Math.round(ageDays / 30)}m` : `${Math.round(ageDays / 365)}a`
+  const tier = ageDays <= 14 ? 'fresh' : ageDays <= 60 ? 'mid' : 'stale'
+  const sourceNames = String(game?.sourceNames || '').trim()
+  const title = sourceNames
+    ? `Prix mis a jour il y a ${ageDays}j — ${sourceNames}`
+    : `Prix mis a jour il y a ${ageDays} jour(s)`
+  return { label, tier, title }
+}
+
 function renderGameRow(game, options = {}) {
   const {
     linkTo = 'game-detail',
@@ -76,6 +90,7 @@ function renderGameRow(game, options = {}) {
   const cibPrice = showPrice && game.cibPrice ? `$${Math.round(game.cibPrice)}` : null
   const mintPrice = showPrice && game.mintPrice ? `$${Math.round(game.mintPrice)}` : null
   const confidenceTier = priceConfidenceTier(game)
+  const priceAgeChip = showPrice ? buildPriceAgeChip(game) : null
   const collectionStateNorm = String(collectionState || '').toLowerCase()
   const showOwnedBadge = collectionStateNorm === 'owned'
   const showWantedBadge = collectionStateNorm === 'wanted'
@@ -123,6 +138,7 @@ function renderGameRow(game, options = {}) {
         <span class="result-price-group">
           <span class="result-price result-price-loose"${confidenceTier ? ` title="Prix loose · ${escapeHtml(confidenceTier)}"` : ''}>${loosePrice}</span>
           ${(cibPrice || mintPrice) ? `<span class="result-price-secondary">${cibPrice ? `<span class="result-price-cib" title="Prix CIB">${cibPrice}</span>` : ''}${mintPrice ? `<span class="result-price-mint" title="Prix Mint">${mintPrice}</span>` : ''}</span>` : ''}
+          ${priceAgeChip ? `<span class="result-price-age freshness--${escapeHtml(priceAgeChip.tier)}" title="${escapeHtml(priceAgeChip.title)}">${escapeHtml(priceAgeChip.label)}</span>` : ''}
         </span>` : ''}
       <span class="result-metascore"></span>
       ${showRarity ? `<span class="result-rarity" style="color:${rarityColors[rarity] || 'var(--text-muted)'}">${escapeHtml(rarity || 'COMMON')}</span>` : ''}
