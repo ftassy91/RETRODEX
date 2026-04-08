@@ -1361,7 +1361,12 @@
   function clearCockpitFilter() {
     activeCockpitSignal = null
     cockpitSignalItems = null
-    signalCards.forEach((card) => card.setAttribute('aria-pressed', 'false'))
+    signalCards.forEach((card) => {
+      card.setAttribute('aria-pressed', 'false')
+      card.classList.remove('is-active')
+    })
+    const filterIndicator = cockpitLeadEl?.querySelector('.cockpit-active-filter')
+    if (filterIndicator) filterIndicator.remove()
     updateCockpitLead()
   }
 
@@ -1369,8 +1374,21 @@
     activeCockpitSignal = signalKey
     cockpitSignalItems = items
     signalCards.forEach((card) => {
-      card.setAttribute('aria-pressed', card.dataset.signal === signalKey ? 'true' : 'false')
+      const isActive = card.dataset.signal === signalKey
+      card.setAttribute('aria-pressed', isActive ? 'true' : 'false')
+      card.classList.toggle('is-active', isActive)
     })
+    const activeCard = document.querySelector(`.cockpit-signal-card[data-signal="${signalKey}"]`)
+    const signalLabel = activeCard?.querySelector('.cockpit-signal-label')?.textContent || signalKey.toUpperCase()
+    let filterIndicator = cockpitLeadEl?.querySelector('.cockpit-active-filter')
+    if (cockpitLeadEl) {
+      if (!filterIndicator) {
+        filterIndicator = document.createElement('span')
+        filterIndicator.className = 'cockpit-active-filter'
+        cockpitLeadEl.appendChild(filterIndicator)
+      }
+      filterIndicator.textContent = `— FILTRE: ${signalLabel}`
+    }
     const targetTab = ['affordable_wishlist', 'stale_wishlist'].includes(signalKey) ? 'wanted' : 'owned'
     if (activeTab !== targetTab) {
       activeTab = targetTab
