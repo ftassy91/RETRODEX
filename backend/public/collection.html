@@ -241,30 +241,33 @@
               <div id="detail-metascore" class="preview-metascore"></div>
               <div class="terminal-preview-row surface-action-row" id="detail-row2"></div>
               <form id="collection-edit-form" class="collection-form collection-edit-form" hidden>
+                <div class="collection-form-help">
+                  Qualifiez chaque entree pour des signaux de valeur et d action fiables.
+                </div>
                 <div class="collection-controls">
-                  <select id="edit-condition" class="collection-condition-select" aria-label="Etat du jeu">
+                  <select id="edit-condition" class="collection-condition-select" aria-label="Etat du jeu" title="Etat physique constate : Loose = jeu seul, CIB = complet en boite, Mint = neuf non ouvert">
                     <option value="Loose">Loose</option>
                     <option value="CIB">CIB</option>
                     <option value="Mint">Mint</option>
                   </select>
-                  <select id="edit-completeness" class="collection-condition-select" aria-label="Completude">
+                  <select id="edit-completeness" class="collection-condition-select" aria-label="Completude" title="Ce que vous possedez physiquement : boite, notice, cartouche...">
                     <option value="unknown">A qualifier</option>
-                    <option value="loose">Loose</option>
-                    <option value="partial">Partiel</option>
-                    <option value="cib">CIB</option>
-                    <option value="sealed">Scelle</option>
+                    <option value="loose">Loose — jeu seul</option>
+                    <option value="partial">Partiel — elements manquants</option>
+                    <option value="cib">CIB — complet en boite</option>
+                    <option value="sealed">Scelle — jamais ouvert</option>
                   </select>
-                  <select id="edit-qualification-confidence" class="collection-condition-select" aria-label="Confiance de qualification">
+                  <select id="edit-qualification-confidence" class="collection-condition-select" aria-label="Confiance de qualification" title="Votre niveau de certitude sur l etat, la completude et la region de cet article">
                     <option value="unknown">Confiance inconnue</option>
-                    <option value="low">Faible</option>
-                    <option value="medium">Moyenne</option>
-                    <option value="high">Haute</option>
+                    <option value="low">Faible — a revalider</option>
+                    <option value="medium">Moyenne — probable</option>
+                    <option value="high">Haute — verifie</option>
                   </select>
-                  <input id="edit-price-paid" class="collection-condition-select" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Prix d'achat" aria-label="Prix d'achat" />
-                  <input id="edit-purchase-date" class="collection-condition-select" type="date" aria-label="Date d'achat" />
+                  <input id="edit-price-paid" class="collection-condition-select" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Prix d'achat" aria-label="Prix d'achat" title="Prix que vous avez paye. Utilise pour calculer le delta par rapport au marche." />
+                  <input id="edit-purchase-date" class="collection-condition-select" type="date" aria-label="Date d'achat" title="Date d acquisition. Utilise pour le suivi temporel de la collection." />
                 </div>
                 <div class="collection-controls">
-                  <select id="edit-region" class="collection-condition-select" aria-label="Region du jeu">
+                  <select id="edit-region" class="collection-condition-select" aria-label="Region du jeu" title="La region determine la version du jeu. Elle affecte directement la valeur de marche et la compatibilite materielle.">
                     <option value="">Region inconnue</option>
                     <option value="PAL">PAL — Europe / Australie</option>
                     <option value="NTSC-U">NTSC-U — Amerique du Nord</option>
@@ -273,9 +276,9 @@
                     <option value="MULTI">Multi-region</option>
                     <option value="unknown">Inconnue</option>
                   </select>
-                  <input id="edit-edition-note" class="collection-condition-select" type="text" maxlength="120" placeholder="Edition / note variante" aria-label="Edition / note variante" />
+                  <input id="edit-edition-note" class="collection-condition-select" type="text" maxlength="120" placeholder="Edition / variante (ex: Player's Choice)" aria-label="Edition / note variante" title="Version speciale, tirage limite, revision cartouche... Laissez vide si standard." />
                 </div>
-                <textarea id="edit-notes" class="collection-note-input" rows="2" maxlength="320" placeholder="Notes personnelles..."></textarea>
+                <textarea id="edit-notes" class="collection-note-input" rows="2" maxlength="320" placeholder="Notes personnelles (etat, provenance, anecdote...)"></textarea>
                 <div class="collection-edit-actions">
                   <button id="collection-edit-save-btn" class="terminal-inline-btn" type="submit">ENREGISTRER</button>
                   <button id="collection-edit-cancel-btn" class="terminal-inline-btn" type="button">ANNULER</button>

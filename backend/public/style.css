@@ -13948,6 +13948,18 @@ body {
 .collection-row-confidence.confidence--low     { color: var(--confidence-low);  }
 .collection-row-confidence.confidence--unknown { color: var(--text-muted);      }
 
+/* ─── Edit form helper text ─── */
+
+.collection-form-help {
+  font-size: 9px;
+  color: var(--text-muted);
+  padding: 4px 0 6px;
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 6px;
+}
+
 /* ─── Shared freshness color classes (collection rows + catalog rows) ─── */
 
 .freshness--fresh { color: var(--confidence-high); }
@@ -13980,6 +13992,24 @@ body {
 }
 
 /* freshness colors inherited from shared .freshness--* classes above */
+
+/* ─── Detail panel: inline region in identity row ─── */
+
+.detail-identity-region {
+  font-family: var(--font-mono);
+  font-size: inherit;
+  cursor: default;
+}
+
+.detail-identity-region.region--pal   { color: rgba(120, 220, 170, 0.9); }
+.detail-identity-region.region--ntscu { color: rgba(120, 170, 255, 0.9); }
+.detail-identity-region.region--ntscj { color: rgba(255, 140, 120, 0.9); }
+.detail-identity-region.region--ntscb { color: rgba(255, 210, 100, 0.9); }
+.detail-identity-region.region--multi { color: rgba(200, 160, 255, 0.9); }
+.detail-identity-region.region--unknown {
+  color: var(--text-alert);
+  opacity: 0.8;
+}
 
 /* ─── Detail panel: region chip with color coding ─── */
 

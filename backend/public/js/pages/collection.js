@@ -84,12 +84,27 @@
   }
 
   function getQualificationLabel(item) {
+    const listType = String(item?.list_type || activeTab || 'owned').toLowerCase()
+    if (listType === 'wanted') {
+      return 'wishlist'
+    }
+
+    const region = String(item?.region || '').trim()
+    if (!region || region === 'unknown') {
+      return 'region manquante'
+    }
+
     const completeness = getQualificationCompleteness(item)
+    const confidence = getQualificationConfidence(item)
+
+    if (completeness === 'unknown') return 'completude inconnue'
+    if (confidence === 'unknown' || confidence === 'low') return 'confiance a verifier'
+
     if (completeness === 'cib') return 'qualifie CIB'
     if (completeness === 'sealed') return 'qualifie scelle'
     if (completeness === 'partial') return 'qualification partielle'
     if (completeness === 'loose') return 'qualifie loose'
-    return 'a qualifier'
+    return 'qualifie'
   }
 
   function getQualificationConfidenceLabel(item) {
@@ -605,6 +620,16 @@
       return 'Priorite de correction. Arbitrer les doublons ou completer les donnees minimales avant toute autre decision.'
     }
     if (activeCockpitSignal === 'needs_qualification') {
+      const priority = getQualificationPriority(item)
+      if (priority === 'region') {
+        return 'Region non renseignee. La valeur de marche depend de la version PAL / NTSC. Qualifier la region en premier.'
+      }
+      if (priority === 'completeness') {
+        return 'Completude inconnue. Verifier si le jeu est Loose, CIB ou Scelle pour un signal de valeur fiable.'
+      }
+      if (priority === 'confidence') {
+        return 'Confiance faible ou inconnue. Revalider l etat, la region et la completude pour solidifier ce signal.'
+      }
       return 'Priorite de qualification. Verifier edition, region, completude et confiance avant d utiliser la valeur.'
     }
     if (activeCockpitSignal === 'sell_candidates') {
@@ -624,6 +649,16 @@
         : 'Wishlist en veille. Ouvrir la fiche pour verifier la qualite et le contexte.'
     }
     if (needsQualification(item)) {
+      const priority = getQualificationPriority(item)
+      if (priority === 'region') {
+        return 'Region manquante. La valeur affichee ne tient pas compte de la version. Renseigner PAL, NTSC-U ou NTSC-J.'
+      }
+      if (priority === 'completeness') {
+        return 'Completude inconnue. Preciser Loose, CIB ou Scelle pour un prix de reference fiable.'
+      }
+      if (priority === 'confidence') {
+        return 'Confiance faible. Revalider la region et la completude pour renforcer ce signal.'
+      }
       return 'Entree a qualifier. Verifier edition, region et completude avant d arbitrer la valeur ou l evolution.'
     }
     if (activeTab === 'for_sale') {
@@ -896,7 +931,11 @@
 
     collectionDetailEl.style.display = 'block'
     setText(detailTitleEl, game.title || '?')
-    detailRow1El.innerHTML = `${escapeHtml(consoleName)} | ${escapeHtml(year)} | ${escapeHtml(developer)}`
+    const regionDisplay = item.region && item.region !== 'unknown' ? item.region : null
+    const regionPart = regionDisplay
+      ? ` | <span class="detail-identity-region region--${escapeHtml(getRegionKey(item.region))}">${escapeHtml(regionDisplay)}</span>`
+      : ' | <span class="detail-identity-region region--unknown" title="Region non renseignee">Region ?</span>'
+    detailRow1El.innerHTML = `${escapeHtml(consoleName)} | ${escapeHtml(year)}${regionPart} | ${escapeHtml(developer)}`
     if (detailFocusStateEl) {
       detailFocusStateEl.innerHTML = `
         <span class="surface-chip is-primary">${escapeHtml(getPersonalStatusLabel(item))}</span>
