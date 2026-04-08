@@ -1,21 +1,23 @@
 'use strict'
 
-const { queryGames, getStats } = require('../../../db_supabase')
+const { createHash } = require('crypto')
 const { LRUCache } = require('../../lib/lru-cache')
 const { parseLimit } = require('../../helpers/query')
 const {
   hydrateGameCovers,
   toItemPayload,
+  fetchAllSupabaseGames,
 } = require('../public-game-reader')
 const {
   buildPublicationSummary,
   fetchGameVisibilitySignals,
   fetchGameCurationStates,
   attachVisibilityMetadata,
-  fetchPublishedGameScope,
 } = require('../public-publication-service')
+const { compareGamesForSort } = require('../../lib/normalize')
+const { fetchRowsInBatches, uniqueStrings } = require('../public-supabase-utils')
 
-const statsBaseCache = new LRUCache(1, 60 * 1000)
+const publishedListingScopeCache = new LRUCache(1, 60 * 1000)
 const itemsPayloadCache = new LRUCache(300, 120 * 1000)
 
 function normalizeStringParam(value) {
@@ -44,17 +46,70 @@ function buildItemsPayloadCacheKey(scopeVersion, params) {
   ].join(':')
 }
 
-async function fetchCachedStatsBase() {
-  const cached = statsBaseCache.get('stats-base')
-  if (cached) return cached
+function buildPublishedListingScopeVersion(rows = []) {
+  if (!Array.isArray(rows) || !rows.length) {
+    return 'empty'
+  }
 
-  const statsBase = await getStats().catch((err) => {
-    console.warn('[stats] getStats failed:', err.message)
-    return {}
+  const digest = createHash('sha1')
+  rows.forEach((row) => {
+    digest.update(String(row.game_id || ''))
+    digest.update(':')
+    digest.update(String(row.pass_key || ''))
+    digest.update('|')
   })
 
-  statsBaseCache.set('stats-base', statsBase || {})
-  return statsBase || {}
+  return digest.digest('hex').slice(0, 16)
+}
+
+async function fetchPublishedListingScope() {
+  const cached = publishedListingScopeCache.get('published-listing-scope')
+  if (cached) {
+    return cached
+  }
+
+  const rows = await fetchRowsInBatches(
+    'game_curation_states',
+    'game_id,pass_key',
+    (query) => query.eq('status', 'published'),
+    { column: 'game_id', options: { ascending: true }, batchSize: 2000 }
+  )
+
+  const ids = uniqueStrings(rows.map((row) => row.game_id))
+  const scope = {
+    enabled: true,
+    ids,
+    set: new Set(ids),
+    passKey: String(rows[0]?.pass_key || '').trim() || 'pass1-premium-encyclopedic',
+    version: buildPublishedListingScopeVersion(rows),
+  }
+  publishedListingScopeCache.set('published-listing-scope', scope)
+  return scope
+}
+
+function filterCatalogItems(items = [], params, scope) {
+  const search = String(params.q || '').toLowerCase()
+  const consoleName = params.console || params.platform
+  const rarity = params.rarity
+  const genre = params.genre
+  const yearMin = Number.isFinite(params.yearMin) ? params.yearMin : null
+  const yearMax = Number.isFinite(params.yearMax) ? params.yearMax : null
+
+  return (items || [])
+    .filter((item) => scope.set.has(String(item?.id || '')))
+    .filter((item) => {
+      if (consoleName && String(item.console || '') !== consoleName) return false
+      if (rarity && String(item.rarity || '') !== rarity) return false
+      if (genre && String(item.genre || '') !== genre) return false
+      if (search && !String(item.title || '').toLowerCase().includes(search)) return false
+
+      const year = Number(item.year)
+      if (yearMin !== null && (!Number.isFinite(year) || year < yearMin)) return false
+      if (yearMax !== null && (!Number.isFinite(year) || year > yearMax)) return false
+
+      return true
+    })
+    .sort((left, right) => compareGamesForSort(left, right, params.sort))
 }
 
 async function fetchItemsPayloadResult(query = {}) {
@@ -74,28 +129,22 @@ async function fetchItemsPayloadResult(query = {}) {
     yearMin,
     yearMax,
   }
-  const scope = await fetchPublishedGameScope()
+  const scope = await fetchPublishedListingScope()
   const cacheKey = buildItemsPayloadCacheKey(scope.version, normalizedParams)
   const cachedPayload = itemsPayloadCache.get(cacheKey)
   if (cachedPayload) {
     return { payload: cachedPayload, cacheStatus: 'hit' }
   }
 
-  const [{ items = [], total = 0 }, statsBase] = await Promise.all([
-    queryGames({
-      sort: normalizedParams.sort,
-      console: normalizedParams.console || normalizedParams.platform,
-      rarity: normalizedParams.rarity,
-      genre: normalizedParams.genre,
-      limit,
-      offset,
-      search: normalizedParams.q,
-      yearMin,
-      yearMax,
-      ids: scope.enabled && scope.ids.length ? scope.ids : null,
-    }),
-    fetchCachedStatsBase(),
-  ])
+  const allGames = await fetchAllSupabaseGames()
+  const publishedCatalog = filterCatalogItems(allGames, normalizedParams, scope)
+  const total = publishedCatalog.length
+  const items = publishedCatalog.slice(offset, offset + limit)
+  const publishedConsoleIds = uniqueStrings(
+    allGames
+      .filter((item) => scope.set.has(String(item?.id || '')))
+      .map((item) => item.console)
+  )
 
   const hydratedItems = await hydrateGameCovers(items)
   const [signalsMap, curationMap] = await Promise.all([
@@ -110,7 +159,10 @@ async function fetchItemsPayloadResult(query = {}) {
     total,
     limit,
     offset,
-    publication: buildPublicationSummary(scope, statsBase),
+    publication: buildPublicationSummary(
+      { ...scope, consoleIds: publishedConsoleIds },
+      { total_games: allGames.length }
+    ),
   }
 
   itemsPayloadCache.set(cacheKey, payload)

@@ -3,6 +3,7 @@
 const {
   db,
   getGameById,
+  mode,
 } = require('../../../db_supabase')
 const catalogCache = require('./games-catalog-cache')
 const {
@@ -15,6 +16,37 @@ const {
 } = require('../../helpers/game-knowledge')
 const { fetchRowsInBatches } = require('../public-supabase-utils')
 const { fetchGameMediaMap } = require('./media')
+
+const BASE_CATALOG_COLUMNS = [
+  'id',
+  'title',
+  'console',
+  'year',
+  'genre',
+  'developer',
+  'metascore',
+  'rarity',
+  'summary',
+  'synopsis',
+  'source_confidence',
+  'slug',
+  'cover_url',
+  'loose_price',
+  'cib_price',
+  'mint_price',
+]
+
+const OPTIONAL_SUPABASE_CATALOG_COLUMNS = [
+  'price_last_updated',
+  'source_names',
+]
+
+function getCatalogColumns() {
+  return [
+    ...BASE_CATALOG_COLUMNS,
+    ...(mode === 'supabase' ? OPTIONAL_SUPABASE_CATALOG_COLUMNS : []),
+  ].join(',')
+}
 
 async function hydrateGameCovers(items = []) {
   const mediaMap = await fetchGameMediaMap(items.map((item) => item?.id))
@@ -60,7 +92,7 @@ async function fetchAllSupabaseGames() {
 
   return fetchRowsInBatches(
     'games',
-    'id,title,console,year,genre,developer,metascore,rarity,summary,synopsis,source_confidence,slug,cover_url,loose_price,cib_price,mint_price,price_last_updated,source_names',
+    getCatalogColumns(),
     (query) => query.eq('type', 'game'),
     { column: 'title', options: { ascending: true } }
   )

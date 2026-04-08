@@ -31,7 +31,7 @@ function isMissingSupabaseRelationError(error) {
 async function fetchRowsInBatches(table, columns, configure, orderBy) {
   const rows = []
   let from = 0
-  const batchSize = 1000
+  const batchSize = Math.max(1, Math.min(1000, Number(orderBy?.batchSize) || 1000))
 
   while (true) {
     let query = db.from(table).select(columns)
