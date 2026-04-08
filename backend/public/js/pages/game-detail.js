@@ -173,22 +173,22 @@ function computeCollectionDecision(game, item) {
   const hasCibPrice = hasIndexedPrice(cibPrice)
   const cibDelta = hasLoosePrice && hasCibPrice ? cibPrice - loosePrice : null
 
-  let actionLabel = 'hold'
+  let actionLabel = 'CONSERVER'
   let actionNote = 'Position conservee. Aucun signal fort detecte.'
   let actionTone = ''
 
   if (listType === 'for_sale' || (owned && pricePaid > 0 && hasLoosePrice && loosePrice >= pricePaid * 1.5)) {
-    actionLabel = 'a vendre'
+    actionLabel = 'À VENDRE'
     actionNote = pricePaid > 0
       ? 'La valeur loose depasse le prix paye de 50% ou plus.'
       : 'Le jeu est deja marque a vendre.'
     actionTone = 'is-hot'
   } else if (owned && condition === 'Loose' && Number.isFinite(cibDelta) && cibDelta <= 20) {
-    actionLabel = 'a upgrader'
+    actionLabel = 'UPGRADER'
     actionNote = 'Le delta Loose -> CIB reste sous $20.'
     actionTone = 'is-primary'
   } else if (wanted && hasLoosePrice && loosePrice <= 25) {
-    actionLabel = 'a acheter'
+    actionLabel = 'À ACHETER'
     actionNote = 'Wishlist active et valeur loose sous $25.'
     actionTone = 'is-hot'
   }
@@ -585,7 +585,7 @@ function renderCollectionDecisionStrip(options = {}) {
   if (options.error) {
     decisionGridEl.innerHTML = `
       <div class="surface-signal-card is-primary">
-        <span class="surface-signal-label">Statut perso</span>
+        <span class="surface-signal-label">STATUT</span>
         <span class="surface-signal-value">Indisponible</span>
       </div>
       <div class="surface-signal-card">
@@ -614,13 +614,13 @@ function renderCollectionDecisionStrip(options = {}) {
 
   decisionGridEl.innerHTML = `
     <div class="surface-signal-card is-primary">
-      <span class="surface-signal-label">Statut perso</span>
+      <span class="surface-signal-label">STATUT</span>
       <span class="surface-signal-value">${escapeHtml(decision.possessionLabel)}</span>
     </div>
     <div class="surface-signal-card surface-signal-card--action${actionClass ? ` ${actionClass}` : ''}">
       <span class="surface-signal-label">Action</span>
       <span class="surface-signal-value surface-signal-action-value">${escapeHtml(decision.actionLabel)}</span>
-      ${decision.actionLabel === 'a vendre' && currentCollectionItem && normalizeCollectionListType(currentCollectionItem.list_type) !== 'for_sale'
+      ${decision.actionLabel === 'À VENDRE' && currentCollectionItem && normalizeCollectionListType(currentCollectionItem.list_type) !== 'for_sale'
         ? '<button id="action-mark-for-sale-btn" class="decision-action-btn" type="button" onclick="handleMarkForSale()">MARQUER A VENDRE</button>'
         : ''}
     </div>
