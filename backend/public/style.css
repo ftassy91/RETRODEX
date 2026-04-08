@@ -13727,6 +13727,24 @@ body {
   color: #38bdf8;
   border: 1px solid #38bdf8;
 }
+.possession-chip.is-untracked {
+  background: #1a1a1a;
+  color: var(--color-secondary, #888);
+  border: 1px solid #444;
+}
+
+/* Game detail — add to collection CTA */
+.detail-add-cta {
+  display: inline-block;
+  font-size: 9px;
+  color: var(--color-secondary, #888);
+  text-decoration: none;
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+}
+.detail-add-cta:hover {
+  color: var(--color-accent, #4ade80);
+}
 
 /* Focus panel — primary CTA */
 .terminal-action-link.is-primary-action {

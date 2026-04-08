@@ -434,7 +434,7 @@ function showSkeleton() {
 }
 
 function buildPossessionChip(item) {
-  if (!item) return '';
+  if (!item) return '<span class="possession-chip is-untracked">NON SUIVI</span>';
   const listType = item.list_type;
   if (listType === 'owned') return '<span class="possession-chip is-owned">POSSÉDÉ</span>';
   if (listType === 'for_sale') return '<span class="possession-chip is-sale">EN VENTE</span>';
@@ -494,7 +494,7 @@ function renderHeroSection(game) {
                   : escapeHtml(meta.developerName)}
               </div>
 
-              ${buildPossessionChip(currentCollectionItem)}
+              <span id="hero-possession-chip">${buildPossessionChip(currentCollectionItem)}${!currentCollectionItem ? '<a href="/collection.html" class="detail-add-cta">+ ajouter à la collection</a>' : ''}</span>
 
               <div id="hero-summary-shell" class="hero-summary-shell"${summary ? '' : ' hidden'}>
                 <div id="hero-summary" class="hero-summary surface-summary-copy">${summary ? formatMultilineHtml(summary) : ''}</div>
@@ -2167,13 +2167,18 @@ function applyCollectionUiState(item, options = {}) {
     return
   }
 
+  const heroPossessionChipEl = document.getElementById(‘hero-possession-chip’)
+  if (heroPossessionChipEl) {
+    heroPossessionChipEl.innerHTML = buildPossessionChip(item) + (!item ? ‘<a href="/collection.html" class="detail-add-cta">+ ajouter à la collection</a>’ : ‘’)
+  }
+
   collectionFormEl.hidden = false
   populateCollectionForm(item)
 
   if (!item) {
-    collectionStateEl.textContent = ''
-    collectionCurrentMetaEl.innerHTML = ''
-    collectionButtonEl.textContent = 'Ajouter à l’étagère'
+    collectionStateEl.textContent = ‘’
+    collectionCurrentMetaEl.innerHTML = ‘’
+    collectionButtonEl.textContent = ‘Ajouter à l’étagère’
     collectionButtonEl.disabled = false
     if (wishlistButtonEl) {
       wishlistButtonEl.textContent = 'Ajouter à la wishlist'
