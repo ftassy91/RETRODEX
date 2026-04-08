@@ -1,7 +1,10 @@
 'use strict'
 
 const { LRUCache } = require('../../lib/lru-cache')
-const { buildGameDetailDataLayer } = require('../../helpers/game-detail-data-layer')
+const {
+  buildGameDetailDataLayer,
+  normalizeStoredProfile,
+} = require('../../helpers/game-detail-data-layer')
 const {
   fetchCanonicalGameById,
   fetchGameContentProfileRow,
@@ -39,6 +42,20 @@ function getDomainOptionsForScope(scope) {
   }
 }
 
+function getDomainOptionsForFullProfile(storedProfile) {
+  if (!storedProfile) {
+    return getDomainOptionsForScope('full')
+  }
+
+  const profile = normalizeStoredProfile(storedProfile)
+  return {
+    includeProduction: true,
+    includeMedia: Boolean(profile.manuals || profile.maps || profile.sprites || profile.endings || profile.covers),
+    includeMusic: Boolean(profile.ost),
+    includeCompetition: Boolean(profile.records),
+  }
+}
+
 async function fetchGameDetailPayload(gameId, options = {}) {
   const normalizedGameId = String(gameId || '').trim()
   const scope = normalizeDetailScope(options.scope)
@@ -62,13 +79,16 @@ async function fetchGameDetailPayload(gameId, options = {}) {
       return null
     }
 
-    const [domains, storedProfile] = await Promise.all([
-      fetchGameKnowledgeDomains(game, getDomainOptionsForScope(scope)),
-      fetchGameContentProfileRow(game.id).catch((err) => {
-        console.error('[detail] content profile failed:', err.message)
-        return null
-      }),
-    ])
+    const storedProfile = await fetchGameContentProfileRow(game.id).catch((err) => {
+      console.error('[detail] content profile failed:', err.message)
+      return null
+    })
+    const domains = await fetchGameKnowledgeDomains(
+      game,
+      scope === 'full'
+        ? getDomainOptionsForFullProfile(storedProfile)
+        : getDomainOptionsForScope(scope)
+    )
 
     const payload = buildGameDetailDataLayer({
       game,
