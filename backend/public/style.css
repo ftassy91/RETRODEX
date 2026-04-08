@@ -11576,6 +11576,67 @@ body .product-universe-frame.is-dex {
   justify-content: space-between;
 }
 
+/* ── Cockpit signal cards ── */
+.cockpit-signals-bar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.cockpit-signal-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 8px;
+  background: rgba(7, 11, 7, 0.9);
+  border: 1px solid rgba(67, 95, 60, 0.52);
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s;
+  font-family: inherit;
+  text-align: center;
+}
+
+.cockpit-signal-card:hover {
+  border-color: var(--accent);
+  background: rgba(15, 25, 15, 0.95);
+}
+
+.cockpit-signal-card[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: rgba(20, 40, 20, 0.95);
+}
+
+.cockpit-signal-card[aria-pressed="true"] .cockpit-signal-count {
+  color: var(--accent);
+}
+
+.cockpit-signal-count {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-alert);
+  line-height: 1;
+}
+
+.cockpit-signal-count.is-zero {
+  color: var(--text-muted);
+  font-size: 18px;
+}
+
+.cockpit-signal-label {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+  .cockpit-signals-bar {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .collection-toolbar-group {
   display: flex;
   flex-wrap: wrap;

@@ -89,6 +89,29 @@
           <a href="/stats.html" class="terminal-action-link">Qualification avancee -&gt;</a>
         </div>
 
+        <div id="cockpit-signals" class="cockpit-signals-bar" aria-label="Signaux collection" style="display:none">
+          <button class="cockpit-signal-card" id="signal-duplicates" data-signal="duplicates" type="button" aria-pressed="false">
+            <span class="cockpit-signal-count" id="signal-duplicates-count">0</span>
+            <span class="cockpit-signal-label">DOUBLONS</span>
+          </button>
+          <button class="cockpit-signal-card" id="signal-sell" data-signal="sell_candidates" type="button" aria-pressed="false">
+            <span class="cockpit-signal-count" id="signal-sell-count">0</span>
+            <span class="cockpit-signal-label">A VENDRE</span>
+          </button>
+          <button class="cockpit-signal-card" id="signal-upgrade" data-signal="upgrade_candidates" type="button" aria-pressed="false">
+            <span class="cockpit-signal-count" id="signal-upgrade-count">0</span>
+            <span class="cockpit-signal-label">A UPGRADER</span>
+          </button>
+          <button class="cockpit-signal-card" id="signal-incomplete" data-signal="incomplete" type="button" aria-pressed="false">
+            <span class="cockpit-signal-count" id="signal-incomplete-count">0</span>
+            <span class="cockpit-signal-label">INCOMPLETS</span>
+          </button>
+          <button class="cockpit-signal-card" id="signal-wishlist" data-signal="affordable_wishlist" type="button" aria-pressed="false">
+            <span class="cockpit-signal-count" id="signal-wishlist-count">0</span>
+            <span class="cockpit-signal-label">WISHLIST ≤$25</span>
+          </button>
+        </div>
+
         <div class="terminal-filter-bar collection-mode-bar" style="margin-top:0">
           <div class="terminal-filter-group">
             <button class="terminal-filter-btn active" data-list="owned" type="button">ETAGERE</button>

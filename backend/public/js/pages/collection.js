@@ -52,6 +52,8 @@
   let selectedCollectionItem = null
   let editingItemId = null
   let copyFeedbackTimer = null
+  let activeCockpitSignal = null
+  let cockpitSignalItems = null
 
   function getGame(item) {
     return item?.Game || item?.game || {}
@@ -128,7 +130,16 @@
     const query = normalizeText(collectionSearchInputEl?.value)
     const platform = collectionConsoleFilterEl?.value || ''
 
+    // Cockpit signal filter — restrict to the signal's item ids
+    const cockpitIds = cockpitSignalItems
+      ? new Set(cockpitSignalItems.map((s) => String(s.id || s.gameId || '')).filter(Boolean))
+      : null
+
     return sortCollectionItems(items.filter((item) => {
+      if (cockpitIds) {
+        const itemId = String(item.id || item.gameId || '')
+        if (!cockpitIds.has(itemId)) return false
+      }
       const game = getGame(item)
       const haystack = normalizeText([
         game.title,
@@ -810,12 +821,73 @@
   window.removeFromCollection = removeFromCollection
   window.switchCollectionTab = switchCollectionTab
 
+  // ── Cockpit signals ──────────────────────────────────────────────────────
+
+  const cockpitBarEl = byId('cockpit-signals')
+  const signalCards = cockpitBarEl ? Array.from(cockpitBarEl.querySelectorAll('.cockpit-signal-card')) : []
+
+  function setCockpitCount(id, count) {
+    const countEl = byId(id)
+    if (!countEl) return
+    countEl.textContent = String(count)
+    countEl.classList.toggle('is-zero', count === 0)
+  }
+
+  function clearCockpitFilter() {
+    activeCockpitSignal = null
+    cockpitSignalItems = null
+    signalCards.forEach((card) => card.setAttribute('aria-pressed', 'false'))
+  }
+
+  function applyCockpitFilter(signalKey, items) {
+    activeCockpitSignal = signalKey
+    cockpitSignalItems = items
+    signalCards.forEach((card) => {
+      card.setAttribute('aria-pressed', card.dataset.signal === signalKey ? 'true' : 'false')
+    })
+    const targetTab = signalKey === 'affordable_wishlist' ? 'wanted' : 'owned'
+    if (activeTab !== targetTab) {
+      activeTab = targetTab
+      syncTabUi()
+    }
+    refreshCollectionView()
+  }
+
+  async function loadCockpitSignals() {
+    if (!cockpitBarEl || isPublicForSaleView) return
+    try {
+      const data = await fetchJson('/api/collection/cockpit')
+      setCockpitCount('signal-duplicates-count', data.duplicates?.count || 0)
+      setCockpitCount('signal-sell-count', data.sell_candidates?.count || 0)
+      setCockpitCount('signal-upgrade-count', data.upgrade_candidates?.count || 0)
+      setCockpitCount('signal-incomplete-count', data.incomplete?.count || 0)
+      setCockpitCount('signal-wishlist-count', data.affordable_wishlist?.count || 0)
+      cockpitBarEl.style.display = 'grid'
+
+      signalCards.forEach((card) => {
+        const key = card.dataset.signal
+        const bucket = data[key] || {}
+        card.addEventListener('click', () => {
+          if (activeCockpitSignal === key) {
+            clearCockpitFilter()
+            refreshCollectionView()
+          } else {
+            applyCockpitFilter(key, bucket.items || [])
+          }
+        })
+      })
+    } catch (_err) {
+      // non-fatal — cockpit is additive
+    }
+  }
+
   function init() {
     bindTabs()
     bindKeyboard()
     syncTabUi()
     updateSummaryFromItems([])
     loadCollection()
+    loadCockpitSignals()
   }
 
   init()
