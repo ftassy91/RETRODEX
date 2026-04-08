@@ -5311,6 +5311,14 @@ body {
   color: #4a6a4a;
 }
 
+.detail-hero-price-help {
+  margin-top: 8px;
+  color: #6d8c65;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
 .accordion-price-hint {
   font-size: 0.68rem;
   color: rgba(155, 188, 15, 0.5);
@@ -10473,6 +10481,20 @@ body.hub-page .product-universe-frame {
   line-height: 1.25;
 }
 
+.collection-row-cue {
+  color: #73906b;
+  font-size: 9px;
+  line-height: 1.25;
+}
+
+.collection-row-cue.is-hot {
+  color: var(--text-alert);
+}
+
+.collection-row-cue.is-primary {
+  color: var(--text-primary);
+}
+
 .collection-row-status {
   display: flex;
   gap: 6px;
@@ -12347,6 +12369,15 @@ body {
   margin-top: 10px;
 }
 
+.hub-card-proof {
+  margin-bottom: 8px;
+  color: #86a07d;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .hub-rich-card .hub-universe-actions {
   margin-top: 12px;
 }
@@ -13440,6 +13471,20 @@ body {
   padding-top: 10px;
   border-top: 1px solid rgba(39, 56, 36, 0.84);
   color: var(--text-primary);
+}
+
+.collection-next-step-label {
+  display: block;
+  margin-bottom: 6px;
+  color: #86a07d;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+}
+
+.collection-next-step-copy {
+  display: block;
+  color: var(--text-primary);
+  line-height: 1.6;
 }
 
 @media (max-width: 1100px) {

@@ -498,7 +498,7 @@ function renderHeroSection(game) {
               <div id="game-relations" class="game-relations"></div>
               <div class="surface-action-row detail-hero-actions">
                 <a class="terminal-action-link" href="/games-list.html">Retour au catalogue &rarr;</a>
-                <a class="terminal-action-link is-primary" href="#editorial-shell">Lire la fiche &rarr;</a>
+                <a class="terminal-action-link is-primary" href="#editorial-shell">Ouvrir l'archive &rarr;</a>
               </div>
             </div>
           </div>
@@ -506,12 +506,12 @@ function renderHeroSection(game) {
 
         <aside class="detail-market-panel detail-hero-aside">
           <div class="detail-kicker">DECISION</div>
-          <div class="detail-domain-heading">Valeur / confiance / action</div>
+          <div class="detail-domain-heading">Prix / fiabilite / action</div>
           ${priceContext}
           ${pricePanel}
           <div id="collection-decision-strip" class="detail-decision-strip">
             <div class="detail-kicker">COLLECTION</div>
-            <div class="detail-domain-heading">Statut / valeur / action</div>
+            <div class="detail-domain-heading">Suivi / etat / action</div>
             <div id="collection-decision-grid" class="surface-signal-grid is-five detail-decision-grid"></div>
             <p id="collection-decision-note" class="detail-reading-note"></p>
           </div>
@@ -578,15 +578,15 @@ function renderCollectionDecisionStrip(options = {}) {
         <span class="surface-signal-value">Indisponible</span>
       </div>
       <div class="surface-signal-card">
-        <span class="surface-signal-label">Interet</span>
+        <span class="surface-signal-label">Suivi</span>
         <span class="surface-signal-value">Indisponible</span>
       </div>
       <div class="surface-signal-card">
-        <span class="surface-signal-label">Condition</span>
+        <span class="surface-signal-label">Etat</span>
         <span class="surface-signal-value">Indisponible</span>
       </div>
       <div class="surface-signal-card">
-        <span class="surface-signal-label">Valeur</span>
+        <span class="surface-signal-label">Statut</span>
         <span class="surface-signal-value">Indisponible</span>
       </div>
       <div class="surface-signal-card surface-signal-card--action">
@@ -607,16 +607,16 @@ function renderCollectionDecisionStrip(options = {}) {
       <span class="surface-signal-value">${escapeHtml(decision.possessionLabel)}</span>
     </div>
     <div class="surface-signal-card">
-      <span class="surface-signal-label">Interet</span>
+      <span class="surface-signal-label">Suivi</span>
       <span class="surface-signal-value">${escapeHtml(decision.interestLabel)}</span>
     </div>
     <div class="surface-signal-card">
-      <span class="surface-signal-label">Condition</span>
+      <span class="surface-signal-label">Etat</span>
       <span class="surface-signal-value">${escapeHtml(decision.conditionLabel)}</span>
     </div>
     <div class="surface-signal-card">
-      <span class="surface-signal-label">Valeur</span>
-      <span class="surface-signal-value">${escapeHtml(decision.valueLabel)}</span>
+      <span class="surface-signal-label">Statut</span>
+      <span class="surface-signal-value">${escapeHtml(decision.stateLabel)}</span>
     </div>
     <div class="surface-signal-card surface-signal-card--action${actionClass ? ` ${actionClass}` : ''}">
       <span class="surface-signal-label">Action</span>
@@ -744,13 +744,14 @@ function buildHeroPriceContext(game, trustMeta) {
   return `
     <div class="detail-hero-price-context">
       <div class="detail-price-context-row">
-        <span class="detail-hero-reference">Confiance</span>
+        <span class="detail-hero-reference">Fiabilite prix</span>
         <span class="trust-badge trust-${escapeHtml(trustTier)}" style="${escapeHtml(getTrustBadgeStyle(trustTier))}">${escapeHtml(getTrustBadgeText(trustTier))}</span>
         ${freshnessMeta ? `<span class="detail-hero-reference">Fraicheur</span><span class="detail-hero-reference">${escapeHtml(freshnessMeta.label)} · ${escapeHtml(freshnessMeta.detail)}</span>` : ''}
       </div>
       ${freshnessMeta?.dateText ? `<div class="detail-hero-price-date">Mis a jour : ${escapeHtml(freshnessMeta.dateText)}</div>` : ''}
       ${buildPriceFreshnessAlert(game?.priceLastUpdated)}
       ${sourceNames ? `<div class="detail-hero-sources">Sources : ${escapeHtml(sourceNames)}</div>` : ''}
+      <div class="detail-hero-price-help">Repere marche : croiser avec l'etat reel, la fraicheur et l'historique.</div>
     </div>
   `
 }

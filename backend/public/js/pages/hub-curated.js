@@ -66,9 +66,15 @@
       ? `${summary.slice(0, 116)}${summary.length > 116 ? '...' : ''}`
       : 'Archive, contexte, prix et collection sur une seule fiche.'
     const meta = [item.console, item.year].filter(Boolean).map((part) => esc(part)).join(' | ')
+    const proofLabel = signals?.score >= 8
+      ? 'lecture forte'
+      : Number(item.metascore || 0) >= 90
+        ? 'repere canonique'
+        : 'contexte + valeur'
 
     return `
       <article class="hub-encyclo-card hub-rich-card">
+        <div class="hub-card-proof">${esc(proofLabel)}</div>
         <div class="hub-encyclo-card-title">${esc(item.title || 'Sans titre')}</div>
         <div class="hub-encyclo-card-meta">${meta || 'Archive RetroDex'}</div>
         <div class="surface-chip-row hub-rich-chip-row">
@@ -100,14 +106,14 @@
       const consoles = Number(publication.consoleCount || 0)
       const withSynopsis = Number(statsPayload?.with_synopsis || 0)
 
-      bannerEl.textContent = `${published} fiches lisibles | ${withSynopsis} avec lecture | ${consoles} consoles`
+      bannerEl.textContent = `${published} fiches prêtes | ${withSynopsis} avec lecture | ${consoles} consoles`
       setText(publishedEl, String(published || '--'))
       setText(totalEl, String(total || '--'))
       setText(synopsisEl, String(withSynopsis || '--'))
       setText(consolesEl, String(consoles || '--'))
-      setText(publicationSignalEl, `${published} fiches`)
-      setText(editorialSignalEl, `${withSynopsis} fiches`)
-      setText(archiveSignalEl, strongPages.length ? `${strongPages.length} a ouvrir` : 'en cours')
+      setText(publicationSignalEl, `${published} fiches prêtes`)
+      setText(editorialSignalEl, `${withSynopsis} resumes visibles`)
+      setText(archiveSignalEl, strongPages.length ? `${strongPages.length} preuves concretes` : 'en cours')
 
       if (!strongPages.length) {
         renderState('Aucune fiche mise en avant', 'La vitrine se remplira avec les fiches les plus utiles a ouvrir.')
@@ -116,7 +122,7 @@
 
       richGridEl.innerHTML = strongPages.map(buildCard).join('')
     } catch (_error) {
-      bannerEl.textContent = 'RetroDex | fiches, collection, valeur'
+      bannerEl.textContent = 'RetroDex | catalogue, lecture, valeur'
       setText(publicationSignalEl, 'indisponible')
       setText(editorialSignalEl, 'indisponible')
       setText(archiveSignalEl, 'indisponible')

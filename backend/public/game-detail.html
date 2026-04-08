@@ -16,7 +16,7 @@
     <meta property="og:description" content="Fiche RetroDex d'un jeu retro : lecture, contexte, valeur et collection." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260408r1" />
+    <link rel="stylesheet" href="/style.css?v=20260408s1" />
   </head>
   <body>
     <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
@@ -49,6 +49,14 @@
       <section id="synopsis-band" class="synopsis-band" hidden></section>
 
       <div id="provenance-line" class="provenance-line" hidden></div>
+
+      <section id="related-shell" class="related-card detail-accordion" hidden>
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="related-content">
+          <span>Connexions</span>
+          <span class="detail-accordion-indicator">&#9656;</span>
+        </button>
+        <div id="related-content" class="detail-accordion-content" hidden></div>
+      </section>
 
       <section id="editorial-shell" class="editorial-card detail-accordion" hidden>
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="editorial-content">
@@ -93,7 +101,7 @@
 
       <section id="stats-shell" class="stats-card detail-accordion">
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="stats-content">
-          <span>Donnees avancees</span>
+          <span>Donnees de reference</span>
           <span class="detail-accordion-indicator">&#9656;</span>
         </button>
         <div id="stats-content" class="detail-accordion-content" hidden>
@@ -120,13 +128,6 @@
         </div>
       </section>
 
-      <section id="related-shell" class="related-card detail-accordion" hidden>
-        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="related-content">
-          <span>Aller plus loin</span>
-          <span class="detail-accordion-indicator">&#9656;</span>
-        </button>
-        <div id="related-content" class="detail-accordion-content" hidden></div>
-      </section>
     </main>
 
     <script src="/js/core/config.js"></script>
@@ -137,7 +138,7 @@
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
     <script src="/js/core/content-signals.js"></script>
-    <script src="/js/pages/game-detail.js?v=20260408r1"></script>
+    <script src="/js/pages/game-detail.js?v=20260408s1"></script>
     <script src="/js/features/experience-layer.js"></script>
     <div class="footer-attribution">
       Covers :

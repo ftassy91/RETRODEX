@@ -209,6 +209,24 @@
     return sorted
   }
 
+  function getReviewCue(item) {
+    const game = getGame(item)
+    const listType = String(item?.list_type || activeTab || 'owned').toLowerCase()
+    const paid = Number(item?.price_paid || 0)
+    const loose = Number(game?.loosePrice || 0)
+    const cib = Number(game?.cibPrice || 0)
+    const threshold = Number(item?.price_threshold || 25)
+    const condition = String(item?.condition || '').toLowerCase()
+
+    if (listType === 'for_sale') return { label: 'sortie active', tone: 'is-hot' }
+    if (listType === 'owned' && paid <= 0) return { label: 'prix paye a completer', tone: '' }
+    if (listType === 'owned' && paid > 0 && loose > 0 && loose >= paid * 1.5) return { label: 'sortie rentable', tone: 'is-hot' }
+    if (listType === 'owned' && condition === 'loose' && loose > 0 && cib > 0 && cib - loose <= 20) return { label: 'upgrade CIB accessible', tone: 'is-primary' }
+    if (listType === 'wanted' && loose > 0 && loose <= threshold) return { label: 'achat accessible', tone: 'is-primary' }
+    if (listType === 'wanted') return { label: 'wishlist a qualifier', tone: '' }
+    return { label: 'lecture stable', tone: '' }
+  }
+
   function applyCollectionFilters(items) {
     const query = normalizeText(collectionSearchInputEl?.value)
     const platform = collectionConsoleFilterEl?.value || ''
@@ -449,8 +467,8 @@
       setText(
         modeCopyEl,
         priorities.length
-          ? `Revue globale : ${priorities.slice(0, 3).join(' | ')}. Trier par delta puis date d achat pour arbitrer.`
-          : 'Revue globale stable. Trier par delta ou date d achat pour ouvrir la prochaine decision.'
+          ? `Maintenant : ${priorities.slice(0, 3).join(' | ')}. La liste est deja triee pour ouvrir la prochaine decision.`
+          : 'Revue globale stable. Garder le tri de revue, puis ouvrir la prochaine fiche utile.'
       )
       return
     }
@@ -732,6 +750,7 @@
     const mintPrice = Number(game.mintPrice || 0)
     const paid = Number(item.price_paid || 0)
     const gain = paid > 0 ? loosePrice - paid : null
+    const reviewCue = getReviewCue(item)
     const previewCopy = note || game.tagline || game.summary || game.synopsis || 'Sans note personnelle. La fiche reste la meilleure lecture.'
     const focusDecision = buildFocusDecision(item)
     hideEditForm()
@@ -773,6 +792,7 @@
 
     if (detailChipRowEl) {
       detailChipRowEl.innerHTML = `
+        <span class="surface-chip${reviewCue.tone ? ` ${reviewCue.tone}` : ''}">${escapeHtml(reviewCue.label)}</span>
         <span class="surface-chip is-primary">${escapeHtml(item.condition || 'Archive')}</span>
         <span class="surface-chip">${escapeHtml(getTabSignalLabel(activeTab))}</span>
         ${item.purchase_date ? `<span class="surface-chip">Entree ${escapeHtml(item.purchase_date)}</span>` : ''}
@@ -785,7 +805,7 @@
       detailSummaryEl.textContent = previewCopy
     }
     if (detailNextStepEl) {
-      detailNextStepEl.textContent = focusDecision
+      detailNextStepEl.innerHTML = `<span class="collection-next-step-label">PROCHAINE ACTION</span><span class="collection-next-step-copy">${escapeHtml(focusDecision)}</span>`
     }
 
     renderDetailMetascore(game.metascore)
@@ -859,6 +879,7 @@
       : '-'
     const gainClass = gain === null ? '' : gain >= 0 ? 'positive' : 'negative'
     const listType = String(item.list_type || activeTab || 'owned').toLowerCase()
+    const reviewCue = getReviewCue(item)
     const statusBadge = listType === 'for_sale'
       ? '<span class="surface-chip is-hot collection-status-chip">A VENDRE</span>'
       : listType === 'wanted'
@@ -875,6 +896,7 @@
       <span role="cell" class="terminal-row-indicator">></span>
       <span role="cell" class="collection-row-main">
         <span class="collection-row-title">${escapeHtml(game.title || '?')}</span>
+        <span class="collection-row-cue${reviewCue.tone ? ` ${reviewCue.tone}` : ''}">${escapeHtml(reviewCue.label)}</span>
         <span class="collection-row-status">${statusBadge}</span>
       </span>
       <span role="cell" style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '-')}</span>

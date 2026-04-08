@@ -16,7 +16,7 @@
   <meta property="og:description" content="RetroDex : chercher un jeu retro, lire sa fiche, voir sa valeur, suivre sa collection.">
   <meta property="og:type" content="website">
   <meta name="robots" content="index, follow">
-  <link rel="stylesheet" href="/style.css?v=20260408r1">
+  <link rel="stylesheet" href="/style.css?v=20260408s1">
 </head>
 <body class="hub-page hub-orientation-page">
   <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
@@ -48,7 +48,7 @@
           <div class="hub-kicker">SYSTEME</div>
           <h1 class="hub-page-title">RETRODEX</h1>
         </div>
-        <p class="hub-intro">Chercher un jeu, comprendre sa fiche, suivre sa valeur, gerer sa collection.</p>
+        <p class="hub-intro">Chercher un jeu, ouvrir la bonne fiche, lire le contexte, voir la valeur, retrouver sa collection.</p>
       </div>
 
       <form class="hub-search-form" action="/search.html" method="get">
@@ -84,21 +84,21 @@
         })
       </script>
 
-      <div class="hub-stats hub-stats-compact">
-        <div class="hub-stat is-primary">
-          <span id="hub-stat-published" class="val">--</span>
-          <span class="lbl">fiches lisibles</span>
-        </div>
-        <div class="hub-stat">
-          <span id="hub-stat-total" class="val">--</span>
-          <span class="lbl">jeux suivis</span>
-        </div>
-        <div class="hub-stat">
-          <span id="hub-stat-synopsis" class="val">--</span>
-          <span class="lbl">avec lecture</span>
-        </div>
-        <div class="hub-stat">
-          <span id="hub-stat-consoles" class="val">--</span>
+        <div class="hub-stats hub-stats-compact">
+          <div class="hub-stat is-primary">
+            <span id="hub-stat-published" class="val">--</span>
+            <span class="lbl">fiches pretes</span>
+          </div>
+          <div class="hub-stat">
+            <span id="hub-stat-total" class="val">--</span>
+            <span class="lbl">catalogue total</span>
+          </div>
+          <div class="hub-stat">
+            <span id="hub-stat-synopsis" class="val">--</span>
+            <span class="lbl">avec resume</span>
+          </div>
+          <div class="hub-stat">
+            <span id="hub-stat-consoles" class="val">--</span>
           <span class="lbl">consoles</span>
         </div>
       </div>
@@ -107,12 +107,12 @@
         <div class="hub-intent-grid hub-intent-grid-two">
           <article class="hub-intent-card">
             <span class="hub-intent-label">RetroDex</span>
-            <p class="hub-intent-copy">Chercher un jeu, ouvrir sa fiche, lire ce qui compte en premier.</p>
+            <p class="hub-intent-copy">Chercher un jeu, comparer ses signaux, ouvrir la fiche qui merite la lecture.</p>
             <div class="hub-intent-links"><a href="/games-list.html">Explorer le catalogue</a></div>
           </article>
           <article class="hub-intent-card">
             <span class="hub-intent-label">Collection</span>
-            <p class="hub-intent-copy">Voir l'etagere, la valeur, la wishlist et les prochaines actions.</p>
+            <p class="hub-intent-copy">Relire l'etagere, reperer un achat, une sortie, un prix manquant ou un upgrade.</p>
             <div class="hub-intent-links"><a href="/collection.html">Ouvrir la collection</a></div>
           </article>
         </div>
@@ -123,7 +123,7 @@
       <div class="hub-module-head">
         <div>
           <div class="hub-module-kicker">PREUVES</div>
-          <h2 class="hub-module-title">3 fiches pour comprendre RetroDex</h2>
+          <h2 class="hub-module-title">3 fiches pour voir comment RetroDex lit, situe et qualifie un jeu</h2>
         </div>
         <a class="hub-module-link" href="/games-list.html">Ouvrir l'index</a>
       </div>
@@ -134,9 +134,9 @@
         </div>
       </div>
       <div class="hub-signal-line">
-        <span><strong>Visibles</strong> <span id="hub-system-publication">chargement</span></span>
-        <span><strong>Avec lecture</strong> <span id="hub-system-editorial">chargement</span></span>
-        <span><strong>A ouvrir</strong> <span id="hub-system-archive">chargement</span></span>
+        <span><strong>Catalogue</strong> <span id="hub-system-publication">chargement</span></span>
+        <span><strong>Lecture</strong> <span id="hub-system-editorial">chargement</span></span>
+        <span><strong>Preuve</strong> <span id="hub-system-archive">chargement</span></span>
       </div>
     </section>
   </main>
@@ -144,6 +144,6 @@
   <script src="/js/core/api.js"></script>
   <script src="/js/core/format.js"></script>
   <script src="/js/core/content-signals.js"></script>
-  <script src="/js/pages/hub-curated.js?v=20260408r1"></script>
+  <script src="/js/pages/hub-curated.js?v=20260408s1"></script>
 </body>
 </html>
