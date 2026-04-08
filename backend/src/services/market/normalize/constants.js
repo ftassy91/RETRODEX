@@ -1,0 +1,86 @@
+'use strict'
+
+const SUPPORTED_CURRENCIES = new Set(['USD', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD'])
+const AGGREGATE_CURRENCIES = new Set(['USD'])
+
+const REGION_ALIASES = {
+  us: 'US',
+  usa: 'US',
+  'north america': 'US',
+  ntsc: 'US',
+  'ntsc-u': 'US',
+  'ntsc-u/c': 'US',
+  eu: 'EU',
+  europe: 'EU',
+  pal: 'EU',
+  uk: 'EU',
+  jp: 'JP',
+  japan: 'JP',
+  'ntsc-j': 'JP',
+}
+
+const PLATFORM_ALIASES = {
+  nes: 'Nintendo Entertainment System',
+  nintendo: 'Nintendo Entertainment System',
+  snes: 'Super Nintendo',
+  supernintendo: 'Super Nintendo',
+  'super nintendo': 'Super Nintendo',
+  superfamicom: 'Super Nintendo',
+  n64: 'Nintendo 64',
+  'nintendo 64': 'Nintendo 64',
+  gameboy: 'Game Boy',
+  'game boy': 'Game Boy',
+  gbc: 'Game Boy Color',
+  'game boy color': 'Game Boy Color',
+  gba: 'Game Boy Advance',
+  'game boy advance': 'Game Boy Advance',
+  gamecube: 'GameCube',
+  gcn: 'GameCube',
+  wii: 'Wii',
+  switch: 'Nintendo Switch',
+  ps1: 'PlayStation',
+  psx: 'PlayStation',
+  playstation: 'PlayStation',
+  ps2: 'PlayStation 2',
+  ps3: 'PlayStation 3',
+  ps4: 'PlayStation 4',
+  ps5: 'PlayStation 5',
+  psp: 'PSP',
+  vita: 'PlayStation Vita',
+  saturn: 'Sega Saturn',
+  dreamcast: 'Dreamcast',
+  genesis: 'Sega Genesis',
+  megadrive: 'Sega Genesis',
+  'mega drive': 'Sega Genesis',
+  segacd: 'Sega CD',
+  'sega cd': 'Sega CD',
+  neogeo: 'Neo Geo',
+  'neo geo': 'Neo Geo',
+  tg16: 'TurboGrafx-16',
+  turbografx16: 'TurboGrafx-16',
+  'turbografx-16': 'TurboGrafx-16',
+  wonderswan: 'WonderSwan',
+}
+
+const REJECTION_KEYWORDS = [
+  'manual only',
+  'box only',
+  'case only',
+  'replacement case',
+  'reproduction',
+  'repro',
+  'fan translation',
+  'download code',
+  'empty box',
+  'artbook only',
+  'soundtrack only',
+  'strategy guide',
+]
+
+module.exports = {
+  SUPPORTED_CURRENCIES,
+  AGGREGATE_CURRENCIES,
+  REGION_ALIASES,
+  PLATFORM_ALIASES,
+  REJECTION_KEYWORDS,
+}
