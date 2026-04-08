@@ -52,7 +52,7 @@
 
   let enrichedItems = []
   let allCollectionItems = []
-  let activeTab = isPublicForSaleView ? 'for_sale' : 'owned'
+  let activeTab = isPublicForSaleView ? 'for_sale' : 'all'
   let selectedIndex = -1
   let selectedCollectionItem = null
   let editingItemId = null
@@ -77,11 +77,31 @@
       .trim()
   }
 
+  function getDefaultSortKey(tab = activeTab) {
+    if (isPublicForSaleView) {
+      return 'title_asc'
+    }
+
+    if (tab === 'all') {
+      return 'review_desc'
+    }
+
+    if (tab === 'wanted') {
+      return 'value_asc'
+    }
+
+    return 'title_asc'
+  }
+
+  function getSortKey() {
+    return collectionSortSelectEl?.value || getDefaultSortKey()
+  }
+
   function hasActiveCollectionFilters() {
     return Boolean(
       collectionSearchInputEl?.value?.trim()
       || collectionConsoleFilterEl?.value
-      || (collectionSortSelectEl?.value && collectionSortSelectEl.value !== 'title_asc')
+      || (getSortKey() && getSortKey() !== getDefaultSortKey())
     )
   }
 
@@ -102,9 +122,47 @@
     }
   }
 
+  function ensureReviewSortOptions() {
+    if (!collectionSortSelectEl) return
+
+    const existingValues = new Set(Array.from(collectionSortSelectEl.options).map((option) => option.value))
+    const extras = [
+      ['review_desc', 'Revue prioritaire'],
+      ['delta_desc', 'Delta decroissant'],
+      ['delta_asc', 'Delta croissant'],
+      ['purchase_date_desc', 'Date d achat recente'],
+      ['purchase_date_asc', 'Date d achat ancienne'],
+    ]
+
+    extras.forEach(([value, label]) => {
+      if (existingValues.has(value)) return
+      const option = document.createElement('option')
+      option.value = value
+      option.textContent = label
+      collectionSortSelectEl.appendChild(option)
+    })
+  }
+
   function sortCollectionItems(items) {
-    const sortKey = collectionSortSelectEl?.value || 'title_asc'
+    const sortKey = getSortKey()
     const sorted = [...items]
+
+    const reviewPriority = (item) => {
+      const game = getGame(item)
+      const listType = String(item.list_type || activeTab || 'owned').toLowerCase()
+      const paid = Number(item.price_paid || 0)
+      const loose = Number(game.loosePrice || 0)
+      const cib = Number(game.cibPrice || 0)
+      const threshold = Number(item.price_threshold || 25)
+
+      if (listType === 'for_sale') return 0
+      if (listType === 'owned' && paid <= 0) return 1
+      if (listType === 'owned' && paid > 0 && loose >= paid * 1.5) return 2
+      if (listType === 'owned' && String(item.condition || '').toLowerCase() === 'loose' && loose > 0 && cib > 0 && cib - loose <= 20) return 3
+      if (listType === 'wanted' && loose > 0 && loose <= threshold) return 4
+      if (listType === 'wanted') return 5
+      return 6
+    }
 
     sorted.sort((left, right) => {
       const leftGame = getGame(left)
@@ -113,9 +171,18 @@
       const rightPaid = Number(right.price_paid || 0)
       const leftLoose = Number(leftGame.loosePrice || 0)
       const rightLoose = Number(rightGame.loosePrice || 0)
+      const leftGain = leftPaid > 0 && leftLoose > 0 ? leftLoose - leftPaid : null
+      const rightGain = rightPaid > 0 && rightLoose > 0 ? rightLoose - rightPaid : null
+      const leftPurchaseDate = new Date(left.purchase_date || left.created_at || left.added_at || 0).getTime()
+      const rightPurchaseDate = new Date(right.purchase_date || right.created_at || right.added_at || 0).getTime()
       const titleCompare = String(leftGame.title || '').localeCompare(String(rightGame.title || ''), 'fr', { sensitivity: 'base' })
 
       switch (sortKey) {
+        case 'review_desc':
+          return reviewPriority(left) - reviewPriority(right)
+            || (rightGain ?? Number.NEGATIVE_INFINITY) - (leftGain ?? Number.NEGATIVE_INFINITY)
+            || rightLoose - leftLoose
+            || titleCompare
         case 'title_desc':
           return String(rightGame.title || '').localeCompare(String(leftGame.title || ''), 'fr', { sensitivity: 'base' })
         case 'paid_desc':
@@ -126,6 +193,14 @@
           return rightLoose - leftLoose || titleCompare
         case 'value_asc':
           return leftLoose - rightLoose || titleCompare
+        case 'delta_desc':
+          return (rightGain ?? Number.NEGATIVE_INFINITY) - (leftGain ?? Number.NEGATIVE_INFINITY) || titleCompare
+        case 'delta_asc':
+          return (leftGain ?? Number.POSITIVE_INFINITY) - (rightGain ?? Number.POSITIVE_INFINITY) || titleCompare
+        case 'purchase_date_desc':
+          return (rightPurchaseDate || Number.NEGATIVE_INFINITY) - (leftPurchaseDate || Number.NEGATIVE_INFINITY) || titleCompare
+        case 'purchase_date_asc':
+          return (leftPurchaseDate || Number.POSITIVE_INFINITY) - (rightPurchaseDate || Number.POSITIVE_INFINITY) || titleCompare
         default:
           return titleCompare
       }
@@ -170,7 +245,10 @@
   }
 
   async function loadCollectionSearchResults() {
-    if (typeof fetchCollectionSearch !== 'function') {
+    const sortKey = getSortKey()
+    const useLocalSort = ['review_desc', 'delta_desc', 'delta_asc', 'purchase_date_desc', 'purchase_date_asc'].includes(sortKey)
+
+    if (typeof fetchCollectionSearch !== 'function' || useLocalSort) {
       return applyCollectionFilters(allCollectionItems)
     }
 
@@ -178,7 +256,7 @@
       query: String(collectionSearchInputEl?.value || '').trim(),
       listType: activeTab,
       consoleName: collectionConsoleFilterEl?.value || '',
-      sort: collectionSortSelectEl?.value || 'title_asc',
+      sort: sortKey,
       limit: 1000,
     })
 
@@ -280,6 +358,7 @@
       case 'upgrade_candidates': return 'A UPGRADER'
       case 'incomplete': return 'INCOMPLETS'
       case 'affordable_wishlist': return 'WISHLIST <= $25'
+      case 'stale_wishlist': return 'WISHLIST +6 MOIS'
       default: return 'ATTENTION'
     }
   }
@@ -296,6 +375,8 @@
         return 'Completer ou verifier les entrees qui restent fragiles.'
       case 'affordable_wishlist':
         return 'Prioriser les achats accessibles avant qu ils ne sortent de portee.'
+      case 'stale_wishlist':
+        return 'Relire les envies anciennes avant de les laisser dormir ou de les supprimer.'
       default:
         return 'Lire les signaux puis agir sur la bonne fiche.'
     }
@@ -309,7 +390,9 @@
   function updateCockpitLead(visibleCount = enrichedItems.length, totalCount = allCollectionItems.length) {
     if (!cockpitLeadEl || !modeTitleEl || !modeCopyEl) return
 
-    const tabTitle = activeTab === 'wanted'
+    const tabTitle = activeTab === 'all'
+      ? 'REVUE'
+      : activeTab === 'wanted'
       ? 'WISHLIST'
       : activeTab === 'for_sale'
         ? 'A VENDRE'
@@ -336,12 +419,14 @@
 
     if (activeTab === 'owned') {
       const priorityBits = []
+      const incomplete = Number(cockpitData?.incomplete?.count || 0)
       const duplicates = Number(cockpitData?.duplicates?.count || 0)
       const sell = Number(cockpitData?.sell_candidates?.count || 0)
       const upgrades = Number(cockpitData?.upgrade_candidates?.count || 0)
       if (duplicates) priorityBits.push(`${duplicates} doublon(s)`)
       if (sell) priorityBits.push(`${sell} sortie(s) possible(s)`)
       if (upgrades) priorityBits.push(`${upgrades} upgrade(s)`)
+      if (incomplete) priorityBits.push(`${incomplete} prix paye manquant(s)`)
       setText(modeTitleEl, 'ETAGERE')
       setText(
         modeCopyEl,
@@ -352,13 +437,32 @@
       return
     }
 
+    if (activeTab === 'all') {
+      const duplicates = Number(cockpitData?.duplicates?.count || 0)
+      const sell = Number(cockpitData?.sell_candidates?.count || 0)
+      const incomplete = Number(cockpitData?.incomplete?.count || 0)
+      const priorities = []
+      if (duplicates) priorities.push(`${duplicates} doublon(s)`)
+      if (sell) priorities.push(`${sell} sortie(s)`)
+      if (incomplete) priorities.push(`${incomplete} prix paye manquant(s)`)
+      setText(modeTitleEl, 'REVUE')
+      setText(
+        modeCopyEl,
+        priorities.length
+          ? `Revue globale : ${priorities.slice(0, 3).join(' | ')}. Trier par delta puis date d achat pour arbitrer.`
+          : 'Revue globale stable. Trier par delta ou date d achat pour ouvrir la prochaine decision.'
+      )
+      return
+    }
+
     if (activeTab === 'wanted') {
       const affordable = Number(cockpitData?.affordable_wishlist?.count || 0)
+      const stale = Number(cockpitData?.stale_wishlist?.count || 0)
       setText(modeTitleEl, 'WISHLIST')
       setText(
         modeCopyEl,
         affordable
-          ? `${affordable} entree(s) restent accessibles maintenant. Prioriser puis qualifier.`
+          ? `${affordable} entree(s) restent accessibles maintenant.${stale ? ` ${stale} sont anciennes.` : ''} Prioriser puis qualifier.`
           : 'Suivre la wishlist et ouvrir les fiches a fort potentiel.'
       )
       return
@@ -391,6 +495,9 @@
     }
     if (activeCockpitSignal === 'affordable_wishlist') {
       return 'Achat accessible. Ouvrir la fiche puis qualifier avant arbitrage.'
+    }
+    if (activeCockpitSignal === 'stale_wishlist') {
+      return 'Wishlist ancienne. Verifier si le jeu doit rester cible ou sortir de la liste.'
     }
     if (activeTab === 'wanted') {
       return loosePrice > 0
@@ -466,6 +573,12 @@
           REPASSER A L'ETAGERE
         </button>
       `)
+    } else if (listType === 'wanted') {
+      actions.push(`
+        <button id="collection-mark-owned-btn" class="terminal-inline-btn" type="button">
+          PASSER A L'ETAGERE
+        </button>
+      `)
     } else if (listType !== 'wanted') {
       actions.push(`
         <button id="collection-mark-sale-btn" class="terminal-inline-btn" type="button">
@@ -515,7 +628,11 @@
         linkLabel: 'Ouvrir l\'etagere',
       }
     }
-    return { title: 'Collection vide', copy: '', linkLabel: 'Ouvrir RetroDex' }
+    return {
+      title: 'Revue vide',
+      copy: 'Ajoute des jeux a l etagere ou a la wishlist pour voir les priorites, la valeur et les actions.',
+      linkLabel: 'Ouvrir RetroDex',
+    }
   }
 
   function updateSummaryFromItems(items) {
@@ -703,6 +820,16 @@
     if (returnBtn) {
       returnBtn.onclick = () => patchCollectionItem(item.id || item.gameId, { list_type: 'owned' }, 'Jeu remis a l etagere.')
     }
+    const markOwnedBtn = byId('collection-mark-owned-btn')
+    if (markOwnedBtn) {
+      markOwnedBtn.onclick = async () => {
+        await patchCollectionItem(item.id || item.gameId, { list_type: 'owned' }, 'Jeu passe a l etagere.')
+        const updatedItem = enrichedItems.find((entry) => String(entry.id || entry.gameId) === String(item.id || item.gameId))
+        if (updatedItem) {
+          startEdit(updatedItem, 'price')
+        }
+      }
+    }
     const fillPriceBtn = byId('collection-fill-price-btn')
     if (fillPriceBtn) {
       fillPriceBtn.onclick = () => startEdit(item, 'price')
@@ -731,6 +858,12 @@
         : `-$${Math.round(Math.abs(gain))}`
       : '-'
     const gainClass = gain === null ? '' : gain >= 0 ? 'positive' : 'negative'
+    const listType = String(item.list_type || activeTab || 'owned').toLowerCase()
+    const statusBadge = listType === 'for_sale'
+      ? '<span class="surface-chip is-hot collection-status-chip">A VENDRE</span>'
+      : listType === 'wanted'
+        ? '<span class="surface-chip collection-status-chip">WISHLIST</span>'
+        : '<span class="surface-chip is-primary collection-status-chip">ETAGERE</span>'
 
     const row = document.createElement('div')
     row.className = 'terminal-row'
@@ -740,15 +873,10 @@
     row.style.gridTemplateColumns = '12px 1fr 90px 60px 70px 70px 70px 70px 70px'
     row.innerHTML = `
       <span role="cell" class="terminal-row-indicator">></span>
-      <span role="cell" style="color:var(--text-primary)">${escapeHtml(game.title || '?')}${(() => {
-        const lt = String(item.list_type || '').toLowerCase()
-        if (activeTab === 'all') {
-          if (lt === 'for_sale') return ' <span style="color:var(--text-alert);font-size:9px;margin-left:4px">A VENDRE</span>'
-          if (lt === 'wanted') return ' <span style="color:var(--text-secondary);font-size:9px;margin-left:4px">WISHLIST</span>'
-          return ' <span style="color:var(--text-muted);font-size:9px;margin-left:4px">ETAGERE</span>'
-        }
-        return lt === 'for_sale' ? ' <span style="color:var(--text-alert);font-size:9px;margin-left:4px">EN VENTE</span>' : ''
-      })()}</span>
+      <span role="cell" class="collection-row-main">
+        <span class="collection-row-title">${escapeHtml(game.title || '?')}</span>
+        <span class="collection-row-status">${statusBadge}</span>
+      </span>
       <span role="cell" style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '-')}</span>
       <span role="cell" class="condition-badge badge--condition" data-condition="${escapeHtml(item.condition || '')}" style="font-size:9px;border:1px solid var(--border);padding:1px 4px;text-align:center">${escapeHtml(item.condition || '-')}</span>
       <span role="cell" style="text-align:right;color:var(--text-alert)">${loosePrice ? formatCurrency(loosePrice) : '-'}</span>
@@ -1081,8 +1209,14 @@
       clearCockpitFilter()
     }
     activeTab = list
+    if (list === 'all' && collectionSortSelectEl && collectionSortSelectEl.value !== 'review_desc') {
+      collectionSortSelectEl.value = 'review_desc'
+    }
     if (list === 'wanted' && collectionSortSelectEl && collectionSortSelectEl.value !== 'value_asc') {
       collectionSortSelectEl.value = 'value_asc'
+    }
+    if (list === 'for_sale' && collectionSortSelectEl && collectionSortSelectEl.value !== 'delta_desc') {
+      collectionSortSelectEl.value = 'delta_desc'
     }
     syncTabUi(button)
     loadCollection()
@@ -1190,7 +1324,7 @@
     signalCards.forEach((card) => {
       card.setAttribute('aria-pressed', card.dataset.signal === signalKey ? 'true' : 'false')
     })
-    const targetTab = signalKey === 'affordable_wishlist' ? 'wanted' : 'owned'
+    const targetTab = ['affordable_wishlist', 'stale_wishlist'].includes(signalKey) ? 'wanted' : 'owned'
     if (activeTab !== targetTab) {
       activeTab = targetTab
       syncTabUi()
@@ -1203,7 +1337,6 @@
     if (!cockpitBarEl || isPublicForSaleView) return
     try {
       const data = await fetchJson('/api/collection/cockpit')
-      cockpitData = data
       cockpitData = data
       setCockpitCount('signal-duplicates-count', data.duplicates?.count || 0)
       setCockpitCount('signal-sell-count', data.sell_candidates?.count || 0)
@@ -1256,6 +1389,11 @@
   }
 
   function init() {
+    ensureReviewSortOptions()
+    if (!isPublicForSaleView && collectionSortSelectEl) {
+      collectionSortSelectEl.value = 'review_desc'
+    }
+    activeTab = isPublicForSaleView ? 'for_sale' : 'all'
     bindTabs()
     bindKeyboard()
     syncTabUi()

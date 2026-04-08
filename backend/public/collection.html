@@ -11,12 +11,12 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <title>RetroDex - Collection</title>
-    <meta name="description" content="Collection RetroDex : etagere, valeur, wishlist et priorites." />
+    <meta name="description" content="Collection RetroDex : revue de l etagere, valeur, wishlist et arbitrages." />
     <meta property="og:title" content="Collection | RetroDex" />
-    <meta property="og:description" content="Cockpit collection RetroDex : etagere, wishlist, valeur et priorites de lecture." />
+    <meta property="og:description" content="Collection RetroDex : revue de l etagere, valeur, wishlist et arbitrages." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260404d" />
+    <link rel="stylesheet" href="/style.css?v=20260408c2" />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -49,7 +49,7 @@
           <div class="detail-kicker">COCKPIT</div>
           <h1 class="page-title">COLLECTION</h1>
         </div>
-        <p class="page-subtitle">Piloter l'etagere, arbitrer la wishlist, revenir a la bonne fiche.</p>
+        <p class="page-subtitle">Relire l'etagere, arbitrer la rotation, rouvrir la bonne fiche.</p>
       </header>
 
       <div id="public-banner" class="terminal-context collection-public-banner" style="display:none;">
@@ -59,19 +59,19 @@
       <section class="collection-cockpit-shell">
         <div class="terminal-summary-bar collection-summary-hero" id="collection-summary-bar">
           <div class="terminal-summary-cell">
-            <div class="terminal-summary-label">ENTREES</div>
+            <div class="terminal-summary-label">JEUX</div>
             <div class="terminal-summary-value" id="stat-total">-</div>
           </div>
           <div class="terminal-summary-cell">
-            <div class="terminal-summary-label">VALEUR LOOSE</div>
+            <div class="terminal-summary-label">VALEUR</div>
             <div class="terminal-summary-value neutral" id="stat-value-loose">-</div>
           </div>
           <div class="terminal-summary-cell">
-            <div class="terminal-summary-label">PAYE</div>
+            <div class="terminal-summary-label">INVESTI</div>
             <div class="terminal-summary-value" id="stat-paid">-</div>
           </div>
           <div class="terminal-summary-cell">
-            <div class="terminal-summary-label">DELTA</div>
+            <div class="terminal-summary-label">ECART</div>
             <div class="terminal-summary-value" id="stat-gain">-</div>
           </div>
           <div class="terminal-summary-cell">
@@ -85,13 +85,13 @@
         </div>
 
         <div id="collection-cockpit-lead" class="terminal-context collection-status-line">
-          <strong id="collection-mode-title">ETAGERE</strong>
-          <span id="collection-mode-copy">Lecture de la collection...</span>
+          <strong id="collection-mode-title">REVUE UNIFIEE</strong>
+          <span id="collection-mode-copy">Une seule vue pour relire l'etagere, la wishlist et les arbitrages.</span>
         </div>
 
         <div class="collection-cockpit-topline terminal-context">
-          <a href="/games-list.html" class="terminal-action-link">Ouvrir RetroDex -&gt;</a>
-          <a href="/stats.html" class="terminal-action-link">Comparer / qualifier -&gt;</a>
+          <a href="/games-list.html" class="terminal-action-link">Parcourir RetroDex -&gt;</a>
+          <a href="#collection-evolution" class="terminal-action-link">Voir les arbitrages -&gt;</a>
         </div>
 
         <div id="cockpit-signals" class="cockpit-signals-bar" aria-label="Signaux collection" style="display:none">
@@ -167,8 +167,8 @@
 
         <div class="terminal-filter-bar collection-mode-bar" style="margin-top:0">
           <div class="terminal-filter-group">
-            <button class="terminal-filter-btn" data-list="all" type="button">TOUT</button>
-            <button class="terminal-filter-btn active" data-list="owned" type="button">ETAGERE</button>
+            <button class="terminal-filter-btn active" data-list="all" type="button">TOUT</button>
+            <button class="terminal-filter-btn" data-list="owned" type="button">ETAGERE</button>
             <button class="terminal-filter-btn" data-list="wanted" type="button">WISHLIST</button>
             <button class="terminal-filter-btn" data-list="for_sale" type="button">A VENDRE</button>
           </div>
@@ -185,8 +185,13 @@
               <option value="">Toutes les consoles</option>
             </select>
             <select id="collection-sort-select" class="collection-toolbar-select">
+              <option value="review_desc">Revue prioritaire</option>
               <option value="title_asc">Titre A-Z</option>
               <option value="title_desc">Titre Z-A</option>
+              <option value="delta_desc">Delta decroissant</option>
+              <option value="delta_asc">Delta croissant</option>
+              <option value="purchase_date_desc">Achat recent</option>
+              <option value="purchase_date_asc">Achat ancien</option>
               <option value="paid_desc">Prix d'achat decroissant</option>
               <option value="paid_asc">Prix d'achat croissant</option>
               <option value="value_desc">Valeur loose decroissante</option>
@@ -207,7 +212,7 @@
             <div class="terminal-table-header collection-table-header" role="table" aria-label="Collection" style="grid-template-columns: 12px 1fr 90px 60px 70px 70px 70px 70px 70px">
               <div role="row" style="display:contents">
                 <span role="columnheader"></span>
-                <span role="columnheader">TITRE</span>
+                <span role="columnheader">JEU</span>
                 <span role="columnheader">SUPPORT</span>
                 <span role="columnheader">ETAT</span>
                 <span role="columnheader" style="text-align:right">LOOSE</span>
@@ -222,7 +227,7 @@
 
           <aside class="collection-cockpit-side">
             <div class="terminal-preview-panel surface-preview-panel collection-preview-shell" id="collection-detail" style="display:none">
-              <div class="terminal-preview-label">FOCUS</div>
+              <div class="terminal-preview-label">FICHE CIBLE</div>
               <div class="terminal-preview-title" id="detail-title">-</div>
               <div class="terminal-preview-row surface-identity-meta" id="detail-row1"></div>
               <div class="terminal-preview-row surface-chip-row" id="detail-focus-state"></div>
@@ -272,7 +277,7 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/collection.js?v=20260404d"></script>
+    <script src="/js/pages/collection.js?v=20260408c2"></script>
     <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>
