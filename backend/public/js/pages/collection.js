@@ -124,6 +124,8 @@
           return leftPaid - rightPaid || titleCompare
         case 'value_desc':
           return rightLoose - leftLoose || titleCompare
+        case 'value_asc':
+          return leftLoose - rightLoose || titleCompare
         default:
           return titleCompare
       }
@@ -421,29 +423,28 @@
   }
 
   function emptyListMessage() {
+    if (activeTab === 'owned') {
+      return {
+        title: 'Etagere vide',
+        copy: 'Ajoute ton premier jeu depuis une fiche RetroDex. Recherche un titre, ouvre la fiche, clique Ajouter a la collection.',
+        linkLabel: 'Ouvrir RetroDex',
+      }
+    }
     if (activeTab === 'wanted') {
       return {
         title: 'Wishlist vide',
-        copy: 'Ouvrez RetroDex pour ajouter un jeu a suivre.',
-        linkLabel: 'Ouvrir RetroDex',
+        copy: 'Ajoute des jeux a ta wishlist depuis une fiche. Les jeux sous $25 (loose) apparaissent dans le signal WISHLIST <= $25.',
+        linkLabel: 'Explorer RetroDex',
       }
     }
-
     if (activeTab === 'for_sale') {
       return {
-        title: 'Liste a vendre vide',
-        copy: isPublicForSaleView
-          ? 'Aucune entree n est actuellement proposee.'
-          : 'Ajoutez un jeu a vendre depuis votre etagere.',
-        linkLabel: 'Ouvrir RetroDex',
+        title: 'Aucun jeu a vendre',
+        copy: 'Marque des jeux comme "a vendre" depuis l\'etagere ou depuis une fiche quand le signal A VENDRE est actif.',
+        linkLabel: 'Ouvrir l\'etagere',
       }
     }
-
-    return {
-      title: 'Etagere vide',
-      copy: '',
-      linkLabel: 'Ouvrir RetroDex',
-    }
+    return { title: 'Collection vide', copy: '', linkLabel: 'Ouvrir RetroDex' }
   }
 
   function updateSummaryFromItems(items) {
@@ -962,6 +963,9 @@
       clearCockpitFilter()
     }
     activeTab = list
+    if (list === 'wanted' && collectionSortSelectEl && collectionSortSelectEl.value !== 'value_asc') {
+      collectionSortSelectEl.value = 'value_asc'
+    }
     syncTabUi(button)
     loadCollection()
   }
