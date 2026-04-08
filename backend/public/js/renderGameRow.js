@@ -102,7 +102,7 @@ function renderGameRow(game, options = {}) {
     <div class="result-info">
       <span class="result-title" title="${escapeHtml(game.title || '')}">${escapeHtml(game.title || '')}${showOwnedBadge ? '<span class="result-owned-badge">POSSEDE</span>' : ''}${showWantedBadge ? '<span class="result-collection-badge is-wanted">WISHLIST</span>' : ''}${showSaleBadge ? '<span class="result-collection-badge is-sale">EN VENTE</span>' : ''}</span>
       <span class="result-meta-row">
-        <span class="result-meta">${escapeHtml(consoleName)} &middot; ${escapeHtml(year)}${genre ? ` &middot; ${escapeHtml(genre)}` : ''}</span>
+        <span class="result-meta">${consoleName ? `<a class="game-row-console-link" href="/games-list.html?console=${encodeURIComponent(consoleName)}" onclick="event.stopPropagation()">${escapeHtml(consoleName)}</a>` : '—'} &middot; ${escapeHtml(year)}${genre ? ` &middot; ${escapeHtml(genre)}` : ''}</span>
       </span>
       ${archiveBadge ? `<span class="result-presence-row result-archive-row">${archiveBadge}</span>` : ''}
       ${relationHtml}
