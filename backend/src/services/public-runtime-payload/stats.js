@@ -7,6 +7,7 @@ const { isMissingSupabaseRelationError } = require('../public-supabase-utils')
 const { LRUCache } = require('../../lib/lru-cache')
 
 const statsCache = new LRUCache(1, 60 * 1000) // single entry, 60s TTL
+let statsPromise = null
 
 function median(values) {
   if (!values.length) return 0
@@ -23,6 +24,9 @@ function median(values) {
 async function fetchStatsPayload() {
   const cached = statsCache.get('stats')
   if (cached) return cached
+  if (statsPromise) return statsPromise
+
+  statsPromise = (async () => {
   const statsBase = await getStats().catch((err) => { console.warn('[stats] getStats failed:', err.message); return {} })
   const games = await fetchAllSupabaseGames()
   const { count: rawFranchiseCount, error: franchiseError } = await db
@@ -119,6 +123,13 @@ async function fetchStatsPayload() {
 
   statsCache.set('stats', result)
   return result
+  })()
+
+  try {
+    return await statsPromise
+  } finally {
+    statsPromise = null
+  }
 }
 
 module.exports = {
