@@ -13633,3 +13633,33 @@ body {
   margin-bottom: 0;
   text-transform: uppercase;
 }
+
+/* Collection cockpit affordance */
+.cockpit-signal-card {
+  cursor: pointer;
+}
+.cockpit-signal-card:hover:not(.is-active) {
+  border-color: var(--color-accent, #4ade80);
+  transition: border-color 0.15s ease;
+}
+
+/* Collection labels */
+.collection-inventory-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  padding: 8px 0 4px 0;
+  border-top: 1px solid var(--color-border, #333);
+  margin-top: 8px;
+}
+
+.collection-section-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  margin: 0 0 8px 0;
+}
