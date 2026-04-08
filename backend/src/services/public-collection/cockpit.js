@@ -3,6 +3,8 @@
 const { listCollectionItems } = require('./storage')
 const { UPGRADE_MAX_DELTA, SELL_MIN_GAIN_RATIO, WISHLIST_AFFORDABLE_MAX } = require('./action-resolver')
 
+const STALE_WISHLIST_DAYS = 180
+
 async function getCollectionCockpit(options = {}) {
   const [owned, wanted] = await Promise.all([
     listCollectionItems({ ...options, listType: 'owned' }),
@@ -50,12 +52,22 @@ async function getCollectionCockpit(options = {}) {
     return loose > 0 && loose <= threshold
   })
 
+  // — Wishlist stagnante : item voulu depuis plus de 180 jours
+  const nowMs = Date.now()
+  const staleWishlist = wanted.filter((item) => {
+    const raw = item.created_at || item.added_at
+    if (!raw) return false
+    const ageMs = nowMs - new Date(raw).getTime()
+    return ageMs > STALE_WISHLIST_DAYS * 24 * 60 * 60 * 1000
+  })
+
   return {
     duplicates: { count: duplicates.length, items: duplicates.map(toSignalItem) },
     sell_candidates: { count: sellCandidates.length, items: sellCandidates.map(toSignalItem) },
     upgrade_candidates: { count: upgradeCandidates.length, items: upgradeCandidates.map(toSignalItem) },
     incomplete: { count: incomplete.length, items: incomplete.map(toSignalItem) },
     affordable_wishlist: { count: affordableWishlist.length, items: affordableWishlist.map(toSignalItem) },
+    stale_wishlist: { count: staleWishlist.length, items: staleWishlist.map(toSignalItem) },
   }
 }
 
@@ -69,6 +81,7 @@ function toSignalItem(item) {
     condition: item.condition || null,
     price_paid: item.price_paid ?? null,
     price_threshold: item.price_threshold ?? null,
+    created_at: item.created_at || item.added_at || null,
     loosePrice: Number(game.loosePrice || 0) || null,
     cibPrice: Number(game.cibPrice || 0) || null,
     mintPrice: Number(game.mintPrice || 0) || null,
