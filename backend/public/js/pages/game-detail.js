@@ -351,12 +351,18 @@ async function getPreferredIllustrationPath(game) {
   const manifest = await loadHubImageManifest()
   if (!Array.isArray(manifest)) return ''
 
-  const ids = [game?.id, game?.slug].filter(Boolean)
-  for (const id of ids) {
-    const entry = manifest.find((item) => item && item.game_id === id)
-    if (entry?.file) {
-      return `/assets/hub_pixel_art/${entry.file}?v=${HUB_IMAGE_VERSION}`
-    }
+  const gameId = game?.id
+  const gameSlug = game?.slug
+
+  const entry = manifest.find((item) => {
+    if (!item) return false
+    if (gameId && item.game_id === gameId) return true
+    if (gameSlug && item.slug === gameSlug) return true
+    return false
+  })
+
+  if (entry?.file) {
+    return `/assets/hub_pixel_art/${entry.file}?v=${HUB_IMAGE_VERSION}`
   }
 
   return ''

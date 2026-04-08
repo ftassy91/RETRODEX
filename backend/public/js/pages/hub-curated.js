@@ -98,7 +98,7 @@
       const published = Number(publication.publishedGamesCount || 0)
       const total = Number(publication.catalogGamesCount || statsPayload.total_games || 0)
       const consoles = Number(publication.consoleCount || 0)
-      const withSynopsis = Number(statsPayload?.encyclopedia_stats?.with_synopsis || 0)
+      const withSynopsis = Number(statsPayload?.with_synopsis || 0)
 
       bannerEl.textContent = `${publication.label || 'Pass 1'} | ${published} fiches visibles | ${consoles} supports`
       setText(publishedEl, String(published || '--'))
