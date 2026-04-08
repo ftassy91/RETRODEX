@@ -30,16 +30,21 @@ const {
   fetchCanonicalGameById,
 } = require('./public-game/catalog')
 
-async function fetchGameKnowledgeDomains(game) {
+async function fetchGameKnowledgeDomains(game, options = {}) {
+  const includeProduction = options.includeProduction !== false
+  const includeMedia = options.includeMedia !== false
+  const includeMusic = options.includeMusic !== false
+  const includeCompetition = options.includeCompetition !== false
+
   const [companyRows, mediaRows, editorial, peopleRows, ostRows, ostTracks, ostReleases, competition] = await Promise.all([
-    fetchGameCompanyRows(game),
-    fetchGameMediaRows(game?.id),
+    includeProduction ? fetchGameCompanyRows(game) : Promise.resolve([]),
+    includeMedia ? fetchGameMediaRows(game?.id) : Promise.resolve([]),
     fetchGameEditorialRow(game?.id),
-    fetchGamePeopleRows(game?.id),
-    fetchGameOstRows(game?.id),
-    fetchGameOstTracks(game?.id),
-    fetchGameOstReleases(game?.id),
-    fetchGameCompetitionDomain(game?.id),
+    includeProduction ? fetchGamePeopleRows(game?.id) : Promise.resolve([]),
+    includeMusic ? fetchGameOstRows(game?.id) : Promise.resolve([]),
+    includeMusic ? fetchGameOstTracks(game?.id) : Promise.resolve([]),
+    includeMusic ? fetchGameOstReleases(game?.id) : Promise.resolve([]),
+    includeCompetition ? fetchGameCompetitionDomain(game?.id) : Promise.resolve(null),
   ])
 
   const canonicalDevTeam = peopleRows

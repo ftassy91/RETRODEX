@@ -40,6 +40,7 @@ let currentEncyclopediaData = null
 let currentArchiveData = null
 let currentGameDetailData = null
 let currentRenderedDetailTabs = new Set()
+let currentDetailHydrationRequest = 0
 const HUB_IMAGE_VERSION = '20260323b'
 let hubImageManifestPromise = null
 
@@ -1225,12 +1226,17 @@ function renderDynamicEditorialContent() {
     ? currentActiveTab
     : sections[0].id
 
+  const detailScope = String(currentGameDetailData.meta?.scope || 'full').toLowerCase()
+  const detailSubcopy = detailScope === 'primary'
+    ? 'lecture primaire chargee • enrichissement secondaire en cours'
+    : 'source de verite Supadata • onglets dynamiques • aucun vide'
+
   currentRenderedDetailTabs = new Set()
   editorialShellEl.hidden = false
   editorialContentEl.innerHTML = `
     <div class="detail-editorial-head">
       <div class="detail-domain-eyebrow">GameDetail / Encyclopedia</div>
-      <div class="detail-domain-subcopy">source de verite Supadata â€¢ onglets dynamiques â€¢ aucun vide</div>
+      <div class="detail-domain-subcopy">${escapeHtml(detailSubcopy)}</div>
     </div>
     <div class="detail-editorial-tabs">
       ${sections.map((section) => `
@@ -1823,10 +1829,15 @@ async function loadGameDetailData(gameId) {
   }
 
   try {
-    const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/detail`)
+    const requestId = ++currentDetailHydrationRequest
+    const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/detail?scope=primary`)
     if (!data.ok) {
       currentGameDetailData = null
       renderEditorialContent()
+      return false
+    }
+
+    if (requestId !== currentDetailHydrationRequest) {
       return false
     }
 
@@ -1843,6 +1854,8 @@ async function loadGameDetailData(gameId) {
     }
 
     renderEditorialContent()
+    runtimeMonitor?.mark('detail-primary-ready', { gameId, scope: data.meta?.scope || 'primary' })
+    void hydrateFullGameDetailData(gameId, requestId)
     return true
   } catch (error) {
     currentGameDetailData = null
@@ -3660,6 +3673,29 @@ async function loadPage() {
     runtimeMonitor?.fail(error)
   } finally {
     window.clearTimeout(slowTimer)
+  }
+}
+
+async function hydrateFullGameDetailData(gameId, requestId) {
+  try {
+    runtimeMonitor?.mark('detail-full-request', { gameId })
+    const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/detail?scope=full`)
+    if (!data.ok || requestId !== currentDetailHydrationRequest) {
+      return
+    }
+
+    const activeTab = editorialContentEl?.querySelector('.detail-editorial-tab.active')?.dataset.tab || null
+    currentGameDetailData = data
+    renderEditorialContent()
+    if (activeTab) {
+      activateEditorialTab(activeTab)
+    }
+    runtimeMonitor?.mark('detail-full-ready', { gameId, tabCount: Array.isArray(data.tabs) ? data.tabs.length : 0 })
+  } catch (error) {
+    if (requestId === currentDetailHydrationRequest) {
+      console.warn('[RetroDex] detail full hydration failed:', error.message)
+      runtimeMonitor?.mark('detail-full-failed', { gameId, message: error.message })
+    }
   }
 }
 

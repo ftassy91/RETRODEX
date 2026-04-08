@@ -5,7 +5,7 @@ const TAB_ORDER = [
   { id: 'lore', name: 'Lore', lazy: false, profileKey: 'lore' },
   { id: 'characters', name: 'Characters', lazy: false, profileKey: 'characters' },
   { id: 'dev-team', name: 'Dev Team', lazy: false, profileKey: 'dev_team' },
-  { id: 'ost', name: 'OST', lazy: false, profileKey: 'ost' },
+  { id: 'ost', name: 'OST', lazy: true, profileKey: 'ost' },
   { id: 'manuals', name: 'Manuals', lazy: true, profileKey: 'manuals' },
   { id: 'maps', name: 'Maps', lazy: true, profileKey: 'maps' },
   { id: 'sprites-assets', name: 'Sprites / Assets', lazy: true, profileKey: 'sprites' },
@@ -607,6 +607,8 @@ function buildGameDetailDataLayer({
   archive,
   encyclopedia,
   storedProfile = null,
+  includeLazyTabs = true,
+  scope = 'full',
 }) {
   const normalizedGame = game || {}
   const normalizedArchive = archive || {}
@@ -614,6 +616,7 @@ function buildGameDetailDataLayer({
   const content = buildContent(normalizedGame, normalizedArchive, normalizedEncyclopedia)
   const contentProfile = buildRuntimeProfile(normalizedGame, content, storedProfile)
   const tabs = TAB_ORDER
+    .filter((definition) => includeLazyTabs || !definition.lazy)
     .filter((definition) => shouldIncludeTab(definition, contentProfile, content))
     .map((definition) => ({
       id: definition.id,
@@ -651,7 +654,8 @@ function buildGameDetailDataLayer({
     tabs,
     meta: {
       source: 'supadata',
-      version: 'game-detail-v1',
+      version: 'game-detail-v2',
+      scope,
       stored_profile_version: storedProfile?.profile_version || null,
       stored_profile_mode: storedProfile?.profile_mode || null,
     },

@@ -56,7 +56,7 @@ router.get('/api/games/:id/summary', handleAsync(async (req, res) => {
 }))
 
 router.get('/api/games/:id/detail', handleAsync(async (req, res) => {
-  const payload = await fetchGameDetailPayload(req.params.id)
+  const payload = await fetchGameDetailPayload(req.params.id, { scope: req.query.scope })
   if (!payload) {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
