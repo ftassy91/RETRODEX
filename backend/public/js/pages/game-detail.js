@@ -3563,14 +3563,15 @@ async function loadPage() {
     updatePriceTimestamp(currentGame.id)
     loadPriceHistory(currentGame.id)
 
+    const preferredIllustrationPromise = getPreferredIllustrationPath(currentGame)
+
     const coverImgEl = document.getElementById('game-cover-img')
     if (coverImgEl) {
       coverImgEl.alt = currentGame.title || ''
-      const preferredIllustration = await getPreferredIllustrationPath(currentGame)
       const coverUrl = currentGame.coverImage || currentGame.cover_url || ''
-      coverImgEl.src = preferredIllustration
-        || coverUrl
+      const fallbackCover = coverUrl
         || generateCoverPlaceholder(currentGame.title, currentGame.rarity, currentGame.consoleData?.name || currentGame.console)
+      coverImgEl.src = fallbackCover
       coverImgEl.addEventListener('error', () => {
         if (coverImgEl.src !== coverUrl && coverUrl) {
           coverImgEl.src = coverUrl
@@ -3579,6 +3580,14 @@ async function loadPage() {
 
         coverImgEl.src = generateCoverPlaceholder(currentGame.title, currentGame.rarity, currentGame.consoleData?.name || currentGame.console)
       }, { once: true })
+
+      preferredIllustrationPromise
+        .then((preferredIllustration) => {
+          if (preferredIllustration) {
+            coverImgEl.src = preferredIllustration
+          }
+        })
+        .catch(() => {})
     }
 
     if (currentGame.tagline) {

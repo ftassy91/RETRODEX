@@ -358,10 +358,9 @@
   /* ── Service Worker ────────────────────────── */
 
   function registerServiceWorker() {
-    if (!('serviceWorker' in navigator)) return
-    navigator.serviceWorker
-      .register('/sw.js')
-      .catch((error) => console.warn('[RetroDex] SW registration failed:', error))
+    // Legacy hub script kept for archive compatibility.
+    // Service worker registration is intentionally disabled because
+    // the canonical public surfaces now force cache cleanup instead.
   }
 
   /* ── Init ──────────────────────────────────── */
