@@ -17,6 +17,8 @@ const {
 async function fetchItemsPayload(query = {}) {
   const limit = parseLimit(query.limit, 20, 1000)
   const offset = Number.parseInt(String(query.offset || '0'), 10) || 0
+  const yearMin = Number.parseInt(String(query.yearMin || ''), 10)
+  const yearMax = Number.parseInt(String(query.yearMax || ''), 10)
   const scope = await fetchPublishedGameScope()
 
   const [{ items = [], total = 0 }, statsBase] = await Promise.all([
@@ -24,9 +26,12 @@ async function fetchItemsPayload(query = {}) {
       sort: query.sort || 'title_asc',
       console: query.console || query.platform,
       rarity: query.rarity,
+      genre: query.genre,
       limit,
       offset,
       search: query.q,
+      yearMin: Number.isFinite(yearMin) ? yearMin : null,
+      yearMax: Number.isFinite(yearMax) ? yearMax : null,
       ids: scope.enabled && scope.ids.length ? scope.ids : null,
     }),
     getStats().catch((err) => { console.warn('[stats] getStats failed:', err.message); return {} }),

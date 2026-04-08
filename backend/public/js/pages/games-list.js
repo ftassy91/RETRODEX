@@ -35,6 +35,9 @@ let fetchedGames = []
 let filteredGames = []
 let collectionIndex = null
 let publicationSummary = null
+let renderMode = 'client'
+let advancedSnapshotPromise = null
+let advancedSnapshotKey = ''
 
 const RARITY_DESC_ORDER = { LEGENDARY: 0, EPIC: 1, RARE: 2, UNCOMMON: 3, COMMON: 4 }
 const RARITY_ASC_ORDER = { COMMON: 0, UNCOMMON: 1, RARE: 2, EPIC: 3, LEGENDARY: 4 }
@@ -73,6 +76,12 @@ function toggleAdvanced(forceOpen) {
   const open = typeof forceOpen === 'boolean' ? forceOpen : advancedFiltersEl.hidden
   advancedFiltersEl.hidden = !open
   toggleAdvancedEl.textContent = open ? '- Filtres avances' : '+ Filtres avances'
+
+  if (open) {
+    ensureAdvancedSnapshot(state())
+      .then((payload) => populateGenres(payload?.items || []))
+      .catch(() => {})
+  }
 }
 
 function toggleFiltersPanel(forceOpen) {
@@ -88,7 +97,11 @@ function toggleFiltersPanel(forceOpen) {
 function goToPage(page) {
   const limit = Number.parseInt(limitEl?.value || '20', 10) || 20
   currentOffset = Math.max(0, (page - 1) * limit)
-  render(state())
+  if (renderMode === 'server') {
+    loadGames()
+  } else {
+    render(state())
+  }
   window.scrollTo(0, 0)
 }
 
@@ -193,6 +206,44 @@ function updateUrl(currentState) {
   })
 
   history.replaceState({}, '', url)
+}
+
+function requiresAdvancedSnapshot(currentState) {
+  return Boolean(
+    currentState.genre
+    || currentState.completeness
+    || currentState.trend
+    || currentState.yearMin
+    || currentState.yearMax
+  )
+}
+
+function advancedSnapshotSignature(currentState) {
+  return JSON.stringify({
+    q: currentState.q,
+    console: currentState.console,
+    rarity: currentState.rarity,
+    genre: currentState.genre,
+    completeness: currentState.completeness,
+    trend: currentState.trend,
+    yearMin: currentState.yearMin,
+    yearMax: currentState.yearMax,
+    sort: currentState.sort,
+  })
+}
+
+function buildItemsQuery(currentState, limitOverride = currentState.limit, offsetOverride = currentState.offset) {
+  const params = new URLSearchParams()
+  if (currentState.q) params.set('q', currentState.q)
+  if (currentState.console) params.set('console', currentState.console)
+  if (currentState.rarity) params.set('rarity', currentState.rarity)
+  if (currentState.genre) params.set('genre', currentState.genre)
+  if (currentState.yearMin) params.set('yearMin', String(currentState.yearMin))
+  if (currentState.yearMax) params.set('yearMax', String(currentState.yearMax))
+  params.set('limit', String(limitOverride))
+  params.set('offset', String(offsetOverride))
+  params.set('sort', currentState.sort)
+  return params
 }
 
 function sortGames(items, sortKey) {
@@ -361,6 +412,7 @@ function applyFilters(currentState) {
 }
 
 function render(currentState) {
+  renderMode = 'client'
   filteredGames = sortGames(filteredGames, currentState.sort)
   const total = filteredGames.length
   const start = currentState.offset
@@ -384,6 +436,46 @@ function render(currentState) {
 
   resultsEl.innerHTML = ''
   pageItems.forEach((game) => {
+    const rowEl = renderGameRow(game, {
+      collectionState: getCollectionState(game.id),
+      onClick: () => navigateTo(game.id),
+    })
+    rowEl.setAttribute('role', 'link')
+    rowEl.setAttribute('tabindex', '0')
+    rowEl.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
+        navigateTo(game.id)
+      }
+    })
+    resultsEl.appendChild(rowEl)
+  })
+}
+
+function renderServerPage(currentState, payload = {}) {
+  renderMode = 'server'
+  const items = Array.isArray(payload.items) ? payload.items : []
+  const total = Number(payload.total) || items.length
+  const start = currentState.offset
+  const end = Math.min(start + items.length, total)
+  const page = total ? Math.floor(start / currentState.limit) + 1 : 1
+  const totalPages = Math.max(1, Math.ceil(total / currentState.limit))
+
+  renderSummary(currentState, total)
+  pageIndicatorEl.textContent = total
+    ? `Page ${page}/${totalPages} - ${start + 1}-${end} sur ${total}`
+    : 'Page 1/1 - 0 resultat'
+  prevButtonEl.disabled = start <= 0
+  nextButtonEl.disabled = end >= total
+  renderPageNumbers(page, totalPages)
+
+  if (!items.length) {
+    renderEmpty(currentState)
+    return
+  }
+
+  resultsEl.innerHTML = ''
+  items.forEach((game) => {
     const rowEl = renderGameRow(game, {
       collectionState: getCollectionState(game.id),
       onClick: () => navigateTo(game.id),
@@ -445,9 +537,68 @@ async function loadCollectionSignals() {
   if (typeof CoreApi.fetchCollectionIndex !== 'function') return
   try {
     collectionIndex = await CoreApi.fetchCollectionIndex()
+    if (resultsEl.childElementCount) {
+      if (renderMode === 'server') {
+        renderServerPage(state(), {
+          items: fetchedGames,
+          total: Number(resultsSummaryEl?.dataset.total || fetchedGames.length),
+        })
+      } else {
+        render(state())
+      }
+    }
   } catch (_error) {
     collectionIndex = null
   }
+}
+
+async function fetchAdvancedSnapshot(currentState) {
+  const chunkSize = 300
+  const firstPayload = await fetchJson(`/api/items?${buildItemsQuery(currentState, chunkSize, 0).toString()}`)
+  const total = Number(firstPayload.total) || 0
+  const items = Array.isArray(firstPayload.items) ? [...firstPayload.items] : []
+
+  if (total > chunkSize) {
+    const offsets = []
+    for (let offset = chunkSize; offset < total; offset += chunkSize) {
+      offsets.push(offset)
+    }
+
+    const pages = await Promise.all(
+      offsets.map((offset) => fetchJson(`/api/items?${buildItemsQuery(currentState, chunkSize, offset).toString()}`))
+    )
+
+    pages.forEach((payload) => {
+      if (Array.isArray(payload.items) && payload.items.length) {
+        items.push(...payload.items)
+      }
+    })
+  }
+
+  return {
+    items,
+    total,
+    publication: firstPayload.publication || null,
+  }
+}
+
+async function ensureAdvancedSnapshot(currentState) {
+  const signature = advancedSnapshotSignature(currentState)
+  if (requiresAdvancedSnapshot(currentState)) {
+    return fetchAdvancedSnapshot(currentState)
+  }
+
+  if (!advancedSnapshotPromise || advancedSnapshotKey !== signature) {
+    advancedSnapshotKey = signature
+    advancedSnapshotPromise = fetchAdvancedSnapshot(currentState)
+      .catch((error) => {
+        advancedSnapshotPromise = null
+        advancedSnapshotKey = ''
+        throw error
+      })
+  }
+
+  return advancedSnapshotPromise
 }
 
 async function loadGames() {
@@ -456,26 +607,30 @@ async function loadGames() {
   loadingIndicatorEl.textContent = 'Chargement...'
   renderLoadingSkeletons()
 
-  const params = new URLSearchParams()
-  if (currentState.q) params.set('q', currentState.q)
-  if (currentState.console) params.set('console', currentState.console)
-  params.set('limit', '1000')
-  params.set('sort', 'title_asc')
-
   try {
-    const payload = await fetchJson(`/api/items?${params.toString()}`)
-    fetchedGames = Array.isArray(payload.items) ? payload.items : []
-    publicationSummary = payload.publication || publicationSummary
-    setCatalogPublicationCopy(publicationSummary)
-    populateGenres(fetchedGames)
-    applyFilters(currentState)
+    if (requiresAdvancedSnapshot(currentState)) {
+      const payload = await fetchAdvancedSnapshot(currentState)
+      fetchedGames = payload.items
+      publicationSummary = payload.publication || publicationSummary
+      setCatalogPublicationCopy(publicationSummary)
+      populateGenres(fetchedGames)
+      applyFilters(currentState)
 
-    if (currentState.offset >= filteredGames.length && filteredGames.length > 0) {
-      currentOffset = Math.max(0, Math.floor((filteredGames.length - 1) / currentState.limit) * currentState.limit)
-      return loadGames()
+      if (currentState.offset >= filteredGames.length && filteredGames.length > 0) {
+        currentOffset = Math.max(0, Math.floor((filteredGames.length - 1) / currentState.limit) * currentState.limit)
+        return loadGames()
+      }
+
+      render(currentState)
+    } else {
+      const payload = await fetchJson(`/api/items?${buildItemsQuery(currentState).toString()}`)
+      fetchedGames = Array.isArray(payload.items) ? payload.items : []
+      publicationSummary = payload.publication || publicationSummary
+      setCatalogPublicationCopy(publicationSummary)
+      resultsSummaryEl.dataset.total = String(Number(payload.total) || fetchedGames.length)
+      renderServerPage(currentState, payload)
     }
 
-    render(currentState)
     loadingIndicatorEl.textContent = ''
   } catch (error) {
     loadingIndicatorEl.textContent = 'Catalogue indisponible.'
@@ -558,11 +713,17 @@ queryEl.addEventListener('keydown', (event) => {
 prevButtonEl.addEventListener('click', () => {
   const currentState = state()
   currentOffset = Math.max(0, currentState.offset - currentState.limit)
-  render(state())
+  if (renderMode === 'server') loadGames()
+  else render(state())
 })
 
 nextButtonEl.addEventListener('click', () => {
   const currentState = state()
+  if (renderMode === 'server') {
+    currentOffset = currentState.offset + currentState.limit
+    loadGames()
+    return
+  }
   if (currentState.offset + currentState.limit < filteredGames.length) {
     currentOffset = currentState.offset + currentState.limit
     render(state())
@@ -581,15 +742,21 @@ document.addEventListener('keydown', (event) => {
   if (inField) return
 
   const currentState = state()
+  const serverTotal = Number(resultsSummaryEl?.dataset.total || 0)
   if (event.key === 'ArrowLeft' && currentState.offset > 0) {
     event.preventDefault()
     currentOffset = Math.max(0, currentState.offset - currentState.limit)
-    render(state())
+    if (renderMode === 'server') loadGames()
+    else render(state())
   }
-  if (event.key === 'ArrowRight' && currentState.offset + currentState.limit < filteredGames.length) {
+  if (event.key === 'ArrowRight' && (
+    (renderMode === 'server' && currentState.offset + currentState.limit < serverTotal)
+    || (renderMode !== 'server' && currentState.offset + currentState.limit < filteredGames.length)
+  )) {
     event.preventDefault()
     currentOffset = currentState.offset + currentState.limit
-    render(state())
+    if (renderMode === 'server') loadGames()
+    else render(state())
   }
 })
 
@@ -616,9 +783,20 @@ window.addEventListener('DOMContentLoaded', () => {
   toggleFiltersPanel(window.innerWidth >= 768 || hasFilters || hasAdv)
 })
 
-Promise.all([loadConsoles(), loadMeta(), loadCollectionSignals()])
-  .then(() => loadGames())
-  .catch((error) => {
-    loadingIndicatorEl.textContent = `Erreur initiale: ${error.message}`
-    resultsEl.innerHTML = '<div class="empty-state">Chargement impossible.</div>'
-  })
+loadGames().catch((error) => {
+  loadingIndicatorEl.textContent = `Erreur initiale: ${error.message}`
+  resultsEl.innerHTML = '<div class="empty-state">Chargement impossible.</div>'
+})
+
+Promise.allSettled([loadConsoles(), loadMeta(), loadCollectionSignals()]).then((results) => {
+  const consolesFailed = results[0]?.status === 'rejected'
+  const metaFailed = results[1]?.status === 'rejected'
+  const collectionFailed = results[2]?.status === 'rejected'
+  if (consolesFailed || metaFailed || collectionFailed) {
+    console.warn('[RetroDex] Secondary catalog hydration degraded', {
+      consolesFailed,
+      metaFailed,
+      collectionFailed,
+    })
+  }
+})

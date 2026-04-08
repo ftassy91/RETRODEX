@@ -11,6 +11,7 @@ const {
 const router = Router()
 
 router.get('/api/items', handleAsync(async (req, res) => {
+  res.set('Cache-Control', 'public, max-age=0, s-maxage=60, stale-while-revalidate=60')
   return res.json(await fetchItemsPayload(req.query))
 }))
 
