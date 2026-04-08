@@ -24,6 +24,9 @@ const {
 
 const APPLY = process.argv.includes('--apply');
 const SLOW_BLOCK_THRESHOLD_MS = 15000;
+const SOURCE_BATCH_SIZE = 250;
+const PROVENANCE_BATCH_SIZE = 500;
+const QUALITY_BATCH_SIZE = 250;
 
 function normalizeSourceRecordRow(row) {
   return {
@@ -257,32 +260,33 @@ async function fetchRemoteQualityRecords(client) {
   `)).rows;
 }
 
-async function upsertSourceRecord(client, row) {
-  const { rows } = await client.query(`
-    INSERT INTO public.source_records (
-      entity_type,
-      entity_id,
-      field_name,
-      source_name,
-      source_type,
-      source_url,
-      source_license,
-      compliance_status,
-      ingested_at,
-      last_verified_at,
-      confidence_level,
-      notes
-    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
-    ON CONFLICT (entity_type, entity_id, field_name, source_name, source_type) DO UPDATE SET
-      source_url = EXCLUDED.source_url,
-      source_license = EXCLUDED.source_license,
-      compliance_status = EXCLUDED.compliance_status,
-      ingested_at = EXCLUDED.ingested_at,
-      last_verified_at = EXCLUDED.last_verified_at,
-      confidence_level = EXCLUDED.confidence_level,
-      notes = EXCLUDED.notes
-    RETURNING id
-  `, [
+function chunkRows(rows, chunkSize) {
+  const chunks = [];
+  for (let index = 0; index < rows.length; index += chunkSize) {
+    chunks.push(rows.slice(index, index + chunkSize));
+  }
+  return chunks;
+}
+
+function buildBatchValues(rows, extractValues) {
+  const values = [];
+  const placeholders = rows.map((row, rowIndex) => {
+    const rowValues = extractValues(row);
+    const rowPlaceholders = rowValues.map((_value, columnIndex) => `$${rowIndex * rowValues.length + columnIndex + 1}`);
+    values.push(...rowValues);
+    return `(${rowPlaceholders.join(', ')})`;
+  });
+
+  return { placeholders: placeholders.join(',\n      '), values };
+}
+
+async function upsertSourceRecordBatch(client, rows) {
+  if (!rows.length) {
+    return new Map();
+  }
+
+  const { placeholders, values } = buildBatchValues(rows, (row) => [
+    Number(row.id),
     row.entity_type,
     row.entity_id,
     row.field_name,
@@ -297,10 +301,93 @@ async function upsertSourceRecord(client, row) {
     row.notes,
   ]);
 
-  return Number(rows[0]?.id || 0) || null;
+  const { rows: returnedRows } = await client.query(`
+    WITH input (
+      local_id,
+      entity_type,
+      entity_id,
+      field_name,
+      source_name,
+      source_type,
+      source_url,
+      source_license,
+      compliance_status,
+      ingested_at,
+      last_verified_at,
+      confidence_level,
+      notes
+    ) AS (
+      VALUES
+      ${placeholders}
+    ),
+    upserted AS (
+      INSERT INTO public.source_records (
+        entity_type,
+        entity_id,
+        field_name,
+        source_name,
+        source_type,
+        source_url,
+        source_license,
+        compliance_status,
+        ingested_at,
+        last_verified_at,
+        confidence_level,
+        notes
+      )
+      SELECT
+        entity_type,
+        entity_id,
+        field_name,
+        source_name,
+        source_type,
+        source_url,
+        source_license,
+        compliance_status,
+        ingested_at,
+        last_verified_at,
+        confidence_level,
+        notes
+      FROM input
+      ON CONFLICT (entity_type, entity_id, field_name, source_name, source_type) DO UPDATE SET
+        source_url = EXCLUDED.source_url,
+        source_license = EXCLUDED.source_license,
+        compliance_status = EXCLUDED.compliance_status,
+        ingested_at = EXCLUDED.ingested_at,
+        last_verified_at = EXCLUDED.last_verified_at,
+        confidence_level = EXCLUDED.confidence_level,
+        notes = EXCLUDED.notes
+      RETURNING id, entity_type, entity_id, field_name, source_name, source_type
+    )
+    SELECT input.local_id, upserted.id
+    FROM input
+    INNER JOIN upserted
+      ON upserted.entity_type = input.entity_type
+     AND upserted.entity_id = input.entity_id
+     AND upserted.field_name IS NOT DISTINCT FROM input.field_name
+     AND upserted.source_name = input.source_name
+     AND upserted.source_type = input.source_type
+  `, values);
+
+  return new Map(returnedRows.map((row) => [Number(row.local_id), Number(row.id)]));
 }
 
-async function upsertFieldProvenance(client, row) {
+async function upsertFieldProvenanceBatch(client, rows) {
+  if (!rows.length) {
+    return;
+  }
+
+  const { placeholders, values } = buildBatchValues(rows, (row) => [
+    row.entity_type,
+    row.entity_id,
+    row.field_name,
+    row.source_record_id,
+    row.value_hash,
+    Boolean(row.is_inferred),
+    row.confidence_level,
+    row.verified_at,
+  ]);
+
   await client.query(`
     INSERT INTO public.field_provenance (
       entity_type,
@@ -311,26 +398,37 @@ async function upsertFieldProvenance(client, row) {
       is_inferred,
       confidence_level,
       verified_at
-    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+    ) VALUES
+    ${placeholders}
     ON CONFLICT (entity_type, entity_id, field_name) DO UPDATE SET
       source_record_id = EXCLUDED.source_record_id,
       value_hash = EXCLUDED.value_hash,
       is_inferred = EXCLUDED.is_inferred,
       confidence_level = EXCLUDED.confidence_level,
       verified_at = EXCLUDED.verified_at
-  `, [
-    row.entity_type,
-    row.entity_id,
-    row.field_name,
-    row.source_record_id,
-    row.value_hash,
-    Boolean(row.is_inferred),
-    row.confidence_level,
-    row.verified_at,
-  ]);
+  `, values);
 }
 
-async function upsertQualityRecord(client, row) {
+async function upsertQualityRecordBatch(client, rows) {
+  if (!rows.length) {
+    return;
+  }
+
+  const { placeholders, values } = buildBatchValues(rows, (row) => [
+    row.entity_type,
+    row.entity_id,
+    row.completeness_score,
+    row.confidence_score,
+    row.source_coverage_score,
+    row.freshness_score,
+    row.overall_score,
+    row.tier,
+    row.missing_critical_fields,
+    row.breakdown_json,
+    row.priority_score,
+    row.updated_at,
+  ]);
+
   await client.query(`
     INSERT INTO public.quality_records (
       entity_type,
@@ -345,7 +443,8 @@ async function upsertQualityRecord(client, row) {
       breakdown_json,
       priority_score,
       updated_at
-    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9::jsonb,$10::jsonb,$11,$12)
+    ) VALUES
+    ${placeholders}
     ON CONFLICT (entity_type, entity_id) DO UPDATE SET
       completeness_score = EXCLUDED.completeness_score,
       confidence_score = EXCLUDED.confidence_score,
@@ -357,23 +456,10 @@ async function upsertQualityRecord(client, row) {
       breakdown_json = EXCLUDED.breakdown_json,
       priority_score = EXCLUDED.priority_score,
       updated_at = EXCLUDED.updated_at
-  `, [
-    row.entity_type,
-    row.entity_id,
-    row.completeness_score,
-    row.confidence_score,
-    row.source_coverage_score,
-    row.freshness_score,
-    row.overall_score,
-    row.tier,
-    row.missing_critical_fields,
-    row.breakdown_json,
-    row.priority_score,
-    row.updated_at,
-  ]);
+  `, values);
 }
 
-async function runApplyBlock(client, label, rows, handler) {
+async function runApplyBlock(client, label, rows, chunkSize, handler) {
   const started = Date.now();
 
   if (!APPLY || !rows.length) {
@@ -382,8 +468,8 @@ async function runApplyBlock(client, label, rows, handler) {
 
   await client.query('BEGIN');
   try {
-    for (const row of rows) {
-      await handler(row);
+    for (const batch of chunkRows(rows, chunkSize)) {
+      await handler(batch);
     }
     await client.query('COMMIT');
   } catch (error) {
@@ -441,25 +527,14 @@ async function main() {
       }
     }
 
-    const sourceApply = await runApplyBlock(client, 'source_records', pendingSourceRows, async (row) => {
-      const remoteId = await upsertSourceRecord(client, row);
-      if (remoteId != null) {
-        sourceIdByLocalId.set(Number(row.id), remoteId);
-      }
-    });
-
-    const refreshedSourceMap = sourceTableExists
-      ? mapBy(await fetchRemoteSourceRecords(client), buildSourceRecordKey)
-      : new Map();
-
-    if (sourceTableExists) {
-      for (const row of local.sourceRecords) {
-        const remoteRow = refreshedSourceMap.get(buildSourceRecordKey(row));
-        if (remoteRow?.id != null) {
-          sourceIdByLocalId.set(Number(row.id), Number(remoteRow.id));
+    const sourceApply = await runApplyBlock(client, 'source_records', pendingSourceRows, SOURCE_BATCH_SIZE, async (batch) => {
+      const remoteIds = await upsertSourceRecordBatch(client, batch);
+      for (const [localId, remoteId] of remoteIds.entries()) {
+        if (remoteId != null) {
+          sourceIdByLocalId.set(Number(localId), remoteId);
         }
       }
-    }
+    });
 
     const localProvenanceRows = local.fieldProvenance.map((row) => {
       const localSource = row.source_record_id && typeof row.source_record_id === 'object'
@@ -480,8 +555,8 @@ async function main() {
       return !remoteRow || fieldProvenanceNeedsUpdate(remoteRow, row);
     });
 
-    const provenanceApply = await runApplyBlock(client, 'field_provenance', pendingProvenanceRows, async (row) => {
-      await upsertFieldProvenance(client, row);
+    const provenanceApply = await runApplyBlock(client, 'field_provenance', pendingProvenanceRows, PROVENANCE_BATCH_SIZE, async (batch) => {
+      await upsertFieldProvenanceBatch(client, batch);
     });
 
     const remoteQualityRows = qualityTableExists ? await fetchRemoteQualityRecords(client) : [];
@@ -491,8 +566,8 @@ async function main() {
       return !remoteRow || qualityRecordNeedsUpdate(remoteRow, row);
     });
 
-    const qualityApply = await runApplyBlock(client, 'quality_records', pendingQualityRows, async (row) => {
-      await upsertQualityRecord(client, row);
+    const qualityApply = await runApplyBlock(client, 'quality_records', pendingQualityRows, QUALITY_BATCH_SIZE, async (batch) => {
+      await upsertQualityRecordBatch(client, batch);
     });
 
     console.log(JSON.stringify({
