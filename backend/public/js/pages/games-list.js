@@ -21,6 +21,10 @@ const prevButtonEl = document.getElementById('prev-button')
 const nextButtonEl = document.getElementById('next-button')
 const subtitleEl = document.getElementById('catalog-subtitle')
 const curationBannerEl = document.getElementById('catalog-curation-banner')
+const ownedCountEl = document.getElementById('catalog-owned-count')
+const wantedCountEl = document.getElementById('catalog-wanted-count')
+const saleCountEl = document.getElementById('catalog-sale-count')
+const publishedCountEl = document.getElementById('catalog-published-count')
 const advancedFiltersEl = document.getElementById('advanced-filters')
 const toggleAdvancedEl = document.getElementById('toggle-advanced')
 const filtersMobileToggleEl = document.getElementById('filters-mobile-toggle')
@@ -323,6 +327,7 @@ function setCatalogPublicationCopy(summary = null) {
   if (!summary) {
     if (subtitleEl) subtitleEl.textContent = `${totalGames} jeux visibles dans l'index`
     if (curationBannerEl) curationBannerEl.textContent = 'Lecture de publication en cours.'
+    updateOperatingCounts()
     return
   }
 
@@ -334,6 +339,23 @@ function setCatalogPublicationCopy(summary = null) {
 
   if (subtitleEl) subtitleEl.textContent = `${published} fiches visibles | ${consoles} supports`
   if (curationBannerEl) curationBannerEl.textContent = `${label} | ${published} fiches sur ${total} jeux`
+  updateOperatingCounts()
+}
+
+function updateOperatingCounts() {
+  if (ownedCountEl) {
+    ownedCountEl.textContent = String(collectionIndex?.ownedIds?.size || 0)
+  }
+  if (wantedCountEl) {
+    wantedCountEl.textContent = String(collectionIndex?.wantedIds?.size || 0)
+  }
+  if (saleCountEl) {
+    saleCountEl.textContent = String(collectionIndex?.forSaleIds?.size || 0)
+  }
+  if (publishedCountEl) {
+    const published = Number(publicationSummary?.publishedGamesCount || 0)
+    publishedCountEl.textContent = published > 0 ? String(published) : '--'
+  }
 }
 
 function populateGenres(source) {
@@ -359,6 +381,9 @@ function renderSummary(currentState, total) {
   if (currentState.trend) parts.push(`tendance ${esc(currentState.trend)}`)
   if (currentState.yearMin || currentState.yearMax) {
     parts.push(`${esc(currentState.yearMin || 1970)}-${esc(currentState.yearMax || 2012)}`)
+  }
+  if (collectionIndex?.ownedIds?.size) {
+    parts.push(`${collectionIndex.ownedIds.size} dans votre etagere`)
   }
 
   resultsSummaryEl.innerHTML = `<span class="results-summary-main">${parts.join(' | ')}</span>`
@@ -537,6 +562,7 @@ async function loadCollectionSignals() {
   if (typeof CoreApi.fetchCollectionIndex !== 'function') return
   try {
     collectionIndex = await CoreApi.fetchCollectionIndex()
+    updateOperatingCounts()
     if (resultsEl.childElementCount) {
       if (renderMode === 'server') {
         renderServerPage(state(), {
@@ -549,6 +575,7 @@ async function loadCollectionSignals() {
     }
   } catch (_error) {
     collectionIndex = null
+    updateOperatingCounts()
   }
 }
 

@@ -11,9 +11,9 @@
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="icon" type="image/png" href="/icons/icon-192.png">
   <title>RetroDex - Hub</title>
-  <meta name="description" content="Hub RetroDex : entrer, ouvrir une fiche forte, reprendre la collection.">
+  <meta name="description" content="Hub RetroDex : comprendre le systeme, ouvrir RetroDex, reprendre la collection.">
   <meta property="og:title" content="Hub | RetroDex">
-  <meta property="og:description" content="Cockpit d'orientation RetroDex : entrer dans RetroDex, reprendre la collection et ouvrir les bonnes fiches.">
+  <meta property="og:description" content="Cockpit d'orientation RetroDex : systeme, index, collection et fiches fortes.">
   <meta property="og:type" content="website">
   <meta name="robots" content="index, follow">
   <link rel="stylesheet" href="/style.css?v=20260406a">
@@ -45,10 +45,10 @@
       <div class="hub-system-line" id="hub-curation-banner">Chargement...</div>
       <div class="hub-focus-head">
         <div>
-          <div class="hub-kicker">ORIENTATION</div>
+          <div class="hub-kicker">SYSTEME</div>
           <h1 class="hub-page-title">RETRODEX</h1>
         </div>
-        <p class="hub-intro">Un point d'entree. Une fiche forte. Puis la suite.</p>
+        <p class="hub-intro">Comprendre, structurer, mesurer et faire evoluer une collection retro.</p>
       </div>
 
       <form class="hub-search-form" action="/search.html" method="get">
@@ -87,7 +87,7 @@
       <div class="hub-stats hub-stats-compact">
         <div class="hub-stat is-primary">
           <span id="hub-stat-published" class="val">--</span>
-          <span class="lbl">fiches</span>
+          <span class="lbl">fiches visibles</span>
         </div>
         <div class="hub-stat">
           <span id="hub-stat-total" class="val">--</span>
@@ -102,90 +102,35 @@
           <span class="lbl">supports</span>
         </div>
       </div>
-    </section>
 
-    <section class="hub-module hub-discover-shell">
-      <div class="hub-module-head">
-        <div>
-          <div class="hub-module-kicker">DECOUVERTE</div>
-          <h2 class="hub-module-title">Parcourir</h2>
+      <section class="hub-intent-panel hub-intent-panel-compact">
+        <div class="hub-intent-grid hub-intent-grid-two">
+          <article class="hub-intent-card">
+            <span class="hub-intent-label">RetroDex</span>
+            <p class="hub-intent-copy">Lire l'index, ouvrir une fiche, comparer vite.</p>
+            <div class="hub-intent-links"><a href="/games-list.html">Ouvrir RetroDex</a></div>
+          </article>
+          <article class="hub-intent-card">
+            <span class="hub-intent-label">Collection</span>
+            <p class="hub-intent-copy">Voir l'etagere, la valeur, la wishlist et les priorites.</p>
+            <div class="hub-intent-links"><a href="/collection.html">Ouvrir Collection</a></div>
+          </article>
         </div>
-        <a class="hub-module-link" href="/games-list.html">Tout voir</a>
-      </div>
-      <div id="hub-discover-grid" class="hub-discover-grid">
-        <div class="terminal-empty-state hub-empty-state">
-          <div class="terminal-empty-title">Chargement</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="hub-module hub-ingest-viz">
-      <div class="hub-module-head">
-        <div>
-          <div class="hub-module-kicker">INGEST</div>
-          <h2 class="hub-module-title">Flux de données</h2>
-        </div>
-        <span class="hub-ingest-quality-badge" id="hub-ingest-quality"></span>
-      </div>
-      <div class="hub-ingest-wrap">
-        <div class="hub-ingest-board">
-          <canvas id="hub-ingest-canvas"></canvas>
-        </div>
-        <div class="hub-ingest-panel">
-          <div class="hub-ingest-block">
-            <div class="hub-ingest-kicker">EN COURS</div>
-            <div id="hub-ingest-title" class="hub-ingest-game-title">—</div>
-            <div id="hub-ingest-meta" class="hub-ingest-game-meta">—</div>
-          </div>
-          <div class="hub-ingest-block">
-            <div class="hub-ingest-kicker">SCORE QUALITÉ</div>
-            <div id="hub-ingest-score" class="hub-ingest-score-val">0</div>
-          </div>
-          <div class="hub-ingest-block">
-            <div class="hub-ingest-kicker">CHAMPS PRÉSENTS</div>
-            <div id="hub-ingest-legend-items" class="hub-ingest-legend"></div>
-          </div>
-          <div id="hub-ingest-combo" class="hub-ingest-combo"></div>
-          <div class="hub-ingest-block">
-            <div class="hub-ingest-kicker">FLUX</div>
-            <div id="hub-ingest-feed" class="hub-ingest-feed"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="hub-intent-panel hub-intent-panel-compact">
-      <div class="hub-intent-grid hub-intent-grid-three">
-        <article class="hub-intent-card">
-          <span class="hub-intent-label">RetroDex</span>
-          <p class="hub-intent-copy">Trouver un jeu.</p>
-          <div class="hub-intent-links"><a href="/games-list.html">Ouvrir RetroDex</a></div>
-        </article>
-        <article class="hub-intent-card">
-          <span class="hub-intent-label">Collection</span>
-          <p class="hub-intent-copy">Reprendre l'etagere.</p>
-          <div class="hub-intent-links"><a href="/collection.html">Ouvrir Collection</a></div>
-        </article>
-        <article class="hub-intent-card">
-          <span class="hub-intent-label">Qualification</span>
-          <p class="hub-intent-copy">Lire plus loin si besoin.</p>
-          <div class="hub-intent-links"><a href="/stats.html">Ouvrir la qualification</a></div>
-        </article>
-      </div>
+      </section>
     </section>
 
     <section class="hub-module hub-feature-shell">
       <div class="hub-module-head">
         <div>
-          <div class="hub-module-kicker">A OUVRIR</div>
-          <h2 class="hub-module-title">A decouvrir <span class="hub-module-title-hint" title="Jeux avec donnees completes, bien notes et archives">— jeux complets &amp; bien notes</span></h2>
+          <div class="hub-module-kicker">FICHES FORTES</div>
+          <h2 class="hub-module-title">Ouvrir une lecture forte</h2>
         </div>
-        <a class="hub-module-link" href="/games-list.html">Tout RetroDex</a>
+        <a class="hub-module-link" href="/games-list.html">Ouvrir l'index</a>
       </div>
       <div id="hub-rich-grid" class="hub-encyclo-grid">
         <div class="terminal-empty-state hub-empty-state">
           <div class="terminal-empty-title">Chargement</div>
-          <div class="terminal-empty-copy">Lecture des jeux a decouvrir.</div>
+          <div class="terminal-empty-copy">Lecture des fiches fortes.</div>
         </div>
       </div>
       <div class="hub-signal-line">
@@ -199,7 +144,6 @@
   <script src="/js/core/api.js"></script>
   <script src="/js/core/format.js"></script>
   <script src="/js/core/content-signals.js"></script>
-  <script src="/js/pages/hub-curated.js?v=20260404c"></script>
-  <script src="/js/pages/hub-ingest-viz.js?v=20260406a"></script>
+  <script src="/js/pages/hub-curated.js?v=20260408s3"></script>
 </body>
 </html>
