@@ -433,6 +433,15 @@ function showSkeleton() {
   }
 }
 
+function buildPossessionChip(item) {
+  if (!item) return '';
+  const listType = item.list_type;
+  if (listType === 'owned') return '<span class="possession-chip is-owned">POSSÉDÉ</span>';
+  if (listType === 'for_sale') return '<span class="possession-chip is-sale">EN VENTE</span>';
+  if (listType === 'wanted') return '<span class="possession-chip is-wanted">WISHLIST</span>';
+  return '';
+}
+
 function renderHeroSection(game) {
   const meta = resolveGameMeta(game)
   const summary = String(game.summary || game.synopsis || '').trim()
@@ -484,6 +493,8 @@ function renderHeroSection(game) {
                   ? `<a class="detail-studio-link" href="${buildRelationCatalogUrl({ q: meta.developerName }, 'developer', meta.developerName)}" title="Voir tous les jeux de ${escapeHtml(meta.developerName)}">${escapeHtml(meta.developerName)}</a>`
                   : escapeHtml(meta.developerName)}
               </div>
+
+              ${buildPossessionChip(currentCollectionItem)}
 
               <div id="hero-summary-shell" class="hero-summary-shell"${summary ? '' : ' hidden'}>
                 <div id="hero-summary" class="hero-summary surface-summary-copy">${summary ? formatMultilineHtml(summary) : ''}</div>
@@ -606,6 +617,13 @@ function renderCollectionDecisionStrip(options = {}) {
       <span class="surface-signal-label">Statut perso</span>
       <span class="surface-signal-value">${escapeHtml(decision.possessionLabel)}</span>
     </div>
+    <div class="surface-signal-card surface-signal-card--action${actionClass ? ` ${actionClass}` : ''}">
+      <span class="surface-signal-label">Action</span>
+      <span class="surface-signal-value surface-signal-action-value">${escapeHtml(decision.actionLabel)}</span>
+      ${decision.actionLabel === 'a vendre' && currentCollectionItem && normalizeCollectionListType(currentCollectionItem.list_type) !== 'for_sale'
+        ? '<button id="action-mark-for-sale-btn" class="decision-action-btn" type="button" onclick="handleMarkForSale()">MARQUER A VENDRE</button>'
+        : ''}
+    </div>
     <div class="surface-signal-card">
       <span class="surface-signal-label">Liste</span>
       <span class="surface-signal-value">${escapeHtml(decision.interestLabel)}</span>
@@ -617,13 +635,6 @@ function renderCollectionDecisionStrip(options = {}) {
     <div class="surface-signal-card">
       <span class="surface-signal-label">Signal</span>
       <span class="surface-signal-value">${escapeHtml(decision.stateLabel)}</span>
-    </div>
-    <div class="surface-signal-card surface-signal-card--action${actionClass ? ` ${actionClass}` : ''}">
-      <span class="surface-signal-label">Action</span>
-      <span class="surface-signal-value surface-signal-action-value">${escapeHtml(decision.actionLabel)}</span>
-      ${decision.actionLabel === 'a vendre' && currentCollectionItem && normalizeCollectionListType(currentCollectionItem.list_type) !== 'for_sale'
-        ? '<button id="action-mark-for-sale-btn" class="decision-action-btn" type="button" onclick="handleMarkForSale()">MARQUER A VENDRE</button>'
-        : ''}
     </div>
   `
   decisionNoteEl.textContent = decision.actionNote || 'Lecture de collection en cours.'

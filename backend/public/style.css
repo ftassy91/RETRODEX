@@ -13663,3 +13663,30 @@ body {
   text-transform: uppercase;
   margin: 0 0 8px 0;
 }
+
+/* Possession chip — hero game-detail */
+.possession-chip {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 2px 7px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+.possession-chip.is-owned {
+  background: #1a3a1a;
+  color: #4ade80;
+  border: 1px solid #4ade80;
+}
+.possession-chip.is-sale {
+  background: #3a2a00;
+  color: #fbbf24;
+  border: 1px solid #fbbf24;
+}
+.possession-chip.is-wanted {
+  background: #0f2a3a;
+  color: #38bdf8;
+  border: 1px solid #38bdf8;
+}
