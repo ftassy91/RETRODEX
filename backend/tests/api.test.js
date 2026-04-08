@@ -61,8 +61,8 @@ describe('API RetroDex', () => {
     expect(Array.isArray(res.body.results)).toBe(true)
 
     const worldCup2002 = res.body.results.filter((item) => item.title === '2002 FIFA World Cup')
-    expect(worldCup2002.length).toBe(1)
-    expect(worldCup2002[0].console).toBe('PlayStation 2')
+    expect(worldCup2002.length).toBe(2)
+    expect(worldCup2002.map((item) => item.console).sort()).toEqual(['PlayStation', 'PlayStation 2'])
   })
 
   test('GET /api/games/:id/price-history expose des series reelles par etat', async () => {
