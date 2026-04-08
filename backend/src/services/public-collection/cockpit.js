@@ -6,10 +6,9 @@ const { UPGRADE_MAX_DELTA, SELL_MIN_GAIN_RATIO, WISHLIST_AFFORDABLE_MAX } = requ
 const STALE_WISHLIST_DAYS = 180
 
 async function getCollectionCockpit(options = {}) {
-  const [owned, wanted] = await Promise.all([
-    listCollectionItems({ ...options, listType: 'owned' }),
-    listCollectionItems({ ...options, listType: 'wanted' }),
-  ])
+  const allItems = await listCollectionItems(options)
+  const owned = allItems.filter((item) => String(item.list_type || '').toLowerCase() !== 'wanted')
+  const wanted = allItems.filter((item) => String(item.list_type || '').toLowerCase() === 'wanted')
 
   // — Doublons : même game_id apparaît plus d'une fois
   const gameIdCount = new Map()

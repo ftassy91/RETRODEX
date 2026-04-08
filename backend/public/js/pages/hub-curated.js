@@ -12,17 +12,40 @@
   const richGridEl = document.getElementById('hub-rich-grid')
   const esc = window.RetroDexFormat?.escapeHtml || ((value) => String(value ?? ''))
   const buildRichness = window.RetroDexContentSignals?.buildRichness
+  const sharedFetchJson = window.RetroDexApi?.fetchJson
 
-  if (!bannerEl || !richGridEl) {
+  if (!bannerEl) {
     return
   }
 
-  async function fetchJson(url) {
-    const response = await fetch(url)
-    if (!response.ok) {
-      throw new Error(`${response.status} ${response.statusText}`)
+  async function fetchJson(url, options) {
+    if (typeof sharedFetchJson === 'function') {
+      return sharedFetchJson(url, options)
     }
-    return response.json()
+
+    const controller = typeof AbortController === 'function' ? new AbortController() : null
+    const timeoutId = controller ? window.setTimeout(() => controller.abort(), 12000) : null
+
+    try {
+      const response = await fetch(url, {
+        ...(options || {}),
+        signal: controller ? controller.signal : options?.signal,
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(payload.error || `${response.status} ${response.statusText}`)
+      }
+      return payload
+    } catch (error) {
+      if (error?.name === 'AbortError') {
+        throw new Error(`Request timeout for ${url}`)
+      }
+      throw error
+    } finally {
+      if (timeoutId) {
+        window.clearTimeout(timeoutId)
+      }
+    }
   }
 
   function setText(el, value) {
@@ -30,6 +53,10 @@
   }
 
   function renderState(title, copy) {
+    if (!richGridEl) {
+      return
+    }
+
     richGridEl.innerHTML = `
       <div class="terminal-empty-state hub-empty-state">
         <div class="terminal-empty-title">${esc(title)}</div>
@@ -93,10 +120,16 @@
 
   async function loadHub() {
     try {
-      const [itemsPayload, statsPayload] = await Promise.all([
-        fetchJson('/api/items?limit=90&sort=metascore_desc'),
+      const [itemsResult, statsResult] = await Promise.allSettled([
+        fetchJson('/api/items?limit=12&sort=metascore_desc'),
         fetchJson('/api/stats'),
       ])
+      const itemsPayload = itemsResult.status === 'fulfilled' ? itemsResult.value : { items: [], publication: {} }
+      const statsPayload = statsResult.status === 'fulfilled' ? statsResult.value : {}
+
+      if (itemsResult.status !== 'fulfilled' && statsResult.status !== 'fulfilled') {
+        throw new Error('Hub data unavailable')
+      }
 
       const publication = itemsPayload.publication || {}
       const items = Array.isArray(itemsPayload.items) ? itemsPayload.items : []
@@ -107,17 +140,21 @@
       const consoles = Number(publication.consoleCount || 0)
       const withSynopsis = Number(statsPayload?.with_synopsis || 0)
 
-      bannerEl.textContent = `${published} fiches pretes | ${withSynopsis} lectures visibles | ${consoles} supports`
+      bannerEl.textContent = `${published || '--'} fiches pretes | ${withSynopsis || '--'} lectures visibles | ${consoles || '--'} supports`
       setText(publishedEl, String(published || '--'))
       setText(totalEl, String(total || '--'))
       setText(synopsisEl, String(withSynopsis || '--'))
       setText(consolesEl, String(consoles || '--'))
-      setText(publicationSignalEl, `${published} fiches pretes`)
-      setText(editorialSignalEl, `${withSynopsis} resumes visibles`)
-      setText(archiveSignalEl, strongPages.length ? `${strongPages.length} preuves concretes` : 'en cours')
+      setText(publicationSignalEl, published ? `${published} fiches pretes` : 'partiel')
+      setText(editorialSignalEl, withSynopsis ? `${withSynopsis} resumes visibles` : 'partiel')
+      setText(archiveSignalEl, strongPages.length ? `${strongPages.length} preuves concretes` : 'selection indisponible')
+
+      if (!richGridEl) {
+        return
+      }
 
       if (!strongPages.length) {
-        renderState('Aucune fiche mise en avant', 'La vitrine se remplira avec les fiches les plus utiles a ouvrir.')
+        renderState('Aucune fiche mise en avant', 'Les preuves de lecture ne sont pas encore disponibles pour cette session.')
         return
       }
 

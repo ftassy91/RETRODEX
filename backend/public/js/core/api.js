@@ -2,16 +2,93 @@
 
 ;(() => {
   let collectionIndexPromise = null
+  const REQUEST_TIMEOUT_MS = 12000
+  const GET_RETRY_COUNT = 1
 
-  async function fetchJson(url, options) {
-    const response = await fetch(url, options)
-    const payload = await response.json().catch(() => ({}))
+  function sleep(ms) {
+    return new Promise((resolve) => window.setTimeout(resolve, ms))
+  }
 
-    if (!response.ok) {
-      throw new Error(payload.error || `${response.status} ${response.statusText}`)
+  function isGetRequest(options = {}) {
+    return String(options?.method || 'GET').trim().toUpperCase() === 'GET'
+  }
+
+  function shouldRetryRequest(response, error, attempt, maxRetries, options = {}) {
+    if (!isGetRequest(options) || attempt >= maxRetries) {
+      return false
     }
 
-    return payload
+    if (error?.name === 'AbortError') {
+      return true
+    }
+
+    if (!response) {
+      return true
+    }
+
+    return response.status >= 500 || response.status === 429 || response.status === 408
+  }
+
+  async function fetchJson(url, options = {}) {
+    const {
+      timeoutMs = REQUEST_TIMEOUT_MS,
+      retries = isGetRequest(options) ? GET_RETRY_COUNT : 0,
+      ...requestOptions
+    } = options || {}
+
+    let attempt = 0
+
+    while (attempt <= retries) {
+      const controller = typeof AbortController === 'function' ? new AbortController() : null
+      const timeoutId = controller && timeoutMs > 0
+        ? window.setTimeout(() => controller.abort(), timeoutMs)
+        : null
+
+      let response
+      let payload
+
+      try {
+        response = await fetch(url, {
+          ...requestOptions,
+          signal: controller ? controller.signal : requestOptions.signal,
+        })
+        payload = await response.json().catch(() => ({}))
+      } catch (error) {
+        if (timeoutId) {
+          window.clearTimeout(timeoutId)
+        }
+
+        if (shouldRetryRequest(null, error, attempt, retries, requestOptions)) {
+          attempt += 1
+          await sleep(250 * attempt)
+          continue
+        }
+
+        if (error?.name === 'AbortError') {
+          throw new Error(`Request timeout for ${url}`)
+        }
+
+        throw error
+      }
+
+      if (timeoutId) {
+        window.clearTimeout(timeoutId)
+      }
+
+      if (!response.ok) {
+        const responseError = new Error(payload.error || `${response.status} ${response.statusText}`)
+        if (shouldRetryRequest(response, responseError, attempt, retries, requestOptions)) {
+          attempt += 1
+          await sleep(250 * attempt)
+          continue
+        }
+        throw responseError
+      }
+
+      return payload
+    }
+
+    throw new Error(`Request failed for ${url}`)
   }
 
   function getItems(payload) {
@@ -71,9 +148,12 @@
   }
 
   async function fetchCollection(listType, isPublic) {
-    const url = isPublic && listType === 'for_sale'
+    const normalizedListType = String(listType || '').trim().toLowerCase()
+    const url = isPublic && normalizedListType === 'for_sale'
       ? '/api/collection/public'
-      : `/api/collection?list_type=${encodeURIComponent(listType || 'owned')}`
+      : normalizedListType
+        ? `/api/collection?list_type=${encodeURIComponent(normalizedListType)}`
+        : '/api/collection'
     const payload = await fetchJson(url)
     return {
       raw: payload,
@@ -137,7 +217,7 @@
       return collectionIndexPromise
     }
 
-    collectionIndexPromise = fetchCollection()
+    collectionIndexPromise = fetchCollection(null)
       .then((payload) => buildCollectionIndex(payload.items))
       .catch((error) => {
         collectionIndexPromise = null

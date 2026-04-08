@@ -9,6 +9,7 @@ const {
   normalizeCollectionListType,
   parseCollectionCreatePayload,
   parseCollectionPatchPayload,
+  getCollectionItem,
   listCollectionItems,
   listPublicCollectionItems,
   createCollectionItem,
@@ -97,6 +98,18 @@ router.get('/api/collection', handleAsync(async (req, res) => {
   return res.json({
     items,
     total: items.length,
+  })
+}))
+
+router.get('/api/collection/game/:gameId', handleAsync(async (req, res) => {
+  const item = await getCollectionItem({
+    ...resolveRequestCollectionScope(req),
+    gameId: req.params.gameId,
+  })
+
+  return res.json({
+    ok: true,
+    item: item || null,
   })
 }))
 

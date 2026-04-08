@@ -58,6 +58,10 @@ const num = (value) => Number(value) || 0
 const textCmp = (left, right) => String(left || '').localeCompare(String(right || ''), 'fr', { sensitivity: 'base' })
 
 async function fetchJson(url) {
+  if (typeof CoreApi.fetchJson === 'function') {
+    return CoreApi.fetchJson(url)
+  }
+
   const response = await fetch(url)
   if (!response.ok) {
     throw new Error(`${response.status} ${response.statusText}`)

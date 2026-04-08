@@ -1,4 +1,4 @@
-'use strict'
+﻿'use strict'
 
 const CoreFormat = window.RetroDexFormat || {}
 const CoreApi = window.RetroDexApi || {}
@@ -134,11 +134,11 @@ function hasIndexedPrice(value) {
   return Number.isFinite(number) && number > 0
 }
 
-function formatPrice(value, fallback = 'Non indexé') {
+function formatPrice(value, fallback = 'Non indexÃ©') {
   return hasIndexedPrice(value) ? `$${Math.round(Number(value))}` : fallback
 }
 
-function formatPriceHtml(value, fallback = 'Non indexé') {
+function formatPriceHtml(value, fallback = 'Non indexÃ©') {
   return hasIndexedPrice(value) ? escapeHtml(formatPrice(value)) : buildEmptyStateHtml(fallback)
 }
 
@@ -178,7 +178,7 @@ function computeCollectionDecision(game, item) {
   let actionTone = ''
 
   if (listType === 'for_sale' || (owned && pricePaid > 0 && hasLoosePrice && loosePrice >= pricePaid * 1.5)) {
-    actionLabel = 'À VENDRE'
+    actionLabel = 'Ã€ VENDRE'
     actionNote = pricePaid > 0
       ? 'La valeur loose depasse le prix paye de 50% ou plus.'
       : 'Le jeu est deja marque a vendre.'
@@ -188,7 +188,7 @@ function computeCollectionDecision(game, item) {
     actionNote = 'Le delta Loose -> CIB reste sous $20.'
     actionTone = 'is-primary'
   } else if (wanted && hasLoosePrice && loosePrice <= 25) {
-    actionLabel = 'À ACHETER'
+    actionLabel = 'Ã€ ACHETER'
     actionNote = 'Wishlist active et valeur loose sous $25.'
     actionTone = 'is-hot'
   }
@@ -209,12 +209,12 @@ function formatMetascoreHtml(value) {
   const numeric = Number(value)
   return Number.isFinite(numeric) && numeric > 0
     ? escapeHtml(String(Math.round(numeric)))
-    : buildEmptyStateHtml('Non noté')
+    : buildEmptyStateHtml('Non notÃ©')
 }
 
 function formatDurationHtml(value) {
   const duration = formatDurationValue(value)
-  return duration ? escapeHtml(duration) : buildEmptyStateHtml('Non renseigné')
+  return duration ? escapeHtml(duration) : buildEmptyStateHtml('Non renseignÃ©')
 }
 
 function buildGameCardMeta(consoleName, year) {
@@ -313,7 +313,7 @@ function truncateMetaDescription(value, maxLength = 160) {
   if (!text) return ''
   if (text.length <= maxLength) return text
 
-  return `${text.slice(0, Math.max(0, maxLength - 1)).trimEnd()}…`
+  return `${text.slice(0, Math.max(0, maxLength - 1)).trimEnd()}â€¦`
 }
 
 function setMetaContent(selector, content) {
@@ -328,7 +328,7 @@ function updateSeoMeta(game) {
   const description = truncateMetaDescription(
     game.tagline
     || game.summary
-    || `${game.title || 'Ce jeu rétro'} sur ${game.consoleData?.name || game.console || 'console inconnue'}${game.year ? ` (${game.year})` : ''}. Prix, rareté et encyclopédie RetroDex.`
+    || `${game.title || 'Ce jeu rÃ©tro'} sur ${game.consoleData?.name || game.console || 'console inconnue'}${game.year ? ` (${game.year})` : ''}. Prix, raretÃ© et encyclopÃ©die RetroDex.`
   )
 
   document.title = title
@@ -436,7 +436,7 @@ function showSkeleton() {
 function buildPossessionChip(item) {
   if (!item) return '<span class="possession-chip is-untracked">NON SUIVI</span>';
   const listType = item.list_type;
-  if (listType === 'owned') return '<span class="possession-chip is-owned">POSSÉDÉ</span>';
+  if (listType === 'owned') return '<span class="possession-chip is-owned">POSSÃ‰DÃ‰</span>';
   if (listType === 'for_sale') return '<span class="possession-chip is-sale">EN VENTE</span>';
   if (listType === 'wanted') return '<span class="possession-chip is-wanted">WISHLIST</span>';
   return '';
@@ -494,7 +494,7 @@ function renderHeroSection(game) {
                   : escapeHtml(meta.developerName)}
               </div>
 
-              <span id="hero-possession-chip">${buildPossessionChip(currentCollectionItem)}${!currentCollectionItem ? '<a href="/collection.html" class="detail-add-cta">+ ajouter à la collection</a>' : ''}</span>
+              <span id="hero-possession-chip">${buildPossessionChip(currentCollectionItem)}${!currentCollectionItem ? '<a href="/collection.html" class="detail-add-cta">+ ajouter Ã  la collection</a>' : ''}</span>
 
               <div id="hero-summary-shell" class="hero-summary-shell"${summary ? '' : ' hidden'}>
                 <div id="hero-summary" class="hero-summary surface-summary-copy">${summary ? formatMultilineHtml(summary) : ''}</div>
@@ -620,7 +620,7 @@ function renderCollectionDecisionStrip(options = {}) {
     <div class="surface-signal-card surface-signal-card--action${actionClass ? ` ${actionClass}` : ''}">
       <span class="surface-signal-label">Action</span>
       <span class="surface-signal-value surface-signal-action-value">${escapeHtml(decision.actionLabel)}</span>
-      ${decision.actionLabel === 'À VENDRE' && currentCollectionItem && normalizeCollectionListType(currentCollectionItem.list_type) !== 'for_sale'
+      ${decision.actionLabel === 'Ã€ VENDRE' && currentCollectionItem && normalizeCollectionListType(currentCollectionItem.list_type) !== 'for_sale'
         ? '<button id="action-mark-for-sale-btn" class="decision-action-btn" type="button" onclick="handleMarkForSale()">MARQUER A VENDRE</button>'
         : ''}
     </div>
@@ -662,7 +662,7 @@ function renderDetailContentStatus() {
   if (anecdoteCount > 0) {
     readingParts.push(`${anecdoteCount} anecdote${anecdoteCount > 1 ? 's' : ''} de developpement`)
   }
-  readingStateEl.textContent = readingParts.filter(Boolean).join(' · ')
+  readingStateEl.textContent = readingParts.filter(Boolean).join(' Â· ')
 }
 
 function confidenceClass(value) {
@@ -682,9 +682,9 @@ function getTrustMeta(value) {
 }
 
 function getTrustBadgeText(tier) {
-  if (tier === 'T1') return '✓ DONNÉES VÉRIFIÉES · TIER T1'
-  if (tier === 'T2') return 'DONNÉES CROISÉES · TIER T2'
-  return 'ESTIMATION · PEU DE DONNÉES'
+  if (tier === 'T1') return 'âœ“ DONNÃ‰ES VÃ‰RIFIÃ‰ES Â· TIER T1'
+  if (tier === 'T2') return 'DONNÃ‰ES CROISÃ‰ES Â· TIER T2'
+  return 'ESTIMATION Â· PEU DE DONNÃ‰ES'
 }
 
 function getTrustBadgeStyle(tier) {
@@ -757,7 +757,7 @@ function buildHeroPriceContext(game, trustMeta) {
       <div class="detail-price-context-row">
         <span class="detail-hero-reference">Fiabilite prix</span>
         <span class="trust-badge trust-${escapeHtml(trustTier)}" style="${escapeHtml(getTrustBadgeStyle(trustTier))}">${escapeHtml(getTrustBadgeText(trustTier))}</span>
-        ${freshnessMeta ? `<span class="detail-hero-reference">Fraicheur</span><span class="detail-hero-reference">${escapeHtml(freshnessMeta.label)} · ${escapeHtml(freshnessMeta.detail)}</span>` : ''}
+        ${freshnessMeta ? `<span class="detail-hero-reference">Fraicheur</span><span class="detail-hero-reference">${escapeHtml(freshnessMeta.label)} Â· ${escapeHtml(freshnessMeta.detail)}</span>` : ''}
       </div>
       ${freshnessMeta?.dateText ? `<div class="detail-hero-price-date">Mis a jour : ${escapeHtml(freshnessMeta.dateText)}</div>` : ''}
       ${buildPriceFreshnessAlert(game?.priceLastUpdated)}
@@ -774,7 +774,7 @@ function buildPriceFreshnessAlert(priceLastUpdated) {
   const daysAgo = Math.floor((Date.now() - updated.getTime()) / (1000 * 60 * 60 * 24))
   if (daysAgo <= 90) return ''
   const months = Math.floor(daysAgo / 30)
-  return `<div class="price-freshness-alert">PRIX MIS A JOUR IL Y A ${months} MOIS — VERIFIER AVANT DECISION</div>`
+  return `<div class="price-freshness-alert">PRIX MIS A JOUR IL Y A ${months} MOIS â€” VERIFIER AVANT DECISION</div>`
 }
 
 function formatTrustDate(value) {
@@ -797,7 +797,7 @@ function formatTrustDate(value) {
 
 function buildTrustSource(entries, confidence) {
   if (!entries.length) {
-    return 'aucune donnée - contribuez un prix'
+    return 'aucune donnÃ©e - contribuez un prix'
   }
 
   const sourcesEditorial = Math.max(0, ...entries.map((entry) => Number(entry.sources_editorial) || 0))
@@ -809,14 +809,14 @@ function buildTrustSource(entries, confidence) {
 
   if (sourcesEditorial > 0) {
     const formattedDate = formatTrustDate(latestSaleDate)
-    return `${sourcesEditorial} vente(s) vérifiée(s) | dernière obs. : ${formattedDate || 'date inconnue'}`
+    return `${sourcesEditorial} vente(s) vÃ©rifiÃ©e(s) | derniÃ¨re obs. : ${formattedDate || 'date inconnue'}`
   }
 
   if ((Number(confidence) || 0) >= 0) {
-    return 'Aucune vente vérifiée — prix calculé par référence'
+    return 'Aucune vente vÃ©rifiÃ©e â€” prix calculÃ© par rÃ©fÃ©rence'
   }
 
-  return 'aucune donnée - contribuez un prix'
+  return 'aucune donnÃ©e - contribuez un prix'
 }
 
 function formatIndexRange(low, high) {
@@ -895,7 +895,7 @@ async function loadRetrodexIndex(gameId) {
       </div>
       <div class="index-primary">
         <span class="index-primary-label">REFERENCE</span>
-        <span class="index-primary-value">${formatPriceHtml(primaryEntry.index_value, 'Prix non indexé')}</span>
+        <span class="index-primary-value">${formatPriceHtml(primaryEntry.index_value, 'Prix non indexÃ©')}</span>
         <span class="index-primary-meta">${escapeHtml(primaryEntry.condition || 'n/a')} | ${escapeHtml(formatIndexRange(primaryEntry.range_low, primaryEntry.range_high))}</span>
       </div>
       <div class="trust-header">
@@ -930,11 +930,11 @@ function isImageLikeUrl(value) {
 function renderOverviewCard(data = {}) {
   const facts = [
     ['Plateforme', data.platform],
-    ['Année', data.year],
+    ['AnnÃ©e', data.year],
     ['Genre', data.genre],
-    ['Rareté', data.rarity],
-    ['Développeur', data.developer],
-    ['Éditeur', data.publisher],
+    ['RaretÃ©', data.rarity],
+    ['DÃ©veloppeur', data.developer],
+    ['Ã‰diteur', data.publisher],
     ['Metascore', data.metascore],
     ['Main', data.game_length?.main],
     ['Complet', data.game_length?.complete],
@@ -957,7 +957,7 @@ function renderOverviewCard(data = {}) {
       ` : ''}
       ${data.summary ? `
         <div class="detail-domain-subblock">
-          <span class="archive-label">Résumé</span>
+          <span class="archive-label">RÃ©sumÃ©</span>
           <div class="archive-lore">${formatMultilineHtml(data.summary)}</div>
         </div>
       ` : ''}
@@ -1008,7 +1008,7 @@ function renderCharacterList(items = []) {
 function renderPeopleList(items = []) {
   return `
     <article class="detail-domain-block">
-      <div class="detail-domain-heading">Équipe</div>
+      <div class="detail-domain-heading">Ã‰quipe</div>
       ${items.map((item) => `
         <div class="encyclo-team-row">
           <span class="team-role">${escapeHtml(item.role || item.roleLabel || item.type || 'Equipe')}</span>
@@ -1116,7 +1116,7 @@ function renderOstBlock(block = {}) {
                   release.format || '',
                   release.label || '',
                   release.trackCount ? `${release.trackCount} tracks` : '',
-                ].filter(Boolean).join(' | ') || 'Métadonnées partielles')}
+                ].filter(Boolean).join(' | ') || 'MÃ©tadonnÃ©es partielles')}
               </span>
             </div>
           `).join('')}
@@ -1201,7 +1201,7 @@ function renderGameDetailBlock(block) {
 function renderDynamicEditorialPanel(tab) {
   const blocks = Array.isArray(tab?.content) ? tab.content : []
   if (!blocks.length) {
-    return `<div class="detail-empty-state">Aucune donnée publiée pour cette section.</div>`
+    return `<div class="detail-empty-state">Aucune donnÃ©e publiÃ©e pour cette section.</div>`
   }
 
   return blocks.map((block) => renderGameDetailBlock(block)).join('')
@@ -1229,7 +1229,7 @@ function renderDynamicEditorialContent() {
   editorialContentEl.innerHTML = `
     <div class="detail-editorial-head">
       <div class="detail-domain-eyebrow">GameDetail / Encyclopedia</div>
-      <div class="detail-domain-subcopy">source de verite Supadata • onglets dynamiques • aucun vide</div>
+      <div class="detail-domain-subcopy">source de verite Supadata â€¢ onglets dynamiques â€¢ aucun vide</div>
     </div>
     <div class="detail-editorial-tabs">
       ${sections.map((section) => `
@@ -1410,7 +1410,7 @@ function buildProductionPanel() {
     developers.push({
       name: fallbackDeveloper,
       role: 'developer',
-      roleLabel: 'Développement',
+      roleLabel: 'DÃ©veloppement',
       country: '',
       confidence: 0,
     })
@@ -1438,9 +1438,9 @@ function buildProductionPanel() {
     </article>
   `
 
-  blocks.push(buildCompanyList('Développeur', developers, 'Développement non renseigné'))
-  blocks.push(buildCompanyList('Éditeur', publishers, 'Édition non renseignée'))
-  blocks.push(buildCompanyList('Studios', studios, 'Studio non renseigné'))
+  blocks.push(buildCompanyList('DÃ©veloppeur', developers, 'DÃ©veloppement non renseignÃ©'))
+  blocks.push(buildCompanyList('Ã‰diteur', publishers, 'Ã‰dition non renseignÃ©e'))
+  blocks.push(buildCompanyList('Studios', studios, 'Studio non renseignÃ©'))
 
   const roleHtml = roleEntries.length
     ? roleEntries.map((entry) => `
@@ -1459,19 +1459,19 @@ function buildProductionPanel() {
   const teamHtml = devTeam.length
     ? devTeam.map((member) => `
         <div class="detail-production-team-row">
-          <span class="team-role">${escapeHtml(member.role || 'Équipe')}</span>
+          <span class="team-role">${escapeHtml(member.role || 'Ã‰quipe')}</span>
           <span class="team-name">${escapeHtml(member.name)}</span>
           ${member.note ? `<span class="team-note">${escapeHtml(member.note)}</span>` : ''}
         </div>
       `).join('')
-    : `<div class="detail-empty-state">Aucun crédit d'équipe structuré</div>`
+    : `<div class="detail-empty-state">Aucun crÃ©dit d'Ã©quipe structurÃ©</div>`
 
   return `
     <section class="detail-production-panel">
       <div class="detail-production-head">
         <div>
           <div class="detail-domain-eyebrow">Production</div>
-          <div class="detail-domain-subcopy">studios • rôles • crédits • sociétés</div>
+          <div class="detail-domain-subcopy">studios â€¢ rÃ´les â€¢ crÃ©dits â€¢ sociÃ©tÃ©s</div>
         </div>
         ${roleHtml ? `<div class="detail-production-role-row">${roleHtml}</div>` : ''}
       </div>
@@ -1479,7 +1479,7 @@ function buildProductionPanel() {
         ${blocks.join('')}
       </div>
       <article class="detail-production-block detail-production-block-wide">
-        <div class="detail-production-block-label">Crédits / équipe</div>
+        <div class="detail-production-block-label">CrÃ©dits / Ã©quipe</div>
         <div class="detail-production-team">
           ${teamHtml}
         </div>
@@ -1534,14 +1534,14 @@ function buildLoreCharactersTab() {
 
   if (mainDuration || completeDuration || versions.length || speedrun?.time || speedrun?.value) {
     const durationParts = [
-      mainDuration ? `Main ${escapeHtml(mainDuration)}` : `Main ${buildEmptyStateHtml('Non renseigné')}`,
+      mainDuration ? `Main ${escapeHtml(mainDuration)}` : `Main ${buildEmptyStateHtml('Non renseignÃ©')}`,
       completeDuration ? `Complet ${escapeHtml(completeDuration)}` : '',
     ].filter(Boolean)
 
     blocks.push(`
       <article class="detail-domain-block">
         <div class="detail-domain-heading">Progression</div>
-        <div class="archive-duration">${durationParts.length ? durationParts.join(' | ') : buildEmptyStateHtml('Aucune durée')}</div>
+        <div class="archive-duration">${durationParts.length ? durationParts.join(' | ') : buildEmptyStateHtml('Aucune durÃ©e')}</div>
         ${(speedrun?.time || speedrun?.value) ? `<div class="archive-speedrun"><span class="archive-label">WR</span> ${escapeHtml(speedrun.category || 'Any%')} : ${escapeHtml(speedrun.time || speedrun.value)}${speedrun.runner ? ` | ${escapeHtml(speedrun.runner)}` : ''}</div>` : ''}
         ${versions.length ? `
           <div class="archive-ost-tracks">
@@ -1578,7 +1578,7 @@ function buildLoreCharactersTab() {
   if (anecdotes.length) {
     blocks.push(`
       <article class="detail-domain-block">
-        <div class="detail-domain-heading">Anecdotes de développement</div>
+        <div class="detail-domain-heading">Anecdotes de dÃ©veloppement</div>
         ${anecdotes.map((entry, index) => {
           const note = parseStructuredValue(entry, entry)
           const title = typeof note === 'object' ? note.title || note.label : `Note ${index + 1}`
@@ -1618,7 +1618,7 @@ function buildLoreCharactersTab() {
 
   return blocks.length
     ? blocks.join('')
-    : `<div class="detail-empty-state">Aucune donnée lore, personnages ou éditoriale publiée pour ce jeu.</div>`
+    : `<div class="detail-empty-state">Aucune donnÃ©e lore, personnages ou Ã©ditoriale publiÃ©e pour ce jeu.</div>`
 }
 
 function buildMediaDocsTab() {
@@ -1659,7 +1659,7 @@ function buildMediaDocsTab() {
   }
 
   if (!items.length && !visibleManuals.length && !covers.length && !screenshots.length && !references.length && !visualAssetCount) {
-    return `<div class="detail-empty-state">Aucune notice ou référence média publiée pour ce jeu.</div>`
+    return `<div class="detail-empty-state">Aucune notice ou rÃ©fÃ©rence mÃ©dia publiÃ©e pour ce jeu.</div>`
   }
 
   const itemRows = itemSource.map((entry) => {
@@ -1685,7 +1685,7 @@ function buildMediaDocsTab() {
 
   return `
     <article class="detail-domain-block">
-      <div class="detail-domain-heading">Conformité & inventaire</div>
+      <div class="detail-domain-heading">ConformitÃ© & inventaire</div>
       <div class="detail-media-summary">
         ${summaryBadge}
         <span>${escapeHtml(`${manuals.length || visibleManuals.length} notice(s)`)}</span>
@@ -1696,7 +1696,7 @@ function buildMediaDocsTab() {
       </div>
     </article>
     <article class="detail-domain-block">
-      <div class="detail-domain-heading">Références publiées</div>
+      <div class="detail-domain-heading">RÃ©fÃ©rences publiÃ©es</div>
       <div class="detail-media-list">
         ${itemRows}
       </div>
@@ -1712,7 +1712,7 @@ function buildMusicTab() {
   const releases = parseStructuredArray(archive.ost?.releases)
 
   if (!composers.length && !tracks.length && !releases.length) {
-    return `<div class="detail-empty-state">Aucune donnée OST structurée publiée pour ce jeu.</div>`
+    return `<div class="detail-empty-state">Aucune donnÃ©e OST structurÃ©e publiÃ©e pour ce jeu.</div>`
   }
 
   return `
@@ -1751,7 +1751,7 @@ function buildMusicTab() {
                     item.format || '',
                     item.label || '',
                     item.trackCount || item.track_count ? `${item.trackCount || item.track_count} tracks` : '',
-                  ].filter(Boolean).join(' | ') || 'Métadonnées partielles')}
+                  ].filter(Boolean).join(' | ') || 'MÃ©tadonnÃ©es partielles')}
                 </span>
               </div>
             `
@@ -1985,11 +1985,11 @@ function renderSummary(game) {
 
   if (synopsisBandEl && summary) {
     // Show summary in the dedicated band below hero; hide the in-hero duplicate
-    synopsisBandEl.innerHTML = formatMultilineHtml(summary) // formatMultilineHtml calls escapeHtml() — safe
+    synopsisBandEl.innerHTML = formatMultilineHtml(summary) // formatMultilineHtml calls escapeHtml() â€” safe
     synopsisBandEl.hidden = false
     summaryShellEl.hidden = true
   } else {
-    // No band available — fall back to in-hero summary
+    // No band available â€” fall back to in-hero summary
     summaryShellEl.hidden = !summary
     summaryEl.innerHTML = summary ? formatMultilineHtml(summary) : ''
     if (synopsisBandEl) synopsisBandEl.hidden = true
@@ -2020,21 +2020,21 @@ function renderProvenance(game) {
     return
   }
 
-  el.textContent = parts.join(' · ')
+  el.textContent = parts.join(' Â· ')
   el.hidden = false
 }
 
 function renderStats(game) {
   const summaryStats = [
     { label: 'Plateforme', value: game.console || 'n/a' },
-    { label: 'Année', value: game.year || 'n/a' },
+    { label: 'AnnÃ©e', value: game.year || 'n/a' },
     { label: 'Metascore', value: '__METASCORE__', id: 'stat-metascore' },
-    { label: 'Rareté', value: game.rarity || 'COMMON' },
+    { label: 'RaretÃ©', value: game.rarity || 'COMMON' },
   ]
   const detailStats = [
     { label: 'Genre', value: game.genre && game.genre !== 'Other' ? game.genre : '' },
-    { label: 'Développeur', value: game.developerCompany?.name || game.developer || '' },
-    { label: 'Éditeur', value: game.publisherCompany?.name || (game.publisher && game.publisher !== 'undefined' ? game.publisher : '') },
+    { label: 'DÃ©veloppeur', value: game.developerCompany?.name || game.developer || '' },
+    { label: 'Ã‰diteur', value: game.publisherCompany?.name || (game.publisher && game.publisher !== 'undefined' ? game.publisher : '') },
     { label: 'Slug', value: game.slug || '' },
   ].filter((entry) => entry.value != null && String(entry.value).trim() !== '')
 
@@ -2064,7 +2064,7 @@ function renderStats(game) {
       statMeta.textContent = `${game.metascore} | ${label}`
       statMeta.style.color = color
     } else {
-      statMeta.innerHTML = buildEmptyStateHtml('Non noté')
+      statMeta.innerHTML = buildEmptyStateHtml('Non notÃ©')
       statMeta.style.color = ''
     }
   }
@@ -2075,7 +2075,7 @@ function renderStats(game) {
     const parts = [`Loose $${Math.round(game.loosePrice)}`]
     if (game.cibPrice) parts.push(`CIB $${Math.round(game.cibPrice)}`)
     if (game.mintPrice) parts.push(`Mint $${Math.round(game.mintPrice)}`)
-    statsToggle.innerHTML = `Reference prix <span class="accordion-price-hint">${escapeHtml(parts.join(' · '))}</span>`
+    statsToggle.innerHTML = `Reference prix <span class="accordion-price-hint">${escapeHtml(parts.join(' Â· '))}</span>`
   }
 }
 
@@ -2102,11 +2102,11 @@ function readCollectionFormValues() {
   const notes = String(collectionNotesEl?.value || '').trim() || null
 
   if (rawPrice && (!Number.isFinite(price_paid) || price_paid <= 0)) {
-    throw new Error('Prix d’achat invalide.')
+    throw new Error("Prix d'achat invalide.")
   }
 
   if (purchase_date && !/^\d{4}-\d{2}-\d{2}$/.test(purchase_date)) {
-    throw new Error('Date d’achat invalide.')
+    throw new Error("Date d'achat invalide.")
   }
 
   return {
@@ -2128,7 +2128,7 @@ function buildCollectionMeta(item, listType) {
   ]
 
   if (item.purchase_date) {
-    fragments.push(`<span class="collection-note-text">Entrée le ${escapeHtml(item.purchase_date)}</span>`)
+    fragments.push(`<span class="collection-note-text">EntrÃ©e le ${escapeHtml(item.purchase_date)}</span>`)
   }
 
   const note = getCollectionNote(item)
@@ -2167,21 +2167,21 @@ function applyCollectionUiState(item, options = {}) {
     return
   }
 
-  const heroPossessionChipEl = document.getElementById(‘hero-possession-chip’)
+  const heroPossessionChipEl = document.getElementById('hero-possession-chip')
   if (heroPossessionChipEl) {
-    heroPossessionChipEl.innerHTML = buildPossessionChip(item) + (!item ? ‘<a href="/collection.html" class="detail-add-cta">+ ajouter à la collection</a>’ : ‘’)
+    heroPossessionChipEl.innerHTML = buildPossessionChip(item) + (!item ? '<a href="/collection.html" class="detail-add-cta">+ ajouter a la collection</a>' : '')
   }
 
   collectionFormEl.hidden = false
   populateCollectionForm(item)
 
   if (!item) {
-    collectionStateEl.textContent = ‘’
-    collectionCurrentMetaEl.innerHTML = ‘’
-    collectionButtonEl.textContent = ‘Ajouter à l’étagère’
+    collectionStateEl.textContent = ''
+    collectionCurrentMetaEl.innerHTML = ''
+    collectionButtonEl.textContent = "Ajouter a l'etagere"
     collectionButtonEl.disabled = false
     if (wishlistButtonEl) {
-      wishlistButtonEl.textContent = 'Ajouter à la wishlist'
+      wishlistButtonEl.textContent = "Ajouter a la wishlist"
       wishlistButtonEl.disabled = false
     }
     if (collectionRemoveButtonEl) {
@@ -2200,7 +2200,7 @@ function applyCollectionUiState(item, options = {}) {
 
   if (listType === 'wanted') {
     collectionStateEl.textContent = 'Dans la wishlist'
-    collectionButtonEl.textContent = 'Basculer vers l’étagère'
+    collectionButtonEl.textContent = "Basculer vers l'etagere"
     collectionButtonEl.disabled = false
     if (wishlistButtonEl) {
       wishlistButtonEl.textContent = 'Wishlist'
@@ -2215,7 +2215,7 @@ function applyCollectionUiState(item, options = {}) {
   }
 
   if (listType === 'for_sale') {
-    collectionStateEl.textContent = 'À vendre'
+    collectionStateEl.textContent = 'A vendre'
     collectionButtonEl.textContent = 'Enregistrer'
     collectionButtonEl.disabled = false
     if (wishlistButtonEl) {
@@ -2230,8 +2230,8 @@ function applyCollectionUiState(item, options = {}) {
     return
   }
 
-  collectionStateEl.textContent = 'Dans l’étagère'
-  collectionButtonEl.textContent = 'Mettre à jour'
+  collectionStateEl.textContent = "Dans l'etagere"
+  collectionButtonEl.textContent = 'Mettre a jour'
   collectionButtonEl.disabled = false
   if (wishlistButtonEl) {
     wishlistButtonEl.textContent = 'Wishlist'
@@ -2244,19 +2244,39 @@ function applyCollectionUiState(item, options = {}) {
   }
 }
 
-async function refreshCollectionStatus() {
+async function refreshCollectionStatus(forceRefresh = false) {
   if (!currentGame) {
     return
   }
 
   try {
-    const payload = await fetchJson('/api/collection')
-    currentCollectionItem = safeArray(payload.items).find((item) => item.gameId === currentGame.id) || null
+    const targetedPayload = await fetchJson(`/api/collection/game/${encodeURIComponent(currentGame.id)}`)
+    if (Object.prototype.hasOwnProperty.call(targetedPayload || {}, 'item')) {
+      currentCollectionItem = targetedPayload?.item || null
+    } else if (typeof CoreApi.fetchCollectionIndex === 'function') {
+      const collectionIndex = await CoreApi.fetchCollectionIndex(forceRefresh)
+      currentCollectionItem = collectionIndex?.byGameId?.get(currentGame.id) || null
+    } else {
+      const payload = await fetchJson('/api/collection')
+      currentCollectionItem = safeArray(payload.items).find((item) => item.gameId === currentGame.id) || null
+    }
     applyCollectionUiState(currentCollectionItem)
     renderCollectionDecisionStrip()
   } catch (error) {
-    applyCollectionUiState(null, { error })
-    renderCollectionDecisionStrip({ error: true })
+    try {
+      if (typeof CoreApi.fetchCollectionIndex === 'function') {
+        const collectionIndex = await CoreApi.fetchCollectionIndex(forceRefresh)
+        currentCollectionItem = collectionIndex?.byGameId?.get(currentGame.id) || null
+      } else {
+        const payload = await fetchJson('/api/collection')
+        currentCollectionItem = safeArray(payload.items).find((item) => item.gameId === currentGame.id) || null
+      }
+      applyCollectionUiState(currentCollectionItem)
+      renderCollectionDecisionStrip()
+    } catch (fallbackError) {
+      applyCollectionUiState(null, { error: fallbackError || error })
+      renderCollectionDecisionStrip({ error: true })
+    }
   }
 }
 
@@ -2272,7 +2292,7 @@ async function handleCollectionAction() {
   if (collectionRemoveButtonEl) {
     collectionRemoveButtonEl.disabled = true
   }
-  collectionStatusEl.textContent = 'Mise à jour...'
+  collectionStatusEl.textContent = 'Mise a jour...'
 
   try {
     const formValues = readCollectionFormValues()
@@ -2289,7 +2309,7 @@ async function handleCollectionAction() {
           list_type: listType === 'wanted' ? 'owned' : listType,
         }),
       })
-      collectionStatusEl.textContent = listType === 'wanted' ? 'Déplacé vers l’étagère.' : 'Fiche collection mise à jour.'
+      collectionStatusEl.textContent = listType === 'wanted' ? "Deplace vers l'etagere." : 'Fiche collection mise a jour.'
     } else {
       await fetchJson('/api/collection', {
         method: 'POST',
@@ -2302,7 +2322,7 @@ async function handleCollectionAction() {
           list_type: 'owned',
         }),
       })
-      collectionStatusEl.textContent = 'Ajouté à l’étagère.'
+      collectionStatusEl.textContent = "Ajoute a l'etagere."
     }
 
     await refreshCollectionStatus()
@@ -2336,11 +2356,11 @@ async function handleWishlistAction() {
 
   const listType = currentCollectionItem ? normalizeCollectionListType(currentCollectionItem.list_type) : null
   if (listType === 'wanted') {
-    collectionStatusEl.textContent = 'Déjà en wishlist.'
+    collectionStatusEl.textContent = 'Deja en wishlist.'
     return
   }
   if (listType === 'owned' || listType === 'for_sale') {
-    collectionStatusEl.textContent = 'Déjà enregistré.'
+    collectionStatusEl.textContent = 'Deja enregistre.'
     return
   }
 
@@ -2367,7 +2387,7 @@ async function handleWishlistAction() {
       }),
     })
 
-    collectionStatusEl.textContent = 'Ajouté à la wishlist.'
+    collectionStatusEl.textContent = 'Ajoute a la wishlist.'
     await refreshCollectionStatus()
   } catch (error) {
     collectionStatusEl.textContent = 'Action wishlist indisponible pour cette session.'
@@ -2385,8 +2405,8 @@ async function handleCollectionRemove() {
   const targetLabel = listType === 'wanted'
     ? 'de votre wishlist'
     : listType === 'for_sale'
-      ? 'de votre liste à vendre'
-      : 'de votre étagère'
+      ? 'de votre liste a vendre'
+      : 'de votre etagere'
 
   if (!window.confirm(`Retirer "${currentGame?.title || 'ce jeu'}" ${targetLabel} ?`)) {
     return
@@ -2405,7 +2425,7 @@ async function handleCollectionRemove() {
     await fetchJson(`/api/collection/${encodeURIComponent(currentCollectionItem.id)}`, {
       method: 'DELETE',
     })
-    collectionStatusEl.textContent = 'Retiré.'
+    collectionStatusEl.textContent = 'RetirÃ©.'
     await refreshCollectionStatus()
   } catch (error) {
     collectionStatusEl.textContent = 'Suppression indisponible pour cette session.'
@@ -2543,7 +2563,7 @@ function renderRelatedMetascore(score) {
   const value = Number(score)
   return Number.isFinite(value) && value > 0
     ? `<span class="related-metascore-fallback">${Math.round(value)}</span>`
-    : buildEmptyStateHtml('Non noté')
+    : buildEmptyStateHtml('Non notÃ©')
 }
 
 function normalizeRelatedText(value) {
@@ -2654,7 +2674,7 @@ function renderRelatedPrices(current, related, options = {}) {
             <span>Ann?e</span>
             <span>Console</span>
             <span>Meta</span>
-            <span>Rareté</span>
+            <span>RaretÃ©</span>
           </div>
           <div class="compare-row current">
             <span>${escapeHtml(current.title)}</span>
@@ -2918,7 +2938,7 @@ async function updatePriceTimestamp(gameId) {
     const el = document.getElementById('price-timestamp')
     if (!el || !lastDate) return
     const formatted = String(lastDate).slice(0, 10)
-    el.textContent = `Prix mis à jour le : ${formatted}`
+    el.textContent = `Prix mis Ã  jour le : ${formatted}`
     el.hidden = false
   } catch (err) {
     console.warn('[RetroDex] updatePriceTimestamp failed:', err.message)
@@ -2946,7 +2966,7 @@ async function loadPriceHistory(gameId) {
   }
 
   if (headingEl) {
-    headingEl.textContent = 'Comparer les états'
+    headingEl.textContent = 'Comparer les Ã©tats'
   }
 
   let noteEl = document.getElementById('price-history-note')
@@ -3091,7 +3111,7 @@ async function loadPriceHistory(gameId) {
   }
 
   function showTooltip(target, event) {
-    const stateLabel = target.dataset.stateLabel || 'État'
+    const stateLabel = target.dataset.stateLabel || 'Ã‰tat'
     const date = target.dataset.date || ''
     const value = Number(target.dataset.value)
     const source = target.dataset.source || ''
@@ -3237,7 +3257,7 @@ async function loadPriceHistory(gameId) {
     if (lastSaleEl) {
       lastSaleEl.textContent = latestObservation
         ? `${formatPrice(latestObservation.observation.value)} | ${formatHistoryDate(latestObservation.observation.date)}`
-        : 'Non indexé'
+        : 'Non indexÃ©'
     }
 
     if (seriesEl) {
@@ -3313,12 +3333,12 @@ async function loadPriceHistory(gameId) {
 
   function renderNote(visibleEntries) {
     if (!data.hasAnyHistory) {
-      noteEl.textContent = 'Historique observé indisponible pour ce jeu. Les références par état restent affichées ci-dessous.'
+      noteEl.textContent = 'Historique observÃ© indisponible pour ce jeu. Les rÃ©fÃ©rences par Ã©tat restent affichÃ©es ci-dessous.'
       return
     }
 
     if (!visibleSeries.size) {
-      noteEl.textContent = 'Activez au moins un état pour comparer les observations disponibles.'
+      noteEl.textContent = 'Activez au moins un Ã©tat pour comparer les observations disponibles.'
       return
     }
 
@@ -3355,7 +3375,7 @@ async function loadPriceHistory(gameId) {
     if (!visibleEntries.length) {
       svg.innerHTML = `
         <text x="${width / 2}" y="${height / 2}" text-anchor="middle" fill="#5a8a5a" font-size="12">
-          ${escapeHtml(data.hasAnyHistory ? 'Aucune observation visible sur cette période.' : 'Historique observé indisponible.')}
+          ${escapeHtml(data.hasAnyHistory ? 'Aucune observation visible sur cette pÃ©riode.' : 'Historique observÃ© indisponible.')}
         </text>
       `
       labelsEl.innerHTML = ''
@@ -3378,7 +3398,7 @@ async function loadPriceHistory(gameId) {
     if (!chartPoints.length) {
       svg.innerHTML = `
         <text x="${width / 2}" y="${height / 2}" text-anchor="middle" fill="#5a8a5a" font-size="12">
-          Aucune observation exploitable pour cette période.
+          Aucune observation exploitable pour cette pÃ©riode.
         </text>
       `
       labelsEl.innerHTML = ''
@@ -3570,7 +3590,7 @@ async function loadPage() {
       }
     }
 
-    await loadFranchise(currentGame)
+    const franchisePromise = loadFranchise(currentGame)
     renderSummary(currentGame)
     renderStats(currentGame)
     loadRetrodexIndex(currentGame.id).catch((err) => console.error('[game-detail] loadRetrodexIndex unhandled', err))
@@ -3578,15 +3598,23 @@ async function loadPage() {
     collectionButtonEl.addEventListener('click', handleCollectionAction)
     wishlistButtonEl?.addEventListener('click', handleWishlistAction)
     collectionRemoveButtonEl?.addEventListener('click', handleCollectionRemove)
-    await refreshCollectionStatus()
+    const collectionStatusPromise = refreshCollectionStatus()
+    const similarPromise = loadSimilar(currentGame.id)
+    const relatedPromise = loadRelatedGames(currentGame)
     const detailLoaded = await loadGameDetailData(currentGame.id)
     if (!detailLoaded) {
-      await loadEncyclopedia(currentGame.id)
-      await loadArchive(currentGame.id)
+      await Promise.allSettled([
+        loadEncyclopedia(currentGame.id),
+        loadArchive(currentGame.id),
+      ])
     }
     renderDetailContentStatus()
-    await loadSimilar(currentGame.id)
-    await loadRelatedGames(currentGame)
+    await Promise.allSettled([
+      franchisePromise,
+      collectionStatusPromise,
+      similarPromise,
+      relatedPromise,
+    ])
   } catch (error) {
     heroEl.innerHTML = '<div class="loading-card">Impossible de charger la fiche pour cette session.</div>'
     statsRowEl.innerHTML = ''
@@ -3621,7 +3649,7 @@ function setAccordionState(sectionEl, expanded) {
   toggleEl.setAttribute('aria-expanded', expanded ? 'true' : 'false')
   const indicatorEl = toggleEl.querySelector('.detail-accordion-indicator')
   if (indicatorEl) {
-    indicatorEl.textContent = expanded ? '▾' : '▸'
+    indicatorEl.textContent = expanded ? 'â–¾' : 'â–¸'
   }
   contentEl.hidden = !expanded
 }
@@ -3648,3 +3676,4 @@ window.handleMarkForSale = handleMarkForSale
 initDetailAccordions()
 loadPage()
 contribSubmitEl?.addEventListener('click', handleContributionSubmit)
+

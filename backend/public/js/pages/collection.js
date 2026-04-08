@@ -1205,16 +1205,8 @@
     try {
       let items
       if (activeTab === 'all') {
-        const [ownedPayload, wantedPayload, salePayload] = await Promise.all([
-          fetchCollection('owned', isPublicForSaleView),
-          fetchCollection('wanted', isPublicForSaleView),
-          fetchCollection('for_sale', isPublicForSaleView),
-        ])
-        items = [
-          ...ownedPayload.items,
-          ...wantedPayload.items,
-          ...salePayload.items,
-        ].filter((item) => Object.keys(getGame(item)).length > 0)
+        const payload = await fetchCollection(null, isPublicForSaleView)
+        items = payload.items.filter((item) => Object.keys(getGame(item)).length > 0)
       } else {
         const payload = await fetchCollection(activeTab, isPublicForSaleView)
         items = payload.items.filter((item) => Object.keys(getGame(item)).length > 0)

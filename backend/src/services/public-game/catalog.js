@@ -14,8 +14,11 @@ const {
   buildArchivePayload: buildKnowledgeArchivePayload,
   buildEncyclopediaPayload: buildKnowledgeEncyclopediaPayload,
 } = require('../../helpers/game-knowledge')
+const { LRUCache } = require('../../lib/lru-cache')
 const { fetchRowsInBatches } = require('../public-supabase-utils')
 const { fetchGameMediaMap } = require('./media')
+
+const gameByIdCache = new LRUCache(300, 5 * 60 * 1000)
 
 const BASE_CATALOG_COLUMNS = [
   'id',
@@ -203,7 +206,20 @@ async function fetchCanonicalGamesList(query = {}) {
 }
 
 async function fetchCanonicalGameById(id) {
-  const [game] = await hydrateGameCovers([await getGameById(id)])
+  const cacheKey = String(id || '').trim()
+  if (!cacheKey) {
+    return null
+  }
+
+  const cached = gameByIdCache.get(cacheKey)
+  if (cached) {
+    return cached
+  }
+
+  const [game] = await hydrateGameCovers([await getGameById(cacheKey)])
+  if (game) {
+    gameByIdCache.set(cacheKey, game)
+  }
   return game || null
 }
 
@@ -218,5 +234,8 @@ module.exports = {
   fetchCanonicalGamesList,
   fetchCanonicalGameById,
   warmUpCatalogCache: catalogCache.warmUp,
-  invalidateCatalogCache: catalogCache.invalidate,
+  invalidateCatalogCache: () => {
+    gameByIdCache.clear()
+    catalogCache.invalidate()
+  },
 }
