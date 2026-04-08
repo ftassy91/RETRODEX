@@ -521,7 +521,7 @@ function renderHeroSection(game) {
           ${pricePanel}
           <div id="hero-region-chips" class="hero-region-chips"></div>
           <div id="price-timestamp" class="price-timestamp" hidden></div>
-          ${game.priceLastUpdated ? `<div class="detail-hero-price-date">Mis à jour : ${escapeHtml(game.priceLastUpdated)}</div>` : ''}
+          ${game.priceLastUpdated ? `<div class="detail-hero-price-date">Mis à jour : ${escapeHtml(game.priceLastUpdated)}</div>${buildPriceFreshnessAlert(game.priceLastUpdated)}` : ''}
           ${game.sourceNames ? `<div class="detail-hero-sources">Sources : ${escapeHtml(game.sourceNames)}</div>` : ''}
         </aside>
       </div>
@@ -629,6 +629,9 @@ function renderCollectionDecisionStrip(options = {}) {
     <div class="surface-signal-card surface-signal-card--action${actionClass ? ` ${actionClass}` : ''}">
       <span class="surface-signal-label">Action</span>
       <span class="surface-signal-value surface-signal-action-value">${escapeHtml(decision.actionLabel)}</span>
+      ${decision.actionLabel === 'a vendre' && currentCollectionItem && normalizeCollectionListType(currentCollectionItem.list_type) !== 'for_sale'
+        ? '<button id="action-mark-for-sale-btn" class="decision-action-btn" type="button" onclick="handleMarkForSale()">MARQUER A VENDRE</button>'
+        : ''}
     </div>
   `
   decisionNoteEl.textContent = decision.actionNote || 'Lecture de collection en cours.'
@@ -721,6 +724,16 @@ function getFreshnessLabel(value) {
   if (freshness === 'aging') return 'signal en veille'
   if (freshness === 'stale') return 'signal vieillissant'
   return 'signal ancien'
+}
+
+function buildPriceFreshnessAlert(priceLastUpdated) {
+  if (!priceLastUpdated) return ''
+  const updated = new Date(priceLastUpdated)
+  if (isNaN(updated.getTime())) return ''
+  const daysAgo = Math.floor((Date.now() - updated.getTime()) / (1000 * 60 * 60 * 24))
+  if (daysAgo <= 90) return ''
+  const months = Math.floor(daysAgo / 30)
+  return `<div class="price-freshness-alert">PRIX MIS A JOUR IL Y A ${months} MOIS — VERIFIER AVANT DECISION</div>`
 }
 
 function formatTrustDate(value) {
@@ -2190,6 +2203,22 @@ async function handleCollectionAction() {
   }
 }
 
+async function handleMarkForSale() {
+  if (!currentCollectionItem) return
+  const btn = document.getElementById('action-mark-for-sale-btn')
+  if (btn) { btn.disabled = true; btn.textContent = '...' }
+  try {
+    await fetchJson(`/api/collection/${encodeURIComponent(currentCollectionItem.id)}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ list_type: 'for_sale' }),
+    })
+    await refreshCollectionStatus()
+  } catch (_err) {
+    if (btn) { btn.disabled = false; btn.textContent = 'MARQUER A VENDRE' }
+  }
+}
+
 async function handleWishlistAction() {
   if (!currentGame || !wishlistButtonEl) {
     return
@@ -3390,6 +3419,8 @@ function initDetailAccordions() {
     })
   })
 }
+
+window.handleMarkForSale = handleMarkForSale
 
 initDetailAccordions()
 loadPage()
