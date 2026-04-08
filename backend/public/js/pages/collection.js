@@ -756,6 +756,18 @@
     setText_('evo-condition-dist', `${condCount.Loose}L · ${condCount.CIB}C · ${condCount.Mint}M`)
 
     panelEl.hidden = false
+
+    // Budget rotation — cross-reference sell candidates et affordable wishlist
+    if (cockpitData) {
+      const sellItems = cockpitData.sell_candidates?.items || []
+      const wishItems = cockpitData.affordable_wishlist?.items || []
+      const totalSellValue = sellItems.reduce((sum, it) => sum + (Number(it.loosePrice) || 0), 0)
+      const wishCount = wishItems.length
+      const rotationEl = byId('evo-rotation-budget')
+      const rotationWishEl = byId('evo-rotation-wish')
+      if (rotationEl) rotationEl.textContent = totalSellValue > 0 ? `$${Math.round(totalSellValue)}` : '-'
+      if (rotationWishEl) rotationWishEl.textContent = wishCount > 0 ? `${wishCount} item(s) finançables` : '-'
+    }
   }
 
   function renderEmptyState() {

@@ -700,6 +700,15 @@ completenessEl.addEventListener('change', () => {
   loadGames()
 })
 
+const richnessQuickEl = document.getElementById('richness-quick')
+if (richnessQuickEl) {
+  richnessQuickEl.addEventListener('change', () => {
+    if (completenessEl) completenessEl.value = richnessQuickEl.value
+    currentOffset = 0
+    loadGames()
+  })
+}
+
 queryEl.addEventListener('input', () => {
   clearTimeout(debounceTimer)
   debounceTimer = setTimeout(() => {
