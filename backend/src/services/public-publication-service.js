@@ -1,6 +1,7 @@
 'use strict'
 
 const { db } = require('../../db_supabase')
+const { LRUCache } = require('../lib/lru-cache')
 const { normalizeGameRecord } = require('../lib/normalize')
 const {
   uniqueStrings,
@@ -10,6 +11,10 @@ const {
 
 const PUBLICATION_MEDIA_TYPES = ['map', 'manual', 'sprite_sheet', 'ending']
 const DEFAULT_PUBLICATION_PASS_KEY = 'PASS 1 curated'
+const scopeCache = new LRUCache(1, 60 * 1000)
+const signalCache = new LRUCache(5000, 2 * 60 * 1000)
+const curationCache = new LRUCache(5000, 2 * 60 * 1000)
+let scopeRefreshPromise = null
 
 function buildPublicationSummary(scope = null, statsBase = null, extra = {}) {
   return {
@@ -49,11 +54,25 @@ async function fetchGameVisibilitySignals(gameIds = []) {
     return signalMap
   }
 
+  const missingIds = []
+  uniqueIds.forEach((gameId) => {
+    const cached = signalCache.get(gameId)
+    if (cached) {
+      signalMap.set(gameId, { ...buildEmptySignals(), ...cached })
+    } else {
+      missingIds.push(gameId)
+    }
+  })
+
+  if (!missingIds.length) {
+    return signalMap
+  }
+
   let response = await db
     .from('media_references')
     .select('entity_id,media_type,ui_allowed,license_status')
     .eq('entity_type', 'game')
-    .in('entity_id', uniqueIds)
+    .in('entity_id', missingIds)
     .in('media_type', PUBLICATION_MEDIA_TYPES)
 
   if (response.error) {
@@ -65,11 +84,16 @@ async function fetchGameVisibilitySignals(gameIds = []) {
       .from('media_references')
       .select('entity_id,media_type')
       .eq('entity_type', 'game')
-      .in('entity_id', uniqueIds)
+      .in('entity_id', missingIds)
       .in('media_type', PUBLICATION_MEDIA_TYPES)
 
     if (response.error) {
       if (isMissingSupabaseRelationError(response.error)) {
+        missingIds.forEach((gameId) => {
+          const empty = buildEmptySignals()
+          signalMap.set(gameId, empty)
+          signalCache.set(gameId, empty)
+        })
         return signalMap
       }
       throw new Error(response.error.message)
@@ -98,6 +122,10 @@ async function fetchGameVisibilitySignals(gameIds = []) {
     if (mediaType === 'ending') bucket.hasEndings = true
   }
 
+  missingIds.forEach((gameId) => {
+    signalCache.set(gameId, signalMap.get(gameId) || buildEmptySignals())
+  })
+
   return signalMap
 }
 
@@ -109,23 +137,58 @@ async function fetchGameCurationStates(gameIds = [], scope = null) {
     return curationMap
   }
 
+  const missingIds = []
+  uniqueIds.forEach((gameId) => {
+    const cached = curationCache.get(gameId)
+    if (cached) {
+      const fallback = curationMap.get(gameId) || buildEmptyCuration(scope, gameId)
+      const status = cached.status || fallback.status || null
+      curationMap.set(gameId, {
+        status,
+        isPublished: fallback.isPublished || status === 'published' || cached.publishedAt != null,
+        passKey: cached.passKey || fallback.passKey || null,
+      })
+    } else {
+      missingIds.push(gameId)
+    }
+  })
+
+  if (!missingIds.length) {
+    return curationMap
+  }
+
   const { data, error } = await db
     .from('game_curation_states')
     .select('game_id,status,pass_key,published_at')
-    .in('game_id', uniqueIds)
+    .in('game_id', missingIds)
 
   if (error) {
     if (isMissingSupabaseRelationError(error)) {
+      missingIds.forEach((gameId) => {
+        curationCache.set(gameId, {
+          status: null,
+          passKey: null,
+          publishedAt: null,
+        })
+      })
       return curationMap
     }
     throw new Error(error.message)
   }
 
+  const seenIds = new Set()
   for (const row of data || []) {
     const gameId = String(row.game_id || '')
     if (!gameId) {
       continue
     }
+    seenIds.add(gameId)
+
+    curationCache.set(gameId, {
+      status: row.status || null,
+      passKey: row.pass_key || null,
+      publishedAt: row.published_at || null,
+    })
 
     const fallback = curationMap.get(gameId) || buildEmptyCuration(scope, gameId)
     const status = row.status || fallback.status || null
@@ -135,6 +198,15 @@ async function fetchGameCurationStates(gameIds = [], scope = null) {
       passKey: row.pass_key || fallback.passKey || null,
     })
   }
+
+  missingIds.forEach((gameId) => {
+    if (seenIds.has(gameId)) return
+    curationCache.set(gameId, {
+      status: null,
+      passKey: null,
+      publishedAt: null,
+    })
+  })
 
   return curationMap
 }
@@ -152,6 +224,16 @@ function attachVisibilityMetadata(games = [], signalsMap = new Map(), curationMa
 }
 
 async function fetchPublishedGameScope() {
+  const cached = scopeCache.get('published-scope')
+  if (cached) {
+    return cached
+  }
+
+  if (scopeRefreshPromise) {
+    return scopeRefreshPromise
+  }
+
+  scopeRefreshPromise = (async () => {
   let data = []
 
   try {
@@ -163,7 +245,7 @@ async function fetchPublishedGameScope() {
     )
   } catch (error) {
     if (isMissingSupabaseRelationError(error)) {
-      return {
+      const emptyScope = {
         enabled: false,
         ids: [],
         set: new Set(),
@@ -171,6 +253,8 @@ async function fetchPublishedGameScope() {
         slotRows: [],
         passKey: DEFAULT_PUBLICATION_PASS_KEY,
       }
+      scopeCache.set('published-scope', emptyScope)
+      return emptyScope
     }
 
     throw error
@@ -192,13 +276,22 @@ async function fetchPublishedGameScope() {
   const consoleIds = uniqueStrings(slotRows.map((row) => row.console_id))
   const passKeys = uniqueStrings(slotRows.map((row) => row.pass_key))
 
-  return {
+  const scope = {
     enabled: true,
     ids,
     set: new Set(ids),
     consoleIds,
     slotRows,
     passKey: passKeys[0] || DEFAULT_PUBLICATION_PASS_KEY,
+  }
+  scopeCache.set('published-scope', scope)
+  return scope
+  })()
+
+  try {
+    return await scopeRefreshPromise
+  } finally {
+    scopeRefreshPromise = null
   }
 }
 

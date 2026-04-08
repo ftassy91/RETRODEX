@@ -1,6 +1,7 @@
 'use strict'
 
 const { queryGames, getStats } = require('../../../db_supabase')
+const { LRUCache } = require('../../lib/lru-cache')
 const { parseLimit } = require('../../helpers/query')
 const {
   hydrateGameCovers,
@@ -13,6 +14,21 @@ const {
   attachVisibilityMetadata,
   fetchPublishedGameScope,
 } = require('../public-publication-service')
+
+const statsBaseCache = new LRUCache(1, 60 * 1000)
+
+async function fetchCachedStatsBase() {
+  const cached = statsBaseCache.get('stats-base')
+  if (cached) return cached
+
+  const statsBase = await getStats().catch((err) => {
+    console.warn('[stats] getStats failed:', err.message)
+    return {}
+  })
+
+  statsBaseCache.set('stats-base', statsBase || {})
+  return statsBase || {}
+}
 
 async function fetchItemsPayload(query = {}) {
   const limit = parseLimit(query.limit, 20, 1000)
@@ -34,7 +50,7 @@ async function fetchItemsPayload(query = {}) {
       yearMax: Number.isFinite(yearMax) ? yearMax : null,
       ids: scope.enabled && scope.ids.length ? scope.ids : null,
     }),
-    getStats().catch((err) => { console.warn('[stats] getStats failed:', err.message); return {} }),
+    fetchCachedStatsBase(),
   ])
 
   const hydratedItems = await hydrateGameCovers(items)
