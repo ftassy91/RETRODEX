@@ -5193,6 +5193,17 @@ body {
   color: #486648;
 }
 
+.detail-studio-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--text-muted);
+  font-size: inherit;
+}
+.detail-studio-link:hover {
+  color: var(--text-primary);
+  border-bottom-color: var(--text-primary);
+}
+
 .detail-hero-reference {
   display: block;
   margin-top: 0.35rem;

@@ -479,7 +479,11 @@ function renderHeroSection(game) {
                 <span id="hero-metascore-value" class="detail-hero-meta-value">${game.metascore ? escapeHtml(metascoreValue) : buildEmptyStateHtml('Non note')}</span>
               </div>
 
-              <div class="detail-hero-developer">${escapeHtml(meta.developerName)}</div>
+              <div class="detail-hero-developer">
+                ${meta.developerName && meta.developerName !== 'studio inconnu'
+                  ? `<a class="detail-studio-link" href="/games-list.html?q=${encodeURIComponent(meta.developerName)}" title="Voir tous les jeux de ${escapeHtml(meta.developerName)}">${escapeHtml(meta.developerName)}</a>`
+                  : escapeHtml(meta.developerName)}
+              </div>
               <div id="hero-content-status" class="detail-hero-chip-row"></div>
               <p id="hero-content-note" class="detail-status-copy"></p>
 
@@ -677,10 +681,16 @@ function renderDetailContentStatus() {
     ].join('')
   }
   if (readingHighlightsEl) {
-    readingHighlightsEl.innerHTML = signals.highlights
+    const highlightChips = signals.highlights
       .slice(0, 2)
       .map((label) => `<span class="surface-chip">${escapeHtml(label)}</span>`)
-      .join('')
+    const anecdoteCount = Array.isArray(currentEncyclopediaData?.dev_anecdotes)
+      ? currentEncyclopediaData.dev_anecdotes.length
+      : 0
+    if (anecdoteCount > 0) {
+      highlightChips.push(`<span class="surface-chip">ANECDOTES ${anecdoteCount}</span>`)
+    }
+    readingHighlightsEl.innerHTML = highlightChips.join('')
   }
   if (readingNoteEl) readingNoteEl.textContent = signals.band.note
 }
