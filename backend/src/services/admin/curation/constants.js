@@ -5,7 +5,7 @@ const PROFILE_VERSION = 'pass1-heuristic-v1'
 const CONTENT_VERSION = 'pass1-content-v1'
 const LOCK_THRESHOLD = 0.9
 const TARGET_MIN_PER_CONSOLE = 10
-const TARGET_MAX_PER_CONSOLE = 20
+const TARGET_MAX_PER_CONSOLE = 90
 
 const PROFILE_KEYS = [
   'overview',
