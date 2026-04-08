@@ -3,6 +3,7 @@
 
 const { Router } = require('express')
 
+const { setPublicEdgeCache } = require('../../helpers/cache-control')
 const { handleAsync } = require('../../helpers/query')
 const {
   fetchGameKnowledgeDomains,
@@ -11,7 +12,6 @@ const {
 } = require('../../services/public-game-reader')
 
 const router = Router()
-const PUBLIC_ENCYCLOPEDIA_CACHE_CONTROL = 'public, max-age=0, s-maxage=300, stale-while-revalidate=900'
 
 router.get('/api/games/:id/encyclopedia', handleAsync(async (req, res) => {
   const game = await fetchCanonicalGameById(req.params.id)
@@ -20,7 +20,7 @@ router.get('/api/games/:id/encyclopedia', handleAsync(async (req, res) => {
   }
 
   const domains = await fetchGameKnowledgeDomains(game)
-  res.set('Cache-Control', PUBLIC_ENCYCLOPEDIA_CACHE_CONTROL)
+  setPublicEdgeCache(res, { cdnMaxAge: 300, staleWhileRevalidate: 900 })
   return res.json(buildEncyclopediaPayload(game, domains))
 }))
 

@@ -4,6 +4,7 @@
 const { Router } = require('express')
 
 const { handleAsync } = require('../../helpers/query')
+const { setPublicEdgeCache } = require('../../helpers/cache-control')
 const { toGameSummary } = require('../../lib/normalize')
 const {
   fetchCanonicalGameById,
@@ -23,9 +24,6 @@ const {
 } = require('../../services/public-market-report-service')
 
 const router = Router()
-const PUBLIC_GAME_CACHE_CONTROL = 'public, max-age=0, s-maxage=300, stale-while-revalidate=900'
-const PUBLIC_DETAIL_CACHE_CONTROL = 'public, max-age=0, s-maxage=180, stale-while-revalidate=600'
-const PUBLIC_MARKET_CACHE_CONTROL = 'public, max-age=0, s-maxage=120, stale-while-revalidate=300'
 
 async function readGame(id) {
   return fetchCanonicalGameById(id)
@@ -46,7 +44,7 @@ router.get('/api/games/:id', handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
 
-  res.set('Cache-Control', PUBLIC_GAME_CACHE_CONTROL)
+  setPublicEdgeCache(res, { cdnMaxAge: 300, staleWhileRevalidate: 900 })
   return res.json(game)
 }))
 
@@ -56,7 +54,7 @@ router.get('/api/games/:id/summary', handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
 
-  res.set('Cache-Control', PUBLIC_GAME_CACHE_CONTROL)
+  setPublicEdgeCache(res, { cdnMaxAge: 300, staleWhileRevalidate: 900 })
   return res.json({ ok: true, item: toGameSummary(game) })
 }))
 
@@ -65,7 +63,7 @@ router.get('/api/games/:id/detail', handleAsync(async (req, res) => {
   if (!payload) {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
-  res.set('Cache-Control', PUBLIC_DETAIL_CACHE_CONTROL)
+  setPublicEdgeCache(res, { cdnMaxAge: 180, staleWhileRevalidate: 600 })
   return res.json(payload)
 }))
 
@@ -75,7 +73,7 @@ router.get('/api/games/:id/price-history', handleAsync(async (req, res) => {
     return res.status(404).json({ ok: false, error: 'Game not found' })
   }
 
-  res.set('Cache-Control', PUBLIC_MARKET_CACHE_CONTROL)
+  setPublicEdgeCache(res, { cdnMaxAge: 120, staleWhileRevalidate: 300 })
   return res.json(payload)
 }))
 
@@ -86,12 +84,12 @@ router.get('/api/games/:id/regions', handleAsync(async (req, res) => {
   }
 
   const regions = await fetchGameRegions(req.params.id)
-  res.set('Cache-Control', PUBLIC_GAME_CACHE_CONTROL)
+  setPublicEdgeCache(res, { cdnMaxAge: 300, staleWhileRevalidate: 900 })
   return res.json({ ok: true, regions })
 }))
 
 router.get('/api/games/:id/index', handleAsync(async (req, res) => {
-  res.set('Cache-Control', PUBLIC_MARKET_CACHE_CONTROL)
+  setPublicEdgeCache(res, { cdnMaxAge: 120, staleWhileRevalidate: 300 })
   return res.json({
     ok: true,
     ...(await fetchMarketIndex(req.params.id)),
