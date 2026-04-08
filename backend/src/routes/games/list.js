@@ -12,11 +12,13 @@ const router = Router()
 
 router.get('/games', handleAsync(async (req, res) => {
   const payload = await fetchCanonicalGamesList(req.query)
+  res.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300')
   return res.json(payload.items)
 }))
 
 router.get('/api/games', handleAsync(async (req, res) => {
   const payload = await fetchCanonicalGamesList(req.query)
+  res.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300')
   return res.json(payload)
 }))
 

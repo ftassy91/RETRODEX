@@ -7,7 +7,6 @@ const {
 } = require('../../../db_supabase')
 const {
   normalizeGameRecord,
-  compareGamesForSort,
 } = require('../../lib/normalize')
 const {
   buildArchivePayload: buildKnowledgeArchivePayload,
@@ -136,20 +135,17 @@ async function fetchCanonicalGamesList(query = {}) {
   const limit = Math.min(Math.max(Number.parseInt(String(query.limit || '20'), 10) || 20, 1), 5000)
   const offset = Math.max(0, Number.parseInt(String(query.offset || '0'), 10) || 0)
   const includeTrend = String(query.include_trend || '') === '1'
-  const { items: rawItems = [] } = await queryGames({
+
+  const { items: rawItems = [], total } = await queryGames({
     sort: query.sort,
     console: query.console,
     rarity: query.rarity,
-    limit: 5000,
-    offset: 0,
+    limit,
+    offset,
     search: query.q,
   })
 
-  const filteredItems = rawItems
-    .map(normalizeGameRecord)
-    .sort((left, right) => compareGamesForSort(left, right, query.sort))
-  const total = filteredItems.length
-  const items = await hydrateGameCovers(filteredItems.slice(offset, offset + limit).map((item) => (
+  const items = await hydrateGameCovers(rawItems.map((item) => (
     includeTrend
       ? { ...item, trend: null }
       : item
