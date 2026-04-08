@@ -47,7 +47,9 @@ async function getCollectionCockpit(options = {}) {
   const needsQualification = owned.filter((item) => {
     const completeness = String(item.completeness || 'unknown').trim().toLowerCase() || 'unknown'
     const confidence = String(item.qualification_confidence || 'unknown').trim().toLowerCase() || 'unknown'
-    return completeness === 'unknown' || confidence === 'unknown' || confidence === 'low'
+    const region = String(item.region || '').trim()
+    const regionMissing = !region || region === 'unknown'
+    return completeness === 'unknown' || confidence === 'unknown' || confidence === 'low' || regionMissing
   })
 
   // — Wishlist finançable : prix loose <= $25

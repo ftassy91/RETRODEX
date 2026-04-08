@@ -16,7 +16,7 @@
     <meta property="og:description" content="Collection RetroDex : revue, qualification, valeur et evolution de l'etagere." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260409r1" />
+    <link rel="stylesheet" href="/style.css?v=20260409r2" />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -138,6 +138,15 @@
             <input id="collection-search-input" class="collection-toolbar-input" type="search" placeholder="titre, note, variante..." aria-label="Search games to add" />
             <select id="collection-console-filter" class="collection-toolbar-select">
               <option value="">Toutes les consoles</option>
+            </select>
+            <select id="collection-region-filter" class="collection-toolbar-select" aria-label="Filtrer par region">
+              <option value="">Toutes regions</option>
+              <option value="PAL">PAL</option>
+              <option value="NTSC-U">NTSC-U</option>
+              <option value="NTSC-J">NTSC-J</option>
+              <option value="NTSC-B">NTSC-B</option>
+              <option value="MULTI">Multi-region</option>
+              <option value="__none__">Region inconnue</option>
             </select>
             <select id="collection-sort-select" class="collection-toolbar-select">
               <option value="review_desc">Priorite de revue</option>
@@ -298,7 +307,7 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/collection.js?v=20260409r1"></script>
+    <script src="/js/pages/collection.js?v=20260409r2"></script>
     <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>

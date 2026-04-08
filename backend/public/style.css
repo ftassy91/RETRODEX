@@ -13947,3 +13947,33 @@ body {
 .collection-row-confidence.confidence--medium  { color: var(--confidence-mid);  }
 .collection-row-confidence.confidence--low     { color: var(--confidence-low);  }
 .collection-row-confidence.confidence--unknown { color: var(--text-muted);      }
+
+/* ─── Collection row: price freshness chip ─── */
+
+.collection-row-freshness {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  padding: 1px 4px;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  cursor: default;
+  opacity: 0.8;
+}
+
+.collection-row-freshness.freshness--fresh { color: var(--confidence-high); }
+.collection-row-freshness.freshness--mid   { color: var(--confidence-mid);  }
+.collection-row-freshness.freshness--stale { color: var(--confidence-low);  }
+.collection-row-freshness.freshness--none  { color: var(--text-muted);      }
+
+/* ─── Detail panel: region chip with color coding ─── */
+
+.detail-region-chip.region--pal   { border-color: rgba(80, 200, 150, 0.5) !important; color: rgba(120, 220, 170, 1) !important; }
+.detail-region-chip.region--ntscu { border-color: rgba(80, 140, 255, 0.5) !important; color: rgba(120, 170, 255, 1) !important; }
+.detail-region-chip.region--ntscj { border-color: rgba(255, 80,  80,  0.5) !important; color: rgba(255, 140, 120, 1) !important; }
+.detail-region-chip.region--ntscb { border-color: rgba(220, 170, 50,  0.5) !important; color: rgba(255, 210, 100, 1) !important; }
+.detail-region-chip.region--multi { border-color: rgba(160, 100, 220, 0.5) !important; color: rgba(200, 160, 255, 1) !important; }
+.detail-region-chip.region--unknown {
+  border-color: var(--text-alert) !important;
+  color: var(--text-alert) !important;
+  opacity: 0.85;
+}

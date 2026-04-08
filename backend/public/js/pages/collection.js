@@ -24,6 +24,7 @@
   const modeCopyEl = byId('collection-mode-copy')
   const collectionSearchInputEl = byId('collection-search-input')
   const collectionConsoleFilterEl = byId('collection-console-filter')
+  const collectionRegionFilterEl = byId('collection-region-filter')
   const collectionSortSelectEl = byId('collection-sort-select')
   const collectionExportButtonEl = byId('collection-export-btn')
   const collectionListContainerEl = byId('collection-list-container')
@@ -137,6 +138,7 @@
     return Boolean(
       collectionSearchInputEl?.value?.trim()
       || collectionConsoleFilterEl?.value
+      || collectionRegionFilterEl?.value
       || (getSortKey() && getSortKey() !== getDefaultSortKey())
     )
   }
@@ -287,6 +289,7 @@
   function applyCollectionFilters(items) {
     const query = normalizeText(collectionSearchInputEl?.value)
     const platform = collectionConsoleFilterEl?.value || ''
+    const regionFilter = collectionRegionFilterEl?.value || ''
 
     // Cockpit signal filter — restrict to the signal's item ids
     const cockpitIds = cockpitSignalItems
@@ -313,6 +316,15 @@
 
       if (platform && (game.console || game.platform) !== platform) {
         return false
+      }
+
+      if (regionFilter) {
+        const itemRegion = String(item.region || '').trim()
+        if (regionFilter === '__none__') {
+          if (itemRegion && itemRegion !== 'unknown') return false
+        } else if (itemRegion !== regionFilter) {
+          return false
+        }
       }
 
       return true
@@ -903,14 +915,29 @@
     }
 
     if (detailChipRowEl) {
+      const regionVal = item.region || null
+      const regionKey = getRegionKey(regionVal)
+      const regionChipClass = `surface-chip detail-region-chip region--${regionKey}`
+      const regionChipLabel = regionVal && regionVal !== 'unknown' ? regionVal : 'Region ?'
+      const regionTooltip = regionVal && regionVal !== 'unknown'
+        ? `Region : ${regionVal}. Affecte la valeur de marche et l identite du jeu.`
+        : 'Region non renseignee. Completez la qualification pour des prix et des actions precis.'
+      const regionChip = `<span class="${regionChipClass}" title="${escapeHtml(regionTooltip)}" style="cursor:default">${escapeHtml(regionChipLabel)}</span>`
+
+      const priceFreshness = getPriceFreshnessSummary(game)
+      const sourceInfo = String(game?.sourceNames || '').trim()
+      const priceSourceTooltip = sourceInfo
+        ? `Prix ${priceFreshness} — Source : ${sourceInfo}`
+        : `Prix ${priceFreshness}`
+
       detailChipRowEl.innerHTML = `
         <span class="surface-chip is-primary">${escapeHtml(item.condition || 'Archive')}</span>
+        ${regionChip}
         <span class="surface-chip">${escapeHtml(getQualificationCompleteness(item))}</span>
         <span class="surface-chip">${escapeHtml(`confiance ${getQualificationConfidenceLabel(item)}`)}</span>
-        ${item.region ? `<span class="surface-chip">${escapeHtml(`region ${item.region}`)}</span>` : ''}
         ${item.edition_note ? `<span class="surface-chip">${escapeHtml(item.edition_note)}</span>` : ''}
         <span class="surface-chip">${escapeHtml(paid > 0 ? `Investi ${formatCurrency(paid)}` : 'Investi n/a')}</span>
-        <span class="surface-chip">${escapeHtml(`prix ${getPriceFreshnessSummary(game)}`)}</span>
+        <span class="surface-chip" title="${escapeHtml(priceSourceTooltip)}">${escapeHtml(`prix ${priceFreshness}`)}</span>
         ${cibPrice ? `<span class="surface-chip">CIB ${escapeHtml(formatCurrency(cibPrice))}</span>` : ''}
         ${mintPrice ? `<span class="surface-chip">Mint ${escapeHtml(formatCurrency(mintPrice))}</span>` : ''}
         ${item.purchase_date ? `<span class="surface-chip">Entree ${escapeHtml(item.purchase_date)}</span>` : ''}
@@ -987,6 +1014,24 @@
     row.scrollIntoView({ block: 'nearest' })
   }
 
+  function getPriceFreshnessChip(game) {
+    const raw = String(game?.priceLastUpdated || game?.price_last_updated || '').trim()
+    if (!raw) {
+      return '<span class="collection-row-freshness freshness--none" title="Date de mise a jour des prix inconnue">prix ?</span>'
+    }
+    const ageDays = Math.floor((Date.now() - new Date(raw).getTime()) / 86400000)
+    if (!Number.isFinite(ageDays) || ageDays < 0) {
+      return '<span class="collection-row-freshness freshness--none" title="Date de mise a jour des prix inconnue">prix ?</span>'
+    }
+    const label = ageDays === 0 ? "auj" : ageDays === 1 ? "1j" : ageDays < 60 ? `${ageDays}j` : ageDays < 365 ? `${Math.round(ageDays / 30)}m` : `${Math.round(ageDays / 365)}a`
+    const tier = ageDays <= 14 ? 'fresh' : ageDays <= 60 ? 'mid' : 'stale'
+    const sourceNames = String(game?.sourceNames || '').trim()
+    const titleAttr = sourceNames
+      ? `Prix mis a jour il y a ${ageDays}j — Source : ${sourceNames}`
+      : `Prix mis a jour il y a ${ageDays} jour(s)`
+    return `<span class="collection-row-freshness freshness--${tier}" title="${escapeHtml(titleAttr)}">${escapeHtml(label)}</span>`
+  }
+
   function getRegionKey(region) {
     if (!region) return 'unknown'
     const r = String(region).toLowerCase().replace(/[^a-z]/g, '')
@@ -1029,6 +1074,7 @@
     const qualConf = getQualificationConfidence(item)
     const qualConfLabel = getQualificationConfidenceLabel(item)
     const confidenceHtml = `<span class="collection-row-confidence confidence--${escapeHtml(qualConf)}" title="Confiance de qualification : ${escapeHtml(qualConfLabel)}">${escapeHtml(qualConfLabel)}</span>`
+    const freshnessHtml = getPriceFreshnessChip(game)
 
     const row = document.createElement('div')
     row.className = 'terminal-row'
@@ -1040,7 +1086,7 @@
       <span role="cell" class="terminal-row-indicator">></span>
       <span role="cell" class="collection-row-main">
         <span class="collection-row-title">${escapeHtml(game.title || '?')}</span>
-        <span class="collection-row-meta">${regionHtml}${confidenceHtml}</span>
+        <span class="collection-row-meta">${regionHtml}${confidenceHtml}${freshnessHtml}</span>
         <span class="collection-row-cue${actionCue.tone ? ` ${actionCue.tone}` : ''}">${escapeHtml(actionCue.label)}</span>
         <span class="collection-row-cue">${escapeHtml(qualificationCue)}</span>
         <span class="collection-row-status">${statusBadge}</span>
@@ -1418,6 +1464,9 @@
       refreshCollectionView(selectedCollectionItem?.id || selectedCollectionItem?.gameId || null)
     })
     collectionConsoleFilterEl?.addEventListener('change', () => {
+      refreshCollectionView(selectedCollectionItem?.id || selectedCollectionItem?.gameId || null)
+    })
+    collectionRegionFilterEl?.addEventListener('change', () => {
       refreshCollectionView(selectedCollectionItem?.id || selectedCollectionItem?.gameId || null)
     })
     collectionSortSelectEl?.addEventListener('change', () => {
