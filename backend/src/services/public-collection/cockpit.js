@@ -1,10 +1,7 @@
 'use strict'
 
 const { listCollectionItems } = require('./storage')
-
-const UPGRADE_MAX_DELTA = 20  // CIB affordable if CIB - Loose <= $20
-const SELL_MIN_GAIN_RATIO = 1.5  // sellable if loose_price >= price_paid * 1.5
-const WISHLIST_AFFORDABLE_MAX = 25  // finançable si loose_price <= $25
+const { UPGRADE_MAX_DELTA, SELL_MIN_GAIN_RATIO, WISHLIST_AFFORDABLE_MAX } = require('./action-resolver')
 
 async function getCollectionCockpit(options = {}) {
   const [owned, wanted] = await Promise.all([
@@ -26,6 +23,7 @@ async function getCollectionCockpit(options = {}) {
 
   // — Candidats à vendre : plus-value >= 50% vs prix d'achat
   const sellCandidates = owned.filter((item) => {
+    if (item.list_type === 'for_sale' || item.for_sale === true) return true
     const paid = Number(item.price_paid || 0)
     const loose = Number(item.game?.loosePrice || 0)
     return paid > 0 && loose > 0 && loose >= paid * SELL_MIN_GAIN_RATIO
@@ -48,7 +46,8 @@ async function getCollectionCockpit(options = {}) {
   // — Wishlist finançable : prix loose <= $25
   const affordableWishlist = wanted.filter((item) => {
     const loose = Number(item.game?.loosePrice || 0)
-    return loose > 0 && loose <= WISHLIST_AFFORDABLE_MAX
+    const threshold = item.price_threshold != null ? Number(item.price_threshold) : WISHLIST_AFFORDABLE_MAX
+    return loose > 0 && loose <= threshold
   })
 
   return {
@@ -69,8 +68,10 @@ function toSignalItem(item) {
     console: game.console || game.platform || null,
     condition: item.condition || null,
     price_paid: item.price_paid ?? null,
+    price_threshold: item.price_threshold ?? null,
     loosePrice: Number(game.loosePrice || 0) || null,
     cibPrice: Number(game.cibPrice || 0) || null,
+    mintPrice: Number(game.mintPrice || 0) || null,
   }
 }
 
