@@ -11,12 +11,12 @@
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <title>RetroDex &mdash; Fiche jeu</title>
-    <meta name="description" content="Fiche RetroDex d'un jeu retro : lecture, contexte, valeur et collection." />
+    <meta name="description" content="Fiche RetroDex d'un jeu retro : lecture, qualification, valeur et collection." />
     <meta property="og:title" content="Fiche jeu | RetroDex" />
-    <meta property="og:description" content="Fiche RetroDex d'un jeu retro : lecture, contexte, valeur et collection." />
+    <meta property="og:description" content="Fiche RetroDex d'un jeu retro : lecture, qualification, valeur et collection." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260408r1" />
+    <link rel="stylesheet" href="/style.css?v=20260408r3" />
   </head>
   <body>
     <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
@@ -50,14 +50,6 @@
 
       <div id="provenance-line" class="provenance-line" hidden></div>
 
-      <section id="related-shell" class="related-card detail-accordion" hidden>
-        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="related-content">
-          <span>Connexions</span>
-          <span class="detail-accordion-indicator">&#9656;</span>
-        </button>
-        <div id="related-content" class="detail-accordion-content" hidden></div>
-      </section>
-
       <section id="editorial-shell" class="editorial-card detail-accordion" hidden>
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="editorial-content">
           <span>Lecture principale</span>
@@ -66,9 +58,17 @@
         <div id="editorial-content" class="detail-accordion-content" hidden></div>
       </section>
 
+      <section id="related-shell" class="related-card detail-accordion" hidden>
+        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="related-content">
+          <span>Connexions</span>
+          <span class="detail-accordion-indicator">&#9656;</span>
+        </button>
+        <div id="related-content" class="detail-accordion-content" hidden></div>
+      </section>
+
       <section id="collection-shell" class="collection-card detail-accordion">
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="collection-content">
-          <span>Suivi personnel</span>
+          <span>Suivi personnel et qualification</span>
           <span class="detail-accordion-indicator">&#9656;</span>
         </button>
         <div id="collection-content" class="detail-accordion-content" hidden>
@@ -90,8 +90,25 @@
                 <option value="CIB">CIB</option>
                 <option value="Mint">Mint</option>
               </select>
+              <select id="collection-completeness" class="collection-condition-select" aria-label="Completude">
+                <option value="unknown">A qualifier</option>
+                <option value="loose">Loose</option>
+                <option value="partial">Partiel</option>
+                <option value="cib">CIB</option>
+                <option value="sealed">Scelle</option>
+              </select>
+              <select id="collection-qualification-confidence" class="collection-condition-select" aria-label="Confiance de qualification">
+                <option value="unknown">Confiance inconnue</option>
+                <option value="low">Faible</option>
+                <option value="medium">Moyenne</option>
+                <option value="high">Haute</option>
+              </select>
               <input id="collection-price-paid" class="collection-condition-select" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Prix" aria-label="Prix" />
               <input id="collection-purchase-date" class="collection-condition-select" type="date" aria-label="Date" />
+            </div>
+            <div class="collection-controls">
+              <input id="collection-region" class="collection-condition-select" type="text" maxlength="24" placeholder="Region" aria-label="Region" />
+              <input id="collection-edition-note" class="collection-condition-select" type="text" maxlength="120" placeholder="Edition / note variante" aria-label="Edition / note variante" />
             </div>
             <textarea id="collection-notes" class="collection-note-input" maxlength="320" rows="2" placeholder="Notes"></textarea>
           </div>
@@ -101,7 +118,7 @@
 
       <section id="stats-shell" class="stats-card detail-accordion">
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="stats-content">
-          <span>Reference prix</span>
+          <span>Marche et reference prix</span>
           <span class="detail-accordion-indicator">&#9656;</span>
         </button>
         <div id="stats-content" class="detail-accordion-content" hidden>
@@ -127,7 +144,6 @@
           <div class="price-stats-row"></div>
         </div>
       </section>
-
     </main>
 
     <script src="/js/core/config.js"></script>
@@ -140,7 +156,7 @@
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
     <script src="/js/core/content-signals.js"></script>
-    <script src="/js/pages/game-detail.js?v=20260408r1"></script>
+    <script src="/js/pages/game-detail.js?v=20260408r3"></script>
     <script src="/js/features/experience-layer.js"></script>
     <div class="footer-attribution">
       Covers :

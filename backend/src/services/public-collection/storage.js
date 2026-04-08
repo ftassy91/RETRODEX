@@ -8,6 +8,8 @@ const {
   serializeCollectionItemDto,
 } = require('./core')
 
+let collectionSchemaStatePromise = null
+
 function isSqliteMode() {
   return mode === 'sqlite' && db && db._sqlite
 }
@@ -33,6 +35,24 @@ function sqliteHasColumn(table, column) {
 }
 
 async function hasCanonicalCollectionSchema() {
+  const state = await getCollectionSchemaState()
+  return state.canonical
+}
+
+async function getCollectionSchemaState() {
+  if (collectionSchemaStatePromise) {
+    return collectionSchemaStatePromise
+  }
+
+  collectionSchemaStatePromise = detectCollectionSchemaState().catch((error) => {
+    collectionSchemaStatePromise = null
+    throw error
+  })
+
+  return collectionSchemaStatePromise
+}
+
+async function detectCollectionSchemaState() {
   if (mode === 'supabase') {
     const probe = await db
       .from('collection_items')
@@ -40,17 +60,38 @@ async function hasCanonicalCollectionSchema() {
       .limit(1)
 
     if (!probe.error) {
-      return true
+      const qualificationProbe = await db
+        .from('collection_items')
+        .select('edition_note')
+        .limit(1)
+
+      if (qualificationProbe.error && !isMissingSchemaError(qualificationProbe.error)) {
+        throw new Error(qualificationProbe.error.message)
+      }
+
+      return {
+        canonical: true,
+        qualification: !qualificationProbe.error,
+      }
     }
 
     if (isMissingSchemaError(probe.error)) {
-      return false
+      return {
+        canonical: false,
+        qualification: false,
+      }
     }
 
     throw new Error(probe.error.message)
   }
 
-  return sqliteHasColumn('collection_items', 'user_id')
+  const canonical = sqliteHasColumn('collection_items', 'user_id')
+  const qualification = canonical && sqliteHasColumn('collection_items', 'edition_note')
+
+  return {
+    canonical,
+    qualification,
+  }
 }
 
 function mapLegacyCollectionRow(row, scope) {
@@ -67,19 +108,52 @@ function mapLegacyCollectionRow(row, scope) {
     purchase_date: row.date_acquired || null,
     personal_note: null,
     price_threshold: null,
+    edition_note: null,
+    region: null,
+    completeness: null,
+    qualification_confidence: null,
+    qualification_updated_at: null,
     created_at: row.created_at || null,
     updated_at: row.updated_at || null,
   }
 }
 
 async function fetchCollectionRows(scope, listType = null) {
-  const canonical = await hasCanonicalCollectionSchema()
+  const schema = await getCollectionSchemaState()
+  const canonical = schema.canonical
 
   if (mode === 'supabase') {
     if (canonical) {
+      const columns = [
+        'id',
+        'user_id',
+        'user_session',
+        'game_id',
+        'added_at',
+        'condition',
+        'notes',
+        'list_type',
+        'price_paid',
+        'purchase_date',
+        'personal_note',
+        'price_threshold',
+        'created_at',
+        'updated_at',
+      ]
+
+      if (schema.qualification) {
+        columns.push(
+          'edition_note',
+          'region',
+          'completeness',
+          'qualification_confidence',
+          'qualification_updated_at'
+        )
+      }
+
       let query = db
         .from('collection_items')
-        .select('id,user_id,user_session,game_id,added_at,condition,notes,list_type,price_paid,purchase_date,personal_note,price_threshold,created_at,updated_at')
+        .select(columns.join(','))
         .eq('user_id', scope.userId)
 
       if (listType) {
@@ -91,7 +165,14 @@ async function fetchCollectionRows(scope, listType = null) {
         throw new Error(error.message)
       }
 
-      return Array.isArray(data) ? data : []
+      return (Array.isArray(data) ? data : []).map((row) => ({
+        ...row,
+        edition_note: schema.qualification ? row.edition_note ?? null : null,
+        region: schema.qualification ? row.region ?? null : null,
+        completeness: schema.qualification ? row.completeness ?? null : null,
+        qualification_confidence: schema.qualification ? row.qualification_confidence ?? null : null,
+        qualification_updated_at: schema.qualification ? row.qualification_updated_at ?? null : null,
+      }))
     }
 
     const { data, error } = await db
@@ -112,9 +193,12 @@ async function fetchCollectionRows(scope, listType = null) {
   }
 
   if (canonical) {
+    const qualificationColumns = schema.qualification
+      ? ', edition_note, region, completeness, qualification_confidence, qualification_updated_at'
+      : ''
     const params = [scope.userId]
     let sql = `
-      SELECT id,user_id,user_session,game_id,added_at,condition,notes,list_type,price_paid,purchase_date,personal_note,price_threshold,created_at,updated_at
+      SELECT id,user_id,user_session,game_id,added_at,condition,notes,list_type,price_paid,purchase_date,personal_note,price_threshold,created_at,updated_at${qualificationColumns}
       FROM collection_items
       WHERE user_id = ?
     `
@@ -126,7 +210,14 @@ async function fetchCollectionRows(scope, listType = null) {
 
     sql += ' ORDER BY COALESCE(created_at, added_at) DESC'
     const rows = db._sqlite.prepare(sql).all(...params)
-    return Array.isArray(rows) ? rows : []
+    return (Array.isArray(rows) ? rows : []).map((row) => ({
+      ...row,
+      edition_note: schema.qualification ? row.edition_note ?? null : null,
+      region: schema.qualification ? row.region ?? null : null,
+      completeness: schema.qualification ? row.completeness ?? null : null,
+      qualification_confidence: schema.qualification ? row.qualification_confidence ?? null : null,
+      qualification_updated_at: schema.qualification ? row.qualification_updated_at ?? null : null,
+    }))
   }
 
   const rows = db._sqlite.prepare(`
@@ -224,6 +315,7 @@ async function ensureGameExists(gameId) {
 
 module.exports = {
   hasCanonicalCollectionSchema,
+  getCollectionSchemaState,
   getCollectionItem,
   listCollectionItems,
   listPublicCollectionItems,

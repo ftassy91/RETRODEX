@@ -99,6 +99,9 @@
       : Number(item.metascore || 0) >= 90
         ? 'repere canonique'
         : 'contexte + valeur'
+    const actionCue = item.collection_status
+      ? 'ouvrir pour arbitrer la collection'
+      : 'ouvrir pour lire puis qualifier'
     const relationCue = String(item.developer || item.publisher || '').trim()
 
     return `
@@ -112,6 +115,7 @@
         </div>
         <p class="hub-card-copy">${esc(shortSummary)}</p>
         ${relationCue ? `<div class="hub-card-proof hub-card-proof-secondary">Studio ${esc(relationCue)}</div>` : ''}
+        <div class="hub-card-proof hub-card-proof-secondary">Action ${esc(actionCue)}</div>
         <div class="hub-universe-actions">
           <a class="hub-inline-link" href="${href}">voir la fiche</a>
         </div>
@@ -157,9 +161,9 @@
       setText(totalEl, String(total || '--'))
       setText(synopsisEl, String(withSynopsis || '--'))
       setText(consolesEl, String(consoles || '--'))
-      setText(publicationSignalEl, published ? `${published} fiches pretes` : 'partiel')
-      setText(editorialSignalEl, withSynopsis ? `${withSynopsis} resumes visibles` : 'partiel')
-      setText(archiveSignalEl, strongPages.length ? `${strongPages.length} preuves concretes` : 'selection indisponible')
+      setText(publicationSignalEl, published ? `${published} fiches pretes` : 'catalogue partiel')
+      setText(editorialSignalEl, withSynopsis ? `${withSynopsis} lectures visibles` : 'lecture partielle')
+      setText(archiveSignalEl, strongPages.length ? `${strongPages.length} fiches a ouvrir` : 'selection indisponible')
 
       if (!richGridEl) {
         return
@@ -176,7 +180,7 @@
         published,
       })
     } catch (_error) {
-      bannerEl.textContent = 'RetroDex | catalogue, lecture, valeur'
+      bannerEl.textContent = 'RetroDex | lecture, qualification, valeur'
       setText(publicationSignalEl, 'indisponible')
       setText(editorialSignalEl, 'indisponible')
       setText(archiveSignalEl, 'indisponible')

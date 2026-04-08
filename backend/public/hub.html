@@ -11,12 +11,12 @@
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="icon" type="image/png" href="/icons/icon-192.png">
   <title>RetroDex - Hub</title>
-  <meta name="description" content="RetroDex : chercher un jeu retro, lire sa fiche, voir sa valeur, suivre sa collection.">
+  <meta name="description" content="RetroDex : inspecter un jeu, qualifier une entree, mesurer la valeur, decider quoi faire, faire evoluer la collection.">
   <meta property="og:title" content="Hub | RetroDex">
-  <meta property="og:description" content="RetroDex : chercher un jeu retro, lire sa fiche, voir sa valeur, suivre sa collection.">
+  <meta property="og:description" content="RetroDex : inspecter un jeu, qualifier une entree, mesurer la valeur, decider quoi faire, faire evoluer la collection.">
   <meta property="og:type" content="website">
   <meta name="robots" content="index, follow">
-  <link rel="stylesheet" href="/style.css?v=20260408r1">
+  <link rel="stylesheet" href="/style.css?v=20260408r3">
 </head>
 <body class="hub-page hub-orientation-page">
   <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
@@ -35,21 +35,36 @@
   </nav>
 
   <main class="page-shell hub-page hub-orientation-page hub-focused-page">
-    <nav class="breadcrumb hub-breadcrumb" aria-label="Fil d'ariane">
+    <nav class="breadcrumb hub-breadcrumb" aria-label="Fil d ariane">
       <span class="section">HUB</span>
       <span class="sep">&rsaquo;</span>
       <span class="current">ORIENTATION</span>
     </nav>
 
-    <section class="hub-focus-shell">
+    <section class="hub-focus-shell hub-os-shell">
       <div class="hub-system-line" id="hub-curation-banner">Chargement...</div>
-      <div class="hub-focus-head">
+
+      <div class="hub-focus-head hub-focus-head-os">
         <div>
           <div class="hub-kicker">RETRODEX</div>
           <h1 class="hub-page-title">RETRODEX</h1>
-          <p class="hub-system-tagline">INSPECTE · MESURE · DÉCIDE · ÉVOLUE</p>
+          <p class="hub-system-tagline">INSPECTE · QUALIFIE · MESURE · DECIDE · EVOLUE</p>
         </div>
-        <p class="hub-intro">Inspecte ta collection. Mesure la valeur. Décide quoi faire.</p>
+        <p class="hub-intro hub-intro-os">
+          Un systeme de lecture et de pilotage pour comprendre un jeu, qualifier une entree, mesurer sa valeur et decider quoi faire ensuite.
+        </p>
+      </div>
+
+      <div class="hub-system-loop" aria-label="Boucle operatoire RetroDex">
+        <span class="surface-chip is-primary">Inspecter</span>
+        <span class="surface-chip">Qualifier</span>
+        <span class="surface-chip">Mesurer</span>
+        <span class="surface-chip">Decider</span>
+        <span class="surface-chip">Faire evoluer</span>
+      </div>
+
+      <div class="hub-system-scenario terminal-context">
+        ouvrir un jeu -> voir la valeur -> qualifier l entree -> decider quoi faire
       </div>
 
       <form class="hub-search-form" action="/search.html" method="get">
@@ -66,24 +81,42 @@
         >
         <button class="hub-search-button" type="submit">CHERCHER</button>
       </form>
-      <button id="hub-random-btn" class="hub-random-button" type="button" aria-label="Ouvrir une fiche au hasard">UNE FICHE &rarr;</button>
-      <script>
-        document.getElementById('hub-random-btn').addEventListener('click', async function() {
-          this.textContent = '...'
-          this.disabled = true
-          try {
-            const res = await fetch('/api/games/random')
-            if (!res.ok) throw new Error('no game')
-            const data = await res.json()
-            if (data && data.id) {
-              location.href = '/game-detail.html?id=' + encodeURIComponent(data.id)
-              return
-            }
-          } catch(_) {}
-          this.textContent = 'UNE FICHE \u2192'
-          this.disabled = false
-        })
-      </script>
+
+      <div class="hub-system-actions-stack">
+        <button id="hub-random-btn" class="hub-random-button" type="button" aria-label="Ouvrir une fiche au hasard">OUVRIR UNE FICHE &rarr;</button>
+      </div>
+
+      <section class="hub-proof-shell" aria-label="Preuves d usage">
+        <div class="hub-proof-grid">
+          <article class="hub-proof-card">
+            <span class="hub-proof-label">Lire une fiche</span>
+            <p class="hub-proof-copy">Ouvrir un jeu, situer son contexte, puis continuer vers la bonne connexion.</p>
+          </article>
+          <article class="hub-proof-card">
+            <span class="hub-proof-label">Qualifier une entree</span>
+            <p class="hub-proof-copy">Verifier edition, region, completude et confiance avant de laisser la valeur piloter la decision.</p>
+          </article>
+          <article class="hub-proof-card">
+            <span class="hub-proof-label">Decider avec la valeur</span>
+            <p class="hub-proof-copy">Comparer l etagere, voir les priorites du moment, puis arbitrer vendre, upgrader ou acheter.</p>
+          </article>
+        </div>
+
+        <div class="hub-proof-signals">
+          <div class="hub-proof-signal">
+            <span class="hub-proof-label">Publication</span>
+            <span id="hub-system-publication" class="hub-proof-value">...</span>
+          </div>
+          <div class="hub-proof-signal">
+            <span class="hub-proof-label">Lecture</span>
+            <span id="hub-system-editorial" class="hub-proof-value">...</span>
+          </div>
+          <div class="hub-proof-signal">
+            <span class="hub-proof-label">Orientation</span>
+            <span id="hub-system-archive" class="hub-proof-value">...</span>
+          </div>
+        </div>
+      </section>
 
       <section class="hub-intent-panel hub-intent-panel-compact">
         <div class="hub-intent-grid hub-intent-grid-two">
@@ -94,20 +127,27 @@
           </article>
           <article class="hub-intent-card">
             <span class="hub-intent-label">Collection</span>
-            <p class="hub-intent-copy">Reprendre l'etagere, voir la priorite du moment, puis rouvrir la bonne fiche.</p>
+            <p class="hub-intent-copy">Reprendre l etagere, voir la priorite du moment, puis rouvrir la bonne fiche.</p>
             <div class="hub-intent-links"><a href="/collection.html">Ouvrir la collection</a></div>
           </article>
         </div>
       </section>
 
-      <div class="hub-stats hub-stats-compact" aria-label="Preuves RetroDex">
+      <section id="hub-rich-grid" class="hub-intent-grid hub-intent-grid-three" aria-label="Fiches a ouvrir">
+        <div class="terminal-empty-state hub-empty-state">
+          <div class="terminal-empty-title">Chargement des preuves</div>
+          <div class="terminal-empty-copy">RetroDex selectionne des fiches qui montrent lecture, contexte et valeur.</div>
+        </div>
+      </section>
+
+      <div class="hub-stats hub-stats-compact" aria-label="Preuves secondaires RetroDex">
         <div class="hub-stat is-primary">
           <span id="hub-stat-published" class="val">--</span>
-          <span class="lbl">fiches prêtes</span>
+          <span class="lbl">fiches pretes</span>
         </div>
         <div class="hub-stat">
           <span id="hub-stat-total" class="val">--</span>
-          <span class="lbl">jeux indexés</span>
+          <span class="lbl">jeux indexes</span>
         </div>
         <div class="hub-stat">
           <span id="hub-stat-synopsis" class="val">--</span>
@@ -121,11 +161,29 @@
     </section>
   </main>
 
-  <script src="/js/core/api.js?v=20260408r1"></script>
-  <script src="/js/core/sw-reset.js?v=20260408r1"></script>
+  <script>
+    document.getElementById('hub-random-btn').addEventListener('click', async function() {
+      this.textContent = '...'
+      this.disabled = true
+      try {
+        const res = await fetch('/api/games/random')
+        if (!res.ok) throw new Error('no game')
+        const data = await res.json()
+        if (data && data.id) {
+          location.href = '/game-detail.html?id=' + encodeURIComponent(data.id)
+          return
+        }
+      } catch (_) {}
+      this.textContent = 'OUVRIR UNE FICHE →'
+      this.disabled = false
+    })
+  </script>
+
+  <script src="/js/core/api.js?v=20260408r3"></script>
+  <script src="/js/core/sw-reset.js?v=20260408r3"></script>
   <script src="/js/core/runtime-monitor.js?v=20260408r2"></script>
   <script src="/js/core/format.js"></script>
   <script src="/js/core/content-signals.js"></script>
-  <script src="/js/pages/hub-curated.js?v=20260408r1"></script>
+  <script src="/js/pages/hub-curated.js?v=20260408r3"></script>
 </body>
 </html>

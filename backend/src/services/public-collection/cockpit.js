@@ -44,6 +44,12 @@ async function getCollectionCockpit(options = {}) {
     return !item.price_paid && item.price_paid !== 0
   })
 
+  const needsQualification = owned.filter((item) => {
+    const completeness = String(item.completeness || 'unknown').trim().toLowerCase() || 'unknown'
+    const confidence = String(item.qualification_confidence || 'unknown').trim().toLowerCase() || 'unknown'
+    return completeness === 'unknown' || confidence === 'unknown' || confidence === 'low'
+  })
+
   // — Wishlist finançable : prix loose <= $25
   const affordableWishlist = wanted.filter((item) => {
     const loose = Number(item.game?.loosePrice || 0)
@@ -60,7 +66,11 @@ async function getCollectionCockpit(options = {}) {
     return ageMs > STALE_WISHLIST_DAYS * 24 * 60 * 60 * 1000
   })
 
+  const fixNow = dedupeSignalItems([...duplicates, ...incomplete])
+
   return {
+    fix_now: { count: fixNow.length, items: fixNow.map(toSignalItem) },
+    needs_qualification: { count: needsQualification.length, items: needsQualification.map(toSignalItem) },
     duplicates: { count: duplicates.length, items: duplicates.map(toSignalItem) },
     sell_candidates: { count: sellCandidates.length, items: sellCandidates.map(toSignalItem) },
     upgrade_candidates: { count: upgradeCandidates.length, items: upgradeCandidates.map(toSignalItem) },
@@ -80,11 +90,28 @@ function toSignalItem(item) {
     condition: item.condition || null,
     price_paid: item.price_paid ?? null,
     price_threshold: item.price_threshold ?? null,
+    edition_note: item.edition_note || null,
+    region: item.region || null,
+    completeness: item.completeness || null,
+    qualification_confidence: item.qualification_confidence || null,
+    qualification_updated_at: item.qualification_updated_at || null,
     created_at: item.created_at || item.added_at || null,
     loosePrice: Number(game.loosePrice || 0) || null,
     cibPrice: Number(game.cibPrice || 0) || null,
     mintPrice: Number(game.mintPrice || 0) || null,
   }
+}
+
+function dedupeSignalItems(items = []) {
+  const byId = new Map()
+  items.forEach((item) => {
+    const key = String(item?.id || item?.gameId || '')
+    if (!key) return
+    if (!byId.has(key)) {
+      byId.set(key, item)
+    }
+  })
+  return Array.from(byId.values())
 }
 
 module.exports = { getCollectionCockpit }

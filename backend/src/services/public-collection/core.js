@@ -5,6 +5,8 @@ const { normalizeGameRecord } = require('../../lib/normalize')
 const DEFAULT_COLLECTION_USER_ID = 'local'
 const VALID_COLLECTION_CONDITIONS = new Set(['Loose', 'CIB', 'Mint'])
 const VALID_COLLECTION_LIST_TYPES = new Set(['owned', 'wanted', 'for_sale'])
+const VALID_COLLECTION_COMPLETENESS = new Set(['unknown', 'loose', 'partial', 'cib', 'sealed'])
+const VALID_COLLECTION_QUALIFICATION_CONFIDENCE = new Set(['unknown', 'low', 'medium', 'high'])
 
 function normalizeCollectionCondition(value) {
   const raw = String(value ?? '').trim()
@@ -51,6 +53,33 @@ function normalizeNullableText(value) {
   return raw || null
 }
 
+function normalizeNullableShortText(value, maxLength = 32) {
+  const raw = String(value ?? '').trim()
+  if (!raw) {
+    return null
+  }
+
+  return raw.slice(0, maxLength)
+}
+
+function normalizeCollectionCompleteness(value) {
+  const raw = String(value ?? '').trim().toLowerCase()
+  if (!raw) {
+    return null
+  }
+
+  return VALID_COLLECTION_COMPLETENESS.has(raw) ? raw : null
+}
+
+function normalizeCollectionQualificationConfidence(value) {
+  const raw = String(value ?? '').trim().toLowerCase()
+  if (!raw) {
+    return null
+  }
+
+  return VALID_COLLECTION_QUALIFICATION_CONFIDENCE.has(raw) ? raw : null
+}
+
 function hasOwnField(body, field) {
   return Object.prototype.hasOwnProperty.call(body || {}, field)
 }
@@ -66,15 +95,21 @@ function resolveCollectionScope(options = {}) {
 }
 
 function parseCollectionCreatePayload(body = {}) {
+  const listType = normalizeCollectionListType(body?.list_type)
   const payload = {
     gameId: String(body?.gameId ?? '').trim(),
     condition: normalizeCollectionCondition(body?.condition),
     notes: normalizeNullableText(body?.notes),
-    listType: normalizeCollectionListType(body?.list_type),
+    listType,
     pricePaid: normalizeNullableNumber(body?.price_paid),
     priceThreshold: normalizeNullableNumber(body?.price_threshold),
     purchaseDate: normalizeDateOnly(body?.purchase_date),
     personalNote: normalizeNullableText(body?.personal_note),
+    editionNote: normalizeNullableText(body?.edition_note),
+    region: normalizeNullableShortText(body?.region),
+    completeness: normalizeCollectionCompleteness(body?.completeness) || (listType === 'wanted' ? null : 'unknown'),
+    qualificationConfidence: normalizeCollectionQualificationConfidence(body?.qualification_confidence)
+      || (listType === 'wanted' ? null : 'unknown'),
   }
 
   if (!payload.gameId) {
@@ -99,6 +134,14 @@ function parseCollectionCreatePayload(body = {}) {
 
   if (payload.purchaseDate && !/^\d{4}-\d{2}-\d{2}$/.test(payload.purchaseDate)) {
     return { ok: false, error: 'purchase_date must use YYYY-MM-DD' }
+  }
+
+  if (body?.completeness != null && !VALID_COLLECTION_COMPLETENESS.has(payload.completeness)) {
+    return { ok: false, error: 'completeness must be one of unknown, loose, partial, cib or sealed' }
+  }
+
+  if (body?.qualification_confidence != null && !VALID_COLLECTION_QUALIFICATION_CONFIDENCE.has(payload.qualificationConfidence)) {
+    return { ok: false, error: 'qualification_confidence must be one of unknown, low, medium or high' }
   }
 
   return { ok: true, value: payload }
@@ -155,6 +198,34 @@ function parseCollectionPatchPayload(body = {}) {
     nextValues.notes = normalizeNullableText(body?.notes)
   }
 
+  if (hasOwnField(body, 'edition_note')) {
+    nextValues.editionNote = normalizeNullableText(body?.edition_note)
+  }
+
+  if (hasOwnField(body, 'region')) {
+    nextValues.region = normalizeNullableShortText(body?.region)
+  }
+
+  if (hasOwnField(body, 'completeness')) {
+    const completeness = normalizeCollectionCompleteness(body?.completeness)
+    if (body?.completeness != null && body?.completeness !== '' && !VALID_COLLECTION_COMPLETENESS.has(completeness)) {
+      return { ok: false, error: 'completeness must be one of unknown, loose, partial, cib or sealed' }
+    }
+    nextValues.completeness = completeness
+  }
+
+  if (hasOwnField(body, 'qualification_confidence')) {
+    const qualificationConfidence = normalizeCollectionQualificationConfidence(body?.qualification_confidence)
+    if (
+      body?.qualification_confidence != null
+      && body?.qualification_confidence !== ''
+      && !VALID_COLLECTION_QUALIFICATION_CONFIDENCE.has(qualificationConfidence)
+    ) {
+      return { ok: false, error: 'qualification_confidence must be one of unknown, low, medium or high' }
+    }
+    nextValues.qualificationConfidence = qualificationConfidence
+  }
+
   return {
     ok: true,
     value: nextValues,
@@ -198,6 +269,11 @@ function serializeCollectionItemDto(item) {
     price_threshold: item?.priceThreshold ?? item?.price_threshold ?? null,
     purchase_date: item?.purchaseDate || item?.purchase_date || null,
     personal_note: item?.personalNote || item?.personal_note || null,
+    edition_note: item?.editionNote || item?.edition_note || null,
+    region: item?.region || null,
+    completeness: item?.completeness || null,
+    qualification_confidence: item?.qualificationConfidence || item?.qualification_confidence || null,
+    qualification_updated_at: item?.qualificationUpdatedAt || item?.qualification_updated_at || null,
     addedAt: item?.addedAt || item?.added_at || item?.createdAt || item?.created_at || null,
     game: buildCollectionGamePayload(item?.game),
   }
@@ -207,10 +283,14 @@ module.exports = {
   DEFAULT_COLLECTION_USER_ID,
   VALID_COLLECTION_CONDITIONS,
   VALID_COLLECTION_LIST_TYPES,
+  VALID_COLLECTION_COMPLETENESS,
+  VALID_COLLECTION_QUALIFICATION_CONFIDENCE,
   resolveCollectionScope,
   normalizeCollectionCondition,
   normalizeStoredCollectionCondition,
   normalizeCollectionListType,
+  normalizeCollectionCompleteness,
+  normalizeCollectionQualificationConfidence,
   hasOwnField,
   parseCollectionCreatePayload,
   parseCollectionPatchPayload,

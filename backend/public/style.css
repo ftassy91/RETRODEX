@@ -13766,3 +13766,139 @@ body {
   display: block;
   margin-bottom: 3px;
 }
+
+/* OS expression lot */
+.hub-os-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hub-focus-head-os {
+  align-items: start;
+}
+
+.hub-intro-os {
+  max-width: 44ch;
+}
+
+.hub-system-loop {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hub-system-scenario {
+  padding: 10px 12px;
+  border: 1px solid rgba(67, 95, 60, 0.52);
+  background: rgba(7, 11, 7, 0.9);
+  color: #89a582;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.hub-proof-shell {
+  display: grid;
+  gap: 12px;
+}
+
+.hub-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hub-proof-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid rgba(67, 95, 60, 0.52);
+  background: rgba(7, 11, 7, 0.9);
+}
+
+.hub-proof-label {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hub-proof-copy {
+  margin: 0;
+  color: #89a582;
+  line-height: 1.55;
+}
+
+.hub-proof-signals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hub-proof-signal {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid rgba(67, 95, 60, 0.52);
+  background: rgba(7, 11, 7, 0.9);
+}
+
+.hub-proof-value {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+#hub-rich-grid {
+  align-items: stretch;
+}
+
+.hub-rich-card {
+  min-height: 100%;
+}
+
+.cockpit-active-filter {
+  color: var(--text-primary);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+}
+
+.cockpit-signal-desc {
+  color: #6f8d67;
+  font-size: 0.68rem;
+  line-height: 1.3;
+}
+
+.collection-row-cue.is-primary,
+.surface-signal-value.is-primary {
+  color: var(--color-accent, #4ade80);
+}
+
+.collection-row-cue.is-hot,
+.surface-signal-value.is-hot {
+  color: var(--text-alert, #f1c45c);
+}
+
+.result-action-row {
+  display: block;
+  margin-top: 4px;
+  color: #6f8d67;
+  font-size: 0.71rem;
+  line-height: 1.45;
+}
+
+.stats-return-line {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+}
+
+.detail-hero-price-help.is-warning {
+  color: #f1c45c;
+}
+
+@media (max-width: 900px) {
+  .hub-proof-grid,
+  .hub-proof-signals {
+    grid-template-columns: 1fr;
+  }
+}

@@ -39,8 +39,12 @@
   const detailRow2El = byId('detail-row2')
   const editFormEl = byId('collection-edit-form')
   const editConditionEl = byId('edit-condition')
+  const editCompletenessEl = byId('edit-completeness')
+  const editQualificationConfidenceEl = byId('edit-qualification-confidence')
   const editPricePaidEl = byId('edit-price-paid')
   const editPurchaseDateEl = byId('edit-purchase-date')
+  const editRegionEl = byId('edit-region')
+  const editEditionNoteEl = byId('edit-edition-note')
   const editNotesEl = byId('edit-notes')
   const editSaveButtonEl = byId('collection-edit-save-btn')
   const editCancelButtonEl = byId('collection-edit-cancel-btn')
@@ -68,6 +72,37 @@
 
   function getCollectionNote(item) {
     return String(item?.notes || item?.personal_note || '').trim()
+  }
+
+  function getQualificationCompleteness(item) {
+    return String(item?.completeness || 'unknown').trim().toLowerCase() || 'unknown'
+  }
+
+  function getQualificationConfidence(item) {
+    return String(item?.qualification_confidence || 'unknown').trim().toLowerCase() || 'unknown'
+  }
+
+  function getQualificationLabel(item) {
+    const completeness = getQualificationCompleteness(item)
+    if (completeness === 'cib') return 'qualifie CIB'
+    if (completeness === 'sealed') return 'qualifie scelle'
+    if (completeness === 'partial') return 'qualification partielle'
+    if (completeness === 'loose') return 'qualifie loose'
+    return 'a qualifier'
+  }
+
+  function getQualificationConfidenceLabel(item) {
+    const confidence = getQualificationConfidence(item)
+    if (confidence === 'high') return 'haute'
+    if (confidence === 'medium') return 'moyenne'
+    if (confidence === 'low') return 'faible'
+    return 'inconnue'
+  }
+
+  function needsQualification(item) {
+    const listType = String(item?.list_type || activeTab || 'owned').toLowerCase()
+    if (listType === 'wanted') return false
+    return getQualificationCompleteness(item) === 'unknown' || ['unknown', 'low'].includes(getQualificationConfidence(item))
   }
 
   function normalizeText(value) {
@@ -157,12 +192,13 @@
       const threshold = Number(item.price_threshold || 25)
 
       if (listType === 'for_sale') return 0
-      if (listType === 'owned' && paid <= 0) return 1
-      if (listType === 'owned' && paid > 0 && loose >= paid * 1.5) return 2
-      if (listType === 'owned' && String(item.condition || '').toLowerCase() === 'loose' && loose > 0 && cib > 0 && cib - loose <= 20) return 3
-      if (listType === 'wanted' && loose > 0 && loose <= threshold) return 4
-      if (listType === 'wanted') return 5
-      return 6
+      if (listType === 'owned' && needsQualification(item)) return 1
+      if (listType === 'owned' && paid <= 0) return 2
+      if (listType === 'owned' && paid > 0 && loose >= paid * 1.5) return 3
+      if (listType === 'owned' && String(item.condition || '').toLowerCase() === 'loose' && loose > 0 && cib > 0 && cib - loose <= 20) return 4
+      if (listType === 'wanted' && loose > 0 && loose <= threshold) return 5
+      if (listType === 'wanted') return 6
+      return 7
     }
 
     sorted.sort((left, right) => {
@@ -220,12 +256,32 @@
     const condition = String(item?.condition || '').toLowerCase()
 
     if (listType === 'for_sale') return { label: 'sortie active', tone: 'is-hot' }
+    if (listType === 'owned' && needsQualification(item)) return { label: 'a qualifier', tone: 'is-primary' }
     if (listType === 'owned' && paid <= 0) return { label: 'a completer', tone: '' }
     if (listType === 'owned' && paid > 0 && loose > 0 && loose >= paid * 1.5) return { label: 'sortie plausible', tone: 'is-hot' }
     if (listType === 'owned' && condition === 'loose' && loose > 0 && cib > 0 && cib - loose <= 20) return { label: 'upgrade plausible', tone: 'is-primary' }
     if (listType === 'wanted' && loose > 0 && loose <= threshold) return { label: 'opportunite d achat', tone: 'is-primary' }
     if (listType === 'wanted') return { label: 'a verifier', tone: '' }
     return { label: 'stable', tone: '' }
+  }
+
+  function getActionCue(item) {
+    const game = getGame(item)
+    const listType = String(item?.list_type || activeTab || 'owned').toLowerCase()
+    const paid = Number(item?.price_paid || 0)
+    const loose = Number(game?.loosePrice || 0)
+    const cib = Number(game?.cibPrice || 0)
+    const threshold = Number(item?.price_threshold || 25)
+    const condition = String(item?.condition || '').toLowerCase()
+
+    if (listType === 'for_sale') return { label: 'VENDRE', tone: 'is-hot' }
+    if (listType === 'owned' && needsQualification(item)) return { label: 'QUALIFIER', tone: 'is-primary' }
+    if (listType === 'owned' && paid <= 0) return { label: 'COMPLETER', tone: '' }
+    if (listType === 'owned' && paid > 0 && loose > 0 && loose >= paid * 1.5) return { label: 'VENDRE', tone: 'is-hot' }
+    if (listType === 'owned' && condition === 'loose' && loose > 0 && cib > 0 && cib - loose <= 20) return { label: 'UPGRADER', tone: 'is-primary' }
+    if (listType === 'wanted' && loose > 0 && loose <= threshold) return { label: 'ACHETER', tone: 'is-primary' }
+    if (listType === 'wanted') return { label: 'SURVEILLER', tone: '' }
+    return { label: 'CONSERVER', tone: '' }
   }
 
   function applyCollectionFilters(items) {
@@ -292,8 +348,12 @@
   function populateEditForm(item) {
     if (!editFormEl) return
     editConditionEl.value = item?.condition || 'Loose'
+    if (editCompletenessEl) editCompletenessEl.value = getQualificationCompleteness(item)
+    if (editQualificationConfidenceEl) editQualificationConfidenceEl.value = getQualificationConfidence(item)
     editPricePaidEl.value = item?.price_paid != null ? String(item.price_paid) : ''
     editPurchaseDateEl.value = item?.purchase_date || ''
+    if (editRegionEl) editRegionEl.value = item?.region || ''
+    if (editEditionNoteEl) editEditionNoteEl.value = item?.edition_note || ''
     editNotesEl.value = getCollectionNote(item)
   }
 
@@ -302,6 +362,11 @@
       if (focusField === 'price') {
         editPricePaidEl?.focus()
         editPricePaidEl?.select?.()
+        return
+      }
+
+      if (focusField === 'qualification') {
+        editCompletenessEl?.focus()
         return
       }
 
@@ -336,8 +401,12 @@
 
     return {
       condition: editConditionEl?.value || 'Loose',
+      completeness: editCompletenessEl?.value || 'unknown',
+      qualification_confidence: editQualificationConfidenceEl?.value || 'unknown',
       price_paid,
       purchase_date,
+      region: String(editRegionEl?.value || '').trim() || null,
+      edition_note: String(editEditionNoteEl?.value || '').trim() || null,
       notes,
       personal_note: notes,
     }
@@ -372,30 +441,27 @@
 
   function getSignalLabel(signalKey) {
     switch (signalKey) {
-      case 'duplicates': return 'DOUBLONS'
+      case 'fix_now': return 'A CORRIGER'
+      case 'needs_qualification': return 'A QUALIFIER'
       case 'sell_candidates': return 'A VENDRE'
       case 'upgrade_candidates': return 'A UPGRADER'
-      case 'incomplete': return 'INCOMPLETS'
-      case 'affordable_wishlist': return 'WISHLIST <= $25'
-      case 'stale_wishlist': return 'WISHLIST +6 MOIS'
+      case 'affordable_wishlist': return 'A SAISIR'
       default: return 'ATTENTION'
     }
   }
 
   function getSignalPrompt(signalKey) {
     switch (signalKey) {
-      case 'duplicates':
-        return 'Comparer et arbitrer les doublons avant de garder ou sortir.'
+      case 'fix_now':
+        return 'Comparer les doublons et completer les donnees fragiles avant de laisser la ligne dormir.'
+      case 'needs_qualification':
+        return 'Verifier edition, region, completude et confiance avant d utiliser la valeur comme signal fort.'
       case 'sell_candidates':
         return 'Verifier les lignes qui peuvent sortir sans affaiblir la collection.'
       case 'upgrade_candidates':
         return 'Identifier les jeux ou un meilleur etat change vraiment la valeur.'
-      case 'incomplete':
-        return 'Completer ou verifier les entrees qui restent fragiles.'
       case 'affordable_wishlist':
         return 'Prioriser les achats accessibles avant qu ils ne sortent de portee.'
-      case 'stale_wishlist':
-        return 'Relire les envies anciennes avant de les laisser dormir ou de les supprimer.'
       default:
         return 'Lire les signaux puis agir sur la bonne fiche.'
     }
@@ -438,37 +504,39 @@
 
     if (activeTab === 'owned') {
       const priorityBits = []
-      const incomplete = Number(cockpitData?.incomplete?.count || 0)
-      const duplicates = Number(cockpitData?.duplicates?.count || 0)
+      const fixNow = Number(cockpitData?.fix_now?.count || 0)
+      const qualify = Number(cockpitData?.needs_qualification?.count || 0)
       const sell = Number(cockpitData?.sell_candidates?.count || 0)
       const upgrades = Number(cockpitData?.upgrade_candidates?.count || 0)
-      if (duplicates) priorityBits.push(`${duplicates} doublon(s)`)
+      if (fixNow) priorityBits.push(`${fixNow} correction(s)`)
+      if (qualify) priorityBits.push(`${qualify} qualification(s)`)
       if (sell) priorityBits.push(`${sell} sortie(s) possible(s)`)
       if (upgrades) priorityBits.push(`${upgrades} upgrade(s)`)
-      if (incomplete) priorityBits.push(`${incomplete} prix paye manquant(s)`)
-      setText(modeTitleEl, 'ETAGERE')
+      setText(modeTitleEl, 'QUEUES D ACTION')
       setText(
         modeCopyEl,
         priorityBits.length
-          ? `Maintenant : ${priorityBits.slice(0, 3).join(' | ')}.`
-          : 'Etagere stable. Ouvrir une fiche pour verifier contexte, valeur et action.'
+          ? `Maintenant : ${priorityBits.slice(0, 3).join(' | ')}. Resoudre d abord, puis revenir a l inventaire.`
+          : 'Etagere stable. Ouvrir une fiche pour verifier contexte, qualification, valeur et action.'
       )
       return
     }
 
     if (activeTab === 'all') {
-      const duplicates = Number(cockpitData?.duplicates?.count || 0)
+      const fixNow = Number(cockpitData?.fix_now?.count || 0)
+      const qualify = Number(cockpitData?.needs_qualification?.count || 0)
       const sell = Number(cockpitData?.sell_candidates?.count || 0)
-      const incomplete = Number(cockpitData?.incomplete?.count || 0)
+      const upgrades = Number(cockpitData?.upgrade_candidates?.count || 0)
       const priorities = []
-      if (duplicates) priorities.push(`${duplicates} doublon(s)`)
+      if (fixNow) priorities.push(`${fixNow} correction(s)`)
+      if (qualify) priorities.push(`${qualify} qualification(s)`)
       if (sell) priorities.push(`${sell} sortie(s)`)
-      if (incomplete) priorities.push(`${incomplete} prix paye manquant(s)`)
+      if (upgrades) priorities.push(`${upgrades} upgrade(s)`)
       setText(modeTitleEl, 'PRIORITE DU MOMENT')
       setText(
         modeCopyEl,
         priorities.length
-          ? `Maintenant : ${priorities.slice(0, 3).join(' | ')}. La liste est deja triee pour ouvrir la prochaine decision.`
+          ? `Maintenant : ${priorities.slice(0, 3).join(' | ')}. La liste est triee pour ouvrir la prochaine decision utile.`
           : 'Revue globale stable. Garder le tri prioritaire puis ouvrir la prochaine fiche utile.'
       )
       return
@@ -476,12 +544,11 @@
 
     if (activeTab === 'wanted') {
       const affordable = Number(cockpitData?.affordable_wishlist?.count || 0)
-      const stale = Number(cockpitData?.stale_wishlist?.count || 0)
-      setText(modeTitleEl, 'WISHLIST')
+      setText(modeTitleEl, 'A SAISIR')
       setText(
         modeCopyEl,
         affordable
-          ? `${affordable} entree(s) restent accessibles maintenant.${stale ? ` ${stale} sont anciennes.` : ''} Prioriser puis qualifier.`
+          ? `${affordable} entree(s) restent accessibles maintenant. Prioriser puis qualifier avant achat.`
           : 'Suivre la wishlist puis ouvrir les fiches a fort potentiel.'
       )
       return
@@ -498,8 +565,11 @@
     const paid = Number(item.price_paid || 0)
     const gain = paid > 0 ? loosePrice - paid : null
 
-    if (activeCockpitSignal === 'duplicates') {
-      return 'Doublon detecte. Comparer etat, note et prix paye avant arbitrage.'
+    if (activeCockpitSignal === 'fix_now') {
+      return 'Priorite de correction. Arbitrer les doublons ou completer les donnees minimales avant toute autre decision.'
+    }
+    if (activeCockpitSignal === 'needs_qualification') {
+      return 'Priorite de qualification. Verifier edition, region, completude et confiance avant d utiliser la valeur.'
     }
     if (activeCockpitSignal === 'sell_candidates') {
       const sellEstimate = loosePrice > 0 ? Math.round(loosePrice * 0.85) : null
@@ -509,19 +579,16 @@
     if (activeCockpitSignal === 'upgrade_candidates') {
       return 'Upgrade plausible. Comparer votre etat actuel au saut vers CIB ou Mint.'
     }
-    if (activeCockpitSignal === 'incomplete') {
-      return 'Entree fragile. Verifier etat, note et metadata avant de la laisser dormir.'
-    }
     if (activeCockpitSignal === 'affordable_wishlist') {
       return 'Achat accessible. Ouvrir la fiche puis qualifier avant arbitrage.'
-    }
-    if (activeCockpitSignal === 'stale_wishlist') {
-      return 'Wishlist ancienne. Verifier si le jeu doit rester cible ou sortir de la liste.'
     }
     if (activeTab === 'wanted') {
       return loosePrice > 0
         ? `Point d entree a ${formatCurrency(loosePrice)}. Qualifier avant achat.`
         : 'Wishlist en veille. Ouvrir la fiche pour verifier la qualite et le contexte.'
+    }
+    if (needsQualification(item)) {
+      return 'Entree a qualifier. Verifier edition, region et completude avant d arbitrer la valeur ou l evolution.'
     }
     if (activeTab === 'for_sale') {
       return 'Pret a sortir. Verifier prix, note et etat avant diffusion.'
@@ -629,6 +696,14 @@
       actions.push(`
         <button id="collection-mark-sale-btn" class="terminal-inline-btn" type="button">
           MARQUER A VENDRE
+        </button>
+      `)
+    }
+
+    if (listType !== 'wanted' && needsQualification(item)) {
+      actions.push(`
+        <button id="collection-qualify-btn" class="terminal-inline-btn" type="button">
+          QUALIFIER
         </button>
       `)
     }
@@ -778,7 +853,7 @@
     const mintPrice = Number(game.mintPrice || 0)
     const paid = Number(item.price_paid || 0)
     const gain = paid > 0 ? loosePrice - paid : null
-    const reviewCue = getReviewCue(item)
+    const actionCue = getActionCue(item)
     const previewCopy = note || game.tagline || game.summary || game.synopsis || 'Sans note personnelle. La fiche reste la meilleure lecture.'
     const focusDecision = buildFocusDecision(item)
     hideEditForm()
@@ -790,27 +865,32 @@
       detailFocusStateEl.innerHTML = `
         <span class="surface-chip is-primary">${escapeHtml(getPersonalStatusLabel(item))}</span>
         ${activeCockpitSignal ? `<span class="surface-chip is-hot">${escapeHtml(getSignalLabel(activeCockpitSignal))}</span>` : ''}
-        <span class="surface-chip${reviewCue.tone ? ` ${reviewCue.tone}` : ''}">${escapeHtml(reviewCue.label)}</span>
+        <span class="surface-chip">${escapeHtml(getQualificationLabel(item))}</span>
+        <span class="surface-chip${actionCue.tone ? ` ${actionCue.tone}` : ''}">${escapeHtml(actionCue.label)}</span>
       `
     }
     if (detailSignalGridEl) {
-      detailSignalGridEl.className = 'surface-signal-grid is-four'
+      detailSignalGridEl.className = 'surface-signal-grid is-five'
       detailSignalGridEl.innerHTML = `
         <div class="surface-signal-card">
           <span class="surface-signal-label">STATUT</span>
           <span class="surface-signal-value">${escapeHtml(getPersonalStatusLabel(item))}</span>
         </div>
         <div class="surface-signal-card">
-          <span class="surface-signal-label">Valeur</span>
+          <span class="surface-signal-label">QUALIFICATION</span>
+          <span class="surface-signal-value">${escapeHtml(getQualificationLabel(item))}</span>
+        </div>
+        <div class="surface-signal-card">
+          <span class="surface-signal-label">VALEUR</span>
           <span class="surface-signal-value is-alert">${escapeHtml(formatPreviewValue(loosePrice))}</span>
         </div>
         <div class="surface-signal-card">
-          <span class="surface-signal-label">Ecart</span>
-          <span class="surface-signal-value${gain == null ? ' is-muted' : gain >= 0 ? ' is-hot' : ''}">${escapeHtml(formatGainValue(gain))}</span>
+          <span class="surface-signal-label">CONFIANCE</span>
+          <span class="surface-signal-value">${escapeHtml(`qualif ${getQualificationConfidenceLabel(item)} | prix ${getPriceTrustSummary(game)}`)}</span>
         </div>
         <div class="surface-signal-card">
-          <span class="surface-signal-label">Confiance</span>
-          <span class="surface-signal-value">${escapeHtml(`${getPriceTrustSummary(game)} | ${getPriceFreshnessSummary(game)}`)}</span>
+          <span class="surface-signal-label">ACTION</span>
+          <span class="surface-signal-value${actionCue.tone ? ` ${actionCue.tone}` : ''}">${escapeHtml(actionCue.label)}</span>
         </div>
       `
     }
@@ -818,7 +898,12 @@
     if (detailChipRowEl) {
       detailChipRowEl.innerHTML = `
         <span class="surface-chip is-primary">${escapeHtml(item.condition || 'Archive')}</span>
+        <span class="surface-chip">${escapeHtml(getQualificationCompleteness(item))}</span>
+        <span class="surface-chip">${escapeHtml(`confiance ${getQualificationConfidenceLabel(item)}`)}</span>
+        ${item.region ? `<span class="surface-chip">${escapeHtml(`region ${item.region}`)}</span>` : ''}
+        ${item.edition_note ? `<span class="surface-chip">${escapeHtml(item.edition_note)}</span>` : ''}
         <span class="surface-chip">${escapeHtml(paid > 0 ? `Investi ${formatCurrency(paid)}` : 'Investi n/a')}</span>
+        <span class="surface-chip">${escapeHtml(`prix ${getPriceFreshnessSummary(game)}`)}</span>
         ${cibPrice ? `<span class="surface-chip">CIB ${escapeHtml(formatCurrency(cibPrice))}</span>` : ''}
         ${mintPrice ? `<span class="surface-chip">Mint ${escapeHtml(formatCurrency(mintPrice))}</span>` : ''}
         ${item.purchase_date ? `<span class="surface-chip">Entree ${escapeHtml(item.purchase_date)}</span>` : ''}
@@ -880,6 +965,10 @@
     if (fillPriceBtn) {
       fillPriceBtn.onclick = () => startEdit(item, 'price')
     }
+    const qualifyBtn = byId('collection-qualify-btn')
+    if (qualifyBtn) {
+      qualifyBtn.onclick = () => startEdit(item, 'qualification')
+    }
   }
 
   function setSelectedIndex(nextIndex) {
@@ -905,7 +994,8 @@
       : '-'
     const gainClass = gain === null ? '' : gain >= 0 ? 'positive' : 'negative'
     const listType = String(item.list_type || activeTab || 'owned').toLowerCase()
-    const reviewCue = getReviewCue(item)
+    const actionCue = getActionCue(item)
+    const qualificationCue = getQualificationLabel(item)
     const statusBadge = listType === 'for_sale'
       ? '<span class="surface-chip is-hot collection-status-chip">A VENDRE</span>'
       : listType === 'wanted'
@@ -922,7 +1012,8 @@
       <span role="cell" class="terminal-row-indicator">></span>
       <span role="cell" class="collection-row-main">
         <span class="collection-row-title">${escapeHtml(game.title || '?')}</span>
-        <span class="collection-row-cue${reviewCue.tone ? ` ${reviewCue.tone}` : ''}">${escapeHtml(reviewCue.label)}</span>
+        <span class="collection-row-cue${actionCue.tone ? ` ${actionCue.tone}` : ''}">${escapeHtml(actionCue.label)}</span>
+        <span class="collection-row-cue">${escapeHtml(qualificationCue)}</span>
         <span class="collection-row-status">${statusBadge}</span>
       </span>
       <span role="cell" style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '-')}</span>
@@ -1166,7 +1257,7 @@
     }
 
     const rows = [
-      ['title', 'console', 'list_type', 'condition', 'purchase_price', 'purchase_date', 'notes'],
+      ['title', 'console', 'list_type', 'condition', 'completeness', 'qualification_confidence', 'region', 'edition_note', 'purchase_price', 'purchase_date', 'notes'],
       ...enrichedItems.map((item) => {
         const game = getGame(item)
         return [
@@ -1174,6 +1265,10 @@
           game.console || game.platform || '',
           item.list_type || activeTab,
           item.condition || '',
+          item.completeness || '',
+          item.qualification_confidence || '',
+          item.region || '',
+          item.edition_note || '',
           item.price_paid ?? '',
           item.purchase_date || '',
           getCollectionNote(item),
@@ -1392,9 +1487,9 @@
         filterIndicator.className = 'cockpit-active-filter'
         cockpitLeadEl.appendChild(filterIndicator)
       }
-      filterIndicator.textContent = `— FILTRE: ${signalLabel}`
+      filterIndicator.textContent = `| FILTRE: ${signalLabel}`
     }
-    const targetTab = ['affordable_wishlist', 'stale_wishlist'].includes(signalKey) ? 'wanted' : 'owned'
+    const targetTab = signalKey === 'affordable_wishlist' ? 'wanted' : 'owned'
     if (activeTab !== targetTab) {
       activeTab = targetTab
       syncTabUi()
@@ -1408,22 +1503,20 @@
     try {
       const data = await fetchJson('/api/collection/cockpit')
       cockpitData = data
-      setCockpitCount('signal-duplicates-count', data.duplicates?.count || 0)
+      setCockpitCount('signal-fix-count', data.fix_now?.count || 0)
+      setCockpitCount('signal-qualify-count', data.needs_qualification?.count || 0)
       setCockpitCount('signal-sell-count', data.sell_candidates?.count || 0)
       setCockpitCount('signal-upgrade-count', data.upgrade_candidates?.count || 0)
-      setCockpitCount('signal-incomplete-count', data.incomplete?.count || 0)
-      setCockpitCount('signal-wishlist-count', data.affordable_wishlist?.count || 0)
-      setCockpitCount('signal-stale-count', data.stale_wishlist?.count || 0)
+      setCockpitCount('signal-opportunity-count', data.affordable_wishlist?.count || 0)
 
       // Réordonner les cards par urgence (count décroissant, non-zéro en premier)
       if (cockpitBarEl) {
         const signalOrder = [
-          { key: 'duplicates', count: data.duplicates?.count || 0 },
+          { key: 'fix_now', count: data.fix_now?.count || 0 },
+          { key: 'needs_qualification', count: data.needs_qualification?.count || 0 },
           { key: 'sell_candidates', count: data.sell_candidates?.count || 0 },
           { key: 'upgrade_candidates', count: data.upgrade_candidates?.count || 0 },
-          { key: 'incomplete', count: data.incomplete?.count || 0 },
           { key: 'affordable_wishlist', count: data.affordable_wishlist?.count || 0 },
-          { key: 'stale_wishlist', count: data.stale_wishlist?.count || 0 },
         ]
         signalOrder.sort((a, b) => {
           if (a.count > 0 && b.count === 0) return -1

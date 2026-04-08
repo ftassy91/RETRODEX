@@ -10,7 +10,7 @@ const {
 const {
   ensureGameExists,
   getCollectionItem,
-  hasCanonicalCollectionSchema,
+  getCollectionSchemaState,
 } = require('./storage')
 
 function isSqliteMode() {
@@ -53,26 +53,39 @@ async function createCollectionItem(options = {}) {
     throw error
   }
 
-  const canonical = await hasCanonicalCollectionSchema()
+  const schema = await getCollectionSchemaState()
+  const canonical = schema.canonical
   const now = new Date().toISOString()
 
   if (mode === 'supabase') {
     if (canonical) {
+      const insertRow = {
+        user_id: scope.userId,
+        user_session: scope.userSession,
+        game_id: payload.gameId,
+        added_at: now,
+        condition: payload.condition,
+        notes: payload.notes,
+        list_type: payload.listType,
+        price_paid: payload.pricePaid,
+        purchase_date: payload.purchaseDate,
+        personal_note: payload.personalNote,
+        price_threshold: payload.priceThreshold,
+      }
+
+      if (schema.qualification) {
+        insertRow.edition_note = payload.editionNote
+        insertRow.region = payload.region
+        insertRow.completeness = payload.completeness
+        insertRow.qualification_confidence = payload.qualificationConfidence
+        insertRow.qualification_updated_at = payload.listType === 'wanted'
+          ? null
+          : now
+      }
+
       const { error } = await db
         .from('collection_items')
-        .insert([{
-          user_id: scope.userId,
-          user_session: scope.userSession,
-          game_id: payload.gameId,
-          added_at: now,
-          condition: payload.condition,
-          notes: payload.notes,
-          list_type: payload.listType,
-          price_paid: payload.pricePaid,
-          purchase_date: payload.purchaseDate,
-          personal_note: payload.personalNote,
-          price_threshold: payload.priceThreshold,
-        }])
+        .insert([insertRow])
 
       if (error) {
         throw new Error(error.message)
@@ -96,26 +109,57 @@ async function createCollectionItem(options = {}) {
     }
   } else if (isSqliteMode()) {
     if (canonical) {
-      db._sqlite.prepare(`
-        INSERT INTO collection_items (
+      const columns = schema.qualification
+        ? `
+          user_id,user_session,game_id,added_at,condition,notes,list_type,
+          price_paid,purchase_date,personal_note,price_threshold,edition_note,
+          region,completeness,qualification_confidence,qualification_updated_at,created_at,updated_at
+        `
+        : `
           user_id,user_session,game_id,added_at,condition,notes,list_type,
           price_paid,purchase_date,personal_note,price_threshold,created_at,updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `).run(
-        scope.userId,
-        scope.userSession,
-        payload.gameId,
-        now,
-        payload.condition,
-        payload.notes,
-        payload.listType,
-        payload.pricePaid,
-        payload.purchaseDate,
-        payload.personalNote,
-        payload.priceThreshold,
-        now,
-        now
-      )
+        `
+      const values = schema.qualification
+        ? [
+          scope.userId,
+          scope.userSession,
+          payload.gameId,
+          now,
+          payload.condition,
+          payload.notes,
+          payload.listType,
+          payload.pricePaid,
+          payload.purchaseDate,
+          payload.personalNote,
+          payload.priceThreshold,
+          payload.editionNote,
+          payload.region,
+          payload.completeness,
+          payload.qualificationConfidence,
+          payload.listType === 'wanted' ? null : now,
+          now,
+          now,
+        ]
+        : [
+          scope.userId,
+          scope.userSession,
+          payload.gameId,
+          now,
+          payload.condition,
+          payload.notes,
+          payload.listType,
+          payload.pricePaid,
+          payload.purchaseDate,
+          payload.personalNote,
+          payload.priceThreshold,
+          now,
+          now,
+        ]
+      db._sqlite.prepare(`
+        INSERT INTO collection_items (
+          ${columns}
+        ) VALUES (${schema.qualification ? '?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?' : '?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?'})
+      `).run(...values)
     } else {
       db._sqlite.prepare(`
         INSERT INTO collection_items (
@@ -160,7 +204,8 @@ async function updateCollectionItem(options = {}) {
   }
 
   const nextValues = parsed.value
-  const canonical = await hasCanonicalCollectionSchema()
+  const schema = await getCollectionSchemaState()
+  const canonical = schema.canonical
   const now = new Date().toISOString()
 
   if (mode === 'supabase') {
@@ -173,6 +218,18 @@ async function updateCollectionItem(options = {}) {
       if (hasOwnField(nextValues, 'purchaseDate')) patch.purchase_date = nextValues.purchaseDate
       if (hasOwnField(nextValues, 'personalNote')) patch.personal_note = nextValues.personalNote
       if (hasOwnField(nextValues, 'notes')) patch.notes = nextValues.notes
+      if (schema.qualification) {
+        const touchedQualification = hasOwnField(nextValues, 'editionNote')
+          || hasOwnField(nextValues, 'region')
+          || hasOwnField(nextValues, 'completeness')
+          || hasOwnField(nextValues, 'qualificationConfidence')
+
+        if (hasOwnField(nextValues, 'editionNote')) patch.edition_note = nextValues.editionNote
+        if (hasOwnField(nextValues, 'region')) patch.region = nextValues.region
+        if (hasOwnField(nextValues, 'completeness')) patch.completeness = nextValues.completeness
+        if (hasOwnField(nextValues, 'qualificationConfidence')) patch.qualification_confidence = nextValues.qualificationConfidence
+        if (touchedQualification) patch.qualification_updated_at = now
+      }
 
       const { error } = await db
         .from('collection_items')
@@ -234,6 +291,33 @@ async function updateCollectionItem(options = {}) {
         updates.push('notes = ?')
         params.push(nextValues.notes)
       }
+      if (schema.qualification) {
+        let touchedQualification = false
+        if (hasOwnField(nextValues, 'editionNote')) {
+          updates.push('edition_note = ?')
+          params.push(nextValues.editionNote)
+          touchedQualification = true
+        }
+        if (hasOwnField(nextValues, 'region')) {
+          updates.push('region = ?')
+          params.push(nextValues.region)
+          touchedQualification = true
+        }
+        if (hasOwnField(nextValues, 'completeness')) {
+          updates.push('completeness = ?')
+          params.push(nextValues.completeness)
+          touchedQualification = true
+        }
+        if (hasOwnField(nextValues, 'qualificationConfidence')) {
+          updates.push('qualification_confidence = ?')
+          params.push(nextValues.qualificationConfidence)
+          touchedQualification = true
+        }
+        if (touchedQualification) {
+          updates.push('qualification_updated_at = ?')
+          params.push(now)
+        }
+      }
       updates.push('updated_at = ?')
       params.push(now, scope.userId, gameId)
 
@@ -292,7 +376,8 @@ async function deleteCollectionItem(options = {}) {
     throw error
   }
 
-  const canonical = await hasCanonicalCollectionSchema()
+  const schema = await getCollectionSchemaState()
+  const canonical = schema.canonical
 
   if (mode === 'supabase') {
     let query = db.from('collection_items').delete()

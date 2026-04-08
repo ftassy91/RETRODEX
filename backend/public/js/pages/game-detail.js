@@ -15,8 +15,12 @@ const wishlistButtonEl = document.getElementById('wishlist-button')
 const collectionRemoveButtonEl = document.getElementById('collection-remove-button')
 const collectionFormEl = document.getElementById('collection-form')
 const collectionConditionEl = document.getElementById('collection-condition')
+const collectionCompletenessEl = document.getElementById('collection-completeness')
+const collectionQualificationConfidenceEl = document.getElementById('collection-qualification-confidence')
 const collectionPricePaidEl = document.getElementById('collection-price-paid')
 const collectionPurchaseDateEl = document.getElementById('collection-purchase-date')
+const collectionRegionEl = document.getElementById('collection-region')
+const collectionEditionNoteEl = document.getElementById('collection-edition-note')
 const collectionNotesEl = document.getElementById('collection-notes')
 const collectionStatusEl = document.getElementById('collection-status')
 const contribConditionEl = document.getElementById('contrib-condition')
@@ -137,11 +141,11 @@ function hasIndexedPrice(value) {
   return Number.isFinite(number) && number > 0
 }
 
-function formatPrice(value, fallback = 'Non indexÃ©') {
+function formatPrice(value, fallback = 'Non indexe') {
   return hasIndexedPrice(value) ? `$${Math.round(Number(value))}` : fallback
 }
 
-function formatPriceHtml(value, fallback = 'Non indexÃ©') {
+function formatPriceHtml(value, fallback = 'Non indexe') {
   return hasIndexedPrice(value) ? escapeHtml(formatPrice(value)) : buildEmptyStateHtml(fallback)
 }
 
@@ -169,6 +173,8 @@ function computeCollectionDecision(game, item) {
   const owned = listType === 'owned' || listType === 'for_sale'
   const wanted = listType === 'wanted'
   const condition = String(item?.condition || '').trim()
+  const completeness = getQualificationCompleteness(item)
+  const qualificationConfidence = getQualificationConfidence(item)
   const pricePaid = Number(item?.price_paid || 0)
   const loosePrice = Number(game?.loosePrice || 0)
   const cibPrice = Number(game?.cibPrice || 0)
@@ -180,8 +186,16 @@ function computeCollectionDecision(game, item) {
   let actionNote = 'Position conservee. Aucun signal fort detecte.'
   let actionTone = ''
 
-  if (listType === 'for_sale' || (owned && pricePaid > 0 && hasLoosePrice && loosePrice >= pricePaid * 1.5)) {
-    actionLabel = 'Ã€ VENDRE'
+  if (owned && (completeness === 'unknown' || qualificationConfidence === 'unknown' || qualificationConfidence === 'low')) {
+    actionLabel = 'QUALIFIER'
+    actionNote = 'Verifier edition, region, completude et confiance avant d utiliser la valeur comme signal fort.'
+    actionTone = 'is-primary'
+  } else if (owned && completeness === 'partial') {
+    actionLabel = 'COMPLETER'
+    actionNote = 'L entree est partielle. Completer avant d arbitrer la valeur ou l upgrade.'
+    actionTone = 'is-primary'
+  } else if (listType === 'for_sale' || (owned && pricePaid > 0 && hasLoosePrice && loosePrice >= pricePaid * 1.5)) {
+    actionLabel = 'A VENDRE'
     actionNote = pricePaid > 0
       ? 'La valeur loose depasse le prix paye de 50% ou plus.'
       : 'Le jeu est deja marque a vendre.'
@@ -191,7 +205,7 @@ function computeCollectionDecision(game, item) {
     actionNote = 'Le delta Loose -> CIB reste sous $20.'
     actionTone = 'is-primary'
   } else if (wanted && hasLoosePrice && loosePrice <= 25) {
-    actionLabel = 'Ã€ ACHETER'
+    actionLabel = 'ACHETER'
     actionNote = 'Wishlist active et valeur loose sous $25.'
     actionTone = 'is-hot'
   }
@@ -200,6 +214,8 @@ function computeCollectionDecision(game, item) {
     possessionLabel: owned ? 'Oui' : 'Non',
     interestLabel: listType === 'wanted' ? 'Wishlist' : listType === 'for_sale' ? 'A vendre' : 'Aucun',
     conditionLabel: item ? (condition || 'Loose') : 'n/a',
+    qualificationLabel: item ? getQualificationLabel(item) : 'Aucune entree',
+    qualificationConfidenceLabel: item ? getQualificationConfidenceLabel(item) : 'inconnue',
     valueLabel: buildDecisionPriceSummary(game),
     actionLabel,
     actionNote,
@@ -212,12 +228,12 @@ function formatMetascoreHtml(value) {
   const numeric = Number(value)
   return Number.isFinite(numeric) && numeric > 0
     ? escapeHtml(String(Math.round(numeric)))
-    : buildEmptyStateHtml('Non notÃ©')
+    : buildEmptyStateHtml('Non note')
 }
 
 function formatDurationHtml(value) {
   const duration = formatDurationValue(value)
-  return duration ? escapeHtml(duration) : buildEmptyStateHtml('Non renseignÃ©')
+  return duration ? escapeHtml(duration) : buildEmptyStateHtml('Non renseigne')
 }
 
 function buildGameCardMeta(consoleName, year) {
@@ -301,6 +317,31 @@ function normalizeCollectionListType(value) {
 
 function getCollectionNote(item) {
   return String(item?.personal_note || item?.notes || '').trim()
+}
+
+function getQualificationCompleteness(item) {
+  return String(item?.completeness || 'unknown').trim().toLowerCase() || 'unknown'
+}
+
+function getQualificationConfidence(item) {
+  return String(item?.qualification_confidence || 'unknown').trim().toLowerCase() || 'unknown'
+}
+
+function getQualificationLabel(item) {
+  const completeness = getQualificationCompleteness(item)
+  if (completeness === 'cib') return 'Entree qualifiee CIB'
+  if (completeness === 'sealed') return 'Entree qualifiee scellee'
+  if (completeness === 'partial') return 'Qualification partielle'
+  if (completeness === 'loose') return 'Entree qualifiee loose'
+  return 'A qualifier'
+}
+
+function getQualificationConfidenceLabel(item) {
+  const confidence = getQualificationConfidence(item)
+  if (confidence === 'high') return 'haute'
+  if (confidence === 'medium') return 'moyenne'
+  if (confidence === 'low') return 'faible'
+  return 'inconnue'
 }
 
 function getGameId() {
@@ -439,10 +480,25 @@ function showSkeleton() {
 function buildPossessionChip(item) {
   if (!item) return '<span class="possession-chip is-untracked">NON SUIVI</span>';
   const listType = item.list_type;
-  if (listType === 'owned') return '<span class="possession-chip is-owned">POSSÃ‰DÃ‰</span>';
+  if (listType === 'owned') return '<span class="possession-chip is-owned">POSSEDE</span>';
   if (listType === 'for_sale') return '<span class="possession-chip is-sale">EN VENTE</span>';
   if (listType === 'wanted') return '<span class="possession-chip is-wanted">WISHLIST</span>';
   return '';
+}
+
+function buildQualificationChip(item) {
+  if (!item || normalizeCollectionListType(item.list_type) === 'wanted') {
+    return ''
+  }
+
+  const confidence = getQualificationConfidence(item)
+  const modifier = confidence === 'high'
+    ? ' is-owned'
+    : confidence === 'medium'
+      ? ' is-wanted'
+      : ' is-untracked'
+
+  return `<span class="possession-chip${modifier}">${escapeHtml(getQualificationLabel(item).toUpperCase())}</span>`
 }
 
 function renderHeroSection(game) {
@@ -497,12 +553,13 @@ function renderHeroSection(game) {
                   : escapeHtml(meta.developerName)}
               </div>
 
-              <span id="hero-possession-chip">${buildPossessionChip(currentCollectionItem)}${!currentCollectionItem ? '<a href="/collection.html" class="detail-add-cta">+ ajouter Ã  la collection</a>' : ''}</span>
+              <span id="hero-possession-chip">${buildPossessionChip(currentCollectionItem)}${buildQualificationChip(currentCollectionItem)}${!currentCollectionItem ? '<a href="/collection.html" class="detail-add-cta">+ ajouter a la collection</a>' : ''}</span>
 
               <div id="hero-summary-shell" class="hero-summary-shell"${summary ? '' : ' hidden'}>
                 <div id="hero-summary" class="hero-summary surface-summary-copy">${summary ? formatMultilineHtml(summary) : ''}</div>
               </div>
               <p id="hero-reading-state" class="detail-reading-state">Chargement de la lecture...</p>
+              <p class="detail-reading-state detail-reading-state-secondary">La fiche doit repondre vite : possession, qualification, valeur utile, confiance et prochaine action.</p>
 
               <div class="game-tagline-shell" id="game-tagline-shell" hidden>
                 <span class="detail-inline-label">Note</span>
@@ -592,19 +649,19 @@ function renderCollectionDecisionStrip(options = {}) {
         <span class="surface-signal-value">Indisponible</span>
       </div>
       <div class="surface-signal-card">
-        <span class="surface-signal-label">Liste</span>
+        <span class="surface-signal-label">QUALIFICATION</span>
         <span class="surface-signal-value">Indisponible</span>
       </div>
       <div class="surface-signal-card">
-        <span class="surface-signal-label">Etat</span>
+        <span class="surface-signal-label">VALEUR</span>
         <span class="surface-signal-value">Indisponible</span>
       </div>
       <div class="surface-signal-card">
-        <span class="surface-signal-label">Signal</span>
+        <span class="surface-signal-label">CONFIANCE</span>
         <span class="surface-signal-value">Indisponible</span>
       </div>
       <div class="surface-signal-card surface-signal-card--action">
-        <span class="surface-signal-label">Action</span>
+        <span class="surface-signal-label">ACTION</span>
         <span class="surface-signal-value surface-signal-action-value">Indisponible</span>
       </div>
     `
@@ -620,27 +677,37 @@ function renderCollectionDecisionStrip(options = {}) {
       <span class="surface-signal-label">STATUT</span>
       <span class="surface-signal-value">${escapeHtml(decision.possessionLabel)}</span>
     </div>
+    <div class="surface-signal-card">
+      <span class="surface-signal-label">QUALIFICATION</span>
+      <span class="surface-signal-value">${escapeHtml(decision.qualificationLabel)}</span>
+    </div>
+    <div class="surface-signal-card">
+      <span class="surface-signal-label">VALEUR</span>
+      <span class="surface-signal-value">${escapeHtml(decision.valueLabel)}</span>
+    </div>
+    <div class="surface-signal-card">
+      <span class="surface-signal-label">CONFIANCE</span>
+      <span class="surface-signal-value">${escapeHtml(`${decision.qualificationConfidenceLabel} | ${getPriceTrustSummary(currentGame)} | ${getPriceFreshnessMeta(currentGame?.priceLastUpdated)?.label || 'fraicheur inconnue'}`)}</span>
+    </div>
     <div class="surface-signal-card surface-signal-card--action${actionClass ? ` ${actionClass}` : ''}">
-      <span class="surface-signal-label">Action</span>
+      <span class="surface-signal-label">ACTION</span>
       <span class="surface-signal-value surface-signal-action-value">${escapeHtml(decision.actionLabel)}</span>
-      ${decision.actionLabel === 'Ã€ VENDRE' && currentCollectionItem && normalizeCollectionListType(currentCollectionItem.list_type) !== 'for_sale'
+      ${decision.actionLabel === 'A VENDRE' && currentCollectionItem && normalizeCollectionListType(currentCollectionItem.list_type) !== 'for_sale'
         ? '<button id="action-mark-for-sale-btn" class="decision-action-btn" type="button" onclick="handleMarkForSale()">MARQUER A VENDRE</button>'
-        : ''}
-    </div>
-    <div class="surface-signal-card">
-      <span class="surface-signal-label">Liste</span>
-      <span class="surface-signal-value">${escapeHtml(decision.interestLabel)}</span>
-    </div>
-    <div class="surface-signal-card">
-      <span class="surface-signal-label">Etat</span>
-      <span class="surface-signal-value">${escapeHtml(decision.conditionLabel)}</span>
-    </div>
-    <div class="surface-signal-card">
-      <span class="surface-signal-label">Signal</span>
-      <span class="surface-signal-value">${escapeHtml(decision.stateLabel)}</span>
+        : decision.actionLabel === 'QUALIFIER' || decision.actionLabel === 'COMPLETER'
+          ? `<button id="action-open-qualification-btn" class="decision-action-btn" type="button">${decision.actionLabel === 'COMPLETER' ? 'COMPLETER CETTE ENTREE' : 'QUALIFIER CETTE ENTREE'}</button>`
+          : ''}
     </div>
   `
   decisionNoteEl.textContent = decision.actionNote || 'Lecture de collection en cours.'
+
+  const openQualificationBtn = document.getElementById('action-open-qualification-btn')
+  if (openQualificationBtn) {
+    openQualificationBtn.addEventListener('click', () => {
+      setCollectionAccordionOpen(true)
+      collectionCompletenessEl?.focus()
+    })
+  }
 }
 
 function renderDetailContentStatus() {
@@ -685,9 +752,17 @@ function getTrustMeta(value) {
 }
 
 function getTrustBadgeText(tier) {
-  if (tier === 'T1') return 'âœ“ DONNÃ‰ES VÃ‰RIFIÃ‰ES Â· TIER T1'
-  if (tier === 'T2') return 'DONNÃ‰ES CROISÃ‰ES Â· TIER T2'
-  return 'ESTIMATION Â· PEU DE DONNÃ‰ES'
+  if (tier === 'T1') return 'DONNEES VERIFIEES | TIER T1'
+  if (tier === 'T2') return 'DONNEES CROISEES | TIER T2'
+  return 'ESTIMATION | PEU DE DONNEES'
+}
+
+function getPriceTrustSummary(game) {
+  const confidence = Number(game?.sourceConfidence || 0)
+  if (confidence >= 0.7) return 'prix T1 fiable'
+  if (confidence >= 0.5) return 'prix T2 estime'
+  if (confidence > 0) return 'prix T3 indicatif'
+  return 'prix non qualifie'
 }
 
 function getTrustBadgeStyle(tier) {
@@ -750,6 +825,10 @@ function buildHeroPriceContext(game, trustMeta) {
   const trustTier = trustMeta?.tier || 'T0'
   const shouldShowContext = trustTier !== 'T0' || freshnessMeta
   const sourceNames = String(game?.sourceNames || '').trim()
+  const qualificationWarning = currentCollectionItem
+    && (getQualificationCompleteness(currentCollectionItem) === 'unknown' || ['unknown', 'low'].includes(getQualificationConfidence(currentCollectionItem)))
+    ? 'Valeur indicative tant que l entree n est pas qualifiee.'
+    : ''
 
   if (!shouldShowContext) {
     return ''
@@ -765,6 +844,7 @@ function buildHeroPriceContext(game, trustMeta) {
       ${freshnessMeta?.dateText ? `<div class="detail-hero-price-date">Mis a jour : ${escapeHtml(freshnessMeta.dateText)}</div>` : ''}
       ${buildPriceFreshnessAlert(game?.priceLastUpdated)}
       ${sourceNames ? `<div class="detail-hero-sources">Sources : ${escapeHtml(sourceNames)}</div>` : ''}
+      ${qualificationWarning ? `<div class="detail-hero-price-help is-warning">${escapeHtml(qualificationWarning)}</div>` : ''}
       <div class="detail-hero-price-help">Repere marche : croiser avec l'etat reel, la fraicheur et l'historique.</div>
     </div>
   `
@@ -898,7 +978,7 @@ async function loadRetrodexIndex(gameId) {
       </div>
       <div class="index-primary">
         <span class="index-primary-label">REFERENCE</span>
-        <span class="index-primary-value">${formatPriceHtml(primaryEntry.index_value, 'Prix non indexÃ©')}</span>
+          <span class="index-primary-value">${formatPriceHtml(primaryEntry.index_value, 'Prix non indexe')}</span>
         <span class="index-primary-meta">${escapeHtml(primaryEntry.condition || 'n/a')} | ${escapeHtml(formatIndexRange(primaryEntry.range_low, primaryEntry.range_high))}</span>
       </div>
       <div class="trust-header">
@@ -2123,11 +2203,23 @@ function populateCollectionForm(item) {
   if (collectionConditionEl) {
     collectionConditionEl.value = item?.condition || 'Loose'
   }
+  if (collectionCompletenessEl) {
+    collectionCompletenessEl.value = getQualificationCompleteness(item)
+  }
+  if (collectionQualificationConfidenceEl) {
+    collectionQualificationConfidenceEl.value = getQualificationConfidence(item)
+  }
   if (collectionPricePaidEl) {
     collectionPricePaidEl.value = item?.price_paid != null ? String(item.price_paid) : ''
   }
   if (collectionPurchaseDateEl) {
     collectionPurchaseDateEl.value = item?.purchase_date || ''
+  }
+  if (collectionRegionEl) {
+    collectionRegionEl.value = item?.region || ''
+  }
+  if (collectionEditionNoteEl) {
+    collectionEditionNoteEl.value = item?.edition_note || ''
   }
   if (collectionNotesEl) {
     collectionNotesEl.value = getCollectionNote(item)
@@ -2136,9 +2228,13 @@ function populateCollectionForm(item) {
 
 function readCollectionFormValues() {
   const condition = collectionConditionEl?.value || 'Loose'
+  const completeness = collectionCompletenessEl?.value || 'unknown'
+  const qualification_confidence = collectionQualificationConfidenceEl?.value || 'unknown'
   const rawPrice = String(collectionPricePaidEl?.value || '').trim()
   const price_paid = rawPrice ? Number(rawPrice) : null
   const purchase_date = String(collectionPurchaseDateEl?.value || '').trim() || null
+  const region = String(collectionRegionEl?.value || '').trim() || null
+  const edition_note = String(collectionEditionNoteEl?.value || '').trim() || null
   const notes = String(collectionNotesEl?.value || '').trim() || null
 
   if (rawPrice && (!Number.isFinite(price_paid) || price_paid <= 0)) {
@@ -2151,8 +2247,12 @@ function readCollectionFormValues() {
 
   return {
     condition,
+    completeness,
+    qualification_confidence,
     price_paid,
     purchase_date,
+    region,
+    edition_note,
     notes,
     personal_note: notes,
   }
@@ -2165,10 +2265,20 @@ function buildCollectionMeta(item, listType) {
 
   const fragments = [
     `<span class="condition-badge condition-${escapeHtml(conditionClass(item.condition))}" data-condition="${escapeHtml(item.condition || 'Loose')}">${escapeHtml(item.condition || 'Loose')}</span>`,
+    `<span class="collection-note-text">${escapeHtml(getQualificationLabel(item))}</span>`,
+    `<span class="collection-note-text">Confiance ${escapeHtml(getQualificationConfidenceLabel(item))}</span>`,
   ]
 
+  if (item.region) {
+    fragments.push(`<span class="collection-note-text">Region ${escapeHtml(item.region)}</span>`)
+  }
+
+  if (item.edition_note) {
+    fragments.push(`<span class="collection-note-text">${escapeHtml(item.edition_note)}</span>`)
+  }
+
   if (item.purchase_date) {
-    fragments.push(`<span class="collection-note-text">EntrÃ©e le ${escapeHtml(item.purchase_date)}</span>`)
+    fragments.push(`<span class="collection-note-text">Entree le ${escapeHtml(item.purchase_date)}</span>`)
   }
 
   const note = getCollectionNote(item)
@@ -2209,7 +2319,7 @@ function applyCollectionUiState(item, options = {}) {
 
   const heroPossessionChipEl = document.getElementById('hero-possession-chip')
   if (heroPossessionChipEl) {
-    heroPossessionChipEl.innerHTML = buildPossessionChip(item) + (!item ? '<a href="/collection.html" class="detail-add-cta">+ ajouter a la collection</a>' : '')
+    heroPossessionChipEl.innerHTML = buildPossessionChip(item) + buildQualificationChip(item) + (!item ? '<a href="/collection.html" class="detail-add-cta">+ ajouter a la collection</a>' : '')
   }
 
   collectionFormEl.hidden = false

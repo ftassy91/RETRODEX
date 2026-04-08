@@ -87,6 +87,14 @@ function renderGameRow(game, options = {}) {
   const relationHtml = relationCue
     ? `<span class="result-context-row">Studio ${escapeHtml(relationCue)}</span>`
     : ''
+  const actionCue = showSaleBadge
+    ? 'ouvrir pour confirmer la sortie'
+    : showWantedBadge
+      ? 'ouvrir pour verifier achat et qualification'
+      : showOwnedBadge
+        ? 'ouvrir pour verifier contexte, qualification et valeur'
+        : 'ouvrir pour lecture, contexte et valeur'
+  const actionHtml = `<span class="result-action-row">${escapeHtml(actionCue)}</span>`
   function truncateText(text, max) {
     if (!text) return '';
     const clean = String(text).replace(/<[^>]+>/g, '').trim();
@@ -107,6 +115,7 @@ function renderGameRow(game, options = {}) {
       ${archiveBadge ? `<span class="result-presence-row result-archive-row">${archiveBadge}</span>` : ''}
       ${relationHtml}
       ${summaryHtml}
+      ${actionHtml}
       ${renderPresenceBadges(game)}
     </div>
     <div class="result-signal">

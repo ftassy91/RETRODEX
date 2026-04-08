@@ -10,32 +10,31 @@
     <meta name="apple-mobile-web-app-title" content="RetroDex">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
-    <title>RetroDex - Collection</title>
-    <meta name="description" content="Collection RetroDex : revue de l etagere, valeur, wishlist et arbitrages." />
+    <title>RetroDex - Ma collection</title>
+    <meta name="description" content="Collection RetroDex : revue, qualification, valeur et evolution de l'etagere." />
     <meta property="og:title" content="Collection | RetroDex" />
-    <meta property="og:description" content="Collection RetroDex : revue de l etagere, valeur, wishlist et arbitrages." />
+    <meta property="og:description" content="Collection RetroDex : revue, qualification, valeur et evolution de l'etagere." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260408r1" />
+    <link rel="stylesheet" href="/style.css?v=20260408r3" />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
     <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
       <a class="global-product-link" href="/hub.html">
         <span class="nav-label">Hub</span>
-      <span class="nav-copy">entrer | ouvrir | reprendre</span>
+        <span class="nav-copy">entrer | ouvrir | reprendre</span>
       </a>
       <a class="global-product-link" href="/games-list.html">
         <span class="nav-label">RetroDex</span>
-      <span class="nav-copy">index | recherche | fiches</span>
+        <span class="nav-copy">index | recherche | fiches</span>
       </a>
       <a class="global-product-link is-active" href="/collection.html">
         <span class="nav-label">Collection</span>
-      <span class="nav-copy">etagere | valeur | priorites</span>
+        <span class="nav-copy">etagere | valeur | priorites</span>
       </a>
     </nav>
     <main id="main-content" class="page-wrapper collection-cockpit-page">
-      <!-- MA COLLECTION -->
       <nav class="breadcrumb" aria-label="Fil d'ariane">
         <a href="/hub.html">HUB</a>
         <span class="sep" aria-hidden="true">&rsaquo;</span>
@@ -63,7 +62,7 @@
             <div class="terminal-summary-value" id="stat-total">-</div>
           </div>
           <div class="terminal-summary-cell">
-            <div class="terminal-summary-label">VALEUR</div>
+            <div class="terminal-summary-label">VALEUR MARCHE</div>
             <div class="terminal-summary-value neutral" id="stat-value-loose">-</div>
           </div>
           <div class="terminal-summary-cell">
@@ -85,44 +84,39 @@
         </div>
 
         <div id="collection-cockpit-lead" class="terminal-context collection-status-line">
-          <strong id="collection-mode-title">ÉTAT DU SYSTÈME</strong>
-          <span id="collection-mode-copy">Une seule vue pour voir quoi verifier, quoi sortir, quoi acheter et quoi completer.</span>
+          <strong id="collection-mode-title">PRIORITE DU MOMENT</strong>
+          <span id="collection-mode-copy">Une seule vue pour voir quoi corriger, qualifier, vendre, upgrader et saisir.</span>
         </div>
 
         <div class="collection-cockpit-topline terminal-context">
           <a href="/games-list.html" class="terminal-action-link">Parcourir RetroDex -&gt;</a>
         </div>
 
-        <div id="cockpit-signals" class="cockpit-signals-bar" aria-label="Signaux collection" style="display:none">
-          <button class="cockpit-signal-card" id="signal-duplicates" data-signal="duplicates" type="button" aria-pressed="false" title="Jeux en double dans votre collection">
-            <span class="cockpit-signal-count" id="signal-duplicates-count">0</span>
-            <span class="cockpit-signal-label">DOUBLONS</span>
-            <span class="cockpit-signal-desc">Meme jeu en etagere x2+</span>
+        <div id="cockpit-signals" class="cockpit-signals-bar" aria-label="Queues d action collection" style="display:none">
+          <button class="cockpit-signal-card" id="signal-fix" data-signal="fix_now" type="button" aria-pressed="false" title="Entrees a corriger ou arbitrer en priorite">
+            <span class="cockpit-signal-count" id="signal-fix-count">0</span>
+            <span class="cockpit-signal-label">A CORRIGER</span>
+            <span class="cockpit-signal-desc">Doublons ou donnees de base fragiles</span>
           </button>
-          <button class="cockpit-signal-card" id="signal-sell" data-signal="sell_candidates" type="button" aria-pressed="false" title="Candidats à la vente (gain potentiel)">
+          <button class="cockpit-signal-card" id="signal-qualify" data-signal="needs_qualification" type="button" aria-pressed="false" title="Entrees a qualifier ou verifier">
+            <span class="cockpit-signal-count" id="signal-qualify-count">0</span>
+            <span class="cockpit-signal-label">A QUALIFIER</span>
+            <span class="cockpit-signal-desc">Edition, region, completude, confiance</span>
+          </button>
+          <button class="cockpit-signal-card" id="signal-sell" data-signal="sell_candidates" type="button" aria-pressed="false" title="Candidats a la vente">
             <span class="cockpit-signal-count" id="signal-sell-count">0</span>
             <span class="cockpit-signal-label">A VENDRE</span>
             <span class="cockpit-signal-desc">Valeur >= prix paye x1.5</span>
           </button>
-          <button class="cockpit-signal-card" id="signal-upgrade" data-signal="upgrade_candidates" type="button" aria-pressed="false" title="Candidats à l'upgrade vers CIB/Mint">
+          <button class="cockpit-signal-card" id="signal-upgrade" data-signal="upgrade_candidates" type="button" aria-pressed="false" title="Candidats a l upgrade">
             <span class="cockpit-signal-count" id="signal-upgrade-count">0</span>
             <span class="cockpit-signal-label">A UPGRADER</span>
             <span class="cockpit-signal-desc">Loose + delta CIB &lt;= $20</span>
           </button>
-          <button class="cockpit-signal-card" id="signal-incomplete" data-signal="incomplete" type="button" aria-pressed="false" title="Fiches incomplètes à qualifier">
-            <span class="cockpit-signal-count" id="signal-incomplete-count">0</span>
-            <span class="cockpit-signal-label">INCOMPLETS</span>
-            <span class="cockpit-signal-desc">Prix d'achat non renseigne</span>
-          </button>
-          <button class="cockpit-signal-card" id="signal-wishlist" data-signal="affordable_wishlist" type="button" aria-pressed="false" title="Wishlist accessible selon votre seuil">
-            <span class="cockpit-signal-count" id="signal-wishlist-count">0</span>
-            <span class="cockpit-signal-label">WISHLIST &lt;= $25</span>
-            <span class="cockpit-signal-desc">Voulu + loose &lt;= $25</span>
-          </button>
-          <button class="cockpit-signal-card" id="signal-stale" data-signal="stale_wishlist" type="button" aria-pressed="false" title="Wishlist en attente depuis plus de 6 mois">
-            <span class="cockpit-signal-count" id="signal-stale-count">0</span>
-            <span class="cockpit-signal-label">WISHLIST +6 MOIS</span>
-            <span class="cockpit-signal-desc">Dans wishlist depuis 6 mois+</span>
+          <button class="cockpit-signal-card" id="signal-opportunity" data-signal="affordable_wishlist" type="button" aria-pressed="false" title="Opportunites d achat accessibles">
+            <span class="cockpit-signal-count" id="signal-opportunity-count">0</span>
+            <span class="cockpit-signal-label">A SAISIR</span>
+            <span class="cockpit-signal-desc">Wishlist accessible selon votre seuil</span>
           </button>
         </div>
 
@@ -168,6 +162,44 @@
           Chargement...
         </div>
 
+        <section id="collection-evolution" class="collection-evolution-panel" hidden>
+          <div class="detail-kicker">EVOLUTION</div>
+          <div class="collection-evolution-grid">
+            <div class="evolution-cell">
+              <span class="evolution-label">SORTIES A FORTE LOGIQUE</span>
+              <span class="evolution-value" id="evo-rotation-budget">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">WISHLIST FINANCABLE</span>
+              <span class="evolution-value" id="evo-rotation-wish">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">ACQUIS CE TRIMESTRE</span>
+              <span class="evolution-value" id="evo-this-quarter">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">TRIMESTRE PRECEDENT</span>
+              <span class="evolution-value" id="evo-last-quarter">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">COUT TOTAL</span>
+              <span class="evolution-value" id="evo-total-cost">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">VALEUR ESTIMEE</span>
+              <span class="evolution-value" id="evo-total-value">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">DELTA MOYEN</span>
+              <span class="evolution-value" id="evo-avg-delta">-</span>
+            </div>
+            <div class="evolution-cell">
+              <span class="evolution-label">ETAT DU PARC</span>
+              <span class="evolution-value" id="evo-condition-dist">-</span>
+            </div>
+          </div>
+        </section>
+
         <section class="collection-cockpit-grid">
           <div class="collection-cockpit-main">
             <div class="collection-inventory-label">INVENTAIRE</div>
@@ -193,7 +225,7 @@
               <div class="terminal-preview-title" id="detail-title">-</div>
               <div class="terminal-preview-row surface-identity-meta" id="detail-row1"></div>
               <div class="terminal-preview-row surface-chip-row" id="detail-focus-state"></div>
-              <div class="surface-signal-grid is-four" id="detail-signal-grid"></div>
+              <div class="surface-signal-grid is-five" id="detail-signal-grid"></div>
               <div class="terminal-preview-row surface-chip-row" id="detail-chip-row"></div>
               <div class="collection-preview-summary surface-summary-copy" id="detail-summary"></div>
               <div class="terminal-preview-row terminal-context" id="detail-next-step"></div>
@@ -206,8 +238,25 @@
                     <option value="CIB">CIB</option>
                     <option value="Mint">Mint</option>
                   </select>
+                  <select id="edit-completeness" class="collection-condition-select" aria-label="Completude">
+                    <option value="unknown">A qualifier</option>
+                    <option value="loose">Loose</option>
+                    <option value="partial">Partiel</option>
+                    <option value="cib">CIB</option>
+                    <option value="sealed">Scelle</option>
+                  </select>
+                  <select id="edit-qualification-confidence" class="collection-condition-select" aria-label="Confiance de qualification">
+                    <option value="unknown">Confiance inconnue</option>
+                    <option value="low">Faible</option>
+                    <option value="medium">Moyenne</option>
+                    <option value="high">Haute</option>
+                  </select>
                   <input id="edit-price-paid" class="collection-condition-select" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Prix d'achat" aria-label="Prix d'achat" />
                   <input id="edit-purchase-date" class="collection-condition-select" type="date" aria-label="Date d'achat" />
+                </div>
+                <div class="collection-controls">
+                  <input id="edit-region" class="collection-condition-select" type="text" maxlength="24" placeholder="Region" aria-label="Region" />
+                  <input id="edit-edition-note" class="collection-condition-select" type="text" maxlength="120" placeholder="Edition / note variante" aria-label="Edition / note variante" />
                 </div>
                 <textarea id="edit-notes" class="collection-note-input" rows="2" maxlength="320" placeholder="Notes personnelles..."></textarea>
                 <div class="collection-edit-actions">
@@ -217,44 +266,6 @@
               </form>
             </div>
           </aside>
-        </section>
-
-        <section id="collection-evolution" class="collection-evolution-panel" hidden>
-          <div class="detail-kicker">EVOLUTION</div>
-          <div class="collection-evolution-grid">
-            <div class="evolution-cell">
-              <span class="evolution-label">ACQUIS CE TRIMESTRE</span>
-              <span class="evolution-value" id="evo-this-quarter">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">TRIMESTRE PRECEDENT</span>
-              <span class="evolution-value" id="evo-last-quarter">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">COUT TOTAL</span>
-              <span class="evolution-value" id="evo-total-cost">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">VALEUR ESTIMEE</span>
-              <span class="evolution-value" id="evo-total-value">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">DELTA MOYEN</span>
-              <span class="evolution-value" id="evo-avg-delta">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">CONDITION</span>
-              <span class="evolution-value" id="evo-condition-dist">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">VALEUR SORTIE</span>
-              <span class="evolution-value" id="evo-rotation-budget">-</span>
-            </div>
-            <div class="evolution-cell">
-              <span class="evolution-label">ROTATION</span>
-              <span class="evolution-value" id="evo-rotation-wish">-</span>
-            </div>
-          </div>
         </section>
       </section>
 
@@ -279,7 +290,7 @@
     <script src="/js/core/state.js"></script>
     <script src="/js/core/assets.js"></script>
     <script src="/js/core/metascore.js"></script>
-    <script src="/js/pages/collection.js?v=20260408r1"></script>
+    <script src="/js/pages/collection.js?v=20260408r3"></script>
     <script src="/js/features/experience-layer.js"></script>
   </body>
 </html>
