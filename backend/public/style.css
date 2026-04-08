@@ -13619,6 +13619,13 @@ body {
   margin-top: 18px;
 }
 
+#collection-evolution {
+  border-top: 1px solid var(--color-border, #222);
+  padding-top: 12px;
+  margin-top: 16px;
+  opacity: 0.85;
+}
+
 .collection-preview-shell .terminal-preview-label {
   color: #7d9574;
 }
