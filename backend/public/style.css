@@ -10076,6 +10076,30 @@ body.hub-page .product-universe-frame {
   grid-column: span 2;
 }
 
+.surface-signal-card--action {
+  border-color: var(--text-muted);
+}
+.surface-signal-card--action.is-hot {
+  border-color: var(--text-alert);
+  background: rgba(255, 204, 0, 0.06);
+}
+.surface-signal-card--action.is-primary {
+  border-color: var(--accent);
+  background: rgba(0, 255, 102, 0.06);
+}
+.surface-signal-action-value {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.surface-signal-card--action.is-hot .surface-signal-action-value {
+  color: var(--text-alert);
+}
+.surface-signal-card--action.is-primary .surface-signal-action-value {
+  color: var(--accent);
+}
+
 .surface-signal-label {
   color: var(--text-muted);
   font-family: var(--font-mono);

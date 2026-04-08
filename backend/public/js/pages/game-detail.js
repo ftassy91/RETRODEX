@@ -173,8 +173,8 @@ function computeCollectionDecision(game, item) {
   const hasCibPrice = hasIndexedPrice(cibPrice)
   const cibDelta = hasLoosePrice && hasCibPrice ? cibPrice - loosePrice : null
 
-  let actionLabel = 'rien'
-  let actionNote = 'Aucun signal fort.'
+  let actionLabel = 'hold'
+  let actionNote = 'Position conservee. Aucun signal fort detecte.'
   let actionTone = ''
 
   if (listType === 'for_sale' || (owned && pricePaid > 0 && hasLoosePrice && loosePrice >= pricePaid * 1.5)) {
@@ -591,9 +591,9 @@ function renderCollectionDecisionStrip(options = {}) {
         <span class="surface-signal-label">Valeur</span>
         <span class="surface-signal-value">Indisponible</span>
       </div>
-      <div class="surface-signal-card">
+      <div class="surface-signal-card surface-signal-card--action">
         <span class="surface-signal-label">Action</span>
-        <span class="surface-signal-value">Indisponible</span>
+        <span class="surface-signal-value surface-signal-action-value">Indisponible</span>
       </div>
     `
     decisionNoteEl.textContent = 'Lecture collection indisponible.'
@@ -620,9 +620,9 @@ function renderCollectionDecisionStrip(options = {}) {
       <span class="surface-signal-label">Valeur</span>
       <span class="surface-signal-value">${escapeHtml(decision.valueLabel)}</span>
     </div>
-    <div class="surface-signal-card${actionClass ? ` ${actionClass}` : ''}">
+    <div class="surface-signal-card surface-signal-card--action${actionClass ? ` ${actionClass}` : ''}">
       <span class="surface-signal-label">Action</span>
-      <span class="surface-signal-value">${escapeHtml(decision.actionLabel)}</span>
+      <span class="surface-signal-value surface-signal-action-value">${escapeHtml(decision.actionLabel)}</span>
     </div>
   `
   decisionNoteEl.textContent = decision.actionNote || 'Lecture de collection en cours.'
