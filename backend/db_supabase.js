@@ -524,12 +524,15 @@ function buildSQLiteAdapter(sqlite) {
   };
 }
 
-function applyGameFilters(query, { console: consoleName, rarity, search, ids }) {
+function applyGameFilters(query, { console: consoleName, rarity, genre, search, yearMin, yearMax, ids }) {
   let nextQuery = query.eq('type', 'game');
 
   if (consoleName) nextQuery = nextQuery.eq('console', consoleName);
   if (rarity) nextQuery = nextQuery.eq('rarity', rarity);
+  if (genre) nextQuery = nextQuery.eq('genre', genre);
   if (search) nextQuery = nextQuery.ilike('title', `%${search}%`);
+  if (Number.isFinite(Number(yearMin))) nextQuery = nextQuery.gte('year', Number(yearMin));
+  if (Number.isFinite(Number(yearMax))) nextQuery = nextQuery.lte('year', Number(yearMax));
   if (Array.isArray(ids)) {
     if (!ids.length) {
       nextQuery = nextQuery.in('id', ['__retrodex_no_match__']);
@@ -689,8 +692,8 @@ async function queryGamesViaSequelize(sequelize, filters) {
   return { items: rows, total: rows.length };
 }
 
-async function queryGames({ sort, console: consoleName, rarity, limit = 20, offset = 0, search, ids }) {
-  const filters = { console: consoleName, rarity, search, ids };
+async function queryGames({ sort, console: consoleName, rarity, genre, limit = 20, offset = 0, search, yearMin, yearMax, ids }) {
+  const filters = { console: consoleName, rarity, genre, search, yearMin, yearMax, ids };
 
   if (_sequelizeOverride && process.env.RETRODEX_FORCE_SEQUELIZE_READS === '1') {
     return queryGamesViaSequelize(_sequelizeOverride, filters);
