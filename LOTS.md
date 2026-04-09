@@ -79,6 +79,10 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 - **Modele utilise :** Opus
 
 ### LOT-THINK-02 - Modele de securite RLS
-- **Statut :** Planifie
+- **Statut :** Done
+- **Date :** 2026-04-09
+- **Commit :** e715dfc
 - **Objectif :** Documenter le modele de securite intentionnel, activer RLS sur les tables manquantes si necessaire
-- **Modele recommande :** Opus
+- **Decision :** RLS inerte par design (service_role). Activation differee a 4 triggers (anon key, multi-user, API publique, edge functions).
+- **Livrable :** docs/DECISION-002-security-model.md
+- **Modele utilise :** Opus
