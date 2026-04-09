@@ -167,3 +167,11 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 - **Fichiers :** backend/public/style.css
 - **Modele utilise :** Sonnet
 - **Notes :** ~105 font-size 9px/8px remplaces, --text-muted passe de 1.2:1 a >4.5:1 ratio
+
+### LOT-UX-02-03-04 - Inline styles, hardcoded colors, touch targets
+- **Statut :** Done
+- **Date :** 2026-04-10
+- **Commit :** e68dd99
+- **Objectif :** Remplacer inline styles par CSS classes, couleurs hardcodees par CSS vars, ajouter touch targets 44px mobile, nettoyer 15 !important
+- **Fichiers :** backend/public/style.css, backend/public/js/pages/collection.js, backend/public/js/pages/game-detail.js, backend/public/js/pages/hub.js
+- **Modele utilise :** Sonnet
