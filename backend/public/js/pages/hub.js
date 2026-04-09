@@ -365,11 +365,27 @@
 
   /* ── Init ──────────────────────────────────── */
 
+  function typewrite(el, text, speed) {
+    if (!el || !text || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    el.textContent = ''
+    let i = 0
+    const timer = setInterval(() => {
+      el.textContent += text[i++]
+      if (i >= text.length) clearInterval(timer)
+    }, speed || 35)
+  }
+
   function init() {
     bindKeyboardShortcut()
     initRetroMenu()
     registerServiceWorker()
     loadHub()
+
+    const taglineEl = document.querySelector('.hub-system-tagline')
+    if (taglineEl) {
+      const text = taglineEl.textContent
+      typewrite(taglineEl, text, 40)
+    }
   }
 
   init()
