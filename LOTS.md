@@ -70,9 +70,13 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 - **Notes :** recordRun default a apply, writeRejections() ajoute, normalizeCondition() retourne Loose/CIB/Mint. Premier --apply = test d'integration.
 
 ### LOT-THINK-01 - Decision: duplication games/game_editorial
-- **Statut :** Planifie
+- **Statut :** Done
+- **Date :** 2026-04-09
+- **Commit :** 524c3b4
 - **Objectif :** Decider si games est un cache de game_editorial ou si les champs doublons sont a supprimer
-- **Modele recommande :** Opus (decision architecturale)
+- **Decision :** Option A — game_editorial = source de verite pour les champs editoriaux. Migration en 4 phases.
+- **Livrable :** docs/DECISION-001-editorial-tables.md
+- **Modele utilise :** Opus
 
 ### LOT-THINK-02 - Modele de securite RLS
 - **Statut :** Planifie
