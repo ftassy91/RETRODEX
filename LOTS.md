@@ -61,9 +61,13 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 ## Lots planifies
 
 ### LOT-PROD-02 - Telemetrie pipeline + dette casing queries.js
-- **Statut :** Planifie
+- **Statut :** Done
+- **Date :** 2026-04-09
+- **Commit :** 47dde3c
 - **Objectif :** Activer les logs price_ingest_runs + price_rejections, normaliser queries.js::normalizeCondition() en Title Case
-- **Modele recommande :** Sonnet
+- **Fichiers :** backend/src/services/public-price/queries.js, backend/src/services/market/observe/ingest-runs.js, backend/src/services/market/observe/index.js, backend/scripts/market/run-market-pipeline.js
+- **Modele utilise :** Opus (plan) + Sonnet (execute)
+- **Notes :** recordRun default a apply, writeRejections() ajoute, normalizeCondition() retourne Loose/CIB/Mint. Premier --apply = test d'integration.
 
 ### LOT-THINK-01 - Decision: duplication games/game_editorial
 - **Statut :** Planifie
