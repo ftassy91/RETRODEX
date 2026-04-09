@@ -275,6 +275,11 @@
     return sorted
   }
 
+  function hasPriceTrustForAction(game) {
+    const tier = String(game?.priceConfidenceTier || '').toLowerCase()
+    return tier === 'high' || tier === 'medium'
+  }
+
   function getReviewCue(item) {
     const game = getGame(item)
     const listType = String(item?.list_type || activeTab || 'owned').toLowerCase()
@@ -283,13 +288,14 @@
     const cib = Number(game?.cibPrice || 0)
     const threshold = Number(item?.price_threshold || 25)
     const condition = String(item?.condition || '').toLowerCase()
+    const trusted = hasPriceTrustForAction(game)
 
     if (listType === 'for_sale') return { label: 'sortie active', tone: 'is-hot' }
     if (listType === 'owned' && needsQualification(item)) return { label: 'a qualifier', tone: 'is-primary' }
     if (listType === 'owned' && paid <= 0) return { label: 'a completer', tone: '' }
-    if (listType === 'owned' && paid > 0 && loose > 0 && loose >= paid * 1.5) return { label: 'sortie plausible', tone: 'is-hot' }
-    if (listType === 'owned' && condition === 'loose' && loose > 0 && cib > 0 && cib - loose <= 20) return { label: 'upgrade plausible', tone: 'is-primary' }
-    if (listType === 'wanted' && loose > 0 && loose <= threshold) return { label: 'opportunite d achat', tone: 'is-primary' }
+    if (trusted && listType === 'owned' && paid > 0 && loose > 0 && loose >= paid * 1.5) return { label: 'sortie plausible', tone: 'is-hot' }
+    if (trusted && listType === 'owned' && condition === 'loose' && loose > 0 && cib > 0 && cib - loose <= 20) return { label: 'upgrade plausible', tone: 'is-primary' }
+    if (trusted && listType === 'wanted' && loose > 0 && loose <= threshold) return { label: 'opportunite d achat', tone: 'is-primary' }
     if (listType === 'wanted') return { label: 'a verifier', tone: '' }
     return { label: 'stable', tone: '' }
   }
@@ -302,13 +308,14 @@
     const cib = Number(game?.cibPrice || 0)
     const threshold = Number(item?.price_threshold || 25)
     const condition = String(item?.condition || '').toLowerCase()
+    const trusted = hasPriceTrustForAction(game)
 
     if (listType === 'for_sale') return { label: 'VENDRE', tone: 'is-hot' }
     if (listType === 'owned' && needsQualification(item)) return { label: 'QUALIFIER', tone: 'is-primary' }
     if (listType === 'owned' && paid <= 0) return { label: 'COMPLETER', tone: '' }
-    if (listType === 'owned' && paid > 0 && loose > 0 && loose >= paid * 1.5) return { label: 'VENDRE', tone: 'is-hot' }
-    if (listType === 'owned' && condition === 'loose' && loose > 0 && cib > 0 && cib - loose <= 20) return { label: 'UPGRADER', tone: 'is-primary' }
-    if (listType === 'wanted' && loose > 0 && loose <= threshold) return { label: 'ACHETER', tone: 'is-primary' }
+    if (trusted && listType === 'owned' && paid > 0 && loose > 0 && loose >= paid * 1.5) return { label: 'VENDRE', tone: 'is-hot' }
+    if (trusted && listType === 'owned' && condition === 'loose' && loose > 0 && cib > 0 && cib - loose <= 20) return { label: 'UPGRADER', tone: 'is-primary' }
+    if (trusted && listType === 'wanted' && loose > 0 && loose <= threshold) return { label: 'ACHETER', tone: 'is-primary' }
     if (listType === 'wanted') return { label: 'SURVEILLER', tone: '' }
     return { label: 'CONSERVER', tone: '' }
   }
@@ -611,6 +618,7 @@
 
   function buildFocusDecision(item) {
     const game = getGame(item)
+    const priceCurrency = game.priceCurrency || null
     const loosePrice = Number(game.loosePrice || 0)
     const cibPrice = Number(game.cibPrice || 0)
     const paid = Number(item.price_paid || 0)
@@ -634,7 +642,8 @@
     }
     if (activeCockpitSignal === 'sell_candidates') {
       const sellEstimate = loosePrice > 0 ? Math.round(loosePrice * 0.85) : null
-      const sellLine = sellEstimate != null ? ` Prix de vente realiste estime : $${sellEstimate} (loose marche x0.85).` : ''
+      const sellLabel = sellEstimate != null ? formatCollectionPrice(sellEstimate, priceCurrency) : null
+      const sellLine = sellLabel ? ` Prix de vente realiste estime : ${sellLabel} (loose marche x0.85).` : ''
       return `Sortie plausible. Verifier delta et pertinence avant de mettre en vente.${sellLine}`
     }
     if (activeCockpitSignal === 'upgrade_candidates') {
@@ -644,8 +653,9 @@
       return 'Achat accessible. Ouvrir la fiche puis qualifier avant arbitrage.'
     }
     if (activeTab === 'wanted') {
-      return loosePrice > 0
-        ? `Point d entree a ${formatCurrency(loosePrice)}. Qualifier avant achat.`
+      const looseFmt = formatCollectionPrice(loosePrice, priceCurrency)
+      return looseFmt
+        ? `Point d entree a ${looseFmt}. Qualifier avant achat.`
         : 'Wishlist en veille. Ouvrir la fiche pour verifier la qualite et le contexte.'
     }
     if (needsQualification(item)) {
@@ -665,7 +675,8 @@
       return 'Pret a sortir. Verifier prix, note et etat avant diffusion.'
     }
     if (gain != null && gain > 0) {
-      return `Delta positif ${formatCurrency(gain)}. Garder ou sortir selon la priorite de collection.`
+      const gainFmt = formatCollectionPrice(gain, priceCurrency) || `+${Math.round(gain)}`
+      return `Delta positif ${gainFmt}. Garder ou sortir selon la priorite de collection.`
     }
     if (cibPrice > loosePrice && String(item.condition || '').toLowerCase() === 'loose') {
       return 'Loose en etagere. Regarder si un upgrade CIB change vraiment la valeur.'
@@ -715,10 +726,7 @@
     const updatedAt = new Date(rawDate)
     const time = updatedAt.getTime()
     if (!Number.isFinite(time)) return 'date inconnue'
-    const ageDays = Math.floor((Date.now() - time) / 86400000)
-    if (ageDays <= 30) return 'maj recente'
-    if (ageDays <= 90) return 'maj suivie'
-    return 'maj ancienne'
+    return rawDate.slice(0, 10)
   }
 
   function collectionStateMarkup(title, copy, actionMarkup = '') {
@@ -991,11 +999,13 @@
         : 'Region non renseignee. Completez la qualification pour des prix et des actions precis.'
       const regionChip = `<span class="${regionChipClass}" title="${escapeHtml(regionTooltip)}" style="cursor:default">${escapeHtml(regionChipLabel)}</span>`
 
-      const priceFreshness = getPriceFreshnessSummary(game)
+      const priceDate = getPriceFreshnessSummary(game)
       const sourceInfo = String(game?.sourceNames || '').trim()
-      const priceSourceTooltip = sourceInfo
-        ? `Prix ${priceFreshness} — Source : ${sourceInfo}`
-        : `Prix ${priceFreshness}`
+      const priceSourceTooltip = priceDate !== 'date inconnue'
+        ? sourceInfo
+          ? `Prix du ${priceDate} — Source : ${sourceInfo}`
+          : `Prix du ${priceDate}`
+        : 'Date de mise a jour des prix inconnue'
 
       detailChipRowEl.innerHTML = `
         <span class="surface-chip is-primary">${escapeHtml(item.condition || 'Archive')}</span>
@@ -1004,7 +1014,7 @@
         <span class="surface-chip">${escapeHtml(`confiance ${getQualificationConfidenceLabel(item)}`)}</span>
         ${item.edition_note ? `<span class="surface-chip">${escapeHtml(item.edition_note)}</span>` : ''}
         <span class="surface-chip">${escapeHtml(paid > 0 ? `Investi ${formatCurrency(paid)}` : 'Investi n/a')}</span>
-        <span class="surface-chip" title="${escapeHtml(priceSourceTooltip)}">${escapeHtml(`prix ${priceFreshness}`)}</span>
+        <span class="surface-chip" title="${escapeHtml(priceSourceTooltip)}">${escapeHtml(`prix ${priceDate}`)}</span>
         ${formatCollectionPrice(cibPrice, priceCurrency) ? `<span class="surface-chip">CIB ${escapeHtml(formatCollectionPrice(cibPrice, priceCurrency))}</span>` : ''}
         ${formatCollectionPrice(mintPrice, priceCurrency) ? `<span class="surface-chip">Mint ${escapeHtml(formatCollectionPrice(mintPrice, priceCurrency))}</span>` : ''}
         ${item.purchase_date ? `<span class="surface-chip">Entree ${escapeHtml(item.purchase_date)}</span>` : ''}
@@ -1096,9 +1106,10 @@
     const label = ageDays === 0 ? "auj" : ageDays === 1 ? "1j" : ageDays < 60 ? `${ageDays}j` : ageDays < 365 ? `${Math.round(ageDays / 30)}m` : `${Math.round(ageDays / 365)}a`
     const tier = ageDays <= 14 ? 'fresh' : ageDays <= 60 ? 'mid' : 'stale'
     const sourceNames = String(game?.sourceNames || '').trim()
+    const absoluteDate = raw.slice(0, 10)
     const titleAttr = sourceNames
-      ? `Prix mis a jour il y a ${ageDays}j — Source : ${sourceNames}`
-      : `Prix mis a jour il y a ${ageDays} jour(s)`
+      ? `Prix du ${absoluteDate} — Source : ${sourceNames}`
+      : `Prix du ${absoluteDate}`
     return `<span class="collection-row-freshness freshness--${tier}" title="${escapeHtml(titleAttr)}">${escapeHtml(label)}</span>`
   }
 
@@ -1123,8 +1134,8 @@
     const gain = paid > 0 ? loosePrice - paid : null
     const gainStr = gain !== null
       ? gain >= 0
-        ? `+$${Math.round(gain)}`
-        : `-$${Math.round(Math.abs(gain))}`
+        ? `+${formatCollectionPrice(gain, priceCurrency) || Math.round(gain)}`
+        : `-${formatCollectionPrice(Math.abs(gain), priceCurrency) || Math.round(Math.abs(gain))}`
       : '-'
     const gainClass = gain === null ? '' : gain >= 0 ? 'positive' : 'negative'
     const listType = String(item.list_type || activeTab || 'owned').toLowerCase()
