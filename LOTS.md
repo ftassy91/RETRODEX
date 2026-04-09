@@ -25,8 +25,10 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 
 ## Lots planifies
 
-### LOT-PROD-01 - Audit des 13 tables Supabase
-- **Statut :** Valide, en attente
+### LOT-PROD-01 - Audit des 26 tables Supabase
+- **Statut :** Done
+- **Date :** 2026-04-09
 - **Objectif :** Documenter chaque table Supabase
 - **Livrable :** SUPABASE_AUDIT.md
-- **Modele recommande :** Opus
+- **Modele utilise :** Sonnet (donnees deja fetchees, analyse organisationnelle)
+- **Findings cles :** 26 tables (pas 13), RLS sur 4/26, mismatch casing condition, duplication games/game_editorial, migration tracking inactif
