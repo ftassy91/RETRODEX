@@ -110,3 +110,12 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 - **Fichiers :** backend/public/js/pages/game-detail.js
 - **Modele utilise :** Sonnet
 - **Notes :** Tooltip priceConfidenceReason ajoute sur le badge trust hero. Prix panel hardcode $ et mojibake "Â·" notes hors scope.
+
+### LOT-FIX-04 - Currency hero, cockpit trust, separateurs
+- **Statut :** Done
+- **Date :** 2026-04-09
+- **Commit :** 3f1e0fd
+- **Objectif :** Prix hero currency-aware, priceConfidenceTier dans cockpit signals, fix mojibake separateurs
+- **Fichiers :** backend/public/js/pages/game-detail.js, backend/src/services/public-collection/cockpit.js
+- **Modele utilise :** Sonnet
+- **Notes :** Reste $ hardcode dans accordion hint, index range, SVG chart + ~50 mojibake fichier-wide (lot encoding separe)
