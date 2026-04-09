@@ -119,3 +119,11 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 - **Fichiers :** backend/public/js/pages/game-detail.js, backend/src/services/public-collection/cockpit.js
 - **Modele utilise :** Sonnet
 - **Notes :** Reste $ hardcode dans accordion hint, index range, SVG chart + ~50 mojibake fichier-wide (lot encoding separe)
+
+### LOT-PROD-05 - Filtre confiance prix dans collection toolbar
+- **Statut :** Done
+- **Date :** 2026-04-09
+- **Commit :** 0259e0e
+- **Objectif :** Ajouter un dropdown de filtre par confiance prix (high/medium/low/unknown) dans la toolbar collection
+- **Fichiers :** backend/public/collection.html, backend/public/js/pages/collection.js
+- **Modele utilise :** Sonnet
