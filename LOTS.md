@@ -94,3 +94,19 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 - **Objectif :** Afficher priceConfidenceReason en tooltip sur la carte CONFIANCE et le chip confiance du panneau detail
 - **Fichiers :** backend/public/js/pages/collection.js
 - **Modele utilise :** Sonnet
+
+### LOT-FIX-03 - Fix encoding mojibake "RetirÃ©" (game-detail)
+- **Statut :** Done
+- **Date :** 2026-04-09
+- **Commit :** 5d756c8
+- **Objectif :** Corriger le feedback UTF-8 casse sur l'action de suppression
+- **Fichiers :** backend/public/js/pages/game-detail.js
+
+### LOT-PROD-04 - Aligner trust display sur priceConfidenceTier
+- **Statut :** Done
+- **Date :** 2026-04-09
+- **Commit :** 233161b
+- **Objectif :** Remplacer sourceConfidence (float brut) par priceConfidenceTier (enum pipeline) dans game-detail.js pour eliminer la conflation trust UI vs trust gating
+- **Fichiers :** backend/public/js/pages/game-detail.js
+- **Modele utilise :** Sonnet
+- **Notes :** Tooltip priceConfidenceReason ajoute sur le badge trust hero. Prix panel hardcode $ et mojibake "Â·" notes hors scope.
