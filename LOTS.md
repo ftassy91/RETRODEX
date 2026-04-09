@@ -175,3 +175,12 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 - **Objectif :** Remplacer inline styles par CSS classes, couleurs hardcodees par CSS vars, ajouter touch targets 44px mobile, nettoyer 15 !important
 - **Fichiers :** backend/public/style.css, backend/public/js/pages/collection.js, backend/public/js/pages/game-detail.js, backend/public/js/pages/hub.js
 - **Modele utilise :** Sonnet
+
+### LOT-UX-05 - CRT ambiance + micro-interactions retro
+- **Statut :** Done
+- **Date :** 2026-04-10
+- **Commit :** 6bdc5f7
+- **Objectif :** Scanlines overlay, phosphor pulse titre, curseur RPG clignotant nav, stagger fade-in Hub, typewriter tagline + prefers-reduced-motion
+- **Fichiers :** backend/public/style.css, backend/public/js/pages/hub.js
+- **Modele utilise :** Sonnet
+- **Ref :** Benchmark UI retro (PICO-8 palette, NES.css patterns, CRT Terminal CSS)
