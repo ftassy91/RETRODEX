@@ -101,6 +101,8 @@ function toSignalItem(item) {
     loosePrice: Number(game.loosePrice || 0) || null,
     cibPrice: Number(game.cibPrice || 0) || null,
     mintPrice: Number(game.mintPrice || 0) || null,
+    priceConfidenceTier: game.priceConfidenceTier || null,
+    priceCurrency: game.priceCurrency || null,
   }
 }
 

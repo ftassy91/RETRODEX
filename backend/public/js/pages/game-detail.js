@@ -141,8 +141,13 @@ function hasIndexedPrice(value) {
   return Number.isFinite(number) && number > 0
 }
 
-function formatPrice(value, fallback = 'Non indexe') {
-  return hasIndexedPrice(value) ? `$${Math.round(Number(value))}` : fallback
+function formatPrice(value, fallback = 'Non indexe', currency) {
+  if (!hasIndexedPrice(value)) return fallback
+  const rounded = Math.round(Number(value))
+  if (currency === 'EUR') return `\u20AC${rounded}`
+  if (currency === 'USD') return `$${rounded}`
+  if (currency) return `${rounded} ?`
+  return `$${rounded}`
 }
 
 function formatPriceHtml(value, fallback = 'Non indexe') {
@@ -511,9 +516,9 @@ function renderHeroSection(game) {
   const pricePanel = hasAnyPrice
     ? `<div class="detail-hero-price-panel">
         <div class="detail-hero-price-row">
-          ${game.loosePrice ? `<div class="detail-hero-price-cell"><span class="detail-hero-price-label">Loose</span><span class="detail-hero-price-value">$${Math.round(game.loosePrice)}</span></div>` : ''}
-          ${game.cibPrice ? `<div class="detail-hero-price-cell"><span class="detail-hero-price-label">CIB</span><span class="detail-hero-price-value">$${Math.round(game.cibPrice)}</span></div>` : ''}
-          ${game.mintPrice ? `<div class="detail-hero-price-cell"><span class="detail-hero-price-label">Mint</span><span class="detail-hero-price-value">$${Math.round(game.mintPrice)}</span></div>` : ''}
+          ${game.loosePrice ? `<div class="detail-hero-price-cell"><span class="detail-hero-price-label">Loose</span><span class="detail-hero-price-value">${escapeHtml(formatPrice(game.loosePrice, '', game.priceCurrency))}</span></div>` : ''}
+          ${game.cibPrice ? `<div class="detail-hero-price-cell"><span class="detail-hero-price-label">CIB</span><span class="detail-hero-price-value">${escapeHtml(formatPrice(game.cibPrice, '', game.priceCurrency))}</span></div>` : ''}
+          ${game.mintPrice ? `<div class="detail-hero-price-cell"><span class="detail-hero-price-label">Mint</span><span class="detail-hero-price-value">${escapeHtml(formatPrice(game.mintPrice, '', game.priceCurrency))}</span></div>` : ''}
         </div>
       </div>`
     : '<span class="detail-hero-reference is-empty">Marche secondaire</span>'
@@ -730,7 +735,7 @@ function renderDetailContentStatus() {
   if (anecdoteCount > 0) {
     readingParts.push(`${anecdoteCount} anecdote${anecdoteCount > 1 ? 's' : ''} de developpement`)
   }
-  readingStateEl.textContent = readingParts.filter(Boolean).join(' Â· ')
+  readingStateEl.textContent = readingParts.filter(Boolean).join(' \u00B7 ')
 }
 
 function confidenceClass(value) {
@@ -842,7 +847,7 @@ function buildHeroPriceContext(game, trustMeta) {
       <div class="detail-price-context-row">
         <span class="detail-hero-reference">Fiabilite prix</span>
         <span class="trust-badge trust-${escapeHtml(trustTier)}" style="${escapeHtml(getTrustBadgeStyle(trustTier))}"${game.priceConfidenceReason ? ` title="${escapeHtml(game.priceConfidenceReason)}"` : ''}>${escapeHtml(getTrustBadgeText(trustTier))}</span>
-        ${freshnessMeta ? `<span class="detail-hero-reference">Fraicheur</span><span class="detail-hero-reference">${escapeHtml(freshnessMeta.label)} Â· ${escapeHtml(freshnessMeta.detail)}</span>` : ''}
+        ${freshnessMeta ? `<span class="detail-hero-reference">Fraicheur</span><span class="detail-hero-reference">${escapeHtml(freshnessMeta.label)} \u00B7 ${escapeHtml(freshnessMeta.detail)}</span>` : ''}
       </div>
       ${freshnessMeta?.dateText ? `<div class="detail-hero-price-date">Mis a jour : ${escapeHtml(freshnessMeta.dateText)}</div>` : ''}
       ${buildPriceFreshnessAlert(game?.priceLastUpdated)}
