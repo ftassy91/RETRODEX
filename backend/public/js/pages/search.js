@@ -162,7 +162,7 @@
         price.className = 'surface-signal-card'
         price.innerHTML = `
           <span class="surface-signal-label">Loose</span>
-          <span class="surface-signal-value">${Number(item.meta.loosePrice) > 0 ? `$${Math.round(Number(item.meta.loosePrice))}` : 'n/a'}</span>
+          <span class="surface-signal-value">${Number(item.meta.loosePrice) > 0 ? (window.RetroDexFormat?.formatCurrency(item.meta.loosePrice, 'n/a', item.meta.priceCurrency) || `$${Math.round(Number(item.meta.loosePrice))}`) : 'n/a'}</span>
         `
         signal.appendChild(price)
       }

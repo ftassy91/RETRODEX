@@ -48,7 +48,7 @@ function compareDexPriority(leftGame, rightGame) {
 async function fetchDexGamesByField(field, query, limit) {
   const { data, error } = await db
     .from('games')
-    .select('id,title,console,year,genre,developer,metascore,rarity,summary,synopsis,tagline,cover_url,franch_id,dev_anecdotes,dev_team,cheat_codes,loose_price,cib_price,mint_price')
+    .select('id,title,console,year,genre,developer,metascore,rarity,summary,synopsis,tagline,cover_url,franch_id,dev_anecdotes,dev_team,cheat_codes,loose_price,cib_price,mint_price,price_currency')
     .eq('type', 'game')
     .ilike(field, `%${query}%`)
     .limit(limit)
@@ -60,7 +60,7 @@ async function fetchDexGamesByField(field, query, limit) {
 async function fetchDexGamesInBatches(limit) {
   return fetchRowsInBatches(
     'games',
-    'id,title,console,year,genre,developer,metascore,rarity,summary,synopsis,tagline,cover_url,franch_id,dev_anecdotes,dev_team,cheat_codes,loose_price,cib_price,mint_price',
+    'id,title,console,year,genre,developer,metascore,rarity,summary,synopsis,tagline,cover_url,franch_id,dev_anecdotes,dev_team,cheat_codes,loose_price,cib_price,mint_price,price_currency',
     (query) => query.eq('type', 'game'),
     { column: 'title', options: { ascending: true } }
   ).then((rows) => rows.slice(0, limit))

@@ -82,6 +82,7 @@ function serializeMarketResult(game) {
     loosePrice: item.loosePrice,
     cibPrice: item.cibPrice,
     mintPrice: item.mintPrice,
+    priceCurrency: item.priceCurrency || null,
     signal,
   }
 }

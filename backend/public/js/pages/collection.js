@@ -514,6 +514,7 @@
       case 'sell_candidates': return 'A VENDRE'
       case 'upgrade_candidates': return 'A UPGRADER'
       case 'affordable_wishlist': return 'A SAISIR'
+      case 'stale_wishlist': return 'STAGNANTE'
       default: return 'ATTENTION'
     }
   }
@@ -530,6 +531,8 @@
         return 'Identifier les jeux ou un meilleur etat change vraiment la valeur.'
       case 'affordable_wishlist':
         return 'Prioriser les achats accessibles avant qu ils ne sortent de portee.'
+      case 'stale_wishlist':
+        return 'Revoir les entrees wishlist qui stagnent depuis plus de 180 jours. Supprimer ou requalifier.'
       default:
         return 'Lire les signaux puis agir sur la bonne fiche.'
     }
@@ -1699,7 +1702,7 @@
       }
       filterIndicator.textContent = `| FILTRE: ${signalLabel}`
     }
-    const targetTab = signalKey === 'affordable_wishlist' ? 'wanted' : 'owned'
+    const targetTab = (signalKey === 'affordable_wishlist' || signalKey === 'stale_wishlist') ? 'wanted' : 'owned'
     if (activeTab !== targetTab) {
       activeTab = targetTab
       syncTabUi()
@@ -1718,6 +1721,7 @@
       setCockpitCount('signal-sell-count', data.sell_candidates?.count || 0)
       setCockpitCount('signal-upgrade-count', data.upgrade_candidates?.count || 0)
       setCockpitCount('signal-opportunity-count', data.affordable_wishlist?.count || 0)
+      setCockpitCount('signal-stale-count', data.stale_wishlist?.count || 0)
 
       // Réordonner les cards par urgence (count décroissant, non-zéro en premier)
       if (cockpitBarEl) {
@@ -1727,6 +1731,7 @@
           { key: 'sell_candidates', count: data.sell_candidates?.count || 0 },
           { key: 'upgrade_candidates', count: data.upgrade_candidates?.count || 0 },
           { key: 'affordable_wishlist', count: data.affordable_wishlist?.count || 0 },
+          { key: 'stale_wishlist', count: data.stale_wishlist?.count || 0 },
         ]
         signalOrder.sort((a, b) => {
           if (a.count > 0 && b.count === 0) return -1

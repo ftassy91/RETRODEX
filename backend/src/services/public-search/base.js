@@ -200,6 +200,7 @@ function createGlobalGameResult(game, context = 'all') {
       loosePrice: item.loosePrice ?? item.loose_price ?? null,
       cibPrice: item.cibPrice ?? item.cib_price ?? null,
       mintPrice: item.mintPrice ?? item.mint_price ?? null,
+      priceCurrency: item.priceCurrency ?? item.price_currency ?? null,
       qualityScore: Number(item.source_confidence || 0) || null,
     },
     curation: {
