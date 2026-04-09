@@ -2576,7 +2576,7 @@ async function handleCollectionRemove() {
     await fetchJson(`/api/collection/${encodeURIComponent(currentCollectionItem.id)}`, {
       method: 'DELETE',
     })
-    collectionStatusEl.textContent = 'RetirÃ©.'
+    collectionStatusEl.textContent = 'Retire.'
     await refreshCollectionStatus()
   } catch (error) {
     collectionStatusEl.textContent = 'Suppression indisponible pour cette session.'
