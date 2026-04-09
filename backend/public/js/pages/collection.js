@@ -996,7 +996,7 @@
           <span class="surface-signal-label">VALEUR</span>
           <span class="surface-signal-value is-alert${priceCurrency == null && loosePrice > 0 ? ' price--unknown-currency' : ''}">${escapeHtml(formatPreviewValue(loosePrice, priceCurrency))}</span>
         </div>
-        <div class="surface-signal-card">
+        <div class="surface-signal-card"${game.priceConfidenceReason ? ` title="${escapeHtml(game.priceConfidenceReason)}"` : ''}>
           <span class="surface-signal-label">CONFIANCE</span>
           <span class="surface-signal-value">${escapeHtml(`qualif ${getQualificationConfidenceLabel(item)} | prix ${getPriceTrustSummary(game)}`)}</span>
         </div>
@@ -1029,7 +1029,7 @@
         <span class="surface-chip is-primary">${escapeHtml(item.condition || 'Archive')}</span>
         ${regionChip}
         <span class="surface-chip">${escapeHtml(getQualificationCompleteness(item))}</span>
-        <span class="surface-chip">${escapeHtml(`confiance ${getQualificationConfidenceLabel(item)}`)}</span>
+        <span class="surface-chip"${game.priceConfidenceReason ? ` title="Prix : ${escapeHtml(game.priceConfidenceReason)}"` : ''}>${escapeHtml(`confiance ${getQualificationConfidenceLabel(item)}`)}</span>
         ${item.edition_note ? `<span class="surface-chip">${escapeHtml(item.edition_note)}</span>` : ''}
         <span class="surface-chip">${escapeHtml(paid > 0 ? `Investi ${formatCurrency(paid)}` : 'Investi n/a')}</span>
         <span class="surface-chip" title="${escapeHtml(priceSourceTooltip)}">${escapeHtml(`prix ${priceDate}`)}</span>
