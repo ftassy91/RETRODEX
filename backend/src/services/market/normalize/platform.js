@@ -2,7 +2,7 @@
 
 const { PLATFORM_ALIASES } = require('./constants')
 
-function normalizeKey(value) {
+function normalizePlatformKey(value) {
   return String(value || '')
     .toLowerCase()
     .normalize('NFD')
@@ -13,15 +13,18 @@ function normalizeKey(value) {
 
 function normalizePlatform(rawTitle, rawHint) {
   const candidates = [rawHint, rawTitle]
+
   for (const candidate of candidates) {
-    const normalized = normalizeKey(candidate)
-    if (!normalized) continue
+    const normalized = normalizePlatformKey(candidate)
+    if (!normalized) {
+      continue
+    }
 
     for (const [alias, platform] of Object.entries(PLATFORM_ALIASES)) {
       if (normalized.includes(alias)) {
         return {
-          platform: platform,
-          confidence: candidate === rawHint ? 1 : 0.8,
+          platform,
+          confidence: candidate === rawHint ? 1 : 0.82,
           alias,
         }
       }
@@ -37,5 +40,5 @@ function normalizePlatform(rawTitle, rawHint) {
 
 module.exports = {
   normalizePlatform,
-  normalizePlatformKey: normalizeKey,
+  normalizePlatformKey,
 }

@@ -1,5 +1,7 @@
 'use strict'
 
+const { CONDITION_VALUES, MARKET_BUCKETS } = require('../source-registry')
+
 function numericSort(values = []) {
   return [...values].sort((left, right) => left - right)
 }
@@ -20,70 +22,106 @@ function percentile(values = [], ratio) {
   return sorted[index]
 }
 
-function buildConditionBucketSnapshot(records = []) {
+function buildBucketSnapshot(records = [], sourceMarket) {
   const prices = records
-    .map((record) => Number(record.price_amount))
+    .map((record) => Number(record.price_eur))
     .filter((value) => Number.isFinite(value) && value > 0)
 
   if (!prices.length) {
     return {
+      sourceMarket,
       count: 0,
-      median: null,
+      price: null,
       p25: null,
       p75: null,
-      min: null,
-      max: null,
+      varianceRatio: null,
+      latestSoldAt: null,
+      sources: [],
     }
   }
 
+  const p25 = percentile(prices, 0.25)
+  const p75 = percentile(prices, 0.75)
+  const price = median(prices)
+  const varianceRatio = price && p75 != null && p25 != null
+    ? Number(((p75 - p25) / Math.max(price, 1)).toFixed(4))
+    : null
+
   return {
+    sourceMarket,
     count: prices.length,
-    median: median(prices),
-    p25: percentile(prices, 0.25),
-    p75: percentile(prices, 0.75),
-    min: Math.min(...prices),
-    max: Math.max(...prices),
+    price,
+    p25,
+    p75,
+    varianceRatio,
+    latestSoldAt: records
+      .map((record) => record.sold_at)
+      .filter(Boolean)
+      .sort((left, right) => String(right).localeCompare(String(left)))[0] || null,
+    sources: Array.from(new Set(records.map((record) => record.source_name || record.source_slug).filter(Boolean))),
   }
 }
 
 function buildBucketSnapshots(records = []) {
-  const byGame = new Map()
+  const groups = new Map()
 
   for (const record of records) {
-    const gameId = String(record.match?.game?.id || record.game_id || '').trim()
-    if (!gameId) continue
+    if (!record.is_publishable || !record.match?.game?.id || !record.normalized_condition) {
+      continue
+    }
 
-    if (!byGame.has(gameId)) {
-      byGame.set(gameId, {
-        gameId,
-        all: [],
-        Loose: [],
-        CIB: [],
-        Mint: [],
+    const groupKey = `${record.match.game.id}::${record.normalized_condition}`
+    if (!groups.has(groupKey)) {
+      groups.set(groupKey, {
+        gameId: String(record.match.game.id),
+        condition: record.normalized_condition,
+        buckets: {
+          jp: [],
+          us: [],
+          eu: [],
+        },
       })
     }
 
-    const bucket = byGame.get(gameId)
-    bucket.all.push(record)
-    if (bucket[record.normalized_condition]) {
-      bucket[record.normalized_condition].push(record)
+    const group = groups.get(groupKey)
+    if (MARKET_BUCKETS.includes(record.source_market)) {
+      group.buckets[record.source_market].push(record)
     }
   }
 
-  const snapshots = new Map()
-  for (const [gameId, bucket] of byGame.entries()) {
-    snapshots.set(gameId, {
-      all: buildConditionBucketSnapshot(bucket.all),
-      Loose: buildConditionBucketSnapshot(bucket.Loose),
-      CIB: buildConditionBucketSnapshot(bucket.CIB),
-      Mint: buildConditionBucketSnapshot(bucket.Mint),
-    })
+  return [...groups.values()].map((group) => ({
+    gameId: group.gameId,
+    condition: group.condition,
+    buckets: {
+      jp: buildBucketSnapshot(group.buckets.jp, 'jp'),
+      us: buildBucketSnapshot(group.buckets.us, 'us'),
+      eu: buildBucketSnapshot(group.buckets.eu, 'eu'),
+    },
+  }))
+}
+
+function groupSnapshotsByGame(bucketSnapshots = []) {
+  const grouped = new Map()
+
+  for (const snapshot of bucketSnapshots) {
+    if (!grouped.has(snapshot.gameId)) {
+      grouped.set(snapshot.gameId, {
+        gameId: snapshot.gameId,
+        conditions: CONDITION_VALUES.reduce((acc, condition) => {
+          acc[condition] = null
+          return acc
+        }, {}),
+      })
+    }
+
+    grouped.get(snapshot.gameId).conditions[snapshot.condition] = snapshot
   }
 
-  return snapshots
+  return grouped
 }
 
 module.exports = {
+  buildBucketSnapshot,
   buildBucketSnapshots,
-  buildConditionBucketSnapshot,
+  groupSnapshotsByGame,
 }

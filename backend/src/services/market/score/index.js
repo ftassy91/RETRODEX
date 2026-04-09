@@ -1,100 +1,107 @@
 'use strict'
 
-const { buildBucketSnapshots } = require('./buckets')
-const { classifyConfidence, scoreLifecycle } = require('./confidence')
+const { CONDITION_VALUES } = require('../source-registry')
+const { buildBalancedSnapshot } = require('./build-balanced-snapshot')
+const { buildBucketSnapshots, groupSnapshotsByGame } = require('./buckets')
+const { classifyConfidenceTier, daysSince, enrichObservationConfidence, scoreObservation } = require('./confidence')
 
-function roundScore(value) {
-  return Number(Math.max(0, Math.min(1, value)).toFixed(4))
+function scoreMatchedRecords(records = []) {
+  return records.map((record) => enrichObservationConfidence(record))
 }
 
-function scoreMetadata(record) {
-  let score = 0.2
-  if (record.listing_url) score += 0.15
-  if (record.sold_at) score += 0.15
-  if (record.condition_confidence >= 0.9) score += 0.2
-  else if (record.condition_confidence >= 0.7) score += 0.12
-  if (record.normalized_region) score += 0.1
-  if (record.normalized_platform) score += 0.1
-  if (record.is_verified_sale) score += 0.1
-  return roundScore(score)
-}
+function buildScoredMarketSnapshots(records = []) {
+  const scoredRecords = scoreMatchedRecords(records)
+  const bucketSnapshots = buildBucketSnapshots(scoredRecords)
+  const groupedSnapshots = groupSnapshotsByGame(bucketSnapshots)
 
-function scorePricePlausibility(record, snapshot, catalogBaseline = {}) {
-  const price = Number(record.price_amount)
-  if (!Number.isFinite(price) || price <= 0) return 0
+  const gameSnapshots = [...groupedSnapshots.values()].map((entry) => {
+    const conditions = CONDITION_VALUES.reduce((acc, condition) => {
+      const conditionSnapshot = entry.conditions[condition]
+      const observationRows = scoredRecords.filter((record) =>
+        record.match?.game?.id === entry.gameId
+        && record.normalized_condition === condition
+        && record.include_in_snapshot
+      )
 
-  const preferredSnapshot = snapshot?.[record.normalized_condition]
-  if (preferredSnapshot && preferredSnapshot.count >= 3 && preferredSnapshot.median > 0) {
-    const median = Number(preferredSnapshot.median)
-    const spread = Math.max(5, Number(preferredSnapshot.p75 || median) - Number(preferredSnapshot.p25 || median))
-    const distance = Math.abs(price - median)
-    return roundScore(Math.max(0, 1 - (distance / Math.max(spread * 2, median * 0.75))))
-  }
-
-  const baseline = ({
-    Loose: Number(catalogBaseline.loose_price || catalogBaseline.loosePrice || 0),
-    CIB: Number(catalogBaseline.cib_price || catalogBaseline.cibPrice || 0),
-    Mint: Number(catalogBaseline.mint_price || catalogBaseline.mintPrice || 0),
-  })[record.normalized_condition]
-
-  if (baseline > 0) {
-    const ratio = price / baseline
-    if (ratio >= 0.5 && ratio <= 1.5) return 0.8
-    if (ratio >= 0.35 && ratio <= 1.9) return 0.6
-    if (ratio >= 0.2 && ratio <= 2.5) return 0.4
-    return 0.15
-  }
-
-  return 0.5
-}
-
-function combineBalanced33(parts = {}) {
-  const metadata = Number(parts.metadata || 0)
-  const match = Number(parts.match || 0)
-  const price = Number(parts.price || 0)
-  return roundScore((metadata + match + price) / 3)
-}
-
-function scoreMatchedRecord(record, context = {}) {
-  const matchScore = Number(record.match?.score || 0)
-  const metadataScore = scoreMetadata(record)
-  const snapshot = context.bucketSnapshots?.get(String(record.match?.game?.id || '')) || null
-  const priceScore = scorePricePlausibility(record, snapshot, record.match?.game || {})
-  const combined = combineBalanced33({
-    metadata: metadataScore,
-    match: matchScore,
-    price: priceScore,
-  })
-  const lifecycle = scoreLifecycle(combined)
-  const rejectionReason = record.is_rejected
-    ? record.rejection_reasons[0] || 'rejected_by_normalizer'
-    : !record.match?.game?.id
-      ? 'no_catalog_match'
-      : !lifecycle.keepRaw
-        ? 'score_below_raw_threshold'
+      acc[condition] = conditionSnapshot
+        ? buildBalancedSnapshot(conditionSnapshot, observationRows)
         : null
+      return acc
+    }, {})
+
+    const allConditionSnapshots = Object.values(conditions).filter(Boolean)
+    const latestSoldAt = allConditionSnapshots
+      .map((snapshot) => snapshot.latestSoldAt)
+      .filter(Boolean)
+      .sort((left, right) => String(right).localeCompare(String(left)))[0] || null
+    const sourceNames = Array.from(new Set(
+      allConditionSnapshots.flatMap((snapshot) => snapshot.sourceNames || [])
+    ))
+    const confidenceTier = classifyConfidenceTier({
+      totalObservations: allConditionSnapshots.reduce((sum, snapshot) => sum + Number(snapshot.totalObservations || 0), 0),
+      representedBuckets: Math.max(0, ...allConditionSnapshots.map((snapshot) => Number(snapshot.representedBuckets || 0))),
+      latestSoldAt,
+      crossBucketVariance: Math.max(0, ...allConditionSnapshots.map((snapshot) => Number(snapshot.crossBucketVariance || 0))),
+      averageMatchConfidence: averageSnapshotMetric(allConditionSnapshots, 'averageMatchConfidence'),
+      averageSourceConfidence: averageSnapshotMetric(allConditionSnapshots, 'averageSourceConfidence'),
+    })
+
+    return {
+      gameId: entry.gameId,
+      conditions,
+      latestSoldAt,
+      sourceNames,
+      sourceCount: sourceNames.length,
+      confidenceTier,
+      confidenceReason: buildGameConfidenceReason(confidenceTier, allConditionSnapshots),
+    }
+  })
 
   return {
-    ...record,
-    confidence_score: combined,
-    confidence_classifier: classifyConfidence(combined),
-    confidenceTier: classifyConfidence(combined),
-    score_breakdown: {
-      metadata: metadataScore,
-      match: roundScore(matchScore),
-      price: priceScore,
-    },
-    include_in_snapshot: lifecycle.includeInSnapshot,
-    keep_raw: lifecycle.keepRaw,
-    isVerified: Boolean(record.is_verified_sale),
-    accepted: rejectionReason == null,
-    isRejected: rejectionReason != null,
-    rejection_reason: rejectionReason,
+    scoredRecords,
+    bucketSnapshots,
+    gameSnapshots,
   }
+}
+
+function averageSnapshotMetric(snapshots = [], fieldName) {
+  const values = snapshots
+    .map((snapshot) => Number(snapshot?.[fieldName]))
+    .filter((value) => Number.isFinite(value))
+  if (!values.length) {
+    return 0
+  }
+  return Number((values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(4))
+}
+
+function buildGameConfidenceReason(confidenceTier, conditionSnapshots = []) {
+  if (!conditionSnapshots.length) {
+    return 'No publishable sold observations.'
+  }
+
+  const maxFreshness = Math.min(...conditionSnapshots
+    .map((snapshot) => daysSince(snapshot.latestSoldAt))
+    .filter((value) => Number.isFinite(value)))
+  const buckets = Math.max(0, ...conditionSnapshots.map((snapshot) => Number(snapshot.representedBuckets || 0)))
+  const observationCount = conditionSnapshots.reduce((sum, snapshot) => sum + Number(snapshot.totalObservations || 0), 0)
+
+  if (confidenceTier === 'high') {
+    return `Balanced ${buckets}-bucket sold signal across ${observationCount} observations, latest ${maxFreshness} day(s) ago.`
+  }
+  if (confidenceTier === 'medium') {
+    return `Usable sold signal across ${buckets} bucket(s) and ${observationCount} observations.`
+  }
+  if (confidenceTier === 'low') {
+    return `Limited sold signal: ${buckets} bucket(s), ${observationCount} observations.`
+  }
+  return 'No balanced sold signal available.'
 }
 
 module.exports = {
   buildBucketSnapshots,
-  combineBalanced33,
-  scoreMatchedRecord,
+  buildScoredMarketSnapshots,
+  classifyConfidenceTier,
+  daysSince,
+  enrichObservationConfidence,
+  scoreObservation,
 }

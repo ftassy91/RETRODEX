@@ -25,8 +25,9 @@
 
 ### Market
 
-- `price_observations`
-- `market_snapshots`
+- `price_history` for additive sold-observation ingestion during `LOT_MVP_REAL_SOLD_PRICES`
+- `price_observations` remains a historical canonical market layer where already present
+- `market_snapshots` remains a future/current-value canonical target outside the scope of this lot
 
 ### Assets
 
@@ -56,8 +57,8 @@
 | Editorial summary / synopsis / lore | `game_editorial` | `games.summary`, `games.synopsis`, `games.lore` | Canonical first, legacy fallback only |
 | Contributors | `people`, `game_people` | `games.dev_team`, `games.ost_composers`, `games.developer` | Canonical first, legacy strings are fallback only |
 | Company links | `companies`, `game_companies` | `games.developer`, `games.publisher` | Canonical first, legacy strings are fallback only |
-| Market snapshot | `market_snapshots` | `games.loosePrice`, `games.cibPrice`, `games.mintPrice` | Canonical first, legacy prices are fallback only |
-| Market history | `price_observations` | legacy `price_history` | Canonical first, legacy history remains transitional |
+| Market snapshot | `market_snapshots` (future target), additive lot publishes through `games.*` compatibility fields | `games.loosePrice`, `games.cibPrice`, `games.mintPrice` | Runtime compatibility first during `LOT_MVP_REAL_SOLD_PRICES` |
+| Market history | `price_history` for sold-ingest in active lot, `price_observations` where already canonical | legacy `price_history` readers | Sold-only first, transitional dual-read allowed |
 | Media references | `media_references` | `games.cover_url`, `games.coverImage`, `games.manual_url` | Canonical first, legacy URLs are fallback only |
 | Source traceability | `source_records`, `field_provenance` | `games.source_confidence` | Canonical first, legacy confidence is fallback only |
 | Quality / readiness | `quality_records` | none | Canonical only |
@@ -70,8 +71,8 @@
   - editorial into `game_editorial`
   - people links into `people` and `game_people`
   - company links into `game_companies`
-  - current market summaries into `market_snapshots`
-  - historical market rows into `price_observations`
+  - current market summaries into `market_snapshots` once that canonical layer is explicitly activated
+  - historical market rows into `price_history` for `LOT_MVP_REAL_SOLD_PRICES`, with future migration to `price_observations` or successor canonical layer by explicit lot only
   - external asset pointers into `media_references`
   - provenance into `source_records` and `field_provenance`
 - Legacy values remain readable during transition, but audit and quality logic must prefer canonical tables when they exist.
@@ -84,8 +85,9 @@
 - `game_editorial` owns summary, synopsis, lore, development notes, cheat codes, characters, and gameplay description.
 - `people` / `game_people` own named contributors and roles; `developer` string on `games` is transitional only.
 - `game_companies` owns canonical developer / publisher links.
-- `market_snapshots` owns product-facing current values and trend signal.
-- `price_observations` owns the auditable historical market layer.
+- `market_snapshots` remains the future canonical owner for product-facing current values and trend signal, but is not activated by `LOT_MVP_REAL_SOLD_PRICES`.
+- `price_history` is the active sold-observation ingest and audit surface for `LOT_MVP_REAL_SOLD_PRICES`.
+- `price_observations` remains a canonical historical market layer where already present and may be dual-read during transition.
 - `media_references` owns asset pointers and compliance status; no product route should infer local asset ownership from a bare URL alone.
 - `source_records` and `field_provenance` own the explanation of where a field came from and whether it can be trusted.
 - `games.loosePrice`, `games.cibPrice`, `games.mintPrice`, `games.summary`, `games.synopsis`, `games.cover_url`, `games.coverImage`, `games.manual_url`, `games.dev_team`, and `games.ost_composers` are now **fallback-only** for public runtime compatibility.

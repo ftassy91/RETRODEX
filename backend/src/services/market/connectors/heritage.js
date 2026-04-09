@@ -3,10 +3,10 @@
 const { createFixtureBackedConnector } = require('./base')
 
 module.exports = createFixtureBackedConnector({
-  name: 'json_fixture',
-  sourceSlug: 'json_fixture',
-  sourceMarket: 'eu',
-  sourceType: 'manual_signal',
+  name: 'heritage',
+  sourceSlug: 'heritage',
+  sourceMarket: 'us',
+  sourceType: 'auction_house',
   saleType: 'realized_price',
-  defaultCurrency: 'EUR',
+  defaultCurrency: 'USD',
 })

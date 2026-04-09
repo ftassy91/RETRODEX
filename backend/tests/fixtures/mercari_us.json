@@ -1,0 +1,16 @@
+[
+  {
+    "id": "mercari-us-super-mario-64-1",
+    "listing_reference": "mercari-us-super-mario-64-1",
+    "listing_url": "https://example.invalid/mercari-us/super-mario-64-1",
+    "title_raw": "Super Mario 64 Nintendo 64 cart only",
+    "sale_type": "fixed_price_sold",
+    "sold_at": "2026-04-03T12:00:00.000Z",
+    "currency": "USD",
+    "price_original": 38,
+    "country_code": "US",
+    "platform_hint_raw": "Nintendo 64",
+    "region_hint_raw": "NTSC-U",
+    "condition_hint_raw": "cart only"
+  }
+]

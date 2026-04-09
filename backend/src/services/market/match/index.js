@@ -1,6 +1,6 @@
 'use strict'
 
-const { slugifyText, tokenize } = require('../normalize')
+const { normalizeText, tokenize } = require('../normalize')
 const { normalizePlatformKey } = require('../normalize/platform')
 
 function buildCatalogIndex(catalogRows = []) {
@@ -8,7 +8,7 @@ function buildCatalogIndex(catalogRows = []) {
     .filter((row) => row && String(row.id || '').trim())
     .map((row) => ({
       ...row,
-      normalizedTitle: slugifyText(row.title),
+      normalizedTitle: normalizeText(row.title),
       titleTokens: new Set(tokenize(row.title)),
       normalizedPlatform: normalizePlatformKey(row.console || row.platform || ''),
     }))
@@ -23,6 +23,7 @@ function computeTokenOverlap(recordTokens = [], gameTokenSet = new Set()) {
 function matchNormalizedSoldRecord(record, catalogIndex = [], options = {}) {
   const minimumScore = Number(options.minimumScore || 0.4)
   const directTargetId = String(options.targetGameId || record.seed_game_id || '').trim()
+  const directTargetTitle = normalizeText(options.targetTitle || record.query_text || '')
   if (directTargetId) {
     const direct = catalogIndex.find((game) => String(game.id) === directTargetId)
     if (direct) {
@@ -33,6 +34,21 @@ function matchNormalizedSoldRecord(record, catalogIndex = [], options = {}) {
           title: 1,
           platform: record.normalized_platform && direct.normalizedPlatform === record.normalized_platform_key ? 1 : 0.7,
           direct: 1,
+        },
+      }
+    }
+  }
+
+  if (directTargetTitle) {
+    const directByTitle = catalogIndex.find((game) => game.normalizedTitle === directTargetTitle)
+    if (directByTitle) {
+      return {
+        game: directByTitle,
+        score: 0.98,
+        components: {
+          title: 1,
+          platform: record.normalized_platform && directByTitle.normalizedPlatform === record.normalized_platform_key ? 1 : 0.7,
+          direct: 0.95,
         },
       }
     }

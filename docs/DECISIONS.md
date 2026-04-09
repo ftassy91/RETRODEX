@@ -125,6 +125,26 @@ References:
 - DB status work: factually closed for v1, gated for v2
 - Active technical lot by default: none
 
+## Real Sold Price Pipeline Decisions
+
+- `LOT_MVP_REAL_SOLD_PRICES` is an explicit additive lot opened on April 9, 2026.
+- Runtime compatibility fields remain:
+  - `games.loose_price`
+  - `games.cib_price`
+  - `games.mint_price`
+  - `games.source_names`
+  - `games.price_last_updated`
+- Public price reads must prefer real sold observations and stay backward-compatible with legacy `ebay` history rows.
+- Market computation is bucket-balanced, not volume-weighted:
+  - `JP = 0.333`
+  - `US = 0.333`
+  - `EU = 0.333`
+- Collector media is secondary only:
+  - anomaly detection
+  - rarity hints
+  - manual review queues
+- Collector media must never create sold observations in canonical price storage.
+
 Any further work must open as a new explicit lot with a bounded perimeter.
 
 ## JTASSY Deviations

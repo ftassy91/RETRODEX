@@ -1,8 +1,22 @@
 'use strict'
 
-const MINT_KEYWORDS = ['factory sealed', 'sealed', 'brand new', 'new sealed', 'shrink wrap', 'unopened']
-const CIB_KEYWORDS = ['complete in box', 'complete box', 'with box', 'box manual', 'cib', 'complete', 'with manual']
-const LOOSE_KEYWORDS = ['cart only', 'cartridge only', 'game only', 'disc only', 'no box', 'loose', 'cartridge']
+const CONDITION_PATTERNS = [
+  {
+    condition: 'Mint',
+    confidence: 0.95,
+    keywords: ['factory sealed', 'brand new', 'new sealed', 'sealed', 'unopened'],
+  },
+  {
+    condition: 'CIB',
+    confidence: 0.88,
+    keywords: ['complete in box', 'cib', 'with box and manual', 'boxed complete', 'complete'],
+  },
+  {
+    condition: 'Loose',
+    confidence: 0.82,
+    keywords: ['cart only', 'cartridge only', 'disc only', 'game only', 'loose', 'no box'],
+  },
+]
 
 function normalizeText(value) {
   return String(value || '')
@@ -13,34 +27,41 @@ function normalizeText(value) {
     .trim()
 }
 
-function detectKeywords(text, keywords, exactConfidence, partialConfidence) {
-  for (const keyword of keywords) {
-    if (text.includes(keyword)) {
-      return {
-        hit: keyword,
-        confidence: keyword.includes(' ') ? exactConfidence : partialConfidence,
+function normalizeCondition(rawTitle, rawHint) {
+  const hint = normalizeText(rawHint)
+  const title = normalizeText(rawTitle)
+  const text = [hint, title].filter(Boolean).join(' ')
+
+  for (const entry of CONDITION_PATTERNS) {
+    for (const keyword of entry.keywords) {
+      const normalizedKeyword = normalizeText(keyword)
+      if (!normalizedKeyword) {
+        continue
+      }
+
+      if (hint && hint.includes(normalizedKeyword)) {
+        return {
+          condition: entry.condition,
+          confidence: 1,
+          keyword,
+        }
+      }
+
+      if (text.includes(normalizedKeyword)) {
+        return {
+          condition: entry.condition,
+          confidence: entry.confidence,
+          keyword,
+        }
       }
     }
   }
-  return null
-}
 
-function normalizeCondition(rawTitle, rawHint) {
-  const text = normalizeText([rawTitle, rawHint].filter(Boolean).join(' '))
-  if (!text) {
-    return { condition: 'Unknown', confidence: 0.3, keyword: null }
+  return {
+    condition: null,
+    confidence: 0,
+    keyword: null,
   }
-
-  const mint = detectKeywords(text, MINT_KEYWORDS, 1, 0.9)
-  if (mint) return { condition: 'Mint', confidence: mint.confidence, keyword: mint.hit }
-
-  const cib = detectKeywords(text, CIB_KEYWORDS, 1, 0.85)
-  if (cib) return { condition: 'CIB', confidence: cib.confidence, keyword: cib.hit }
-
-  const loose = detectKeywords(text, LOOSE_KEYWORDS, 1, 0.75)
-  if (loose) return { condition: 'Loose', confidence: loose.confidence, keyword: loose.hit }
-
-  return { condition: 'Unknown', confidence: 0.3, keyword: null }
 }
 
 module.exports = {

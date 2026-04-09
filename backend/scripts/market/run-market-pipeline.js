@@ -7,51 +7,22 @@ const {
   createRemoteClient,
   openReadonlySqlite,
 } = require('../_supabase-publish-common')
+const { sequelize } = require('../../src/database')
+const { runMigrations } = require('../../src/services/migration-runner')
 
 const {
+  buildMarketPublishPayload,
+  buildScoredMarketSnapshots,
   getMarketConnector,
+  matchNormalizedSoldRecord,
   normalizeRawSoldRecord,
   buildCatalogIndex,
-  matchNormalizedSoldRecord,
-  buildBucketSnapshots,
-  scoreMatchedRecord,
-  buildMarketPublishPayload,
-  publishMarketSnapshot,
+  startPriceIngestRun,
+  completePriceIngestRun,
+  buildMarketQualityReport,
 } = require('../../src/services/market')
 
-function buildQualityReport(scoredRecords = [], connectorName) {
-  const acceptedRows = scoredRecords.filter((record) => record.accepted).length
-  const totalRows = scoredRecords.length
-  const byConfidenceTier = scoredRecords.reduce((acc, record) => {
-    const key = String(record.confidenceTier || record.confidence_classifier || 'unknown')
-    acc[key] = (acc[key] || 0) + 1
-    return acc
-  }, {})
-  const byRejectionReason = scoredRecords.reduce((acc, record) => {
-    if (!record.accepted) {
-      const key = String(record.rejection_reason || 'unknown')
-      acc[key] = (acc[key] || 0) + 1
-    }
-    return acc
-  }, {})
-  const averageConfidenceScore = totalRows
-    ? Number((scoredRecords.reduce((sum, record) => sum + Number(record.confidence_score || 0), 0) / totalRows).toFixed(4))
-    : 0
-
-  return {
-    pipelineName: 'run-market-pipeline',
-    sourceScope: connectorName,
-    totalRows,
-    acceptedRows,
-    rejectedRows: totalRows - acceptedRows,
-    averageConfidenceScore,
-    byConfidenceTier,
-    byRejectionReason,
-  }
-}
-
 function readCatalog(sqlite, filterIds, args = {}) {
-  const limit = Number(args.limit || 25)
   const rows = sqlite.prepare(`
     SELECT id, title, console, year, loose_price, cib_price, mint_price
     FROM games
@@ -63,7 +34,8 @@ function readCatalog(sqlite, filterIds, args = {}) {
   if (args.query) {
     return filtered
   }
-  return filtered.slice(0, limit)
+
+  return filtered.slice(0, Number(args.limit || 25))
 }
 
 function buildSeeds(args = {}, catalogRows = []) {
@@ -84,74 +56,123 @@ function buildSeeds(args = {}, catalogRows = []) {
   }))
 }
 
-async function fetchConnectorRecords(connector, seeds, args) {
-  const results = []
-  for (const seed of seeds) {
-    const records = await connector.fetchSoldRecords(seed, {
-      limit: args.recordLimit || 3,
-      fixture: args.fixture,
-    })
-    results.push(...records)
-  }
-  return results
-}
-
-async function main() {
-  const args = parseArgs(process.argv.slice(2))
+async function runMarketPipeline(args = {}) {
+  const connectorNames = String(args.connectors || args.connector || 'yahoo_auctions_jp')
+    .split(',')
+    .map((value) => String(value || '').trim())
+    .filter(Boolean)
+  const connectors = connectorNames.map((name) => getMarketConnector(name))
   const filterIds = parseIdFilter(args)
-  const apply = process.argv.includes('--apply')
-  const connector = getMarketConnector(args.connector || 'ebay_sold')
+  const apply = Boolean(args.apply)
+  const ensureSchema = Boolean(args.ensureSchema)
+  const recordRun = Boolean(args.recordRun)
   const sqlite = openReadonlySqlite()
-
   let client = null
+  let runRecord = null
 
   try {
-    const catalogRows = readCatalog(sqlite, filterIds, args)
-    const seeds = buildSeeds(args, catalogRows)
-    const catalogIndex = buildCatalogIndex(catalogRows)
-    const rawRecords = await fetchConnectorRecords(connector, seeds, args)
+    if (apply || ensureSchema) {
+      await runMigrations(sequelize)
+    }
 
-    const normalizedRecords = rawRecords.map((record) => normalizeRawSoldRecord(record))
+    const catalogRows = readCatalog(sqlite, filterIds, args)
+    const catalogIndex = buildCatalogIndex(catalogRows)
+    const seeds = buildSeeds(args, catalogRows)
+    const rawRecords = []
+
+    if (apply || recordRun) {
+      runRecord = await startPriceIngestRun({
+        sourceMarket: connectors.length === 1 ? connectors[0].sourceMarket : null,
+        sourceScope: connectorNames.join(','),
+        pipelineName: 'market_pipeline',
+        dryRun: !apply,
+      })
+    }
+
+    for (const connector of connectors) {
+      for (const seed of seeds) {
+        const rows = await connector.fetchSoldRecords(seed, {
+          fixture: args.fixture,
+          fixtureDir: args.fixtureDir,
+          limit: Number(args.recordLimit || 5),
+        })
+        rawRecords.push(...rows)
+      }
+    }
+
+    const normalizedRecords = rawRecords.map((record) => normalizeRawSoldRecord(record, {
+      fxRates: {
+        USD: args.fxUsdToEur ? Number(args.fxUsdToEur) : undefined,
+        JPY: args.fxJpyToEur ? Number(args.fxJpyToEur) : undefined,
+      },
+    }))
+
     const matchedRecords = normalizedRecords.map((record) => ({
       ...record,
       match: matchNormalizedSoldRecord(record, catalogIndex, {
-        targetGameId: record.seed_game_id || args.gameId,
+        targetGameId: args.gameId || record.seed_game_id,
+        targetTitle: args.query || record.query_text,
+        minimumScore: args.minimumScore ? Number(args.minimumScore) : 0.55,
       }),
     }))
-    const bucketSnapshots = buildBucketSnapshots(matchedRecords.filter((record) => record.match?.game?.id))
-    const scoredRecords = matchedRecords.map((record) => scoreMatchedRecord(record, { bucketSnapshots }))
-    const publishPayload = buildMarketPublishPayload(scoredRecords)
-    const qualityReport = buildQualityReport(scoredRecords, connector.name)
+
+    const marketResult = buildScoredMarketSnapshots(matchedRecords)
+    const publishPayload = buildMarketPublishPayload(marketResult)
+    const qualityReport = buildMarketQualityReport(marketResult, {
+      pipelineName: 'market_pipeline',
+      sourceScope: connectorNames.join(','),
+    })
 
     let publishResult = null
     if (apply) {
       client = createRemoteClient()
       await client.connect()
-      publishResult = await publishMarketSnapshot(client, publishPayload, { apply: true })
+      publishResult = await require('../../src/services/market/publish/publish-market-snapshot').publishMarketSnapshot(
+        client,
+        publishPayload,
+        { apply: true }
+      )
     }
 
-    console.log(JSON.stringify({
+    if (runRecord?.id) {
+      await completePriceIngestRun(runRecord.id, {
+        status: 'completed',
+        fetchedCount: rawRecords.length,
+        normalizedCount: normalizedRecords.length,
+        insertedCount: publishPayload.observations.length,
+        dedupedCount: 0,
+        matchedCount: matchedRecords.filter((record) => record.match?.game?.id).length,
+        rejectedCount: matchedRecords.filter((record) => record.is_rejected).length,
+        publishedGamesCount: publishPayload.gameUpdates.length,
+        marketResult,
+        qualityReport,
+        sourceScope: connectorNames.join(','),
+        pipelineName: 'market_pipeline',
+      })
+    }
+
+    return {
       mode: apply ? 'apply' : 'dry-run',
-      connector: connector.name,
+      connectors: connectors.map((connector) => connector.name),
       seeds: seeds.map((seed) => ({ id: seed.id, title: seed.title, platform: seed.platform })),
       rawRecords: rawRecords.length,
       normalized: normalizedRecords.length,
       matched: matchedRecords.filter((record) => record.match?.game?.id).length,
-      rejected: normalizedRecords.filter((record) => record.is_rejected).length,
-      snapshots: publishPayload.summary.snapshots,
-      rawAccepted: publishPayload.summary.rawAccepted,
+      rejected: matchedRecords.filter((record) => record.is_rejected).length,
+      publishPayload,
       qualityReport,
-      sample: scoredRecords.slice(0, 5).map((record) => ({
-        title_raw: record.title_raw,
-        game_id: record.match?.game?.id || null,
-        confidence_score: record.confidence_score,
-        classifier: record.confidence_classifier,
-        condition: record.normalized_condition,
-        rejection_reasons: record.rejection_reasons,
-        aggregate_blocks: record.aggregate_blocks,
-      })),
       publish: publishResult,
-    }, null, 2))
+    }
+  } catch (error) {
+    if (runRecord?.id) {
+      await completePriceIngestRun(runRecord.id, {
+        status: 'failed',
+        errorSummary: error.message,
+        sourceScope: connectorNames.join(','),
+        pipelineName: 'market_pipeline',
+      }).catch(() => {})
+    }
+    throw error
   } finally {
     sqlite.close()
     if (client) {
@@ -160,7 +181,17 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error('[market-pipeline] failed:', error.message)
-  process.exitCode = 1
-})
+if (require.main === module) {
+  runMarketPipeline(parseArgs(process.argv.slice(2)))
+    .then((result) => {
+      console.log(JSON.stringify(result, null, 2))
+    })
+    .catch((error) => {
+      console.error('[market-pipeline] failed:', error.message)
+      process.exitCode = 1
+    })
+}
+
+module.exports = {
+  runMarketPipeline,
+}

@@ -1,86 +1,97 @@
 'use strict'
 
-const SUPPORTED_CURRENCIES = new Set(['USD', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD'])
-const AGGREGATE_CURRENCIES = new Set(['USD'])
+const SUPPORTED_CURRENCIES = new Set(['EUR', 'USD', 'JPY'])
+const PUBLISHABLE_CONDITIONS = new Set(['Loose', 'CIB', 'Mint'])
+const REGION_CODES = new Set(['PAL', 'NTSC-U', 'NTSC-J', 'NTSC-B', 'MULTI', 'unknown'])
+const SALE_TYPES = new Set(['auction', 'fixed_price_sold', 'realized_price'])
 
-const REGION_ALIASES = {
-  us: 'US',
-  usa: 'US',
-  'north america': 'US',
-  ntsc: 'US',
-  'ntsc-u': 'US',
-  'ntsc-u/c': 'US',
-  eu: 'EU',
-  europe: 'EU',
-  pal: 'EU',
-  uk: 'EU',
-  jp: 'JP',
-  japan: 'JP',
-  'ntsc-j': 'JP',
-}
+const DEFAULT_MARKET_FX_TO_EUR = Object.freeze({
+  EUR: 1,
+  USD: Number(process.env.MARKET_FX_USD_TO_EUR || 0),
+  JPY: Number(process.env.MARKET_FX_JPY_TO_EUR || 0),
+})
 
-const PLATFORM_ALIASES = {
-  nes: 'Nintendo Entertainment System',
-  nintendo: 'Nintendo Entertainment System',
-  snes: 'Super Nintendo',
-  supernintendo: 'Super Nintendo',
+const REGION_ALIASES = Object.freeze({
+  'pal': 'PAL',
+  'europe': 'PAL',
+  'euro': 'PAL',
+  'uk': 'PAL',
+  'fr': 'PAL',
+  'de': 'PAL',
+  'ntsc-u': 'NTSC-U',
+  'ntsc u': 'NTSC-U',
+  'north america': 'NTSC-U',
+  'usa': 'NTSC-U',
+  'us': 'NTSC-U',
+  'na': 'NTSC-U',
+  'ntsc-j': 'NTSC-J',
+  'ntsc j': 'NTSC-J',
+  'japan': 'NTSC-J',
+  'japon': 'NTSC-J',
+  'jp': 'NTSC-J',
+  'ntsc-b': 'NTSC-B',
+  'brazil': 'NTSC-B',
+  'brasil': 'NTSC-B',
+  'br': 'NTSC-B',
+  'multi': 'MULTI',
+  'multi region': 'MULTI',
+  'worldwide': 'MULTI',
+  'global': 'MULTI',
+})
+
+const PLATFORM_ALIASES = Object.freeze({
+  'nes': 'Nintendo Entertainment System',
+  'famicom': 'Nintendo Entertainment System',
+  'nintendo entertainment system': 'Nintendo Entertainment System',
+  'super famicom': 'Super Nintendo',
+  'snes': 'Super Nintendo',
   'super nintendo': 'Super Nintendo',
-  superfamicom: 'Super Nintendo',
-  n64: 'Nintendo 64',
   'nintendo 64': 'Nintendo 64',
-  gameboy: 'Game Boy',
-  'game boy': 'Game Boy',
-  gbc: 'Game Boy Color',
-  'game boy color': 'Game Boy Color',
-  gba: 'Game Boy Advance',
+  'n64': 'Nintendo 64',
   'game boy advance': 'Game Boy Advance',
-  gamecube: 'GameCube',
-  gcn: 'GameCube',
-  wii: 'Wii',
-  switch: 'Nintendo Switch',
-  ps1: 'PlayStation',
-  psx: 'PlayStation',
-  playstation: 'PlayStation',
-  ps2: 'PlayStation 2',
-  ps3: 'PlayStation 3',
-  ps4: 'PlayStation 4',
-  ps5: 'PlayStation 5',
-  psp: 'PSP',
-  vita: 'PlayStation Vita',
-  saturn: 'Sega Saturn',
-  dreamcast: 'Dreamcast',
-  genesis: 'Sega Genesis',
-  megadrive: 'Sega Genesis',
-  'mega drive': 'Sega Genesis',
-  segacd: 'Sega CD',
-  'sega cd': 'Sega CD',
-  neogeo: 'Neo Geo',
-  'neo geo': 'Neo Geo',
-  tg16: 'TurboGrafx-16',
-  turbografx16: 'TurboGrafx-16',
-  'turbografx-16': 'TurboGrafx-16',
-  wonderswan: 'WonderSwan',
-}
+  'gba': 'Game Boy Advance',
+  'game boy color': 'Game Boy Color',
+  'gbc': 'Game Boy Color',
+  'game boy': 'Game Boy',
+  'gb ': 'Game Boy',
+  'playstation': 'PlayStation',
+  'ps1': 'PlayStation',
+  'psx': 'PlayStation',
+})
 
-const REJECTION_KEYWORDS = [
+const REJECTION_KEYWORDS = Object.freeze([
+  'reproduction',
+  'repro',
+  'bootleg',
+  'fan translation',
   'manual only',
+  'strategy guide',
   'box only',
   'case only',
   'replacement case',
-  'reproduction',
-  'repro',
-  'fan translation',
-  'download code',
-  'empty box',
   'artbook only',
   'soundtrack only',
-  'strategy guide',
-]
+  'empty box',
+  'download code',
+  'console only',
+])
+
+const BUNDLE_KEYWORDS = Object.freeze([
+  'bundle',
+  'lot',
+  'set of',
+  'collection',
+  'assorted',
+])
 
 module.exports = {
-  SUPPORTED_CURRENCIES,
-  AGGREGATE_CURRENCIES,
-  REGION_ALIASES,
+  BUNDLE_KEYWORDS,
+  DEFAULT_MARKET_FX_TO_EUR,
   PLATFORM_ALIASES,
+  PUBLISHABLE_CONDITIONS,
+  REGION_ALIASES,
+  REGION_CODES,
   REJECTION_KEYWORDS,
+  SALE_TYPES,
+  SUPPORTED_CURRENCIES,
 }

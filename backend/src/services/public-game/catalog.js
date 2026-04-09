@@ -121,12 +121,34 @@ async function fetchGamesMap(gameIds) {
 }
 
 async function fetchSeedPriceHistory(gameId) {
-  const { data, error } = await db
+  let query = db
     .from('price_history')
-    .select('price,condition,sale_date')
+    .select('price,condition,sale_date,sold_at,is_real_sale,source')
     .eq('game_id', gameId)
-    .order('sale_date', { ascending: true })
+    .order('sold_at', { ascending: true })
     .limit(2000)
+
+  let { data, error } = await query.eq('is_real_sale', true)
+  if (error) {
+    ;({ data, error } = await db
+      .from('price_history')
+      .select('price,condition,sale_date,source')
+      .eq('game_id', gameId)
+      .eq('source', 'ebay')
+      .order('sale_date', { ascending: true })
+      .limit(2000))
+  }
+
+  if (!error && Array.isArray(data) && data.length === 0) {
+    if (mode !== 'supabase') {
+      ;({ data, error } = await db
+        .from('price_history')
+        .select('price,condition,sale_date,source')
+        .eq('game_id', gameId)
+        .order('sale_date', { ascending: true })
+        .limit(2000))
+    }
+  }
 
   if (error) {
     throw new Error(error.message)

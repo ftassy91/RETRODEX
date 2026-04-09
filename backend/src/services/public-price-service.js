@@ -10,6 +10,45 @@ const {
   roundPrice,
 } = require('./public-price/queries')
 
+function computeFreshnessLabel(freshnessDays) {
+  if (!Number.isFinite(freshnessDays)) {
+    return null
+  }
+  if (freshnessDays < 30) return 'recent'
+  if (freshnessDays < 90) return 'aging'
+  if (freshnessDays < 180) return 'stale'
+  return 'outdated'
+}
+
+function aggregateSourceMeta(rows) {
+  const normalizedRows = Array.isArray(rows) ? rows : []
+  const sources = Array.from(new Set(
+    normalizedRows
+      .map((row) => String(row?.source || row?.source_name || '').trim())
+      .filter(Boolean)
+  ))
+  const freshnessValues = normalizedRows
+    .map((row) => Number(row?.freshness_days))
+    .filter((value) => Number.isFinite(value))
+  const confidenceValues = normalizedRows
+    .map((row) => Number(row?.confidence_pct))
+    .filter((value) => Number.isFinite(value))
+  const verifiedCount = normalizedRows.filter((row) => row?.is_verified === true).length
+  const freshnessDays = freshnessValues.length ? Math.min(...freshnessValues) : null
+  const confidencePct = confidenceValues.length
+    ? Math.round(confidenceValues.reduce((sum, value) => sum + value, 0) / confidenceValues.length)
+    : null
+
+  return {
+    sources,
+    sourceCount: sources.length,
+    freshnessDays,
+    freshness: computeFreshnessLabel(freshnessDays),
+    confidencePct,
+    verifiedCount,
+  }
+}
+
 async function fetchRecentPriceSalesPayload(limit) {
   try {
     const sales = await fetchRecentSales(limit)
@@ -46,11 +85,12 @@ async function fetchGamePriceSummaryPayload(gameId, months) {
       }
 
       if (!buckets[condition]) {
-        buckets[condition] = { prices: [], dates: [] }
+        buckets[condition] = { prices: [], dates: [], rows: [] }
       }
 
       buckets[condition].prices.push(Number(row.price))
       buckets[condition].dates.push(row.sale_date)
+      buckets[condition].rows.push(row)
     }
 
     const byCondition = ['loose', 'cib', 'mint']
@@ -64,6 +104,7 @@ async function fetchGamePriceSummaryPayload(gameId, months) {
         const median = total % 2 === 0
           ? (sorted[middle - 1] + sorted[middle]) / 2
           : sorted[middle]
+        const sourceMeta = aggregateSourceMeta(buckets[condition].rows)
 
         return {
           condition,
@@ -74,12 +115,19 @@ async function fetchGamePriceSummaryPayload(gameId, months) {
           avg: total ? roundPrice(sorted.reduce((sum, price) => sum + price, 0) / total) : null,
           firstDate: dates[0] || null,
           lastDate: dates[dates.length - 1] || null,
+          sourceCount: sourceMeta.sourceCount,
+          sources: sourceMeta.sources,
+          freshnessDays: sourceMeta.freshnessDays,
+          freshness: sourceMeta.freshness,
+          confidencePct: sourceMeta.confidencePct,
+          verifiedCount: sourceMeta.verifiedCount,
         }
       })
 
     const allPrices = rows
       .map((row) => Number(row.price))
       .filter((price) => Number.isFinite(price))
+    const sourceMeta = aggregateSourceMeta(rows)
 
     return {
       ok: true,
@@ -89,6 +137,12 @@ async function fetchGamePriceSummaryPayload(gameId, months) {
       lastSale: rows[0]?.sale_date || null,
       minPrice: allPrices.length ? roundPrice(Math.min(...allPrices)) : null,
       maxPrice: allPrices.length ? roundPrice(Math.max(...allPrices)) : null,
+      sourceCount: sourceMeta.sourceCount,
+      sources: sourceMeta.sources,
+      freshnessDays: sourceMeta.freshnessDays,
+      freshness: sourceMeta.freshness,
+      confidencePct: sourceMeta.confidencePct,
+      verifiedCount: sourceMeta.verifiedCount,
       byCondition,
     }
   } catch (error) {
@@ -101,6 +155,12 @@ async function fetchGamePriceSummaryPayload(gameId, months) {
         lastSale: null,
         minPrice: null,
         maxPrice: null,
+        sourceCount: 0,
+        sources: [],
+        freshnessDays: null,
+        freshness: null,
+        confidencePct: null,
+        verifiedCount: 0,
         byCondition: [],
       }
     }

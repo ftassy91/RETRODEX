@@ -1,0 +1,16 @@
+[
+  {
+    "id": "ya-super-mario-64-1",
+    "listing_reference": "ya-super-mario-64-1",
+    "listing_url": "https://example.invalid/yahoo-auctions-jp/super-mario-64-1",
+    "title_raw": "Super Mario 64 Nintendo 64 JP cart only",
+    "sale_type": "auction",
+    "sold_at": "2026-04-01T10:00:00.000Z",
+    "currency": "JPY",
+    "price_original": 6200,
+    "country_code": "JP",
+    "platform_hint_raw": "Nintendo 64",
+    "region_hint_raw": "NTSC-J",
+    "condition_hint_raw": "cart only"
+  }
+]

@@ -9,6 +9,13 @@ State stabilized on March 31, 2026.
 - Back-office: isolated under `backend/src/routes/admin` and `backend/src/services/admin`
 - Active technical lot by default: none
 
+Active additive lot as of April 9, 2026:
+
+- `LOT_MVP_REAL_SOLD_PRICES`
+  - additive sold-price pipeline
+  - balanced `JP/US/EU` market weighting
+  - runtime contract preserved on `games.*`
+
 ## Request Flow
 
 ### Search
@@ -44,7 +51,25 @@ State stabilized on March 31, 2026.
 
 1. The browser calls `/api/prices/*`.
 2. [index.js](../backend/src/routes/prices/index.js) delegates to [public-price-service.js](../backend/src/services/public-price-service.js).
-3. The service reads `games` and `price_history` through [db_supabase.js](../backend/db_supabase.js), with SQLite fallback kept inside the service.
+3. The service reads `games`, `price_history`, and `price_observations` through [db_supabase.js](../backend/db_supabase.js), with SQLite fallback kept inside the service.
+4. Runtime reads prefer real sold observations and remain backward-compatible with legacy `ebay` history rows.
+
+### Market Pipeline
+
+- Canonical additive subsystem:
+  - [backend/src/services/market](../backend/src/services/market)
+- Orchestrator:
+  - [backend/scripts/market/run-market-pipeline.js](../backend/scripts/market/run-market-pipeline.js)
+- Input contract:
+  - real sold observations only
+  - explicit source registry
+  - normalization, matching, scoring, publish-back
+- Output contract:
+  - `games.loose_price`
+  - `games.cib_price`
+  - `games.mint_price`
+  - `games.source_names`
+  - `games.price_last_updated`
 
 ## Backend Structure
 

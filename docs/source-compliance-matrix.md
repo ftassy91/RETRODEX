@@ -62,6 +62,34 @@
 
 ## Approved with review
 
+### Multi-source sold-price connectors
+
+- Status: `approved_with_review`
+- Includes:
+  - `Yahoo Auctions Japan`
+  - `Mercari Japan`
+  - `Rakuma`
+  - `Mercari US`
+  - `ShopGoodwill`
+  - `Heritage Auctions`
+  - `Catawiki`
+- Allowed use:
+  - sold observations only
+  - provenance-preserving normalized market records
+  - listing URL, listing reference, sold date, and normalized condition
+- Restrictions:
+  - no active listings
+  - no asking prices
+  - no collector media as direct sold truth
+  - keep explicit source name, sold date, market bucket, and confidence context
+  - activation remains per-source and must preserve auditability
+- Product scope:
+  - `price_history`
+  - `price_sources`
+  - `price_ingest_runs`
+  - `games.source_names`
+  - `games.price_last_updated`
+
 ### MusicBrainz core datasets
 
 - Status: `approved_with_review`
