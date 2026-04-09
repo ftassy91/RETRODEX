@@ -3,7 +3,7 @@
 const { db, mode } = require('../../../db_supabase')
 
 const USE_SUPABASE = mode === 'supabase'
-const KNOWN_CONDITIONS = new Set(['loose', 'cib', 'mint'])
+const KNOWN_CONDITIONS = new Set(['Loose', 'CIB', 'Mint'])
 
 function getSqlite() {
   return mode === 'sqlite' ? db?._sqlite : null
@@ -74,13 +74,16 @@ function sqliteColumnExists(tableName, columnName) {
 
 function normalizeCondition(value) {
   const normalized = String(value || '').trim().toLowerCase()
-  if (normalized === 'complete' || normalized === 'complete in box') {
-    return 'cib'
+  if (normalized === 'complete' || normalized === 'complete in box' || normalized === 'cib') {
+    return 'CIB'
   }
-  if (normalized === 'sealed' || normalized === 'new') {
-    return 'mint'
+  if (normalized === 'sealed' || normalized === 'new' || normalized === 'mint') {
+    return 'Mint'
   }
-  return KNOWN_CONDITIONS.has(normalized) ? normalized : 'loose'
+  if (normalized === 'loose') {
+    return 'Loose'
+  }
+  return 'Loose'
 }
 
 function normalizeSourceName(value) {

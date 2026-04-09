@@ -19,6 +19,7 @@ const {
   buildCatalogIndex,
   startPriceIngestRun,
   completePriceIngestRun,
+  writeRejections,
   buildMarketQualityReport,
 } = require('../../src/services/market')
 
@@ -65,7 +66,7 @@ async function runMarketPipeline(args = {}) {
   const filterIds = parseIdFilter(args)
   const apply = Boolean(args.apply)
   const ensureSchema = Boolean(args.ensureSchema)
-  const recordRun = Boolean(args.recordRun)
+  const recordRun = args.recordRun != null ? Boolean(args.recordRun) : apply
   const sqlite = openReadonlySqlite()
   let client = null
   let runRecord = null
@@ -122,6 +123,13 @@ async function runMarketPipeline(args = {}) {
       pipelineName: 'market_pipeline',
       sourceScope: connectorNames.join(','),
     })
+
+    if (recordRun) {
+      const rejected = matchedRecords.filter((r) => r.is_rejected)
+      if (rejected.length > 0) {
+        await writeRejections(rejected, { stage: 'normalize' })
+      }
+    }
 
     let publishResult = null
     if (apply) {

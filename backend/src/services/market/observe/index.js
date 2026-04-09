@@ -4,6 +4,7 @@ const {
   buildRunKey,
   completePriceIngestRun,
   startPriceIngestRun,
+  writeRejections,
 } = require('./ingest-runs')
 const {
   buildMarketQualityReport,
@@ -16,4 +17,5 @@ module.exports = {
   completePriceIngestRun,
   normalizeScoredRow,
   startPriceIngestRun,
+  writeRejections,
 }

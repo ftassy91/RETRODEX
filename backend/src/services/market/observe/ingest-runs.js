@@ -175,8 +175,46 @@ async function completePriceIngestRun(runId, outcome = {}) {
   return run || null
 }
 
+async function writeRejections(records, options = {}) {
+  if (!records || records.length === 0) return 0
+  const targetSequelize = options.sequelize || sequelize
+  const stage = options.stage || 'normalize'
+
+  let written = 0
+  for (const record of records) {
+    const reasons = record.rejection_reasons || []
+    if (reasons.length === 0) continue
+
+    await targetSequelize.query(
+      `INSERT INTO price_rejections (
+        source_id, source_market, listing_reference, title_raw,
+        rejection_reason, rejection_stage, raw_payload
+      ) VALUES (
+        :sourceId, :sourceMarket, :listingReference, :titleRaw,
+        :rejectionReason, :rejectionStage, :rawPayload
+      )`,
+      {
+        replacements: {
+          sourceId: record.source_id || null,
+          sourceMarket: record.source_market || null,
+          listingReference: record.listing_reference || null,
+          titleRaw: record.title_raw || null,
+          rejectionReason: reasons.join(','),
+          rejectionStage: stage,
+          rawPayload: record.raw_payload ? JSON.stringify(record.raw_payload) : null,
+        },
+        type: QueryTypes.INSERT,
+      }
+    )
+    written += 1
+  }
+
+  return written
+}
+
 module.exports = {
   buildRunKey,
   completePriceIngestRun,
   startPriceIngestRun,
+  writeRejections,
 }
