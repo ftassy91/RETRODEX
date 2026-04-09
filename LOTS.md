@@ -150,3 +150,11 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 - **Objectif :** Ajouter un param currency a formatCurrency(), corriger les 7 callers dans collection.js (chips, row, evolution panel)
 - **Fichiers :** backend/public/js/core/format.js, backend/public/js/pages/collection.js
 - **Modele utilise :** Sonnet
+
+### LOT-PROD-07 - Signal stale_wishlist UI + search prix currency-aware
+- **Statut :** Done
+- **Date :** 2026-04-09
+- **Commit :** 866ef8c
+- **Objectif :** Ajouter le bouton signal STAGNANTE (stale_wishlist > 180j) dans le cockpit + rendre les prix search currency-aware
+- **Fichiers :** backend/public/collection.html, backend/public/js/pages/collection.js, backend/public/js/pages/search.js, backend/src/services/public-contextual-search-service.js, backend/src/services/public-search/dex.js, backend/src/services/public-search/base.js
+- **Modele utilise :** Sonnet
