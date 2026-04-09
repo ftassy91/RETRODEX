@@ -470,12 +470,14 @@
     }
   }
 
-  function setGainValue(node, gain) {
-    node.textContent = gain != null
-      ? gain >= 0
-        ? `+$${Math.round(gain)}`
-        : `-$${Math.round(Math.abs(gain))}`
-      : '-'
+  function setGainValue(node, gain, currency) {
+    if (gain == null) {
+      node.textContent = '-'
+    } else {
+      const sign = gain >= 0 ? '+' : '-'
+      const formatted = formatCollectionPrice(Math.abs(gain), currency)
+      node.textContent = formatted ? `${sign}${formatted}` : `${sign}${Math.round(Math.abs(gain))}`
+    }
     node.className = 'terminal-summary-value' + (gain > 0 ? ' positive' : gain < 0 ? ' negative' : '')
   }
 
@@ -688,10 +690,11 @@
     return formatCollectionPrice(value, priceCurrency) || 'n/a'
   }
 
-  function formatGainValue(gain) {
+  function formatGainValue(gain, priceCurrency) {
     if (gain == null) return 'n/a'
-    if (gain >= 0) return `+${formatCurrency(gain)}`
-    return `-${formatCurrency(Math.abs(gain))}`
+    const sign = gain >= 0 ? '+' : '-'
+    const formatted = formatCollectionPrice(Math.abs(gain), priceCurrency)
+    return formatted ? `${sign}${formatted}` : `${sign}${Math.round(Math.abs(gain))}`
   }
 
   function getPersonalStatusLabel(item) {
@@ -845,6 +848,19 @@
     }
   }
 
+  function getDominantCurrency(items) {
+    const counts = {}
+    for (const item of items) {
+      const cur = getGame(item).priceCurrency
+      if (cur) counts[cur] = (counts[cur] || 0) + 1
+    }
+    let best = null, max = 0
+    for (const [cur, cnt] of Object.entries(counts)) {
+      if (cnt > max) { best = cur; max = cnt }
+    }
+    return best
+  }
+
   function updateSummaryFromItems(items) {
     const totals = items.reduce(
       (acc, item) => {
@@ -865,23 +881,25 @@
       { total: 0, loose: 0, cib: 0, mint: 0, paid: 0, gain: 0, hasGain: false }
     )
 
+    const cur = getDominantCurrency(items)
     setText(statTotalEl, String(totals.total || 0))
-    setText(statValueLooseEl, totals.loose ? formatCurrency(totals.loose) : '$0')
-    setText(statPaidEl, totals.paid ? formatCurrency(totals.paid) : '-')
-    setGainValue(statGainEl, totals.hasGain ? totals.gain : null)
-    setText(statValueCibEl, totals.cib ? formatCurrency(totals.cib) : '-')
-    setText(statValueMintEl, totals.mint ? formatCurrency(totals.mint) : '-')
+    setText(statValueLooseEl, formatCollectionPrice(totals.loose, cur) || '0')
+    setText(statPaidEl, totals.paid ? (formatCollectionPrice(totals.paid, cur) || '-') : '-')
+    setGainValue(statGainEl, totals.hasGain ? totals.gain : null, cur)
+    setText(statValueCibEl, totals.cib ? (formatCollectionPrice(totals.cib, cur) || '-') : '-')
+    setText(statValueMintEl, totals.mint ? (formatCollectionPrice(totals.mint, cur) || '-') : '-')
   }
 
   async function updateOwnedSummaryFromStats(fallbackItems) {
     try {
       const stats = await fetchJson('/api/collection/stats')
+      const cur = stats.dominant_currency || null
       setText(statTotalEl, String(stats.total || stats.count || 0))
-      setText(statValueLooseEl, stats.total_loose ? formatCurrency(stats.total_loose) : '$0')
-      setText(statPaidEl, stats.total_paid ? formatCurrency(stats.total_paid) : '-')
-      setGainValue(statGainEl, stats.profit_estimate != null ? Number(stats.profit_estimate) : null)
-      setText(statValueCibEl, stats.total_cib ? formatCurrency(stats.total_cib) : '-')
-      setText(statValueMintEl, stats.total_mint ? formatCurrency(stats.total_mint) : '-')
+      setText(statValueLooseEl, formatCollectionPrice(stats.total_loose, cur) || '0')
+      setText(statPaidEl, stats.total_paid ? (formatCollectionPrice(stats.total_paid, cur) || '-') : '-')
+      setGainValue(statGainEl, stats.profit_estimate != null ? Number(stats.profit_estimate) : null, cur)
+      setText(statValueCibEl, stats.total_cib ? (formatCollectionPrice(stats.total_cib, cur) || '-') : '-')
+      setText(statValueMintEl, stats.total_mint ? (formatCollectionPrice(stats.total_mint, cur) || '-') : '-')
     } catch (_error) {
       updateSummaryFromItems(fallbackItems)
     }

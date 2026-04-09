@@ -44,6 +44,7 @@ async function getCollectionStats(options = {}) {
   let totalCib = 0
   let totalMint = 0
   let totalPaid = 0
+  const currencyCounts = new Map()
 
   for (const item of items) {
     if (!item.game) {
@@ -78,6 +79,8 @@ async function getCollectionStats(options = {}) {
     else totalLoose += resolvedValue
 
     totalPaid += Number(item.price_paid) || 0
+    const cur = item.game.priceCurrency
+    currencyCounts.set(cur, (currencyCounts.get(cur) || 0) + 1)
 
     if (!byPlatformMap.has(platform)) {
       byPlatformMap.set(platform, { platform, count: 0, total_loose: 0 })
@@ -110,9 +113,17 @@ async function getCollectionStats(options = {}) {
       rarity: item.game.rarity,
     }))
 
+  // Dominant currency: the one with the most priced items (null if none)
+  let dominantCurrency = null
+  let maxCount = 0
+  for (const [cur, cnt] of currencyCounts) {
+    if (cnt > maxCount) { dominantCurrency = cur; maxCount = cnt }
+  }
+
   return {
     ok: true,
     count: items.length,
+    dominant_currency: dominantCurrency,
     total_loose: Math.round(totalLoose * 100) / 100,
     total_cib: Math.round(totalCib * 100) / 100,
     total_mint: Math.round(totalMint * 100) / 100,
