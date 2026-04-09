@@ -25,6 +25,7 @@
   const collectionSearchInputEl = byId('collection-search-input')
   const collectionConsoleFilterEl = byId('collection-console-filter')
   const collectionRegionFilterEl = byId('collection-region-filter')
+  const collectionConfidenceFilterEl = byId('collection-confidence-filter')
   const collectionSortSelectEl = byId('collection-sort-select')
   const collectionExportButtonEl = byId('collection-export-btn')
   const collectionListContainerEl = byId('collection-list-container')
@@ -166,6 +167,7 @@
       collectionSearchInputEl?.value?.trim()
       || collectionConsoleFilterEl?.value
       || collectionRegionFilterEl?.value
+      || collectionConfidenceFilterEl?.value
       || (getSortKey() && getSortKey() !== getDefaultSortKey())
     )
   }
@@ -324,6 +326,7 @@
     const query = normalizeText(collectionSearchInputEl?.value)
     const platform = collectionConsoleFilterEl?.value || ''
     const regionFilter = collectionRegionFilterEl?.value || ''
+    const confidenceFilter = collectionConfidenceFilterEl?.value || ''
 
     // Cockpit signal filter — restrict to the signal's item ids
     const cockpitIds = cockpitSignalItems
@@ -359,6 +362,11 @@
         } else if (itemRegion !== regionFilter) {
           return false
         }
+      }
+
+      if (confidenceFilter) {
+        const tier = String(game.priceConfidenceTier || 'unknown').toLowerCase()
+        if (tier !== confidenceFilter) return false
       }
 
       return true
@@ -1587,6 +1595,9 @@
       refreshCollectionView(selectedCollectionItem?.id || selectedCollectionItem?.gameId || null)
     })
     collectionRegionFilterEl?.addEventListener('change', () => {
+      refreshCollectionView(selectedCollectionItem?.id || selectedCollectionItem?.gameId || null)
+    })
+    collectionConfidenceFilterEl?.addEventListener('change', () => {
       refreshCollectionView(selectedCollectionItem?.id || selectedCollectionItem?.gameId || null)
     })
     collectionSortSelectEl?.addEventListener('change', () => {
