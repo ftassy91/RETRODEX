@@ -14,12 +14,16 @@
       .replaceAll("'", '&#039;')
   }
 
-  function formatCurrency(value, fallback) {
+  function formatCurrency(value, fallback, currency) {
     const number = Number(value)
     if (!Number.isFinite(number)) {
       return fallback == null ? '-' : String(fallback)
     }
-    return `$${Math.round(number)}`
+    const rounded = Math.round(number)
+    if (currency === 'EUR') return `\u20AC${rounded}`
+    if (currency === 'USD') return `$${rounded}`
+    if (currency) return `${rounded} ?`
+    return `$${rounded}`
   }
 
   function toArray(value) {

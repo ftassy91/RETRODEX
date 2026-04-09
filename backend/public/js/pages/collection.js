@@ -1039,12 +1039,12 @@
         <span class="surface-chip">${escapeHtml(getQualificationCompleteness(item))}</span>
         <span class="surface-chip"${game.priceConfidenceReason ? ` title="Prix : ${escapeHtml(game.priceConfidenceReason)}"` : ''}>${escapeHtml(`confiance ${getQualificationConfidenceLabel(item)}`)}</span>
         ${item.edition_note ? `<span class="surface-chip">${escapeHtml(item.edition_note)}</span>` : ''}
-        <span class="surface-chip">${escapeHtml(paid > 0 ? `Investi ${formatCurrency(paid)}` : 'Investi n/a')}</span>
+        <span class="surface-chip">${escapeHtml(paid > 0 ? `Investi ${formatCurrency(paid, null, priceCurrency)}` : 'Investi n/a')}</span>
         <span class="surface-chip" title="${escapeHtml(priceSourceTooltip)}">${escapeHtml(`prix ${priceDate}`)}</span>
         ${formatCollectionPrice(cibPrice, priceCurrency) ? `<span class="surface-chip">CIB ${escapeHtml(formatCollectionPrice(cibPrice, priceCurrency))}</span>` : ''}
         ${formatCollectionPrice(mintPrice, priceCurrency) ? `<span class="surface-chip">Mint ${escapeHtml(formatCollectionPrice(mintPrice, priceCurrency))}</span>` : ''}
         ${item.purchase_date ? `<span class="surface-chip">Entree ${escapeHtml(item.purchase_date)}</span>` : ''}
-        ${item.price_threshold ? `<span class="surface-chip">Seuil ${escapeHtml(formatCurrency(item.price_threshold))}</span>` : ''}
+        ${item.price_threshold ? `<span class="surface-chip">Seuil ${escapeHtml(formatCurrency(item.price_threshold, null, priceCurrency))}</span>` : ''}
         ${game.rarity ? `<span class="surface-chip is-hot">${escapeHtml(game.rarity)}</span>` : ''}
       `
     }
@@ -1204,7 +1204,7 @@
       <span role="cell" style="text-align:right;color:var(--text-alert)">${formatCollectionPrice(loosePrice, priceCurrency) || '-'}</span>
       <span role="cell" style="text-align:right;color:var(--text-muted)">${formatCollectionPrice(cibPrice, priceCurrency) || '-'}</span>
       <span role="cell" style="text-align:right;color:var(--text-muted)">${formatCollectionPrice(mintPrice, priceCurrency) || '-'}</span>
-      <span role="cell" style="text-align:right;color:var(--text-muted)">${paid ? formatCurrency(paid) : '-'}</span>
+      <span role="cell" style="text-align:right;color:var(--text-muted)">${paid ? formatCurrency(paid, null, priceCurrency) : '-'}</span>
       <span role="cell" style="text-align:right" class="${gainClass}">${gainStr}</span>
     `
     window.RetroDexAssets?.decorateConditionBadges?.(row)
@@ -1278,13 +1278,14 @@
     }
 
     const avgDelta = deltaCount > 0 ? Math.round(deltaSum / deltaCount) : null
+    const evoCur = getDominantCurrency(ownedItems)
 
     const setText_ = (id, val) => { const el = byId(id); if (el) el.textContent = val }
     setText_('evo-this-quarter', String(thisQ))
     setText_('evo-last-quarter', String(lastQ))
-    setText_('evo-total-cost', costCount > 0 ? `$${Math.round(totalCost)}` : '-')
-    setText_('evo-total-value', valueCount > 0 ? `$${Math.round(totalValue)}` : '-')
-    setText_('evo-avg-delta', avgDelta !== null ? (avgDelta >= 0 ? `+$${avgDelta}` : `-$${Math.abs(avgDelta)}`) : '-')
+    setText_('evo-total-cost', costCount > 0 ? formatCurrency(totalCost, '-', evoCur) : '-')
+    setText_('evo-total-value', valueCount > 0 ? formatCurrency(totalValue, '-', evoCur) : '-')
+    setText_('evo-avg-delta', avgDelta !== null ? (avgDelta >= 0 ? `+${formatCurrency(avgDelta, '0', evoCur)}` : `-${formatCurrency(Math.abs(avgDelta), '0', evoCur)}`) : '-')
     setText_('evo-condition-dist', `${condCount.Loose}L · ${condCount.CIB}C · ${condCount.Mint}M`)
 
     panelEl.hidden = false
@@ -1297,7 +1298,7 @@
       const wishCount = wishItems.length
       const rotationEl = byId('evo-rotation-budget')
       const rotationWishEl = byId('evo-rotation-wish')
-      if (rotationEl) rotationEl.textContent = totalSellValue > 0 ? `$${Math.round(totalSellValue)}` : '-'
+      if (rotationEl) rotationEl.textContent = totalSellValue > 0 ? formatCurrency(totalSellValue, '-', evoCur) : '-'
       if (rotationWishEl) rotationWishEl.textContent = wishCount > 0 ? `${wishCount} item(s) finançables` : '-'
     }
   }
