@@ -86,3 +86,11 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 - **Decision :** RLS inerte par design (service_role). Activation differee a 4 triggers (anon key, multi-user, API publique, edge functions).
 - **Livrable :** docs/DECISION-002-security-model.md
 - **Modele utilise :** Opus
+
+### LOT-PROD-03 - Tooltip priceConfidenceReason sur UI collection
+- **Statut :** Done
+- **Date :** 2026-04-09
+- **Commit :** 9dff8ca
+- **Objectif :** Afficher priceConfidenceReason en tooltip sur la carte CONFIANCE et le chip confiance du panneau detail
+- **Fichiers :** backend/public/js/pages/collection.js
+- **Modele utilise :** Sonnet
