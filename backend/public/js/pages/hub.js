@@ -67,11 +67,11 @@
   }
 
   const RARITY_COLORS = {
-    LEGENDARY: '#ffd700',
-    EPIC: '#e48855',
-    RARE: '#4ecdc4',
+    LEGENDARY: 'var(--condition-mint)',
+    EPIC: 'var(--confidence-mid)',
+    RARE: 'var(--condition-cib)',
     UNCOMMON: '#33cc66',
-    COMMON: '#6a8a6a',
+    COMMON: 'var(--text-muted)',
   }
 
   /* ── Renderers ─────────────────────────────── */
@@ -176,11 +176,11 @@
 
   function renderByMetascore(container, games) {
     const brackets = [
-      { label: '90 - 100', min: 90, max: 101, count: 0, color: '#52e052' },
+      { label: '90 - 100', min: 90, max: 101, count: 0, color: 'var(--confidence-high)' },
       { label: '80 - 89', min: 80, max: 90, count: 0, color: '#33cc66' },
-      { label: '70 - 79', min: 70, max: 80, count: 0, color: '#e0b352' },
+      { label: '70 - 79', min: 70, max: 80, count: 0, color: 'var(--confidence-mid)' },
       { label: '60 - 69', min: 60, max: 70, count: 0, color: '#e48855' },
-      { label: '< 60', min: 0, max: 60, count: 0, color: '#e05252' },
+      { label: '< 60', min: 0, max: 60, count: 0, color: 'var(--confidence-low)' },
     ]
     let scored = 0
     for (const game of games) {

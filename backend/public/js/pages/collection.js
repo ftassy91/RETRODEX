@@ -1202,13 +1202,13 @@
         <span class="collection-row-cue">${escapeHtml(qualificationCue)}</span>
         <span class="collection-row-status">${statusBadge}</span>
       </span>
-      <span role="cell" style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '-')}</span>
-      <span role="cell" class="condition-badge badge--condition" data-condition="${escapeHtml(item.condition || '')}" style="font-size:9px;border:1px solid var(--border);padding:1px 4px;text-align:center">${escapeHtml(item.condition || '-')}</span>
-      <span role="cell" style="text-align:right;color:var(--text-alert)">${formatCollectionPrice(loosePrice, priceCurrency) || '-'}</span>
-      <span role="cell" style="text-align:right;color:var(--text-muted)">${formatCollectionPrice(cibPrice, priceCurrency) || '-'}</span>
-      <span role="cell" style="text-align:right;color:var(--text-muted)">${formatCollectionPrice(mintPrice, priceCurrency) || '-'}</span>
-      <span role="cell" style="text-align:right;color:var(--text-muted)">${paid ? formatCurrency(paid, null, priceCurrency) : '-'}</span>
-      <span role="cell" style="text-align:right" class="${gainClass}">${gainStr}</span>
+      <span role="cell" class="collection-cell-console">${escapeHtml(game.console || game.platform || '-')}</span>
+      <span role="cell" class="collection-cell-condition condition-badge badge--condition" data-condition="${escapeHtml(item.condition || '')}">${escapeHtml(item.condition || '-')}</span>
+      <span role="cell" class="collection-cell-price is-alert">${formatCollectionPrice(loosePrice, priceCurrency) || '-'}</span>
+      <span role="cell" class="collection-cell-price">${formatCollectionPrice(cibPrice, priceCurrency) || '-'}</span>
+      <span role="cell" class="collection-cell-price">${formatCollectionPrice(mintPrice, priceCurrency) || '-'}</span>
+      <span role="cell" class="collection-cell-price">${paid ? formatCurrency(paid, null, priceCurrency) : '-'}</span>
+      <span role="cell" class="collection-cell-price ${gainClass}">${gainStr}</span>
     `
     window.RetroDexAssets?.decorateConditionBadges?.(row)
     row.addEventListener('click', () => selectCollectionItem(item, row))

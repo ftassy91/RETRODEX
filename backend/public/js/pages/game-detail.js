@@ -56,7 +56,7 @@ const PRICE_HISTORY_STATES = [
 ]
 
 const DEFAULT_PRICE_HISTORY_PERIOD = '1y'
-const EMPTY_STATE_STYLE = 'color:#3a5a3a;font-style:italic;font-size:0.72rem;font-family:var(--font-mono);'
+const EMPTY_STATE_CLASS = 'detail-empty-inline'
 
 function resolveGameMeta(game) {
   return {
@@ -133,7 +133,7 @@ function formatDurationValue(value) {
 }
 
 function buildEmptyStateHtml(label) {
-  return `<span style="${EMPTY_STATE_STYLE}">${escapeHtml(label)}</span>`
+  return `<span class="${EMPTY_STATE_CLASS}">${escapeHtml(label)}</span>`
 }
 
 function hasIndexedPrice(value) {
@@ -773,15 +773,8 @@ function getPriceTrustSummary(game) {
   return 'prix non qualifie'
 }
 
-function getTrustBadgeStyle(tier) {
-  const base = 'font-family:var(--font-display);font-size:0.72rem;'
-  if (tier === 'T1') {
-    return `${base}background:rgba(155,188,15,0.15);border:1px solid #9bbc0f;color:#9bbc0f;`
-  }
-  if (tier === 'T2') {
-    return `${base}background:rgba(155,188,15,0.08);border:1px solid #9bbc0f;color:#9bbc0f;`
-  }
-  return `${base}background:rgba(241,196,92,0.08);border:1px solid #f1c45c;color:#f1c45c;`
+function getTrustBadgeStyle() {
+  return ''
 }
 
 function getFreshnessLabel(value) {

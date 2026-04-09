@@ -924,15 +924,15 @@ label {
         .stats-grid,
         [class*="grid-2"],
         [class*="two-col"] {
-          grid-template-columns: 1fr !important;
+          grid-template-columns: 1fr;
         }
 
         /* Filter bar: stack vertically */
         .filter-bar,
         .filter-row,
         [class*="filter"] {
-          flex-direction: column !important;
-          gap: 0.5rem !important;
+          flex-direction: column;
+          gap: 0.5rem;
         }
 
         /* Inputs full width */
@@ -940,7 +940,7 @@ label {
         .filter-bar select,
         .filter-row input,
         .filter-row select {
-          width: 100% !important;
+          width: 100%;
           box-sizing: border-box;
         }
 
@@ -952,13 +952,13 @@ label {
         .price-cards,
         .prices-row,
         [class*="price-col"] {
-          flex-direction: column !important;
+          flex-direction: column;
         }
 
         /* Stats cards: 1 column */
         .stat-card,
         .stats-row {
-          grid-template-columns: 1fr !important;
+          grid-template-columns: 1fr;
         }
 
         /* Breadcrumb: smaller */
@@ -1355,7 +1355,7 @@ label {
 }
 /* Bordures : coins droits partout */
 *, *::before, *::after {
-  border-radius: 0 !important;
+  border-radius: 0;
 }
 /* Titre principal ? accent phosphore */
 h1, .page-title {
@@ -4748,7 +4748,7 @@ body {
 }
 
 .hub-intent-grid-two {
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   max-width: 680px;
 }
 
@@ -5601,7 +5601,12 @@ body {
   padding: 3px 9px;
   border-radius: 0;
   font-size: 10px;
+  font-family: var(--font-display);
 }
+.trust-badge.trust-T1 { background: rgba(155,188,15,0.15); border: 1px solid var(--accent); color: var(--accent); }
+.trust-badge.trust-T2 { background: rgba(155,188,15,0.08); border: 1px solid var(--accent); color: var(--accent); }
+.trust-badge.trust-T3 { background: rgba(241,196,92,0.08); border: 1px solid var(--text-alert); color: var(--text-alert); }
+.trust-badge.trust-T0 { background: rgba(74,138,84,0.08); border: 1px solid var(--text-muted); color: var(--text-muted); }
 
 .trust-source {
   font-size: 10px;
@@ -10527,6 +10532,12 @@ body.hub-page .product-universe-frame {
   min-width: 0;
 }
 
+.detail-empty-inline { color: var(--text-muted); font-style: italic; font-size: 0.72rem; font-family: var(--font-mono); }
+.collection-cell-console { color: var(--text-muted); font-size: 10px; }
+.collection-cell-condition { font-size: 10px; border: 1px solid var(--border); padding: 1px 4px; text-align: center; }
+.collection-cell-price { text-align: right; color: var(--text-muted); }
+.collection-cell-price.is-alert { color: var(--text-alert); }
+
 .collection-row-title {
   color: var(--text-primary);
   line-height: 1.25;
@@ -14018,13 +14029,24 @@ body {
 
 /* ─── Detail panel: region chip with color coding ─── */
 
-.detail-region-chip.region--pal   { border-color: rgba(80, 200, 150, 0.5) !important; color: rgba(120, 220, 170, 1) !important; }
-.detail-region-chip.region--ntscu { border-color: rgba(80, 140, 255, 0.5) !important; color: rgba(120, 170, 255, 1) !important; }
-.detail-region-chip.region--ntscj { border-color: rgba(255, 80,  80,  0.5) !important; color: rgba(255, 140, 120, 1) !important; }
-.detail-region-chip.region--ntscb { border-color: rgba(220, 170, 50,  0.5) !important; color: rgba(255, 210, 100, 1) !important; }
-.detail-region-chip.region--multi { border-color: rgba(160, 100, 220, 0.5) !important; color: rgba(200, 160, 255, 1) !important; }
+.detail-region-chip.region--pal   { border-color: rgba(80, 200, 150, 0.5); color: rgba(120, 220, 170, 1); }
+.detail-region-chip.region--ntscu { border-color: rgba(80, 140, 255, 0.5); color: rgba(120, 170, 255, 1); }
+.detail-region-chip.region--ntscj { border-color: rgba(255, 80,  80,  0.5); color: rgba(255, 140, 120, 1); }
+.detail-region-chip.region--ntscb { border-color: rgba(220, 170, 50,  0.5); color: rgba(255, 210, 100, 1); }
+.detail-region-chip.region--multi { border-color: rgba(160, 100, 220, 0.5); color: rgba(200, 160, 255, 1); }
 .detail-region-chip.region--unknown {
-  border-color: var(--text-alert) !important;
-  color: var(--text-alert) !important;
+  border-color: var(--text-alert);
+  color: var(--text-alert);
   opacity: 0.85;
+}
+
+/* Mobile touch targets (WCAG 2.5.5) */
+@media (max-width: 768px) {
+  button, select, .terminal-filter-btn, .cockpit-signal-card, .tab-btn {
+    min-height: 44px;
+  }
+  .terminal-filter-btn, .tab-btn {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 }
