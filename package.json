@@ -57,5 +57,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
 }
