@@ -506,9 +506,7 @@ function renderHeroSection(game) {
   const summary = String(game.summary || game.synopsis || '').trim()
   const metascoreValue = game.metascore ? String(game.metascore) : 'n/a'
   const hasAnyPrice = (game.loosePrice || game.cibPrice || game.mintPrice)
-  const trustMeta = game.sourceConfidence != null
-    ? getTrustMeta(Math.round(Number(game.sourceConfidence) * 100))
-    : { tier: 'T0', label: 'INCONNU' }
+  const trustMeta = getTrustMeta(game.priceConfidenceTier)
   const priceContext = buildHeroPriceContext(game, trustMeta)
   const pricePanel = hasAnyPrice
     ? `<div class="detail-hero-price-panel">
@@ -742,12 +740,17 @@ function confidenceClass(value) {
   return 'confidence-low'
 }
 
-function getTrustMeta(value) {
-  const pct = Number(value) || 0
+function getTrustMeta(tierOrPct) {
+  const str = String(tierOrPct || '').toLowerCase()
+  if (str === 'high') return { tier: 'T1', label: 'VERIFIE' }
+  if (str === 'medium') return { tier: 'T2', label: 'FIABLE' }
+  if (str === 'low') return { tier: 'T3', label: 'INDICATIF' }
+  // Numeric fallback for price index panel (confidence_pct from sales data)
+  const pct = Number(tierOrPct) || 0
   if (pct >= 80) return { tier: 'T1', label: 'VERIFIE' }
   if (pct >= 60) return { tier: 'T2', label: 'FIABLE' }
   if (pct >= 30) return { tier: 'T3', label: 'INDICATIF' }
-  if (pct >= 10) return { tier: 'T4', label: 'ESTIME' }
+  if (pct >= 10) return { tier: 'T3', label: 'INDICATIF' }
   return { tier: 'T0', label: 'INCONNU' }
 }
 
@@ -758,10 +761,10 @@ function getTrustBadgeText(tier) {
 }
 
 function getPriceTrustSummary(game) {
-  const confidence = Number(game?.sourceConfidence || 0)
-  if (confidence >= 0.7) return 'prix T1 fiable'
-  if (confidence >= 0.5) return 'prix T2 estime'
-  if (confidence > 0) return 'prix T3 indicatif'
+  const tier = String(game?.priceConfidenceTier || '').toLowerCase()
+  if (tier === 'high') return 'prix T1 fiable'
+  if (tier === 'medium') return 'prix T2 estime'
+  if (tier === 'low') return 'prix T3 indicatif'
   return 'prix non qualifie'
 }
 
@@ -838,7 +841,7 @@ function buildHeroPriceContext(game, trustMeta) {
     <div class="detail-hero-price-context">
       <div class="detail-price-context-row">
         <span class="detail-hero-reference">Fiabilite prix</span>
-        <span class="trust-badge trust-${escapeHtml(trustTier)}" style="${escapeHtml(getTrustBadgeStyle(trustTier))}">${escapeHtml(getTrustBadgeText(trustTier))}</span>
+        <span class="trust-badge trust-${escapeHtml(trustTier)}" style="${escapeHtml(getTrustBadgeStyle(trustTier))}"${game.priceConfidenceReason ? ` title="${escapeHtml(game.priceConfidenceReason)}"` : ''}>${escapeHtml(getTrustBadgeText(trustTier))}</span>
         ${freshnessMeta ? `<span class="detail-hero-reference">Fraicheur</span><span class="detail-hero-reference">${escapeHtml(freshnessMeta.label)} Â· ${escapeHtml(freshnessMeta.detail)}</span>` : ''}
       </div>
       ${freshnessMeta?.dateText ? `<div class="detail-hero-price-date">Mis a jour : ${escapeHtml(freshnessMeta.dateText)}</div>` : ''}
