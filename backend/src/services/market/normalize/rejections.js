@@ -2,6 +2,7 @@
 
 const {
   BUNDLE_KEYWORDS,
+  JP_BUNDLE_REGEX,
   PUBLISHABLE_CONDITIONS,
   REJECTION_KEYWORDS,
   SALE_TYPES,
@@ -37,6 +38,8 @@ function detectRejectionReasons(rawRecord, normalizedRecord = {}) {
   if (!SUPPORTED_CURRENCIES.has(currency)) reasons.push('unsupported_currency')
   if (includesKeyword(title, REJECTION_KEYWORDS)) reasons.push('non_game_or_repro_listing')
   if (includesKeyword(title, BUNDLE_KEYWORDS)) reasons.push('bundle_or_lot_listing')
+  // Japanese bundle detection — run on raw title (CJK stripped by normalizeText)
+  if (JP_BUNDLE_REGEX.test(String(rawRecord.title_raw || ''))) reasons.push('bundle_or_lot_listing')
   if (!normalizedRecord.matchableTitle) reasons.push('unmatchable_title')
 
   return Array.from(new Set(reasons))

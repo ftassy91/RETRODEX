@@ -89,7 +89,7 @@ function normalizeRawSoldRecord(rawRecord, options = {}) {
   }
 
   const sourceMeta = getMarketSource(rawRecord.source_slug)
-  const conditionResult = normalizeCondition(rawRecord.title_raw, rawRecord.condition_hint_raw)
+  const conditionResult = normalizeCondition(rawRecord.title_raw, rawRecord.condition_hint_raw, { sourceMarket: rawRecord.source_market })
   const platformResult = normalizePlatform(rawRecord.title_raw, rawRecord.platform_hint_raw)
   const regionResult = normalizeRegion(rawRecord.title_raw, rawRecord.region_hint_raw, rawRecord.source_market)
   const matchableTitle = normalizeText(rawRecord.title_raw)

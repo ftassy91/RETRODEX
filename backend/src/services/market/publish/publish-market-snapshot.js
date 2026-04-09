@@ -26,7 +26,7 @@ function buildObservationRows(scoredRecords = []) {
     .map((record) => ({
       game_id: record.match.game.id,
       price: Number(record.price_original),
-      condition: record.normalized_condition,
+      condition: record.normalized_condition ? record.normalized_condition.toLowerCase() : null,
       sale_date: record.sold_at ? String(record.sold_at).slice(0, 10) : null,
       source: record.source_name || record.source_slug,
       listing_url: record.listing_url || null,

@@ -5,10 +5,12 @@ const PUBLISHABLE_CONDITIONS = new Set(['Loose', 'CIB', 'Mint'])
 const REGION_CODES = new Set(['PAL', 'NTSC-U', 'NTSC-J', 'NTSC-B', 'MULTI', 'unknown'])
 const SALE_TYPES = new Set(['auction', 'fixed_price_sold', 'realized_price'])
 
+// Hardcoded fallback rates (conservative mid-market approximations).
+// Override at runtime via env vars MARKET_FX_USD_TO_EUR / MARKET_FX_JPY_TO_EUR.
 const DEFAULT_MARKET_FX_TO_EUR = Object.freeze({
   EUR: 1,
-  USD: Number(process.env.MARKET_FX_USD_TO_EUR || 0),
-  JPY: Number(process.env.MARKET_FX_JPY_TO_EUR || 0),
+  USD: Number(process.env.MARKET_FX_USD_TO_EUR || 0.92),
+  JPY: Number(process.env.MARKET_FX_JPY_TO_EUR || 0.0063),
 })
 
 const REGION_ALIASES = Object.freeze({
@@ -84,9 +86,15 @@ const BUNDLE_KEYWORDS = Object.freeze([
   'assorted',
 ])
 
+// Japanese bundle markers — tested against the raw (non-normalized) title
+// because normalizeText() strips CJK characters.
+// まとめ = bulk lot   [0-9]+点 = N-piece set   [0-9]+本セット = N-title set
+const JP_BUNDLE_REGEX = /まとめ|[0-9０-９]+点(?:セット|まとめ)?|[0-9０-９]+本セット|[0-9０-９]+タイトル/
+
 module.exports = {
   BUNDLE_KEYWORDS,
   DEFAULT_MARKET_FX_TO_EUR,
+  JP_BUNDLE_REGEX,
   PLATFORM_ALIASES,
   PUBLISHABLE_CONDITIONS,
   REGION_ALIASES,
