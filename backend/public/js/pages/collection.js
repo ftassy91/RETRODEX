@@ -673,9 +673,8 @@
     return 'Lecture stable. Ouvrir la fiche pour verifier contexte, valeur et priorite.'
   }
 
-  function formatPreviewValue(value) {
-    const numeric = Number(value || 0)
-    return numeric > 0 ? formatCurrency(numeric) : 'n/a'
+  function formatPreviewValue(value, priceCurrency) {
+    return formatCollectionPrice(value, priceCurrency) || 'n/a'
   }
 
   function formatGainValue(gain) {
@@ -692,11 +691,22 @@
   }
 
   function getPriceTrustSummary(game) {
-    const confidence = Number(game?.sourceConfidence || 0)
-    if (confidence >= 0.7) return 'T1 fiable'
-    if (confidence >= 0.5) return 'T2 estime'
-    if (confidence > 0) return 'T3 indicatif'
+    const tier = String(game?.priceConfidenceTier || '').toLowerCase()
+    const source = String(game?.sourceNames || '').trim()
+    const sourceSuffix = source ? ` — ${source}` : ''
+    if (tier === 'high') return `fiable${sourceSuffix}`
+    if (tier === 'medium') return `estime${sourceSuffix}`
+    if (tier === 'low') return `indicatif${sourceSuffix}`
     return 'non qualifie'
+  }
+
+  function formatCollectionPrice(value, priceCurrency) {
+    const numeric = Number(value)
+    if (!Number.isFinite(numeric) || numeric <= 0) return null
+    if (priceCurrency === 'EUR') return `\u20AC${Math.round(numeric)}`
+    if (priceCurrency === 'USD') return `$${Math.round(numeric)}`
+    // Unknown currency: render value with ? suffix, no symbol
+    return `${Math.round(numeric)} ?`
   }
 
   function getPriceFreshnessSummary(game) {
@@ -919,6 +929,7 @@
     const consoleName = game.console || game.platform || '-'
     const year = game.year || '-'
     const developer = game.developer || 'Archive'
+    const priceCurrency = game.priceCurrency || null
     const loosePrice = Number(game.loosePrice || 0)
     const cibPrice = Number(game.cibPrice || 0)
     const mintPrice = Number(game.mintPrice || 0)
@@ -957,7 +968,7 @@
         </div>
         <div class="surface-signal-card">
           <span class="surface-signal-label">VALEUR</span>
-          <span class="surface-signal-value is-alert">${escapeHtml(formatPreviewValue(loosePrice))}</span>
+          <span class="surface-signal-value is-alert${priceCurrency == null && loosePrice > 0 ? ' price--unknown-currency' : ''}">${escapeHtml(formatPreviewValue(loosePrice, priceCurrency))}</span>
         </div>
         <div class="surface-signal-card">
           <span class="surface-signal-label">CONFIANCE</span>
@@ -994,8 +1005,8 @@
         ${item.edition_note ? `<span class="surface-chip">${escapeHtml(item.edition_note)}</span>` : ''}
         <span class="surface-chip">${escapeHtml(paid > 0 ? `Investi ${formatCurrency(paid)}` : 'Investi n/a')}</span>
         <span class="surface-chip" title="${escapeHtml(priceSourceTooltip)}">${escapeHtml(`prix ${priceFreshness}`)}</span>
-        ${cibPrice ? `<span class="surface-chip">CIB ${escapeHtml(formatCurrency(cibPrice))}</span>` : ''}
-        ${mintPrice ? `<span class="surface-chip">Mint ${escapeHtml(formatCurrency(mintPrice))}</span>` : ''}
+        ${formatCollectionPrice(cibPrice, priceCurrency) ? `<span class="surface-chip">CIB ${escapeHtml(formatCollectionPrice(cibPrice, priceCurrency))}</span>` : ''}
+        ${formatCollectionPrice(mintPrice, priceCurrency) ? `<span class="surface-chip">Mint ${escapeHtml(formatCollectionPrice(mintPrice, priceCurrency))}</span>` : ''}
         ${item.purchase_date ? `<span class="surface-chip">Entree ${escapeHtml(item.purchase_date)}</span>` : ''}
         ${item.price_threshold ? `<span class="surface-chip">Seuil ${escapeHtml(formatCurrency(item.price_threshold))}</span>` : ''}
         ${game.rarity ? `<span class="surface-chip is-hot">${escapeHtml(game.rarity)}</span>` : ''}
@@ -1104,6 +1115,7 @@
 
   function renderCollectionRow(item, index) {
     const game = getGame(item)
+    const priceCurrency = game.priceCurrency || null
     const loosePrice = Number(game.loosePrice || 0)
     const cibPrice = Number(game.cibPrice || 0)
     const mintPrice = Number(game.mintPrice || 0)
@@ -1152,9 +1164,9 @@
       </span>
       <span role="cell" style="color:var(--text-muted);font-size:10px">${escapeHtml(game.console || game.platform || '-')}</span>
       <span role="cell" class="condition-badge badge--condition" data-condition="${escapeHtml(item.condition || '')}" style="font-size:9px;border:1px solid var(--border);padding:1px 4px;text-align:center">${escapeHtml(item.condition || '-')}</span>
-      <span role="cell" style="text-align:right;color:var(--text-alert)">${loosePrice ? formatCurrency(loosePrice) : '-'}</span>
-      <span role="cell" style="text-align:right;color:var(--text-muted)">${cibPrice ? formatCurrency(cibPrice) : '-'}</span>
-      <span role="cell" style="text-align:right;color:var(--text-muted)">${mintPrice ? formatCurrency(mintPrice) : '-'}</span>
+      <span role="cell" style="text-align:right;color:var(--text-alert)">${formatCollectionPrice(loosePrice, priceCurrency) || '-'}</span>
+      <span role="cell" style="text-align:right;color:var(--text-muted)">${formatCollectionPrice(cibPrice, priceCurrency) || '-'}</span>
+      <span role="cell" style="text-align:right;color:var(--text-muted)">${formatCollectionPrice(mintPrice, priceCurrency) || '-'}</span>
       <span role="cell" style="text-align:right;color:var(--text-muted)">${paid ? formatCurrency(paid) : '-'}</span>
       <span role="cell" style="text-align:right" class="${gainClass}">${gainStr}</span>
     `

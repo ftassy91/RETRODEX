@@ -14,6 +14,11 @@ function normalizeGameRecord(game) {
     mintPrice: game.mintPrice ?? game.mint_price ?? null,
     cover_url: coverUrl,
     coverImage: coverUrl,
+    priceConfidenceTier: game.priceConfidenceTier ?? game.price_confidence_tier ?? null,
+    priceConfidenceReason: game.priceConfidenceReason ?? game.price_confidence_reason ?? null,
+    priceCurrency: game.priceCurrency ?? game.price_currency ?? null,
+    sourceNames: game.sourceNames ?? game.source_names ?? null,
+    priceLastUpdated: game.priceLastUpdated ?? game.price_last_updated ?? null,
   }
 }
 

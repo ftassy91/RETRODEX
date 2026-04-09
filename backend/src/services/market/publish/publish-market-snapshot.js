@@ -70,6 +70,9 @@ function buildGamePriceUpdates(gameSnapshots = []) {
       price_last_updated: gameSnapshot.latestSoldAt ? String(gameSnapshot.latestSoldAt).slice(0, 10) : null,
       price_confidence_tier: gameSnapshot.confidenceTier || 'unknown',
       price_confidence_reason: gameSnapshot.confidenceReason || null,
+      // price_currency represents the currency of the persisted loose/cib/mint_price values.
+      // All current pipelines convert to EUR before storing balancedPrice, so 'EUR' is correct.
+      price_currency: 'EUR',
     }
   })
 }
@@ -196,7 +199,8 @@ async function publishMarketSnapshot(client, payload, options = {}) {
             source_names = $5,
             price_last_updated = $6,
             price_confidence_tier = $7,
-            price_confidence_reason = $8
+            price_confidence_reason = $8,
+            price_currency = $9
         WHERE id = $1
       `, [
         row.game_id,
@@ -207,6 +211,7 @@ async function publishMarketSnapshot(client, payload, options = {}) {
         row.price_last_updated,
         row.price_confidence_tier,
         row.price_confidence_reason,
+        row.price_currency,
       ])
       result.wroteGames += 1
     }

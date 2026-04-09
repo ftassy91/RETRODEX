@@ -26,24 +26,36 @@ function resolveCollectionAction(item, game) {
 
   const loosePrice = Number(game.loosePrice || game.loose_price || 0)
   const cibPrice = Number(game.cibPrice || game.cib_price || 0)
-  const mintPrice = Number(game.mintPrice || game.mint_price || 0)
 
   const hasLoosePrice = loosePrice > 0
   const hasCibPrice = cibPrice > 0
   const cibDelta = hasLoosePrice && hasCibPrice ? cibPrice - loosePrice : null
 
-  // sell prime sur tous les autres états
-  if (owned && (forSale || (pricePaid > 0 && hasLoosePrice && loosePrice >= pricePaid * SELL_MIN_GAIN_RATIO))) {
+  // Trust guard: sell, upgrade, buy cues require validated price data.
+  // low/unknown confidence means insufficient sold signal — do not fire action cues.
+  const priceTier = String(game.priceConfidenceTier || '').toLowerCase()
+  const hasTrustForAction = priceTier === 'high' || priceTier === 'medium'
+
+  // for_sale items always show sell regardless of price trust (user-declared intent)
+  if (owned && forSale) {
     return {
       action: 'sell',
-      note: forSale && pricePaid === 0
-        ? 'Le jeu est marque a vendre.'
-        : 'La valeur loose depasse le prix paye de 50% ou plus.',
+      note: 'Le jeu est marque a vendre.',
       tone: 'is-hot',
     }
   }
 
-  if (owned && condition === 'Loose' && cibDelta != null && cibDelta <= UPGRADE_MAX_DELTA) {
+  // sell on gain signal — requires trust
+  if (hasTrustForAction && owned && pricePaid > 0 && hasLoosePrice && loosePrice >= pricePaid * SELL_MIN_GAIN_RATIO) {
+    return {
+      action: 'sell',
+      note: 'La valeur loose depasse le prix paye de 50% ou plus.',
+      tone: 'is-hot',
+    }
+  }
+
+  // upgrade signal — requires trust
+  if (hasTrustForAction && owned && condition === 'Loose' && cibDelta != null && cibDelta <= UPGRADE_MAX_DELTA) {
     return {
       action: 'upgrade',
       note: 'Le delta Loose -> CIB reste sous $20.',
@@ -51,7 +63,8 @@ function resolveCollectionAction(item, game) {
     }
   }
 
-  if (wanted && hasLoosePrice && loosePrice <= wishlistMax) {
+  // buy signal — requires trust
+  if (hasTrustForAction && wanted && hasLoosePrice && loosePrice <= wishlistMax) {
     return {
       action: 'buy',
       note: `Wishlist active et valeur loose sous $${wishlistMax}.`,

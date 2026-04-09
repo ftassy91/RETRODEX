@@ -19,6 +19,18 @@ function getCollectionValueByCondition(item) {
   return loose
 }
 
+function hasPriceCurrency(item) {
+  return item?.game?.priceCurrency != null
+}
+
+function computeConfidenceSummary(items) {
+  const tiers = items.map((item) => String(item?.game?.priceConfidenceTier || 'unknown').toLowerCase())
+  if (!tiers.length) return 'unknown'
+  const distinct = new Set(tiers)
+  if (distinct.size === 1) return tiers[0]
+  return 'mixed'
+}
+
 async function getCollectionStats(options = {}) {
   const items = await listCollectionItems({
     ...options,
@@ -26,6 +38,8 @@ async function getCollectionStats(options = {}) {
   })
 
   const byPlatformMap = new Map()
+  // Confidence distribution across all owned items
+  const confidenceDist = { high: 0, medium: 0, low: 0, unknown: 0 }
   let totalLoose = 0
   let totalCib = 0
   let totalMint = 0
@@ -33,6 +47,26 @@ async function getCollectionStats(options = {}) {
 
   for (const item of items) {
     if (!item.game) {
+      continue
+    }
+
+    const tier = String(item.game.priceConfidenceTier || 'unknown').toLowerCase()
+    if (tier in confidenceDist) {
+      confidenceDist[tier] += 1
+    } else {
+      confidenceDist.unknown += 1
+    }
+
+    // Monetary aggregates: only include items with known price_currency.
+    // Items with priceCurrency === null have no validated pipeline data —
+    // including them would mix untracked prices into the portfolio total.
+    if (!hasPriceCurrency(item)) {
+      const platform = item.game.console || 'Unknown'
+      if (!byPlatformMap.has(platform)) {
+        byPlatformMap.set(platform, { platform, count: 0, total_loose: 0 })
+      }
+      byPlatformMap.get(platform).count += 1
+      totalPaid += Number(item.price_paid) || 0
       continue
     }
 
@@ -46,11 +80,7 @@ async function getCollectionStats(options = {}) {
     totalPaid += Number(item.price_paid) || 0
 
     if (!byPlatformMap.has(platform)) {
-      byPlatformMap.set(platform, {
-        platform,
-        count: 0,
-        total_loose: 0,
-      })
+      byPlatformMap.set(platform, { platform, count: 0, total_loose: 0 })
     }
 
     const bucket = byPlatformMap.get(platform)
@@ -66,7 +96,9 @@ async function getCollectionStats(options = {}) {
     }))
     .sort((left, right) => left.platform.localeCompare(right.platform))
 
+  // Top 5 by loose value — restrict to items with known price currency
   const top5 = items
+    .filter(hasPriceCurrency)
     .slice()
     .sort((left, right) => Number(right.game?.loosePrice || 0) - Number(left.game?.loosePrice || 0))
     .slice(0, 5)
@@ -86,7 +118,8 @@ async function getCollectionStats(options = {}) {
     total_mint: Math.round(totalMint * 100) / 100,
     total_paid: Math.round(totalPaid * 100) / 100,
     profit_estimate: Math.round((totalLoose - totalPaid) * 100) / 100,
-    confidence: 'mixed',
+    confidence: computeConfidenceSummary(items),
+    price_confidence_distribution: confidenceDist,
     by_platform,
     top5,
   }

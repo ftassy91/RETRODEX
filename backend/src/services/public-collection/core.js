@@ -318,6 +318,11 @@ function buildCollectionGamePayload(game) {
     loosePrice: item.loosePrice ?? null,
     cibPrice: item.cibPrice ?? null,
     mintPrice: item.mintPrice ?? null,
+    priceConfidenceTier: item.priceConfidenceTier ?? null,
+    priceConfidenceReason: item.priceConfidenceReason ?? null,
+    priceCurrency: item.priceCurrency ?? null,
+    sourceNames: item.sourceNames ?? null,
+    priceLastUpdated: item.priceLastUpdated ?? null,
   }
 }
 
