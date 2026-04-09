@@ -142,3 +142,11 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 - **Objectif :** Creer les lignes game_editorial manquantes pour duck-tales-nes, okami-playstation-2, rockman-forte-wonderswan
 - **Methode :** INSERT direct via Supabase MCP (pas de commit code — data-only)
 - **Resultat :** 1509 games = 1509 game_editorial, 0 orphelins
+
+### LOT-FIX-06 - formatCurrency() currency-aware + callers
+- **Statut :** Done
+- **Date :** 2026-04-09
+- **Commit :** c9db078
+- **Objectif :** Ajouter un param currency a formatCurrency(), corriger les 7 callers dans collection.js (chips, row, evolution panel)
+- **Fichiers :** backend/public/js/core/format.js, backend/public/js/pages/collection.js
+- **Modele utilise :** Sonnet
