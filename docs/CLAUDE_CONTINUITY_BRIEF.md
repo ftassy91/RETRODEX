@@ -1,3 +1,7 @@
+> [!WARNING]
+> **SUPERSEDED — 2026-04-09.** `CLAUDE.md` is now the operator authority for this project.
+> This document is a historical snapshot (March 31, 2026). Do not use it as an entry point.
+
 # RetroDex Continuity Brief For Claude
 
 ## Purpose

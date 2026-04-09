@@ -1,3 +1,7 @@
+> [!WARNING]
+> **SUPERSEDED — 2026-04-09.** `CLAUDE.md` is now the operator authority for this project.
+> This file is archived for historical context only. Do not act on its authority hierarchy.
+
 # AGENTS.md -- RetroDex
 
 ## Status

@@ -1,62 +1,111 @@
-# RetroDex -- CLAUDE.md
+﻿# CLAUDE.md - RETRODEX
 
-## Status
+## What is RetroDex
 
-This file is a lightweight entry document for Claude-style agents.
+RetroDex is a **collector operating system** for retro video games.
+It transforms a personal collection into a system that is operable, measurable, and evolutive.
 
-It is **not** the primary source of truth anymore.
+Core capabilities: buy/sell/upgrade decisions, qualification, confidence scoring, market context, completeness/condition/region logic.
 
-Read in this order before acting:
-1. [AGENTS.md](./AGENTS.md)
-2. [docs/CLAUDE_CONTINUITY_BRIEF.md](./docs/CLAUDE_CONTINUITY_BRIEF.md)
-3. [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)
-4. [docs/DECISIONS.md](./docs/DECISIONS.md)
+The encyclopedia, market layer, and collection layer are coordinated parts of one system.
 
-If this file conflicts with those documents, this file loses.
+---
 
-## Current Working Truth
+## Canonical Architecture
 
-- RetroDex is a **retro-gaming knowledge terminal**
-- public runtime is stabilized and canonical under [backend/public/](./backend/public/) and [backend/src/routes/](./backend/src/routes/)
-- public runtime reads are **Supabase-first** through [backend/db_supabase.js](./backend/db_supabase.js)
-- local SQLite is a **staging/back-office environment**, not prod truth
-- admin logic lives under [backend/src/routes/admin/](./backend/src/routes/admin/) and [backend/src/services/admin/](./backend/src/services/admin/)
-- [frontend/](./frontend/) is a **secondary prototype/exploration area**, not the default product surface
+| Path | Role | Authority |
+|---|---|---|
+| backend/public/ | Production UI (HTML, JS, CSS) | **canonical** |
+| backend/src/routes/ | Express route handlers | **canonical** |
+| backend/src/services/ | Business logic | **canonical** |
+| backend/db_supabase.js | Supabase data access layer | **canonical** |
+| prototype_v2/ | Static vanilla JS prototype (offline/mobile) | reference only |
+| frontend/ | Legacy / non-canonical | do not modify unless explicitly requested |
 
-## Product Orientation
+**Data authority:**
+- Supabase = production truth (13+ tables with real data)
+- SQLite/Sequelize = local dev fallback only
+- DATABASE_URL port 5432 blocked locally - use NODE_ENV=production + Supabase JS client over HTTPS
 
-RetroDex has four visible universes:
-- RetroDex
-- RetroMarket
-- Collections
-- Recherche
+**Deploy:** Vercel. Repo: ftassy91/RETRODEX.
 
-But the product center of gravity is:
-- structured game pages
-- knowledge/archive
-- curation, audit, enrichment, provenance
+---
 
-Priority order:
-1. improve public game pages and knowledge surfaces
-2. improve published data quality
-3. enrich traceably
-4. keep market and collection as support layers
+## Operator Instructions
 
-## Structural Invariants
+### Working Modes
 
-- public routes orchestrate HTTP only
-- public routes do not read DB directly
-- public routes do not import active Sequelize models directly
-- business logic belongs in services
-- back-office concerns stay isolated from public runtime
-- no prod mutation without explicit human approval
+Every task must be categorized before starting:
 
-## Practical Resume Rule
+- **THINK** - strategy, architecture, prioritization, system reasoning. No code.
+- **BUILD** - implementation, code edits, iteration. Code only within approved scope.
+- **CONTROL** - audit, verification, validation, data integrity checks. No new features.
 
-When resuming work:
-- do not start from old MVP assumptions
-- do not assume `frontend/` is canonical
-- do not assume local SQLite is runtime truth
-- do not open broad refactors implicitly
+### Workflow Cycle
 
-Open explicit lots, keep scope narrow, and align with [AGENTS.md](./AGENTS.md).
+AUDIT - PLAN - VALIDATE - EXECUTE - VERIFY
+
+Never skip PLAN. Never execute without validation.
+
+### Model Strategy (Claude Code CLI)
+
+| Model | Use for |
+|---|---|
+| **Opus** | Deep audits, architecture decisions, pipeline reasoning, high-risk analysis |
+| **Sonnet** | Implementation, iteration, structured code changes |
+| **Opusplan** | Default - Opus plans, Sonnet executes |
+
+For every serious task: state recommended model, flag if a switch is needed, explain why.
+
+### Hard Rules
+
+1. No plan - no code. Never start coding without an approved plan.
+2. Narrow scope only. No broad refactors unless explicitly requested.
+3. Data integrity > UI polish. Always verify the data path before touching presentation.
+4. Explain everything. Every change gets: what changed, why, what is at risk.
+5. Call out drift. If work is going out of scope, stop and flag it.
+6. Canonical paths only. Do not treat frontend/ as active unless told to.
+
+### Output Standard
+
+Every plan or report must include:
+1. Objective
+2. Scope (files, boundaries)
+3. Risks
+4. Next step
+5. Model recommendation
+
+---
+
+## Known Project State
+
+### Tech Stack
+- Node.js / Express backend
+- Supabase (production), SQLite/Sequelize (local dev)
+- Vanilla JS frontend (no framework, no build step)
+- Chart.js for data viz
+- Press Start 2P + Share Tech Mono fonts
+- Bloomberg terminal / CRT green phosphor aesthetic
+
+### Key Context
+- 507 games cataloged across 16 consoles (1983-2005)
+- 579 price entries in market data
+- 13 undocumented Supabase tables discovered during audit
+- games.js refactored from 614-line monolith into 4 focused modules
+- Boot screen: CRT Bezier curve overlay with 3-phase animation
+- Hub concept: 3 floppy disk modules (RETRODEX green, RETROMARKET red, COLLECTION blue)
+
+### Ticket Conventions
+Prefixes: RDX-, UI-, UX-, LAYOUT-, HUB-
+
+---
+
+## For Claude Code Sessions
+
+On session start, run through:
+1. What mode? (THINK / BUILD / CONTROL)
+2. What model? (Opus / Sonnet / Opusplan)
+3. What is the active lot?
+4. What is the next command?
+
+Available project commands: /session-start, /operator-audit, /product-audit, /plan-lot, /execute-lot, /verify-lot
