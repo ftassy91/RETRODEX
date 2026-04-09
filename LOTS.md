@@ -127,3 +127,18 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 - **Objectif :** Ajouter un dropdown de filtre par confiance prix (high/medium/low/unknown) dans la toolbar collection
 - **Fichiers :** backend/public/collection.html, backend/public/js/pages/collection.js
 - **Modele utilise :** Sonnet
+
+### LOT-FIX-05 - Encoding cleanup + currency-aware game-detail.js
+- **Statut :** Done
+- **Date :** 2026-04-09
+- **Commit :** 950711f
+- **Objectif :** Nettoyer ~50 mojibake UTF-8 et remplacer les 4 derniers $ hardcodes par formatPrice() currency-aware
+- **Fichiers :** backend/public/js/pages/game-detail.js
+- **Modele utilise :** Sonnet
+
+### LOT-PROD-06 - Backfill 3 editorial rows orphelines (DECISION-001 Phase 1)
+- **Statut :** Done
+- **Date :** 2026-04-09
+- **Objectif :** Creer les lignes game_editorial manquantes pour duck-tales-nes, okami-playstation-2, rockman-forte-wonderswan
+- **Methode :** INSERT direct via Supabase MCP (pas de commit code — data-only)
+- **Resultat :** 1509 games = 1509 game_editorial, 0 orphelins
