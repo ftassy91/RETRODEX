@@ -158,3 +158,12 @@ Prefixe de commit Git recommande : [LOT-XX-NN]
 - **Objectif :** Ajouter le bouton signal STAGNANTE (stale_wishlist > 180j) dans le cockpit + rendre les prix search currency-aware
 - **Fichiers :** backend/public/collection.html, backend/public/js/pages/collection.js, backend/public/js/pages/search.js, backend/src/services/public-contextual-search-service.js, backend/src/services/public-search/dex.js, backend/src/services/public-search/base.js
 - **Modele utilise :** Sonnet
+
+### LOT-UX-01 - Accessibilite critique (contraste, skip-link, focus, font-size)
+- **Statut :** Done
+- **Date :** 2026-04-09
+- **Commit :** 74d6812
+- **Objectif :** Corriger les non-conformites WCAG bloquantes : contraste texte muted, skip-link, focus-visible, font-size minimum 10px
+- **Fichiers :** backend/public/style.css
+- **Modele utilise :** Sonnet
+- **Notes :** ~105 font-size 9px/8px remplaces, --text-muted passe de 1.2:1 a >4.5:1 ratio
