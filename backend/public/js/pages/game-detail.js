@@ -948,9 +948,10 @@ async function loadRetrodexIndex(gameId) {
       return
     }
 
-    const orderedEntries = ['Loose', 'CIB', 'Mint'].map((condition) =>
-      entries.find((entry) => entry.condition === condition) || { condition }
-    )
+    const orderedEntries = ['Loose', 'CIB', 'Mint'].map((condition) => {
+      const found = entries.find((entry) => String(entry.condition || '').toLowerCase() === condition.toLowerCase())
+      return found != null ? { ...found, condition } : { condition }
+    })
     const primaryEntry = orderedEntries.find((entry) => entry.condition === 'Loose' && (Number(entry.index_value) || 0) > 0)
       || orderedEntries.find((entry) => (Number(entry.index_value) || 0) > 0)
       || orderedEntries[0]
