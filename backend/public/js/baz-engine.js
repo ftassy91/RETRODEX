@@ -439,18 +439,29 @@
 
   // ── Core Handler ──────────────────────────────────────────
 
-  function buildResponse(parsed) {
-    var reply = pickReply(parsed.intent)
+  // Intents that benefit from live data context
+  var DATA_DRIVEN_INTENTS = [
+    'game_comment', 'price_query', 'rare_query',
+    'collection_query', 'stats_query', 'market_trend',
+  ]
 
-    // Substitute game name placeholder
-    if (parsed.intent === 'game_comment' && parsed.params.game) {
+  function isDataDriven(intent) {
+    return DATA_DRIVEN_INTENTS.indexOf(intent) !== -1
+  }
+
+  function buildResponse(parsed, generatedText) {
+    var reply = generatedText || pickReply(parsed.intent)
+
+    // Substitute game name placeholder (fallback path)
+    if (!generatedText && parsed.intent === 'game_comment' && parsed.params.game) {
       var displayName = parsed.params.game.title
       reply = reply.replace('__GAME__', displayName)
     }
 
     // Determine BAZ state: content for data-heavy intents, talk for rest
     var state = 'talk'
-    if (['price_query', 'collection_query', 'console_query', 'condition_query'].indexOf(parsed.intent) !== -1) {
+    if (['price_query', 'collection_query', 'console_query', 'condition_query',
+         'stats_query', 'market_trend', 'rare_query'].indexOf(parsed.intent) !== -1) {
       state = 'content'
     }
 
@@ -466,14 +477,77 @@
     }
   }
 
+  // ── Context Fetcher ───────────────────────────────────────
+
+  function fetchContext(parsed) {
+    var api = window.RetroDexApi
+    if (!api || !api.fetchJson) return Promise.resolve(null)
+
+    // Game-specific intents: fetch game context
+    if (parsed.params.game && parsed.params.game.id) {
+      return api.fetchJson('/api/baz/context/' + encodeURIComponent(parsed.params.game.id))
+        .catch(function () { return null })
+    }
+
+    // Collection/stats intents: fetch collection context
+    if (parsed.intent === 'collection_query' || parsed.intent === 'stats_query') {
+      return api.fetchJson('/api/baz/context/collection')
+        .catch(function () { return null })
+    }
+
+    return Promise.resolve(null)
+  }
+
   // ── Public API ────────────────────────────────────────────
 
   function ask(userText) {
     return loadGameTitles().then(function (titles) {
       var parsed = parseIntent(userText, titles)
-      var response = buildResponse(parsed)
 
-      // Feed into existing codec display
+      // If intent is data-driven and BAZGen is available, fetch context first
+      if (isDataDriven(parsed.intent) && window.BAZGen) {
+        return fetchContext(parsed).then(function (contextData) {
+          var generated = null
+          try {
+            generated = window.BAZGen.generate(parsed.intent, contextData || {})
+          } catch (e) {
+            generated = null
+          }
+
+          // Substitute game name in generated text if needed
+          if (generated && parsed.params.game) {
+            generated = generated.replace(/__GAME__/g, parsed.params.game.title)
+          }
+
+          var response = buildResponse(parsed, generated)
+
+          if (window.BAZ && window.BAZ.say) {
+            window.BAZ.say(response.text, response.duration, response.state === 'content')
+          }
+          return response
+        })
+      }
+
+      // For unknown intent: try Markov first, then static fallback
+      if (parsed.intent === 'unknown' && window.BAZGen) {
+        var markovText = null
+        try {
+          markovText = window.BAZGen.markov()
+        } catch (e) {
+          markovText = null
+        }
+        if (markovText) {
+          var response = buildResponse(parsed, markovText)
+          if (window.BAZ && window.BAZ.say) {
+            window.BAZ.say(response.text, response.duration, response.state === 'content')
+          }
+          return Promise.resolve(response)
+        }
+      }
+
+      // Default path: static pickReply (no BAZGen or non-data intent)
+      var response = buildResponse(parsed, null)
+
       if (window.BAZ && window.BAZ.say) {
         window.BAZ.say(response.text, response.duration, response.state === 'content')
       }

@@ -1,0 +1,105 @@
+'use strict'
+// BAZ context API — serves game + collection data for BAZ template generation
+
+const { Router } = require('express')
+
+const { handleAsync } = require('../helpers/query')
+const { setPublicEdgeCache } = require('../helpers/cache-control')
+const { resolveRequestCollectionScope } = require('../middleware/auth')
+const { fetchCanonicalGameById } = require('../services/public-game-reader')
+const { getCollectionStats } = require('../services/public-collection-service')
+const { db, mode } = require('../../db_supabase')
+
+const router = Router()
+
+// ── GET /api/baz/context/collection — collection stats for BAZ templates ──
+// NOTE: must be registered BEFORE the :gameId param route
+
+router.get('/api/baz/context/collection', handleAsync(async (req, res) => {
+  const stats = await getCollectionStats(resolveRequestCollectionScope(req))
+
+  const totalMedium = stats.price_confidence_distribution?.medium || 0
+  const totalHigh = stats.price_confidence_distribution?.high || 0
+
+  // Compute sell candidates: items where loose > 1.5x paid (simplified estimate)
+  // This is a summary stat — full list is in the cockpit
+  const sellCandidates = stats.top5 ? stats.top5.length : 0
+
+  setPublicEdgeCache(res, { cdnMaxAge: 60, staleWhileRevalidate: 120 })
+
+  return res.json({
+    total_items: stats.count || 0,
+    total_value_loose: stats.total_loose || 0,
+    total_paid: stats.total_paid || 0,
+    dominant_currency: stats.dominant_currency || null,
+    total_medium: totalMedium,
+    total_high: totalHigh,
+    sell_candidates: sellCandidates,
+    delta: stats.profit_estimate || 0,
+  })
+}))
+
+// ── GET /api/baz/context/:gameId — game data for BAZ templates ──
+
+router.get('/api/baz/context/:gameId', handleAsync(async (req, res) => {
+  const gameId = String(req.params.gameId || '').trim()
+  if (!gameId) {
+    return res.status(400).json({ error: 'missing_game_id' })
+  }
+
+  const game = await fetchCanonicalGameById(gameId)
+  if (!game) {
+    return res.status(404).json({ error: 'not_found' })
+  }
+
+  // Fetch anecdote count + one random sample
+  let anecdoteCount = 0
+  let anecdoteSample = null
+
+  if (mode === 'supabase') {
+    const { data: anecdotes, error: anecError } = await db
+      .from('game_anecdotes')
+      .select('id,anecdote_text,anecdote_type,baz_intro')
+      .eq('game_id', gameId)
+      .eq('validated', true)
+
+    if (!anecError && Array.isArray(anecdotes)) {
+      anecdoteCount = anecdotes.length
+      if (anecdoteCount > 0) {
+        anecdoteSample = anecdotes[Math.floor(Math.random() * anecdoteCount)]
+      }
+    }
+  }
+
+  // Collect source_names from game_prices if available
+  let sourceNames = []
+  if (mode === 'supabase') {
+    const { data: prices, error: priceError } = await db
+      .from('game_prices')
+      .select('source_name')
+      .eq('game_id', gameId)
+
+    if (!priceError && Array.isArray(prices)) {
+      sourceNames = [...new Set(prices.map((p) => p.source_name).filter(Boolean))]
+    }
+  }
+
+  setPublicEdgeCache(res, { cdnMaxAge: 60, staleWhileRevalidate: 120 })
+
+  return res.json({
+    title: game.title || null,
+    console: game.console || game.console_name || null,
+    loose_price: game.loose_price != null ? Number(game.loose_price) : null,
+    cib_price: game.cib_price != null ? Number(game.cib_price) : null,
+    mint_price: game.mint_price != null ? Number(game.mint_price) : null,
+    price_currency: game.price_currency || null,
+    price_confidence_tier: game.price_confidence_tier || null,
+    metascore: game.metascore != null ? Number(game.metascore) : null,
+    rarity: game.rarity || null,
+    source_names: sourceNames,
+    anecdote_count: anecdoteCount,
+    anecdote_sample: anecdoteSample,
+  })
+}))
+
+module.exports = router
