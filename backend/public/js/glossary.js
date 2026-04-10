@@ -67,6 +67,13 @@
     }
   }
 
+  // Preload glossary on page load (so baz-engine can use it synchronously)
+  if (document.readyState === 'complete') {
+    loadGlossary()
+  } else {
+    window.addEventListener('load', function () { setTimeout(loadGlossary, 1000) })
+  }
+
   // Event delegation
   document.addEventListener('mouseenter', function (e) {
     var target = e.target.closest('[data-rdx-term]')
@@ -116,5 +123,8 @@
     })
   }, { passive: true })
 
-  window.RDXGlossary = { load: loadGlossary }
+  window.RDXGlossary = {
+    load: loadGlossary,
+    get _cache() { return _glossary },
+  }
 })()

@@ -46,27 +46,30 @@
       e.preventDefault()
       e.stopPropagation()
       input.value = ''
+      input.blur()
 
-      // Open codec and send to BAZ
-      if (window.BAZ && window.BAZ._askEngine) {
-        // Play first encounter if needed
-        if (window.BAZ.playFirstEncounter && window.BAZ.playFirstEncounter()) {
-          // First encounter playing, queue the actual question
-          setTimeout(function () {
-            window.BAZ._askEngine(text).then(function (result) {
-              if (result && result.text && window.BAZ.say) {
-                window.BAZ.say(result.text, result.duration, result.state === 'content')
-              }
-            })
-          }, 8000)
-        } else {
-          window.BAZ._askEngine(text).then(function (result) {
-            if (result && result.text && window.BAZ.say) {
-              window.BAZ.say(result.text, result.duration, result.state === 'content')
-            }
-          })
+      // First encounter check
+      if (window.BAZ && window.BAZ.playFirstEncounter) {
+        var played = window.BAZ.playFirstEncounter()
+        if (played) {
+          // Queue the question after intro finishes
+          setTimeout(function () { sendToCodec(text) }, 10000)
+          return
         }
       }
+
+      sendToCodec(text)
+    }
+  }
+
+  function sendToCodec(text) {
+    // _askEngine already calls BAZ.say() internally — just call it
+    if (window.BAZ && window.BAZ._askEngine) {
+      window.BAZ._askEngine(text)
+    } else if (window.BAZ && window.BAZ.say) {
+      // Fallback if engine not loaded
+      window.BAZ.say(text, 5000)
+    }
     }
   }
 

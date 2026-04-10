@@ -393,6 +393,28 @@
     } catch (_) {}
   }
 
+  // Glossary term checker — extract term from user input and return long definition
+  function checkGlossaryTerm(text) {
+    if (!window.RDXGlossary || !window.RDXGlossary.load) return null
+    var lower = (text || '').toLowerCase()
+    // Common patterns: "c'est quoi X", "qu'est-ce que X", "explique X", "X c'est quoi"
+    var GLOSSARY_TERMS = ['cib', 'loose', 'mint', 'sealed', 'pal', 'ntsc-u', 'ntsc-j', 'ntsc-b',
+      'metascore', 'delta', 'confidence', 'rarete', 'completude', 'region', 'wishlist',
+      'etagere', 'cockpit', 'spread', 'edition', 'tier', 'snapshot', 'codec', 'qualification', 'pipeline']
+    for (var i = 0; i < GLOSSARY_TERMS.length; i++) {
+      if (lower.indexOf(GLOSSARY_TERMS[i]) !== -1) {
+        // Fetch the glossary synchronously if already loaded
+        try {
+          var g = window.RDXGlossary._cache
+          if (g && g[GLOSSARY_TERMS[i]]) {
+            return g[GLOSSARY_TERMS[i]].long
+          }
+        } catch (_) {}
+      }
+    }
+    return null
+  }
+
   // Lore anti-repetition (sessionStorage)
   function getLoreSaid() {
     try { return JSON.parse(sessionStorage.getItem('rdx-lore-said') || '[]') } catch (_) { return [] }
@@ -593,11 +615,28 @@
 
         return contextPromise.then(function (contextData) {
           var generated = null
-          try {
-            // Try template/assemble/markov cascade via BAZGen.generate()
-            generated = gen.generate(parsed.intent, contextData || {})
-          } catch (e) {
-            generated = null
+
+          // PRIORITY 1: Check KB for factual answers (FAQ, glossary terms)
+          if (window.BAZKB && window.BAZKB.ready) {
+            var kbResult = window.BAZKB.search(userText)
+            if (kbResult && kbResult.answer && kbResult.score >= 5) {
+              generated = kbResult.answer
+            }
+          }
+
+          // PRIORITY 2: Check glossary if text contains a known term
+          if (!generated && window.RDXGlossary) {
+            var glossaryCheck = checkGlossaryTerm(userText)
+            if (glossaryCheck) generated = glossaryCheck
+          }
+
+          // PRIORITY 3: BAZGen generate (corpus/templates/assembler/markov)
+          if (!generated) {
+            try {
+              generated = gen.generate(parsed.intent, contextData || {})
+            } catch (e) {
+              generated = null
+            }
           }
 
           // Substitute game name placeholder if present
