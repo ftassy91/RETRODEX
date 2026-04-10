@@ -131,7 +131,7 @@ function parseEbayPlainText(text) {
 
     // Detect title-like lines (long enough, not a filter/category/nav line)
     if (line.length > 15 && !line.startsWith('$') && !line.startsWith('Under') && !line.startsWith('Over')
-      && !/^(Buy It Now|Auction|Free shipping|Brand New|Pre-Owned|Returns|Sold Items|results for|Skip to|Shop on eBay|Save this search|Condition|Price|Buying Format|All Filters)/i.test(line)
+      && !/^(Buy It Now|Auction|Free shipping|Brand New|Pre-Owned|Returns|Sold Items|results for|Skip to|Shop on eBay|Save this search|Condition|Price|Buying Format|All Filters|Hi! Sign in|Sign in|My eBay|Daily Deals|Help|Watchlist|Notifications|Sell|Categories)/i.test(line)
       && !/^\d+ results/.test(line) && !/^Related:/.test(line)
       && !current) {
       current = { title: line, priceOriginal: null, soldAt: null, conditionHint: null, itemId: null, url: null }
