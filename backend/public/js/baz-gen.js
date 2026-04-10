@@ -730,11 +730,11 @@
      * Load corpus from a JSON file and build the Markov chain.
      * The chain is built once and cached for the session lifetime.
      *
-     * @param {string} [corpusUrl='/data/baz-corpus.json'] - URL to the corpus JSON
+     * @param {string} [corpusUrl='/assets/baz/baz-corpus.json'] - URL to the corpus JSON
      * @returns {Promise<boolean>} Resolves true when chain is built, false on error
      */
     init: function (corpusUrl) {
-      corpusUrl = corpusUrl || '/data/baz-corpus.json'
+      corpusUrl = corpusUrl || '/assets/baz/baz-corpus.json'
 
       // Already loaded
       if (_corpusLoaded && _markovChain) {
