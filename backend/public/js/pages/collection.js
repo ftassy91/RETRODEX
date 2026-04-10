@@ -279,7 +279,7 @@
 
   function hasPriceTrustForAction(game) {
     const tier = String(game?.priceConfidenceTier || '').toLowerCase()
-    return tier === 'high' || tier === 'medium'
+    return tier === 'high' || tier === 'medium' || tier === 'low'
   }
 
   function getReviewCue(item) {

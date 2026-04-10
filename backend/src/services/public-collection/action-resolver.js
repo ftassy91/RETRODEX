@@ -31,10 +31,12 @@ function resolveCollectionAction(item, game) {
   const hasCibPrice = cibPrice > 0
   const cibDelta = hasLoosePrice && hasCibPrice ? cibPrice - loosePrice : null
 
-  // Trust guard: sell, upgrade, buy cues require validated price data.
-  // low/unknown confidence means insufficient sold signal — do not fire action cues.
+  // Trust guard: sell, upgrade, buy cues require some price confidence.
+  // unknown confidence means no sold signal at all — do not fire action cues.
+  // low confidence fires with a warning (single-source reference data).
   const priceTier = String(game.priceConfidenceTier || '').toLowerCase()
-  const hasTrustForAction = priceTier === 'high' || priceTier === 'medium'
+  const hasTrustForAction = priceTier === 'high' || priceTier === 'medium' || priceTier === 'low'
+  const trustSuffix = priceTier === 'low' ? ' (confiance indicative)' : ''
 
   // for_sale items always show sell regardless of price trust (user-declared intent)
   if (owned && forSale) {
@@ -49,7 +51,7 @@ function resolveCollectionAction(item, game) {
   if (hasTrustForAction && owned && pricePaid > 0 && hasLoosePrice && loosePrice >= pricePaid * SELL_MIN_GAIN_RATIO) {
     return {
       action: 'sell',
-      note: 'La valeur loose depasse le prix paye de 50% ou plus.',
+      note: 'La valeur loose depasse le prix paye de 50% ou plus.' + trustSuffix,
       tone: 'is-hot',
     }
   }
@@ -58,7 +60,7 @@ function resolveCollectionAction(item, game) {
   if (hasTrustForAction && owned && condition === 'Loose' && cibDelta != null && cibDelta <= UPGRADE_MAX_DELTA) {
     return {
       action: 'upgrade',
-      note: 'Le delta Loose -> CIB reste sous $20.',
+      note: 'Le delta Loose -> CIB reste sous $20.' + trustSuffix,
       tone: 'is-primary',
     }
   }
@@ -67,7 +69,7 @@ function resolveCollectionAction(item, game) {
   if (hasTrustForAction && wanted && hasLoosePrice && loosePrice <= wishlistMax) {
     return {
       action: 'buy',
-      note: `Wishlist active et valeur loose sous $${wishlistMax}.`,
+      note: `Wishlist active et valeur loose sous $${wishlistMax}.` + trustSuffix,
       tone: 'is-hot',
     }
   }

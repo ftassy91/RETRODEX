@@ -23,7 +23,7 @@ The encyclopedia, market layer, and collection layer are coordinated parts of on
 | frontend/ | Legacy / non-canonical | do not modify unless explicitly requested |
 
 **Data authority:**
-- Supabase = production truth (13+ tables with real data)
+- Supabase = production truth (26 tables — see SUPABASE_AUDIT.md)
 - SQLite/Sequelize = local dev fallback only
 - DATABASE_URL port 5432 blocked locally - use NODE_ENV=production + Supabase JS client over HTTPS
 
@@ -90,7 +90,8 @@ Every plan or report must include:
 ### Key Context
 - 507 games cataloged across 16 consoles (1983-2005)
 - 579 price entries in market data
-- 13 undocumented Supabase tables discovered during audit
+- 26 tables audited and documented (SUPABASE_AUDIT.md, 2026-04-09)
+- Migration tracking: ad-hoc only — Supabase CLI list_migrations returns empty
 - games.js refactored from 614-line monolith into 4 focused modules
 - Boot screen: CRT Bezier curve overlay with 3-phase animation
 - Hub concept: 3 floppy disk modules (RETRODEX green, RETROMARKET red, COLLECTION blue)
@@ -108,4 +109,4 @@ On session start, run through:
 3. What is the active lot?
 4. What is the next command?
 
-Available project commands: /session-start, /operator-audit, /product-audit, /plan-lot, /execute-lot, /verify-lot
+Available project commands: /session-start, /status, /operator-audit, /product-audit, /plan-lot, /execute-lot, /verify-lot
