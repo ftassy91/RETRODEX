@@ -503,24 +503,38 @@
   function ask(userText) {
     return loadGameTitles().then(function (titles) {
       var parsed = parseIntent(userText, titles)
+      var gen = window.BAZGen
 
-      // If intent is data-driven and BAZGen is available, fetch context first
-      if (isDataDriven(parsed.intent) && window.BAZGen) {
-        return fetchContext(parsed).then(function (contextData) {
+      // ALL intents try BAZGen first (corpus + templates + Markov)
+      // Data-driven intents also fetch live context for templates
+      if (gen) {
+        var contextPromise = isDataDriven(parsed.intent)
+          ? fetchContext(parsed)
+          : Promise.resolve(null)
+
+        return contextPromise.then(function (contextData) {
           var generated = null
           try {
-            generated = window.BAZGen.generate(parsed.intent, contextData || {})
+            // Try template/assemble/markov cascade via BAZGen.generate()
+            generated = gen.generate(parsed.intent, contextData || {})
           } catch (e) {
             generated = null
           }
 
-          // Substitute game name in generated text if needed
+          // Substitute game name placeholder if present
           if (generated && parsed.params.game) {
+            generated = generated.replace(/__TITLE__/g, parsed.params.game.title)
             generated = generated.replace(/__GAME__/g, parsed.params.game.title)
+            generated = generated.replace(/__CONSOLE__/g, parsed.params.game.console_name || '')
           }
 
-          var response = buildResponse(parsed, generated)
+          // For unknown intent: prefer Markov over static
+          if (!generated && parsed.intent === 'unknown') {
+            try { generated = gen.markov() } catch (e) { generated = null }
+          }
 
+          // Final fallback: static reply from RESPONSES catalog
+          var response = buildResponse(parsed, generated)
           if (window.BAZ && window.BAZ.say) {
             window.BAZ.say(response.text, response.duration, response.state === 'content')
           }
@@ -528,24 +542,7 @@
         })
       }
 
-      // For unknown intent: try Markov first, then static fallback
-      if (parsed.intent === 'unknown' && window.BAZGen) {
-        var markovText = null
-        try {
-          markovText = window.BAZGen.markov()
-        } catch (e) {
-          markovText = null
-        }
-        if (markovText) {
-          var response = buildResponse(parsed, markovText)
-          if (window.BAZ && window.BAZ.say) {
-            window.BAZ.say(response.text, response.duration, response.state === 'content')
-          }
-          return Promise.resolve(response)
-        }
-      }
-
-      // Default path: static pickReply (no BAZGen or non-data intent)
+      // No BAZGen available: static pickReply only
       var response = buildResponse(parsed, null)
 
       if (window.BAZ && window.BAZ.say) {

@@ -632,6 +632,7 @@
 
   var _corpusLoaded = false
   var _corpusLoading = null
+  var _corpusCategories = null  // The raw corpus object {category: [strings]}
 
   // ════════════════════════════════════════════════════════════
   //  PUBLIC API
@@ -696,6 +697,37 @@
       intent = intent || 'general'
       data = data || {}
 
+      // 0. Try corpus category match first (404+ curated replies)
+      if (_corpusCategories) {
+        // Map engine intents to corpus categories
+        var CORPUS_MAP = {
+          greeting: 'greeting', farewell: 'farewell', help: 'help_tips',
+          about_baz: 'about_baz', identity: 'about_baz',
+          price_query: 'price_reaction', rare_query: 'rarity_comment',
+          game_comment: 'game_comment', collection_query: 'collection_comment',
+          stats_query: 'collection_comment', console_query: 'console_remarks',
+          condition_query: 'condition_remarks', region_info: 'region_remarks',
+          market_trend: 'trend_remarks', sell_advice: 'sell_signal',
+          buy_advice: 'buy_signal', recommendation: 'general_wisdom',
+          thanks: 'general_wisdom', capabilities: 'help_tips',
+          what_is_retrodex: 'help_tips', how_to_use: 'help_tips',
+          whats_new: 'general_wisdom', data_quality: 'confidence_comment',
+          import_info: 'help_tips', completeness: 'collection_comment',
+          unknown: 'unknown_input',
+          easter_konami: 'easter_egg_reactions', easter_clippy: 'easter_egg_reactions',
+          easter_kojima: 'easter_egg_reactions', easter_nintendo: 'easter_egg_reactions',
+          easter_snake: 'easter_egg_reactions', easter_42: 'easter_egg_reactions',
+        }
+        var corpusKey = CORPUS_MAP[intent]
+        if (corpusKey && _corpusCategories[corpusKey] && _corpusCategories[corpusKey].length) {
+          var corpusReply = _pick(_corpusCategories[corpusKey])
+          if (corpusReply) {
+            // Resolve any placeholders with data
+            return resolveTemplate(corpusReply, data)
+          }
+        }
+      }
+
       // 1. Try template if we have enough data
       if (_hasEnoughData(data) && TEMPLATES[intent]) {
         var tpl = _pick(TEMPLATES[intent])
@@ -754,11 +786,27 @@
           return response.json()
         })
         .then(function (corpus) {
-          if (!Array.isArray(corpus) || corpus.length === 0) {
+          // Corpus can be an object {category: [strings]} or an array of strings
+          var allStrings
+          if (Array.isArray(corpus)) {
+            allStrings = corpus
+          } else if (corpus && typeof corpus === 'object') {
+            _corpusCategories = corpus
+            allStrings = []
+            Object.keys(corpus).forEach(function (key) {
+              if (Array.isArray(corpus[key])) {
+                allStrings = allStrings.concat(corpus[key])
+              }
+            })
+          } else {
             throw new Error('Corpus is empty or invalid')
           }
 
-          var markov = buildMarkov(corpus)
+          if (!allStrings.length) {
+            throw new Error('Corpus has no strings')
+          }
+
+          var markov = buildMarkov(allStrings)
           _markovChain = markov.chain
           _startTokens = markov.starts
           _corpusLoaded = true
