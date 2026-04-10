@@ -1,6 +1,7 @@
 'use strict'
 
 const catawiki = require('./catawiki')
+const ebay = require('./ebay')
 const heritage = require('./heritage')
 const jsonFixture = require('./json-fixture')
 const mercariJp = require('./mercari-jp')
@@ -11,6 +12,7 @@ const yahooAuctionsJp = require('./yahoo-auctions-jp')
 
 const CONNECTORS = new Map([
   [yahooAuctionsJp.name, yahooAuctionsJp],
+  [ebay.name, ebay],
   [mercariUs.name, mercariUs],
   [rakuma.name, rakuma],
   [shopgoodwill.name, shopgoodwill],

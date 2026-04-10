@@ -106,8 +106,8 @@ const MARKET_SOURCE_REGISTRY = Object.freeze({
     complianceStatus: 'approved',
     isActive: true,
     isPrimarySoldTruth: true,
-    publishEligible: false,
-    notes: 'Legacy real-sale source retained for compatibility and historical backfill only.',
+    publishEligible: true,
+    notes: 'Live sold-listings connector via Jina proxy. US market bucket.',
   }),
   pricecharting_calibration: Object.freeze({
     slug: 'pricecharting_calibration',
