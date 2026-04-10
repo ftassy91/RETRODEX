@@ -487,5 +487,21 @@
   saveSession()
   setTimeout(autoTrigger, 500)
 
+  // Irregular animation scheduler for BAZ idle
+  // Reads CSS classes on the SVG to toggle between states
+  function scheduleBazIdle() {
+    var bazEl = codec.querySelector('.codec-avatar-baz img')
+      || codec.querySelector('.codec-avatar-baz svg')
+    if (!bazEl || !bazEl.contentDocument) return
+
+    var doc = bazEl.contentDocument
+    var idle = doc.querySelector('.baz-idle')
+    var talk = doc.querySelector('.baz-talk')
+    var content = doc.querySelector('.baz-content')
+
+    // The SVG internal @keyframes handles the irregular blink
+    // No additional JS scheduling needed for idle — CSS does it
+  }
+
   window.BAZ = { say: say, close: closeCodec, input: codecInput }
 })()

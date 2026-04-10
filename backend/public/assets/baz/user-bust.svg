@@ -3,35 +3,39 @@
     .user-idle { display: block; }
     .user-listen { display: none; }
 
-    /* IDLE: subtle breathing micro-movement */
-    @keyframes idle-breathe {
-      0%   { transform: translate(0, 0); }
-      38%  { transform: translate(0, 0); }
-      40%  { transform: translate(1px, 0); }
-      42%  { transform: translate(0, 0); }
-      100% { transform: translate(0, 0); }
-    }
+    /* IDLE: static, no animation */
     .user-idle .idle-head {
-      animation: idle-breathe 5.1s ease-in-out infinite;
+      /* no animation — still and mysterious */
     }
 
-    /* LISTEN: attentive lean + nod */
-    @keyframes listen-cycle {
+    /* LISTEN: head shifts 1px toward BAZ (left), glasses reflection brightens */
+    @keyframes listen-tilt {
       0%   { transform: translate(0, 0); }
-      16%  { transform: translate(0, 0); }
-      25%  { transform: translate(-1px, 0); }
-      42%  { transform: translate(0, 0); }
-      50%  { transform: translate(0, 1px); }
-      58%  { transform: translate(0, 0); }
+      15%  { transform: translate(0, 0); }
+      30%  { transform: translate(-1px, 0); }
+      70%  { transform: translate(-1px, 0); }
+      85%  { transform: translate(0, 0); }
       100% { transform: translate(0, 0); }
     }
+    @keyframes listen-glint {
+      0%   { opacity: 1; }
+      15%  { opacity: 1; }
+      30%  { opacity: 0.6; }
+      50%  { opacity: 1; }
+      70%  { opacity: 0.8; }
+      85%  { opacity: 1; }
+      100% { opacity: 1; }
+    }
     .user-listen .listen-head {
-      animation: listen-cycle 6s ease-in-out infinite;
+      animation: listen-tilt 6s ease-in-out infinite;
+    }
+    .user-listen .glint-bright {
+      animation: listen-glint 6s ease-in-out infinite;
     }
   </style>
 
-  <!-- Black background -->
-  <rect width="64" height="64" fill="#000000"/>
+  <!-- Background: darkest green, blends with dark theme -->
+  <rect width="64" height="64" fill="#0F380F"/>
 
   <!-- ============================================ -->
   <!-- IDLE STATE                                   -->
@@ -39,236 +43,183 @@
   <g class="user-idle">
 
     <!-- Shoulders + torso (static) -->
-    <!-- Slight lean forward: bust offset 1px left -->
+    <!-- Body mass in #306230, outline/shadow in #0F380F -->
     <!-- Right shoulder 1px lower (relaxed asymmetry) -->
+    <!-- Leaning forward 1px left -->
 
-    <!-- Collar detail y38-40 (hoodie neckline) -->
-    <rect x="22" y="38" width="2"  height="2" fill="#001122"/>
-    <rect x="24" y="38" width="10" height="2" fill="#001122"/>
-    <rect x="34" y="38" width="2"  height="2" fill="#001122"/>
-    <!-- Yellow pin on collar (connects to BAZ's yellow label) -->
-    <rect x="25" y="39" width="1"  height="1" fill="#FFCC00"/>
+    <!-- Neck-to-shoulder transition y36-38 -->
+    <rect x="22" y="36" width="2"  height="2" fill="#306230"/>
+    <rect x="24" y="36" width="12" height="2" fill="#306230"/>
+    <rect x="36" y="36" width="2"  height="2" fill="#0F380F"/>
+
+    <!-- Collar/neckline y38-40 -->
+    <rect x="20" y="38" width="2"  height="2" fill="#0F380F"/>
+    <rect x="22" y="38" width="14" height="2" fill="#306230"/>
+    <rect x="36" y="38" width="2"  height="2" fill="#0F380F"/>
 
     <!-- Shoulder row 1 (y40) -->
-    <rect x="19" y="40" width="2"  height="2" fill="#00AACC"/>
-    <rect x="21" y="40" width="10" height="2" fill="#006688"/>
-    <rect x="31" y="40" width="10" height="2" fill="#006688"/>
-    <rect x="41" y="40" width="2"  height="2" fill="#003355"/>
-    <!-- Right shoulder drops 1 row (relaxed asymmetry) -->
-    <rect x="43" y="42" width="2"  height="2" fill="#003355"/>
+    <rect x="16" y="40" width="2"  height="2" fill="#0F380F"/>
+    <rect x="18" y="40" width="12" height="2" fill="#306230"/>
+    <rect x="30" y="40" width="12" height="2" fill="#306230"/>
+    <rect x="42" y="40" width="2"  height="2" fill="#0F380F"/>
+    <!-- Right shoulder drops 1 row -->
+    <rect x="44" y="42" width="2"  height="2" fill="#0F380F"/>
 
     <!-- Shoulder row 2 (y42) -->
-    <rect x="15" y="42" width="2"  height="2" fill="#00AACC"/>
-    <rect x="17" y="42" width="12" height="2" fill="#006688"/>
-    <rect x="29" y="42" width="12" height="2" fill="#006688"/>
-    <rect x="41" y="42" width="2"  height="2" fill="#003355"/>
+    <rect x="12" y="42" width="2"  height="2" fill="#0F380F"/>
+    <rect x="14" y="42" width="14" height="2" fill="#306230"/>
+    <rect x="28" y="42" width="14" height="2" fill="#306230"/>
+    <rect x="42" y="42" width="2"  height="2" fill="#0F380F"/>
 
     <!-- Shoulder row 3 (y44) -->
-    <rect x="11" y="44" width="2"  height="2" fill="#00AACC"/>
-    <rect x="13" y="44" width="14" height="2" fill="#006688"/>
-    <rect x="27" y="44" width="14" height="2" fill="#006688"/>
-    <rect x="41" y="44" width="4"  height="2" fill="#003355"/>
-    <rect x="45" y="44" width="2"  height="2" fill="#001122"/>
+    <rect x="8"  y="44" width="2"  height="2" fill="#0F380F"/>
+    <rect x="10" y="44" width="16" height="2" fill="#306230"/>
+    <rect x="26" y="44" width="16" height="2" fill="#306230"/>
+    <rect x="42" y="44" width="4"  height="2" fill="#0F380F"/>
 
     <!-- Shoulder row 4 (y46) -->
-    <rect x="7"  y="46" width="2"  height="2" fill="#001122"/>
-    <rect x="9"  y="46" width="2"  height="2" fill="#00AACC"/>
-    <rect x="11" y="46" width="16" height="2" fill="#006688"/>
-    <rect x="27" y="46" width="16" height="2" fill="#006688"/>
-    <rect x="43" y="46" width="4"  height="2" fill="#003355"/>
-    <rect x="47" y="46" width="2"  height="2" fill="#001122"/>
+    <rect x="6"  y="46" width="2"  height="2" fill="#0F380F"/>
+    <rect x="8"  y="46" width="18" height="2" fill="#306230"/>
+    <rect x="26" y="46" width="18" height="2" fill="#306230"/>
+    <rect x="44" y="46" width="4"  height="2" fill="#0F380F"/>
 
     <!-- Shoulder row 5 (y48) -->
-    <rect x="5"  y="48" width="2"  height="2" fill="#001122"/>
-    <rect x="7"  y="48" width="2"  height="2" fill="#00AACC"/>
-    <rect x="9"  y="48" width="18" height="2" fill="#006688"/>
-    <rect x="27" y="48" width="18" height="2" fill="#006688"/>
-    <rect x="45" y="48" width="4"  height="2" fill="#003355"/>
-    <rect x="49" y="48" width="2"  height="2" fill="#001122"/>
+    <rect x="4"  y="48" width="2"  height="2" fill="#0F380F"/>
+    <rect x="6"  y="48" width="20" height="2" fill="#306230"/>
+    <rect x="26" y="48" width="20" height="2" fill="#306230"/>
+    <rect x="46" y="48" width="4"  height="2" fill="#0F380F"/>
 
     <!-- Torso fill (y50-64) -->
-    <rect x="3"  y="50" width="2"  height="2" fill="#001122"/>
-    <rect x="5"  y="50" width="2"  height="2" fill="#00AACC"/>
-    <rect x="7"  y="50" width="20" height="2" fill="#006688"/>
-    <rect x="27" y="50" width="20" height="2" fill="#006688"/>
-    <rect x="47" y="50" width="4"  height="2" fill="#003355"/>
-    <rect x="51" y="50" width="2"  height="2" fill="#001122"/>
+    <rect x="2"  y="50" width="2"  height="2" fill="#0F380F"/>
+    <rect x="4"  y="50" width="22" height="2" fill="#306230"/>
+    <rect x="26" y="50" width="22" height="2" fill="#306230"/>
+    <rect x="48" y="50" width="4"  height="2" fill="#0F380F"/>
 
-    <rect x="1"  y="52" width="2"  height="2" fill="#001122"/>
-    <rect x="3"  y="52" width="2"  height="2" fill="#00AACC"/>
-    <rect x="5"  y="52" width="22" height="2" fill="#006688"/>
-    <rect x="27" y="52" width="22" height="2" fill="#006688"/>
-    <rect x="49" y="52" width="4"  height="2" fill="#003355"/>
-    <rect x="53" y="52" width="2"  height="2" fill="#001122"/>
+    <rect x="0"  y="52" width="2"  height="2" fill="#0F380F"/>
+    <rect x="2"  y="52" width="24" height="2" fill="#306230"/>
+    <rect x="26" y="52" width="24" height="2" fill="#306230"/>
+    <rect x="50" y="52" width="4"  height="2" fill="#0F380F"/>
 
-    <rect x="0"  y="54" width="2"  height="2" fill="#001122"/>
-    <rect x="2"  y="54" width="2"  height="2" fill="#00AACC"/>
-    <rect x="4"  y="54" width="23" height="10" fill="#006688"/>
-    <rect x="27" y="54" width="24" height="10" fill="#006688"/>
-    <rect x="51" y="54" width="4"  height="10" fill="#003355"/>
-    <rect x="55" y="54" width="2"  height="10" fill="#001122"/>
-    <rect x="0"  y="56" width="2"  height="8" fill="#001122"/>
-    <rect x="2"  y="56" width="2"  height="8" fill="#00AACC"/>
+    <rect x="0"  y="54" width="2"  height="10" fill="#0F380F"/>
+    <rect x="2"  y="54" width="24" height="10" fill="#306230"/>
+    <rect x="26" y="54" width="24" height="10" fill="#306230"/>
+    <rect x="50" y="54" width="4"  height="10" fill="#0F380F"/>
 
     <!-- Animated head group -->
     <g class="idle-head">
 
-      <!-- === HAIR TOP (slightly messy, asymmetric) === -->
-      <rect x="21" y="2"  width="18" height="2" fill="#001122"/>
-      <rect x="19" y="4"  width="2"  height="2" fill="#001122"/>
-      <rect x="21" y="4"  width="6"  height="2" fill="#006688"/>
-      <rect x="27" y="4"  width="6"  height="2" fill="#003355"/>
-      <rect x="33" y="4"  width="6"  height="2" fill="#006688"/>
-      <rect x="39" y="4"  width="2"  height="2" fill="#001122"/>
+      <!-- === HAIR TOP (short, slightly messy) === -->
+      <rect x="20" y="4"  width="20" height="2" fill="#0F380F"/>
+      <!-- Hair: 2-3px lighter suggestion at top -->
+      <rect x="24" y="4"  width="4"  height="2" fill="#306230"/>
+      <rect x="30" y="4"  width="2"  height="2" fill="#306230"/>
 
-      <!-- === HAIR STRAND on forehead (signature element, curved) === -->
-      <!-- 4px strand with gentle curve, not staircase -->
-      <rect x="24" y="6"  width="2"  height="1" fill="#006688"/>
-      <rect x="23" y="7"  width="2"  height="1" fill="#006688"/>
-      <rect x="22" y="8"  width="2"  height="1" fill="#006688"/>
-      <rect x="21" y="9"  width="2"  height="1" fill="#003355"/><!-- tip fades to shadow -->
+      <!-- === HEAD ROW y6: temples === -->
+      <rect x="18" y="6"  width="2"  height="2" fill="#0F380F"/>
+      <rect x="20" y="6"  width="18" height="2" fill="#306230"/>
+      <rect x="38" y="6"  width="2"  height="2" fill="#0F380F"/>
 
-      <!-- === HEAD ROW y6: wider at temples === -->
-      <rect x="17" y="6"  width="2"  height="2" fill="#001122"/>
-      <rect x="19" y="6"  width="4"  height="2" fill="#00AACC"/>
-      <rect x="25" y="6"  width="12" height="2" fill="#006688"/>
-      <rect x="37" y="6"  width="2"  height="2" fill="#003355"/>
-      <rect x="39" y="6"  width="2"  height="2" fill="#001122"/>
+      <!-- Hair strand falling on forehead (signature detail) -->
+      <rect x="23" y="6"  width="2"  height="2" fill="#0F380F"/>
+      <rect x="22" y="8"  width="2"  height="2" fill="#0F380F"/>
 
-      <!-- Head row y8: full width temples -->
-      <rect x="15" y="8"  width="2"  height="2" fill="#001122"/>
-      <rect x="17" y="8"  width="4"  height="2" fill="#00AACC"/>
-      <rect x="21" y="8"  width="16" height="2" fill="#006688"/>
-      <rect x="37" y="8"  width="2"  height="2" fill="#003355"/>
-      <rect x="39" y="8"  width="2"  height="2" fill="#001122"/>
+      <!-- Head row y8 -->
+      <rect x="16" y="8"  width="2"  height="2" fill="#0F380F"/>
+      <rect x="18" y="8"  width="20" height="2" fill="#306230"/>
+      <rect x="38" y="8"  width="2"  height="2" fill="#0F380F"/>
 
       <!-- Head row y10: widest -->
-      <rect x="15" y="10" width="2"  height="2" fill="#001122"/>
-      <rect x="17" y="10" width="2"  height="2" fill="#00AACC"/>
-      <rect x="19" y="10" width="18" height="2" fill="#006688"/>
-      <rect x="37" y="10" width="2"  height="2" fill="#003355"/>
-      <rect x="39" y="10" width="2"  height="2" fill="#001122"/>
+      <rect x="14" y="10" width="2"  height="2" fill="#0F380F"/>
+      <rect x="16" y="10" width="22" height="2" fill="#306230"/>
+      <rect x="38" y="10" width="2"  height="2" fill="#0F380F"/>
 
-      <!-- Head row y12: widest -->
-      <rect x="15" y="12" width="2"  height="2" fill="#001122"/>
-      <rect x="17" y="12" width="2"  height="2" fill="#00AACC"/>
-      <rect x="19" y="12" width="18" height="2" fill="#006688"/>
-      <rect x="37" y="12" width="2"  height="2" fill="#003355"/>
-      <rect x="39" y="12" width="2"  height="2" fill="#001122"/>
+      <!-- Head row y12 -->
+      <rect x="14" y="12" width="2"  height="2" fill="#0F380F"/>
+      <rect x="16" y="12" width="22" height="2" fill="#306230"/>
+      <rect x="38" y="12" width="2"  height="2" fill="#0F380F"/>
 
-      <!-- === GLASSES (y14-y18) - rectangular lenses with eye glints === -->
-      <!-- Frame top edge (1px dark line) -->
-      <rect x="18" y="13" width="8"  height="1" fill="#001122"/>
-      <rect x="28" y="13" width="8"  height="1" fill="#001122"/>
+      <!-- === GLASSES (y14-y20) === -->
+      <!-- The ONLY visible feature — rectangular, catching light -->
 
-      <!-- Left lens: 7x3 frame in #00AACC outline -->
-      <!-- Top frame row -->
-      <rect x="18" y="14" width="7"  height="1" fill="#00AACC"/>
-      <!-- Middle row: frame sides + dark interior + GLINT -->
-      <rect x="18" y="15" width="1"  height="1" fill="#00AACC"/><!-- left frame -->
-      <rect x="19" y="15" width="5"  height="1" fill="#003355"/><!-- lens interior (dark) -->
-      <rect x="21" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- LEFT EYE GLINT (centered) -->
-      <rect x="22" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- LEFT EYE GLINT pixel 2 -->
-      <rect x="24" y="15" width="1"  height="1" fill="#00AACC"/><!-- right frame -->
-      <!-- Bottom row -->
-      <rect x="18" y="16" width="7"  height="1" fill="#00AACC"/>
+      <!-- Frame top edge -->
+      <rect x="17" y="14" width="10" height="1" fill="#0F380F"/>
+      <rect x="29" y="14" width="10" height="1" fill="#0F380F"/>
 
-      <!-- Bridge between lenses (2px) -->
-      <rect x="25" y="15" width="2"  height="1" fill="#006688"/>
-      <rect x="25" y="14" width="2"  height="1" fill="#006688"/>
-      <rect x="25" y="16" width="2"  height="1" fill="#006688"/>
+      <!-- Left lens: 8x4 outline in #306230, interior dark -->
+      <rect x="17" y="15" width="10" height="1" fill="#306230"/>
+      <rect x="17" y="16" width="1"  height="2" fill="#306230"/>
+      <rect x="18" y="16" width="8"  height="2" fill="#0F380F"/>
+      <rect x="26" y="16" width="1"  height="2" fill="#306230"/>
+      <rect x="17" y="18" width="10" height="1" fill="#306230"/>
 
-      <!-- Right lens: 7x3 frame in #00AACC outline -->
-      <!-- Top frame row -->
-      <rect x="27" y="14" width="7"  height="1" fill="#00AACC"/>
-      <!-- Middle row: frame sides + dark interior + GLINT -->
-      <rect x="27" y="15" width="1"  height="1" fill="#00AACC"/><!-- left frame -->
-      <rect x="28" y="15" width="5"  height="1" fill="#003355"/><!-- lens interior (dark) -->
-      <rect x="30" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- RIGHT EYE GLINT (centered) -->
-      <rect x="31" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- RIGHT EYE GLINT pixel 2 -->
-      <rect x="33" y="15" width="1"  height="1" fill="#00AACC"/><!-- right frame -->
-      <!-- Bottom row -->
-      <rect x="27" y="16" width="7"  height="1" fill="#00AACC"/>
+      <!-- Left lens GREEN REFLECTION: 3px of #8BAC0F on left side -->
+      <rect x="19" y="16" width="2"  height="1" fill="#8BAC0F"/>
+      <rect x="18" y="17" width="1"  height="1" fill="#8BAC0F"/>
 
-      <!-- Temple arms extending to head edge -->
-      <rect x="16" y="14" width="2"  height="3" fill="#00AACC"/><!-- left arm -->
-      <rect x="34" y="14" width="4"  height="3" fill="#003355"/><!-- right arm (shadow) -->
+      <!-- Bridge between lenses (2px gap) -->
+      <rect x="27" y="15" width="2"  height="4" fill="#306230"/>
+
+      <!-- Right lens: 8x4 outline in #306230, interior dark -->
+      <rect x="29" y="15" width="10" height="1" fill="#306230"/>
+      <rect x="29" y="16" width="1"  height="2" fill="#306230"/>
+      <rect x="30" y="16" width="8"  height="2" fill="#0F380F"/>
+      <rect x="38" y="16" width="1"  height="2" fill="#306230"/>
+      <rect x="29" y="18" width="10" height="1" fill="#306230"/>
+
+      <!-- Right lens: NO reflection (shadow side) -->
+
+      <!-- Temple arms to head edge -->
+      <rect x="14" y="15" width="3"  height="4" fill="#306230"/>
+      <rect x="39" y="15" width="2"  height="4" fill="#0F380F"/>
 
       <!-- Head contour at glasses level -->
-      <rect x="15" y="14" width="1"  height="3" fill="#001122"/>
-      <rect x="38" y="14" width="2"  height="3" fill="#001122"/>
+      <rect x="13" y="14" width="1"  height="6" fill="#0F380F"/>
+      <rect x="40" y="14" width="2"  height="6" fill="#0F380F"/>
 
       <!-- === HEAD ROWS below glasses === -->
-      <!-- y17-18: below glasses, uniform face -->
-      <rect x="15" y="17" width="2"  height="1" fill="#001122"/>
-      <rect x="17" y="17" width="2"  height="1" fill="#00AACC"/>
-      <rect x="19" y="17" width="18" height="1" fill="#006688"/>
-      <rect x="37" y="17" width="2"  height="1" fill="#003355"/>
-      <rect x="39" y="17" width="2"  height="1" fill="#001122"/>
+      <!-- y19-20: face below glasses (all dark, no features visible) -->
+      <rect x="14" y="19" width="2"  height="2" fill="#0F380F"/>
+      <rect x="16" y="19" width="22" height="2" fill="#306230"/>
+      <rect x="38" y="19" width="2"  height="2" fill="#0F380F"/>
 
-      <rect x="15" y="18" width="2"  height="2" fill="#001122"/>
-      <rect x="17" y="18" width="2"  height="2" fill="#00AACC"/>
-      <rect x="19" y="18" width="18" height="2" fill="#006688"/>
-      <rect x="37" y="18" width="2"  height="2" fill="#003355"/>
-      <rect x="39" y="18" width="2"  height="2" fill="#001122"/>
+      <!-- y21-22: narrowing -->
+      <rect x="15" y="21" width="2"  height="2" fill="#0F380F"/>
+      <rect x="17" y="21" width="20" height="2" fill="#306230"/>
+      <rect x="37" y="21" width="2"  height="2" fill="#0F380F"/>
 
-      <!-- Head row y20: starting to narrow -->
-      <rect x="16" y="20" width="2"  height="2" fill="#001122"/>
-      <rect x="18" y="20" width="2"  height="2" fill="#00AACC"/>
-      <rect x="20" y="20" width="16" height="2" fill="#006688"/>
-      <rect x="36" y="20" width="2"  height="2" fill="#003355"/>
-      <rect x="38" y="20" width="2"  height="2" fill="#001122"/>
+      <!-- y23-24: jaw taper -->
+      <rect x="17" y="23" width="2"  height="2" fill="#0F380F"/>
+      <rect x="19" y="23" width="16" height="2" fill="#306230"/>
+      <rect x="35" y="23" width="2"  height="2" fill="#0F380F"/>
 
-      <!-- Head row y22: narrowing jaw -->
-      <rect x="17" y="22" width="2"  height="2" fill="#001122"/>
-      <rect x="19" y="22" width="2"  height="2" fill="#00AACC"/>
-      <rect x="21" y="22" width="14" height="2" fill="#006688"/>
-      <rect x="35" y="22" width="2"  height="2" fill="#003355"/>
-      <rect x="37" y="22" width="2"  height="2" fill="#001122"/>
+      <!-- NO mouth visible — too dark to see -->
 
-      <!-- === MOUTH LINE (y24) - subtle shadow, NOT a drawn line === -->
-      <!-- Mouth: 5px flat neutral line in face shadow color -->
-      <rect x="25" y="24" width="5"  height="1" fill="#003355"/>
+      <!-- y25-26: chin taper -->
+      <rect x="19" y="25" width="2"  height="2" fill="#0F380F"/>
+      <rect x="21" y="25" width="12" height="2" fill="#306230"/>
+      <rect x="33" y="25" width="2"  height="2" fill="#0F380F"/>
 
-      <!-- Head row y24: jaw narrowing -->
-      <rect x="19" y="24" width="2"  height="2" fill="#001122"/>
-      <rect x="21" y="24" width="2"  height="2" fill="#00AACC"/>
-      <rect x="23" y="24" width="2"  height="2" fill="#006688"/>
-      <!-- mouth occupies x25-29 y24 (drawn above) -->
-      <rect x="25" y="25" width="5"  height="1" fill="#006688"/><!-- face below mouth -->
-      <rect x="30" y="24" width="3"  height="2" fill="#006688"/>
-      <rect x="33" y="24" width="2"  height="2" fill="#003355"/>
-      <rect x="35" y="24" width="2"  height="2" fill="#001122"/>
+      <!-- y27-28: chin -->
+      <rect x="21" y="27" width="2"  height="2" fill="#0F380F"/>
+      <rect x="23" y="27" width="8"  height="2" fill="#306230"/>
+      <rect x="31" y="27" width="2"  height="2" fill="#0F380F"/>
 
-      <!-- Chin taper y26 -->
-      <rect x="21" y="26" width="2"  height="2" fill="#001122"/>
-      <rect x="23" y="26" width="2"  height="2" fill="#00AACC"/>
-      <rect x="25" y="26" width="6"  height="2" fill="#006688"/>
-      <rect x="31" y="26" width="2"  height="2" fill="#003355"/>
-      <rect x="33" y="26" width="2"  height="2" fill="#001122"/>
+      <!-- y29-30: chin point -->
+      <rect x="23" y="29" width="2"  height="2" fill="#0F380F"/>
+      <rect x="25" y="29" width="6"  height="2" fill="#306230"/>
+      <rect x="31" y="29" width="2"  height="2" fill="#0F380F"/>
 
-      <!-- Chin point y28 -->
-      <rect x="23" y="28" width="2"  height="2" fill="#001122"/>
-      <rect x="25" y="28" width="6"  height="2" fill="#006688"/>
-      <rect x="31" y="28" width="2"  height="2" fill="#001122"/>
+      <!-- Neck y31-35 -->
+      <rect x="25" y="31" width="2"  height="2" fill="#306230"/>
+      <rect x="27" y="31" width="4"  height="2" fill="#306230"/>
+      <rect x="31" y="31" width="2"  height="2" fill="#0F380F"/>
 
-      <!-- Neck y30-y34 -->
-      <rect x="25" y="30" width="2"  height="2" fill="#00AACC"/>
-      <rect x="27" y="30" width="4"  height="2" fill="#006688"/>
-      <rect x="31" y="30" width="2"  height="2" fill="#003355"/>
+      <rect x="24" y="33" width="2"  height="2" fill="#306230"/>
+      <rect x="26" y="33" width="6"  height="2" fill="#306230"/>
+      <rect x="32" y="33" width="2"  height="2" fill="#0F380F"/>
 
-      <rect x="24" y="32" width="2"  height="2" fill="#00AACC"/>
-      <rect x="26" y="32" width="6"  height="2" fill="#006688"/>
-      <rect x="32" y="32" width="2"  height="2" fill="#003355"/>
-
-      <!-- Neck to shoulder transition y34-y38 -->
-      <rect x="23" y="34" width="2"  height="2" fill="#00AACC"/>
-      <rect x="25" y="34" width="8"  height="2" fill="#006688"/>
-      <rect x="33" y="34" width="2"  height="2" fill="#003355"/>
-
-      <rect x="21" y="36" width="2"  height="2" fill="#00AACC"/>
-      <rect x="23" y="36" width="12" height="2" fill="#006688"/>
-      <rect x="35" y="36" width="2"  height="2" fill="#003355"/>
+      <rect x="22" y="35" width="14" height="2" fill="#306230"/>
+      <rect x="36" y="35" width="2"  height="2" fill="#0F380F"/>
 
     </g><!-- end idle-head -->
   </g><!-- end user-idle -->
@@ -278,210 +229,157 @@
   <!-- ============================================ -->
   <g class="user-listen">
 
-    <!-- Collar detail y38-40 (hoodie neckline) -->
-    <rect x="22" y="38" width="2"  height="2" fill="#001122"/>
-    <rect x="24" y="38" width="10" height="2" fill="#001122"/>
-    <rect x="34" y="38" width="2"  height="2" fill="#001122"/>
-    <!-- Yellow pin -->
-    <rect x="25" y="39" width="1"  height="1" fill="#FFCC00"/>
+    <!-- Shoulders + torso (static, identical to idle) -->
+    <rect x="22" y="36" width="2"  height="2" fill="#306230"/>
+    <rect x="24" y="36" width="12" height="2" fill="#306230"/>
+    <rect x="36" y="36" width="2"  height="2" fill="#0F380F"/>
 
-    <!-- Shoulders (static, same as idle) -->
-    <rect x="19" y="40" width="2"  height="2" fill="#00AACC"/>
-    <rect x="21" y="40" width="10" height="2" fill="#006688"/>
-    <rect x="31" y="40" width="10" height="2" fill="#006688"/>
-    <rect x="41" y="40" width="2"  height="2" fill="#003355"/>
-    <rect x="43" y="42" width="2"  height="2" fill="#003355"/>
+    <rect x="20" y="38" width="2"  height="2" fill="#0F380F"/>
+    <rect x="22" y="38" width="14" height="2" fill="#306230"/>
+    <rect x="36" y="38" width="2"  height="2" fill="#0F380F"/>
 
-    <rect x="15" y="42" width="2"  height="2" fill="#00AACC"/>
-    <rect x="17" y="42" width="12" height="2" fill="#006688"/>
-    <rect x="29" y="42" width="12" height="2" fill="#006688"/>
-    <rect x="41" y="42" width="2"  height="2" fill="#003355"/>
+    <rect x="16" y="40" width="2"  height="2" fill="#0F380F"/>
+    <rect x="18" y="40" width="12" height="2" fill="#306230"/>
+    <rect x="30" y="40" width="12" height="2" fill="#306230"/>
+    <rect x="42" y="40" width="2"  height="2" fill="#0F380F"/>
+    <rect x="44" y="42" width="2"  height="2" fill="#0F380F"/>
 
-    <rect x="11" y="44" width="2"  height="2" fill="#00AACC"/>
-    <rect x="13" y="44" width="14" height="2" fill="#006688"/>
-    <rect x="27" y="44" width="14" height="2" fill="#006688"/>
-    <rect x="41" y="44" width="4"  height="2" fill="#003355"/>
-    <rect x="45" y="44" width="2"  height="2" fill="#001122"/>
+    <rect x="12" y="42" width="2"  height="2" fill="#0F380F"/>
+    <rect x="14" y="42" width="14" height="2" fill="#306230"/>
+    <rect x="28" y="42" width="14" height="2" fill="#306230"/>
+    <rect x="42" y="42" width="2"  height="2" fill="#0F380F"/>
 
-    <rect x="7"  y="46" width="2"  height="2" fill="#001122"/>
-    <rect x="9"  y="46" width="2"  height="2" fill="#00AACC"/>
-    <rect x="11" y="46" width="16" height="2" fill="#006688"/>
-    <rect x="27" y="46" width="16" height="2" fill="#006688"/>
-    <rect x="43" y="46" width="4"  height="2" fill="#003355"/>
-    <rect x="47" y="46" width="2"  height="2" fill="#001122"/>
+    <rect x="8"  y="44" width="2"  height="2" fill="#0F380F"/>
+    <rect x="10" y="44" width="16" height="2" fill="#306230"/>
+    <rect x="26" y="44" width="16" height="2" fill="#306230"/>
+    <rect x="42" y="44" width="4"  height="2" fill="#0F380F"/>
 
-    <rect x="5"  y="48" width="2"  height="2" fill="#001122"/>
-    <rect x="7"  y="48" width="2"  height="2" fill="#00AACC"/>
-    <rect x="9"  y="48" width="18" height="2" fill="#006688"/>
-    <rect x="27" y="48" width="18" height="2" fill="#006688"/>
-    <rect x="45" y="48" width="4"  height="2" fill="#003355"/>
-    <rect x="49" y="48" width="2"  height="2" fill="#001122"/>
+    <rect x="6"  y="46" width="2"  height="2" fill="#0F380F"/>
+    <rect x="8"  y="46" width="18" height="2" fill="#306230"/>
+    <rect x="26" y="46" width="18" height="2" fill="#306230"/>
+    <rect x="44" y="46" width="4"  height="2" fill="#0F380F"/>
 
-    <rect x="3"  y="50" width="2"  height="2" fill="#001122"/>
-    <rect x="5"  y="50" width="2"  height="2" fill="#00AACC"/>
-    <rect x="7"  y="50" width="20" height="2" fill="#006688"/>
-    <rect x="27" y="50" width="20" height="2" fill="#006688"/>
-    <rect x="47" y="50" width="4"  height="2" fill="#003355"/>
-    <rect x="51" y="50" width="2"  height="2" fill="#001122"/>
+    <rect x="4"  y="48" width="2"  height="2" fill="#0F380F"/>
+    <rect x="6"  y="48" width="20" height="2" fill="#306230"/>
+    <rect x="26" y="48" width="20" height="2" fill="#306230"/>
+    <rect x="46" y="48" width="4"  height="2" fill="#0F380F"/>
 
-    <rect x="1"  y="52" width="2"  height="2" fill="#001122"/>
-    <rect x="3"  y="52" width="2"  height="2" fill="#00AACC"/>
-    <rect x="5"  y="52" width="22" height="2" fill="#006688"/>
-    <rect x="27" y="52" width="22" height="2" fill="#006688"/>
-    <rect x="49" y="52" width="4"  height="2" fill="#003355"/>
-    <rect x="53" y="52" width="2"  height="2" fill="#001122"/>
+    <rect x="2"  y="50" width="2"  height="2" fill="#0F380F"/>
+    <rect x="4"  y="50" width="22" height="2" fill="#306230"/>
+    <rect x="26" y="50" width="22" height="2" fill="#306230"/>
+    <rect x="48" y="50" width="4"  height="2" fill="#0F380F"/>
 
-    <rect x="0"  y="54" width="2"  height="2" fill="#001122"/>
-    <rect x="2"  y="54" width="2"  height="2" fill="#00AACC"/>
-    <rect x="4"  y="54" width="23" height="10" fill="#006688"/>
-    <rect x="27" y="54" width="24" height="10" fill="#006688"/>
-    <rect x="51" y="54" width="4"  height="10" fill="#003355"/>
-    <rect x="55" y="54" width="2"  height="10" fill="#001122"/>
-    <rect x="0"  y="56" width="2"  height="8" fill="#001122"/>
-    <rect x="2"  y="56" width="2"  height="8" fill="#00AACC"/>
+    <rect x="0"  y="52" width="2"  height="2" fill="#0F380F"/>
+    <rect x="2"  y="52" width="24" height="2" fill="#306230"/>
+    <rect x="26" y="52" width="24" height="2" fill="#306230"/>
+    <rect x="50" y="52" width="4"  height="2" fill="#0F380F"/>
+
+    <rect x="0"  y="54" width="2"  height="10" fill="#0F380F"/>
+    <rect x="2"  y="54" width="24" height="10" fill="#306230"/>
+    <rect x="26" y="54" width="24" height="10" fill="#306230"/>
+    <rect x="50" y="54" width="4"  height="10" fill="#0F380F"/>
 
     <!-- Animated head group for listen -->
     <g class="listen-head">
 
       <!-- === HAIR TOP === -->
-      <rect x="21" y="2"  width="18" height="2" fill="#001122"/>
-      <rect x="19" y="4"  width="2"  height="2" fill="#001122"/>
-      <rect x="21" y="4"  width="6"  height="2" fill="#006688"/>
-      <rect x="27" y="4"  width="6"  height="2" fill="#003355"/>
-      <rect x="33" y="4"  width="6"  height="2" fill="#006688"/>
-      <rect x="39" y="4"  width="2"  height="2" fill="#001122"/>
-
-      <!-- === HAIR STRAND (same curved shape) === -->
-      <rect x="24" y="6"  width="2"  height="1" fill="#006688"/>
-      <rect x="23" y="7"  width="2"  height="1" fill="#006688"/>
-      <rect x="22" y="8"  width="2"  height="1" fill="#006688"/>
-      <rect x="21" y="9"  width="2"  height="1" fill="#003355"/>
+      <rect x="20" y="4"  width="20" height="2" fill="#0F380F"/>
+      <rect x="24" y="4"  width="4"  height="2" fill="#306230"/>
+      <rect x="30" y="4"  width="2"  height="2" fill="#306230"/>
 
       <!-- === HEAD ROWS === -->
-      <rect x="17" y="6"  width="2"  height="2" fill="#001122"/>
-      <rect x="19" y="6"  width="4"  height="2" fill="#00AACC"/>
-      <rect x="25" y="6"  width="12" height="2" fill="#006688"/>
-      <rect x="37" y="6"  width="2"  height="2" fill="#003355"/>
-      <rect x="39" y="6"  width="2"  height="2" fill="#001122"/>
+      <rect x="18" y="6"  width="2"  height="2" fill="#0F380F"/>
+      <rect x="20" y="6"  width="18" height="2" fill="#306230"/>
+      <rect x="38" y="6"  width="2"  height="2" fill="#0F380F"/>
 
-      <rect x="15" y="8"  width="2"  height="2" fill="#001122"/>
-      <rect x="17" y="8"  width="4"  height="2" fill="#00AACC"/>
-      <rect x="21" y="8"  width="16" height="2" fill="#006688"/>
-      <rect x="37" y="8"  width="2"  height="2" fill="#003355"/>
-      <rect x="39" y="8"  width="2"  height="2" fill="#001122"/>
+      <!-- Hair strand -->
+      <rect x="23" y="6"  width="2"  height="2" fill="#0F380F"/>
+      <rect x="22" y="8"  width="2"  height="2" fill="#0F380F"/>
 
-      <rect x="15" y="10" width="2"  height="2" fill="#001122"/>
-      <rect x="17" y="10" width="2"  height="2" fill="#00AACC"/>
-      <rect x="19" y="10" width="18" height="2" fill="#006688"/>
-      <rect x="37" y="10" width="2"  height="2" fill="#003355"/>
-      <rect x="39" y="10" width="2"  height="2" fill="#001122"/>
+      <rect x="16" y="8"  width="2"  height="2" fill="#0F380F"/>
+      <rect x="18" y="8"  width="20" height="2" fill="#306230"/>
+      <rect x="38" y="8"  width="2"  height="2" fill="#0F380F"/>
 
-      <rect x="15" y="12" width="2"  height="2" fill="#001122"/>
-      <rect x="17" y="12" width="2"  height="2" fill="#00AACC"/>
-      <rect x="19" y="12" width="18" height="2" fill="#006688"/>
-      <rect x="37" y="12" width="2"  height="2" fill="#003355"/>
-      <rect x="39" y="12" width="2"  height="2" fill="#001122"/>
+      <rect x="14" y="10" width="2"  height="2" fill="#0F380F"/>
+      <rect x="16" y="10" width="22" height="2" fill="#306230"/>
+      <rect x="38" y="10" width="2"  height="2" fill="#0F380F"/>
 
-      <!-- === GLASSES with GLINTS shifted 1px LEFT (looking at BAZ) === -->
-      <rect x="18" y="13" width="8"  height="1" fill="#001122"/>
-      <rect x="28" y="13" width="8"  height="1" fill="#001122"/>
+      <rect x="14" y="12" width="2"  height="2" fill="#0F380F"/>
+      <rect x="16" y="12" width="22" height="2" fill="#306230"/>
+      <rect x="38" y="12" width="2"  height="2" fill="#0F380F"/>
+
+      <!-- === GLASSES with BRIGHTER reflection (listening attentively) === -->
+      <rect x="17" y="14" width="10" height="1" fill="#0F380F"/>
+      <rect x="29" y="14" width="10" height="1" fill="#0F380F"/>
 
       <!-- Left lens -->
-      <rect x="18" y="14" width="7"  height="1" fill="#00AACC"/>
-      <rect x="18" y="15" width="1"  height="1" fill="#00AACC"/>
-      <rect x="19" y="15" width="5"  height="1" fill="#003355"/>
-      <rect x="20" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- GLINT shifted 1px left -->
-      <rect x="21" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- GLINT pixel 2 -->
-      <rect x="24" y="15" width="1"  height="1" fill="#00AACC"/>
-      <rect x="18" y="16" width="7"  height="1" fill="#00AACC"/>
+      <rect x="17" y="15" width="10" height="1" fill="#306230"/>
+      <rect x="17" y="16" width="1"  height="2" fill="#306230"/>
+      <rect x="18" y="16" width="8"  height="2" fill="#0F380F"/>
+      <rect x="26" y="16" width="1"  height="2" fill="#306230"/>
+      <rect x="17" y="18" width="10" height="1" fill="#306230"/>
+
+      <!-- Left lens reflection: BRIGHTER when listening (add E0F8D0 glint) -->
+      <g class="glint-bright">
+        <rect x="19" y="16" width="2"  height="1" fill="#8BAC0F"/>
+        <rect x="18" y="17" width="1"  height="1" fill="#8BAC0F"/>
+        <rect x="19" y="17" width="1"  height="1" fill="#E0F8D0"/>
+      </g>
 
       <!-- Bridge -->
-      <rect x="25" y="14" width="2"  height="1" fill="#006688"/>
-      <rect x="25" y="15" width="2"  height="1" fill="#006688"/>
-      <rect x="25" y="16" width="2"  height="1" fill="#006688"/>
+      <rect x="27" y="15" width="2"  height="4" fill="#306230"/>
 
       <!-- Right lens -->
-      <rect x="27" y="14" width="7"  height="1" fill="#00AACC"/>
-      <rect x="27" y="15" width="1"  height="1" fill="#00AACC"/>
-      <rect x="28" y="15" width="5"  height="1" fill="#003355"/>
-      <rect x="29" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- GLINT shifted 1px left -->
-      <rect x="30" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- GLINT pixel 2 -->
-      <rect x="33" y="15" width="1"  height="1" fill="#00AACC"/>
-      <rect x="27" y="16" width="7"  height="1" fill="#00AACC"/>
+      <rect x="29" y="15" width="10" height="1" fill="#306230"/>
+      <rect x="29" y="16" width="1"  height="2" fill="#306230"/>
+      <rect x="30" y="16" width="8"  height="2" fill="#0F380F"/>
+      <rect x="38" y="16" width="1"  height="2" fill="#306230"/>
+      <rect x="29" y="18" width="10" height="1" fill="#306230"/>
 
       <!-- Temple arms -->
-      <rect x="16" y="14" width="2"  height="3" fill="#00AACC"/>
-      <rect x="34" y="14" width="4"  height="3" fill="#003355"/>
+      <rect x="14" y="15" width="3"  height="4" fill="#306230"/>
+      <rect x="39" y="15" width="2"  height="4" fill="#0F380F"/>
 
       <!-- Head contour at glasses level -->
-      <rect x="15" y="14" width="1"  height="3" fill="#001122"/>
-      <rect x="38" y="14" width="2"  height="3" fill="#001122"/>
+      <rect x="13" y="14" width="1"  height="6" fill="#0F380F"/>
+      <rect x="40" y="14" width="2"  height="6" fill="#0F380F"/>
 
       <!-- === HEAD ROWS below glasses === -->
-      <rect x="15" y="17" width="2"  height="1" fill="#001122"/>
-      <rect x="17" y="17" width="2"  height="1" fill="#00AACC"/>
-      <rect x="19" y="17" width="18" height="1" fill="#006688"/>
-      <rect x="37" y="17" width="2"  height="1" fill="#003355"/>
-      <rect x="39" y="17" width="2"  height="1" fill="#001122"/>
+      <rect x="14" y="19" width="2"  height="2" fill="#0F380F"/>
+      <rect x="16" y="19" width="22" height="2" fill="#306230"/>
+      <rect x="38" y="19" width="2"  height="2" fill="#0F380F"/>
 
-      <rect x="15" y="18" width="2"  height="2" fill="#001122"/>
-      <rect x="17" y="18" width="2"  height="2" fill="#00AACC"/>
-      <rect x="19" y="18" width="18" height="2" fill="#006688"/>
-      <rect x="37" y="18" width="2"  height="2" fill="#003355"/>
-      <rect x="39" y="18" width="2"  height="2" fill="#001122"/>
+      <rect x="15" y="21" width="2"  height="2" fill="#0F380F"/>
+      <rect x="17" y="21" width="20" height="2" fill="#306230"/>
+      <rect x="37" y="21" width="2"  height="2" fill="#0F380F"/>
 
-      <rect x="16" y="20" width="2"  height="2" fill="#001122"/>
-      <rect x="18" y="20" width="2"  height="2" fill="#00AACC"/>
-      <rect x="20" y="20" width="16" height="2" fill="#006688"/>
-      <rect x="36" y="20" width="2"  height="2" fill="#003355"/>
-      <rect x="38" y="20" width="2"  height="2" fill="#001122"/>
+      <rect x="17" y="23" width="2"  height="2" fill="#0F380F"/>
+      <rect x="19" y="23" width="16" height="2" fill="#306230"/>
+      <rect x="35" y="23" width="2"  height="2" fill="#0F380F"/>
 
-      <rect x="17" y="22" width="2"  height="2" fill="#001122"/>
-      <rect x="19" y="22" width="2"  height="2" fill="#00AACC"/>
-      <rect x="21" y="22" width="14" height="2" fill="#006688"/>
-      <rect x="35" y="22" width="2"  height="2" fill="#003355"/>
-      <rect x="37" y="22" width="2"  height="2" fill="#001122"/>
+      <rect x="19" y="25" width="2"  height="2" fill="#0F380F"/>
+      <rect x="21" y="25" width="12" height="2" fill="#306230"/>
+      <rect x="33" y="25" width="2"  height="2" fill="#0F380F"/>
 
-      <!-- === MOUTH LINE (listen: flat, same as idle) === -->
-      <rect x="25" y="24" width="5"  height="1" fill="#003355"/>
+      <rect x="21" y="27" width="2"  height="2" fill="#0F380F"/>
+      <rect x="23" y="27" width="8"  height="2" fill="#306230"/>
+      <rect x="31" y="27" width="2"  height="2" fill="#0F380F"/>
 
-      <!-- Head row y24 -->
-      <rect x="19" y="24" width="2"  height="2" fill="#001122"/>
-      <rect x="21" y="24" width="2"  height="2" fill="#00AACC"/>
-      <rect x="23" y="24" width="2"  height="2" fill="#006688"/>
-      <rect x="25" y="25" width="5"  height="1" fill="#006688"/>
-      <rect x="30" y="24" width="3"  height="2" fill="#006688"/>
-      <rect x="33" y="24" width="2"  height="2" fill="#003355"/>
-      <rect x="35" y="24" width="2"  height="2" fill="#001122"/>
-
-      <!-- Chin taper y26 -->
-      <rect x="21" y="26" width="2"  height="2" fill="#001122"/>
-      <rect x="23" y="26" width="2"  height="2" fill="#00AACC"/>
-      <rect x="25" y="26" width="6"  height="2" fill="#006688"/>
-      <rect x="31" y="26" width="2"  height="2" fill="#003355"/>
-      <rect x="33" y="26" width="2"  height="2" fill="#001122"/>
-
-      <!-- Chin point y28 -->
-      <rect x="23" y="28" width="2"  height="2" fill="#001122"/>
-      <rect x="25" y="28" width="6"  height="2" fill="#006688"/>
-      <rect x="31" y="28" width="2"  height="2" fill="#001122"/>
+      <rect x="23" y="29" width="2"  height="2" fill="#0F380F"/>
+      <rect x="25" y="29" width="6"  height="2" fill="#306230"/>
+      <rect x="31" y="29" width="2"  height="2" fill="#0F380F"/>
 
       <!-- Neck -->
-      <rect x="25" y="30" width="2"  height="2" fill="#00AACC"/>
-      <rect x="27" y="30" width="4"  height="2" fill="#006688"/>
-      <rect x="31" y="30" width="2"  height="2" fill="#003355"/>
+      <rect x="25" y="31" width="2"  height="2" fill="#306230"/>
+      <rect x="27" y="31" width="4"  height="2" fill="#306230"/>
+      <rect x="31" y="31" width="2"  height="2" fill="#0F380F"/>
 
-      <rect x="24" y="32" width="2"  height="2" fill="#00AACC"/>
-      <rect x="26" y="32" width="6"  height="2" fill="#006688"/>
-      <rect x="32" y="32" width="2"  height="2" fill="#003355"/>
+      <rect x="24" y="33" width="2"  height="2" fill="#306230"/>
+      <rect x="26" y="33" width="6"  height="2" fill="#306230"/>
+      <rect x="32" y="33" width="2"  height="2" fill="#0F380F"/>
 
-      <rect x="23" y="34" width="2"  height="2" fill="#00AACC"/>
-      <rect x="25" y="34" width="8"  height="2" fill="#006688"/>
-      <rect x="33" y="34" width="2"  height="2" fill="#003355"/>
-
-      <rect x="21" y="36" width="2"  height="2" fill="#00AACC"/>
-      <rect x="23" y="36" width="12" height="2" fill="#006688"/>
-      <rect x="35" y="36" width="2"  height="2" fill="#003355"/>
+      <rect x="22" y="35" width="14" height="2" fill="#306230"/>
+      <rect x="36" y="35" width="2"  height="2" fill="#0F380F"/>
 
     </g><!-- end listen-head -->
   </g><!-- end user-listen -->

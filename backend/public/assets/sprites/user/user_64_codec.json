@@ -1,0 +1,7 @@
+{
+  "states": {
+    "still": { "description": "static silhouette" },
+    "listening": { "description": "micro head tilt toward BAZ" }
+  },
+  "listen_cycle_ms": 6000
+}

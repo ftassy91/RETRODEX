@@ -5,7 +5,22 @@
   .baz-talk { visibility: hidden; }
   .baz-content { visibility: hidden; }
 
-  /* === IRREGULAR BLINK (organic rhythm) === */
+  /* === ANTENNA PULSE (irregular rhythm) === */
+  @keyframes antennaPulse {
+    0%    { opacity: 1; }
+    39.1% { opacity: 1; }
+    39.5% { opacity: 0.3; }
+    46.5% { opacity: 0.3; }
+    47%   { opacity: 1; }
+    99.2% { opacity: 1; }
+    99.5% { opacity: 0.3; }
+    100%  { opacity: 0.3; }
+  }
+  .antenna-glow {
+    animation: antennaPulse 2.26s steps(1) infinite;
+  }
+
+  /* === IRREGULAR BLINK === */
   @keyframes blink {
     0%    { opacity: 1; }
     89%   { opacity: 1; }
@@ -26,172 +41,195 @@
     97.5% { opacity: 1; }
     100%  { opacity: 1; }
   }
-  .blink-left {
-    animation: blink 3.7s steps(1) infinite;
-  }
-  .blink-right {
-    animation: blink2 4.1s steps(1) infinite;
-  }
+  .blink-left  { animation: blink  3.7s steps(1) infinite; }
+  .blink-right { animation: blink2 4.1s steps(1) infinite; }
 
-  /* === DATA SCROLL DOT === */
-  @keyframes datascroll {
-    0%   { transform: translateX(0px); }
-    85%  { transform: translateX(44px); }
-    86%  { opacity: 0; }
-    100% { opacity: 0; }
-  }
-  .data-dot {
-    animation: datascroll 3s linear infinite;
-  }
+  /* === TALK ANTENNA (brighter, steady) === */
+  .antenna-talk { opacity: 1; }
 
-  /* === TALK MOUTH EQUALIZER BARS === */
-  @keyframes bar1 {
-    0%   { opacity: 1; }
-    25%  { opacity: 1; }
-    50%  { opacity: 1; }
-    75%  { opacity: 1; }
-    100% { opacity: 1; }
+  /* === CONTENT GLOW SPREAD === */
+  @keyframes glowSpread {
+    0%, 100% { opacity: 0.4; }
+    50%      { opacity: 0.8; }
   }
-  @keyframes eq1 {
-    0%, 100% { transform: scaleY(0.4); }
-    50% { transform: scaleY(1); }
-  }
-  @keyframes eq2 {
-    0%, 100% { transform: scaleY(1); }
-    50% { transform: scaleY(0.3); }
-  }
-  @keyframes eq3 {
-    0%, 100% { transform: scaleY(0.6); }
-    33% { transform: scaleY(1); }
-    66% { transform: scaleY(0.2); }
-  }
-  @keyframes eq4 {
-    0%, 100% { transform: scaleY(0.5); }
-    40% { transform: scaleY(0.2); }
-    70% { transform: scaleY(1); }
-  }
-
-  /* === CONTENT FLASH === */
-  @keyframes contentflash {
-    0%   { opacity: 0.5; }
-    8%   { opacity: 0.5; }
-    9%   { opacity: 0; }
-    100% { opacity: 0; }
-  }
-  .content-flash {
-    animation: contentflash 1.5s steps(1) 1;
+  .glow-spread {
+    animation: glowSpread 1.8s ease-in-out infinite;
   }
 </style>
-
-<!-- ===================== -->
-<!-- CASING TOP (y=0..4)   -->
-<!-- ===================== -->
-<rect x="0" y="0" width="64" height="5" fill="#003318"/>
-<!-- top highlight bevel -->
-<rect x="1" y="0" width="62" height="1" fill="#005C2D"/>
-<rect x="1" y="1" width="1" height="3" fill="#005C2D"/>
-<!-- brand badge 3x3 dithered yellow/green -->
-<rect x="3" y="1" width="1" height="1" fill="#FFCC00"/>
-<rect x="4" y="1" width="1" height="1" fill="#003318"/>
-<rect x="5" y="1" width="1" height="1" fill="#FFCC00"/>
-<rect x="3" y="2" width="1" height="1" fill="#003318"/>
-<rect x="4" y="2" width="1" height="1" fill="#FFCC00"/>
-<rect x="5" y="2" width="1" height="1" fill="#003318"/>
-<rect x="3" y="3" width="1" height="1" fill="#FFCC00"/>
-<rect x="4" y="3" width="1" height="1" fill="#003318"/>
-<rect x="5" y="3" width="1" height="1" fill="#FFCC00"/>
-
-<!-- ===================== -->
-<!-- SCREEN BEZEL          -->
-<!-- ===================== -->
-<rect x="2" y="5" width="60" height="1" fill="#005C2D"/>
-<rect x="2" y="5" width="1" height="49" fill="#005C2D"/>
-<rect x="61" y="5" width="1" height="49" fill="#005C2D"/>
-<rect x="2" y="53" width="60" height="1" fill="#005C2D"/>
-
-<!-- ===================== -->
-<!-- SCREEN BLACK (y=6..52) -->
-<!-- ===================== -->
-<rect x="3" y="6" width="58" height="47" fill="#000000"/>
-
-<!-- ===================== -->
-<!-- GHOST TEXT "141.80"    -->
-<!-- ===================== -->
-<!-- 1 -->
-<rect x="44" y="8" width="1" height="5" fill="#0A2A14"/>
-<!-- 4 -->
-<rect x="46" y="8" width="1" height="3" fill="#0A2A14"/>
-<rect x="47" y="8" width="1" height="5" fill="#0A2A14"/>
-<rect x="46" y="10" width="2" height="1" fill="#0A2A14"/>
-<!-- 1 -->
-<rect x="49" y="8" width="1" height="5" fill="#0A2A14"/>
-<!-- dot -->
-<rect x="51" y="12" width="1" height="1" fill="#0A2A14"/>
-<!-- 8 -->
-<rect x="53" y="8" width="3" height="1" fill="#0A2A14"/>
-<rect x="53" y="10" width="3" height="1" fill="#0A2A14"/>
-<rect x="53" y="12" width="3" height="1" fill="#0A2A14"/>
-<rect x="53" y="9" width="1" height="1" fill="#0A2A14"/>
-<rect x="55" y="9" width="1" height="1" fill="#0A2A14"/>
-<rect x="53" y="11" width="1" height="1" fill="#0A2A14"/>
-<rect x="55" y="11" width="1" height="1" fill="#0A2A14"/>
-<!-- 0 -->
-<rect x="57" y="8" width="3" height="1" fill="#0A2A14"/>
-<rect x="57" y="12" width="3" height="1" fill="#0A2A14"/>
-<rect x="57" y="9" width="1" height="3" fill="#0A2A14"/>
-<rect x="59" y="9" width="1" height="3" fill="#0A2A14"/>
-
 
 <!-- ======================================== -->
 <!-- === IDLE STATE ========================= -->
 <!-- ======================================== -->
 <g class="baz-idle">
 
-  <!-- LEFT EYE outline 6x5 at (18,17) -->
-  <rect x="18" y="17" width="6" height="1" fill="#00B858"/>
-  <rect x="18" y="21" width="6" height="1" fill="#00B858"/>
-  <rect x="18" y="17" width="1" height="5" fill="#00B858"/>
-  <rect x="23" y="17" width="1" height="5" fill="#00B858"/>
-  <!-- glow halo -->
-  <rect x="17" y="17" width="1" height="5" fill="#008542"/>
-  <rect x="24" y="17" width="1" height="5" fill="#008542"/>
-  <rect x="18" y="16" width="6" height="1" fill="#008542"/>
-  <rect x="18" y="22" width="6" height="1" fill="#008542"/>
-  <!-- eye interior -->
-  <rect x="19" y="18" width="4" height="3" fill="#000000"/>
-  <!-- pupil 2x2 centered + glow (blinks) -->
+  <!-- ANTENNA STALK (from top of head going up) -->
+  <!-- stalk: 2px wide, from y=4 to y=12 -->
+  <rect x="28" y="4" width="4" height="4" fill="#0F380F"/>
+  <rect x="30" y="8" width="4" height="4" fill="#0F380F"/>
+  <!-- antenna glow tip 4x4 -->
+  <g class="antenna-glow">
+    <rect x="28" y="0" width="4" height="4" fill="#E0F8D0"/>
+  </g>
+  <!-- antenna tip outline -->
+  <rect x="24" y="0" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="0" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="0" width="4" height="4" fill="#E0F8D0" class="antenna-glow"/>
+
+  <!-- BODY OUTLINE (round blob, ~40px diameter centered) -->
+  <!-- Top edge -->
+  <rect x="20" y="8" width="4" height="4" fill="#0F380F"/>
+  <rect x="24" y="8" width="16" height="4" fill="#0F380F"/>
+  <rect x="40" y="8" width="4" height="4" fill="#0F380F"/>
+
+  <!-- Row y=12 -->
+  <rect x="16" y="12" width="4" height="4" fill="#0F380F"/>
+  <rect x="20" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="12" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="12" width="4" height="4" fill="#0F380F"/>
+
+  <!-- Row y=16 -->
+  <rect x="12" y="16" width="4" height="4" fill="#0F380F"/>
+  <rect x="16" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="16" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="16" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="16" width="4" height="4" fill="#0F380F"/>
+
+  <!-- Row y=20 (eyes row top) -->
+  <rect x="8" y="20" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="16" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="20" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="20" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="20" width="4" height="4" fill="#0F380F"/>
+
+  <!-- LEFT EYE 8x8 at (16,24) -->
+  <!-- eye outline -->
+  <rect x="16" y="24" width="8" height="4" fill="#0F380F"/>
+  <rect x="16" y="28" width="8" height="4" fill="#0F380F"/>
+  <!-- pupil 4x4 dark -->
+  <rect x="20" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="20" y="28" width="4" height="4" fill="#0F380F"/>
+  <!-- highlight 2x2 -->
   <g class="blink-left">
-    <rect x="20" y="19" width="2" height="2" fill="#00E56D"/>
-    <rect x="19" y="19" width="1" height="2" fill="#008542"/>
-    <rect x="22" y="19" width="1" height="2" fill="#008542"/>
-    <rect x="20" y="18" width="2" height="1" fill="#008542"/>
+    <rect x="16" y="24" width="4" height="4" fill="#E0F8D0"/>
   </g>
 
-  <!-- RIGHT EYE outline 6x5 at (40,17) -->
-  <rect x="40" y="17" width="6" height="1" fill="#00B858"/>
-  <rect x="40" y="21" width="6" height="1" fill="#00B858"/>
-  <rect x="40" y="17" width="1" height="5" fill="#00B858"/>
-  <rect x="45" y="17" width="1" height="5" fill="#00B858"/>
-  <!-- glow halo -->
-  <rect x="39" y="17" width="1" height="5" fill="#008542"/>
-  <rect x="46" y="17" width="1" height="5" fill="#008542"/>
-  <rect x="40" y="16" width="6" height="1" fill="#008542"/>
-  <rect x="40" y="22" width="6" height="1" fill="#008542"/>
-  <!-- eye interior -->
-  <rect x="41" y="18" width="4" height="3" fill="#000000"/>
-  <!-- pupil 2x2 centered + glow (blinks) -->
+  <!-- RIGHT EYE 8x8 at (36,24) -->
+  <rect x="36" y="24" width="8" height="4" fill="#0F380F"/>
+  <rect x="36" y="28" width="8" height="4" fill="#0F380F"/>
+  <rect x="40" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="40" y="28" width="4" height="4" fill="#0F380F"/>
+  <!-- highlight 2x2 -->
   <g class="blink-right">
-    <rect x="42" y="19" width="2" height="2" fill="#00E56D"/>
-    <rect x="41" y="19" width="1" height="2" fill="#008542"/>
-    <rect x="44" y="19" width="1" height="2" fill="#008542"/>
-    <rect x="42" y="18" width="2" height="1" fill="#008542"/>
+    <rect x="36" y="24" width="4" height="4" fill="#E0F8D0"/>
   </g>
 
-  <!-- MOUTH: flat neutral line 8px wide -->
-  <rect x="28" y="30" width="8" height="1" fill="#008542"/>
+  <!-- Row y=24 (eyes row) body around eyes -->
+  <rect x="8" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="24" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="24" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="24" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="24" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="44" y="24" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="24" width="4" height="4" fill="#0F380F"/>
 
-  <!-- DATA SCROLL DOT -->
-  <rect x="5" y="50" width="2" height="1" fill="#005C2D" class="data-dot"/>
+  <!-- Row y=28 body around eyes -->
+  <rect x="8" y="28" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="44" y="28" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="28" width="4" height="4" fill="#0F380F"/>
+
+  <!-- Row y=32 (mouth row) -->
+  <rect x="8" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="32" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="16" y="32" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="32" width="4" height="4" fill="#8BAC0F"/>
+  <!-- SMILE: 8px wide curved -->
+  <rect x="24" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="28" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="32" y="32" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="32" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="32" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="32" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="32" width="4" height="4" fill="#0F380F"/>
+
+  <!-- Row y=36 (below smile) -->
+  <rect x="8" y="36" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="16" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="36" width="4" height="4" fill="#0F380F"/>
+  <rect x="32" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="36" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="36" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="36" width="4" height="4" fill="#0F380F"/>
+
+  <!-- Row y=40 -->
+  <rect x="12" y="40" width="4" height="4" fill="#0F380F"/>
+  <rect x="16" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="40" width="4" height="4" fill="#306230"/>
+  <rect x="40" y="40" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="40" width="4" height="4" fill="#0F380F"/>
+  <!-- chipped pixel (imperfection) on body edge -->
+  <rect x="12" y="40" width="4" height="4" fill="#306230"/>
+
+  <!-- Row y=44 (bottom curve + arms) -->
+  <rect x="16" y="44" width="4" height="4" fill="#0F380F"/>
+  <rect x="20" y="44" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="44" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="44" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="44" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="44" width="4" height="4" fill="#306230"/>
+  <rect x="40" y="44" width="4" height="4" fill="#0F380F"/>
+
+  <!-- Bottom edge -->
+  <rect x="20" y="48" width="4" height="4" fill="#0F380F"/>
+  <rect x="24" y="48" width="16" height="4" fill="#0F380F"/>
+  <rect x="40" y="48" width="4" height="4" fill="#0F380F"/>
+
+  <!-- LEFT ARM (stubby) -->
+  <rect x="4" y="28" width="4" height="4" fill="#0F380F"/>
+  <rect x="4" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="4" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="4" y="32" width="4" height="4" fill="#306230"/>
+
+  <!-- RIGHT ARM (stubby) -->
+  <rect x="52" y="28" width="4" height="4" fill="#0F380F"/>
+  <rect x="52" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="52" y="28" width="4" height="4" fill="#306230"/>
+  <rect x="52" y="32" width="4" height="4" fill="#306230"/>
+
+  <!-- LEFT FOOT -->
+  <rect x="20" y="52" width="4" height="4" fill="#0F380F"/>
+  <rect x="24" y="52" width="4" height="4" fill="#0F380F"/>
+
+  <!-- RIGHT FOOT -->
+  <rect x="36" y="52" width="4" height="4" fill="#0F380F"/>
+  <rect x="40" y="52" width="4" height="4" fill="#0F380F"/>
+
 </g>
 
 
@@ -200,53 +238,146 @@
 <!-- ======================================== -->
 <g class="baz-talk">
 
-  <!-- LEFT EYE (same structure, pupils shifted 1px right) -->
-  <rect x="18" y="17" width="6" height="1" fill="#00B858"/>
-  <rect x="18" y="21" width="6" height="1" fill="#00B858"/>
-  <rect x="18" y="17" width="1" height="5" fill="#00B858"/>
-  <rect x="23" y="17" width="1" height="5" fill="#00B858"/>
-  <rect x="17" y="17" width="1" height="5" fill="#008542"/>
-  <rect x="24" y="17" width="1" height="5" fill="#008542"/>
-  <rect x="18" y="16" width="6" height="1" fill="#008542"/>
-  <rect x="18" y="22" width="6" height="1" fill="#008542"/>
-  <rect x="19" y="18" width="4" height="3" fill="#000000"/>
-  <!-- pupil shifted 1px RIGHT (looking at user) -->
-  <rect x="21" y="19" width="2" height="2" fill="#00E56D"/>
-  <rect x="20" y="19" width="1" height="2" fill="#008542"/>
-  <rect x="23" y="19" width="1" height="2" fill="#008542"/>
-  <rect x="21" y="18" width="2" height="1" fill="#008542"/>
+  <!-- ANTENNA STALK -->
+  <rect x="28" y="4" width="4" height="4" fill="#0F380F"/>
+  <rect x="30" y="8" width="4" height="4" fill="#0F380F"/>
+  <!-- antenna glow tip BRIGHTER (no animation, full on) -->
+  <rect x="24" y="0" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="0" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="0" width="4" height="4" fill="#E0F8D0"/>
+  <!-- extra glow around tip -->
+  <rect x="24" y="0" width="4" height="4" fill="#E0F8D0"/>
+  <rect x="32" y="0" width="4" height="4" fill="#E0F8D0"/>
 
-  <!-- RIGHT EYE (pupils shifted 1px right) -->
-  <rect x="40" y="17" width="6" height="1" fill="#00B858"/>
-  <rect x="40" y="21" width="6" height="1" fill="#00B858"/>
-  <rect x="40" y="17" width="1" height="5" fill="#00B858"/>
-  <rect x="45" y="17" width="1" height="5" fill="#00B858"/>
-  <rect x="39" y="17" width="1" height="5" fill="#008542"/>
-  <rect x="46" y="17" width="1" height="5" fill="#008542"/>
-  <rect x="40" y="16" width="6" height="1" fill="#008542"/>
-  <rect x="40" y="22" width="6" height="1" fill="#008542"/>
-  <rect x="41" y="18" width="4" height="3" fill="#000000"/>
-  <!-- pupil shifted 1px RIGHT -->
-  <rect x="43" y="19" width="2" height="2" fill="#00E56D"/>
-  <rect x="42" y="19" width="1" height="2" fill="#008542"/>
-  <rect x="45" y="19" width="1" height="2" fill="#008542"/>
-  <rect x="43" y="18" width="2" height="1" fill="#008542"/>
+  <!-- BODY (same outline) -->
+  <rect x="20" y="8" width="4" height="4" fill="#0F380F"/>
+  <rect x="24" y="8" width="16" height="4" fill="#0F380F"/>
+  <rect x="40" y="8" width="4" height="4" fill="#0F380F"/>
 
-  <!-- MOUTH: 4 equalizer bars (speaking) -->
-  <!-- Bar 1 -->
-  <rect x="27" y="28" width="2" height="2" fill="#00B858"/>
-  <rect x="27" y="30" width="2" height="2" fill="#00E56D"/>
-  <!-- Bar 2 -->
-  <rect x="30" y="27" width="2" height="1" fill="#008542"/>
-  <rect x="30" y="28" width="2" height="2" fill="#00B858"/>
-  <rect x="30" y="30" width="2" height="2" fill="#00E56D"/>
-  <!-- Bar 3 -->
-  <rect x="33" y="29" width="2" height="1" fill="#00B858"/>
-  <rect x="33" y="30" width="2" height="2" fill="#00E56D"/>
-  <!-- Bar 4 -->
-  <rect x="36" y="27" width="2" height="2" fill="#008542"/>
-  <rect x="36" y="29" width="2" height="1" fill="#00B858"/>
-  <rect x="36" y="30" width="2" height="2" fill="#00E56D"/>
+  <rect x="16" y="12" width="4" height="4" fill="#0F380F"/>
+  <rect x="20" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="12" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="12" width="4" height="4" fill="#0F380F"/>
+
+  <rect x="12" y="16" width="4" height="4" fill="#0F380F"/>
+  <rect x="16" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="16" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="16" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="16" width="4" height="4" fill="#0F380F"/>
+
+  <rect x="8" y="20" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="16" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="20" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="20" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="20" width="4" height="4" fill="#0F380F"/>
+
+  <!-- EYES (same position) -->
+  <rect x="16" y="24" width="8" height="4" fill="#0F380F"/>
+  <rect x="16" y="28" width="8" height="4" fill="#0F380F"/>
+  <rect x="20" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="20" y="28" width="4" height="4" fill="#0F380F"/>
+  <rect x="16" y="24" width="4" height="4" fill="#E0F8D0"/>
+
+  <rect x="36" y="24" width="8" height="4" fill="#0F380F"/>
+  <rect x="36" y="28" width="8" height="4" fill="#0F380F"/>
+  <rect x="40" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="40" y="28" width="4" height="4" fill="#0F380F"/>
+  <rect x="36" y="24" width="4" height="4" fill="#E0F8D0"/>
+
+  <!-- Body around eyes -->
+  <rect x="8" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="24" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="24" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="24" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="24" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="44" y="24" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="24" width="4" height="4" fill="#0F380F"/>
+
+  <rect x="8" y="28" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="44" y="28" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="28" width="4" height="4" fill="#0F380F"/>
+
+  <!-- MOUTH: open oval (talk) — wider than smile -->
+  <rect x="8" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="32" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="16" y="32" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="32" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="28" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="32" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="36" y="32" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="32" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="32" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="32" width="4" height="4" fill="#0F380F"/>
+
+  <!-- mouth interior (dark open) -->
+  <rect x="24" y="36" width="4" height="4" fill="#0F380F"/>
+  <rect x="28" y="36" width="4" height="4" fill="#0F380F"/>
+  <rect x="32" y="36" width="4" height="4" fill="#0F380F"/>
+
+  <!-- Row y=36 body -->
+  <rect x="8" y="36" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="16" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="36" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="36" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="36" width="4" height="4" fill="#0F380F"/>
+
+  <!-- Lower body rows (same as idle) -->
+  <rect x="12" y="40" width="4" height="4" fill="#306230"/>
+  <rect x="16" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="40" width="4" height="4" fill="#306230"/>
+  <rect x="40" y="40" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="40" width="4" height="4" fill="#0F380F"/>
+
+  <rect x="16" y="44" width="4" height="4" fill="#0F380F"/>
+  <rect x="20" y="44" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="44" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="44" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="44" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="44" width="4" height="4" fill="#306230"/>
+  <rect x="40" y="44" width="4" height="4" fill="#0F380F"/>
+
+  <rect x="20" y="48" width="4" height="4" fill="#0F380F"/>
+  <rect x="24" y="48" width="16" height="4" fill="#0F380F"/>
+  <rect x="40" y="48" width="4" height="4" fill="#0F380F"/>
+
+  <!-- Arms -->
+  <rect x="4" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="4" y="32" width="4" height="4" fill="#306230"/>
+  <rect x="52" y="28" width="4" height="4" fill="#306230"/>
+  <rect x="52" y="32" width="4" height="4" fill="#306230"/>
+
+  <!-- Feet -->
+  <rect x="20" y="52" width="4" height="4" fill="#0F380F"/>
+  <rect x="24" y="52" width="4" height="4" fill="#0F380F"/>
+  <rect x="36" y="52" width="4" height="4" fill="#0F380F"/>
+  <rect x="40" y="52" width="4" height="4" fill="#0F380F"/>
 </g>
 
 
@@ -255,70 +386,150 @@
 <!-- ======================================== -->
 <g class="baz-content">
 
-  <!-- satisfaction flash overlay -->
-  <rect x="3" y="6" width="58" height="47" fill="#4DFF8C" opacity="0" class="content-flash"/>
+  <!-- ANTENNA with spreading glow -->
+  <rect x="28" y="4" width="4" height="4" fill="#0F380F"/>
+  <rect x="30" y="8" width="4" height="4" fill="#0F380F"/>
+  <rect x="28" y="0" width="4" height="4" fill="#E0F8D0"/>
+  <rect x="24" y="0" width="4" height="4" fill="#E0F8D0" class="glow-spread"/>
+  <rect x="32" y="0" width="4" height="4" fill="#E0F8D0" class="glow-spread"/>
+  <rect x="20" y="0" width="4" height="4" fill="#8BAC0F" class="glow-spread"/>
+  <rect x="36" y="0" width="4" height="4" fill="#8BAC0F" class="glow-spread"/>
 
-  <!-- LEFT EYE (pupils 3x3 enlarged) -->
-  <rect x="18" y="17" width="6" height="1" fill="#00B858"/>
-  <rect x="18" y="21" width="6" height="1" fill="#00B858"/>
-  <rect x="18" y="17" width="1" height="5" fill="#00B858"/>
-  <rect x="23" y="17" width="1" height="5" fill="#00B858"/>
-  <rect x="17" y="17" width="1" height="5" fill="#008542"/>
-  <rect x="24" y="17" width="1" height="5" fill="#008542"/>
-  <rect x="18" y="16" width="6" height="1" fill="#008542"/>
-  <rect x="18" y="22" width="6" height="1" fill="#008542"/>
-  <rect x="19" y="18" width="4" height="3" fill="#000000"/>
-  <!-- enlarged 3x3 pupil -->
-  <rect x="20" y="18" width="3" height="3" fill="#00E56D"/>
-  <rect x="19" y="18" width="1" height="3" fill="#008542"/>
-  <rect x="23" y="18" width="1" height="3" fill="#008542"/>
-  <rect x="20" y="17" width="3" height="1" fill="#008542"/>
+  <!-- BODY (same as idle) -->
+  <rect x="20" y="8" width="4" height="4" fill="#0F380F"/>
+  <rect x="24" y="8" width="16" height="4" fill="#0F380F"/>
+  <rect x="40" y="8" width="4" height="4" fill="#0F380F"/>
 
-  <!-- RIGHT EYE (pupils 3x3 enlarged) -->
-  <rect x="40" y="17" width="6" height="1" fill="#00B858"/>
-  <rect x="40" y="21" width="6" height="1" fill="#00B858"/>
-  <rect x="40" y="17" width="1" height="5" fill="#00B858"/>
-  <rect x="45" y="17" width="1" height="5" fill="#00B858"/>
-  <rect x="39" y="17" width="1" height="5" fill="#008542"/>
-  <rect x="46" y="17" width="1" height="5" fill="#008542"/>
-  <rect x="40" y="16" width="6" height="1" fill="#008542"/>
-  <rect x="40" y="22" width="6" height="1" fill="#008542"/>
-  <rect x="41" y="18" width="4" height="3" fill="#000000"/>
-  <!-- enlarged 3x3 pupil -->
-  <rect x="42" y="18" width="3" height="3" fill="#00E56D"/>
-  <rect x="41" y="18" width="1" height="3" fill="#008542"/>
-  <rect x="45" y="18" width="1" height="3" fill="#008542"/>
-  <rect x="42" y="17" width="3" height="1" fill="#008542"/>
+  <rect x="16" y="12" width="4" height="4" fill="#0F380F"/>
+  <rect x="20" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="12" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="12" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="12" width="4" height="4" fill="#0F380F"/>
 
-  <!-- MOUTH: upward curve (satisfied) -->
-  <rect x="27" y="32" width="1" height="1" fill="#4DFF8C"/>
-  <rect x="28" y="31" width="1" height="1" fill="#4DFF8C"/>
-  <rect x="29" y="30" width="6" height="1" fill="#4DFF8C"/>
-  <rect x="35" y="31" width="1" height="1" fill="#4DFF8C"/>
-  <rect x="36" y="32" width="1" height="1" fill="#4DFF8C"/>
-  <!-- glow under curve -->
-  <rect x="28" y="32" width="1" height="1" fill="#008542"/>
-  <rect x="29" y="31" width="6" height="1" fill="#008542"/>
-  <rect x="35" y="32" width="1" height="1" fill="#008542"/>
+  <rect x="12" y="16" width="4" height="4" fill="#0F380F"/>
+  <rect x="16" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="16" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="16" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="16" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="16" width="4" height="4" fill="#0F380F"/>
+
+  <rect x="8" y="20" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="16" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="20" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="20" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="20" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="20" width="4" height="4" fill="#0F380F"/>
+
+  <!-- HAPPY CRESCENT EYES (^_^) -->
+  <!-- Left eye: crescent shape -->
+  <rect x="8" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="24" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="16" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="20" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="24" y="24" width="4" height="4" fill="#8BAC0F"/>
+  <!-- crescent: dark on top, light curve below -->
+  <rect x="16" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <!-- the ^ shape -->
+  <rect x="16" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="20" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="18" y="24" width="4" height="4" fill="#E0F8D0"/>
+
+  <!-- Right eye: crescent shape -->
+  <rect x="28" y="24" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="24" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="40" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="44" y="24" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="36" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="28" width="4" height="4" fill="#306230"/>
+  <rect x="36" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="40" y="24" width="4" height="4" fill="#0F380F"/>
+  <rect x="38" y="24" width="4" height="4" fill="#E0F8D0"/>
+
+  <!-- body beside eyes -->
+  <rect x="8" y="28" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="44" y="28" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="28" width="4" height="4" fill="#0F380F"/>
+
+  <!-- BIG SMILE (wider than idle) -->
+  <rect x="8" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="32" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="16" y="32" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="24" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="28" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="32" y="32" width="4" height="4" fill="#0F380F"/>
+  <rect x="36" y="32" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="32" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="32" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="32" width="4" height="4" fill="#0F380F"/>
+  <!-- smile curve bottom -->
+  <rect x="24" y="36" width="4" height="4" fill="#0F380F"/>
+  <rect x="28" y="36" width="4" height="4" fill="#0F380F"/>
+
+  <!-- Row y=36 body -->
+  <rect x="8" y="36" width="4" height="4" fill="#0F380F"/>
+  <rect x="12" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="16" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="36" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="40" y="36" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="36" width="4" height="4" fill="#306230"/>
+  <rect x="48" y="36" width="4" height="4" fill="#0F380F"/>
+
+  <!-- Lower body -->
+  <rect x="12" y="40" width="4" height="4" fill="#306230"/>
+  <rect x="16" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="20" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="40" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="40" width="4" height="4" fill="#306230"/>
+  <rect x="40" y="40" width="4" height="4" fill="#306230"/>
+  <rect x="44" y="40" width="4" height="4" fill="#0F380F"/>
+
+  <rect x="16" y="44" width="4" height="4" fill="#0F380F"/>
+  <rect x="20" y="44" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="24" y="44" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="28" y="44" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="32" y="44" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="36" y="44" width="4" height="4" fill="#306230"/>
+  <rect x="40" y="44" width="4" height="4" fill="#0F380F"/>
+
+  <rect x="20" y="48" width="4" height="4" fill="#0F380F"/>
+  <rect x="24" y="48" width="16" height="4" fill="#0F380F"/>
+  <rect x="40" y="48" width="4" height="4" fill="#0F380F"/>
+
+  <!-- Arms -->
+  <rect x="4" y="28" width="4" height="4" fill="#8BAC0F"/>
+  <rect x="4" y="32" width="4" height="4" fill="#306230"/>
+  <rect x="52" y="28" width="4" height="4" fill="#306230"/>
+  <rect x="52" y="32" width="4" height="4" fill="#306230"/>
+
+  <!-- Feet -->
+  <rect x="20" y="52" width="4" height="4" fill="#0F380F"/>
+  <rect x="24" y="52" width="4" height="4" fill="#0F380F"/>
+  <rect x="36" y="52" width="4" height="4" fill="#0F380F"/>
+  <rect x="40" y="52" width="4" height="4" fill="#0F380F"/>
 </g>
-
-
-<!-- ===================== -->
-<!-- CASING BOTTOM (y=54..63) -->
-<!-- ===================== -->
-<rect x="0" y="54" width="64" height="10" fill="#003318"/>
-<!-- top edge highlight -->
-<rect x="2" y="54" width="60" height="1" fill="#005C2D"/>
-<!-- bottom bevel -->
-<rect x="1" y="63" width="62" height="1" fill="#001A0C"/>
-<!-- keyboard hints: 3 key shapes -->
-<rect x="18" y="57" width="5" height="3" fill="#001A0C"/>
-<rect x="19" y="57" width="3" height="1" fill="#005C2D"/>
-<rect x="25" y="57" width="14" height="3" fill="#001A0C"/>
-<rect x="26" y="57" width="12" height="1" fill="#005C2D"/>
-<rect x="41" y="57" width="5" height="3" fill="#001A0C"/>
-<rect x="42" y="57" width="3" height="1" fill="#005C2D"/>
-<!-- power LED -->
-<rect x="57" y="58" width="2" height="2" fill="#008542"/>
 
 </svg>

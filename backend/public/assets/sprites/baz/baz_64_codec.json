@@ -1,0 +1,13 @@
+{
+  "states": {
+    "rest": { "description": "idle, antenna pulses" },
+    "talk": { "description": "mouth open, antenna bright" },
+    "pleased": { "description": "happy eyes, big smile" }
+  },
+  "idle_rhythm": {
+    "sequences": [
+      { "weight": 0.7, "durations_ms": [900, 160, 1200, 600, 120, 1000] },
+      { "weight": 0.3, "durations_ms": [1200, 120, 2000] }
+    ]
+  }
+}

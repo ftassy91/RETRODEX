@@ -376,3 +376,11 @@ div[hidden] {
   color: var(--text-muted);
   opacity: 0.6;
 }
+
+/* Pixel-perfect sprite rendering */
+.baz-anecdote-sprite,
+.codec-avatar img,
+.codec-avatar svg {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+}

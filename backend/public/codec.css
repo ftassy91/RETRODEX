@@ -23,9 +23,9 @@
    ---------------------------------------------------------- */
 
 #rdx-codec {
-  /* Atmosphere: warm dark base (Blade Runner) */
-  --codec-bg: #0a0a0e;
-  --codec-bg-alpha: rgba(10, 10, 14, 0.96);
+  /* Atmosphere: Game Boy darkest green (was Blade Runner warm dark) */
+  --codec-bg: #0F380F;
+  --codec-bg-alpha: rgba(15, 56, 15, 0.96);
   --codec-surface: rgba(18, 18, 24, 0.6);
 
   /* Accent: inherited from zone theme, with opacity variants */
@@ -196,8 +196,8 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 
-  /* Muted border at 40% — no bright rectangles (Blade Runner: subdued chrome) */
-  border: 1px solid var(--codec-accent-40);
+  /* GB-palette border — #306230 mid-green (was accent-40) */
+  border: 1px solid #306230;
   border-bottom: none; /* Flush with viewport bottom */
   border-radius: var(--codec-border-radius) var(--codec-border-radius) 0 0;
 
@@ -228,7 +228,7 @@
   left: 0;
   right: 0;
   height: 24px;
-  background: linear-gradient(to bottom, transparent, rgba(10, 10, 14, 0.6));
+  background: linear-gradient(to bottom, transparent, rgba(15, 56, 15, 0.6));
   pointer-events: none;
   z-index: 1;
 }
@@ -842,6 +842,27 @@
 
 /* ----------------------------------------------------------
    20. ACCESSIBILITY — Respect reduced motion preference
+   ---------------------------------------------------------- */
+
+/* ----------------------------------------------------------
+   21. GAME BOY PALETTE ENFORCEMENT
+   ---------------------------------------------------------- */
+
+/* Game Boy palette enforcement */
+.codec-avatar img, .codec-avatar svg {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* BAZ portrait frame — warm green glow when talking */
+.codec-talk .codec-avatar-baz img,
+.codec-talk .codec-avatar-baz svg {
+  filter: drop-shadow(0 0 2px #8BAC0F);
+}
+
+/* ----------------------------------------------------------
+   22. ACCESSIBILITY — Respect reduced motion preference
    ---------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {

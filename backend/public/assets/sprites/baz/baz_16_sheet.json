@@ -1,0 +1,12 @@
+{
+  "animations": {
+    "idle_A": {
+      "sequence": ["idle_0", "idle_1", "idle_0", "idle_0", "idle_1", "idle_0"],
+      "durations_ms": [900, 160, 1200, 600, 120, 1000]
+    },
+    "idle_B": {
+      "sequence": ["idle_0", "idle_1", "idle_0"],
+      "durations_ms": [1200, 120, 2000]
+    }
+  }
+}
