@@ -326,6 +326,12 @@ div[hidden] {
   gap: 8px;
   margin-bottom: 6px;
 }
+.baz-anecdote-sprite {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
 .baz-anecdote-label {
   font-family: var(--font-display);
   font-size: 0.7rem;

@@ -1,10 +1,9 @@
 /* ============================================================
-   codec.js — BAZ Codec: contextual companion for RetroDex
-   Toggle with [C], auto-triggered on events, queue system
+   codec.js — BAZ-C Codec: MGS-style dialog with two portraits
+   BAZ (terminal) left, User (silhouette) right, text below
    ============================================================ */
 
 ;(function () {
-  // Reply catalog — 3-5 per context, BAZ voice guide compliant
   var REPLIES = {
     welcome: [
       'Bon retour. Ta collection t\'attendait.',
@@ -59,63 +58,34 @@
     ],
   }
 
-  // Styles
-  var style = document.createElement('style')
-  style.textContent = [
-    '#rdx-codec {',
-    '  position: fixed; bottom: 0; left: 0; right: 0;',
-    '  background: rgba(0,0,0,0.94);',
-    '  border-top: 1px solid var(--border, #1a2a1a);',
-    '  padding: 10px 16px;',
-    '  font-family: var(--font-ui, monospace);',
-    '  font-size: 12px;',
-    '  color: var(--text-muted, #4a8a54);',
-    '  display: flex; align-items: center; gap: 12px;',
-    '  z-index: 1000;',
-    '  transform: translateY(100%);',
-    '  transition: transform 150ms ease-out;',
-    '  pointer-events: none;',
-    '}',
-    '#rdx-codec.open {',
-    '  transform: translateY(0);',
-    '  pointer-events: auto;',
-    '}',
-    '#rdx-codec .codec-sprite {',
-    '  width: 28px; height: 28px;',
-    '  color: var(--accent, #00ff66);',
-    '  flex-shrink: 0;',
-    '  opacity: 0.9;',
-    '}',
-    '#rdx-codec .codec-body {',
-    '  flex: 1;',
-    '  min-height: 16px;',
-    '}',
-    '#rdx-codec .codec-key {',
-    '  color: var(--border, #1a2a1a);',
-    '  flex-shrink: 0;',
-    '  font-size: 9px;',
-    '}',
-  ].join('\n')
-  document.head.appendChild(style)
-
-  // DOM
+  // Build DOM — MGS Codec layout
   var codec = document.createElement('div')
   codec.id = 'rdx-codec'
   codec.innerHTML = [
-    '<img class="codec-sprite" src="/assets/baz/baz.svg" alt="BAZ" width="28" height="28" />',
-    '<span class="codec-body"></span>',
-    '<span class="codec-key">[C]</span>',
-  ].join('')
+    '<div class="codec-portraits">',
+    '  <div class="codec-avatar codec-avatar-baz">',
+    '    <img src="/assets/baz/baz.svg" alt="BAZ" width="64" height="64" />',
+    '    <span class="codec-label">BAZ</span>',
+    '  </div>',
+    '  <div class="codec-avatar codec-avatar-user">',
+    '    <img src="/assets/baz/user-bust.svg" alt="TOI" width="64" height="64" />',
+    '    <span class="codec-label">TOI</span>',
+    '  </div>',
+    '</div>',
+    '<hr class="codec-separator" />',
+    '<div class="codec-text"><span class="codec-typewriter"></span></div>',
+  ].join('\n')
   document.body.appendChild(codec)
 
-  var bodyEl = codec.querySelector('.codec-body')
+  var typewriterEl = codec.querySelector('.codec-typewriter')
+  var bazImg = codec.querySelector('.codec-avatar-baz img')
+  var userImg = codec.querySelector('.codec-avatar-user img')
   var isOpen = false
   var typewriterTimer = null
   var autoDismissTimer = null
   var queue = []
   var lastReplyKey = null
 
-  // Pick a reply — avoid repeating the same one
   function pickReply(context) {
     var pool = REPLIES[context] || REPLIES.default
     if (pool.length <= 1) return pool[0] || ''
@@ -127,75 +97,119 @@
     return pick
   }
 
+  // State management — toggle SVG states via classes on BAZ img
+  function setBazState(state) {
+    codec.classList.remove('codec-idle', 'codec-talk', 'codec-content')
+    codec.classList.add('codec-' + state)
+
+    // Toggle SVG internal states (for inline SVG rendering)
+    if (bazImg && bazImg.contentDocument) {
+      var doc = bazImg.contentDocument
+      var idle = doc.querySelector('.baz-idle')
+      var talk = doc.querySelector('.baz-talk')
+      var content = doc.querySelector('.baz-content')
+      if (idle) idle.style.display = state === 'idle' ? 'block' : 'none'
+      if (talk) talk.style.display = state === 'talk' ? 'block' : 'none'
+      if (content) content.style.display = state === 'content' ? 'block' : 'none'
+    }
+  }
+
   // Typewriter effect
   function typewrite(text, done) {
     clearInterval(typewriterTimer)
-    bodyEl.textContent = ''
+    typewriterEl.textContent = ''
+    typewriterEl.classList.remove('done')
     var i = 0
     typewriterTimer = setInterval(function () {
-      bodyEl.textContent += text[i++]
+      typewriterEl.textContent += text[i++]
       if (i >= text.length) {
         clearInterval(typewriterTimer)
         typewriterTimer = null
+        typewriterEl.classList.add('done')
         if (done) done()
       }
-    }, 25)
+    }, 30)
   }
 
-  // Show a message
-  function showMessage(text, duration) {
+  function showMessage(text, duration, isContent) {
     duration = duration || 5000
     clearTimeout(autoDismissTimer)
     clearInterval(typewriterTimer)
 
     var resolved = text.replace('__SESSION__', getLastSession())
-    isOpen = true
-    codec.classList.add('open')
 
-    typewrite(resolved, function () {
-      autoDismissTimer = setTimeout(function () {
-        close()
-        processQueue()
-      }, duration)
-    })
+    // Open codec
+    isOpen = true
+    codec.classList.remove('codec-closing')
+    codec.classList.add('codec-open')
+
+    if (isContent) {
+      // Content state: checkmark for 2s, then speak
+      setBazState('content')
+      setTimeout(function () {
+        setBazState('talk')
+        typewrite(resolved, function () {
+          setBazState('idle')
+          autoDismissTimer = setTimeout(function () {
+            closeCodec()
+            processQueue()
+          }, duration)
+        })
+      }, 2000)
+    } else {
+      // Normal: talk while typing
+      setBazState('talk')
+      typewrite(resolved, function () {
+        setBazState('idle')
+        autoDismissTimer = setTimeout(function () {
+          closeCodec()
+          processQueue()
+        }, duration)
+      })
+    }
   }
 
-  function close() {
+  function closeCodec() {
     if (!isOpen) return
     isOpen = false
     clearTimeout(autoDismissTimer)
     clearInterval(typewriterTimer)
-    codec.classList.remove('open')
+    codec.classList.remove('codec-open')
+    codec.classList.add('codec-closing')
+    setBazState('idle')
+    setTimeout(function () {
+      codec.classList.remove('codec-closing')
+    }, 300)
   }
 
   function processQueue() {
     if (!queue.length) return
     var next = queue.shift()
-    setTimeout(function () { showMessage(next.text, next.duration) }, 300)
+    setTimeout(function () { showMessage(next.text, next.duration, next.isContent) }, 400)
   }
 
-  // Public API: BAZ.say(text, duration) or BAZ.say(context)
-  function say(textOrContext, duration) {
+  // Public API
+  function say(textOrContext, duration, isContent) {
     var text = REPLIES[textOrContext]
       ? pickReply(textOrContext)
       : String(textOrContext || '')
     if (!text) return
 
     if (isOpen) {
-      queue.push({ text: text, duration: duration || 5000 })
+      queue.push({ text: text, duration: duration || 5000, isContent: !!isContent })
     } else {
-      showMessage(text, duration || 5000)
+      showMessage(text, duration || 5000, !!isContent)
     }
   }
 
-  // [C] keyboard toggle — manual override
+  // [C] keyboard toggle
   function toggle() {
     if (isOpen) {
-      close()
+      closeCodec()
       queue = []
     } else {
       var context = resolvePageContext()
-      showMessage(pickReply(context), 8000)
+      showMessage(pickReply(context), 6000)
     }
   }
 
@@ -219,9 +233,15 @@
       toggle()
     }
     if (e.key === 'Escape') {
-      close()
+      closeCodec()
       queue = []
     }
+  })
+
+  // Click to dismiss
+  codec.addEventListener('click', function () {
+    closeCodec()
+    queue = []
   })
 
   // Session memory
@@ -242,11 +262,10 @@
     }
   }
 
-  // Auto-trigger: welcome on collection page (once per session)
+  // Auto-trigger once per session per page
   function autoTrigger() {
     var path = location.pathname
     var sessionKey = 'rdx-baz-' + path
-
     if (sessionStorage.getItem(sessionKey)) return
     sessionStorage.setItem(sessionKey, '1')
 
@@ -260,6 +279,5 @@
   saveSession()
   setTimeout(autoTrigger, 500)
 
-  // Expose global API
-  window.BAZ = { say: say, close: close }
+  window.BAZ = { say: say, close: closeCodec }
 })()

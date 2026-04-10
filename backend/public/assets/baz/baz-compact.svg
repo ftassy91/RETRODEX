@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" shape-rendering="crispEdges">
+  <style>
+    .baz-idle { display: block; }
+    .baz-talk { display: none; }
+    .baz-content { display: none; }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    .cursor { animation: blink 1s step-end infinite; }
+  </style>
+
+  <defs>
+    <!-- Shared terminal body (compact) -->
+    <g id="terminal-body-sm">
+      <!-- Terminal shell -->
+      <rect x="2" y="2" width="28" height="22" rx="2" ry="2" fill="#004D1A" stroke="#00FF41" stroke-width="1"/>
+      <!-- Screen -->
+      <rect x="4" y="4" width="24" height="16" rx="1" ry="1" fill="#000000" stroke="#00FF41" stroke-width="1"/>
+      <!-- Power LED -->
+      <rect x="14" y="22" width="4" height="1" fill="#00FF41"/>
+      <!-- Feet -->
+      <rect x="4" y="24" width="4" height="1" fill="#00FF41"/>
+      <rect x="24" y="24" width="4" height="1" fill="#00FF41"/>
+      <!-- Keyboard -->
+      <rect x="5" y="26" width="22" height="4" rx="1" ry="1" fill="#004D1A" stroke="#00FF41" stroke-width="1"/>
+      <!-- Key row -->
+      <rect x="7" y="27" width="2" height="1" fill="#00FF41"/>
+      <rect x="10" y="27" width="2" height="1" fill="#00FF41"/>
+      <rect x="13" y="27" width="2" height="1" fill="#00FF41"/>
+      <rect x="16" y="27" width="2" height="1" fill="#00FF41"/>
+      <rect x="19" y="27" width="2" height="1" fill="#00FF41"/>
+      <rect x="22" y="27" width="2" height="1" fill="#00FF41"/>
+      <!-- Spacebar -->
+      <rect x="10" y="29" width="12" height="1" fill="#00FF41"/>
+    </g>
+  </defs>
+
+  <!-- Background -->
+  <rect width="32" height="32" fill="#000000"/>
+
+  <!-- STATE: IDLE -->
+  <g class="baz-idle">
+    <use href="#terminal-body-sm"/>
+    <!-- Prompt lines -->
+    <rect x="6" y="6" width="6" height="1" fill="#00FF41"/>
+    <rect x="6" y="8" width="10" height="1" fill="#00FF41"/>
+    <!-- Blinking cursor -->
+    <rect class="cursor" x="6" y="14" width="2" height="4" fill="#00FF41"/>
+  </g>
+
+  <!-- STATE: TALK -->
+  <g class="baz-talk">
+    <use href="#terminal-body-sm"/>
+    <!-- Equalizer bars -->
+    <rect x="8" y="13" width="2" height="5" fill="#00FF41"/>
+    <rect x="12" y="9" width="2" height="9" fill="#00FF41"/>
+    <rect x="16" y="11" width="2" height="7" fill="#00FF41"/>
+    <rect x="20" y="7" width="2" height="11" fill="#00FF41"/>
+    <rect x="24" y="10" width="2" height="8" fill="#00FF41"/>
+  </g>
+
+  <!-- STATE: CONTENT -->
+  <g class="baz-content">
+    <use href="#terminal-body-sm"/>
+    <!-- Checkmark -->
+    <rect x="8" y="14" width="2" height="2" fill="#00FF41"/>
+    <rect x="10" y="16" width="2" height="2" fill="#00FF41"/>
+    <rect x="12" y="14" width="2" height="2" fill="#00FF41"/>
+    <rect x="14" y="12" width="2" height="2" fill="#00FF41"/>
+    <rect x="16" y="10" width="2" height="2" fill="#00FF41"/>
+    <rect x="18" y="8" width="2" height="2" fill="#00FF41"/>
+    <rect x="20" y="6" width="2" height="2" fill="#00FF41"/>
+  </g>
+</svg>
