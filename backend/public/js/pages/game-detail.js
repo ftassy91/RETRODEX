@@ -2204,7 +2204,7 @@ function renderStats(game) {
     const parts = [`Loose ${formatPrice(game.loosePrice, '', cur)}`]
     if (game.cibPrice) parts.push(`CIB ${formatPrice(game.cibPrice, '', cur)}`)
     if (game.mintPrice) parts.push(`Mint ${formatPrice(game.mintPrice, '', cur)}`)
-    statsToggle.innerHTML = `Reference prix <span class="accordion-price-hint">${escapeHtml(parts.join(' \u00B7 '))}</span>`
+    statsToggle.innerHTML = `Prix et marche <span style="color:var(--text-muted);font-size:0.85em">(${escapeHtml(parts.join(' \u00B7 '))})</span>`
   }
 }
 
