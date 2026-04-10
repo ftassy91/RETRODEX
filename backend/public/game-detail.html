@@ -127,7 +127,14 @@
               <input id="collection-purchase-date" class="collection-condition-select" type="date" aria-label="Date" />
             </div>
             <div class="collection-controls">
-              <input id="collection-region" class="collection-condition-select" type="text" maxlength="24" placeholder="Region" aria-label="Region" />
+              <select id="collection-region" class="collection-condition-select" aria-label="Region">
+                <option value="">Region</option>
+                <option value="PAL">PAL (Europe)</option>
+                <option value="NTSC-U">NTSC-U (USA)</option>
+                <option value="NTSC-J">NTSC-J (Japon)</option>
+                <option value="NTSC-B">NTSC-B (Bresil)</option>
+                <option value="MULTI">MULTI</option>
+              </select>
               <input id="collection-edition-note" class="collection-condition-select" type="text" maxlength="120" placeholder="Edition / note variante" aria-label="Edition / note variante" />
             </div>
             <textarea id="collection-notes" class="collection-note-input" maxlength="320" rows="2" placeholder="Notes"></textarea>
