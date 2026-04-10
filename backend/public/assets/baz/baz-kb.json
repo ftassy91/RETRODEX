@@ -1,0 +1,84 @@
+{
+  "entries": [
+    {
+      "keywords": ["c'est quoi", "qu'est-ce que", "retrodex c'est", "a quoi sert", "le but", "definition"],
+      "answer": "RetroDex est un systeme de gestion pour ta collection retro. Tu inspectes, qualifies, mesures et decides. Pas un wiki, pas un guide de prix. Un outil."
+    },
+    {
+      "keywords": ["comment ca marche", "comment utiliser", "comment faire", "tuto", "guide", "demarrer", "commencer"],
+      "answer": "Cherche un jeu dans l'index. Ouvre sa fiche. Ajoute-le a ta collection. Le cockpit fait le reste : signaux d'achat, vente, upgrade."
+    },
+    {
+      "keywords": ["collection", "mes jeux", "etagere", "ajouter un jeu", "ma collection"],
+      "answer": "Ta collection est dans l'onglet Collection. Ajoute des jeux depuis les fiches. Le cockpit calcule valeur, delta et signaux automatiquement."
+    },
+    {
+      "keywords": ["prix", "valeur", "combien vaut", "cote", "estimer"],
+      "answer": "Les prix viennent de PriceCharting et eBay. Chaque jeu a un tier de confiance : high (verifie), medium (fiable), low (indicatif). Ouvre la fiche pour les details."
+    },
+    {
+      "keywords": ["confiance", "fiabilite", "tier", "high", "medium", "low", "losange", "diamant"],
+      "answer": "Les losanges sur les fiches montrent la confiance des prix. 5 losanges = high (multi-source verifie). 1 losange = low (source unique). Le tier depend du nombre de sources et de la fraicheur."
+    },
+    {
+      "keywords": ["vendre", "quand vendre", "signal vente", "a vendre"],
+      "answer": "Le cockpit detecte les opportunites de vente : quand la valeur loose depasse 1.5x ton prix d'achat. Section A VENDRE dans le cockpit collection."
+    },
+    {
+      "keywords": ["acheter", "opportunite", "bonne affaire", "wishlist", "a saisir"],
+      "answer": "Ajoute des jeux en wishlist. Le cockpit detecte quand le prix tombe sous ton seuil. Section A SAISIR."
+    },
+    {
+      "keywords": ["upgrade", "ameliorer", "loose vers cib"],
+      "answer": "Si tu as un jeu en loose et que le delta vers CIB est sous 20 euros, le cockpit propose un upgrade. Section A UPGRADER."
+    },
+    {
+      "keywords": ["qualifier", "qualification", "completude", "etat", "condition", "region"],
+      "answer": "Qualifier un jeu = renseigner son etat (Loose/CIB/Mint), sa region (PAL/NTSC), sa completude et ta confiance. Ca affine les signaux du cockpit."
+    },
+    {
+      "keywords": ["import", "csv", "importer", "exporter"],
+      "answer": "Bouton Importer CSV sur la page Collection. Format : titre, console, condition, prix_paye, region. Le systeme matche les titres avec le catalogue."
+    },
+    {
+      "keywords": ["evolution", "courbe", "snapshot", "historique collection", "suivi"],
+      "answer": "La courbe d'evolution en haut de ta collection montre la valeur dans le temps. Un snapshot est capture chaque jour."
+    },
+    {
+      "keywords": ["codec", "parler", "baz", "qui es-tu", "ton nom"],
+      "answer": "BAZ. Terminal de bord de RetroDex. Tape un nom de jeu, demande un prix, ou juste dis bonjour. /help pour la liste complete."
+    },
+    {
+      "keywords": ["raccourci", "clavier", "keyboard", "touche"],
+      "answer": "C ouvre/ferme le Codec. Fleches haut/bas pour naviguer. Enter pour ouvrir. Del pour supprimer. / pour chercher."
+    },
+    {
+      "keywords": ["console", "support", "plateforme", "nes", "snes", "game boy", "mega drive"],
+      "answer": "25 consoles indexees, de 1983 a 2005. Filtre par console dans l'index ou explore la section Consoles."
+    },
+    {
+      "keywords": ["rarete", "rare", "legendary", "epic", "uncommon", "common"],
+      "answer": "5 niveaux de rarete : LEGENDARY, EPIC, RARE, UNCOMMON, COMMON. Filtre par rarete dans l'index pour trouver les pieces les plus recherchees."
+    },
+    {
+      "keywords": ["anecdote", "fun fact", "saviez-vous", "histoire"],
+      "answer": "39 jeux ont des anecdotes BAZ. Ouvre une fiche enrichie pour voir le bloc Le saviez-vous. Bouton BAZ en sait plus pour cycler."
+    },
+    {
+      "keywords": ["franchise", "serie", "zelda", "mario", "final fantasy", "castlevania"],
+      "answer": "15 franchises documentees avec lignage, heritage et liens vers les jeux. Section Franchises dans la navigation."
+    },
+    {
+      "keywords": ["market", "marche", "tendance", "monte", "baisse"],
+      "answer": "Le retro monte en general. Chaque jeu a son historique dans la section Evolution de sa fiche. 3 sources de prix : PriceCharting, Yahoo JP, eBay."
+    },
+    {
+      "keywords": ["pal", "ntsc", "region", "japonais", "europeen", "americain"],
+      "answer": "PAL = Europe, NTSC-U = USA, NTSC-J = Japon. La region change le prix, parfois du simple au triple. Renseigne-la dans la qualification."
+    },
+    {
+      "keywords": ["bug", "probleme", "erreur", "ne marche pas", "plante"],
+      "answer": "Hmm. Note le probleme et signale-le. Le systeme est en construction permanente."
+    }
+  ]
+}

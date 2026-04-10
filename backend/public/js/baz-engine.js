@@ -572,7 +572,17 @@
             generated = generated.replace(/__CONSOLE__/g, parsed.params.game.console_name || '')
           }
 
-          // For unknown intent: prefer Markov over static
+          // For unknown/help intents: try KB first, then Markov
+          if (!generated && (parsed.intent === 'unknown' || parsed.intent === 'help' || parsed.intent === 'how_to_use' || parsed.intent === 'what_is_retrodex')) {
+            if (window.BAZKB && window.BAZKB.ready) {
+              var kbResult = window.BAZKB.search(userText)
+              if (kbResult && kbResult.answer) {
+                generated = kbResult.answer
+              }
+            }
+          }
+
+          // Still nothing? Try Markov for unknown
           if (!generated && parsed.intent === 'unknown') {
             try { generated = gen.markov() } catch (e) { generated = null }
           }

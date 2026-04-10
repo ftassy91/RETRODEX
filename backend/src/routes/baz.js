@@ -102,4 +102,38 @@ router.get('/api/baz/context/:gameId', handleAsync(async (req, res) => {
   })
 }))
 
+// ── GET /api/baz/replies/:category — fetch replies by category with mood ──
+
+router.get('/api/baz/replies/:category', handleAsync(async (req, res) => {
+  const category = String(req.params.category || '').trim()
+  if (!category || mode !== 'supabase') return res.json({ replies: [] })
+
+  const { data, error } = await db
+    .from('baz_replies')
+    .select('id,text_fr,mood,usage_count')
+    .eq('category', category)
+    .eq('active', true)
+    .order('usage_count', { ascending: true })
+
+  if (error) return res.status(500).json({ error: error.message })
+  setPublicEdgeCache(res, 300)
+  return res.json({ replies: data || [] })
+}))
+
+// ── POST /api/baz/replies/:id/used — increment usage_count ──
+
+router.post('/api/baz/replies/:id/used', handleAsync(async (req, res) => {
+  const id = Number(req.params.id)
+  if (!id || mode !== 'supabase') return res.json({ ok: false })
+
+  await db.from('baz_replies').update({ usage_count: db.raw ? undefined : 0 }).eq('id', id)
+  // Simple increment via RPC or raw — fallback to select+update
+  const { data } = await db.from('baz_replies').select('usage_count').eq('id', id).single()
+  if (data) {
+    await db.from('baz_replies').update({ usage_count: (data.usage_count || 0) + 1 }).eq('id', id)
+  }
+
+  return res.json({ ok: true })
+}))
+
 module.exports = router
