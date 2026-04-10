@@ -231,6 +231,21 @@
   var isOpen = false
   var typewriterTimer = null
   var autoDismissTimer = null
+  var AUTO_DISMISS_AFTER_TALK = 30000   // 30s after BAZ finishes talking
+  var AUTO_DISMISS_AFTER_INPUT = 45000  // 45s after user interaction
+
+  function scheduleAutoDismiss(delay) {
+    clearTimeout(autoDismissTimer)
+    autoDismissTimer = setTimeout(function () {
+      // Don't dismiss if user is typing
+      if (document.activeElement === codecInput) {
+        scheduleAutoDismiss(15000) // retry in 15s
+        return
+      }
+      closeCodec()
+      processQueue()
+    }, delay || AUTO_DISMISS_AFTER_TALK)
+  }
   var queue = []
   var lastReplyKey = null
 
@@ -298,10 +313,7 @@
         setBazState('talk')
         typewrite(resolved, function () {
           setBazState('idle')
-          autoDismissTimer = setTimeout(function () {
-            closeCodec()
-            processQueue()
-          }, duration)
+          scheduleAutoDismiss(AUTO_DISMISS_AFTER_TALK)
         })
       }, 2000)
     } else {
@@ -309,10 +321,7 @@
       setBazState('talk')
       typewrite(resolved, function () {
         setBazState('idle')
-        autoDismissTimer = setTimeout(function () {
-          closeCodec()
-          processQueue()
-        }, duration)
+        scheduleAutoDismiss(AUTO_DISMISS_AFTER_TALK)
       })
     }
   }
@@ -397,10 +406,7 @@
         setBazState('idle')
         userInputBusy = false
         codecInput.focus()
-        autoDismissTimer = setTimeout(function () {
-          closeCodec()
-          processQueue()
-        }, 8000)
+        scheduleAutoDismiss(AUTO_DISMISS_AFTER_INPUT)
       })
     }
 
