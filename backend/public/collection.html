@@ -18,6 +18,7 @@
     <meta name="robots" content="index, follow" />
     <link rel="stylesheet" href="/style.css?v=20260409r2" />
     <link rel="stylesheet" href="/zones.css" />
+    <script src="/js/animations.js"></script>
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -47,7 +48,7 @@
       <header class="secondary-page-head collection-page-head">
         <div>
           <div class="detail-kicker">REVUE</div>
-          <h1 class="page-title">COLLECTION</h1>
+          <h1 class="page-title type-in">COLLECTION</h1>
         </div>
         <p class="page-subtitle">cockpit de pilotage de votre collection</p>
       </header>
@@ -181,7 +182,7 @@
         </div>
 
         <div id="status-text" class="terminal-context terminal-status-line collection-status-line" role="status" aria-live="polite">
-          Chargement...
+          <span class="loading-dots">Chargement</span>
         </div>
 
         <section id="collection-evolution" class="collection-evolution-panel" hidden>

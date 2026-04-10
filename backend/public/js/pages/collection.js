@@ -893,7 +893,7 @@
     )
 
     const cur = getDominantCurrency(items)
-    setText(statTotalEl, String(totals.total || 0))
+    if (typeof rollTo === 'function') { rollTo(statTotalEl, totals.total || 0) } else { setText(statTotalEl, String(totals.total || 0)) }
     setText(statValueLooseEl, formatCollectionPrice(totals.loose, cur) || '0')
     setText(statPaidEl, totals.paid ? (formatCollectionPrice(totals.paid, cur) || '-') : '-')
     setGainValue(statGainEl, totals.hasGain ? totals.gain : null, cur)
@@ -905,7 +905,7 @@
     try {
       const stats = await fetchJson('/api/collection/stats')
       const cur = stats.dominant_currency || null
-      setText(statTotalEl, String(stats.total || stats.count || 0))
+      if (typeof rollTo === 'function') { rollTo(statTotalEl, stats.total || stats.count || 0) } else { setText(statTotalEl, String(stats.total || stats.count || 0)) }
       setText(statValueLooseEl, formatCollectionPrice(stats.total_loose, cur) || '0')
       setText(statPaidEl, stats.total_paid ? (formatCollectionPrice(stats.total_paid, cur) || '-') : '-')
       setGainValue(statGainEl, stats.profit_estimate != null ? Number(stats.profit_estimate) : null, cur)
@@ -1667,7 +1667,11 @@
   function setCockpitCount(id, count) {
     const countEl = byId(id)
     if (!countEl) return
-    countEl.textContent = String(count)
+    if (typeof rollTo === 'function') {
+      rollTo(countEl, count)
+    } else {
+      countEl.textContent = String(count)
+    }
     countEl.classList.toggle('is-zero', count === 0)
   }
 

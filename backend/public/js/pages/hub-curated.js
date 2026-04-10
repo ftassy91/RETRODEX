@@ -157,10 +157,17 @@
       const withSynopsis = Number(statsPayload?.with_synopsis || 0)
 
       bannerEl.textContent = `${published || '--'} fiches pretes | ${withSynopsis || '--'} lectures visibles | ${consoles || '--'} supports`
-      setText(publishedEl, String(published || '--'))
-      setText(totalEl, String(total || '--'))
-      setText(synopsisEl, String(withSynopsis || '--'))
-      setText(consolesEl, String(consoles || '--'))
+      if (typeof rollTo === 'function') {
+        rollTo(publishedEl, published || '--')
+        rollTo(totalEl, total || '--')
+        rollTo(synopsisEl, withSynopsis || '--')
+        rollTo(consolesEl, consoles || '--')
+      } else {
+        setText(publishedEl, String(published || '--'))
+        setText(totalEl, String(total || '--'))
+        setText(synopsisEl, String(withSynopsis || '--'))
+        setText(consolesEl, String(consoles || '--'))
+      }
       setText(publicationSignalEl, published ? `${published} fiches pretes` : 'catalogue partiel')
       setText(editorialSignalEl, withSynopsis ? `${withSynopsis} lectures visibles` : 'lecture partielle')
       setText(archiveSignalEl, strongPages.length ? `${strongPages.length} fiches a ouvrir` : 'selection indisponible')

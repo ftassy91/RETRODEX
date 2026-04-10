@@ -42,3 +42,47 @@
   --bg-surface:      #080808;
   --bg-card:         #0f0f0f;
 }
+
+/* ============================================================
+   HOVER — Quiet Phosphor micro-interactions
+   Subtle border transitions. No glow, no scale, no shadow.
+   ============================================================ */
+
+/* Index game rows */
+.result-row {
+  transition: border-color 150ms ease;
+}
+.result-row:hover {
+  border-color: var(--accent);
+}
+
+/* Collection rows */
+.collection-row-main {
+  transition: border-left-color 100ms ease;
+  border-left: 2px solid transparent;
+}
+.collection-row-main:hover {
+  border-left-color: var(--accent);
+}
+
+/* Cockpit signal cards */
+.cockpit-signal-card {
+  transition: border-color 150ms ease;
+}
+.cockpit-signal-card:hover {
+  border-color: var(--accent);
+}
+
+/* Hub cards */
+.hub-proof-card,
+.hub-rich-card,
+.hub-intent-card,
+.hub-encyclo-card {
+  transition: border-color 150ms ease;
+}
+.hub-proof-card:hover,
+.hub-rich-card:hover,
+.hub-intent-card:hover,
+.hub-encyclo-card:hover {
+  border-color: var(--accent);
+}
