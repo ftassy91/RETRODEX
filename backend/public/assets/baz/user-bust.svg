@@ -6,10 +6,10 @@
     /* IDLE: subtle breathing micro-movement */
     @keyframes idle-breathe {
       0%   { transform: translate(0, 0); }
-      38%  { transform: translate(0, 0); }       /* hold neutral 2s of ~5.1s */
-      40%  { transform: translate(1px, 0); }      /* micro shift right 1px */
-      42%  { transform: translate(0, 0); }        /* return */
-      100% { transform: translate(0, 0); }        /* hold neutral 3s */
+      38%  { transform: translate(0, 0); }
+      40%  { transform: translate(1px, 0); }
+      42%  { transform: translate(0, 0); }
+      100% { transform: translate(0, 0); }
     }
     .user-idle .idle-head {
       animation: idle-breathe 5.1s ease-in-out infinite;
@@ -17,13 +17,13 @@
 
     /* LISTEN: attentive lean + nod */
     @keyframes listen-cycle {
-      0%   { transform: translate(0, 0); }        /* neutral */
+      0%   { transform: translate(0, 0); }
       16%  { transform: translate(0, 0); }
-      25%  { transform: translate(-1px, 0); }     /* lean forward (left toward BAZ) */
-      42%  { transform: translate(0, 0); }         /* return */
-      50%  { transform: translate(0, 1px); }      /* slight nod down */
-      58%  { transform: translate(0, 0); }         /* return */
-      100% { transform: translate(0, 0); }         /* rest */
+      25%  { transform: translate(-1px, 0); }
+      42%  { transform: translate(0, 0); }
+      50%  { transform: translate(0, 1px); }
+      58%  { transform: translate(0, 0); }
+      100% { transform: translate(0, 0); }
     }
     .user-listen .listen-head {
       animation: listen-cycle 6s ease-in-out infinite;
@@ -38,16 +38,23 @@
   <!-- ============================================ -->
   <g class="user-idle">
 
-    <!-- Shoulders (static, don't animate) -->
-    <!-- Leaning forward: entire bust offset 1px left -->
-    <!-- Right side = shadow (#003355), Left side = highlight (#00AACC) -->
+    <!-- Shoulders + torso (static) -->
+    <!-- Slight lean forward: bust offset 1px left -->
+    <!-- Right shoulder 1px lower (relaxed asymmetry) -->
 
-    <!-- Shoulder row 1 (y40) - relaxed, left slightly higher -->
-    <rect x="19" y="40" width="2"  height="2" fill="#00AACC"/><!-- left highlight edge -->
+    <!-- Collar detail y38-40 (hoodie neckline) -->
+    <rect x="22" y="38" width="2"  height="2" fill="#001122"/>
+    <rect x="24" y="38" width="10" height="2" fill="#001122"/>
+    <rect x="34" y="38" width="2"  height="2" fill="#001122"/>
+    <!-- Yellow pin on collar (connects to BAZ's yellow label) -->
+    <rect x="25" y="39" width="1"  height="1" fill="#FFCC00"/>
+
+    <!-- Shoulder row 1 (y40) -->
+    <rect x="19" y="40" width="2"  height="2" fill="#00AACC"/>
     <rect x="21" y="40" width="10" height="2" fill="#006688"/>
     <rect x="31" y="40" width="10" height="2" fill="#006688"/>
-    <rect x="41" y="40" width="2"  height="2" fill="#003355"/><!-- right shadow edge -->
-    <!-- Right shoulder drops 1 row lower (relaxed asymmetry) -->
+    <rect x="41" y="40" width="2"  height="2" fill="#003355"/>
+    <!-- Right shoulder drops 1 row (relaxed asymmetry) -->
     <rect x="43" y="42" width="2"  height="2" fill="#003355"/>
 
     <!-- Shoulder row 2 (y42) -->
@@ -106,26 +113,27 @@
     <!-- Animated head group -->
     <g class="idle-head">
 
-      <!-- Hair top (slightly messy, asymmetric) -->
-      <!-- Offset 1px left for forward lean -->
-      <rect x="21" y="2"  width="18" height="2" fill="#001122"/><!-- contour top -->
+      <!-- === HAIR TOP (slightly messy, asymmetric) === -->
+      <rect x="21" y="2"  width="18" height="2" fill="#001122"/>
       <rect x="19" y="4"  width="2"  height="2" fill="#001122"/>
-      <rect x="21" y="4"  width="6"  height="2" fill="#006688"/><!-- hair left -->
-      <rect x="27" y="4"  width="6"  height="2" fill="#003355"/><!-- hair right darker -->
+      <rect x="21" y="4"  width="6"  height="2" fill="#006688"/>
+      <rect x="27" y="4"  width="6"  height="2" fill="#003355"/>
       <rect x="33" y="4"  width="6"  height="2" fill="#006688"/>
       <rect x="39" y="4"  width="2"  height="2" fill="#001122"/>
 
-      <!-- Hair strand protruding on forehead (unique trait) -->
-      <rect x="23" y="6"  width="2"  height="2" fill="#006688"/>
-      <rect x="22" y="8"  width="2"  height="2" fill="#006688"/>
-      <rect x="21" y="10" width="2"  height="2" fill="#003355"/><!-- strand tip fades -->
+      <!-- === HAIR STRAND on forehead (signature element, curved) === -->
+      <!-- 4px strand with gentle curve, not staircase -->
+      <rect x="24" y="6"  width="2"  height="1" fill="#006688"/>
+      <rect x="23" y="7"  width="2"  height="1" fill="#006688"/>
+      <rect x="22" y="8"  width="2"  height="1" fill="#006688"/>
+      <rect x="21" y="9"  width="2"  height="1" fill="#003355"/><!-- tip fades to shadow -->
 
-      <!-- Head row y6: wider at temples -->
-      <rect x="17" y="6"  width="2"  height="2" fill="#001122"/><!-- contour left -->
-      <rect x="19" y="6"  width="4"  height="2" fill="#00AACC"/><!-- highlight left -->
-      <rect x="25" y="6"  width="12" height="2" fill="#006688"/><!-- main -->
-      <rect x="37" y="6"  width="2"  height="2" fill="#003355"/><!-- shadow right -->
-      <rect x="39" y="6"  width="2"  height="2" fill="#001122"/><!-- contour right -->
+      <!-- === HEAD ROW y6: wider at temples === -->
+      <rect x="17" y="6"  width="2"  height="2" fill="#001122"/>
+      <rect x="19" y="6"  width="4"  height="2" fill="#00AACC"/>
+      <rect x="25" y="6"  width="12" height="2" fill="#006688"/>
+      <rect x="37" y="6"  width="2"  height="2" fill="#003355"/>
+      <rect x="39" y="6"  width="2"  height="2" fill="#001122"/>
 
       <!-- Head row y8: full width temples -->
       <rect x="15" y="8"  width="2"  height="2" fill="#001122"/>
@@ -148,42 +156,61 @@
       <rect x="37" y="12" width="2"  height="2" fill="#003355"/>
       <rect x="39" y="12" width="2"  height="2" fill="#001122"/>
 
-      <!-- GLASSES (y14-y16) - thin rectangular, 2x8 each lens -->
-      <!-- Left lens (highlight color) -->
-      <rect x="18" y="14" width="8"  height="2" fill="#00AACC"/>
-      <!-- Bridge -->
-      <rect x="26" y="14" width="2"  height="2" fill="#00AACC"/>
-      <!-- Right lens -->
-      <rect x="28" y="14" width="8"  height="2" fill="#00AACC"/>
-      <!-- Glasses frame contour (subtle dark line above/below) -->
+      <!-- === GLASSES (y14-y18) - rectangular lenses with eye glints === -->
+      <!-- Frame top edge (1px dark line) -->
       <rect x="18" y="13" width="8"  height="1" fill="#001122"/>
       <rect x="28" y="13" width="8"  height="1" fill="#001122"/>
-      <rect x="18" y="16" width="8"  height="1" fill="#001122"/>
-      <rect x="28" y="16" width="8"  height="1" fill="#001122"/>
+
+      <!-- Left lens: 7x3 frame in #00AACC outline -->
+      <!-- Top frame row -->
+      <rect x="18" y="14" width="7"  height="1" fill="#00AACC"/>
+      <!-- Middle row: frame sides + dark interior + GLINT -->
+      <rect x="18" y="15" width="1"  height="1" fill="#00AACC"/><!-- left frame -->
+      <rect x="19" y="15" width="5"  height="1" fill="#003355"/><!-- lens interior (dark) -->
+      <rect x="21" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- LEFT EYE GLINT (centered) -->
+      <rect x="22" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- LEFT EYE GLINT pixel 2 -->
+      <rect x="24" y="15" width="1"  height="1" fill="#00AACC"/><!-- right frame -->
+      <!-- Bottom row -->
+      <rect x="18" y="16" width="7"  height="1" fill="#00AACC"/>
+
+      <!-- Bridge between lenses (2px) -->
+      <rect x="25" y="15" width="2"  height="1" fill="#006688"/>
+      <rect x="25" y="14" width="2"  height="1" fill="#006688"/>
+      <rect x="25" y="16" width="2"  height="1" fill="#006688"/>
+
+      <!-- Right lens: 7x3 frame in #00AACC outline -->
+      <!-- Top frame row -->
+      <rect x="27" y="14" width="7"  height="1" fill="#00AACC"/>
+      <!-- Middle row: frame sides + dark interior + GLINT -->
+      <rect x="27" y="15" width="1"  height="1" fill="#00AACC"/><!-- left frame -->
+      <rect x="28" y="15" width="5"  height="1" fill="#003355"/><!-- lens interior (dark) -->
+      <rect x="30" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- RIGHT EYE GLINT (centered) -->
+      <rect x="31" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- RIGHT EYE GLINT pixel 2 -->
+      <rect x="33" y="15" width="1"  height="1" fill="#00AACC"/><!-- right frame -->
+      <!-- Bottom row -->
+      <rect x="27" y="16" width="7"  height="1" fill="#00AACC"/>
+
       <!-- Temple arms extending to head edge -->
-      <rect x="16" y="14" width="2"  height="2" fill="#00AACC"/>
-      <rect x="36" y="14" width="4"  height="2" fill="#003355"/><!-- right arm darker -->
+      <rect x="16" y="14" width="2"  height="3" fill="#00AACC"/><!-- left arm -->
+      <rect x="34" y="14" width="4"  height="3" fill="#003355"/><!-- right arm (shadow) -->
 
-      <!-- Head rows around glasses -->
-      <rect x="15" y="14" width="1"  height="2" fill="#001122"/>
-      <rect x="40" y="14" width="1"  height="2" fill="#001122"/>
+      <!-- Head contour at glasses level -->
+      <rect x="15" y="14" width="1"  height="3" fill="#001122"/>
+      <rect x="38" y="14" width="2"  height="3" fill="#001122"/>
 
-      <!-- Head row y16-y18: mid face -->
-      <rect x="15" y="16" width="2"  height="2" fill="#001122"/>
-      <rect x="17" y="16" width="2"  height="2" fill="#00AACC"/>
-      <rect x="19" y="16" width="18" height="2" fill="#006688"/>
-      <rect x="37" y="16" width="2"  height="2" fill="#003355"/>
-      <rect x="39" y="16" width="2"  height="2" fill="#001122"/>
+      <!-- === HEAD ROWS below glasses === -->
+      <!-- y17-18: below glasses, uniform face -->
+      <rect x="15" y="17" width="2"  height="1" fill="#001122"/>
+      <rect x="17" y="17" width="2"  height="1" fill="#00AACC"/>
+      <rect x="19" y="17" width="18" height="1" fill="#006688"/>
+      <rect x="37" y="17" width="2"  height="1" fill="#003355"/>
+      <rect x="39" y="17" width="2"  height="1" fill="#001122"/>
 
-      <!-- Head row y18: mid face -->
       <rect x="15" y="18" width="2"  height="2" fill="#001122"/>
       <rect x="17" y="18" width="2"  height="2" fill="#00AACC"/>
       <rect x="19" y="18" width="18" height="2" fill="#006688"/>
       <rect x="37" y="18" width="2"  height="2" fill="#003355"/>
       <rect x="39" y="18" width="2"  height="2" fill="#001122"/>
-
-      <!-- Beauty mark on right cheek (unique trait) - 1px -->
-      <rect x="35" y="19" width="1"  height="1" fill="#003355"/>
 
       <!-- Head row y20: starting to narrow -->
       <rect x="16" y="20" width="2"  height="2" fill="#001122"/>
@@ -199,10 +226,17 @@
       <rect x="35" y="22" width="2"  height="2" fill="#003355"/>
       <rect x="37" y="22" width="2"  height="2" fill="#001122"/>
 
-      <!-- Head row y24: jaw narrowing more -->
+      <!-- === MOUTH LINE (y24) - subtle shadow, NOT a drawn line === -->
+      <!-- Mouth: 5px flat neutral line in face shadow color -->
+      <rect x="25" y="24" width="5"  height="1" fill="#003355"/>
+
+      <!-- Head row y24: jaw narrowing -->
       <rect x="19" y="24" width="2"  height="2" fill="#001122"/>
       <rect x="21" y="24" width="2"  height="2" fill="#00AACC"/>
-      <rect x="23" y="24" width="10" height="2" fill="#006688"/>
+      <rect x="23" y="24" width="2"  height="2" fill="#006688"/>
+      <!-- mouth occupies x25-29 y24 (drawn above) -->
+      <rect x="25" y="25" width="5"  height="1" fill="#006688"/><!-- face below mouth -->
+      <rect x="30" y="24" width="3"  height="2" fill="#006688"/>
       <rect x="33" y="24" width="2"  height="2" fill="#003355"/>
       <rect x="35" y="24" width="2"  height="2" fill="#001122"/>
 
@@ -236,10 +270,6 @@
       <rect x="23" y="36" width="12" height="2" fill="#006688"/>
       <rect x="35" y="36" width="2"  height="2" fill="#003355"/>
 
-      <rect x="19" y="38" width="2"  height="2" fill="#00AACC"/>
-      <rect x="21" y="38" width="16" height="2" fill="#006688"/>
-      <rect x="37" y="38" width="2"  height="2" fill="#003355"/>
-
     </g><!-- end idle-head -->
   </g><!-- end user-idle -->
 
@@ -247,6 +277,13 @@
   <!-- LISTEN STATE                                 -->
   <!-- ============================================ -->
   <g class="user-listen">
+
+    <!-- Collar detail y38-40 (hoodie neckline) -->
+    <rect x="22" y="38" width="2"  height="2" fill="#001122"/>
+    <rect x="24" y="38" width="10" height="2" fill="#001122"/>
+    <rect x="34" y="38" width="2"  height="2" fill="#001122"/>
+    <!-- Yellow pin -->
+    <rect x="25" y="39" width="1"  height="1" fill="#FFCC00"/>
 
     <!-- Shoulders (static, same as idle) -->
     <rect x="19" y="40" width="2"  height="2" fill="#00AACC"/>
@@ -306,7 +343,7 @@
     <!-- Animated head group for listen -->
     <g class="listen-head">
 
-      <!-- Hair top -->
+      <!-- === HAIR TOP === -->
       <rect x="21" y="2"  width="18" height="2" fill="#001122"/>
       <rect x="19" y="4"  width="2"  height="2" fill="#001122"/>
       <rect x="21" y="4"  width="6"  height="2" fill="#006688"/>
@@ -314,12 +351,13 @@
       <rect x="33" y="4"  width="6"  height="2" fill="#006688"/>
       <rect x="39" y="4"  width="2"  height="2" fill="#001122"/>
 
-      <!-- Hair strand -->
-      <rect x="23" y="6"  width="2"  height="2" fill="#006688"/>
-      <rect x="22" y="8"  width="2"  height="2" fill="#006688"/>
-      <rect x="21" y="10" width="2"  height="2" fill="#003355"/>
+      <!-- === HAIR STRAND (same curved shape) === -->
+      <rect x="24" y="6"  width="2"  height="1" fill="#006688"/>
+      <rect x="23" y="7"  width="2"  height="1" fill="#006688"/>
+      <rect x="22" y="8"  width="2"  height="1" fill="#006688"/>
+      <rect x="21" y="9"  width="2"  height="1" fill="#003355"/>
 
-      <!-- Head rows (identical geometry to idle) -->
+      <!-- === HEAD ROWS === -->
       <rect x="17" y="6"  width="2"  height="2" fill="#001122"/>
       <rect x="19" y="6"  width="4"  height="2" fill="#00AACC"/>
       <rect x="25" y="6"  width="12" height="2" fill="#006688"/>
@@ -344,33 +382,53 @@
       <rect x="37" y="12" width="2"  height="2" fill="#003355"/>
       <rect x="39" y="12" width="2"  height="2" fill="#001122"/>
 
-      <!-- Glasses -->
-      <rect x="18" y="14" width="8"  height="2" fill="#00AACC"/>
-      <rect x="26" y="14" width="2"  height="2" fill="#00AACC"/>
-      <rect x="28" y="14" width="8"  height="2" fill="#00AACC"/>
+      <!-- === GLASSES with GLINTS shifted 1px LEFT (looking at BAZ) === -->
       <rect x="18" y="13" width="8"  height="1" fill="#001122"/>
       <rect x="28" y="13" width="8"  height="1" fill="#001122"/>
-      <rect x="18" y="16" width="8"  height="1" fill="#001122"/>
-      <rect x="28" y="16" width="8"  height="1" fill="#001122"/>
-      <rect x="16" y="14" width="2"  height="2" fill="#00AACC"/>
-      <rect x="36" y="14" width="4"  height="2" fill="#003355"/>
-      <rect x="15" y="14" width="1"  height="2" fill="#001122"/>
-      <rect x="40" y="14" width="1"  height="2" fill="#001122"/>
 
-      <rect x="15" y="16" width="2"  height="2" fill="#001122"/>
-      <rect x="17" y="16" width="2"  height="2" fill="#00AACC"/>
-      <rect x="19" y="16" width="18" height="2" fill="#006688"/>
-      <rect x="37" y="16" width="2"  height="2" fill="#003355"/>
-      <rect x="39" y="16" width="2"  height="2" fill="#001122"/>
+      <!-- Left lens -->
+      <rect x="18" y="14" width="7"  height="1" fill="#00AACC"/>
+      <rect x="18" y="15" width="1"  height="1" fill="#00AACC"/>
+      <rect x="19" y="15" width="5"  height="1" fill="#003355"/>
+      <rect x="20" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- GLINT shifted 1px left -->
+      <rect x="21" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- GLINT pixel 2 -->
+      <rect x="24" y="15" width="1"  height="1" fill="#00AACC"/>
+      <rect x="18" y="16" width="7"  height="1" fill="#00AACC"/>
+
+      <!-- Bridge -->
+      <rect x="25" y="14" width="2"  height="1" fill="#006688"/>
+      <rect x="25" y="15" width="2"  height="1" fill="#006688"/>
+      <rect x="25" y="16" width="2"  height="1" fill="#006688"/>
+
+      <!-- Right lens -->
+      <rect x="27" y="14" width="7"  height="1" fill="#00AACC"/>
+      <rect x="27" y="15" width="1"  height="1" fill="#00AACC"/>
+      <rect x="28" y="15" width="5"  height="1" fill="#003355"/>
+      <rect x="29" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- GLINT shifted 1px left -->
+      <rect x="30" y="15" width="1"  height="1" fill="#EEFFEE"/><!-- GLINT pixel 2 -->
+      <rect x="33" y="15" width="1"  height="1" fill="#00AACC"/>
+      <rect x="27" y="16" width="7"  height="1" fill="#00AACC"/>
+
+      <!-- Temple arms -->
+      <rect x="16" y="14" width="2"  height="3" fill="#00AACC"/>
+      <rect x="34" y="14" width="4"  height="3" fill="#003355"/>
+
+      <!-- Head contour at glasses level -->
+      <rect x="15" y="14" width="1"  height="3" fill="#001122"/>
+      <rect x="38" y="14" width="2"  height="3" fill="#001122"/>
+
+      <!-- === HEAD ROWS below glasses === -->
+      <rect x="15" y="17" width="2"  height="1" fill="#001122"/>
+      <rect x="17" y="17" width="2"  height="1" fill="#00AACC"/>
+      <rect x="19" y="17" width="18" height="1" fill="#006688"/>
+      <rect x="37" y="17" width="2"  height="1" fill="#003355"/>
+      <rect x="39" y="17" width="2"  height="1" fill="#001122"/>
 
       <rect x="15" y="18" width="2"  height="2" fill="#001122"/>
       <rect x="17" y="18" width="2"  height="2" fill="#00AACC"/>
       <rect x="19" y="18" width="18" height="2" fill="#006688"/>
       <rect x="37" y="18" width="2"  height="2" fill="#003355"/>
       <rect x="39" y="18" width="2"  height="2" fill="#001122"/>
-
-      <!-- Beauty mark -->
-      <rect x="35" y="19" width="1"  height="1" fill="#003355"/>
 
       <rect x="16" y="20" width="2"  height="2" fill="#001122"/>
       <rect x="18" y="20" width="2"  height="2" fill="#00AACC"/>
@@ -384,18 +442,26 @@
       <rect x="35" y="22" width="2"  height="2" fill="#003355"/>
       <rect x="37" y="22" width="2"  height="2" fill="#001122"/>
 
+      <!-- === MOUTH LINE (listen: flat, same as idle) === -->
+      <rect x="25" y="24" width="5"  height="1" fill="#003355"/>
+
+      <!-- Head row y24 -->
       <rect x="19" y="24" width="2"  height="2" fill="#001122"/>
       <rect x="21" y="24" width="2"  height="2" fill="#00AACC"/>
-      <rect x="23" y="24" width="10" height="2" fill="#006688"/>
+      <rect x="23" y="24" width="2"  height="2" fill="#006688"/>
+      <rect x="25" y="25" width="5"  height="1" fill="#006688"/>
+      <rect x="30" y="24" width="3"  height="2" fill="#006688"/>
       <rect x="33" y="24" width="2"  height="2" fill="#003355"/>
       <rect x="35" y="24" width="2"  height="2" fill="#001122"/>
 
+      <!-- Chin taper y26 -->
       <rect x="21" y="26" width="2"  height="2" fill="#001122"/>
       <rect x="23" y="26" width="2"  height="2" fill="#00AACC"/>
       <rect x="25" y="26" width="6"  height="2" fill="#006688"/>
       <rect x="31" y="26" width="2"  height="2" fill="#003355"/>
       <rect x="33" y="26" width="2"  height="2" fill="#001122"/>
 
+      <!-- Chin point y28 -->
       <rect x="23" y="28" width="2"  height="2" fill="#001122"/>
       <rect x="25" y="28" width="6"  height="2" fill="#006688"/>
       <rect x="31" y="28" width="2"  height="2" fill="#001122"/>
@@ -416,10 +482,6 @@
       <rect x="21" y="36" width="2"  height="2" fill="#00AACC"/>
       <rect x="23" y="36" width="12" height="2" fill="#006688"/>
       <rect x="35" y="36" width="2"  height="2" fill="#003355"/>
-
-      <rect x="19" y="38" width="2"  height="2" fill="#00AACC"/>
-      <rect x="21" y="38" width="16" height="2" fill="#006688"/>
-      <rect x="37" y="38" width="2"  height="2" fill="#003355"/>
 
     </g><!-- end listen-head -->
   </g><!-- end user-listen -->

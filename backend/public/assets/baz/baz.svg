@@ -1,290 +1,324 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" shape-rendering="crispEdges">
-  <style>
-    /* State visibility */
-    .baz-idle { display: block; }
-    .baz-talk { display: none; }
-    .baz-content { display: none; }
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges">
+<style>
+  /* === STATE VISIBILITY === */
+  .baz-idle { visibility: visible; }
+  .baz-talk { visibility: hidden; }
+  .baz-content { visibility: hidden; }
 
-    /* IDLE: Irregular cursor blink - 400ms on, 100ms off, 150ms on, 600ms off = 1250ms total */
-    @keyframes cursor-blink {
-      0%        { opacity: 1; } /* on 400ms */
-      32%       { opacity: 1; }
-      32.01%    { opacity: 0; } /* off 100ms */
-      40%       { opacity: 0; }
-      40.01%    { opacity: 1; } /* on 150ms */
-      52%       { opacity: 1; }
-      52.01%    { opacity: 0; } /* off 600ms */
-      100%      { opacity: 0; }
-    }
-    .cursor-blink { animation: cursor-blink 1.25s step-end infinite; }
+  /* === IRREGULAR BLINK (organic rhythm) === */
+  @keyframes blink {
+    0%    { opacity: 1; }
+    89%   { opacity: 1; }
+    89.5% { opacity: 0; }
+    93%   { opacity: 0; }
+    93.5% { opacity: 1; }
+    100%  { opacity: 1; }
+  }
+  @keyframes blink2 {
+    0%    { opacity: 1; }
+    45%   { opacity: 1; }
+    45.5% { opacity: 0; }
+    48%   { opacity: 0; }
+    48.5% { opacity: 1; }
+    94%   { opacity: 1; }
+    94.5% { opacity: 0; }
+    97%   { opacity: 0; }
+    97.5% { opacity: 1; }
+    100%  { opacity: 1; }
+  }
+  .blink-left {
+    animation: blink 3.7s steps(1) infinite;
+  }
+  .blink-right {
+    animation: blink2 4.1s steps(1) infinite;
+  }
 
-    /* Cursor glow halo pulses with cursor */
-    .cursor-halo { animation: cursor-blink 1.25s step-end infinite; opacity: 0.4; }
+  /* === DATA SCROLL DOT === */
+  @keyframes datascroll {
+    0%   { transform: translateX(0px); }
+    85%  { transform: translateX(44px); }
+    86%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  .data-dot {
+    animation: datascroll 3s linear infinite;
+  }
 
-    /* IDLE: Subtle screen flicker every ~4s */
-    @keyframes screen-flicker {
-      0%    { opacity: 1; }
-      92%   { opacity: 1; }
-      93%   { opacity: 0.85; }
-      94%   { opacity: 1; }
-      96%   { opacity: 0.9; }
-      97%   { opacity: 1; }
-      100%  { opacity: 1; }
-    }
-    .screen-flicker { animation: screen-flicker 4s linear infinite; }
+  /* === TALK MOUTH EQUALIZER BARS === */
+  @keyframes bar1 {
+    0%   { opacity: 1; }
+    25%  { opacity: 1; }
+    50%  { opacity: 1; }
+    75%  { opacity: 1; }
+    100% { opacity: 1; }
+  }
+  @keyframes eq1 {
+    0%, 100% { transform: scaleY(0.4); }
+    50% { transform: scaleY(1); }
+  }
+  @keyframes eq2 {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.3); }
+  }
+  @keyframes eq3 {
+    0%, 100% { transform: scaleY(0.6); }
+    33% { transform: scaleY(1); }
+    66% { transform: scaleY(0.2); }
+  }
+  @keyframes eq4 {
+    0%, 100% { transform: scaleY(0.5); }
+    40% { transform: scaleY(0.2); }
+    70% { transform: scaleY(1); }
+  }
 
-    /* TALK: Bar height animations - pseudo-random via prime offsets */
-    @keyframes bar1 { 0%{height:10;y:30}25%{height:22;y:18}50%{height:8;y:32}75%{height:18;y:22}100%{height:10;y:30} }
-    @keyframes bar2 { 0%{height:16;y:24}20%{height:26;y:14}45%{height:10;y:30}70%{height:24;y:16}100%{height:16;y:24} }
-    @keyframes bar3 { 0%{height:12;y:28}30%{height:20;y:20}55%{height:8;y:32}80%{height:22;y:18}100%{height:12;y:28} }
-    @keyframes bar4 { 0%{height:20;y:20}15%{height:10;y:30}40%{height:28;y:12}65%{height:14;y:26}100%{height:20;y:20} }
-    @keyframes bar5 { 0%{height:8;y:32}35%{height:24;y:16}60%{height:12;y:28}85%{height:18;y:22}100%{height:8;y:32} }
+  /* === CONTENT FLASH === */
+  @keyframes contentflash {
+    0%   { opacity: 0.5; }
+    8%   { opacity: 0.5; }
+    9%   { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  .content-flash {
+    animation: contentflash 1.5s steps(1) 1;
+  }
+</style>
 
-    /* TALK: Scanline sweep across screen every 2.4s (8 frames at ~300ms) */
-    @keyframes scanline-sweep {
-      0%   { transform: translateY(0); opacity: 0.6; }
-      100% { transform: translateY(32px); opacity: 0.2; }
-    }
-    .scanline { animation: scanline-sweep 2.4s linear infinite; }
+<!-- ===================== -->
+<!-- CASING TOP (y=0..4)   -->
+<!-- ===================== -->
+<rect x="0" y="0" width="64" height="5" fill="#003318"/>
+<!-- top highlight bevel -->
+<rect x="1" y="0" width="62" height="1" fill="#005C2D"/>
+<rect x="1" y="1" width="1" height="3" fill="#005C2D"/>
+<!-- brand badge 3x3 dithered yellow/green -->
+<rect x="3" y="1" width="1" height="1" fill="#FFCC00"/>
+<rect x="4" y="1" width="1" height="1" fill="#003318"/>
+<rect x="5" y="1" width="1" height="1" fill="#FFCC00"/>
+<rect x="3" y="2" width="1" height="1" fill="#003318"/>
+<rect x="4" y="2" width="1" height="1" fill="#FFCC00"/>
+<rect x="5" y="2" width="1" height="1" fill="#003318"/>
+<rect x="3" y="3" width="1" height="1" fill="#FFCC00"/>
+<rect x="4" y="3" width="1" height="1" fill="#003318"/>
+<rect x="5" y="3" width="1" height="1" fill="#FFCC00"/>
 
-    /* CONTENT: Checkmark pulse - hold 2s then fade */
-    @keyframes check-appear {
-      0%   { opacity: 1; fill: #4DFF8C; }
-      33%  { opacity: 1; fill: #4DFF8C; }
-      34%  { opacity: 1; fill: #4DFF8C; } /* frame 1 */
-      66%  { opacity: 1; fill: #4DFF8C; } /* frame 2 halo moment */
-      100% { opacity: 1; fill: #4DFF8C; } /* frame 3 back */
-    }
-    @keyframes check-halo {
-      0%   { opacity: 0; }
-      33%  { opacity: 0; }
-      34%  { opacity: 1; }
-      66%  { opacity: 1; }
-      67%  { opacity: 0; }
-      100% { opacity: 0; }
-    }
-    .check-glyph { animation: check-appear 2s step-end 1 forwards; }
-    .check-halo  { animation: check-halo 2s step-end 1 forwards; }
-  </style>
+<!-- ===================== -->
+<!-- SCREEN BEZEL          -->
+<!-- ===================== -->
+<rect x="2" y="5" width="60" height="1" fill="#005C2D"/>
+<rect x="2" y="5" width="1" height="49" fill="#005C2D"/>
+<rect x="61" y="5" width="1" height="49" fill="#005C2D"/>
+<rect x="2" y="53" width="60" height="1" fill="#005C2D"/>
 
-  <!-- =============================== -->
-  <!-- TERMINAL BODY (shared via defs) -->
-  <!-- =============================== -->
-  <defs>
-    <g id="baz-body">
-      <!-- Black background fill -->
-      <rect width="64" height="64" fill="#000000"/>
+<!-- ===================== -->
+<!-- SCREEN BLACK (y=6..52) -->
+<!-- ===================== -->
+<rect x="3" y="6" width="58" height="47" fill="#000000"/>
 
-      <!-- Body shadow (tilted 2px left = body shifted left slightly) -->
-      <rect x="3" y="6" width="56" height="42" fill="#001108"/>
+<!-- ===================== -->
+<!-- GHOST TEXT "141.80"    -->
+<!-- ===================== -->
+<!-- 1 -->
+<rect x="44" y="8" width="1" height="5" fill="#0A2A14"/>
+<!-- 4 -->
+<rect x="46" y="8" width="1" height="3" fill="#0A2A14"/>
+<rect x="47" y="8" width="1" height="5" fill="#0A2A14"/>
+<rect x="46" y="10" width="2" height="1" fill="#0A2A14"/>
+<!-- 1 -->
+<rect x="49" y="8" width="1" height="5" fill="#0A2A14"/>
+<!-- dot -->
+<rect x="51" y="12" width="1" height="1" fill="#0A2A14"/>
+<!-- 8 -->
+<rect x="53" y="8" width="3" height="1" fill="#0A2A14"/>
+<rect x="53" y="10" width="3" height="1" fill="#0A2A14"/>
+<rect x="53" y="12" width="3" height="1" fill="#0A2A14"/>
+<rect x="53" y="9" width="1" height="1" fill="#0A2A14"/>
+<rect x="55" y="9" width="1" height="1" fill="#0A2A14"/>
+<rect x="53" y="11" width="1" height="1" fill="#0A2A14"/>
+<rect x="55" y="11" width="1" height="1" fill="#0A2A14"/>
+<!-- 0 -->
+<rect x="57" y="8" width="3" height="1" fill="#0A2A14"/>
+<rect x="57" y="12" width="3" height="1" fill="#0A2A14"/>
+<rect x="57" y="9" width="1" height="3" fill="#0A2A14"/>
+<rect x="59" y="9" width="1" height="3" fill="#0A2A14"/>
 
-      <!-- Terminal body main -->
-      <rect x="2" y="4" width="56" height="42" fill="#008542"/>
 
-      <!-- Body volume/shadow: left edge + bottom edge -->
-      <rect x="2" y="4" width="2" height="42" fill="#005C2D"/>
-      <rect x="2" y="44" width="56" height="2" fill="#005C2D"/>
-      <!-- Body highlight: top edge + right edge -->
-      <rect x="2" y="4" width="56" height="2" fill="#00B858"/>
-      <rect x="56" y="4" width="2" height="42" fill="#00B858"/>
+<!-- ======================================== -->
+<!-- === IDLE STATE ========================= -->
+<!-- ======================================== -->
+<g class="baz-idle">
 
-      <!-- Paint chip: 2px wear mark top-left corner -->
-      <rect x="2" y="4" width="2" height="2" fill="#003318"/>
-
-      <!-- Yellow label: 3x3 dithered on top-right body -->
-      <rect x="52" y="6" width="1" height="1" fill="#FFCC00"/>
-      <rect x="53" y="6" width="1" height="1" fill="#008542"/>
-      <rect x="54" y="6" width="1" height="1" fill="#FFCC00"/>
-      <rect x="52" y="7" width="1" height="1" fill="#008542"/>
-      <rect x="53" y="7" width="1" height="1" fill="#FFCC00"/>
-      <rect x="54" y="7" width="1" height="1" fill="#008542"/>
-      <rect x="52" y="8" width="1" height="1" fill="#FFCC00"/>
-      <rect x="53" y="8" width="1" height="1" fill="#008542"/>
-      <rect x="54" y="8" width="1" height="1" fill="#FFCC00"/>
-
-      <!-- Screen: 48x32 inner rectangle -->
-      <rect x="5" y="8" width="50" height="34" fill="#005C2D"/>
-      <rect x="6" y="9" width="48" height="32" fill="#000000"/>
-
-      <!-- "141.80" micro-text in screen top-right (pixel dots) -->
-      <!-- "1" -->
-      <rect x="42" y="10" width="1" height="1" fill="#005C2D"/>
-      <rect x="41" y="11" width="1" height="1" fill="#005C2D"/>
-      <rect x="42" y="11" width="1" height="1" fill="#005C2D"/>
-      <rect x="42" y="12" width="1" height="1" fill="#005C2D"/>
-      <!-- "4" -->
-      <rect x="44" y="10" width="1" height="1" fill="#005C2D"/>
-      <rect x="46" y="10" width="1" height="1" fill="#005C2D"/>
-      <rect x="44" y="11" width="1" height="1" fill="#005C2D"/>
-      <rect x="45" y="11" width="1" height="1" fill="#005C2D"/>
-      <rect x="46" y="11" width="1" height="1" fill="#005C2D"/>
-      <rect x="46" y="12" width="1" height="1" fill="#005C2D"/>
-      <!-- "1" -->
-      <rect x="48" y="10" width="1" height="1" fill="#005C2D"/>
-      <rect x="48" y="11" width="1" height="1" fill="#005C2D"/>
-      <rect x="48" y="12" width="1" height="1" fill="#005C2D"/>
-      <!-- "." -->
-      <rect x="50" y="12" width="1" height="1" fill="#005C2D"/>
-      <!-- "8" -->
-      <rect x="51" y="10" width="1" height="1" fill="#005C2D"/>
-      <rect x="52" y="10" width="1" height="1" fill="#005C2D"/>
-      <rect x="51" y="11" width="1" height="1" fill="#005C2D"/>
-      <rect x="52" y="11" width="1" height="1" fill="#005C2D"/>
-      <rect x="51" y="12" width="1" height="1" fill="#005C2D"/>
-      <rect x="52" y="12" width="1" height="1" fill="#005C2D"/>
-      <!-- "0" -->
-      <rect x="53" y="10" width="1" height="1" fill="#005C2D"/>
-      <rect x="54" y="10" width="1" height="1" fill="#005C2D"/>
-      <rect x="53" y="11" width="1" height="1" fill="#005C2D"/>
-      <rect x="54" y="12" width="1" height="1" fill="#005C2D"/>
-      <rect x="53" y="12" width="1" height="1" fill="#005C2D"/>
-      <rect x="54" y="11" width="1" height="1" fill="#005C2D"/>
-
-      <!-- Vent grills: 3 slots left side of body -->
-      <rect x="3" y="14" width="1" height="2" fill="#003318"/>
-      <rect x="3" y="18" width="1" height="2" fill="#003318"/>
-      <rect x="3" y="22" width="1" height="2" fill="#003318"/>
-
-      <!-- Vent grills: 3 slots right side of body -->
-      <rect x="56" y="14" width="1" height="2" fill="#003318"/>
-      <rect x="56" y="18" width="1" height="2" fill="#003318"/>
-      <rect x="56" y="22" width="1" height="2" fill="#003318"/>
-
-      <!-- Physical button: 4x4 rectangle bottom-right of body -->
-      <rect x="51" y="40" width="4" height="4" fill="#005C2D"/>
-      <rect x="52" y="41" width="2" height="2" fill="#00B858"/>
-
-      <!-- Keyboard base -->
-      <rect x="6" y="48" width="48" height="2" fill="#005C2D"/>
-      <rect x="4" y="50" width="52" height="10" fill="#008542"/>
-      <rect x="4" y="50" width="52" height="1" fill="#00B858"/>
-      <rect x="4" y="59" width="52" height="1" fill="#005C2D"/>
-
-      <!-- Keyboard keys row 1 (varied widths) -->
-      <rect x="7"  y="52" width="2" height="2" fill="#00B858"/>
-      <rect x="10" y="52" width="3" height="2" fill="#00B858"/>
-      <rect x="14" y="52" width="2" height="2" fill="#00B858"/>
-      <rect x="17" y="52" width="3" height="2" fill="#00B858"/>
-      <rect x="21" y="52" width="2" height="2" fill="#00B858"/>
-      <rect x="24" y="52" width="3" height="2" fill="#00B858"/>
-      <rect x="28" y="52" width="2" height="2" fill="#00B858"/>
-      <rect x="31" y="52" width="3" height="2" fill="#00B858"/>
-      <rect x="35" y="52" width="2" height="2" fill="#00B858"/>
-      <rect x="38" y="52" width="3" height="2" fill="#00B858"/>
-      <rect x="42" y="52" width="2" height="2" fill="#00B858"/>
-      <rect x="45" y="52" width="4" height="2" fill="#00B858"/>
-
-      <!-- Keyboard keys row 2 (with spacebar) -->
-      <rect x="7"  y="55" width="3" height="2" fill="#00B858"/>
-      <rect x="11" y="55" width="2" height="2" fill="#00B858"/>
-      <rect x="14" y="55" width="2" height="2" fill="#00B858"/>
-      <rect x="17" y="55" width="18" height="2" fill="#00B858"/>
-      <rect x="36" y="55" width="2" height="2" fill="#00B858"/>
-      <rect x="39" y="55" width="3" height="2" fill="#00B858"/>
-      <rect x="43" y="55" width="6" height="2" fill="#00B858"/>
-    </g>
-  </defs>
-
-  <!-- ============= -->
-  <!-- STATE: IDLE   -->
-  <!-- ============= -->
-  <g class="baz-idle">
-    <use href="#baz-body"/>
-
-    <g class="screen-flicker">
-      <!-- Prompt line 1: "> RETRODEX" -->
-      <rect x="8"  y="16" width="1" height="1" fill="#00B858"/>
-      <rect x="10" y="16" width="8" height="1" fill="#00B858"/>
-
-      <!-- Prompt line 2: "> LOADING..." -->
-      <rect x="8"  y="19" width="1" height="1" fill="#00B858"/>
-      <rect x="10" y="19" width="12" height="1" fill="#00B858"/>
-
-      <!-- Prompt line 3: "> OK" -->
-      <rect x="8"  y="22" width="1" height="1" fill="#00B858"/>
-      <rect x="10" y="22" width="4" height="1" fill="#00B858"/>
-    </g>
-
-    <!-- Blinking cursor 5x7 -->
-    <rect class="cursor-blink" x="8" y="26" width="5" height="7" fill="#00E56D"/>
-    <!-- Cursor phosphor halo -->
-    <rect class="cursor-halo" x="7" y="25" width="7" height="9" fill="#008542"/>
+  <!-- LEFT EYE outline 6x5 at (18,17) -->
+  <rect x="18" y="17" width="6" height="1" fill="#00B858"/>
+  <rect x="18" y="21" width="6" height="1" fill="#00B858"/>
+  <rect x="18" y="17" width="1" height="5" fill="#00B858"/>
+  <rect x="23" y="17" width="1" height="5" fill="#00B858"/>
+  <!-- glow halo -->
+  <rect x="17" y="17" width="1" height="5" fill="#008542"/>
+  <rect x="24" y="17" width="1" height="5" fill="#008542"/>
+  <rect x="18" y="16" width="6" height="1" fill="#008542"/>
+  <rect x="18" y="22" width="6" height="1" fill="#008542"/>
+  <!-- eye interior -->
+  <rect x="19" y="18" width="4" height="3" fill="#000000"/>
+  <!-- pupil 2x2 centered + glow (blinks) -->
+  <g class="blink-left">
+    <rect x="20" y="19" width="2" height="2" fill="#00E56D"/>
+    <rect x="19" y="19" width="1" height="2" fill="#008542"/>
+    <rect x="22" y="19" width="1" height="2" fill="#008542"/>
+    <rect x="20" y="18" width="2" height="1" fill="#008542"/>
   </g>
 
-  <!-- ============= -->
-  <!-- STATE: TALK   -->
-  <!-- ============= -->
-  <g class="baz-talk">
-    <use href="#baz-body"/>
-
-    <!-- 5 equalizer bars with specified widths -->
-    <!-- Bar 1: 3px wide -->
-    <rect x="10" y="28" width="3" height="10" fill="#00B858"/>
-    <rect x="10" y="28" width="3" height="1"  fill="#00E56D"/>
-
-    <!-- Bar 2: 5px wide -->
-    <rect x="16" y="18" width="5" height="20" fill="#00B858"/>
-    <rect x="16" y="18" width="5" height="1"  fill="#00E56D"/>
-
-    <!-- Bar 3: 3px wide -->
-    <rect x="24" y="24" width="3" height="14" fill="#00B858"/>
-    <rect x="24" y="24" width="3" height="1"  fill="#00E56D"/>
-
-    <!-- Bar 4: 5px wide -->
-    <rect x="30" y="14" width="5" height="24" fill="#00B858"/>
-    <rect x="30" y="14" width="5" height="1"  fill="#00E56D"/>
-
-    <!-- Bar 5: 3px wide -->
-    <rect x="38" y="22" width="3" height="16" fill="#00B858"/>
-    <rect x="38" y="22" width="3" height="1"  fill="#00E56D"/>
-
-    <!-- Scanline sweep -->
-    <rect class="scanline" x="6" y="9" width="48" height="1" fill="#00E56D" opacity="0.3"/>
+  <!-- RIGHT EYE outline 6x5 at (40,17) -->
+  <rect x="40" y="17" width="6" height="1" fill="#00B858"/>
+  <rect x="40" y="21" width="6" height="1" fill="#00B858"/>
+  <rect x="40" y="17" width="1" height="5" fill="#00B858"/>
+  <rect x="45" y="17" width="1" height="5" fill="#00B858"/>
+  <!-- glow halo -->
+  <rect x="39" y="17" width="1" height="5" fill="#008542"/>
+  <rect x="46" y="17" width="1" height="5" fill="#008542"/>
+  <rect x="40" y="16" width="6" height="1" fill="#008542"/>
+  <rect x="40" y="22" width="6" height="1" fill="#008542"/>
+  <!-- eye interior -->
+  <rect x="41" y="18" width="4" height="3" fill="#000000"/>
+  <!-- pupil 2x2 centered + glow (blinks) -->
+  <g class="blink-right">
+    <rect x="42" y="19" width="2" height="2" fill="#00E56D"/>
+    <rect x="41" y="19" width="1" height="2" fill="#008542"/>
+    <rect x="44" y="19" width="1" height="2" fill="#008542"/>
+    <rect x="42" y="18" width="2" height="1" fill="#008542"/>
   </g>
 
-  <!-- =============== -->
-  <!-- STATE: CONTENT  -->
-  <!-- =============== -->
-  <g class="baz-content">
-    <use href="#baz-body"/>
+  <!-- MOUTH: flat neutral line 8px wide -->
+  <rect x="28" y="30" width="8" height="1" fill="#008542"/>
 
-    <!-- Checkmark in #4DFF8C (pixel-drawn, thick) -->
-    <!-- Down stroke of check -->
-    <rect class="check-glyph" x="16" y="28" width="2" height="2" fill="#4DFF8C"/>
-    <rect class="check-glyph" x="18" y="30" width="2" height="2" fill="#4DFF8C"/>
-    <rect class="check-glyph" x="20" y="32" width="2" height="2" fill="#4DFF8C"/>
-    <rect class="check-glyph" x="22" y="34" width="2" height="2" fill="#4DFF8C"/>
-    <!-- Up stroke of check -->
-    <rect class="check-glyph" x="24" y="32" width="2" height="2" fill="#4DFF8C"/>
-    <rect class="check-glyph" x="26" y="30" width="2" height="2" fill="#4DFF8C"/>
-    <rect class="check-glyph" x="28" y="28" width="2" height="2" fill="#4DFF8C"/>
-    <rect class="check-glyph" x="30" y="26" width="2" height="2" fill="#4DFF8C"/>
-    <rect class="check-glyph" x="32" y="24" width="2" height="2" fill="#4DFF8C"/>
-    <rect class="check-glyph" x="34" y="22" width="2" height="2" fill="#4DFF8C"/>
-    <rect class="check-glyph" x="36" y="20" width="2" height="2" fill="#4DFF8C"/>
-    <rect class="check-glyph" x="38" y="18" width="2" height="2" fill="#4DFF8C"/>
+  <!-- DATA SCROLL DOT -->
+  <rect x="5" y="50" width="2" height="1" fill="#005C2D" class="data-dot"/>
+</g>
 
-    <!-- Phosphor glow halo around checkmark -->
-    <rect class="check-glyph" x="15" y="27" width="2" height="2" fill="#008542" opacity="0.5"/>
-    <rect class="check-glyph" x="19" y="31" width="2" height="2" fill="#008542" opacity="0.5"/>
-    <rect class="check-glyph" x="23" y="35" width="2" height="2" fill="#008542" opacity="0.5"/>
-    <rect class="check-glyph" x="25" y="33" width="2" height="2" fill="#008542" opacity="0.5"/>
-    <rect class="check-glyph" x="39" y="17" width="2" height="2" fill="#008542" opacity="0.5"/>
 
-    <!-- Yellow halo (frame 2 only) -->
-    <rect class="check-halo" x="15" y="27" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-    <rect class="check-halo" x="17" y="29" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-    <rect class="check-halo" x="19" y="31" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-    <rect class="check-halo" x="21" y="33" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-    <rect class="check-halo" x="23" y="35" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-    <rect class="check-halo" x="25" y="33" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-    <rect class="check-halo" x="27" y="31" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-    <rect class="check-halo" x="29" y="29" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-    <rect class="check-halo" x="31" y="27" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-    <rect class="check-halo" x="33" y="25" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-    <rect class="check-halo" x="35" y="23" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-    <rect class="check-halo" x="37" y="21" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-    <rect class="check-halo" x="39" y="19" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-    <rect class="check-halo" x="39" y="17" width="2" height="2" fill="#FFCC00" opacity="0.7"/>
-  </g>
+<!-- ======================================== -->
+<!-- === TALK STATE ========================= -->
+<!-- ======================================== -->
+<g class="baz-talk">
+
+  <!-- LEFT EYE (same structure, pupils shifted 1px right) -->
+  <rect x="18" y="17" width="6" height="1" fill="#00B858"/>
+  <rect x="18" y="21" width="6" height="1" fill="#00B858"/>
+  <rect x="18" y="17" width="1" height="5" fill="#00B858"/>
+  <rect x="23" y="17" width="1" height="5" fill="#00B858"/>
+  <rect x="17" y="17" width="1" height="5" fill="#008542"/>
+  <rect x="24" y="17" width="1" height="5" fill="#008542"/>
+  <rect x="18" y="16" width="6" height="1" fill="#008542"/>
+  <rect x="18" y="22" width="6" height="1" fill="#008542"/>
+  <rect x="19" y="18" width="4" height="3" fill="#000000"/>
+  <!-- pupil shifted 1px RIGHT (looking at user) -->
+  <rect x="21" y="19" width="2" height="2" fill="#00E56D"/>
+  <rect x="20" y="19" width="1" height="2" fill="#008542"/>
+  <rect x="23" y="19" width="1" height="2" fill="#008542"/>
+  <rect x="21" y="18" width="2" height="1" fill="#008542"/>
+
+  <!-- RIGHT EYE (pupils shifted 1px right) -->
+  <rect x="40" y="17" width="6" height="1" fill="#00B858"/>
+  <rect x="40" y="21" width="6" height="1" fill="#00B858"/>
+  <rect x="40" y="17" width="1" height="5" fill="#00B858"/>
+  <rect x="45" y="17" width="1" height="5" fill="#00B858"/>
+  <rect x="39" y="17" width="1" height="5" fill="#008542"/>
+  <rect x="46" y="17" width="1" height="5" fill="#008542"/>
+  <rect x="40" y="16" width="6" height="1" fill="#008542"/>
+  <rect x="40" y="22" width="6" height="1" fill="#008542"/>
+  <rect x="41" y="18" width="4" height="3" fill="#000000"/>
+  <!-- pupil shifted 1px RIGHT -->
+  <rect x="43" y="19" width="2" height="2" fill="#00E56D"/>
+  <rect x="42" y="19" width="1" height="2" fill="#008542"/>
+  <rect x="45" y="19" width="1" height="2" fill="#008542"/>
+  <rect x="43" y="18" width="2" height="1" fill="#008542"/>
+
+  <!-- MOUTH: 4 equalizer bars (speaking) -->
+  <!-- Bar 1 -->
+  <rect x="27" y="28" width="2" height="2" fill="#00B858"/>
+  <rect x="27" y="30" width="2" height="2" fill="#00E56D"/>
+  <!-- Bar 2 -->
+  <rect x="30" y="27" width="2" height="1" fill="#008542"/>
+  <rect x="30" y="28" width="2" height="2" fill="#00B858"/>
+  <rect x="30" y="30" width="2" height="2" fill="#00E56D"/>
+  <!-- Bar 3 -->
+  <rect x="33" y="29" width="2" height="1" fill="#00B858"/>
+  <rect x="33" y="30" width="2" height="2" fill="#00E56D"/>
+  <!-- Bar 4 -->
+  <rect x="36" y="27" width="2" height="2" fill="#008542"/>
+  <rect x="36" y="29" width="2" height="1" fill="#00B858"/>
+  <rect x="36" y="30" width="2" height="2" fill="#00E56D"/>
+</g>
+
+
+<!-- ======================================== -->
+<!-- === CONTENT STATE ====================== -->
+<!-- ======================================== -->
+<g class="baz-content">
+
+  <!-- satisfaction flash overlay -->
+  <rect x="3" y="6" width="58" height="47" fill="#4DFF8C" opacity="0" class="content-flash"/>
+
+  <!-- LEFT EYE (pupils 3x3 enlarged) -->
+  <rect x="18" y="17" width="6" height="1" fill="#00B858"/>
+  <rect x="18" y="21" width="6" height="1" fill="#00B858"/>
+  <rect x="18" y="17" width="1" height="5" fill="#00B858"/>
+  <rect x="23" y="17" width="1" height="5" fill="#00B858"/>
+  <rect x="17" y="17" width="1" height="5" fill="#008542"/>
+  <rect x="24" y="17" width="1" height="5" fill="#008542"/>
+  <rect x="18" y="16" width="6" height="1" fill="#008542"/>
+  <rect x="18" y="22" width="6" height="1" fill="#008542"/>
+  <rect x="19" y="18" width="4" height="3" fill="#000000"/>
+  <!-- enlarged 3x3 pupil -->
+  <rect x="20" y="18" width="3" height="3" fill="#00E56D"/>
+  <rect x="19" y="18" width="1" height="3" fill="#008542"/>
+  <rect x="23" y="18" width="1" height="3" fill="#008542"/>
+  <rect x="20" y="17" width="3" height="1" fill="#008542"/>
+
+  <!-- RIGHT EYE (pupils 3x3 enlarged) -->
+  <rect x="40" y="17" width="6" height="1" fill="#00B858"/>
+  <rect x="40" y="21" width="6" height="1" fill="#00B858"/>
+  <rect x="40" y="17" width="1" height="5" fill="#00B858"/>
+  <rect x="45" y="17" width="1" height="5" fill="#00B858"/>
+  <rect x="39" y="17" width="1" height="5" fill="#008542"/>
+  <rect x="46" y="17" width="1" height="5" fill="#008542"/>
+  <rect x="40" y="16" width="6" height="1" fill="#008542"/>
+  <rect x="40" y="22" width="6" height="1" fill="#008542"/>
+  <rect x="41" y="18" width="4" height="3" fill="#000000"/>
+  <!-- enlarged 3x3 pupil -->
+  <rect x="42" y="18" width="3" height="3" fill="#00E56D"/>
+  <rect x="41" y="18" width="1" height="3" fill="#008542"/>
+  <rect x="45" y="18" width="1" height="3" fill="#008542"/>
+  <rect x="42" y="17" width="3" height="1" fill="#008542"/>
+
+  <!-- MOUTH: upward curve (satisfied) -->
+  <rect x="27" y="32" width="1" height="1" fill="#4DFF8C"/>
+  <rect x="28" y="31" width="1" height="1" fill="#4DFF8C"/>
+  <rect x="29" y="30" width="6" height="1" fill="#4DFF8C"/>
+  <rect x="35" y="31" width="1" height="1" fill="#4DFF8C"/>
+  <rect x="36" y="32" width="1" height="1" fill="#4DFF8C"/>
+  <!-- glow under curve -->
+  <rect x="28" y="32" width="1" height="1" fill="#008542"/>
+  <rect x="29" y="31" width="6" height="1" fill="#008542"/>
+  <rect x="35" y="32" width="1" height="1" fill="#008542"/>
+</g>
+
+
+<!-- ===================== -->
+<!-- CASING BOTTOM (y=54..63) -->
+<!-- ===================== -->
+<rect x="0" y="54" width="64" height="10" fill="#003318"/>
+<!-- top edge highlight -->
+<rect x="2" y="54" width="60" height="1" fill="#005C2D"/>
+<!-- bottom bevel -->
+<rect x="1" y="63" width="62" height="1" fill="#001A0C"/>
+<!-- keyboard hints: 3 key shapes -->
+<rect x="18" y="57" width="5" height="3" fill="#001A0C"/>
+<rect x="19" y="57" width="3" height="1" fill="#005C2D"/>
+<rect x="25" y="57" width="14" height="3" fill="#001A0C"/>
+<rect x="26" y="57" width="12" height="1" fill="#005C2D"/>
+<rect x="41" y="57" width="5" height="3" fill="#001A0C"/>
+<rect x="42" y="57" width="3" height="1" fill="#005C2D"/>
+<!-- power LED -->
+<rect x="57" y="58" width="2" height="2" fill="#008542"/>
+
 </svg>

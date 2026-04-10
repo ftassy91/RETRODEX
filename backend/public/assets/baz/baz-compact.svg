@@ -1,169 +1,165 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" shape-rendering="crispEdges">
-  <style>
-    /* State visibility */
-    .baz-idle { display: block; }
-    .baz-talk { display: none; }
-    .baz-content { display: none; }
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+<style>
+  /* === STATE VISIBILITY === */
+  .baz-idle { visibility: visible; }
+  .baz-talk { visibility: hidden; }
+  .baz-content { visibility: hidden; }
 
-    /* IDLE: Irregular cursor blink - 400ms on, 100ms off, 150ms on, 600ms off = 1250ms */
-    @keyframes cursor-blink {
-      0%     { opacity: 1; }
-      32%    { opacity: 1; }
-      32.01% { opacity: 0; }
-      40%    { opacity: 0; }
-      40.01% { opacity: 1; }
-      52%    { opacity: 1; }
-      52.01% { opacity: 0; }
-      100%   { opacity: 0; }
-    }
-    .cursor-blink { animation: cursor-blink 1.25s step-end infinite; }
+  /* === IRREGULAR BLINK === */
+  @keyframes blink32 {
+    0%    { opacity: 1; }
+    88%   { opacity: 1; }
+    89%   { opacity: 0; }
+    93%   { opacity: 0; }
+    94%   { opacity: 1; }
+    100%  { opacity: 1; }
+  }
+  @keyframes blink32b {
+    0%    { opacity: 1; }
+    42%   { opacity: 1; }
+    43%   { opacity: 0; }
+    46%   { opacity: 0; }
+    47%   { opacity: 1; }
+    93%   { opacity: 1; }
+    94%   { opacity: 0; }
+    97%   { opacity: 0; }
+    98%   { opacity: 1; }
+    100%  { opacity: 1; }
+  }
+  .blink-l { animation: blink32 3.7s steps(1) infinite; }
+  .blink-r { animation: blink32b 4.1s steps(1) infinite; }
 
-    /* IDLE: Screen flicker */
-    @keyframes screen-flicker {
-      0%   { opacity: 1; }
-      91%  { opacity: 1; }
-      92%  { opacity: 0.8; }
-      94%  { opacity: 1; }
-      100% { opacity: 1; }
-    }
-    .screen-flicker { animation: screen-flicker 3.5s linear infinite; }
+  /* === CONTENT FLASH === */
+  @keyframes cflash32 {
+    0%   { opacity: 0.5; }
+    10%  { opacity: 0.5; }
+    11%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  .content-flash { animation: cflash32 1.5s steps(1) 1; }
+</style>
 
-    /* TALK: Scanline */
-    @keyframes scanline-sweep {
-      0%   { transform: translateY(0); opacity: 0.5; }
-      100% { transform: translateY(14px); opacity: 0.15; }
-    }
-    .scanline { animation: scanline-sweep 2s linear infinite; }
+<!-- ==================== -->
+<!-- CASING TOP (2px)     -->
+<!-- ==================== -->
+<rect x="0" y="0" width="32" height="2" fill="#003318"/>
+<rect x="1" y="0" width="30" height="1" fill="#005C2D"/>
 
-    /* CONTENT: Checkmark pulse */
-    @keyframes check-pulse {
-      0%   { fill: #00E56D; }
-      50%  { fill: #00B858; }
-      100% { fill: #00E56D; }
-    }
-    .check-pulse { animation: check-pulse 2s step-end 1 forwards; }
-  </style>
+<!-- ==================== -->
+<!-- SCREEN BEZEL         -->
+<!-- ==================== -->
+<rect x="1" y="2" width="30" height="1" fill="#005C2D"/>
+<rect x="1" y="2" width="1" height="24" fill="#005C2D"/>
+<rect x="30" y="2" width="1" height="24" fill="#005C2D"/>
+<rect x="1" y="25" width="30" height="1" fill="#005C2D"/>
 
-  <defs>
-    <!-- Compact terminal body: 4 colors only -->
-    <g id="baz-sm">
-      <!-- Black fill -->
-      <rect width="32" height="32" fill="#000000"/>
+<!-- ==================== -->
+<!-- SCREEN BLACK         -->
+<!-- ==================== -->
+<rect x="2" y="3" width="28" height="22" fill="#000000"/>
 
-      <!-- Body (tilted 1px left at this scale) -->
-      <rect x="1" y="2" width="28" height="20" fill="#008542"/>
 
-      <!-- Body top highlight -->
-      <rect x="1" y="2" width="28" height="1" fill="#00B858"/>
-      <!-- Body right highlight -->
-      <rect x="28" y="2" width="1" height="20" fill="#00B858"/>
-      <!-- Body bottom shadow -->
-      <rect x="1" y="21" width="28" height="1" fill="#008542"/>
+<!-- ================================ -->
+<!-- === IDLE STATE ================= -->
+<!-- ================================ -->
+<g class="baz-idle">
 
-      <!-- Screen border -->
-      <rect x="3" y="4" width="24" height="16" fill="#008542"/>
-      <!-- Screen inner (black) -->
-      <rect x="4" y="5" width="22" height="14" fill="#000000"/>
-
-      <!-- Vent grills: 3 slots left -->
-      <rect x="2" y="7"  width="1" height="1" fill="#000000"/>
-      <rect x="2" y="10" width="1" height="1" fill="#000000"/>
-      <rect x="2" y="13" width="1" height="1" fill="#000000"/>
-
-      <!-- Vent grills: 3 slots right -->
-      <rect x="27" y="7"  width="1" height="1" fill="#000000"/>
-      <rect x="27" y="10" width="1" height="1" fill="#000000"/>
-      <rect x="27" y="13" width="1" height="1" fill="#000000"/>
-
-      <!-- Button: 2x2 bottom-right of body -->
-      <rect x="25" y="19" width="2" height="2" fill="#00B858"/>
-
-      <!-- Keyboard base -->
-      <rect x="3" y="23" width="24" height="1" fill="#008542"/>
-      <rect x="2" y="24" width="26" height="6" fill="#008542"/>
-      <rect x="2" y="24" width="26" height="1" fill="#00B858"/>
-
-      <!-- Key row 1 -->
-      <rect x="4"  y="26" width="1" height="1" fill="#00B858"/>
-      <rect x="6"  y="26" width="2" height="1" fill="#00B858"/>
-      <rect x="9"  y="26" width="1" height="1" fill="#00B858"/>
-      <rect x="11" y="26" width="2" height="1" fill="#00B858"/>
-      <rect x="14" y="26" width="1" height="1" fill="#00B858"/>
-      <rect x="16" y="26" width="2" height="1" fill="#00B858"/>
-      <rect x="19" y="26" width="1" height="1" fill="#00B858"/>
-      <rect x="21" y="26" width="2" height="1" fill="#00B858"/>
-      <rect x="24" y="26" width="2" height="1" fill="#00B858"/>
-
-      <!-- Key row 2 (spacebar) -->
-      <rect x="4"  y="28" width="2" height="1" fill="#00B858"/>
-      <rect x="7"  y="28" width="14" height="1" fill="#00B858"/>
-      <rect x="22" y="28" width="4" height="1" fill="#00B858"/>
-    </g>
-  </defs>
-
-  <!-- ============= -->
-  <!-- STATE: IDLE   -->
-  <!-- ============= -->
-  <g class="baz-idle">
-    <use href="#baz-sm"/>
-
-    <g class="screen-flicker">
-      <!-- Prompt line 1 -->
-      <rect x="5" y="7"  width="1" height="1" fill="#00B858"/>
-      <rect x="7" y="7"  width="6" height="1" fill="#00B858"/>
-
-      <!-- Prompt line 2 -->
-      <rect x="5" y="10" width="1" height="1" fill="#00B858"/>
-      <rect x="7" y="10" width="9" height="1" fill="#00B858"/>
-    </g>
-
-    <!-- Blinking cursor 3x4 -->
-    <rect class="cursor-blink" x="5" y="13" width="3" height="4" fill="#00E56D"/>
+  <!-- LEFT EYE 3x3 outline at (8,8) -->
+  <rect x="8" y="8" width="3" height="1" fill="#00B858"/>
+  <rect x="8" y="10" width="3" height="1" fill="#00B858"/>
+  <rect x="8" y="8" width="1" height="3" fill="#00B858"/>
+  <rect x="10" y="8" width="1" height="3" fill="#00B858"/>
+  <!-- interior -->
+  <rect x="9" y="9" width="1" height="1" fill="#000000"/>
+  <!-- pupil 1x1 (blinks) -->
+  <g class="blink-l">
+    <rect x="9" y="9" width="1" height="1" fill="#00E56D"/>
   </g>
 
-  <!-- ============= -->
-  <!-- STATE: TALK   -->
-  <!-- ============= -->
-  <g class="baz-talk">
-    <use href="#baz-sm"/>
-
-    <!-- 5 bars simplified, varied widths: 2,3,2,3,2 -->
-    <rect x="6"  y="14" width="2" height="4"  fill="#00B858"/>
-    <rect x="6"  y="14" width="2" height="1"  fill="#00E56D"/>
-
-    <rect x="10" y="8"  width="3" height="10" fill="#00B858"/>
-    <rect x="10" y="8"  width="3" height="1"  fill="#00E56D"/>
-
-    <rect x="15" y="11" width="2" height="7"  fill="#00B858"/>
-    <rect x="15" y="11" width="2" height="1"  fill="#00E56D"/>
-
-    <rect x="19" y="7"  width="3" height="11" fill="#00B858"/>
-    <rect x="19" y="7"  width="3" height="1"  fill="#00E56D"/>
-
-    <rect x="24" y="12" width="2" height="6"  fill="#00B858"/>
-    <rect x="24" y="12" width="2" height="1"  fill="#00E56D"/>
-
-    <!-- Scanline -->
-    <rect class="scanline" x="4" y="5" width="22" height="1" fill="#00E56D" opacity="0.25"/>
+  <!-- RIGHT EYE 3x3 outline at (21,8) -->
+  <rect x="21" y="8" width="3" height="1" fill="#00B858"/>
+  <rect x="21" y="10" width="3" height="1" fill="#00B858"/>
+  <rect x="21" y="8" width="1" height="3" fill="#00B858"/>
+  <rect x="23" y="8" width="1" height="3" fill="#00B858"/>
+  <!-- interior -->
+  <rect x="22" y="9" width="1" height="1" fill="#000000"/>
+  <!-- pupil 1x1 (blinks) -->
+  <g class="blink-r">
+    <rect x="22" y="9" width="1" height="1" fill="#00E56D"/>
   </g>
 
-  <!-- =============== -->
-  <!-- STATE: CONTENT  -->
-  <!-- =============== -->
-  <g class="baz-content">
-    <use href="#baz-sm"/>
+  <!-- MOUTH: flat line 4px -->
+  <rect x="14" y="15" width="4" height="1" fill="#008542"/>
+</g>
 
-    <!-- Checkmark (simplified, 1px strokes) -->
-    <rect class="check-pulse" x="8"  y="14" width="1" height="1" fill="#00E56D"/>
-    <rect class="check-pulse" x="9"  y="15" width="1" height="1" fill="#00E56D"/>
-    <rect class="check-pulse" x="10" y="16" width="1" height="1" fill="#00E56D"/>
-    <rect class="check-pulse" x="11" y="15" width="1" height="1" fill="#00E56D"/>
-    <rect class="check-pulse" x="12" y="14" width="1" height="1" fill="#00E56D"/>
-    <rect class="check-pulse" x="13" y="13" width="1" height="1" fill="#00E56D"/>
-    <rect class="check-pulse" x="14" y="12" width="1" height="1" fill="#00E56D"/>
-    <rect class="check-pulse" x="15" y="11" width="1" height="1" fill="#00E56D"/>
-    <rect class="check-pulse" x="16" y="10" width="1" height="1" fill="#00E56D"/>
-    <rect class="check-pulse" x="17" y="9"  width="1" height="1" fill="#00E56D"/>
-    <rect class="check-pulse" x="18" y="8"  width="1" height="1" fill="#00E56D"/>
-  </g>
+
+<!-- ================================ -->
+<!-- === TALK STATE ================= -->
+<!-- ================================ -->
+<g class="baz-talk">
+
+  <!-- LEFT EYE (pupil shifted 1px right) -->
+  <rect x="8" y="8" width="3" height="1" fill="#00B858"/>
+  <rect x="8" y="10" width="3" height="1" fill="#00B858"/>
+  <rect x="8" y="8" width="1" height="3" fill="#00B858"/>
+  <rect x="10" y="8" width="1" height="3" fill="#00B858"/>
+  <rect x="9" y="9" width="1" height="1" fill="#000000"/>
+  <rect x="10" y="9" width="1" height="1" fill="#00E56D"/>
+
+  <!-- RIGHT EYE (pupil shifted 1px right) -->
+  <rect x="21" y="8" width="3" height="1" fill="#00B858"/>
+  <rect x="21" y="10" width="3" height="1" fill="#00B858"/>
+  <rect x="21" y="8" width="1" height="3" fill="#00B858"/>
+  <rect x="23" y="8" width="1" height="3" fill="#00B858"/>
+  <rect x="22" y="9" width="1" height="1" fill="#000000"/>
+  <rect x="23" y="9" width="1" height="1" fill="#00E56D"/>
+
+  <!-- MOUTH: 2 small bars (speaking) -->
+  <rect x="14" y="14" width="1" height="2" fill="#00B858"/>
+  <rect x="17" y="13" width="1" height="3" fill="#00B858"/>
+</g>
+
+
+<!-- ================================ -->
+<!-- === CONTENT STATE ============== -->
+<!-- ================================ -->
+<g class="baz-content">
+
+  <!-- flash overlay -->
+  <rect x="2" y="3" width="28" height="22" fill="#00E56D" opacity="0" class="content-flash"/>
+
+  <!-- LEFT EYE (pupil stays 1x1 centered) -->
+  <rect x="8" y="8" width="3" height="1" fill="#00B858"/>
+  <rect x="8" y="10" width="3" height="1" fill="#00B858"/>
+  <rect x="8" y="8" width="1" height="3" fill="#00B858"/>
+  <rect x="10" y="8" width="1" height="3" fill="#00B858"/>
+  <rect x="9" y="9" width="1" height="1" fill="#00E56D"/>
+
+  <!-- RIGHT EYE -->
+  <rect x="21" y="8" width="3" height="1" fill="#00B858"/>
+  <rect x="21" y="10" width="3" height="1" fill="#00B858"/>
+  <rect x="21" y="8" width="1" height="3" fill="#00B858"/>
+  <rect x="23" y="8" width="1" height="3" fill="#00B858"/>
+  <rect x="22" y="9" width="1" height="1" fill="#00E56D"/>
+
+  <!-- MOUTH: upward curve (satisfied) -->
+  <rect x="13" y="16" width="1" height="1" fill="#00E56D"/>
+  <rect x="14" y="15" width="4" height="1" fill="#00E56D"/>
+  <rect x="18" y="16" width="1" height="1" fill="#00E56D"/>
+</g>
+
+
+<!-- ==================== -->
+<!-- CASING BOTTOM (6px)  -->
+<!-- ==================== -->
+<rect x="0" y="26" width="32" height="6" fill="#003318"/>
+<rect x="1" y="26" width="30" height="1" fill="#005C2D"/>
+<!-- keyboard hint: 2 keys -->
+<rect x="9" y="28" width="6" height="2" fill="#001A0C"/>
+<rect x="10" y="28" width="4" height="1" fill="#005C2D"/>
+<rect x="17" y="28" width="6" height="2" fill="#001A0C"/>
+<rect x="18" y="28" width="4" height="1" fill="#005C2D"/>
+<!-- LED -->
+<rect x="28" y="29" width="1" height="1" fill="#008542"/>
+
 </svg>
