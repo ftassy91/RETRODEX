@@ -309,3 +309,64 @@ div[hidden] {
   padding: 6px 8px;
   min-height: 40px;
 }
+
+/* ============================================================
+   BAZ ANECDOTE — Fun facts block on game-detail
+   ============================================================ */
+.baz-anecdote-card {
+  margin: 12px 0;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  background: var(--bg-surface);
+}
+.baz-anecdote-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.baz-anecdote-label {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  font-weight: bold;
+}
+.baz-anecdote-intro {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+.baz-anecdote-text {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin: 0 0 8px;
+}
+.baz-anecdote-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.baz-anecdote-next {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: border-color 150ms ease;
+}
+.baz-anecdote-next:hover {
+  border-color: var(--accent);
+}
+.baz-anecdote-source {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  color: var(--text-muted);
+  opacity: 0.6;
+}

@@ -114,4 +114,24 @@ router.post('/api/games/:id/reports', handleAsync(async (req, res) => {
   }
 }))
 
+// GET /api/games/:id/anecdotes — BAZ fun facts
+router.get('/api/games/:id/anecdotes', handleAsync(async (req, res) => {
+  const gameId = String(req.params.id || '').trim()
+  if (!gameId) return res.json({ anecdotes: [] })
+
+  const { db, mode } = require('../../../db_supabase')
+  if (mode !== 'supabase') return res.json({ anecdotes: [] })
+
+  const { data, error } = await db
+    .from('game_anecdotes')
+    .select('id,anecdote_text,anecdote_type,baz_intro,source')
+    .eq('game_id', gameId)
+    .eq('validated', true)
+    .order('id', { ascending: true })
+
+  if (error) return res.status(500).json({ error: error.message })
+  setPublicEdgeCache(res, 3600)
+  return res.json({ anecdotes: data || [] })
+}))
+
 module.exports = router

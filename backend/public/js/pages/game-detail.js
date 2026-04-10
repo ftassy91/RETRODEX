@@ -3672,6 +3672,45 @@ async function loadPriceHistory(gameId) {
   refreshHistory()
 }
 
+// BAZ anecdotes
+async function loadBazAnecdotes(gameId) {
+  const shellEl = document.getElementById('baz-anecdote-shell')
+  const introEl = document.getElementById('baz-intro')
+  const textEl = document.getElementById('baz-text')
+  const sourceEl = document.getElementById('baz-source')
+  const nextBtn = document.getElementById('baz-next')
+  if (!shellEl || !textEl) return
+
+  try {
+    const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/anecdotes`)
+    const anecdotes = Array.isArray(data.anecdotes) ? data.anecdotes.filter((a) => a.anecdote_text) : []
+
+    if (!anecdotes.length) return
+
+    let index = 0
+
+    function render() {
+      const a = anecdotes[index]
+      if (introEl) introEl.textContent = a.baz_intro || ''
+      textEl.textContent = a.anecdote_text
+      if (sourceEl) sourceEl.textContent = a.source ? `Source : ${a.source}` : ''
+    }
+
+    render()
+    shellEl.hidden = false
+
+    if (anecdotes.length > 1 && nextBtn) {
+      nextBtn.hidden = false
+      nextBtn.addEventListener('click', () => {
+        index = (index + 1) % anecdotes.length
+        render()
+      })
+    }
+  } catch (_) {
+    // Silent — no anecdote is fine
+  }
+}
+
 async function loadArchive(gameId) {
   try {
     const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/archive`)
@@ -3790,6 +3829,7 @@ async function loadPage() {
       ])
     }
     renderDetailContentStatus()
+    loadBazAnecdotes(currentGame.id)
     await Promise.allSettled([
       franchisePromise,
       collectionStatusPromise,
