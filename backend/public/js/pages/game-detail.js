@@ -562,7 +562,6 @@ function renderHeroSection(game) {
                 <div id="hero-summary" class="hero-summary surface-summary-copy">${summary ? formatMultilineHtml(summary) : ''}</div>
               </div>
               <p id="hero-reading-state" class="detail-reading-state">Chargement de la lecture...</p>
-              <p class="detail-reading-state detail-reading-state-secondary">La fiche doit repondre vite : possession, qualification, valeur utile, confiance et prochaine action.</p>
 
               <div class="game-tagline-shell" id="game-tagline-shell" hidden>
                 <span class="detail-inline-label">Note</span>
@@ -1008,9 +1007,8 @@ async function loadRetrodexIndex(gameId) {
       </div>
     `
   } catch (err) {
-    console.error('[game-detail] loadRetrodexIndex failed for game', gameId, err)
-    indexEl.className = 'index-error'
-    indexEl.textContent = 'Erreur de chargement des prix'
+    console.warn('[game-detail] loadRetrodexIndex failed for game', gameId, err.message)
+    indexEl.innerHTML = ''
   }
 }
 
@@ -1317,8 +1315,8 @@ function renderDynamicEditorialContent() {
 
   const detailScope = String(currentGameDetailData.meta?.scope || 'full').toLowerCase()
   const detailSubcopy = detailScope === 'primary'
-    ? 'lecture primaire chargee • enrichissement secondaire en cours'
-    : 'source de verite Supadata • onglets dynamiques • aucun vide'
+    ? 'donnees principales chargees'
+    : 'fiche complete'
 
   currentRenderedDetailTabs = new Set()
   editorialShellEl.hidden = false
@@ -2204,7 +2202,7 @@ function renderStats(game) {
     const parts = [`Loose ${formatPrice(game.loosePrice, '', cur)}`]
     if (game.cibPrice) parts.push(`CIB ${formatPrice(game.cibPrice, '', cur)}`)
     if (game.mintPrice) parts.push(`Mint ${formatPrice(game.mintPrice, '', cur)}`)
-    statsToggle.innerHTML = `Prix et marche <span style="color:var(--text-muted);font-size:0.85em">(${escapeHtml(parts.join(' \u00B7 '))})</span>`
+    statsToggle.innerHTML = `Prix et marche \u00B7 ${escapeHtml(parts.join(' \u00B7 '))}`
   }
 }
 

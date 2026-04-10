@@ -292,3 +292,17 @@ div[hidden] {
 .collection-evolution-chart svg {
   display: block;
 }
+
+/* ============================================================
+   GAME-DETAIL — Decision grid fix (prevent label truncation)
+   ============================================================ */
+.surface-signal-card {
+  min-width: 0;
+}
+.surface-signal-label {
+  white-space: nowrap;
+  font-size: 0.65rem;
+}
+.surface-signal-value {
+  word-break: break-word;
+}
