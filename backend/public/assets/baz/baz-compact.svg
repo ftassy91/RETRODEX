@@ -1,96 +1,169 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" shape-rendering="crispEdges">
   <style>
+    /* State visibility */
     .baz-idle { display: block; }
     .baz-talk { display: none; }
     .baz-content { display: none; }
 
-    @keyframes blink {
-      0%, 49% { opacity: 1; }
-      50%, 100% { opacity: 0; }
+    /* IDLE: Irregular cursor blink - 400ms on, 100ms off, 150ms on, 600ms off = 1250ms */
+    @keyframes cursor-blink {
+      0%     { opacity: 1; }
+      32%    { opacity: 1; }
+      32.01% { opacity: 0; }
+      40%    { opacity: 0; }
+      40.01% { opacity: 1; }
+      52%    { opacity: 1; }
+      52.01% { opacity: 0; }
+      100%   { opacity: 0; }
     }
-    .cursor { animation: blink 1s step-end infinite; }
+    .cursor-blink { animation: cursor-blink 1.25s step-end infinite; }
+
+    /* IDLE: Screen flicker */
+    @keyframes screen-flicker {
+      0%   { opacity: 1; }
+      91%  { opacity: 1; }
+      92%  { opacity: 0.8; }
+      94%  { opacity: 1; }
+      100% { opacity: 1; }
+    }
+    .screen-flicker { animation: screen-flicker 3.5s linear infinite; }
+
+    /* TALK: Scanline */
+    @keyframes scanline-sweep {
+      0%   { transform: translateY(0); opacity: 0.5; }
+      100% { transform: translateY(14px); opacity: 0.15; }
+    }
+    .scanline { animation: scanline-sweep 2s linear infinite; }
+
+    /* CONTENT: Checkmark pulse */
+    @keyframes check-pulse {
+      0%   { fill: #00E56D; }
+      50%  { fill: #00B858; }
+      100% { fill: #00E56D; }
+    }
+    .check-pulse { animation: check-pulse 2s step-end 1 forwards; }
   </style>
 
   <defs>
-    <!-- Shared terminal body (compact) -->
-    <g id="terminal-body-sm">
-      <!-- Terminal shell -->
-      <rect x="2" y="2" width="28" height="22" rx="2" ry="2" fill="#004D1A" stroke="#00FF41" stroke-width="1"/>
-      <!-- Screen -->
-      <rect x="4" y="4" width="24" height="16" rx="1" ry="1" fill="#000000" stroke="#00FF41" stroke-width="1"/>
-      <!-- Screen inner glow -->
-      <rect x="5" y="5" width="22" height="14" fill="none" stroke="#004D1A" stroke-width="1"/>
+    <!-- Compact terminal body: 4 colors only -->
+    <g id="baz-sm">
+      <!-- Black fill -->
+      <rect width="32" height="32" fill="#000000"/>
 
-      <!-- Ventilation slots left -->
-      <rect x="3" y="21" width="2" height="1" fill="#00FF41"/>
-      <!-- Ventilation slots right -->
-      <rect x="27" y="21" width="2" height="1" fill="#00FF41"/>
-      <!-- Brand dot -->
-      <rect x="25" y="22" width="1" height="1" fill="#00FF41"/>
+      <!-- Body (tilted 1px left at this scale) -->
+      <rect x="1" y="2" width="28" height="20" fill="#008542"/>
 
-      <!-- Power LED -->
-      <rect x="14" y="22" width="4" height="1" fill="#00FF41"/>
-      <!-- Feet -->
-      <rect x="4" y="24" width="4" height="1" fill="#00FF41"/>
-      <rect x="24" y="24" width="4" height="1" fill="#00FF41"/>
-      <!-- Keyboard -->
-      <rect x="5" y="26" width="22" height="4" rx="1" ry="1" fill="#004D1A" stroke="#00FF41" stroke-width="1"/>
-      <!-- Key row 1 (varied) -->
-      <rect x="7" y="27" width="1" height="1" fill="#00FF41"/>
-      <rect x="9" y="27" width="2" height="1" fill="#00FF41"/>
-      <rect x="12" y="27" width="2" height="1" fill="#00FF41"/>
-      <rect x="15" y="27" width="2" height="1" fill="#00FF41"/>
-      <rect x="18" y="27" width="2" height="1" fill="#00FF41"/>
-      <rect x="21" y="27" width="1" height="1" fill="#00FF41"/>
-      <rect x="23" y="27" width="2" height="1" fill="#00FF41"/>
-      <!-- Spacebar row -->
-      <rect x="7" y="29" width="2" height="1" fill="#00FF41"/>
-      <rect x="10" y="29" width="10" height="1" fill="#00FF41"/>
-      <rect x="21" y="29" width="2" height="1" fill="#00FF41"/>
+      <!-- Body top highlight -->
+      <rect x="1" y="2" width="28" height="1" fill="#00B858"/>
+      <!-- Body right highlight -->
+      <rect x="28" y="2" width="1" height="20" fill="#00B858"/>
+      <!-- Body bottom shadow -->
+      <rect x="1" y="21" width="28" height="1" fill="#008542"/>
+
+      <!-- Screen border -->
+      <rect x="3" y="4" width="24" height="16" fill="#008542"/>
+      <!-- Screen inner (black) -->
+      <rect x="4" y="5" width="22" height="14" fill="#000000"/>
+
+      <!-- Vent grills: 3 slots left -->
+      <rect x="2" y="7"  width="1" height="1" fill="#000000"/>
+      <rect x="2" y="10" width="1" height="1" fill="#000000"/>
+      <rect x="2" y="13" width="1" height="1" fill="#000000"/>
+
+      <!-- Vent grills: 3 slots right -->
+      <rect x="27" y="7"  width="1" height="1" fill="#000000"/>
+      <rect x="27" y="10" width="1" height="1" fill="#000000"/>
+      <rect x="27" y="13" width="1" height="1" fill="#000000"/>
+
+      <!-- Button: 2x2 bottom-right of body -->
+      <rect x="25" y="19" width="2" height="2" fill="#00B858"/>
+
+      <!-- Keyboard base -->
+      <rect x="3" y="23" width="24" height="1" fill="#008542"/>
+      <rect x="2" y="24" width="26" height="6" fill="#008542"/>
+      <rect x="2" y="24" width="26" height="1" fill="#00B858"/>
+
+      <!-- Key row 1 -->
+      <rect x="4"  y="26" width="1" height="1" fill="#00B858"/>
+      <rect x="6"  y="26" width="2" height="1" fill="#00B858"/>
+      <rect x="9"  y="26" width="1" height="1" fill="#00B858"/>
+      <rect x="11" y="26" width="2" height="1" fill="#00B858"/>
+      <rect x="14" y="26" width="1" height="1" fill="#00B858"/>
+      <rect x="16" y="26" width="2" height="1" fill="#00B858"/>
+      <rect x="19" y="26" width="1" height="1" fill="#00B858"/>
+      <rect x="21" y="26" width="2" height="1" fill="#00B858"/>
+      <rect x="24" y="26" width="2" height="1" fill="#00B858"/>
+
+      <!-- Key row 2 (spacebar) -->
+      <rect x="4"  y="28" width="2" height="1" fill="#00B858"/>
+      <rect x="7"  y="28" width="14" height="1" fill="#00B858"/>
+      <rect x="22" y="28" width="4" height="1" fill="#00B858"/>
     </g>
   </defs>
 
-  <!-- Background -->
-  <rect width="32" height="32" fill="#000000"/>
-
-  <!-- STATE: IDLE -->
+  <!-- ============= -->
+  <!-- STATE: IDLE   -->
+  <!-- ============= -->
   <g class="baz-idle">
-    <use href="#terminal-body-sm"/>
-    <!-- Prompt lines -->
-    <rect x="6" y="7" width="1" height="1" fill="#00FF41"/>
-    <rect x="8" y="7" width="5" height="1" fill="#00FF41"/>
-    <rect x="6" y="9" width="1" height="1" fill="#00FF41"/>
-    <rect x="8" y="9" width="9" height="1" fill="#00FF41"/>
-    <!-- Blinking cursor -->
-    <rect class="cursor" x="6" y="13" width="2" height="3" fill="#00FF41"/>
+    <use href="#baz-sm"/>
+
+    <g class="screen-flicker">
+      <!-- Prompt line 1 -->
+      <rect x="5" y="7"  width="1" height="1" fill="#00B858"/>
+      <rect x="7" y="7"  width="6" height="1" fill="#00B858"/>
+
+      <!-- Prompt line 2 -->
+      <rect x="5" y="10" width="1" height="1" fill="#00B858"/>
+      <rect x="7" y="10" width="9" height="1" fill="#00B858"/>
+    </g>
+
+    <!-- Blinking cursor 3x4 -->
+    <rect class="cursor-blink" x="5" y="13" width="3" height="4" fill="#00E56D"/>
   </g>
 
-  <!-- STATE: TALK -->
+  <!-- ============= -->
+  <!-- STATE: TALK   -->
+  <!-- ============= -->
   <g class="baz-talk">
-    <use href="#terminal-body-sm"/>
-    <!-- Equalizer bars (varied widths) -->
-    <rect x="7" y="14" width="2" height="4" fill="#00FF41"/>
-    <rect x="11" y="9" width="3" height="9" fill="#00FF41"/>
-    <rect x="16" y="11" width="2" height="7" fill="#00FF41"/>
-    <rect x="20" y="7" width="3" height="11" fill="#00FF41"/>
-    <rect x="25" y="10" width="2" height="8" fill="#00FF41"/>
+    <use href="#baz-sm"/>
+
+    <!-- 5 bars simplified, varied widths: 2,3,2,3,2 -->
+    <rect x="6"  y="14" width="2" height="4"  fill="#00B858"/>
+    <rect x="6"  y="14" width="2" height="1"  fill="#00E56D"/>
+
+    <rect x="10" y="8"  width="3" height="10" fill="#00B858"/>
+    <rect x="10" y="8"  width="3" height="1"  fill="#00E56D"/>
+
+    <rect x="15" y="11" width="2" height="7"  fill="#00B858"/>
+    <rect x="15" y="11" width="2" height="1"  fill="#00E56D"/>
+
+    <rect x="19" y="7"  width="3" height="11" fill="#00B858"/>
+    <rect x="19" y="7"  width="3" height="1"  fill="#00E56D"/>
+
+    <rect x="24" y="12" width="2" height="6"  fill="#00B858"/>
+    <rect x="24" y="12" width="2" height="1"  fill="#00E56D"/>
+
+    <!-- Scanline -->
+    <rect class="scanline" x="4" y="5" width="22" height="1" fill="#00E56D" opacity="0.25"/>
   </g>
 
-  <!-- STATE: CONTENT -->
+  <!-- =============== -->
+  <!-- STATE: CONTENT  -->
+  <!-- =============== -->
   <g class="baz-content">
-    <use href="#terminal-body-sm"/>
-    <!-- Bold checkmark -->
-    <rect x="7" y="14" width="2" height="2" fill="#00FF41"/>
-    <rect x="8" y="15" width="2" height="2" fill="#00FF41"/>
-    <rect x="9" y="16" width="2" height="2" fill="#00FF41"/>
-    <rect x="10" y="15" width="2" height="2" fill="#00FF41"/>
-    <rect x="11" y="14" width="2" height="2" fill="#00FF41"/>
-    <rect x="12" y="13" width="2" height="2" fill="#00FF41"/>
-    <rect x="13" y="12" width="2" height="2" fill="#00FF41"/>
-    <rect x="14" y="11" width="2" height="2" fill="#00FF41"/>
-    <rect x="15" y="10" width="2" height="2" fill="#00FF41"/>
-    <rect x="16" y="9" width="2" height="2" fill="#00FF41"/>
-    <rect x="17" y="8" width="2" height="2" fill="#00FF41"/>
-    <rect x="18" y="7" width="2" height="2" fill="#00FF41"/>
+    <use href="#baz-sm"/>
+
+    <!-- Checkmark (simplified, 1px strokes) -->
+    <rect class="check-pulse" x="8"  y="14" width="1" height="1" fill="#00E56D"/>
+    <rect class="check-pulse" x="9"  y="15" width="1" height="1" fill="#00E56D"/>
+    <rect class="check-pulse" x="10" y="16" width="1" height="1" fill="#00E56D"/>
+    <rect class="check-pulse" x="11" y="15" width="1" height="1" fill="#00E56D"/>
+    <rect class="check-pulse" x="12" y="14" width="1" height="1" fill="#00E56D"/>
+    <rect class="check-pulse" x="13" y="13" width="1" height="1" fill="#00E56D"/>
+    <rect class="check-pulse" x="14" y="12" width="1" height="1" fill="#00E56D"/>
+    <rect class="check-pulse" x="15" y="11" width="1" height="1" fill="#00E56D"/>
+    <rect class="check-pulse" x="16" y="10" width="1" height="1" fill="#00E56D"/>
+    <rect class="check-pulse" x="17" y="9"  width="1" height="1" fill="#00E56D"/>
+    <rect class="check-pulse" x="18" y="8"  width="1" height="1" fill="#00E56D"/>
   </g>
 </svg>
