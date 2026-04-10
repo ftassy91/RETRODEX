@@ -236,3 +236,25 @@ div[hidden] {
 .site-nav-links {
   display: none !important;
 }
+
+/* ============================================================
+   LOADING — Placeholder pulse for unhydrated values
+   ============================================================ */
+.hub-stat .val {
+  transition: opacity 300ms ease;
+}
+@keyframes rdx-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+.hub-stat .val:not(:empty) {
+  animation: none;
+}
+/* "--" values pulse until JS replaces them */
+.hub-stats .val {
+  animation: rdx-pulse 2s ease-in-out infinite;
+}
+.hub-stats .val.is-loaded {
+  animation: none;
+  opacity: 1;
+}

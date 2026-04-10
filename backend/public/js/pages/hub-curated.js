@@ -168,6 +168,8 @@
         setText(synopsisEl, String(withSynopsis || '--'))
         setText(consolesEl, String(consoles || '--'))
       }
+      // Mark counters as loaded (stops pulse animation)
+      ;[publishedEl, totalEl, synopsisEl, consolesEl].forEach(function (el) { if (el) el.classList.add('is-loaded') })
       setText(publicationSignalEl, published ? `${published} fiches pretes` : 'catalogue partiel')
       setText(editorialSignalEl, withSynopsis ? `${withSynopsis} lectures visibles` : 'lecture partielle')
       setText(archiveSignalEl, strongPages.length ? `${strongPages.length} fiches a ouvrir` : 'selection indisponible')
