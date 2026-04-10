@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_Supabase__list_projects",
+      "mcp__claude_ai_Supabase__list_tables",
+      "mcp__claude_ai_Supabase__list_migrations",
+      "mcp__claude_ai_Supabase__execute_sql",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -r \"ADD COLUMN\\\\|ALTER TABLE games\" /c/Users/ftass/Documents/RETRODEX/backend/migrations/*.js)",
+      "Bash(find C:\\\\Users\\\\ftass\\\\Documents\\\\RETRODEX\\\\backend\\\\scripts:*)",
+      "Bash(git push:)",
+      "Bash(git push:*)",
+      "Bash(grep -n '\\\\$\\\\${Math\\\\.round' backend/public/js/pages/game-detail.js)",
+      "Bash(grep -n '\\\\$' /c/Users/ftass/Documents/RETRODEX/backend/public/js/pages/collection.js)",
+      "Bash(grep -n '`\\\\$' /c/Users/ftass/Documents/RETRODEX/backend/public/js/pages/collection.js)",
+      "Bash(grep:*)",
+      "Bash(cat)",
+      "Read(//tmp/**)",
+      "Bash(ls -lah /c/Users/ftass/Documents/RETRODEX/backend/public/*.html)",
+      "Bash(ls -1 /c/Users/ftass/Documents/RETRODEX/backend/public/*.html)"
+    ]
+  }
+}

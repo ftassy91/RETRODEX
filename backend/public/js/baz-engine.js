@@ -361,21 +361,65 @@
     return null
   }
 
-  // ── Reply Picker ──────────────────────────────────────────
+  // ── Anti-repetition + Session Memory ───────────────────────
 
   var lastReplies = {}
+  var intentCooldowns = {}  // intent → timestamp of last use
+  var COOLDOWN_MS = 8000    // 8s minimum between same intent
+
+  // Session memory: last 10 exchanges stored in sessionStorage
+  function getSessionMemory() {
+    try {
+      return JSON.parse(sessionStorage.getItem('rdx-baz-memory') || '[]')
+    } catch (_) { return [] }
+  }
+
+  function saveToMemory(userText, bazReply, intent) {
+    try {
+      var mem = getSessionMemory()
+      mem.push({ user: userText, baz: bazReply, intent: intent, ts: Date.now() })
+      if (mem.length > 10) mem = mem.slice(-10)
+      sessionStorage.setItem('rdx-baz-memory', JSON.stringify(mem))
+    } catch (_) {}
+  }
+
+  function wasRecentlyDiscussed(topic) {
+    var mem = getSessionMemory()
+    var lower = (topic || '').toLowerCase()
+    return mem.some(function (entry) {
+      return entry.user && entry.user.toLowerCase().indexOf(lower) !== -1
+    })
+  }
+
+  function getRepeatPrefix(intent, gameTitle) {
+    // If user already asked about this game, acknowledge it
+    if (gameTitle && wasRecentlyDiscussed(gameTitle)) {
+      var prefixes = [
+        'Encore ' + gameTitle + '. ',
+        gameTitle + ', oui, on en a deja parle. ',
+        'Tu reviens sur ' + gameTitle + '. ',
+      ]
+      return prefixes[Math.floor(Math.random() * prefixes.length)]
+    }
+    return ''
+  }
 
   function pickReply(intent) {
     var pool = RESPONSES[intent] || RESPONSES.unknown
     if (pool.length <= 1) return pool[0] || ''
+
+    // Anti-repetition: avoid last reply + check cooldown
     var last = lastReplies[intent]
     var pick
     var tries = 0
     do {
       pick = pool[Math.floor(Math.random() * pool.length)]
       tries++
-    } while (pick === last && tries < 5)
+    } while (pick === last && tries < 8)
     lastReplies[intent] = pick
+
+    // Track cooldown
+    intentCooldowns[intent] = Date.now()
     return pick
   }
 
@@ -533,8 +577,16 @@
             try { generated = gen.markov() } catch (e) { generated = null }
           }
 
+          // Add repeat-awareness prefix if user asks about same game again
+          var gameTitle = parsed.params.game ? parsed.params.game.title : null
+          var prefix = getRepeatPrefix(parsed.intent, gameTitle)
+
           // Final fallback: static reply from RESPONSES catalog
-          var response = buildResponse(parsed, generated)
+          var response = buildResponse(parsed, generated ? prefix + generated : null)
+
+          // Save to session memory
+          saveToMemory(userText, response.text, parsed.intent)
+
           if (window.BAZ && window.BAZ.say) {
             window.BAZ.say(response.text, response.duration, response.state === 'content')
           }
@@ -544,6 +596,7 @@
 
       // No BAZGen available: static pickReply only
       var response = buildResponse(parsed, null)
+      saveToMemory(userText, response.text, parsed.intent)
 
       if (window.BAZ && window.BAZ.say) {
         window.BAZ.say(response.text, response.duration, response.state === 'content')
