@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="32" height="32">
+  <!-- BAZ: minimal pixel face inspired by La Linea -->
+  <!-- Monochrome green phosphor, 16x16 grid -->
+  <style>
+    rect { fill: currentColor; }
+  </style>
+  <!-- Head outline -->
+  <rect x="4" y="1" width="8" height="1"/>
+  <rect x="3" y="2" width="1" height="1"/>
+  <rect x="12" y="2" width="1" height="1"/>
+  <rect x="2" y="3" width="1" height="8"/>
+  <rect x="13" y="3" width="1" height="8"/>
+  <rect x="3" y="11" width="1" height="1"/>
+  <rect x="12" y="11" width="1" height="1"/>
+  <rect x="4" y="12" width="8" height="1"/>
+  <!-- Eyes -->
+  <rect x="5" y="5" width="2" height="2"/>
+  <rect x="9" y="5" width="2" height="2"/>
+  <!-- Nose (La Linea style) -->
+  <rect x="7" y="7" width="2" height="1"/>
+  <rect x="8" y="8" width="1" height="1"/>
+  <!-- Mouth -->
+  <rect x="5" y="9" width="1" height="1"/>
+  <rect x="6" y="10" width="4" height="1"/>
+  <rect x="10" y="9" width="1" height="1"/>
+  <!-- Antenna -->
+  <rect x="7" y="0" width="2" height="1"/>
+  <rect x="8" y="0" width="1" height="1"/>
+</svg>

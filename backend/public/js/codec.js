@@ -1,18 +1,72 @@
 /* ============================================================
-   codec.js — Quiet Phosphor contextual banner
-   Toggle with [C], close with [Escape]
-   Reads DOM to build page-aware messages
+   codec.js — BAZ Codec: contextual companion for RetroDex
+   Toggle with [C], auto-triggered on events, queue system
    ============================================================ */
 
 ;(function () {
-  // Inject styles
+  // Reply catalog — 3-5 per context, BAZ voice guide compliant
+  var REPLIES = {
+    welcome: [
+      'Bon retour. Ta collection t\'attendait.',
+      'Hmm. Voyons ce qui a bouge.',
+      'Toujours la. Comme tes cartouches.',
+    ],
+    game_open: [
+      'Donnees chargees.',
+      'Hmm. Voyons ca.',
+      'Tiens. Regardons de plus pres.',
+    ],
+    game_enriched: [
+      'Pas mal. Y a de la matiere.',
+      'Fiche riche. Prends le temps.',
+      'Hmm. Ca merite une lecture.',
+    ],
+    collection_add: [
+      'Un de plus sur l\'etagere. Pas mal.',
+      'Note. Bien joue.',
+      'Bien joue. C\'est comme ca qu\'on construit.',
+    ],
+    collection_value: [
+      'Les chiffres sont la. Prends le temps de les lire.',
+      'Ta collection vaut ce qu\'elle vaut. Le marche dira le reste.',
+      'Hmm. Ca bouge.',
+    ],
+    rare_game: [
+      'Tiens. Celui-la ne se trouve pas tous les jours.',
+      'Un jeu comme ca, tu le gardes ou tu le vends. Pas de demi-mesure.',
+    ],
+    idle: [
+      'Ca faisait un moment. Tes jeux n\'ont pas bouge.',
+      'Hmm. Le marche, lui, a continue sans toi.',
+    ],
+    hub: [
+      'Systeme nominal. Derniere session : __SESSION__.',
+      'Hmm. Par ou on commence.',
+      'Tout est la. A toi de jouer.',
+    ],
+    index: [
+      'Index ouvert. Filtres disponibles.',
+      'Cherche, filtre, ouvre. Dans cet ordre.',
+    ],
+    stats: [
+      'Lecture experte. Selectionner un jeu pour demarrer.',
+      'Les donnees de reference sont la.',
+    ],
+    default: [
+      'RetroDex operationnel.',
+      'Hmm.',
+      'Toujours la.',
+    ],
+  }
+
+  // Styles
   var style = document.createElement('style')
   style.textContent = [
     '#rdx-codec {',
     '  position: fixed; bottom: 0; left: 0; right: 0;',
-    '  background: rgba(0,0,0,0.92);',
+    '  background: rgba(0,0,0,0.94);',
     '  border-top: 1px solid var(--border, #1a2a1a);',
-    '  padding: 8px 16px;',
+    '  padding: 10px 16px;',
     '  font-family: var(--font-ui, monospace);',
     '  font-size: 12px;',
     '  color: var(--text-muted, #4a8a54);',
@@ -26,51 +80,139 @@
     '  transform: translateY(0);',
     '  pointer-events: auto;',
     '}',
-    '#rdx-codec .codec-label {',
+    '#rdx-codec .codec-sprite {',
+    '  width: 28px; height: 28px;',
     '  color: var(--accent, #00ff66);',
-    '  font-weight: bold;',
-    '  letter-spacing: 1px;',
     '  flex-shrink: 0;',
+    '  opacity: 0.9;',
     '}',
-    '#rdx-codec .codec-body { flex: 1; }',
+    '#rdx-codec .codec-body {',
+    '  flex: 1;',
+    '  min-height: 16px;',
+    '}',
     '#rdx-codec .codec-key {',
     '  color: var(--border, #1a2a1a);',
     '  flex-shrink: 0;',
-    '  font-size: 10px;',
-    '}'
+    '  font-size: 9px;',
+    '}',
   ].join('\n')
   document.head.appendChild(style)
 
-  // Inject DOM
+  // DOM
   var codec = document.createElement('div')
   codec.id = 'rdx-codec'
-  codec.innerHTML = '<span class="codec-label">RDX</span><span class="codec-body"></span><span class="codec-key">[C]</span>'
+  codec.innerHTML = [
+    '<img class="codec-sprite" src="/assets/baz/baz.svg" alt="BAZ" width="28" height="28" />',
+    '<span class="codec-body"></span>',
+    '<span class="codec-key">[C]</span>',
+  ].join('')
   document.body.appendChild(codec)
 
   var bodyEl = codec.querySelector('.codec-body')
   var isOpen = false
+  var typewriterTimer = null
+  var autoDismissTimer = null
+  var queue = []
+  var lastReplyKey = null
 
-  function toggle() {
-    isOpen = !isOpen
-    if (isOpen) {
-      bodyEl.textContent = getCodecMessage()
-      saveSession()
-    }
-    codec.classList.toggle('open', isOpen)
+  // Pick a reply — avoid repeating the same one
+  function pickReply(context) {
+    var pool = REPLIES[context] || REPLIES.default
+    if (pool.length <= 1) return pool[0] || ''
+    var pick
+    do {
+      pick = pool[Math.floor(Math.random() * pool.length)]
+    } while (pick === lastReplyKey && pool.length > 1)
+    lastReplyKey = pick
+    return pick
+  }
+
+  // Typewriter effect
+  function typewrite(text, done) {
+    clearInterval(typewriterTimer)
+    bodyEl.textContent = ''
+    var i = 0
+    typewriterTimer = setInterval(function () {
+      bodyEl.textContent += text[i++]
+      if (i >= text.length) {
+        clearInterval(typewriterTimer)
+        typewriterTimer = null
+        if (done) done()
+      }
+    }, 25)
+  }
+
+  // Show a message
+  function showMessage(text, duration) {
+    duration = duration || 5000
+    clearTimeout(autoDismissTimer)
+    clearInterval(typewriterTimer)
+
+    var resolved = text.replace('__SESSION__', getLastSession())
+    isOpen = true
+    codec.classList.add('open')
+
+    typewrite(resolved, function () {
+      autoDismissTimer = setTimeout(function () {
+        close()
+        processQueue()
+      }, duration)
+    })
   }
 
   function close() {
     if (!isOpen) return
     isOpen = false
+    clearTimeout(autoDismissTimer)
+    clearInterval(typewriterTimer)
     codec.classList.remove('open')
+  }
+
+  function processQueue() {
+    if (!queue.length) return
+    var next = queue.shift()
+    setTimeout(function () { showMessage(next.text, next.duration) }, 300)
+  }
+
+  // Public API: BAZ.say(text, duration) or BAZ.say(context)
+  function say(textOrContext, duration) {
+    var text = REPLIES[textOrContext]
+      ? pickReply(textOrContext)
+      : String(textOrContext || '')
+    if (!text) return
+
+    if (isOpen) {
+      queue.push({ text: text, duration: duration || 5000 })
+    } else {
+      showMessage(text, duration || 5000)
+    }
+  }
+
+  // [C] keyboard toggle — manual override
+  function toggle() {
+    if (isOpen) {
+      close()
+      queue = []
+    } else {
+      var context = resolvePageContext()
+      showMessage(pickReply(context), 8000)
+    }
+  }
+
+  function resolvePageContext() {
+    var path = location.pathname
+    if (path === '/' || path.includes('home') || path.includes('hub')) return 'hub'
+    if (path.includes('game-detail')) return 'game_open'
+    if (path.includes('collection')) return 'collection_value'
+    if (path.includes('stats')) return 'stats'
+    if (path.includes('games-list')) return 'index'
+    return 'default'
   }
 
   // Keyboard
   document.addEventListener('keydown', function (e) {
-    // Don't intercept when typing in inputs
     var tag = (e.target.tagName || '').toLowerCase()
     if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) return
-
     if (e.key === 'c' || e.key === 'C') {
       if (e.ctrlKey || e.metaKey || e.altKey) return
       e.preventDefault()
@@ -78,62 +220,9 @@
     }
     if (e.key === 'Escape') {
       close()
+      queue = []
     }
   })
-
-  // Page-aware messages
-  function getCodecMessage() {
-    var path = location.pathname
-
-    if (path === '/' || path.includes('home')) {
-      return 'Systeme nominal. Derniere session : ' + getLastSession() + '.'
-    }
-
-    if (path.includes('hub')) {
-      var banner = document.getElementById('hub-curation-banner')
-      var bannerText = banner ? banner.textContent.trim() : ''
-      return bannerText || 'Hub operationnel. Derniere session : ' + getLastSession() + '.'
-    }
-
-    if (path.includes('game-detail')) {
-      var title = (document.querySelector('.detail-hero-title, .page-title, h1') || {}).textContent || ''
-      var tier = (document.querySelector('.trust-badge') || {}).textContent || ''
-      return title.trim() + (tier ? ' \u00B7 ' + tier.trim() : '') + ' \u00B7 Donnees chargees.'
-    }
-
-    if (path.includes('collection')) {
-      var total = (document.getElementById('stat-total') || {}).textContent || '0'
-      var loose = (document.getElementById('stat-value-loose') || {}).textContent || '-'
-      return 'Etagere : ' + total + ' jeux \u00B7 Valeur loose : ' + loose + ' \u00B7 Cockpit a jour.'
-    }
-
-    if (path.includes('stats')) {
-      return 'Lecture experte. Selectionner un jeu pour demarrer.'
-    }
-
-    if (path.includes('games-list')) {
-      var count = (document.querySelector('.page-subtitle, #catalog-curation-banner') || {}).textContent || ''
-      return 'Index ouvert. ' + (count.trim() || 'Filtres disponibles.')
-    }
-
-    if (path.includes('consoles')) {
-      return 'Archive consoles. Selectionner un support pour explorer.'
-    }
-
-    if (path.includes('franchises')) {
-      return 'Franchises indexees. Heritage et reperes d univers.'
-    }
-
-    if (path.includes('encyclopedia')) {
-      return 'Encyclopedie. Dossiers, equipes et lectures.'
-    }
-
-    if (path.includes('search')) {
-      return 'Entree rapide. Viser juste, ouvrir une fiche.'
-    }
-
-    return 'RetroDex operationnel. Derniere session : ' + getLastSession() + '.'
-  }
 
   // Session memory
   function saveSession() {
@@ -153,6 +242,24 @@
     }
   }
 
-  // Save on first load
+  // Auto-trigger: welcome on collection page (once per session)
+  function autoTrigger() {
+    var path = location.pathname
+    var sessionKey = 'rdx-baz-' + path
+
+    if (sessionStorage.getItem(sessionKey)) return
+    sessionStorage.setItem(sessionKey, '1')
+
+    if (path.includes('collection')) {
+      setTimeout(function () { say('welcome', 4000) }, 2000)
+    } else if (path.includes('game-detail')) {
+      setTimeout(function () { say('game_open', 3000) }, 1500)
+    }
+  }
+
   saveSession()
+  setTimeout(autoTrigger, 500)
+
+  // Expose global API
+  window.BAZ = { say: say, close: close }
 })()
