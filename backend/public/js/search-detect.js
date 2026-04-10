@@ -21,14 +21,19 @@
     return false
   }
 
-  // Find all search inputs on the page
+  // Find all search inputs on the page (every page has different IDs)
   function getSearchInputs() {
     return [
-      document.getElementById('global-search'),
-      document.getElementById('dex-search-input'),
-      document.getElementById('catalog-search'),
+      document.getElementById('hub-search-input'),         // hub.html
+      document.getElementById('global-search'),             // games-list, consoles
+      document.getElementById('dex-search-input'),          // encyclopedia
+      document.getElementById('search-router-input'),       // search.html
+      document.getElementById('franchise-search'),          // franchises
+      document.getElementById('collection-search-input'),   // collection
+      document.getElementById('query'),                     // games-list alt, debug
       document.querySelector('.surface-query-shell input[type="text"]'),
       document.querySelector('.terminal-query-line input'),
+      document.querySelector('input[type="search"]'),
     ].filter(Boolean)
   }
 
@@ -88,15 +93,34 @@
     }, 30000)
   }
 
-  // Bind
+  // Bind — intercept both keydown Enter and form submit
   document.addEventListener('DOMContentLoaded', function () {
     var inputs = getSearchInputs()
     inputs.forEach(function (input) {
+      // Intercept Enter key
       input.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') {
-          handleSearchSubmit(e)
+          var text = (input.value || '').trim()
+          if (text && isConversational(text)) {
+            e.preventDefault()
+            e.stopPropagation()
+            handleSearchSubmit(e)
+          }
         }
       })
+
+      // Also intercept form submit if input is inside a form
+      var form = input.closest('form')
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          var text = (input.value || '').trim()
+          if (text && isConversational(text)) {
+            e.preventDefault()
+            e.stopPropagation()
+            handleSearchSubmit({ target: input, preventDefault: function(){}, stopPropagation: function(){} })
+          }
+        })
+      }
     })
 
     scheduleHint()
