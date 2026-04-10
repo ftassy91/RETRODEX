@@ -503,5 +503,44 @@
     // No additional JS scheduling needed for idle — CSS does it
   }
 
-  window.BAZ = { say: say, close: closeCodec, input: codecInput }
+  // Character swap API
+  var _originalConfig = null
+
+  function setCharacter(config) {
+    if (!config) return
+    var bazPortrait = codec.querySelector('.codec-col-baz .codec-portrait')
+    var bazLabel = codec.querySelector('.codec-label-baz')
+
+    if (!_originalConfig && bazPortrait) {
+      _originalConfig = {
+        src: bazPortrait.src,
+        label: bazLabel ? bazLabel.textContent : 'BAZ',
+        placeholder: codecInput ? codecInput.placeholder : 'Parle a BAZ...',
+        cssClass: null,
+      }
+    }
+
+    if (bazPortrait && config.portrait) bazPortrait.src = config.portrait
+    if (bazLabel && config.label) bazLabel.textContent = config.label
+    if (codecInput && config.placeholder) codecInput.placeholder = config.placeholder
+    if (config.cssClass) {
+      codec.classList.add(config.cssClass)
+    }
+  }
+
+  function resetCharacter() {
+    if (!_originalConfig) return
+    var bazPortrait = codec.querySelector('.codec-col-baz .codec-portrait')
+    var bazLabel = codec.querySelector('.codec-label-baz')
+
+    if (bazPortrait) bazPortrait.src = _originalConfig.src
+    if (bazLabel) bazLabel.textContent = _originalConfig.label
+    if (codecInput) codecInput.placeholder = _originalConfig.placeholder
+    if (_originalConfig.cssClass) codec.classList.remove(_originalConfig.cssClass)
+
+    // Remove any character classes
+    codec.className = codec.className.replace(/codec-char-\S+/g, '').trim()
+  }
+
+  window.BAZ = { say: say, close: closeCodec, input: codecInput, setCharacter: setCharacter, resetCharacter: resetCharacter }
 })()

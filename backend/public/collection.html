@@ -21,9 +21,11 @@
     <link rel="stylesheet" href="/codec.css" />
     <script src="/js/animations.js"></script>
     <script src="/js/codec.js" defer></script>
+    <script src="/js/glossary.js" defer></script>
     <script src="/js/baz-kb.js" defer></script>
     <script src="/js/baz-gen.js" defer></script>
     <script src="/js/baz-engine.js" defer></script>
+    <script src="/js/erudit-engine.js" defer></script>
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -106,12 +108,12 @@
           <button class="cockpit-signal-card" id="signal-fix" data-signal="fix_now" type="button" aria-pressed="false" title="Entrees a corriger ou arbitrer en priorite">
             <span class="cockpit-signal-count" id="signal-fix-count">0</span>
             <span class="cockpit-signal-label">A CORRIGER</span>
-            <span class="cockpit-signal-desc">Doublons ou donnees de base fragiles</span>
+            <span class="cockpit-signal-desc"><span data-rdx-term="a-corriger">Doublons</span> ou donnees de base fragiles</span>
           </button>
           <button class="cockpit-signal-card" id="signal-qualify" data-signal="needs_qualification" type="button" aria-pressed="false" title="Entrees a qualifier ou verifier">
             <span class="cockpit-signal-count" id="signal-qualify-count">0</span>
             <span class="cockpit-signal-label">A QUALIFIER</span>
-            <span class="cockpit-signal-desc">Edition, region, completude, confiance</span>
+            <span class="cockpit-signal-desc"><span data-rdx-term="qualification">Edition</span>, <span data-rdx-term="region">region</span>, <span data-rdx-term="completude">completude</span>, <span data-rdx-term="confidence">confiance</span></span>
           </button>
           <button class="cockpit-signal-card" id="signal-sell" data-signal="sell_candidates" type="button" aria-pressed="false" title="Candidats a la vente">
             <span class="cockpit-signal-count" id="signal-sell-count">0</span>
@@ -121,12 +123,12 @@
           <button class="cockpit-signal-card" id="signal-upgrade" data-signal="upgrade_candidates" type="button" aria-pressed="false" title="Candidats a l upgrade">
             <span class="cockpit-signal-count" id="signal-upgrade-count">0</span>
             <span class="cockpit-signal-label">A UPGRADER</span>
-            <span class="cockpit-signal-desc">Loose + delta CIB &lt;= $20</span>
+            <span class="cockpit-signal-desc"><span data-rdx-term="loose">Loose</span> + <span data-rdx-term="delta">delta</span> <span data-rdx-term="cib">CIB</span> &lt;= $20</span>
           </button>
           <button class="cockpit-signal-card" id="signal-opportunity" data-signal="affordable_wishlist" type="button" aria-pressed="false" title="Opportunites d achat accessibles">
             <span class="cockpit-signal-count" id="signal-opportunity-count">0</span>
             <span class="cockpit-signal-label">A SAISIR</span>
-            <span class="cockpit-signal-desc">Wishlist accessible selon votre seuil</span>
+            <span class="cockpit-signal-desc"><span data-rdx-term="wishlist">Wishlist</span> accessible selon votre seuil</span>
           </button>
           <button class="cockpit-signal-card" id="signal-stale" data-signal="stale_wishlist" type="button" aria-pressed="false" title="Wishlist stagnante depuis plus de 180 jours">
             <span class="cockpit-signal-count" id="signal-stale-count">0</span>

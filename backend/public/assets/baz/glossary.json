@@ -1,0 +1,152 @@
+{
+  "cib": {
+    "short": "Complete In Box : jeu + boite + notice.",
+    "long": "Complet en boite. Jeu, notice, boite, tout y est. Le graal du collectionneur. Sans ca, c'est du loose deguise.",
+    "category": "condition"
+  },
+  "loose": {
+    "short": "Jeu seul, sans boite ni notice.",
+    "long": "Cartouche ou CD seul. Pas de boite, pas de notice. L'essentiel sans le superflu. Le prix s'en ressent.",
+    "category": "condition"
+  },
+  "mint": {
+    "short": "Etat neuf, comme sorti d'usine.",
+    "long": "Neuf. Jamais ouvert ou dans un etat quasi-parfait. Le reve de tout collectionneur. La realite de presque personne.",
+    "category": "condition"
+  },
+  "sealed": {
+    "short": "Sous blister d'origine, jamais ouvert.",
+    "long": "Scelle. Le plastique d'origine est intact. Ca vaut une fortune mais tu ne pourras jamais y jouer.",
+    "category": "condition"
+  },
+  "pal": {
+    "short": "Region Europe (Phase Alternating Line).",
+    "long": "PAL. Le standard europeen. Les jeux tournent en 50Hz au lieu de 60Hz. Parfois plus lents, parfois plus chers.",
+    "category": "region"
+  },
+  "ntsc-u": {
+    "short": "Region Amerique du Nord.",
+    "long": "NTSC-U. Standard americain. 60Hz, souvent les premieres sorties. Le marche de reference pour beaucoup de cotes.",
+    "category": "region"
+  },
+  "ntsc-j": {
+    "short": "Region Japon.",
+    "long": "NTSC-J. Le marche japonais. Souvent les versions originales, parfois exclusives. Import = aventure.",
+    "category": "region"
+  },
+  "ntsc-b": {
+    "short": "Region Bresil.",
+    "long": "NTSC-B. Marche bresilien. Certains jeux ont des editions locales rares et recherchees.",
+    "category": "region"
+  },
+  "metascore": {
+    "short": "Note agregee des critiques professionnelles (0-100).",
+    "long": "Metacritic. Moyenne ponderee des notes de la presse. Au-dessus de 90, c'est un classique. En dessous de 50, c'est un objet de curiosite.",
+    "category": "data"
+  },
+  "delta": {
+    "short": "Ecart entre prix paye et valeur marche actuelle.",
+    "long": "Ton delta = valeur marche - prix paye. Positif : tu as fait une bonne affaire. Negatif : le marche n'est pas de ton cote.",
+    "category": "market"
+  },
+  "confidence": {
+    "short": "Fiabilite des donnees de prix (high/medium/low).",
+    "long": "Le tier de confiance. High = multi-source verifie. Medium = donnees solides. Low = indicatif. Unknown = pas de donnees.",
+    "category": "data"
+  },
+  "rarete": {
+    "short": "5 niveaux : LEGENDARY, EPIC, RARE, UNCOMMON, COMMON.",
+    "long": "La rarete d'un jeu sur le marche. LEGENDARY = presque introuvable. COMMON = partout. La rarete n'est pas la qualite.",
+    "category": "data"
+  },
+  "completude": {
+    "short": "Ce qui est present : jeu seul, partiel, complet, scelle.",
+    "long": "Qualifier la completude = dire ce que tu as exactement. Loose, partial, CIB, sealed. Chaque niveau change la valeur.",
+    "category": "condition"
+  },
+  "region": {
+    "short": "Zone geographique du jeu (PAL, NTSC-U, NTSC-J...).",
+    "long": "La region change le prix, la langue, et parfois le contenu. Un PAL francais et un NTSC-J, c'est pas le meme objet.",
+    "category": "region"
+  },
+  "wishlist": {
+    "short": "Jeux que tu veux acheter.",
+    "long": "Ta liste de souhaits. Les jeux que tu cherches. Le cockpit detecte quand le prix tombe sous ton seuil.",
+    "category": "collection"
+  },
+  "etagere": {
+    "short": "Tes jeux possedes.",
+    "long": "L'etagere = ta collection physique numerisee. Chaque jeu est qualifie, value, suivi dans le temps.",
+    "category": "collection"
+  },
+  "cockpit": {
+    "short": "Tableau de bord de ta collection avec signaux d'action.",
+    "long": "Le cockpit analyse ta collection et genere des signaux : vendre, upgrader, acheter, corriger, qualifier. C'est le cerveau de RetroDex.",
+    "category": "ui"
+  },
+  "a-corriger": {
+    "short": "Signal : entrees avec doublons ou donnees manquantes.",
+    "long": "Le cockpit a trouve des problemes dans ta collection. Doublons, prix manquants, qualification incomplete. A traiter en priorite.",
+    "category": "signal"
+  },
+  "a-qualifier": {
+    "short": "Signal : entrees sans etat, region ou completude.",
+    "long": "Ces jeux n'ont pas ete qualifies. Sans etat, region et completude, les signaux de vente et d'achat ne peuvent pas fonctionner.",
+    "category": "signal"
+  },
+  "a-vendre": {
+    "short": "Signal : valeur marche >= 1.5x prix paye.",
+    "long": "Le marche dit que ce jeu vaut au moins 50% de plus que ce que tu l'as paye. Signal de vente. La decision reste la tienne.",
+    "category": "signal"
+  },
+  "a-upgrader": {
+    "short": "Signal : delta Loose vers CIB <= 20€.",
+    "long": "Tu as un jeu en loose et la version CIB ne coute que 20 euros de plus. L'upgrade est accessible.",
+    "category": "signal"
+  },
+  "a-saisir": {
+    "short": "Signal : jeu en wishlist sous ton seuil de prix.",
+    "long": "Un jeu que tu veux est devenu accessible. Le prix loose est sous ton seuil. Opportunite d'achat.",
+    "category": "signal"
+  },
+  "stagnante": {
+    "short": "Signal : wishlist sans action depuis 180+ jours.",
+    "long": "Ca fait plus de 6 mois que ce jeu est dans ta wishlist sans que rien ne bouge. Soit le prix ne baisse pas, soit tu as oublie.",
+    "category": "signal"
+  },
+  "spread": {
+    "short": "Ecart entre le prix le plus bas et le plus haut observe.",
+    "long": "Le spread mesure la volatilite du marche. Grand spread = prix instable. Petit spread = marche stable.",
+    "category": "market"
+  },
+  "edition": {
+    "short": "Version specifique d'un jeu (player's choice, greatest hits...).",
+    "long": "Les editions changent la valeur. First print, Player's Choice, Greatest Hits, Limited Run. Le collecteur veut l'originale.",
+    "category": "condition"
+  },
+  "tier": {
+    "short": "Niveau de confiance des donnees de prix.",
+    "long": "High = multi-source, recent. Medium = solide. Low = une seule source. Unknown = aucune donnee. Les losanges sur les fiches montrent ca.",
+    "category": "data"
+  },
+  "snapshot": {
+    "short": "Capture quotidienne de la valeur de ta collection.",
+    "long": "Chaque jour, RetroDex capture la valeur totale de ta collection. La courbe d'evolution se construit au fil du temps.",
+    "category": "data"
+  },
+  "codec": {
+    "short": "Fenetre de dialogue avec BAZ (touche C).",
+    "long": "Le Codec. Inspire de Metal Gear Solid. Appuie sur C pour parler a BAZ. Pose des questions, il repond.",
+    "category": "ui"
+  },
+  "qualification": {
+    "short": "Renseigner l'etat complet d'un jeu dans ta collection.",
+    "long": "Qualifier = donner l'etat, la region, la completude et ta confiance. Plus un jeu est qualifie, plus les signaux sont precis.",
+    "category": "collection"
+  },
+  "pipeline": {
+    "short": "Systeme automatise de collecte et traitement des prix.",
+    "long": "Le pipeline recupere les prix vendus sur eBay, Yahoo JP et PriceCharting. Il normalise, matche et calcule les tiers de confiance.",
+    "category": "data"
+  }
+}

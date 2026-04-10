@@ -893,3 +893,36 @@
     display: none;
   }
 }
+
+/* ============================================================
+   ERUDIT CHARACTER VARIANT — Amber palette
+   Applied via .codec-char-erudit on #rdx-codec
+   ============================================================ */
+
+#rdx-codec.codec-char-erudit {
+  --codec-bg: #1a1200;
+  --codec-bg-alpha: rgba(26, 18, 0, 0.96);
+  --codec-accent: #e0aa00;
+  --codec-accent-40: rgba(224, 170, 0, 0.4);
+  --codec-accent-15: rgba(224, 170, 0, 0.15);
+  --codec-accent-08: rgba(224, 170, 0, 0.08);
+  border-color: #e0aa00;
+}
+
+#rdx-codec.codec-char-erudit .codec-label-baz {
+  color: #e0aa00;
+  opacity: 0.6;
+}
+
+#rdx-codec.codec-char-erudit .codec-text,
+#rdx-codec.codec-char-erudit .codec-typewriter {
+  color: #e0aa00;
+}
+
+#rdx-codec.codec-char-erudit .codec-input {
+  color: #e0aa00;
+}
+
+#rdx-codec.codec-char-erudit .codec-input-prompt {
+  color: #9a7a00;
+}

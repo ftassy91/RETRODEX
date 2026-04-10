@@ -150,6 +150,14 @@
       'Europe = PAL. Japon = NTSC-J. US = NTSC-U. Chaque marche a ses prix.',
       'Hmm. La region est un champ de ta collection. Renseigne-la, ca affine la valeur.',
     ],
+    lore: [
+      'Il y a quelqu\'un dans le systeme. Plus ancien que moi. Il ne se montre pas a tout le monde.',
+      'Je suis ne avec RetroDex. La premiere cartouche indexee, j\'etais la.',
+      'Dans la collection. Si tu en as une. Sinon il n\'a aucune raison de te parler.',
+      'On cohabite. C\'est pas pareil que se connaitre.',
+      'Hmm. Il etait la avant moi. Je crois.',
+      'Ne le cherche pas. Il te trouvera quand il estimera que tu es pret.',
+    ],
     unknown: [
       'Hmm. Pas compris. Essaie autrement.',
       'Je n\'ai pas de reponse pour ca. Essaie un nom de jeu ou /help.',
@@ -216,6 +224,8 @@
     { keywords: ['tu fais quoi', 'tes fonctions', 'tu sers a quoi', 'tu peux faire', 'what can you'], intent: 'capabilities' },
     { keywords: ['qui es-tu', 'tu es qui', 'ton nom', 'who are you', 'your name'], intent: 'identity' },
     { keywords: ['merci', 'thanks', 'thank you', 'cool', 'genial', 'super', 'parfait', 'bien joue'], intent: 'thanks' },
+    // Lore
+    { keywords: ['quelqu\'un d\'autre', 'l\'autre', 'qui d\'autre', 'quelqu\'un ici', 'avant toi', 'ton origine', 'd\'ou tu viens', 'tu es ne', 'cohabite'], intent: 'lore' },
     // Market & prices
     { keywords: ['prix', 'valeur', 'cher', 'combien', 'cout', 'cote', 'price', 'worth', 'argent', 'euro'], intent: 'price_query' },
     { keywords: ['rare', 'rarete', 'introuvable', 'pepite', 'graal'], intent: 'rare_query' },

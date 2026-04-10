@@ -402,6 +402,27 @@ div[hidden] {
   margin-top: 4px;
 }
 
+/* Glossary tooltip */
+.rdx-gloss-tip {
+  position: absolute;
+  z-index: 900;
+  max-width: 280px;
+  padding: 6px 10px;
+  background: var(--bg-card, #0a0f0a);
+  border: 1px solid var(--accent, #00ff66);
+  color: var(--text-primary, #00ff66);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  line-height: 1.4;
+  pointer-events: none;
+  white-space: normal;
+}
+[data-rdx-term] {
+  text-decoration: underline dotted var(--text-muted);
+  text-underline-offset: 2px;
+  cursor: help;
+}
+
 /* Pixel-perfect sprite rendering */
 .baz-anecdote-sprite,
 .codec-avatar img,

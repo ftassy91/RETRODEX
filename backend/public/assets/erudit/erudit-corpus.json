@@ -1,0 +1,108 @@
+{
+  "greeting": [
+    "Hmm. Vous voila.",
+    "Soit. Montrez-moi votre etagere.",
+    "On m'invoque pour si peu.",
+    "... Entrez. Ne perdons pas de temps.",
+    "Votre collection m'attend. Pas l'inverse."
+  ],
+  "farewell": [
+    "Soit. Revenez quand vous aurez progresse.",
+    "...",
+    "Fin de consultation.",
+    "Je serai la. Comme toujours."
+  ],
+  "signal_fix": [
+    "__COUNT__ entrees a corriger. Le desordre est un choix. Mauvais, mais un choix.",
+    "Des doublons. De la negligence. Corrigez.",
+    "__COUNT__ corrections en attente. Hmm. Mediocre.",
+    "Votre etagere a des trous. Ca se voit."
+  ],
+  "signal_qualify": [
+    "__COUNT__ jeux sans qualification. L'approximation ne m'impressionne pas.",
+    "Qualifier serait une marque de respect envers vos jeux.",
+    "Region inconnue, completude inconnue. Ce n'est pas une collection, c'est un tas.",
+    "Hmm. __COUNT__ entrees incompletes. Insuffisant."
+  ],
+  "signal_sell": [
+    "Ce jeu vaut plus que ce que vous avez paye. Le marche ne vous attendra pas.",
+    "Signal de vente. La decision vous appartient. Pas la mienne.",
+    "__COUNT__ candidats a la vente. Le timing est une discipline.",
+    "Plus-value detectee. Vendre demande du courage. Ou du pragmatisme."
+  ],
+  "signal_upgrade": [
+    "Le delta Loose vers CIB est accessible. Upgrade envisageable.",
+    "Votre jeu en loose merite mieux. Le CIB n'est pas si loin.",
+    "Un upgrade a moins de 20 euros. Raisonnable."
+  ],
+  "signal_opportunity": [
+    "Un jeu de votre wishlist est accessible. Hmm. Saisissez ou regrettez.",
+    "Opportunite detectee. Ne me dites pas que vous hesitez.",
+    "Le prix est sous votre seuil. Soit vous achetez, soit vous l'enlevez de la wishlist."
+  ],
+  "signal_stale": [
+    "Cette wishlist stagne depuis plus de 180 jours. Soit vous cherchez, soit vous oubliez.",
+    "Wishlist dormante. Le marche, lui, ne dort pas.",
+    "180 jours sans action. Le temps passe. Les prix aussi."
+  ],
+  "collection_empty": [
+    "Rien. Revenez quand vous aurez quelque chose a montrer.",
+    "... Une collection vide. Interessant choix de vie.",
+    "Pas un seul jeu. Je suis sans voix. Et pourtant."
+  ],
+  "collection_healthy": [
+    "Hmm. Votre etagere tient debout. C'est deja ca.",
+    "Acceptable. Pas brillant, mais acceptable.",
+    "Les chiffres sont corrects. Je note.",
+    "Fort bien. Continuez sur cette voie."
+  ],
+  "portfolio_positive": [
+    "Votre delta est positif. Hmm. Vous n'etes pas completement incompetent.",
+    "Plus-value globale. Le marche vous sourit. Temporairement.",
+    "Vos investissements ont tenu. Pour l'instant."
+  ],
+  "portfolio_negative": [
+    "Delta negatif. Le marche ne partage pas votre enthousiasme.",
+    "Hmm. Vous avez paye trop cher. Ou le marche a baisse. Les deux sont possibles.",
+    "Deficit. Ce n'est pas une fatalite. Mais c'est un fait."
+  ],
+  "game_comment": [
+    "__TITLE__. Hmm. Curieux choix.",
+    "__TITLE__. Je connais ce jeu. Mieux que vous, probablement.",
+    "__TITLE__ sur __CONSOLE__. Acceptable.",
+    "__TITLE__. Un classique. Si tant est que ce mot ait encore un sens.",
+    "__TITLE__. ... Soit."
+  ],
+  "qualification_saved": [
+    "Soit. Un effort. Je note.",
+    "Qualification enregistree. Voila qui est mieux.",
+    "Hmm. Enfin un geste de rigueur.",
+    "... Acceptable."
+  ],
+  "unknown": [
+    "... Je ne reponds pas a ca.",
+    "Votre question ne merite pas de reponse.",
+    "Hmm. Reformulez. Si vous en etes capable.",
+    "Hors de mon domaine. Et probablement du votre.",
+    "..."
+  ],
+  "help": [
+    "Je surveille votre collection. Pas besoin de mode d'emploi.",
+    "Les signaux du cockpit. Les qualifications. Les decisions. C'est tout.",
+    "Hmm. Demandez quelque chose de pertinent."
+  ],
+  "lore": [
+    "Les noms sont pour ceux qui ont besoin d'etre appeles.",
+    "D'avant.",
+    "Le petit guide fait son travail.",
+    "BAZ vous a envoye. Evidemment.",
+    "Il parle trop. Mais il a le merite d'exister.",
+    "Quelqu'un doit veiller a ce que ces jeux soient traites correctement.",
+    "J'en ai eu une. Elle n'existe plus."
+  ],
+  "about_baz": [
+    "Le guide. Il fait ce qu'il peut. Ce n'est pas beaucoup.",
+    "Hmm. BAZ. Utile. Superficiel. Les deux ne s'excluent pas.",
+    "On cohabite. Ce n'est pas la meme chose que collaborer."
+  ]
+}
