@@ -835,11 +835,17 @@ function buildHeroPriceContext(game, trustMeta) {
     return ''
   }
 
+  const diamondTierMap = { high: 5, medium: 3, low: 1 }
+  const diamondCount = diamondTierMap[String(game.priceConfidenceTier || '').toLowerCase()] || 0
+  const diamondStr = diamondCount > 0
+    ? `<span class="trust-diamonds" style="color:var(--text-muted);margin-left:8px;letter-spacing:1px">${'\u25C6'.repeat(diamondCount)}${'\u25C7'.repeat(5 - diamondCount)}</span>`
+    : ''
+
   return `
     <div class="detail-hero-price-context">
       <div class="detail-price-context-row">
         <span class="detail-hero-reference">Fiabilite prix</span>
-        <span class="trust-badge trust-${escapeHtml(trustTier)}" style="${escapeHtml(getTrustBadgeStyle(trustTier))}"${game.priceConfidenceReason ? ` title="${escapeHtml(game.priceConfidenceReason)}"` : ''}>${escapeHtml(getTrustBadgeText(trustTier))}</span>
+        <span class="trust-badge trust-${escapeHtml(trustTier)}" style="${escapeHtml(getTrustBadgeStyle(trustTier))}"${game.priceConfidenceReason ? ` title="${escapeHtml(game.priceConfidenceReason)}"` : ''}>${escapeHtml(getTrustBadgeText(trustTier))}</span>${diamondStr}
         ${freshnessMeta ? `<span class="detail-hero-reference">Fraicheur</span><span class="detail-hero-reference">${escapeHtml(freshnessMeta.label)} \u00B7 ${escapeHtml(freshnessMeta.detail)}</span>` : ''}
       </div>
       ${freshnessMeta?.dateText ? `<div class="detail-hero-price-date">Mis a jour : ${escapeHtml(freshnessMeta.dateText)}</div>` : ''}

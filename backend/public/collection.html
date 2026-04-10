@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/style.css?v=20260409r2" />
     <link rel="stylesheet" href="/zones.css" />
     <script src="/js/animations.js"></script>
+    <script src="/js/codec.js" defer></script>
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -125,6 +126,13 @@
             <span class="cockpit-signal-label">STAGNANTE</span>
             <span class="cockpit-signal-desc">Wishlist > 180 jours sans action</span>
           </button>
+        </div>
+
+        <div class="completion" id="collection-completion" style="display:none">
+          <span class="completion-text" id="completion-text"></span>
+          <div class="completion-bar">
+            <div class="completion-fill" id="completion-fill"></div>
+          </div>
         </div>
 
         <div class="terminal-filter-bar collection-mode-bar" style="margin-top:0">

@@ -1751,6 +1751,20 @@
       cockpitBarEl.style.display = 'grid'
       updateCockpitLead()
 
+      // Completion bar
+      const completionEl = byId('collection-completion')
+      const completionTextEl = byId('completion-text')
+      const completionFillEl = byId('completion-fill')
+      if (completionEl && completionTextEl && completionFillEl) {
+        const ownedCount = allCollectionItems.filter((item) => String(item.list_type || '').toLowerCase() !== 'wanted').length
+        const catalogTotal = Number(statTotalEl?.dataset?.catalogTotal) || 1509
+        completionTextEl.textContent = ownedCount + ' / ' + catalogTotal
+        completionEl.style.display = ''
+        requestAnimationFrame(() => {
+          completionFillEl.style.width = Math.min(100, (ownedCount / catalogTotal) * 100).toFixed(1) + '%'
+        })
+      }
+
       signalCards.forEach((card) => {
         const key = card.dataset.signal
         const bucket = data[key] || {}
