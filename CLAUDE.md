@@ -23,11 +23,11 @@ The encyclopedia, market layer, and collection layer are coordinated parts of on
 | frontend/ | Legacy / non-canonical | do not modify unless explicitly requested |
 
 **Data authority:**
-- Supabase = production truth (26 tables — see SUPABASE_AUDIT.md)
+- Supabase = production truth (27 tables, all RLS-enabled — see SUPABASE_AUDIT.md)
 - SQLite/Sequelize = local dev fallback only
 - DATABASE_URL port 5432 blocked locally - use NODE_ENV=production + Supabase JS client over HTTPS
 
-**Deploy:** Vercel. Repo: ftassy91/RETRODEX.
+**Deploy:** Vercel (auto from main push). Repo: ftassy91/RETRODEX.
 
 ---
 
@@ -81,23 +81,26 @@ Every plan or report must include:
 
 ### Tech Stack
 - Node.js / Express backend
-- Supabase (production), SQLite/Sequelize (local dev)
+- Supabase (production, 27 tables), SQLite/Sequelize (local dev fallback)
 - Vanilla JS frontend (no framework, no build step)
 - Chart.js for data viz
-- Press Start 2P + Share Tech Mono fonts
-- Bloomberg terminal / CRT green phosphor aesthetic
+- BigBlueTerminal + DepartureMono fonts
+- Quiet Phosphor design system (zones: green default, cyan collection, amber qualification, gray hub)
 
-### Key Context
-- 507 games cataloged across 16 consoles (1983-2005)
-- 579 price entries in market data
-- 26 tables audited and documented (SUPABASE_AUDIT.md, 2026-04-09)
-- Migration tracking: ad-hoc only — Supabase CLI list_migrations returns empty
-- games.js refactored from 614-line monolith into 4 focused modules
-- Boot screen: CRT Bezier curve overlay with 3-phase animation
-- Hub concept: 3 floppy disk modules (RETRODEX green, RETROMARKET red, COLLECTION blue)
+### Key Context (updated 2026-04-10)
+- 1,509 games cataloged across 25 consoles
+- 15,278 price entries from 2 sources (PriceCharting + Yahoo Auctions JP)
+- 440 games with confidence tier (14 medium, 426 low, 1,069 unknown)
+- 27 tables audited (SUPABASE_AUDIT.md), all RLS-enabled, 0 health flags
+- 5 collection items qualified (0 duplicates, 1 sell signal active)
+- Collection canonical schema: user_id, list_type, added_at, purchase_date, etc.
+- CSV import available: POST /api/collection/import
+- Pipeline backfill script: backend/scripts/market/backfill-confidence-from-history.js
+- UI: zones.css (color zoning), animations.js (rollTo, typewriter, loading dots), codec.js ([C] contextual banner)
+- UX score: 5.4 → 7.4 (20 lots executed in session 2026-04-10)
 
 ### Ticket Conventions
-Prefixes: RDX-, UI-, UX-, LAYOUT-, HUB-
+Lot prefixes: LOT-OP-, LOT-PROD-, LOT-UI-, LOT-UX-, LOT-FIX-, LOT-CTRL-
 
 ---
 
