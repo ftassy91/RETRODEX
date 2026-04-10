@@ -859,4 +859,13 @@
       fallbacks: STATIC_FALLBACKS
     }
   }
+
+  // Auto-init: load corpus on page load
+  if (document.readyState === 'complete') {
+    window.BAZGen.init()
+  } else {
+    window.addEventListener('load', function () {
+      setTimeout(function () { window.BAZGen.init() }, 1500)
+    })
+  }
 })()

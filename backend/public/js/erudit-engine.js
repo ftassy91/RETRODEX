@@ -73,7 +73,7 @@
     mem.collectionSnapshot = {
       count: stats.total_items || 0,
       value: stats.total_value_loose || 0,
-      qualified: stats.total_medium + stats.total_high || 0,
+      qualified: (stats.total_medium || 0) + (stats.total_high || 0),
       lastChange: new Date().toISOString(),
     }
     saveMemory(mem)

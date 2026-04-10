@@ -616,18 +616,18 @@
         return contextPromise.then(function (contextData) {
           var generated = null
 
-          // PRIORITY 1: Check KB for factual answers (FAQ, glossary terms)
-          if (window.BAZKB && window.BAZKB.ready) {
+          // PRIORITY 1: Check glossary if text contains a specific retrogaming term
+          if (window.RDXGlossary && window.RDXGlossary._cache) {
+            var glossaryCheck = checkGlossaryTerm(userText)
+            if (glossaryCheck) generated = glossaryCheck
+          }
+
+          // PRIORITY 2: Check KB for factual answers (FAQ)
+          if (!generated && window.BAZKB && window.BAZKB.ready) {
             var kbResult = window.BAZKB.search(userText)
             if (kbResult && kbResult.answer && kbResult.score >= 5) {
               generated = kbResult.answer
             }
-          }
-
-          // PRIORITY 2: Check glossary if text contains a known term
-          if (!generated && window.RDXGlossary) {
-            var glossaryCheck = checkGlossaryTerm(userText)
-            if (glossaryCheck) generated = glossaryCheck
           }
 
           // PRIORITY 3: BAZGen generate (corpus/templates/assembler/markov)
@@ -671,9 +671,8 @@
           // Save to session memory
           saveToMemory(userText, response.text, parsed.intent)
 
-          if (window.BAZ && window.BAZ.say) {
-            window.BAZ.say(response.text, response.duration, response.state === 'content')
-          }
+          // NOTE: do NOT call BAZ.say() here — the caller (codec.js deliverResponse
+          // or search-detect.js sendToCodec) is responsible for display.
           return response
         })
       }
@@ -681,10 +680,6 @@
       // No BAZGen available: static pickReply only
       var response = buildResponse(parsed, null)
       saveToMemory(userText, response.text, parsed.intent)
-
-      if (window.BAZ && window.BAZ.say) {
-        window.BAZ.say(response.text, response.duration, response.state === 'content')
-      }
 
       return response
     })

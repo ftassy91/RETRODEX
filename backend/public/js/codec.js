@@ -206,18 +206,18 @@
     '  <span class="codec-freq-label">FREQ 141.80</span>',
     '</div>',
     '<!-- 3-column content -->',
-    '<div class="codec-col codec-col-baz">',
+    '<div class="codec-avatar codec-avatar-baz">',
     '  <img class="codec-portrait" src="/assets/baz/baz.png" alt="BAZ" width="80" height="80" />',
     '  <span class="codec-label codec-label-baz">BAZ</span>',
     '</div>',
-    '<div class="codec-col codec-col-text">',
+    '<div class="codec-text-zone">',
     '  <div class="codec-text"><span class="codec-typewriter"></span></div>',
     '  <div class="codec-input-row">',
     '    <span class="codec-input-prompt">&gt;</span>',
     '    <input type="text" class="codec-input" placeholder="Parle a BAZ..." maxlength="140" autocomplete="off" spellcheck="false" />',
     '  </div>',
     '</div>',
-    '<div class="codec-col codec-col-user">',
+    '<div class="codec-avatar codec-avatar-user">',
     '  <img class="codec-portrait" src="/assets/baz/user.png" alt="USER" width="80" height="80" />',
     '  <span class="codec-label codec-label-user">USER</span>',
     '</div>',
@@ -226,8 +226,8 @@
 
   var typewriterEl = codec.querySelector('.codec-typewriter')
   var codecInput = codec.querySelector('.codec-input')
-  var bazImg = codec.querySelector('.codec-col-baz .codec-portrait')
-  var userImg = codec.querySelector('.codec-col-user .codec-portrait')
+  var bazImg = codec.querySelector('.codec-avatar-baz .codec-portrait')
+  var userImg = codec.querySelector('.codec-avatar-user .codec-portrait')
   var isOpen = false
   var typewriterTimer = null
   var autoDismissTimer = null
@@ -413,7 +413,13 @@
     if (window.BAZ && window.BAZ._askEngine) {
       // Use baz-engine.js (async, supports game title matching)
       window.BAZ._askEngine(raw).then(function (result) {
-        deliverResponse(result.text, result.state || 'talk')
+        if (result && result.afterSay) {
+          // Erudit hangup: display message then execute afterSay callback
+          deliverResponse(result.text || '...', result.state || 'talk')
+          result.afterSay()
+        } else {
+          deliverResponse(result.text, result.state || 'talk')
+        }
       }).catch(function () {
         deliverResponse(pickUserReply(matchUserInput(raw)))
       })
@@ -446,10 +452,12 @@
     }
   })
 
-  // Click to dismiss
-  codec.addEventListener('click', function () {
-    closeCodec()
-    queue = []
+  // Click to dismiss — only on the codec border/background, not on content inside
+  codec.addEventListener('click', function (e) {
+    if (e.target === codec) {
+      closeCodec()
+      queue = []
+    }
   })
 
   // Session memory
@@ -520,28 +528,13 @@
 
   saveSession()
 
-  // Irregular animation scheduler for BAZ idle
-  // Reads CSS classes on the SVG to toggle between states
-  function scheduleBazIdle() {
-    var bazEl = codec.querySelector('.codec-col-baz .codec-portrait')
-      || codec.querySelector('.codec-col-baz svg')
-    if (!bazEl || !bazEl.contentDocument) return
-
-    var doc = bazEl.contentDocument
-    var idle = doc.querySelector('.baz-idle')
-    var talk = doc.querySelector('.baz-talk')
-    var content = doc.querySelector('.baz-content')
-
-    // The SVG internal @keyframes handles the irregular blink
-    // No additional JS scheduling needed for idle — CSS does it
-  }
 
   // Character swap API
   var _originalConfig = null
 
   function setCharacter(config) {
     if (!config) return
-    var bazPortrait = codec.querySelector('.codec-col-baz .codec-portrait')
+    var bazPortrait = codec.querySelector('.codec-avatar-baz .codec-portrait')
     var bazLabel = codec.querySelector('.codec-label-baz')
 
     if (!_originalConfig && bazPortrait) {
@@ -563,7 +556,7 @@
 
   function resetCharacter() {
     if (!_originalConfig) return
-    var bazPortrait = codec.querySelector('.codec-col-baz .codec-portrait')
+    var bazPortrait = codec.querySelector('.codec-avatar-baz .codec-portrait')
     var bazLabel = codec.querySelector('.codec-label-baz')
 
     if (bazPortrait) bazPortrait.src = _originalConfig.src

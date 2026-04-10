@@ -63,13 +63,14 @@
   }
 
   function sendToCodec(text) {
-    // _askEngine already calls BAZ.say() internally — just call it
     if (window.BAZ && window.BAZ._askEngine) {
-      window.BAZ._askEngine(text)
+      window.BAZ._askEngine(text).then(function (result) {
+        if (result && result.text && window.BAZ && window.BAZ.say) {
+          window.BAZ.say(result.text, result.duration || 5000, result.state === 'content')
+        }
+      })
     } else if (window.BAZ && window.BAZ.say) {
-      // Fallback if engine not loaded
       window.BAZ.say(text, 5000)
-    }
     }
   }
 
