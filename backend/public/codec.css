@@ -1,15 +1,12 @@
 /* ============================================================
-   RETRODEX CODEC — Redesigned Terminal Interface
+   RETRODEX CODEC — 3-Column Terminal Interface
    ============================================================
-   Inspiration blend:
-     MGS Codec    — dual portrait layout, dialog below
-     Pip Boy      — chunky readable text, clear data hierarchy
-     Blade Runner — moody atmosphere, dark warm tones, accent bleed
-     Nier Automata — embedded OS feel, geometric brackets, minimal chrome
+   Layout: BAZ (left) | TEXT (center) | USER (right)
+   Ref: MGS Codec 3-column, Game Boy palette, CRT effects
 
    States applied on #rdx-codec:
      .codec-idle         — BAZ cursor blinks, user idle
-     .codec-talk         — BAZ talk bars animate, user nods
+     .codec-talk         — BAZ talk bars animate, user listens
      .codec-content      — BAZ checkmark visible, user nods
      .codec-user-waiting — pulsing dot, input disabled
    Visibility:
@@ -19,31 +16,31 @@
    ============================================================ */
 
 /* ----------------------------------------------------------
-   0. CUSTOM PROPERTIES — Codec-local design tokens
+   0. CUSTOM PROPERTIES — Game Boy palette tokens
    ---------------------------------------------------------- */
 
 #rdx-codec {
-  /* Atmosphere: Game Boy darkest green (was Blade Runner warm dark) */
+  /* Game Boy 4-shade palette */
   --codec-bg: #0F380F;
   --codec-bg-alpha: rgba(15, 56, 15, 0.96);
-  --codec-surface: rgba(18, 18, 24, 0.6);
+  --codec-surface: rgba(15, 56, 15, 0.6);
 
-  /* Accent: inherited from zone theme, with opacity variants */
-  --codec-accent: var(--accent, #00ff66);
-  --codec-accent-40: color-mix(in srgb, var(--codec-accent) 40%, transparent);
-  --codec-accent-15: color-mix(in srgb, var(--codec-accent) 15%, transparent);
-  --codec-accent-08: color-mix(in srgb, var(--codec-accent) 8%, transparent);
-  --codec-accent-dim: var(--accent-dim, #005c22);
+  /* Accent: GB lightest green */
+  --codec-accent: #8BAC0F;
+  --codec-accent-40: rgba(139, 172, 15, 0.4);
+  --codec-accent-15: rgba(139, 172, 15, 0.15);
+  --codec-accent-08: rgba(139, 172, 15, 0.08);
+  --codec-accent-dim: #306230;
 
   /* Typography */
   --codec-font-display: var(--font-display, 'DepartureMono', monospace);
   --codec-font-ui: var(--font-ui, 'BigBlueTerminal', monospace);
-  --codec-text: var(--text-primary, #00ff66);
-  --codec-text-muted: var(--text-muted, #4a8a54);
+  --codec-text: #8BAC0F;
+  --codec-text-muted: #4a8a54;
 
   /* Geometry */
   --codec-bracket-size: 10px;
-  --codec-border-radius: 1px;
+  --codec-border-radius: 2px;
 }
 
 /* ----------------------------------------------------------
@@ -56,7 +53,7 @@
   50%, 100%  { opacity: 0; }
 }
 
-/* Talk-bar height oscillation — 5 variations for pseudo-random feel */
+/* Talk-bar height oscillation — 5 variations */
 @keyframes codec-bar-1 {
   0%, 100% { height: 4px; }
   25%      { height: 20px; }
@@ -95,17 +92,17 @@
   96.7%      { transform: translateY(0); }
 }
 
-/* Slide in — heavier feel with slight overshoot (Nier: weighty UI) */
+/* Slide in — heavier feel with slight overshoot */
 @keyframes codec-slide-up {
-  0%   { transform: translateY(100%); opacity: 0; }
-  70%  { transform: translateY(-2%);  opacity: 1; }
-  100% { transform: translateY(0);    opacity: 1; }
+  0%   { transform: translateX(-50%) translateY(100%); opacity: 0; }
+  70%  { transform: translateX(-50%) translateY(-2%);  opacity: 1; }
+  100% { transform: translateX(-50%) translateY(0);    opacity: 1; }
 }
 
 /* Slide out to bottom */
 @keyframes codec-slide-down {
-  from { transform: translateY(0);    opacity: 1; }
-  to   { transform: translateY(100%); opacity: 0; }
+  from { transform: translateX(-50%) translateY(0);    opacity: 1; }
+  to   { transform: translateX(-50%) translateY(100%); opacity: 0; }
 }
 
 /* Typewriter cursor pulse */
@@ -120,13 +117,13 @@
   50%, 100%  { opacity: 0.4; }
 }
 
-/* Border pulse on open — one-time accent flash (Nier: activation feedback) */
+/* Border pulse on open — one-time accent flash */
 @keyframes codec-border-pulse {
-  0%   { border-color: var(--codec-accent); box-shadow: 0 0 12px var(--codec-accent-40); }
-  100% { border-color: var(--codec-accent-40); box-shadow: none; }
+  0%   { border-color: var(--codec-accent); box-shadow: inset 0 0 0 1px #306230, 0 0 12px var(--codec-accent-40); }
+  100% { border-color: #8BAC0F; box-shadow: inset 0 0 0 1px #306230; }
 }
 
-/* CSS-only animated grain/static (Blade Runner: film noise) */
+/* CSS-only animated grain/static */
 @keyframes codec-grain {
   0%, 100% { transform: translate(0, 0); }
   10%      { transform: translate(-1%, -1%); }
@@ -146,26 +143,25 @@
   50%      { opacity: 1; }
 }
 
-/* [Sofia] Freq label pulse — subtle opacity oscillation for signal feel */
+/* Freq label pulse */
 @keyframes codec-freq-pulse {
   0%, 100% { opacity: 0.5; }
   50%      { opacity: 0.85; }
 }
 
-/* [Sofia] Signal bar level animation — 3-level oscillation */
+/* Signal bar level animation */
 @keyframes codec-signal-bar {
   0%, 100% { height: 3px; }
   33%      { height: 7px; }
   66%      { height: 5px; }
 }
 
-/* [Yuki] Rare transmission glitch — single scanline horizontal jump */
+/* Rare transmission glitch */
 @keyframes codec-glitch {
   0%, 99.78% {
     clip-path: none;
     transform: none;
   }
-  /* Glitch window: 99.78% to 100% of 45s = ~100ms */
   99.78%, 99.89% {
     clip-path: inset(48% 0 50% 0);
     transform: translateX(2px);
@@ -177,38 +173,33 @@
 }
 
 /* ----------------------------------------------------------
-   2. CONTAINER — Embedded terminal panel (Nier: part of the OS)
+   2. CONTAINER — 3-column grid layout
    ---------------------------------------------------------- */
 
 #rdx-codec {
   position: fixed;
-  bottom: 0;
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%) translateY(100%);
   width: 100%;
-  max-width: 680px;
-  min-height: 200px;
-  max-height: 280px;
+  max-width: 600px;
+  height: 180px;
   z-index: 1000;
 
-  /* Warm dark background with slight page bleed-through (Nier: transparency) */
+  /* Game Boy darkest green background */
   background: var(--codec-bg-alpha);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 
-  /* GB-palette border — #306230 mid-green (was accent-40) */
-  border: 1px solid #306230;
-  border-bottom: none; /* Flush with viewport bottom */
-  border-radius: var(--codec-border-radius) var(--codec-border-radius) 0 0;
+  /* GB-palette border with inner border effect */
+  border: 2px solid #8BAC0F;
+  border-radius: var(--codec-border-radius);
+  box-shadow: inset 0 0 0 1px #306230;
 
-  /* Soft inner atmosphere instead of hard edges (Blade Runner: ambient glow) */
-  box-shadow:
-    inset 0 1px 0 0 var(--codec-accent-15),
-    inset 0 0 30px var(--codec-accent-08),
-    0 -8px 32px rgba(0, 0, 0, 0.5);
-
+  /* 3-column grid: BAZ | TEXT | USER */
   display: grid;
-  grid-template-rows: auto auto 1fr auto auto;
+  grid-template-columns: 92px 1fr 92px;
+  grid-template-rows: 24px 1fr auto;
   overflow: hidden;
 
   opacity: 0;
@@ -217,10 +208,9 @@
 }
 
 /* ----------------------------------------------------------
-   3. FADE DISSOLVE — Top edge gradient (no hard border, page connection)
+   3. FADE DISSOLVE — Top edge gradient
    ---------------------------------------------------------- */
 
-/* Gradient fade at top so the codec dissolves into the page */
 #rdx-codec::before {
   content: '';
   position: absolute;
@@ -234,32 +224,26 @@
 }
 
 /* ----------------------------------------------------------
-   3b. VIGNETTING — CRT curvature simulation (Yuki)
-   Corner darkening via radial gradients on a dedicated overlay
+   3b. VIGNETTING — CRT curvature simulation
    ---------------------------------------------------------- */
 
-/* [Yuki] CRT corner vignetting — subtle darkening at each corner */
 .codec-vignette {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 8;
   background:
-    /* Top-left corner */
-    radial-gradient(ellipse at 0% 0%, #003318 0%, transparent 1px),
-    /* Top-right corner */
-    radial-gradient(ellipse at 100% 0%, #003318 0%, transparent 1px),
-    /* Bottom-left corner */
-    radial-gradient(ellipse at 0% 100%, #003318 0%, transparent 1px),
-    /* Bottom-right corner */
-    radial-gradient(ellipse at 100% 100%, #003318 0%, transparent 1px);
+    radial-gradient(ellipse at 0% 0%, rgba(15, 56, 15, 0.8) 0%, transparent 60px),
+    radial-gradient(ellipse at 100% 0%, rgba(15, 56, 15, 0.8) 0%, transparent 60px),
+    radial-gradient(ellipse at 0% 100%, rgba(15, 56, 15, 0.8) 0%, transparent 60px),
+    radial-gradient(ellipse at 100% 100%, rgba(15, 56, 15, 0.8) 0%, transparent 60px);
 }
 
 /* ----------------------------------------------------------
-   4. SCANLINES + GRAIN OVERLAY (Blade Runner + Pip Boy)
+   4. SCANLINES + GRAIN OVERLAY
    ---------------------------------------------------------- */
 
-/* [Sofia] Scanlines: 1px dark lines every 2px at opacity 0.10, using #005C2D */
+/* Scanlines: 1px dark lines every 2px */
 #rdx-codec::after {
   content: '';
   position: absolute;
@@ -269,26 +253,24 @@
       to bottom,
       transparent 0px,
       transparent 1px,
-      #005C2D 1px,
-      #005C2D 2px
+      rgba(15, 56, 15, 0.3) 1px,
+      rgba(15, 56, 15, 0.3) 2px
     );
   opacity: 0.10;
   pointer-events: none;
   z-index: 10;
 }
 
-/* Animated grain texture — CSS-only noise effect (Blade Runner: film grain) *
- * Uses a large semi-transparent gradient that shifts position rapidly.
- * The result is a subtle static/noise that lives over the whole codec. */
+/* Animated grain texture */
 .codec-grain-overlay {
   position: absolute;
   inset: -50%;
   width: 200%;
   height: 200%;
   background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(255,255,255,0.02) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.015) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(255,255,255,0.01) 0%, transparent 50%);
+    radial-gradient(ellipse at 20% 50%, rgba(139,172,15,0.02) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(139,172,15,0.015) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(139,172,15,0.01) 0%, transparent 50%);
   background-size: 4px 4px, 6px 6px, 5px 5px;
   animation: codec-grain 0.8s steps(4) infinite;
   pointer-events: none;
@@ -296,7 +278,7 @@
   opacity: 0.4;
 }
 
-/* [Yuki] Rare glitch overlay — transmission artifact every ~45s */
+/* Rare glitch overlay */
 .codec-glitch-overlay {
   position: absolute;
   inset: 0;
@@ -307,8 +289,8 @@
       to bottom,
       transparent 0px,
       transparent 1px,
-      #005C2D 1px,
-      #005C2D 2px
+      rgba(15, 56, 15, 0.3) 1px,
+      rgba(15, 56, 15, 0.3) 2px
     );
   opacity: 0.10;
   animation: codec-glitch 45s linear infinite;
@@ -316,9 +298,7 @@
 }
 
 /* ----------------------------------------------------------
-   5. CORNER BRACKETS (Nier Automata: geometric UI panels)
-   Thin L-shaped brackets at each corner give the codec
-   its "OS panel" identity without adding heavy chrome.
+   5. CORNER BRACKETS
    ---------------------------------------------------------- */
 
 .codec-bracket {
@@ -329,7 +309,6 @@
   z-index: 11;
 }
 
-/* Each bracket is a 1px L-shape via border segments */
 .codec-bracket--tl {
   top: 3px;
   left: 3px;
@@ -356,13 +335,34 @@
 }
 
 /* ----------------------------------------------------------
-   6. FREQ LABEL (MGS homage: "FREQ 141.80" in micro text)
+   6. HEADER ROW — "CODEC" left, "FREQ 141.80" + signal right
+   Spans all 3 columns (row 1)
    ---------------------------------------------------------- */
 
+.codec-header {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  height: 24px;
+  border-bottom: 1px solid #306230;
+  position: relative;
+  z-index: 5;
+}
+
+.codec-header-label {
+  font-family: var(--codec-font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--codec-accent);
+  text-transform: uppercase;
+  line-height: 1;
+  opacity: 0.85;
+}
+
 .codec-freq-label {
-  position: absolute;
-  top: 6px;
-  right: 20px;
   font-family: var(--codec-font-display);
   font-size: 0.5rem;
   letter-spacing: 0.15em;
@@ -370,16 +370,14 @@
   opacity: 0.5;
   text-transform: uppercase;
   pointer-events: none;
-  z-index: 11;
   line-height: 1;
-  /* [Sofia] Freq label pulse — oscillates between dim and bright */
   animation: codec-freq-pulse 4s ease-in-out infinite;
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
-/* [Sofia] Signal strength bars next to freq label — 3 tiny bars */
+/* Signal strength bars next to freq label */
 .codec-freq-label::after {
   content: '';
   display: inline-block;
@@ -402,7 +400,6 @@
    7. OPEN / CLOSE STATES
    ---------------------------------------------------------- */
 
-/* Slide-up with heavier timing and border activation pulse */
 #rdx-codec.codec-open {
   animation:
     codec-slide-up 350ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
@@ -410,55 +407,55 @@
   pointer-events: auto;
 }
 
-/* Slide-down when closing */
 #rdx-codec.codec-closing {
   animation: codec-slide-down 300ms ease-in forwards;
   pointer-events: none;
 }
 
 /* ----------------------------------------------------------
-   8. PORTRAITS ROW (MGS: two faces, face-to-face)
+   8. PORTRAIT COLUMNS — BAZ (left col), USER (right col)
    ---------------------------------------------------------- */
 
-.codec-portraits {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 14px 20px 8px;
-  gap: 16px;
-  /* Portraits are the brightest element (visual hierarchy: descending brightness) */
-  /* [Yuki] Asymmetric lighting — subtle cyan tint on USER (right) side */
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    transparent 50%,
-    rgba(0, 100, 136, 0.03) 100%
-  );
-}
-
-.codec-avatar {
+/* BAZ portrait — column 1, row 2 */
+.codec-avatar-baz {
+  grid-column: 1;
+  grid-row: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
-  min-width: 64px;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 6px;
 }
 
-/* Sprite frame: inset border with soft rounding (MGS portrait frame) */
+/* USER portrait — column 3, row 2 */
+.codec-avatar-user {
+  grid-column: 3;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 6px;
+}
+
+/* Portrait images: 80x80 display, pixelated rendering */
 .codec-avatar svg,
 .codec-avatar img {
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   display: block;
   image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
   border: 1px solid var(--codec-accent-40);
-  border-radius: 2px;
-  /* Inset shadow adds depth without bright chrome */
+  border-radius: 1px;
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
   transition: border-color 300ms ease, box-shadow 200ms ease;
 }
 
-/* Labels under sprites: chunky, uppercase, letter-spaced (Pip Boy: clear hierarchy) */
+/* Labels under portraits */
 .codec-label {
   font-family: var(--codec-font-display);
   font-size: 0.55rem;
@@ -467,19 +464,19 @@
   text-transform: uppercase;
   text-align: center;
   line-height: 1;
-  /* Labels dimmer than text body (Pip Boy: data hierarchy) */
   opacity: 0.7;
 }
 
-/* [Sofia] BAZ label — machine identity: bolder, slightly larger, full brightness */
+/* BAZ label — machine identity: bolder, brighter */
 .codec-avatar-baz .codec-label {
   font-weight: bold;
   letter-spacing: 0.14em;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   opacity: 0.85;
+  color: var(--codec-accent);
 }
 
-/* [Sofia] USER label — human identity: lighter weight, dimmer, standard size */
+/* USER label — human identity: lighter, dimmer */
 .codec-avatar-user .codec-label {
   font-weight: normal;
   letter-spacing: 0.08em;
@@ -488,18 +485,17 @@
   opacity: 0.55;
 }
 
-/* When BAZ talks, brighten the BAZ frame (MGS: active speaker indication) */
+/* When BAZ talks, brighten the BAZ frame */
 .codec-talk .codec-avatar-baz svg,
 .codec-talk .codec-avatar-baz img {
   border-color: var(--codec-accent);
-  /* [Sofia] Enhanced BAZ talk glow — brighter border + accent shadow */
   box-shadow:
     inset 0 0 6px rgba(0, 0, 0, 0.4),
     0 0 4px var(--codec-accent-40);
   transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
-/* [Sofia] BAZ idle state — dim border returns when not talking */
+/* BAZ idle state — dim border returns */
 #rdx-codec:not(.codec-talk) .codec-avatar-baz svg,
 #rdx-codec:not(.codec-talk) .codec-avatar-baz img {
   border-color: var(--codec-accent-40);
@@ -507,31 +503,29 @@
   transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
-/* ----------------------------------------------------------
-   9. SEPARATOR — Gradient fade, not a harsh line (Blade Runner: soft edges)
-   ---------------------------------------------------------- */
-
-.codec-separator {
-  width: 100%;
-  height: 1px;
-  border: none;
-  margin: 0;
-  /* Gradient fades from accent center to transparent edges */
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    var(--codec-accent-40) 20%,
-    var(--codec-accent-40) 80%,
-    transparent 100%
-  );
+/* BAZ portrait glow when talking */
+.codec-talk .codec-avatar-baz img,
+.codec-talk .codec-avatar-baz svg {
+  filter: drop-shadow(0 0 2px #8BAC0F);
 }
 
 /* ----------------------------------------------------------
-   10. TEXT ZONE — Readable, generous spacing (Pip Boy: readability first)
+   9. TEXT ZONE — Center column, row 2
    ---------------------------------------------------------- */
 
+.codec-text-zone {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-left: 1px solid #306230;
+  border-right: 1px solid #306230;
+}
+
 .codec-text {
-  padding: 10px 20px 14px;
+  flex: 1;
+  padding: 8px 12px;
   font-family: var(--codec-font-ui);
   font-size: 13px;
   line-height: 1.6;
@@ -539,10 +533,9 @@
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--codec-accent-dim) transparent;
-  /* Text zone is mid-brightness in the hierarchy */
 }
 
-/* Typewriter cursor on the active text span */
+/* Typewriter cursor on active text span */
 .codec-text .codec-typewriter {
   border-right: 2px solid var(--codec-accent);
   padding-right: 2px;
@@ -556,7 +549,103 @@
 }
 
 /* ----------------------------------------------------------
-   11. BAZ IDLE STATE — Cursor blink
+   10. INPUT ROW — Spans all 3 columns (row 3)
+   ---------------------------------------------------------- */
+
+.codec-input-row {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  height: 32px;
+  min-height: 32px;
+  gap: 8px;
+  position: relative;
+  background: var(--codec-accent-08);
+  border-top: 1px solid #306230;
+}
+
+/* The > prompt */
+.codec-input-prompt {
+  font-family: var(--codec-font-ui);
+  font-size: 13px;
+  color: var(--codec-accent);
+  line-height: 1;
+  flex-shrink: 0;
+  user-select: none;
+  opacity: 0.8;
+}
+
+/* Prompt pulses when focused */
+.codec-input-row:focus-within .codec-input-prompt {
+  opacity: 1;
+  animation: codec-prompt-pulse 1s steps(1) infinite;
+}
+
+/* Input field */
+.codec-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--codec-font-ui);
+  font-size: 12px;
+  line-height: 1;
+  color: var(--codec-text);
+  caret-color: var(--codec-accent);
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.codec-input::placeholder {
+  color: var(--codec-text-muted);
+  opacity: 0.5;
+  font-style: normal;
+}
+
+/* Focus state — warm inset glow */
+.codec-input-row:focus-within {
+  background: rgba(139, 172, 15, 0.04);
+  box-shadow:
+    inset 0 0 20px var(--codec-accent-08),
+    inset 0 1px 0 var(--codec-accent-15);
+}
+
+/* ----------------------------------------------------------
+   11. SEPARATOR (kept for backward compatibility)
+   ---------------------------------------------------------- */
+
+.codec-separator {
+  width: 100%;
+  height: 1px;
+  border: none;
+  margin: 0;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #306230 20%,
+    #306230 80%,
+    transparent 100%
+  );
+}
+
+.codec-separator-input {
+  opacity: 0.15;
+}
+
+/* ----------------------------------------------------------
+   12. PORTRAITS ROW (legacy compat — hidden in new layout)
+   If the HTML still has .codec-portraits wrapper, adapt it
+   ---------------------------------------------------------- */
+
+.codec-portraits {
+  display: contents;
+}
+
+/* ----------------------------------------------------------
+   13. BAZ IDLE STATE — Cursor blink
    ---------------------------------------------------------- */
 
 .codec-idle .baz-cursor,
@@ -565,7 +654,7 @@
 }
 
 /* ----------------------------------------------------------
-   12. BAZ TALK STATE — Equalizer bars animate
+   14. BAZ TALK STATE — Equalizer bars animate
    ---------------------------------------------------------- */
 
 .baz-bars rect {
@@ -610,7 +699,7 @@
 }
 
 /* ----------------------------------------------------------
-   13. BAZ CONTENT STATE — Checkmark visible
+   15. BAZ CONTENT STATE — Checkmark visible
    ---------------------------------------------------------- */
 
 .baz-checkmark {
@@ -632,7 +721,7 @@
 }
 
 /* ----------------------------------------------------------
-   14. USER STATES — Nod during active conversation
+   16. USER STATES — Nod during active conversation
    ---------------------------------------------------------- */
 
 .codec-talk .codec-avatar-user svg,
@@ -647,84 +736,12 @@
 }
 
 /* ----------------------------------------------------------
-   15. INPUT SEPARATOR — Softer than the portrait separator
-   ---------------------------------------------------------- */
-
-.codec-separator-input {
-  opacity: 0.15;
-}
-
-/* ----------------------------------------------------------
-   16. INPUT ROW — Terminal prompt (Pip Boy: real terminal feel)
-   ---------------------------------------------------------- */
-
-.codec-input-row {
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  height: 40px;
-  min-height: 40px;
-  gap: 8px;
-  position: relative;
-  /* Input is lowest brightness in the hierarchy */
-  background: var(--codec-accent-08);
-}
-
-/* The > prompt — chunky, always visible (Pip Boy: terminal identity) */
-.codec-input-prompt {
-  font-family: var(--codec-font-ui);
-  font-size: 14px;
-  color: var(--codec-accent);
-  line-height: 1;
-  flex-shrink: 0;
-  user-select: none;
-  /* Slightly brighter than the input text for hierarchy */
-  opacity: 0.8;
-}
-
-/* Prompt pulses when input is focused — blinking > cursor feel */
-.codec-input-row:focus-within .codec-input-prompt {
-  opacity: 1;
-  animation: codec-prompt-pulse 1s steps(1) infinite;
-}
-
-/* Input field — transparent, generous size for readability */
-.codec-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-family: var(--codec-font-ui);
-  font-size: 13px;
-  line-height: 1;
-  color: var(--codec-text);
-  caret-color: var(--codec-accent);
-  padding: 0;
-  margin: 0;
-  min-width: 0;
-}
-
-.codec-input::placeholder {
-  color: var(--codec-text-muted);
-  opacity: 0.5;
-  font-style: normal;
-}
-
-/* Focus state — warm inset glow on the entire input row (Blade Runner: accent bleed) */
-.codec-input-row:focus-within {
-  background: color-mix(in srgb, var(--codec-accent) 4%, transparent);
-  box-shadow:
-    inset 0 0 20px var(--codec-accent-08),
-    inset 0 1px 0 var(--codec-accent-15);
-}
-
-/* ----------------------------------------------------------
    17. THINKING INDICATOR
    ---------------------------------------------------------- */
 
 .codec-thinking {
   font-family: var(--codec-font-ui);
-  font-size: 13px;
+  font-size: 12px;
   color: var(--codec-accent);
   opacity: 0;
   pointer-events: none;
@@ -738,17 +755,15 @@
    18. USER-WAITING STATE — Pulsing dot + disabled input
    ---------------------------------------------------------- */
 
-/* Show thinking indicator with blink */
 #rdx-codec.codec-user-waiting .codec-thinking {
   opacity: 1;
   animation: codec-blink 1s steps(1) infinite;
 }
 
-/* Pulsing dot in the input area via pseudo-element */
 #rdx-codec.codec-user-waiting .codec-input-row::after {
   content: '';
   position: absolute;
-  right: 20px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   width: 6px;
@@ -758,7 +773,6 @@
   animation: codec-waiting-pulse 1.5s ease-in-out infinite;
 }
 
-/* Dim the input when waiting */
 #rdx-codec.codec-user-waiting .codec-input {
   pointer-events: none;
   opacity: 0.25;
@@ -776,52 +790,55 @@
 @media (max-width: 480px) {
   #rdx-codec {
     max-width: 100%;
-    min-height: 180px;
-    max-height: 260px;
+    height: 160px;
+    bottom: 0;
     border-left: none;
     border-right: none;
-    border-radius: 0;
+    border-bottom: none;
+    border-radius: var(--codec-border-radius) var(--codec-border-radius) 0 0;
+    grid-template-columns: 68px 1fr 68px;
+    grid-template-rows: 20px 1fr auto;
   }
 
-  .codec-portraits {
-    padding: 10px 14px 6px;
-  }
-
-  /* Sprites shrink to 48x48 on mobile */
+  /* Sprites shrink to 56x56 on mobile */
   .codec-avatar svg,
   .codec-avatar img {
-    width: 48px;
-    height: 48px;
-  }
-
-  .codec-avatar {
-    min-width: 48px;
+    width: 56px;
+    height: 56px;
   }
 
   .codec-text {
-    font-size: 12px;
-    padding: 8px 14px 10px;
+    font-size: 11px;
+    padding: 6px 8px;
   }
 
   .codec-input-row {
-    padding: 0 14px;
-    height: 44px; /* Larger touch target on mobile */
-    min-height: 44px;
+    padding: 0 8px;
+    height: 36px;
+    min-height: 36px;
   }
 
   .codec-input,
   .codec-input-prompt,
   .codec-thinking {
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .codec-label {
+    font-size: 0.45rem;
+  }
+
+  .codec-header {
+    padding: 0 8px;
+    height: 20px;
+  }
+
+  .codec-header-label {
     font-size: 0.5rem;
   }
 
   .codec-freq-label {
-    font-size: 0.45rem;
-    right: 14px;
+    font-size: 0.4rem;
   }
 
   /* Brackets tighten on mobile */
@@ -831,38 +848,19 @@
 }
 
 /* Larger mobile — ensure full width */
-@media (max-width: 680px) and (min-width: 481px) {
+@media (max-width: 600px) and (min-width: 481px) {
   #rdx-codec {
     max-width: 100%;
-    border-radius: 0;
+    bottom: 0;
+    border-radius: var(--codec-border-radius) var(--codec-border-radius) 0 0;
     border-left: none;
     border-right: none;
+    border-bottom: none;
   }
 }
 
 /* ----------------------------------------------------------
    20. ACCESSIBILITY — Respect reduced motion preference
-   ---------------------------------------------------------- */
-
-/* ----------------------------------------------------------
-   21. GAME BOY PALETTE ENFORCEMENT
-   ---------------------------------------------------------- */
-
-/* Game Boy palette enforcement */
-.codec-avatar img, .codec-avatar svg {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-}
-
-/* BAZ portrait frame — warm green glow when talking */
-.codec-talk .codec-avatar-baz img,
-.codec-talk .codec-avatar-baz svg {
-  filter: drop-shadow(0 0 2px #8BAC0F);
-}
-
-/* ----------------------------------------------------------
-   22. ACCESSIBILITY — Respect reduced motion preference
    ---------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -881,7 +879,6 @@
     animation: none !important;
   }
 
-  /* [Sofia + Yuki] Disable all new animations for reduced motion */
   .codec-freq-label {
     animation: none !important;
     opacity: 0.5 !important;

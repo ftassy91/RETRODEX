@@ -1,6 +1,6 @@
 /* ============================================================
-   codec.js — BAZ-C Codec: MGS-style dialog with two portraits
-   BAZ (terminal) left, User (silhouette) right, text below
+   codec.js — BAZ-C Codec: MGS-style 3-column layout
+   BAZ (left) | Text + Input (center) | User (right)
    ============================================================ */
 
 ;(function () {
@@ -196,44 +196,38 @@
   var codec = document.createElement('div')
   codec.id = 'rdx-codec'
   codec.innerHTML = [
-    '<!-- Nier: corner brackets -->',
-    '<div class="codec-bracket codec-bracket--tl"></div>',
-    '<div class="codec-bracket codec-bracket--tr"></div>',
-    '<div class="codec-bracket codec-bracket--bl"></div>',
-    '<div class="codec-bracket codec-bracket--br"></div>',
-    '<!-- Blade Runner: animated grain overlay -->',
+    '<!-- CRT effects -->',
     '<div class="codec-grain-overlay" aria-hidden="true"></div>',
-    '<!-- Sofia: CRT vignette -->',
     '<div class="codec-vignette" aria-hidden="true"></div>',
-    '<!-- Yuki: transmission glitch -->',
     '<div class="codec-glitch-overlay" aria-hidden="true"></div>',
-    '<!-- MGS: freq label -->',
-    '<span class="codec-freq-label">FREQ 141.80</span>',
-    '<div class="codec-portraits">',
-    '  <div class="codec-avatar codec-avatar-baz">',
-    '    <img src="/assets/baz/baz.svg" alt="BAZ" width="64" height="64" />',
-    '    <span class="codec-label">BAZ</span>',
-    '  </div>',
-    '  <div class="codec-avatar codec-avatar-user">',
-    '    <img src="/assets/baz/user-bust.svg" alt="TOI" width="64" height="64" />',
-    '    <span class="codec-label">TOI</span>',
+    '<!-- Header -->',
+    '<div class="codec-header">',
+    '  <span class="codec-title">CODEC</span>',
+    '  <span class="codec-freq-label">FREQ 141.80</span>',
+    '</div>',
+    '<!-- 3-column content -->',
+    '<div class="codec-col codec-col-baz">',
+    '  <img class="codec-portrait" src="/assets/baz/baz.svg" alt="BAZ" width="80" height="80" />',
+    '  <span class="codec-label codec-label-baz">BAZ</span>',
+    '</div>',
+    '<div class="codec-col codec-col-text">',
+    '  <div class="codec-text"><span class="codec-typewriter"></span></div>',
+    '  <div class="codec-input-row">',
+    '    <span class="codec-input-prompt">&gt;</span>',
+    '    <input type="text" class="codec-input" placeholder="Parle a BAZ..." maxlength="140" autocomplete="off" spellcheck="false" />',
     '  </div>',
     '</div>',
-    '<hr class="codec-separator" />',
-    '<div class="codec-text"><span class="codec-typewriter"></span></div>',
-    '<hr class="codec-separator codec-separator-input" />',
-    '<div class="codec-input-row">',
-    '  <span class="codec-input-prompt">&gt;</span>',
-    '  <input type="text" class="codec-input" placeholder="Parle a BAZ..." maxlength="140" autocomplete="off" spellcheck="false" />',
-    '  <span class="codec-thinking" aria-hidden="true">...</span>',
+    '<div class="codec-col codec-col-user">',
+    '  <img class="codec-portrait" src="/assets/baz/user-bust.svg" alt="USER" width="80" height="80" />',
+    '  <span class="codec-label codec-label-user">USER</span>',
     '</div>',
   ].join('\n')
   document.body.appendChild(codec)
 
   var typewriterEl = codec.querySelector('.codec-typewriter')
   var codecInput = codec.querySelector('.codec-input')
-  var bazImg = codec.querySelector('.codec-avatar-baz img')
-  var userImg = codec.querySelector('.codec-avatar-user img')
+  var bazImg = codec.querySelector('.codec-col-baz .codec-portrait')
+  var userImg = codec.querySelector('.codec-col-user .codec-portrait')
   var isOpen = false
   var typewriterTimer = null
   var autoDismissTimer = null
@@ -490,8 +484,8 @@
   // Irregular animation scheduler for BAZ idle
   // Reads CSS classes on the SVG to toggle between states
   function scheduleBazIdle() {
-    var bazEl = codec.querySelector('.codec-avatar-baz img')
-      || codec.querySelector('.codec-avatar-baz svg')
+    var bazEl = codec.querySelector('.codec-col-baz .codec-portrait')
+      || codec.querySelector('.codec-col-baz svg')
     if (!bazEl || !bazEl.contentDocument) return
 
     var doc = bazEl.contentDocument
