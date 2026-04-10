@@ -207,7 +207,7 @@
     '</div>',
     '<!-- 3-column content -->',
     '<div class="codec-col codec-col-baz">',
-    '  <img class="codec-portrait" src="/assets/baz/baz.svg" alt="BAZ" width="80" height="80" />',
+    '  <img class="codec-portrait" src="/assets/baz/baz.png" alt="BAZ" width="80" height="80" />',
     '  <span class="codec-label codec-label-baz">BAZ</span>',
     '</div>',
     '<div class="codec-col codec-col-text">',
@@ -218,7 +218,7 @@
     '  </div>',
     '</div>',
     '<div class="codec-col codec-col-user">',
-    '  <img class="codec-portrait" src="/assets/baz/user-bust.svg" alt="USER" width="80" height="80" />',
+    '  <img class="codec-portrait" src="/assets/baz/user.png" alt="USER" width="80" height="80" />',
     '  <span class="codec-label codec-label-user">USER</span>',
     '</div>',
   ].join('\n')
