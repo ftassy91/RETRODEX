@@ -294,15 +294,18 @@ div[hidden] {
 }
 
 /* ============================================================
-   GAME-DETAIL — Decision grid fix (prevent label truncation)
+   GAME-DETAIL — Decision grid: readable layout in aside panel
    ============================================================ */
-.surface-signal-card {
-  min-width: 0;
+.detail-decision-grid.surface-signal-grid.is-five {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
 }
-.surface-signal-label {
+.detail-decision-grid .surface-signal-label {
+  font-size: 0.6rem;
   white-space: nowrap;
-  font-size: 0.65rem;
+  letter-spacing: 0.04em;
 }
-.surface-signal-value {
-  word-break: break-word;
+.detail-decision-grid .surface-signal-card {
+  padding: 6px 8px;
+  min-height: 40px;
 }

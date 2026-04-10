@@ -111,21 +111,21 @@
         key: 'dense',
         label: 'Archive dense',
         shortLabel: 'Archive dense',
-        note: 'Fiche riche : lecture, signaux et couches de contexte déjà visibles.',
+        note: 'Fiche complete avec lecture, prix et contexte.',
       }
     } else if (score >= 6) {
       band = {
         key: 'solid',
         label: 'Lecture solide',
         shortLabel: 'Lecture solide',
-        note: 'Base de lecture forte, avec plusieurs couches utiles déjà reliées.',
+        note: 'Bonne couverture editoriale et donnees de prix.',
       }
     } else if (score >= 3) {
       band = {
         key: 'growing',
         label: 'En progression',
         shortLabel: 'En progression',
-        note: 'Archive stable, encore en cours de densification sur les contenus premium.',
+        note: 'Donnees de base presentes, enrichissement en cours.',
       }
     }
 

@@ -579,12 +579,10 @@ function renderHeroSection(game) {
 
         <aside class="detail-market-panel detail-hero-aside">
           <div class="detail-kicker">DECISION</div>
-          <div class="detail-domain-heading">Prix / fiabilite / action</div>
           ${priceContext}
           ${pricePanel}
           <div id="collection-decision-strip" class="detail-decision-strip">
             <div class="detail-kicker">COLLECTION</div>
-            <div class="detail-domain-heading">Suivi / etat / action</div>
             <div id="collection-decision-grid" class="surface-signal-grid is-five detail-decision-grid"></div>
             <p id="collection-decision-note" class="detail-reading-note"></p>
           </div>
