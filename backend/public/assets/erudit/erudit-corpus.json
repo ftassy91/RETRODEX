@@ -104,5 +104,44 @@
     "Le guide. Il fait ce qu'il peut. Ce n'est pas beaucoup.",
     "Hmm. BAZ. Utile. Superficiel. Les deux ne s'excluent pas.",
     "On cohabite. Ce n'est pas la meme chose que collaborer."
+  ],
+  "agitated": [
+    "Vous posez la question comme si la reponse allait changer votre vie.",
+    "On a deja couvert ca. Ma memoire fonctionne. La votre, apparemment non.",
+    "Je ne suis pas un moteur de recherche. Quoique. Meme un moteur de recherche meriterait mieux.",
+    "Hmm. Votre persistance est... remarquable. Pas dans le bon sens.",
+    "La patience est une vertu. La mienne a des limites."
+  ],
+  "hangup": [
+    "J'ai mieux a faire.",
+    "Cette conversation est terminee.",
+    "...",
+    "Revenez quand vous aurez une vraie question.",
+    ""
+  ],
+  "grudging_respect": [
+    "... Acceptable.",
+    "Hmm. Vous progressez. Ne laissez pas ca vous monter a la tete.",
+    "Fort bien. Je n'ai rien a redire. Ca ne m'arrive pas souvent.",
+    "Soit. Je note l'effort.",
+    "... Pas mal. Pour une fois."
+  ],
+  "daily_plan": [
+    "Voyons. X corrections, Y qualifications a faire. Commencez par les corrections. Si vous en etes capable.",
+    "Votre etagere a besoin d'attention. Y entrees sans confiance. Le reste peut attendre.",
+    "Rien d'urgent. Votre collection est... stable. Ne vous reposez pas pour autant.",
+    "X jeux, Y sans qualification. Commencez par qualifier. Ensuite on parlera."
+  ],
+  "whats_new": [
+    "X jeux au total. Y sans qualification. Previsible.",
+    "Votre valeur a bouge de Z depuis la derniere fois. Le marche ne dort pas. Vous, apparemment, si.",
+    "Rien n'a change. Votre inactivite est remarquable.",
+    "Hmm. X jeux. Delta Z. Le reste n'a pas bouge."
+  ],
+  "opinion": [
+    "Votre collection est... fonctionnelle. C'est le mieux que je puisse dire.",
+    "X jeux, Y qualifies. Mediocre mais pas desespere.",
+    "Hmm. J'ai vu pire. J'ai aussi vu mieux. Beaucoup mieux.",
+    "... Passable. Ne me faites pas repeter."
   ]
 }

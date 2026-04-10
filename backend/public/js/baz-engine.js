@@ -393,6 +393,27 @@
     } catch (_) {}
   }
 
+  // Lore anti-repetition (sessionStorage)
+  function getLoreSaid() {
+    try { return JSON.parse(sessionStorage.getItem('rdx-lore-said') || '[]') } catch (_) { return [] }
+  }
+  function markLoreSaid(text) {
+    try {
+      var said = getLoreSaid()
+      said.push(text)
+      sessionStorage.setItem('rdx-lore-said', JSON.stringify(said))
+    } catch (_) {}
+  }
+  function pickLoreReply() {
+    var pool = RESPONSES.lore || []
+    var said = getLoreSaid()
+    var available = pool.filter(function (r) { return said.indexOf(r) === -1 })
+    if (!available.length) return 'J\'ai deja dit ce que j\'avais a dire.'
+    var pick = available[Math.floor(Math.random() * available.length)]
+    markLoreSaid(pick)
+    return pick
+  }
+
   function wasRecentlyDiscussed(topic) {
     var mem = getSessionMemory()
     var lower = (topic || '').toLowerCase()
@@ -504,6 +525,10 @@
   }
 
   function buildResponse(parsed, generatedText) {
+    // Lore: use session-tracked picker
+    if (parsed.intent === 'lore' && !generatedText) {
+      generatedText = pickLoreReply()
+    }
     var reply = generatedText || pickReply(parsed.intent)
 
     // Substitute game name placeholder (fallback path)

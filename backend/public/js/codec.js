@@ -470,22 +470,55 @@
     }
   }
 
-  // Auto-trigger once per session per page
-  function autoTrigger() {
-    var path = location.pathname
-    var sessionKey = 'rdx-baz-' + path
-    if (sessionStorage.getItem(sessionKey)) return
-    sessionStorage.setItem(sessionKey, '1')
+  // Slam close — brutal 150ms close, no smooth animation
+  function slamClose() {
+    if (!isOpen) return
+    isOpen = false
+    clearTimeout(autoDismissTimer)
+    clearInterval(typewriterTimer)
+    codec.style.transition = 'transform 150ms ease-in, opacity 100ms'
+    codec.classList.remove('codec-open')
+    codec.classList.add('codec-closing')
+    setBazState('idle')
+    setTimeout(function () {
+      codec.classList.remove('codec-closing')
+      codec.style.transition = ''
+    }, 150)
+  }
 
-    if (path.includes('collection')) {
-      setTimeout(function () { say('welcome', 4000) }, 2000)
-    } else if (path.includes('game-detail')) {
-      setTimeout(function () { say('game_open', 3000) }, 1500)
+  // First encounter — scripted intro (once ever, localStorage)
+  function playFirstEncounter() {
+    var path = location.pathname
+    var isCollection = path.includes('collection')
+    var key = isCollection ? 'rdx-erudit-met' : 'rdx-baz-met'
+
+    try {
+      if (localStorage.getItem(key)) return false
+    } catch (_) { return false }
+
+    if (isCollection) {
+      // Erudit first encounter: silence 3s, then speaks
+      setTimeout(function () {
+        showMessage('...', 3000)
+        setTimeout(function () {
+          showMessage('On m\'a derange. Je veille sur les etageres. Si votre collection merite mon attention, posez votre question. Sinon, partez.', 8000)
+        }, 4500)
+      }, 1500)
+    } else {
+      // BAZ first encounter
+      setTimeout(function () {
+        showMessage('Hmm. Tu m\'as trouve.', 3000)
+        setTimeout(function () {
+          showMessage('Je suis BAZ. Je vis dans le catalogue. Terme obscur, prix, fiche — pose ta question ici. Je fais le reste.', 6000)
+        }, 4500)
+      }, 1500)
     }
+
+    try { localStorage.setItem(key, '1') } catch (_) {}
+    return true
   }
 
   saveSession()
-  setTimeout(autoTrigger, 500)
 
   // Irregular animation scheduler for BAZ idle
   // Reads CSS classes on the SVG to toggle between states
@@ -542,5 +575,5 @@
     codec.className = codec.className.replace(/codec-char-\S+/g, '').trim()
   }
 
-  window.BAZ = { say: say, close: closeCodec, input: codecInput, setCharacter: setCharacter, resetCharacter: resetCharacter }
+  window.BAZ = { say: say, close: closeCodec, slamClose: slamClose, input: codecInput, setCharacter: setCharacter, resetCharacter: resetCharacter, playFirstEncounter: playFirstEncounter }
 })()

@@ -1,19 +1,86 @@
 /* ============================================================
    erudit-engine.js — L'Erudit: collection page character
-   Replaces BAZ on collection.html with a mysterious, judgmental presence.
-   Uses the same codec infrastructure via window.BAZ.setCharacter()
+   Patience gauge, localStorage memory, strategic intents.
+   No auto-trigger. "..." never speaks first.
    ============================================================ */
 
 ;(function () {
   'use strict'
 
-  // Only activate on collection page
   if (!location.pathname.includes('collection')) return
 
   var _corpus = null
   var _loaded = false
   var _lastReplies = {}
+  var _loreUsed = {}
 
+  // Patience gauge
+  var _patience = 15
+  var _cooldownUntil = 0
+  var PATIENCE_COST = {
+    precise: -1,
+    vague: -3,
+    repeat: -5,
+    name_ask: -5,
+    unknown: -3,
+    good_action: 2,
+  }
+
+  // Memory (localStorage)
+  var MEMORY_KEY = 'rdx-erudit-memory'
+
+  function loadMemory() {
+    try {
+      return JSON.parse(localStorage.getItem(MEMORY_KEY)) || createMemory()
+    } catch (_) { return createMemory() }
+  }
+
+  function createMemory() {
+    return { interactions: [], collectionSnapshot: null, firstVisit: null, visitCount: 0, lastVisit: null }
+  }
+
+  function saveMemory(mem) {
+    try { localStorage.setItem(MEMORY_KEY, JSON.stringify(mem)) } catch (_) {}
+  }
+
+  function recordVisit() {
+    var mem = loadMemory()
+    if (!mem.firstVisit) mem.firstVisit = new Date().toISOString()
+    mem.visitCount = (mem.visitCount || 0) + 1
+    mem.lastVisit = new Date().toISOString()
+    saveMemory(mem)
+    return mem
+  }
+
+  function recordInteraction(user, erudit, intent) {
+    var mem = loadMemory()
+    mem.interactions.push({ user: user, erudit: erudit, intent: intent, ts: Date.now() })
+    if (mem.interactions.length > 20) mem.interactions = mem.interactions.slice(-20)
+    saveMemory(mem)
+  }
+
+  function wasRecentlyAsked(text) {
+    var mem = loadMemory()
+    var lower = (text || '').toLowerCase()
+    return mem.interactions.some(function (e) {
+      return e.user && e.user.toLowerCase().indexOf(lower) !== -1 && (Date.now() - e.ts) < 300000
+    })
+  }
+
+  function updateCollectionSnapshot(stats) {
+    var mem = loadMemory()
+    var prev = mem.collectionSnapshot
+    mem.collectionSnapshot = {
+      count: stats.total_items || 0,
+      value: stats.total_value_loose || 0,
+      qualified: stats.total_medium + stats.total_high || 0,
+      lastChange: new Date().toISOString(),
+    }
+    saveMemory(mem)
+    return prev
+  }
+
+  // Corpus
   function loadCorpus() {
     if (_corpus) return Promise.resolve(_corpus)
     return fetch('/assets/erudit/erudit-corpus.json')
@@ -36,7 +103,7 @@
     return pick
   }
 
-  // Intent parser for collection context
+  // Keywords
   var KEYWORDS = {
     signal_fix: ['corriger', 'doublon', 'fix', 'erreur', 'probleme'],
     signal_qualify: ['qualifier', 'qualification', 'completude', 'region', 'incomplet'],
@@ -44,104 +111,141 @@
     signal_upgrade: ['upgrade', 'upgrader', 'ameliorer', 'cib', 'loose vers'],
     signal_opportunity: ['acheter', 'achat', 'saisir', 'opportunite', 'wishlist'],
     signal_stale: ['stagnant', 'stale', 'dormant', 'wishlist vieille'],
+    daily_plan: ['on fait quoi', 'aujourd\'hui', 'quoi faire', 'par ou', 'commencer', 'priorite'],
+    whats_new: ['quoi de neuf', 'nouvelles', 'news', 'change', 'evolue'],
+    opinion: ['tu penses quoi', 'ton avis', 'qu\'est-ce que tu en penses', 'verdict'],
     help: ['aide', 'help', '/help', 'quoi', 'comment'],
-    lore: ['qui', 'nom', 'appelle', 'origine', 'd\'ou', 'viens', 'baz', 'petit', 'autre', '...'],
-    about_baz: ['baz', 'le petit', 'le guide', 'l\'autre'],
-    game_comment: [],  // matched by game title detection
+    lore: ['qui', 'nom', 'appelle', 'origine', 'd\'ou', 'viens', 'baz', 'petit', 'autre'],
+    about_baz: ['baz', 'le petit', 'le guide'],
   }
-
-  var _loreUsed = {}
 
   function parseIntent(text) {
     var lower = (text || '').toLowerCase().trim()
-    if (!lower) return 'unknown'
+    if (!lower) return { intent: 'unknown', cost: 'vague' }
 
-    // Lore first (special handling)
-    for (var i = 0; i < KEYWORDS.lore.length; i++) {
-      if (lower.indexOf(KEYWORDS.lore[i]) !== -1) return 'lore'
+    // Name ask
+    if (/ton nom|comment tu t.appelles|qui es.tu/.test(lower)) {
+      return { intent: 'lore', cost: 'name_ask' }
     }
 
+    // Lore
+    for (var i = 0; i < KEYWORDS.lore.length; i++) {
+      if (lower.indexOf(KEYWORDS.lore[i]) !== -1) return { intent: 'lore', cost: 'precise' }
+    }
+
+    // Strategic intents
     for (var intent in KEYWORDS) {
-      if (intent === 'lore' || intent === 'game_comment') continue
+      if (intent === 'lore') continue
       var kws = KEYWORDS[intent]
       for (var k = 0; k < kws.length; k++) {
-        if (lower.indexOf(kws[k]) !== -1) return intent
+        if (lower.indexOf(kws[k]) !== -1) return { intent: intent, cost: 'precise' }
       }
     }
 
-    return 'unknown'
+    // Check if repeat
+    if (wasRecentlyAsked(lower)) return { intent: 'unknown', cost: 'repeat' }
+
+    return { intent: 'unknown', cost: 'vague' }
+  }
+
+  function fetchCollectionContext() {
+    var api = window.RetroDexApi
+    if (!api || !api.fetchJson) return Promise.resolve(null)
+    return api.fetchJson('/api/baz/context/collection').catch(function () { return null })
   }
 
   function ask(text) {
-    return loadCorpus().then(function () {
-      var intent = parseIntent(text)
+    // Cooldown check
+    if (Date.now() < _cooldownUntil) {
+      return Promise.resolve({ text: '', state: 'idle', duration: 0, intent: 'blocked' })
+    }
 
-      // Lore: each fragment only once per session
-      if (intent === 'lore') {
+    return loadCorpus().then(function () {
+      var parsed = parseIntent(text)
+
+      // Apply patience cost
+      var cost = PATIENCE_COST[parsed.cost] || -2
+      _patience += cost
+
+      // Patience depleted → hang up
+      if (_patience <= 0) {
+        var hangupReply = pickReply('hangup')
+        _cooldownUntil = Date.now() + 30000 + Math.random() * 30000
+        _patience = 15
+
+        recordInteraction(text, hangupReply || '[HANGUP]', 'hangup')
+
+        if (!hangupReply) {
+          // Silent hangup
+          setTimeout(function () { if (window.BAZ) window.BAZ.slamClose() }, 500)
+          return Promise.resolve({ text: '', state: 'idle', duration: 0, intent: 'hangup' })
+        }
+
+        return Promise.resolve({ text: hangupReply, state: 'talk', duration: 3000, intent: 'hangup', afterSay: function () {
+          setTimeout(function () { if (window.BAZ) window.BAZ.slamClose() }, 3500)
+        }})
+      }
+
+      // Lore — one-time fragments
+      if (parsed.intent === 'lore') {
         var lorePool = (_corpus.lore || []).filter(function (r) { return !_loreUsed[r] })
         if (lorePool.length) {
           var pick = lorePool[Math.floor(Math.random() * lorePool.length)]
           _loreUsed[pick] = true
+          recordInteraction(text, pick, 'lore')
           return Promise.resolve({ text: pick, state: 'talk', duration: 6000, intent: 'lore' })
         }
+        recordInteraction(text, '...', 'lore')
         return Promise.resolve({ text: '...', state: 'talk', duration: 3000, intent: 'lore' })
       }
 
-      var reply = pickReply(intent)
-      return Promise.resolve({ text: reply, state: 'talk', duration: 5000, intent: intent })
-    })
-  }
-
-  // Auto-trigger: comment on collection state
-  function autoComment() {
-    loadCorpus().then(function () {
-      // Read cockpit signals from DOM
-      var fixCount = parseInt((document.getElementById('signal-fix-count') || {}).textContent) || 0
-      var qualifyCount = parseInt((document.getElementById('signal-qualify-count') || {}).textContent) || 0
-      var totalEl = document.getElementById('stat-total')
-      var total = parseInt((totalEl || {}).textContent) || 0
-
-      var reply
-      if (total === 0) {
-        reply = pickReply('collection_empty')
-      } else if (fixCount > 0) {
-        reply = pickReply('signal_fix').replace(/__COUNT__/g, String(fixCount))
-      } else if (qualifyCount > 0) {
-        reply = pickReply('signal_qualify').replace(/__COUNT__/g, String(qualifyCount))
-      } else {
-        reply = pickReply('collection_healthy')
+      // Strategic intents that need context
+      if (parsed.intent === 'daily_plan' || parsed.intent === 'whats_new' || parsed.intent === 'opinion') {
+        return fetchCollectionContext().then(function (ctx) {
+          var reply = pickReply(parsed.intent)
+          if (ctx) {
+            reply = reply
+              .replace(/X/g, String(ctx.total_items || 0))
+              .replace(/Y/g, String(Math.max(0, (ctx.total_items || 0) - (ctx.total_medium || 0) - (ctx.total_high || 0))))
+              .replace(/Z/g, String(ctx.delta || 0))
+          }
+          recordInteraction(text, reply, parsed.intent)
+          return { text: reply, state: 'talk', duration: 5000, intent: parsed.intent }
+        })
       }
 
-      if (window.BAZ && window.BAZ.say) {
-        window.BAZ.say(reply, 5000)
+      // Good action
+      if (parsed.intent === 'qualification_saved') {
+        _patience += PATIENCE_COST.good_action
       }
+
+      var reply = pickReply(parsed.intent)
+      recordInteraction(text, reply, parsed.intent)
+      return Promise.resolve({ text: reply, state: 'talk', duration: 5000, intent: parsed.intent })
     })
   }
 
   // Listen for collection events
   document.addEventListener('rdx:collection-signal', function (e) {
+    if (Date.now() < _cooldownUntil || !_corpus) return
     var type = e.detail && e.detail.type
     var count = e.detail && e.detail.count
-    if (!type || !_corpus) return
+    if (!type) return
 
-    var category = 'signal_' + type.replace(/_/g, '_')
+    var category = 'signal_' + type
     if (!_corpus[category]) category = 'unknown'
-
     var reply = pickReply(category).replace(/__COUNT__/g, String(count || 0))
-    if (window.BAZ && window.BAZ.say) {
-      window.BAZ.say(reply, 4000)
-    }
+    if (window.BAZ && window.BAZ.say) window.BAZ.say(reply, 4000)
   })
 
   document.addEventListener('rdx:collection-qualify', function () {
-    if (!_corpus) return
+    if (Date.now() < _cooldownUntil || !_corpus) return
+    _patience += PATIENCE_COST.good_action
     var reply = pickReply('qualification_saved')
-    if (window.BAZ && window.BAZ.say) {
-      window.BAZ.say(reply, 3000)
-    }
+    if (window.BAZ && window.BAZ.say) window.BAZ.say(reply, 3000)
   })
 
-  // Initialize: swap character + auto-comment after data loads
+  // Init — swap character, NO auto-trigger
   function init() {
     if (!window.BAZ || !window.BAZ.setCharacter) {
       setTimeout(init, 500)
@@ -156,18 +260,10 @@
       cssClass: 'codec-char-erudit',
     })
 
-    // Replace the ask engine
     window.BAZ._askEngine = ask
-
-    // Auto-comment after cockpit loads (wait for signals)
-    var key = 'rdx-erudit-greeted'
-    if (!sessionStorage.getItem(key)) {
-      sessionStorage.setItem(key, '1')
-      setTimeout(autoComment, 4000)
-    }
+    recordVisit()
   }
 
-  // Wait for DOM + BAZ
   if (document.readyState === 'complete') {
     init()
   } else {
