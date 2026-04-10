@@ -110,3 +110,129 @@
   transition: width 600ms ease-out;
   width: 0;
 }
+
+/* ============================================================
+   CHROMA-01 — Reinforce dim text contrast (WCAG AA ~4.5:1)
+   Override the too-dim defaults for readability
+   ============================================================ */
+:root {
+  --text-muted:      #5a9a64;
+  --text-secondary:  #33b050;
+  --accent-dim:      #1a7a3a;
+}
+[data-zone="collection"] {
+  --text-muted:      #5a9a9c;
+  --text-secondary:  #33b0b5;
+}
+[data-zone="qual"] {
+  --text-muted:      #9a8a5a;
+  --text-secondary:  #b09333;
+}
+[data-zone="hub"] {
+  --text-muted:      #6a6a6a;
+  --text-secondary:  #909090;
+}
+
+/* ============================================================
+   NAV-01 — Active tab indicator
+   Strong bottom border on active nav link
+   ============================================================ */
+.global-product-link.is-active {
+  border-bottom: 2px solid var(--accent) !important;
+}
+.global-product-nav.global-product-nav-unified .global-product-link.is-active {
+  border-bottom: 2px solid var(--accent) !important;
+}
+
+/* Nav hover feedback */
+.global-product-link {
+  transition: background 100ms ease;
+}
+.global-product-link:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* ============================================================
+   TYPO-01 — Collection table column widths
+   Prevent truncation of column labels
+   ============================================================ */
+.collection-row-main {
+  min-width: 0;
+}
+.collection-row-main .surface-chip,
+.collection-row-main .surface-signal-label {
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+/* ============================================================
+   LAYOUT-02 — Uniform vertical rhythm
+   Consistent section spacing across all pages
+   ============================================================ */
+.page-wrapper > section,
+.page-wrapper > div,
+.page-wrapper > .terminal-context {
+  margin-bottom: 24px;
+}
+.page-wrapper > section:empty,
+.page-wrapper > div:empty {
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   FEED-01 — Accordion transitions
+   Smooth open/close with indicator rotation
+   ============================================================ */
+.detail-accordion-content {
+  overflow: hidden;
+  transition: max-height 200ms ease-out, opacity 150ms ease;
+}
+.detail-accordion-indicator {
+  display: inline-block;
+  transition: transform 200ms ease;
+}
+.detail-accordion[aria-expanded="true"] .detail-accordion-indicator,
+.detail-accordion-toggle[aria-expanded="true"] .detail-accordion-indicator {
+  transform: rotate(90deg);
+}
+
+/* ============================================================
+   LAYOUT-01 — Collapse empty dynamic sections
+   Sections waiting for content should not create black holes
+   ============================================================ */
+section[hidden],
+div[hidden] {
+  display: none !important;
+}
+
+/* Empty grid/list containers: collapse until populated */
+.hub-rich-card:empty,
+.hub-proof-grid:empty,
+.terminal-empty-state {
+  min-height: 0;
+}
+
+/* Prevent massive min-height on dynamic panels before content loads */
+.detail-accordion-content[hidden] {
+  display: none !important;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* Collapsed sections: no residual spacing */
+.pass1-surface-banner[hidden],
+.product-universe-overlap[hidden] {
+  display: none !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   COHER-01 — Unify navigation
+   Hide legacy site-nav, let global-product-nav handle all pages
+   ============================================================ */
+.site-nav-links {
+  display: none !important;
+}
