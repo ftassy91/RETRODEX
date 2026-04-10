@@ -423,6 +423,81 @@ div[hidden] {
   cursor: help;
 }
 
+/* ============================================================
+   UX AUDIT FIXES — 2026-04-11
+   ============================================================ */
+
+/* FIX: Hub zone contrast — #6a6a6a → #7a7a7a for WCAG AA */
+[data-zone="hub"] {
+  --text-muted: #7a7a7a;
+}
+
+/* FIX: Touch targets minimum 44px on mobile */
+@media (max-width: 768px) {
+  .terminal-filter-btn {
+    min-height: 44px;
+    padding: 10px 12px;
+  }
+  .collection-action-group .btn,
+  .btn {
+    min-height: 44px;
+    padding: 12px 16px;
+  }
+  .collection-toolbar-group {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .collection-toolbar-group > * {
+    flex: 1 1 calc(50% - 6px);
+    min-width: 120px;
+  }
+  /* FIX: Hide keyboard hints on mobile */
+  .terminal-footer {
+    display: none;
+  }
+}
+
+/* FIX: Disabled button styling */
+.btn:disabled, .btn[disabled] {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* FIX: Accordion cursor + active state */
+.detail-accordion-toggle {
+  cursor: pointer;
+}
+.detail-accordion-toggle:active {
+  background: var(--bg-card);
+}
+
+/* FIX: Nav active link — prevent reload on click */
+.global-product-link.is-active {
+  pointer-events: none;
+}
+
+/* FIX: .baz-anecdote-source — remove double opacity stacking */
+.baz-anecdote-source {
+  opacity: 1;
+}
+
+/* FIX: Border-radius normalization — terminal aesthetic = sharp corners */
+.btn, .card, .hero-card, .stats-card, .mini-card,
+.stat-cell, .price-panel, .loading-card, .pill {
+  border-radius: var(--radius, 0px);
+}
+
+/* FIX: prefers-reduced-motion for zones.css animations */
+@media (prefers-reduced-motion: reduce) {
+  .completion-fill { transition: none; }
+  .detail-accordion-content { transition: none; }
+  .detail-accordion-indicator { transition: none; }
+  .hub-stats .val { animation: none; }
+  .collection-row-main { transition: none; }
+  .result-row { transition: none; }
+}
+
 /* Pixel-perfect sprite rendering */
 .baz-anecdote-sprite,
 .codec-avatar img,

@@ -2862,23 +2862,25 @@ body { padding-bottom: 24px; }
   min-width: 0;
   height: 52px;
   padding: 0 16px;
-  border: 1px solid #3ddc3d;
-  background: #131a13;
-  color: #a8d8a8;
-  font: 16px monospace;
+  border: 1px solid var(--accent, #00ff66);
+  background: var(--bg-surface, #050805);
+  color: var(--text-primary, #00ff66);
+  font-family: var(--font-ui);
+  font-size: 16px;
 }
 
 .hub-search-input::placeholder {
-  color: rgba(168, 216, 168, 0.55);
+  color: var(--text-muted, #4a8a54);
 }
 
 .hub-search-button {
   height: 52px;
   padding: 0 18px;
-  border: 1px solid #3ddc3d;
-  background: #131a13;
-  color: #a8d8a8;
-  font: 14px monospace;
+  border: 1px solid var(--accent, #00ff66);
+  background: var(--bg-surface, #050805);
+  color: var(--text-primary, #00ff66);
+  font-family: var(--font-ui);
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -12276,7 +12278,7 @@ body {
 .global-product-nav.global-product-nav-unified .nav-copy {
   font-family: var(--font-mono);
   font-size: 0.62rem;
-  color: #5a7a52;
+  color: #7a9a72;
   line-height: 1.45;
 }
 
