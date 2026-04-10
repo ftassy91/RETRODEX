@@ -1792,6 +1792,41 @@
     }
   }
 
+  // CSV Import
+  function bindCsvImport() {
+    const importBtn = byId('import-csv-btn')
+    const importFile = byId('import-csv-file')
+    const importStatus = byId('import-csv-status')
+    if (!importBtn || !importFile) return
+
+    importBtn.addEventListener('click', () => importFile.click())
+    importFile.addEventListener('change', async () => {
+      const file = importFile.files[0]
+      if (!file) return
+      importStatus.textContent = 'Import en cours...'
+      importStatus.classList.add('loading-dots')
+      try {
+        const csvText = await file.text()
+        const res = await fetch('/api/collection/import', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ csv: csvText }),
+        })
+        const result = await res.json()
+        importStatus.classList.remove('loading-dots')
+        importStatus.textContent = result.message || `${result.matched} importes`
+        if (result.matched > 0) {
+          loadCollection()
+          loadCockpitSignals()
+        }
+      } catch (err) {
+        importStatus.classList.remove('loading-dots')
+        importStatus.textContent = 'Erreur import: ' + err.message
+      }
+      importFile.value = ''
+    })
+  }
+
   function init() {
     ensureReviewSortOptions()
     if (!isPublicForSaleView && collectionSortSelectEl) {
@@ -1800,6 +1835,7 @@
     activeTab = isPublicForSaleView ? 'for_sale' : 'all'
     bindTabs()
     bindKeyboard()
+    bindCsvImport()
     syncTabUi()
     updateSummaryFromItems([])
     updateCockpitLead()

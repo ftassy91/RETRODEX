@@ -8,5 +8,6 @@ const router = Router()
 router.use(require('./crud'))
 router.use(require('./stats'))
 router.use(require('./cockpit'))
+router.use(require('./import'))
 
 module.exports = router

@@ -93,6 +93,9 @@
 
         <div class="collection-cockpit-topline terminal-context">
           <a href="/games-list.html" class="terminal-action-link">Parcourir RetroDex -&gt;</a>
+          <button type="button" id="import-csv-btn" class="terminal-action-link" style="background:none;border:none;cursor:pointer;color:var(--accent);font:inherit;padding:0;margin-left:16px">Importer CSV</button>
+          <input type="file" id="import-csv-file" accept=".csv,.txt" hidden />
+          <span id="import-csv-status" class="terminal-context" style="margin-left:8px;font-size:11px"></span>
         </div>
 
         <div id="cockpit-signals" class="cockpit-signals-bar" aria-label="Queues d action collection" style="display:none">
