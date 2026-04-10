@@ -1,0 +1,44 @@
+/* ============================================================
+   ZONES.CSS — Quiet Phosphor zone differentiation
+   Each data-zone overrides :root CSS variables from style.css
+   Default (no data-zone) = green phosphor palette
+   ============================================================ */
+
+/* Collection — cool cyan */
+[data-zone="collection"] {
+  --text-primary:    #00dde0;
+  --text-secondary:  #009499;
+  --text-muted:      #4a8a8c;
+  --text-value:      #33e0e5;
+  --accent:          #00dde0;
+  --accent-dim:      #004a4c;
+  --border:          #1a2a2a;
+  --bg-surface:      #040808;
+  --bg-card:         #0a0f0f;
+}
+
+/* Qualification — warm amber */
+[data-zone="qual"] {
+  --text-primary:    #e0aa00;
+  --text-secondary:  #997300;
+  --text-muted:      #8a7a4a;
+  --text-value:      #e5c533;
+  --accent:          #e0aa00;
+  --accent-dim:      #4c3a00;
+  --border:          #2a2a1a;
+  --bg-surface:      #080804;
+  --bg-card:         #0f0f0a;
+}
+
+/* Hub — neutral gray */
+[data-zone="hub"] {
+  --text-primary:    #b0b0b0;
+  --text-secondary:  #707070;
+  --text-muted:      #505050;
+  --text-value:      #d0d0d0;
+  --accent:          #b0b0b0;
+  --accent-dim:      #404040;
+  --border:          #2a2a2a;
+  --bg-surface:      #080808;
+  --bg-card:         #0f0f0f;
+}
