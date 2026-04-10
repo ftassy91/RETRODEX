@@ -1,0 +1,72 @@
+[
+  {
+    "listing_reference": "ebay-123456789",
+    "listing_url": "https://www.ebay.com/itm/123456789",
+    "title_raw": "Chrono Trigger Super Nintendo SNES Complete CIB",
+    "sale_type": "auction",
+    "sold_at": "2026-04-05T18:30:00.000Z",
+    "currency": "USD",
+    "price_original": 285.00,
+    "country_code": "US",
+    "platform_hint_raw": "Super Nintendo",
+    "region_hint_raw": "NTSC-U",
+    "condition_hint_raw": "CIB",
+    "seed_game_id": "chrono-trigger-super-nintendo"
+  },
+  {
+    "listing_reference": "ebay-234567890",
+    "listing_url": "https://www.ebay.com/itm/234567890",
+    "title_raw": "Chrono Trigger SNES Loose Cart Only",
+    "sale_type": "fixed_price_sold",
+    "sold_at": "2026-04-03T14:00:00.000Z",
+    "currency": "USD",
+    "price_original": 145.00,
+    "country_code": "US",
+    "platform_hint_raw": "Super Nintendo",
+    "region_hint_raw": "NTSC-U",
+    "condition_hint_raw": "Loose",
+    "seed_game_id": "chrono-trigger-super-nintendo"
+  },
+  {
+    "listing_reference": "ebay-345678901",
+    "listing_url": "https://www.ebay.com/itm/345678901",
+    "title_raw": "Panzer Dragoon Saga Sega Saturn Complete",
+    "sale_type": "auction",
+    "sold_at": "2026-04-07T22:15:00.000Z",
+    "currency": "USD",
+    "price_original": 720.00,
+    "country_code": "US",
+    "platform_hint_raw": "Sega Saturn",
+    "region_hint_raw": "NTSC-U",
+    "condition_hint_raw": "CIB",
+    "seed_game_id": "panzer-dragoon-saga-sega-saturn"
+  },
+  {
+    "listing_reference": "ebay-456789012",
+    "listing_url": "https://www.ebay.com/itm/456789012",
+    "title_raw": "Metal Slug 3 Neo Geo AES Japanese",
+    "sale_type": "auction",
+    "sold_at": "2026-04-06T20:00:00.000Z",
+    "currency": "USD",
+    "price_original": 310.00,
+    "country_code": "US",
+    "platform_hint_raw": "Neo Geo",
+    "region_hint_raw": "NTSC-J",
+    "condition_hint_raw": "CIB",
+    "seed_game_id": "metal-slug-3-neo-geo"
+  },
+  {
+    "listing_reference": "ebay-567890123",
+    "listing_url": "https://www.ebay.com/itm/567890123",
+    "title_raw": "Super Mario 64 Nintendo 64 N64 Loose",
+    "sale_type": "fixed_price_sold",
+    "sold_at": "2026-04-08T10:30:00.000Z",
+    "currency": "USD",
+    "price_original": 28.00,
+    "country_code": "US",
+    "platform_hint_raw": "Nintendo 64",
+    "region_hint_raw": "NTSC-U",
+    "condition_hint_raw": "Loose",
+    "seed_game_id": "super-mario-64-nintendo-64"
+  }
+]

@@ -14,7 +14,9 @@ const {
   parsePriceNumber,
   parseIsoishDate,
   parseRelativeAgo,
+  stripTags,
 } = require('./live-support')
+const playwrightSupport = require('./playwright-support')
 
 const CONNECTOR_META = {
   name: 'ebay',
@@ -99,11 +101,91 @@ function parseEbaySoldSearchPage(markdown) {
   return dedupeBy(rows, (row) => row.itemId || row.url)
 }
 
+// Parse eBay sold listings from Playwright innerText
+// Format: sequential lines with title, price ($XX.XX), and "Sold DATE" patterns
+function parseEbayPlainText(text) {
+  const lines = text.split('\n').map((l) => l.trim()).filter(Boolean)
+  const items = []
+  let current = null
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+
+    // Detect "Sold DATE" pattern — this marks the end of an item block
+    const soldMatch = line.match(/^Sold\s+(\w+\s+\d+,?\s+\d{4})/i)
+    if (soldMatch && current) {
+      current.soldAt = parseSoldDate(soldMatch[1])
+      if (current.title && current.priceOriginal) {
+        items.push(current)
+      }
+      current = null
+      continue
+    }
+
+    // Detect price: $XX.XX (standalone or at start of line)
+    const priceMatch = line.match(/^\$([\d,]+\.?\d*)$/)
+    if (priceMatch && current && !current.priceOriginal) {
+      current.priceOriginal = parsePriceNumber(priceMatch[1])
+      continue
+    }
+
+    // Detect title-like lines (long enough, not a filter/category/nav line)
+    if (line.length > 15 && !line.startsWith('$') && !line.startsWith('Under') && !line.startsWith('Over')
+      && !/^(Buy It Now|Auction|Free shipping|Brand New|Pre-Owned|Returns|Sold Items|results for|Skip to|Shop on eBay|Save this search|Condition|Price|Buying Format|All Filters)/i.test(line)
+      && !/^\d+ results/.test(line) && !/^Related:/.test(line)
+      && !current) {
+      current = { title: line, priceOriginal: null, soldAt: null, conditionHint: null, itemId: null, url: null }
+      continue
+    }
+
+    // Detect condition
+    if (current && !current.conditionHint) {
+      const condMatch = line.match(/^(Brand New|Like New|Very Good|Good|Acceptable|Pre-Owned|Used|New|Open Box)$/i)
+      if (condMatch) {
+        current.conditionHint = condMatch[1]
+      }
+    }
+  }
+
+  return dedupeBy(items, (row) => row.title)
+}
+
+function parseSoldDate(dateStr) {
+  // "Apr 9, 2026" → ISO
+  const parsed = new Date(dateStr)
+  return isNaN(parsed.getTime()) ? null : parsed.toISOString()
+}
+
+async function fetchSearchPage(searchUrl, options) {
+  // Try Jina first
+  const jinaPage = await fetchViaJina(searchUrl, options).catch(() => ({ ok: false, text: '' }))
+  if (jinaPage.ok && jinaPage.text.length > 1000) {
+    return { text: jinaPage.text, source: 'jina' }
+  }
+
+  // Fallback to Playwright if available
+  if (playwrightSupport.isAvailable()) {
+    const pwPage = await playwrightSupport.fetchWithBrowser(searchUrl, {
+      ...options,
+      waitForSelector: '.s-item__title',
+    })
+    if (pwPage.ok && pwPage.text.length > 500) {
+      return { text: pwPage.text, html: pwPage.html, source: 'playwright' }
+    }
+  }
+
+  return { text: '', source: 'none' }
+}
+
 async function fetchLiveRows(seed, options = {}) {
   const limit = Number(options.limit || 5)
   const searchUrl = buildSoldSearchUrl(seed)
-  const searchPage = await fetchViaJina(searchUrl, options)
-  const candidates = parseEbaySoldSearchPage(searchPage.text).slice(0, limit)
+  const searchPage = await fetchSearchPage(searchUrl, options)
+  // Use appropriate parser based on source
+  const candidates = (searchPage.source === 'playwright'
+    ? parseEbayPlainText(searchPage.text)
+    : parseEbaySoldSearchPage(searchPage.text)
+  ).slice(0, limit)
   const sourceMeta = getMarketSource(CONNECTOR_META.sourceSlug)
   const rows = []
 
@@ -114,13 +196,15 @@ async function fetchLiveRows(seed, options = {}) {
     // If no sold date, use now as approximation (eBay search shows recent sold)
     const soldAt = candidate.soldAt || new Date().toISOString()
 
+    const ref = candidate.itemId || candidate.url || ('ebay-pw-' + Buffer.from(candidate.title || '').toString('base64').slice(0, 20))
+
     rows.push(createCanonicalRawSoldRecord({
       source_slug: CONNECTOR_META.sourceSlug,
       source_market: CONNECTOR_META.sourceMarket,
       source_name: sourceMeta?.name,
       source_type: CONNECTOR_META.sourceType,
-      listing_reference: candidate.itemId || candidate.url,
-      listing_url: candidate.url,
+      listing_reference: ref,
+      listing_url: candidate.url || null,
       title_raw: candidate.title,
       sale_type: CONNECTOR_META.saleType,
       sold_at: soldAt,
