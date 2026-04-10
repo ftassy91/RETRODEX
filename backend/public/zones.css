@@ -377,6 +377,31 @@ div[hidden] {
   opacity: 0.6;
 }
 
+/* Game evolution mini-chart */
+.game-evolution-shell {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+.game-evolution-label {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+.game-evolution-shell svg {
+  display: block;
+  width: 100%;
+}
+.game-evolution-summary {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
 /* Pixel-perfect sprite rendering */
 .baz-anecdote-sprite,
 .codec-avatar img,

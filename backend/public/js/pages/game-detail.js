@@ -3717,6 +3717,53 @@ async function loadBazAnecdotes(gameId) {
   }
 }
 
+// Game price evolution mini-chart
+async function loadGameEvolution(gameId) {
+  var shellEl = document.getElementById('game-evolution')
+  var svgEl = document.getElementById('game-evolution-svg')
+  var summaryEl = document.getElementById('game-evolution-summary')
+  if (!shellEl || !svgEl) return
+
+  try {
+    var data = await fetchJson('/api/games/' + encodeURIComponent(gameId) + '/snapshots')
+    var snapshots = Array.isArray(data.snapshots) ? data.snapshots : []
+    if (snapshots.length < 2) return
+
+    var w = svgEl.clientWidth || 300
+    var h = 80
+    var padL = 4, padR = 4, padT = 4, padB = 14
+    var chartW = w - padL - padR, chartH = h - padT - padB
+
+    var values = snapshots.map(function (s) { return Number(s.loose_price) || 0 })
+    var dates = snapshots.map(function (s) { return s.snapshot_date })
+    var minV = Math.min.apply(null, values) * 0.9
+    var maxV = Math.max.apply(null, values) * 1.1 || 1
+
+    var points = values.map(function (v, i) {
+      return {
+        x: padL + (i / (values.length - 1)) * chartW,
+        y: padT + chartH - ((v - minV) / (maxV - minV)) * chartH,
+      }
+    })
+
+    var polyline = points.map(function (p) { return p.x.toFixed(1) + ',' + p.y.toFixed(1) }).join(' ')
+    var fill = padL + ',' + (padT + chartH) + ' ' + polyline + ' ' + (padL + chartW) + ',' + (padT + chartH)
+
+    svgEl.setAttribute('viewBox', '0 0 ' + w + ' ' + h)
+    svgEl.innerHTML =
+      '<polygon points="' + fill + '" fill="var(--accent)" opacity="0.1" />' +
+      '<polyline points="' + polyline + '" fill="none" stroke="var(--accent)" stroke-width="1.5" />' +
+      '<text x="' + padL + '" y="' + (h - 1) + '" fill="var(--text-muted)" font-size="8" font-family="var(--font-ui)">' + (dates[0] || '').slice(5) + '</text>' +
+      '<text x="' + (w - padR) + '" y="' + (h - 1) + '" fill="var(--text-muted)" font-size="8" font-family="var(--font-ui)" text-anchor="end">' + (dates[dates.length - 1] || '').slice(5) + '</text>'
+
+    var first = values[0], last = values[values.length - 1]
+    var delta = last - first, sign = delta >= 0 ? '+' : ''
+    summaryEl.textContent = snapshots.length + ' jours · loose ' + sign + Math.round(delta) + ' (' + (delta >= 0 ? '+' : '') + ((delta / (first || 1)) * 100).toFixed(1) + '%)'
+
+    shellEl.style.display = ''
+  } catch (_) {}
+}
+
 async function loadArchive(gameId) {
   try {
     const data = await fetchJson(`/api/games/${encodeURIComponent(gameId)}/archive`)
@@ -3836,6 +3883,7 @@ async function loadPage() {
     }
     renderDetailContentStatus()
     loadBazAnecdotes(currentGame.id)
+    loadGameEvolution(currentGame.id)
     await Promise.allSettled([
       franchisePromise,
       collectionStatusPromise,

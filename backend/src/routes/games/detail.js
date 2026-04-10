@@ -134,4 +134,24 @@ router.get('/api/games/:id/anecdotes', handleAsync(async (req, res) => {
   return res.json({ anecdotes: data || [] })
 }))
 
+// GET /api/games/:id/snapshots — price evolution per game
+router.get('/api/games/:id/snapshots', handleAsync(async (req, res) => {
+  const gameId = String(req.params.id || '').trim()
+  if (!gameId) return res.json({ snapshots: [] })
+
+  const { db, mode } = require('../../../db_supabase')
+  if (mode !== 'supabase') return res.json({ snapshots: [] })
+
+  const { data, error } = await db
+    .from('game_snapshots')
+    .select('snapshot_date,loose_price,cib_price,mint_price,price_currency,price_confidence_tier')
+    .eq('game_id', gameId)
+    .order('snapshot_date', { ascending: true })
+    .limit(90)
+
+  if (error) return res.status(500).json({ error: error.message })
+  setPublicEdgeCache(res, 300)
+  return res.json({ snapshots: data || [] })
+}))
+
 module.exports = router
