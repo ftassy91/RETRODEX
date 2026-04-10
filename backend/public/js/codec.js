@@ -196,6 +196,15 @@
   var codec = document.createElement('div')
   codec.id = 'rdx-codec'
   codec.innerHTML = [
+    '<!-- Nier: corner brackets -->',
+    '<div class="codec-bracket codec-bracket--tl"></div>',
+    '<div class="codec-bracket codec-bracket--tr"></div>',
+    '<div class="codec-bracket codec-bracket--bl"></div>',
+    '<div class="codec-bracket codec-bracket--br"></div>',
+    '<!-- Blade Runner: animated grain overlay -->',
+    '<div class="codec-grain-overlay" aria-hidden="true"></div>',
+    '<!-- MGS: freq label -->',
+    '<span class="codec-freq-label">FREQ 141.80</span>',
     '<div class="codec-portraits">',
     '  <div class="codec-avatar codec-avatar-baz">',
     '    <img src="/assets/baz/baz.svg" alt="BAZ" width="64" height="64" />',

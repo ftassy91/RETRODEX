@@ -1,17 +1,53 @@
 /* ============================================================
-   RETRODEX CODEC — Metal Gear Solid-inspired dialog window
+   RETRODEX CODEC — Redesigned Terminal Interface
    ============================================================
+   Inspiration blend:
+     MGS Codec    — dual portrait layout, dialog below
+     Pip Boy      — chunky readable text, clear data hierarchy
+     Blade Runner — moody atmosphere, dark warm tones, accent bleed
+     Nier Automata — embedded OS feel, geometric brackets, minimal chrome
+
    States applied on #rdx-codec:
-     .codec-idle    — BAZ cursor blinks, user idle
-     .codec-talk    — BAZ talk bars animate, user nods
-     .codec-content — BAZ checkmark visible, user nods
+     .codec-idle         — BAZ cursor blinks, user idle
+     .codec-talk         — BAZ talk bars animate, user nods
+     .codec-content      — BAZ checkmark visible, user nods
+     .codec-user-waiting — pulsing dot, input disabled
    Visibility:
      .codec-open    — slide up into view
-     (no class)     — slide down / hidden
+     .codec-closing — slide down / hidden
+     (no class)     — hidden below viewport
    ============================================================ */
 
 /* ----------------------------------------------------------
-   0. KEYFRAMES
+   0. CUSTOM PROPERTIES — Codec-local design tokens
+   ---------------------------------------------------------- */
+
+#rdx-codec {
+  /* Atmosphere: warm dark base (Blade Runner) */
+  --codec-bg: #0a0a0e;
+  --codec-bg-alpha: rgba(10, 10, 14, 0.96);
+  --codec-surface: rgba(18, 18, 24, 0.6);
+
+  /* Accent: inherited from zone theme, with opacity variants */
+  --codec-accent: var(--accent, #00ff66);
+  --codec-accent-40: color-mix(in srgb, var(--codec-accent) 40%, transparent);
+  --codec-accent-15: color-mix(in srgb, var(--codec-accent) 15%, transparent);
+  --codec-accent-08: color-mix(in srgb, var(--codec-accent) 8%, transparent);
+  --codec-accent-dim: var(--accent-dim, #005c22);
+
+  /* Typography */
+  --codec-font-display: var(--font-display, 'DepartureMono', monospace);
+  --codec-font-ui: var(--font-ui, 'BigBlueTerminal', monospace);
+  --codec-text: var(--text-primary, #00ff66);
+  --codec-text-muted: var(--text-muted, #4a8a54);
+
+  /* Geometry */
+  --codec-bracket-size: 10px;
+  --codec-border-radius: 1px;
+}
+
+/* ----------------------------------------------------------
+   1. KEYFRAMES
    ---------------------------------------------------------- */
 
 /* Cursor blink — 1 Hz square wave */
@@ -20,7 +56,7 @@
   50%, 100%  { opacity: 0; }
 }
 
-/* Talk-bar height oscillation — 5 variations for pseudo-random look */
+/* Talk-bar height oscillation — 5 variations for pseudo-random feel */
 @keyframes codec-bar-1 {
   0%, 100% { height: 4px; }
   25%      { height: 20px; }
@@ -52,17 +88,18 @@
   70%      { height: 16px; }
 }
 
-/* User nod — subtle vertical shift every 3 s */
+/* User nod — subtle vertical shift every 3s */
 @keyframes codec-nod {
   0%, 93.3%  { transform: translateY(0); }
   95%        { transform: translateY(-1px); }
   96.7%      { transform: translateY(0); }
 }
 
-/* Slide in from bottom */
+/* Slide in — heavier feel with slight overshoot (Nier: weighty UI) */
 @keyframes codec-slide-up {
-  from { transform: translateY(100%); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+  0%   { transform: translateY(100%); opacity: 0; }
+  70%  { transform: translateY(-2%);  opacity: 1; }
+  100% { transform: translateY(0);    opacity: 1; }
 }
 
 /* Slide out to bottom */
@@ -73,30 +110,75 @@
 
 /* Typewriter cursor pulse */
 @keyframes codec-type-cursor {
-  0%, 49.9%  { border-right-color: var(--accent, #00ff66); }
+  0%, 49.9%  { border-right-color: var(--codec-accent); }
   50%, 100%  { border-right-color: transparent; }
 }
 
+/* Prompt blink when input is focused */
+@keyframes codec-prompt-pulse {
+  0%, 49.9%  { opacity: 1; }
+  50%, 100%  { opacity: 0.4; }
+}
+
+/* Border pulse on open — one-time accent flash (Nier: activation feedback) */
+@keyframes codec-border-pulse {
+  0%   { border-color: var(--codec-accent); box-shadow: 0 0 12px var(--codec-accent-40); }
+  100% { border-color: var(--codec-accent-40); box-shadow: none; }
+}
+
+/* CSS-only animated grain/static (Blade Runner: film noise) */
+@keyframes codec-grain {
+  0%, 100% { transform: translate(0, 0); }
+  10%      { transform: translate(-1%, -1%); }
+  20%      { transform: translate(1%, 0.5%); }
+  30%      { transform: translate(-0.5%, 1%); }
+  40%      { transform: translate(0.5%, -0.5%); }
+  50%      { transform: translate(-1%, 0.5%); }
+  60%      { transform: translate(1%, -1%); }
+  70%      { transform: translate(0%, 1%); }
+  80%      { transform: translate(-0.5%, -0.5%); }
+  90%      { transform: translate(0.5%, 0%); }
+}
+
+/* Waiting state pulsing dot */
+@keyframes codec-waiting-pulse {
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 1; }
+}
+
 /* ----------------------------------------------------------
-   1. CONTAINER
+   2. CONTAINER — Embedded terminal panel (Nier: part of the OS)
    ---------------------------------------------------------- */
 
 #rdx-codec {
   position: fixed;
-  bottom: 16px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%) translateY(100%);
-  width: calc(100% - 32px);
-  max-width: 600px;
-  min-height: 180px;
+  width: 100%;
+  max-width: 680px;
+  min-height: 200px;
+  max-height: 280px;
   z-index: 1000;
 
-  background: rgba(0, 0, 0, 0.95);
-  border: 2px solid var(--accent, #00ff66);
-  border-radius: var(--radius, 0px);
+  /* Warm dark background with slight page bleed-through (Nier: transparency) */
+  background: var(--codec-bg-alpha);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  /* Muted border at 40% — no bright rectangles (Blade Runner: subdued chrome) */
+  border: 1px solid var(--codec-accent-40);
+  border-bottom: none; /* Flush with viewport bottom */
+  border-radius: var(--codec-border-radius) var(--codec-border-radius) 0 0;
+
+  /* Soft inner atmosphere instead of hard edges (Blade Runner: ambient glow) */
+  box-shadow:
+    inset 0 1px 0 0 var(--codec-accent-15),
+    inset 0 0 30px var(--codec-accent-08),
+    0 -8px 32px rgba(0, 0, 0, 0.5);
 
   display: grid;
-  grid-template-rows: auto 1px 1fr 1px auto;
+  grid-template-rows: auto auto 1fr auto auto;
   overflow: hidden;
 
   opacity: 0;
@@ -104,9 +186,133 @@
   will-change: transform, opacity;
 }
 
-/* Slide-up when open */
+/* ----------------------------------------------------------
+   3. FADE DISSOLVE — Top edge gradient (no hard border, page connection)
+   ---------------------------------------------------------- */
+
+/* Gradient fade at top so the codec dissolves into the page */
+#rdx-codec::before {
+  content: '';
+  position: absolute;
+  top: -24px;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: linear-gradient(to bottom, transparent, rgba(10, 10, 14, 0.6));
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ----------------------------------------------------------
+   4. SCANLINES + GRAIN OVERLAY (Blade Runner + Pip Boy)
+   ---------------------------------------------------------- */
+
+/* Scanlines: tighter 1px spacing, enhanced but subtle */
+#rdx-codec::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    /* Scanlines — 1px repeating bands */
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 1px,
+      rgba(0, 0, 0, 0.15) 1px,
+      rgba(0, 0, 0, 0.15) 2px
+    );
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Animated grain texture — CSS-only noise effect (Blade Runner: film grain) *
+ * Uses a large semi-transparent gradient that shifts position rapidly.
+ * The result is a subtle static/noise that lives over the whole codec. */
+.codec-grain-overlay {
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(255,255,255,0.02) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.015) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(255,255,255,0.01) 0%, transparent 50%);
+  background-size: 4px 4px, 6px 6px, 5px 5px;
+  animation: codec-grain 0.8s steps(4) infinite;
+  pointer-events: none;
+  z-index: 9;
+  opacity: 0.4;
+}
+
+/* ----------------------------------------------------------
+   5. CORNER BRACKETS (Nier Automata: geometric UI panels)
+   Thin L-shaped brackets at each corner give the codec
+   its "OS panel" identity without adding heavy chrome.
+   ---------------------------------------------------------- */
+
+.codec-bracket {
+  position: absolute;
+  width: var(--codec-bracket-size);
+  height: var(--codec-bracket-size);
+  pointer-events: none;
+  z-index: 11;
+}
+
+/* Each bracket is a 1px L-shape via border segments */
+.codec-bracket--tl {
+  top: 3px;
+  left: 3px;
+  border-top: 1px solid var(--codec-accent-40);
+  border-left: 1px solid var(--codec-accent-40);
+}
+.codec-bracket--tr {
+  top: 3px;
+  right: 3px;
+  border-top: 1px solid var(--codec-accent-40);
+  border-right: 1px solid var(--codec-accent-40);
+}
+.codec-bracket--bl {
+  bottom: 3px;
+  left: 3px;
+  border-bottom: 1px solid var(--codec-accent-40);
+  border-left: 1px solid var(--codec-accent-40);
+}
+.codec-bracket--br {
+  bottom: 3px;
+  right: 3px;
+  border-bottom: 1px solid var(--codec-accent-40);
+  border-right: 1px solid var(--codec-accent-40);
+}
+
+/* ----------------------------------------------------------
+   6. FREQ LABEL (MGS homage: "FREQ 141.80" in micro text)
+   ---------------------------------------------------------- */
+
+.codec-freq-label {
+  position: absolute;
+  top: 6px;
+  right: 20px;
+  font-family: var(--codec-font-display);
+  font-size: 0.5rem;
+  letter-spacing: 0.15em;
+  color: var(--codec-text-muted);
+  opacity: 0.5;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 11;
+  line-height: 1;
+}
+
+/* ----------------------------------------------------------
+   7. OPEN / CLOSE STATES
+   ---------------------------------------------------------- */
+
+/* Slide-up with heavier timing and border activation pulse */
 #rdx-codec.codec-open {
-  animation: codec-slide-up 300ms ease-out forwards;
+  animation:
+    codec-slide-up 350ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    codec-border-pulse 500ms ease-out forwards;
   pointer-events: auto;
 }
 
@@ -117,94 +323,100 @@
 }
 
 /* ----------------------------------------------------------
-   2. SCANLINES (::after overlay)
-   ---------------------------------------------------------- */
-
-#rdx-codec::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 2px,
-    rgba(0, 0, 0, 0.12) 2px,
-    rgba(0, 0, 0, 0.12) 4px
-  );
-  opacity: 0.07;
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* ----------------------------------------------------------
-   3. PORTRAITS ROW
+   8. PORTRAITS ROW (MGS: two faces, face-to-face)
    ---------------------------------------------------------- */
 
 .codec-portraits {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 12px 16px 8px;
+  padding: 14px 20px 8px;
   gap: 16px;
+  /* Portraits are the brightest element (visual hierarchy: descending brightness) */
 }
 
 .codec-avatar {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   min-width: 64px;
 }
 
+/* Sprite frame: inset border with soft rounding (MGS portrait frame) */
 .codec-avatar svg,
 .codec-avatar img {
   width: 64px;
   height: 64px;
   display: block;
   image-rendering: pixelated;
+  border: 1px solid var(--codec-accent-40);
+  border-radius: 2px;
+  /* Inset shadow adds depth without bright chrome */
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+  transition: border-color 300ms ease;
 }
 
+/* Labels under sprites: chunky, uppercase, letter-spaced (Pip Boy: clear hierarchy) */
 .codec-label {
-  font-family: var(--font-display, 'DepartureMono', monospace);
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
-  color: var(--text-muted, #4a8a54);
+  font-family: var(--codec-font-display);
+  font-size: 0.55rem;
+  letter-spacing: 0.14em;
+  color: var(--codec-text-muted);
   text-transform: uppercase;
   text-align: center;
   line-height: 1;
+  /* Labels dimmer than text body (Pip Boy: data hierarchy) */
+  opacity: 0.7;
+}
+
+/* When BAZ talks, brighten the BAZ frame (MGS: active speaker indication) */
+.codec-talk .codec-avatar-baz svg,
+.codec-talk .codec-avatar-baz img {
+  border-color: var(--codec-accent);
+  box-shadow:
+    inset 0 0 6px rgba(0, 0, 0, 0.4),
+    0 0 8px var(--codec-accent-15);
 }
 
 /* ----------------------------------------------------------
-   4. SEPARATOR
+   9. SEPARATOR — Gradient fade, not a harsh line (Blade Runner: soft edges)
    ---------------------------------------------------------- */
 
 .codec-separator {
   width: 100%;
   height: 1px;
-  background: var(--accent, #00ff66);
-  opacity: 0.4;
   border: none;
   margin: 0;
+  /* Gradient fades from accent center to transparent edges */
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--codec-accent-40) 20%,
+    var(--codec-accent-40) 80%,
+    transparent 100%
+  );
 }
 
 /* ----------------------------------------------------------
-   5. TEXT ZONE
+   10. TEXT ZONE — Readable, generous spacing (Pip Boy: readability first)
    ---------------------------------------------------------- */
 
 .codec-text {
-  padding: 8px 16px 12px;
-  font-family: var(--font-ui, 'BigBlueTerminal', monospace);
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--text-primary, #00ff66);
+  padding: 10px 20px 14px;
+  font-family: var(--codec-font-ui);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--codec-text);
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: var(--accent-dim, #005c22) transparent;
+  scrollbar-color: var(--codec-accent-dim) transparent;
+  /* Text zone is mid-brightness in the hierarchy */
 }
 
-/* Typewriter cursor on the text span */
+/* Typewriter cursor on the active text span */
 .codec-text .codec-typewriter {
-  border-right: 2px solid var(--accent, #00ff66);
+  border-right: 2px solid var(--codec-accent);
   padding-right: 2px;
   animation: codec-type-cursor 1s steps(1) infinite;
 }
@@ -216,7 +428,7 @@
 }
 
 /* ----------------------------------------------------------
-   6. BAZ IDLE STATE — cursor blink
+   11. BAZ IDLE STATE — Cursor blink
    ---------------------------------------------------------- */
 
 .codec-idle .baz-cursor,
@@ -225,11 +437,11 @@
 }
 
 /* ----------------------------------------------------------
-   7. BAZ TALK STATE — equalizer bars
+   12. BAZ TALK STATE — Equalizer bars animate
    ---------------------------------------------------------- */
 
 .baz-bars rect {
-  fill: var(--accent, #00ff66);
+  fill: var(--codec-accent);
   transform-origin: bottom center;
   transition: height 80ms ease;
 }
@@ -270,12 +482,12 @@
 }
 
 /* ----------------------------------------------------------
-   8. BAZ CONTENT STATE — checkmark visible
+   13. BAZ CONTENT STATE — Checkmark visible
    ---------------------------------------------------------- */
 
 .baz-checkmark {
   display: none;
-  fill: var(--accent, #00ff66);
+  fill: var(--codec-accent);
 }
 
 .codec-content .baz-checkmark {
@@ -292,10 +504,9 @@
 }
 
 /* ----------------------------------------------------------
-   9. USER STATES
+   14. USER STATES — Nod during active conversation
    ---------------------------------------------------------- */
 
-/* User nod during talk and content states */
 .codec-talk .codec-avatar-user svg,
 .codec-talk .codec-avatar-user img,
 .codec-content .codec-avatar-user svg,
@@ -303,126 +514,90 @@
   animation: codec-nod 3s ease-in-out infinite;
 }
 
-/* User listen class (can be applied directly) */
 .user-listen {
   animation: codec-nod 3s ease-in-out infinite;
 }
 
 /* ----------------------------------------------------------
-   10. RESPONSIVE
-   ---------------------------------------------------------- */
-
-@media (max-width: 480px) {
-  #rdx-codec {
-    min-height: 160px;
-    bottom: 8px;
-    width: calc(100% - 16px);
-  }
-
-  .codec-portraits {
-    padding: 8px 12px 6px;
-  }
-
-  .codec-avatar svg,
-  .codec-avatar img {
-    width: 48px;
-    height: 48px;
-  }
-
-  .codec-text {
-    font-size: 11px;
-    padding: 6px 12px 8px;
-  }
-
-  .codec-input-row {
-    padding: 0 12px;
-    height: 32px;
-    min-height: 32px;
-  }
-
-  .codec-input,
-  .codec-input-prompt,
-  .codec-thinking {
-    font-size: 11px;
-  }
-}
-
-/* ----------------------------------------------------------
-   11. KEYFRAMES — Input bar
-   ---------------------------------------------------------- */
-
-/* Prompt blink when input is focused */
-@keyframes codec-prompt-pulse {
-  0%, 49.9%  { opacity: 1; }
-  50%, 100%  { opacity: 0.4; }
-}
-
-/* ----------------------------------------------------------
-   12. INPUT ROW
+   15. INPUT SEPARATOR — Softer than the portrait separator
    ---------------------------------------------------------- */
 
 .codec-separator-input {
-  opacity: 0.25;
+  opacity: 0.15;
 }
+
+/* ----------------------------------------------------------
+   16. INPUT ROW — Terminal prompt (Pip Boy: real terminal feel)
+   ---------------------------------------------------------- */
 
 .codec-input-row {
   display: flex;
   align-items: center;
-  padding: 0 16px;
-  height: 36px;
-  min-height: 36px;
-  gap: 6px;
+  padding: 0 20px;
+  height: 40px;
+  min-height: 40px;
+  gap: 8px;
   position: relative;
+  /* Input is lowest brightness in the hierarchy */
+  background: var(--codec-accent-08);
 }
 
+/* The > prompt — chunky, always visible (Pip Boy: terminal identity) */
 .codec-input-prompt {
-  font-family: var(--font-ui, 'BigBlueTerminal', monospace);
-  font-size: 12px;
-  color: var(--accent, #00ff66);
+  font-family: var(--codec-font-ui);
+  font-size: 14px;
+  color: var(--codec-accent);
   line-height: 1;
   flex-shrink: 0;
   user-select: none;
+  /* Slightly brighter than the input text for hierarchy */
+  opacity: 0.8;
 }
 
-/* Prompt pulses when input is focused */
+/* Prompt pulses when input is focused — blinking > cursor feel */
 .codec-input-row:focus-within .codec-input-prompt {
+  opacity: 1;
   animation: codec-prompt-pulse 1s steps(1) infinite;
 }
 
+/* Input field — transparent, generous size for readability */
 .codec-input {
   flex: 1;
   background: transparent;
   border: none;
   outline: none;
-  font-family: var(--font-ui, 'BigBlueTerminal', monospace);
-  font-size: 12px;
+  font-family: var(--codec-font-ui);
+  font-size: 13px;
   line-height: 1;
-  color: var(--text-primary, #00ff66);
-  caret-color: var(--accent, #00ff66);
+  color: var(--codec-text);
+  caret-color: var(--codec-accent);
   padding: 0;
   margin: 0;
   min-width: 0;
 }
 
 .codec-input::placeholder {
-  color: var(--text-muted, #4a8a54);
-  opacity: 0.6;
+  color: var(--codec-text-muted);
+  opacity: 0.5;
   font-style: normal;
 }
 
-/* Focus state — subtle glow on the entire input row */
+/* Focus state — warm inset glow on the entire input row (Blade Runner: accent bleed) */
 .codec-input-row:focus-within {
-  box-shadow: inset 0 0 12px rgba(0, 255, 102, 0.06);
+  background: color-mix(in srgb, var(--codec-accent) 4%, transparent);
+  box-shadow:
+    inset 0 0 20px var(--codec-accent-08),
+    inset 0 1px 0 var(--codec-accent-15);
 }
 
 /* ----------------------------------------------------------
-   13. THINKING INDICATOR
+   17. THINKING INDICATOR
    ---------------------------------------------------------- */
 
 .codec-thinking {
-  font-family: var(--font-ui, 'BigBlueTerminal', monospace);
-  font-size: 12px;
-  color: var(--accent, #00ff66);
+  font-family: var(--codec-font-ui);
+  font-size: 13px;
+  color: var(--codec-accent);
   opacity: 0;
   pointer-events: none;
   flex-shrink: 0;
@@ -431,18 +606,129 @@
   text-align: right;
 }
 
-/* When BAZ is thinking, show animated dots and disable input */
+/* ----------------------------------------------------------
+   18. USER-WAITING STATE — Pulsing dot + disabled input
+   ---------------------------------------------------------- */
+
+/* Show thinking indicator with blink */
 #rdx-codec.codec-user-waiting .codec-thinking {
   opacity: 1;
   animation: codec-blink 1s steps(1) infinite;
 }
 
+/* Pulsing dot in the input area via pseudo-element */
+#rdx-codec.codec-user-waiting .codec-input-row::after {
+  content: '';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--codec-accent);
+  animation: codec-waiting-pulse 1.5s ease-in-out infinite;
+}
+
+/* Dim the input when waiting */
 #rdx-codec.codec-user-waiting .codec-input {
   pointer-events: none;
-  opacity: 0.3;
+  opacity: 0.25;
 }
 
 #rdx-codec.codec-user-waiting .codec-input-prompt {
-  opacity: 0.3;
+  opacity: 0.25;
   animation: none;
+}
+
+/* ----------------------------------------------------------
+   19. RESPONSIVE — Mobile-first adjustments
+   ---------------------------------------------------------- */
+
+@media (max-width: 480px) {
+  #rdx-codec {
+    max-width: 100%;
+    min-height: 180px;
+    max-height: 260px;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+
+  .codec-portraits {
+    padding: 10px 14px 6px;
+  }
+
+  /* Sprites shrink to 48x48 on mobile */
+  .codec-avatar svg,
+  .codec-avatar img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .codec-avatar {
+    min-width: 48px;
+  }
+
+  .codec-text {
+    font-size: 12px;
+    padding: 8px 14px 10px;
+  }
+
+  .codec-input-row {
+    padding: 0 14px;
+    height: 44px; /* Larger touch target on mobile */
+    min-height: 44px;
+  }
+
+  .codec-input,
+  .codec-input-prompt,
+  .codec-thinking {
+    font-size: 12px;
+  }
+
+  .codec-label {
+    font-size: 0.5rem;
+  }
+
+  .codec-freq-label {
+    font-size: 0.45rem;
+    right: 14px;
+  }
+
+  /* Brackets tighten on mobile */
+  .codec-bracket {
+    --codec-bracket-size: 7px;
+  }
+}
+
+/* Larger mobile — ensure full width */
+@media (max-width: 680px) and (min-width: 481px) {
+  #rdx-codec {
+    max-width: 100%;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+}
+
+/* ----------------------------------------------------------
+   20. ACCESSIBILITY — Respect reduced motion preference
+   ---------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  #rdx-codec,
+  #rdx-codec.codec-open,
+  #rdx-codec.codec-closing {
+    animation-duration: 0.01ms !important;
+  }
+
+  .codec-grain-overlay {
+    animation: none !important;
+    display: none;
+  }
+
+  .codec-talk .baz-bars rect {
+    animation: none !important;
+  }
 }
