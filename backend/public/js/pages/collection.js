@@ -1751,13 +1751,21 @@
       cockpitBarEl.style.display = 'grid'
       updateCockpitLead()
 
-      // Completion bar
+      // Completion bar — fetch catalog total dynamically
       const completionEl = byId('collection-completion')
       const completionTextEl = byId('completion-text')
       const completionFillEl = byId('completion-fill')
       if (completionEl && completionTextEl && completionFillEl) {
         const ownedCount = allCollectionItems.filter((item) => String(item.list_type || '').toLowerCase() !== 'wanted').length
-        const catalogTotal = Number(statTotalEl?.dataset?.catalogTotal) || 1509
+        let catalogTotal = Number(statTotalEl?.dataset?.catalogTotal) || 0
+        if (!catalogTotal) {
+          try {
+            const gamesStats = await fetchJson('/api/games?limit=1')
+            catalogTotal = Number(gamesStats?.total || gamesStats?.totalCount || gamesStats?.pagination?.total) || 1509
+          } catch (_) {
+            catalogTotal = 1509
+          }
+        }
         completionTextEl.textContent = ownedCount + ' / ' + catalogTotal
         completionEl.style.display = ''
         requestAnimationFrame(() => {

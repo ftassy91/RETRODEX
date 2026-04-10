@@ -4,43 +4,43 @@
    Default (no data-zone) = green phosphor palette
    ============================================================ */
 
-/* Collection — cool cyan */
+/* Collection — cool cyan (strengthened for perceptibility) */
 [data-zone="collection"] {
   --text-primary:    #00dde0;
   --text-secondary:  #009499;
-  --text-muted:      #4a8a8c;
+  --text-muted:      #5a9a9c;
   --text-value:      #33e0e5;
   --accent:          #00dde0;
-  --accent-dim:      #004a4c;
-  --border:          #1a2a2a;
-  --bg-surface:      #040808;
-  --bg-card:         #0a0f0f;
+  --accent-dim:      #005a5c;
+  --border:          #1a3838;
+  --bg-surface:      #030a0a;
+  --bg-card:         #081212;
 }
 
-/* Qualification — warm amber */
+/* Qualification — warm amber (strengthened for perceptibility) */
 [data-zone="qual"] {
   --text-primary:    #e0aa00;
   --text-secondary:  #997300;
-  --text-muted:      #8a7a4a;
+  --text-muted:      #9a8a5a;
   --text-value:      #e5c533;
   --accent:          #e0aa00;
-  --accent-dim:      #4c3a00;
-  --border:          #2a2a1a;
-  --bg-surface:      #080804;
-  --bg-card:         #0f0f0a;
+  --accent-dim:      #5c4a00;
+  --border:          #38301a;
+  --bg-surface:      #0a0803;
+  --bg-card:         #121008;
 }
 
-/* Hub — neutral gray */
+/* Hub — neutral gray (strengthened for perceptibility) */
 [data-zone="hub"] {
   --text-primary:    #b0b0b0;
-  --text-secondary:  #707070;
-  --text-muted:      #505050;
+  --text-secondary:  #909090;
+  --text-muted:      #6a6a6a;
   --text-value:      #d0d0d0;
   --accent:          #b0b0b0;
-  --accent-dim:      #404040;
-  --border:          #2a2a2a;
+  --accent-dim:      #484848;
+  --border:          #333333;
   --bg-surface:      #080808;
-  --bg-card:         #0f0f0f;
+  --bg-card:         #111111;
 }
 
 /* ============================================================
