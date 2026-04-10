@@ -893,8 +893,9 @@
     )
 
     const cur = getDominantCurrency(items)
+    const zero = cur === 'EUR' ? '\u20AC0' : cur === 'USD' ? '$0' : '0'
     if (typeof rollTo === 'function') { rollTo(statTotalEl, totals.total || 0) } else { setText(statTotalEl, String(totals.total || 0)) }
-    setText(statValueLooseEl, formatCollectionPrice(totals.loose, cur) || '0')
+    setText(statValueLooseEl, formatCollectionPrice(totals.loose, cur) || zero)
     setText(statPaidEl, totals.paid ? (formatCollectionPrice(totals.paid, cur) || '-') : '-')
     setGainValue(statGainEl, totals.hasGain ? totals.gain : null, cur)
     setText(statValueCibEl, totals.cib ? (formatCollectionPrice(totals.cib, cur) || '-') : '-')
@@ -905,8 +906,9 @@
     try {
       const stats = await fetchJson('/api/collection/stats')
       const cur = stats.dominant_currency || null
+      const zero = cur === 'EUR' ? '\u20AC0' : cur === 'USD' ? '$0' : '0'
       if (typeof rollTo === 'function') { rollTo(statTotalEl, stats.total || stats.count || 0) } else { setText(statTotalEl, String(stats.total || stats.count || 0)) }
-      setText(statValueLooseEl, formatCollectionPrice(stats.total_loose, cur) || '0')
+      setText(statValueLooseEl, formatCollectionPrice(stats.total_loose, cur) || zero)
       setText(statPaidEl, stats.total_paid ? (formatCollectionPrice(stats.total_paid, cur) || '-') : '-')
       setGainValue(statGainEl, stats.profit_estimate != null ? Number(stats.profit_estimate) : null, cur)
       setText(statValueCibEl, stats.total_cib ? (formatCollectionPrice(stats.total_cib, cur) || '-') : '-')
@@ -1286,9 +1288,9 @@
     const setText_ = (id, val) => { const el = byId(id); if (el) el.textContent = val }
     setText_('evo-this-quarter', String(thisQ))
     setText_('evo-last-quarter', String(lastQ))
-    setText_('evo-total-cost', costCount > 0 ? formatCurrency(totalCost, '-', evoCur) : '-')
-    setText_('evo-total-value', valueCount > 0 ? formatCurrency(totalValue, '-', evoCur) : '-')
-    setText_('evo-avg-delta', avgDelta !== null ? (avgDelta >= 0 ? `+${formatCurrency(avgDelta, '0', evoCur)}` : `-${formatCurrency(Math.abs(avgDelta), '0', evoCur)}`) : '-')
+    setText_('evo-total-cost', costCount > 0 ? (formatCollectionPrice(totalCost, evoCur) || '-') : '-')
+    setText_('evo-total-value', valueCount > 0 ? (formatCollectionPrice(totalValue, evoCur) || '-') : '-')
+    setText_('evo-avg-delta', avgDelta !== null ? (avgDelta >= 0 ? `+${formatCollectionPrice(avgDelta, evoCur) || '0'}` : `-${formatCollectionPrice(Math.abs(avgDelta), evoCur) || '0'}`) : '-')
     setText_('evo-condition-dist', `${condCount.Loose}L · ${condCount.CIB}C · ${condCount.Mint}M`)
 
     panelEl.hidden = false
@@ -1301,7 +1303,7 @@
       const wishCount = wishItems.length
       const rotationEl = byId('evo-rotation-budget')
       const rotationWishEl = byId('evo-rotation-wish')
-      if (rotationEl) rotationEl.textContent = totalSellValue > 0 ? formatCurrency(totalSellValue, '-', evoCur) : '-'
+      if (rotationEl) rotationEl.textContent = totalSellValue > 0 ? (formatCollectionPrice(totalSellValue, evoCur) || '-') : '-'
       if (rotationWishEl) rotationWishEl.textContent = wishCount > 0 ? `${wishCount} item(s) finançables` : '-'
     }
   }
