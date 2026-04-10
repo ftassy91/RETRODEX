@@ -81,26 +81,44 @@ Every plan or report must include:
 
 ### Tech Stack
 - Node.js / Express backend
-- Supabase (production, 27 tables), SQLite/Sequelize (local dev fallback)
+- Supabase (production, 29 tables), SQLite/Sequelize (local dev fallback)
 - Vanilla JS frontend (no framework, no build step)
-- Chart.js for data viz
+- Inline SVG charts (no Chart.js dependency)
 - BigBlueTerminal + DepartureMono fonts
 - Quiet Phosphor design system (zones: green default, cyan collection, amber qualification, gray hub)
 
-### Key Context (updated 2026-04-10)
+### Key Context (updated 2026-04-10, end of session)
 - 1,509 games cataloged across 25 consoles
-- 15,278 price entries from 2 sources (PriceCharting + Yahoo Auctions JP)
-- 440 games with confidence tier (14 medium, 426 low, 1,069 unknown)
-- 27 tables audited (SUPABASE_AUDIT.md), all RLS-enabled, 0 health flags
-- 5 collection items qualified (0 duplicates, 1 sell signal active)
+- 15,400+ price entries from 3 sources (PriceCharting + Yahoo Auctions JP + eBay via Playwright)
+- Confidence tiers: 1 high, 33 medium, 407 low, 1,068 unknown
+- 29 Supabase tables (SUPABASE_AUDIT.md), all RLS-enabled, 0 health flags
+- 5 collection items qualified, 0 duplicates, 1 sell signal active
 - Collection canonical schema: user_id, list_type, added_at, purchase_date, etc.
-- CSV import available: POST /api/collection/import
-- Pipeline backfill script: backend/scripts/market/backfill-confidence-from-history.js
-- UI: zones.css (color zoning), animations.js (rollTo, typewriter, loading dots), codec.js ([C] contextual banner)
-- UX score: 5.4 → 7.4 (20 lots executed in session 2026-04-10)
+- CSV import: POST /api/collection/import + UI button on collection page
+- Pipeline: backfill-confidence-from-history.js, batch-ebay-fetch.js, capture-collection-snapshot.js
+- Market connectors: Yahoo Auctions JP (live), eBay (Playwright headless), others (fixture-only)
+
+### Vision A (COMPLETE)
+- Action 1: collection_snapshots table + capture script + SVG evolution chart
+- Action 2: game_anecdotes table + 48 anecdotes for 39 games + display on game-detail
+- Action 3: BAZ-C terminal sprite (VT100) + user bust (Tron) + MGS Codec dialog
+
+### BAZ System
+- codec.js: MGS+PipBoy+BladeRunner+Nier codec window with face-to-face portraits
+- baz-engine.js: conversation engine (31 intents, 93+ replies, game title matching)
+- Input bar: user types → BAZ responds (keyword matching, easter eggs, FAQ)
+- Sprites: baz.svg (64x64), baz-compact.svg (32x32), user-bust.svg (64x64)
+- Voice guide: docs/BAZ_VOICE_GUIDE.md
+
+### UI Layer
+- zones.css: color zones + hover + completion bar + layout fixes + BAZ anecdote block + decision grid
+- codec.css: MGS+PipBoy+BladeRunner+Nier codec redesign (grain, brackets, gradient dissolve)
+- animations.js: rollTo counters, typewriter h1, loading dots
+- Smoke test: backend/scripts/smoke-test.js (14 endpoints)
+- UX score: 5.4 → 7.4 (50+ lots executed in session 2026-04-10)
 
 ### Ticket Conventions
-Lot prefixes: LOT-OP-, LOT-PROD-, LOT-UI-, LOT-UX-, LOT-FIX-, LOT-CTRL-
+Lot prefixes: LOT-OP-, LOT-PROD-, LOT-UI-, LOT-UX-, LOT-FIX-, LOT-CTRL-, LOT-VA-, LOT-BAZ-
 
 ---
 
