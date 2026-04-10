@@ -1829,6 +1829,80 @@
     })
   }
 
+  // Evolution chart
+  async function loadEvolutionChart() {
+    const shellEl = byId('collection-evolution')
+    const svgEl = byId('evolution-svg')
+    const summaryEl = byId('evolution-summary')
+    if (!shellEl || !svgEl) return
+
+    try {
+      const data = await fetchJson('/api/collection/snapshots')
+      const snapshots = Array.isArray(data.snapshots) ? data.snapshots : []
+
+      if (snapshots.length < 2) {
+        summaryEl.textContent = snapshots.length === 0
+          ? 'Pas encore de donnees. Reviens demain.'
+          : 'Premier point enregistre. La courbe apparait a partir de 2 snapshots.'
+        shellEl.style.display = ''
+        return
+      }
+
+      // Render SVG line chart
+      const w = svgEl.clientWidth || 560
+      const h = 120
+      const padL = 40, padR = 10, padT = 10, padB = 20
+      const chartW = w - padL - padR
+      const chartH = h - padT - padB
+
+      const values = snapshots.map((s) => Number(s.total_value_loose) || 0)
+      const dates = snapshots.map((s) => s.snapshot_date)
+      const minV = Math.min(...values) * 0.9
+      const maxV = Math.max(...values) * 1.1 || 1
+
+      const points = values.map((v, i) => {
+        const x = padL + (i / (values.length - 1)) * chartW
+        const y = padT + chartH - ((v - minV) / (maxV - minV)) * chartH
+        return { x, y, v, date: dates[i] }
+      })
+
+      const polyline = points.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ')
+
+      // Gradient fill under the line
+      const fillPoints = `${padL},${padT + chartH} ${polyline} ${padL + chartW},${padT + chartH}`
+
+      // Date labels (first + last)
+      const firstDate = dates[0]?.slice(5) || ''
+      const lastDate = dates[dates.length - 1]?.slice(5) || ''
+
+      // Value labels (min + max)
+      const minLabel = Math.round(minV / 0.9)
+      const maxLabel = Math.round(maxV / 1.1)
+
+      svgEl.setAttribute('viewBox', `0 0 ${w} ${h}`)
+      svgEl.innerHTML = `
+        <polygon points="${fillPoints}" fill="var(--accent)" opacity="0.08" />
+        <polyline points="${polyline}" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round" />
+        ${points.map((p) => `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="2.5" fill="var(--accent)" />`).join('')}
+        <text x="${padL}" y="${h - 2}" fill="var(--text-muted)" font-size="9" font-family="var(--font-ui)">${firstDate}</text>
+        <text x="${w - padR}" y="${h - 2}" fill="var(--text-muted)" font-size="9" font-family="var(--font-ui)" text-anchor="end">${lastDate}</text>
+        <text x="${padL - 4}" y="${padT + 8}" fill="var(--text-muted)" font-size="9" font-family="var(--font-ui)" text-anchor="end">${maxLabel}</text>
+        <text x="${padL - 4}" y="${padT + chartH}" fill="var(--text-muted)" font-size="9" font-family="var(--font-ui)" text-anchor="end">${minLabel}</text>
+      `
+
+      // Summary text
+      const first = values[0]
+      const last = values[values.length - 1]
+      const delta = last - first
+      const sign = delta >= 0 ? '+' : ''
+      summaryEl.textContent = `${snapshots.length} jours · ${sign}${Math.round(delta)} loose · ${formatCollectionPrice(last, snapshots[snapshots.length - 1]?.dominant_currency) || last}`
+
+      shellEl.style.display = ''
+    } catch (_) {
+      // Silently skip if endpoint unavailable
+    }
+  }
+
   function init() {
     ensureReviewSortOptions()
     if (!isPublicForSaleView && collectionSortSelectEl) {
@@ -1843,6 +1917,7 @@
     updateCockpitLead()
     loadCollection()
     loadCockpitSignals()
+    loadEvolutionChart()
   }
 
   init()

@@ -258,3 +258,37 @@ div[hidden] {
   animation: none;
   opacity: 1;
 }
+
+/* ============================================================
+   COLLECTION EVOLUTION CHART
+   ============================================================ */
+.collection-evolution-shell {
+  margin: 12px 0 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+.collection-evolution-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.collection-evolution-label {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+.collection-evolution-summary {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.collection-evolution-chart {
+  height: 120px;
+  width: 100%;
+}
+.collection-evolution-chart svg {
+  display: block;
+}
