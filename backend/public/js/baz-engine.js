@@ -26,9 +26,9 @@
       'Fin de transmission.',
     ],
     help: [
-      'Tape un nom de jeu, demande un prix, ou dis bonjour. Je fais ce que je peux.',
-      'Je connais ta collection, les prix, les jeux. Pose ta question.',
-      'Commandes : /help, /about, /konami. Sinon, parle normalement.',
+      'Jeux, prix, rarete, collection, achat, vente, region, import CSV. Ou juste un nom de jeu.',
+      'Demande-moi un prix, une rarete, un conseil achat/vente. Ou tape un titre.',
+      '/help, /about, /konami. Sinon parle : prix, vendre, acheter, tendance, region, stats...',
     ],
     about_baz: [
       'BAZ. Terminal de bord. Pas une IA, juste un script avec du caractere.',
@@ -69,12 +69,93 @@
       'Complet en boite, notice, jeu. C\'est le graal du collectionneur.',
       'Hmm. L\'etat est note sur chaque fiche. Regarde la.',
     ],
+    // ── Questions frequentes ──
+    what_is_retrodex: [
+      'RetroDex. Un systeme de gestion pour ta collection retro. Pas un wiki, pas un guide de prix. Un outil.',
+      'Ton etagere de jeux, numerisee. Avec des prix, des signaux d\'achat/vente, et moi.',
+      'Un cockpit de collectionneur. Tu inspectes, qualifies, mesures, decides, evolues.',
+    ],
+    how_to_use: [
+      'Commence par l\'index. Ouvre une fiche. Ajoute a ta collection. Le reste suit.',
+      'Cherche un jeu. Regarde son prix. Ajoute-le. Le cockpit collection fait le reste.',
+      'Hmm. Explore l\'index, consulte les fiches, gere ta collection. Dans cet ordre.',
+    ],
+    whats_new: [
+      'Les prix bougent tous les jours. Ta collection aussi, si tu t\'en occupes.',
+      'Hmm. Regarde la courbe d\'evolution dans ta collection. Les chiffres parlent.',
+      'Le systeme s\'enrichit. Plus de fiches, plus de prix, plus de donnees marche.',
+    ],
+    stats_query: [
+      'Nombre de jeux, valeur loose, CIB, delta. Tout est dans le cockpit collection.',
+      'Tes stats sont dans l\'onglet Collection. Les chiffres en haut. Pas besoin de moi.',
+      'Hmm. Ouvre ta collection. Les compteurs sont la.',
+    ],
+    recommendation: [
+      'Je ne recommande pas. Je montre les donnees, tu decides.',
+      'Hmm. Filtre par Metascore et rarete dans l\'index. Le meilleur, c\'est subjectif.',
+      'Le meilleur jeu c\'est celui que tu cherches depuis 10 ans. Pas celui que je te dis.',
+      'Trie par Metascore dans l\'index. Mais le score ne fait pas tout.',
+    ],
+    buy_advice: [
+      'Regarde le prix loose, compare avec ton budget, decide. Pas plus complique.',
+      'Hmm. La section A SAISIR dans le cockpit collection montre les opportunites.',
+      'Le marche est la. Les prix aussi. La decision, c\'est toi.',
+      'Verifie le tier de confiance avant d\'acheter. LOW = donnees limitees.',
+    ],
+    sell_advice: [
+      'Si le loose depasse 1.5x ton prix d\'achat, c\'est un signal de vente.',
+      'Le cockpit collection a une section A VENDRE. Regarde la.',
+      'Hmm. Vendre c\'est une decision. Les donnees sont la, le timing c\'est toi.',
+    ],
+    capabilities: [
+      'Je connais les jeux, les prix, ta collection. Je ne connais pas l\'avenir.',
+      'Je reponds aux questions sur les jeux, les prix, la rarete. Je fais de l\'ironie aussi.',
+      'Hmm. /help pour la liste. En gros : jeux, prix, collection, et quelques surprises.',
+    ],
+    thanks: [
+      'Hmm. De rien.',
+      'Pas de quoi. C\'est mon boulot.',
+      'Note.',
+      'Normal.',
+    ],
+    identity: [
+      'BAZ. Terminal de bord de RetroDex. Ici depuis le premier commit.',
+      'Je suis un script. Mais un script avec des opinions.',
+      'Hmm. BAZ. Pas un chatbot. Pas une IA. Juste ton interface.',
+      'Qui je suis. Bonne question. Tape /about pour la version officielle.',
+    ],
+    data_quality: [
+      'Chaque jeu a un tier de confiance. HIGH = verifie. LOW = indicatif. UNKNOWN = pas de donnees.',
+      'Les prix viennent de PriceCharting et eBay. La fiabilite depend du nombre de sources.',
+      'Hmm. Les losanges sur les fiches montrent la confiance. Plus y en a, mieux c\'est.',
+    ],
+    import_info: [
+      'Tu as un CSV ? Bouton Importer dans la page Collection. Titre, console, etat, prix.',
+      'L\'import CSV est la. Format : titre, console, condition, prix_paye, region.',
+      'Hmm. Importer CSV dans Collection. Ca matche les titres avec le catalogue.',
+    ],
+    market_trend: [
+      'Les tendances sont dans l\'historique des prix sur chaque fiche.',
+      'Hmm. Le retro monte en general. Mais chaque jeu a son histoire.',
+      'Consulte la section Evolution sur les fiches. Les courbes parlent.',
+      'Le marche retro est cyclique. Ce qui monte redescend. Et inversement.',
+    ],
+    completeness: [
+      'Ta completude est dans le cockpit. Barre en bas. N jeux sur le total.',
+      'Hmm. La section A QUALIFIER montre ce qu\'il te reste a documenter.',
+      'Qualification = completude + confiance + region. Les trois comptent.',
+    ],
+    region_info: [
+      'PAL, NTSC-U, NTSC-J. La region change le prix, parfois du simple au triple.',
+      'Europe = PAL. Japon = NTSC-J. US = NTSC-U. Chaque marche a ses prix.',
+      'Hmm. La region est un champ de ta collection. Renseigne-la, ca affine la valeur.',
+    ],
     unknown: [
       'Hmm. Pas compris. Essaie autrement.',
-      'Je n\'ai pas de reponse pour ca.',
+      'Je n\'ai pas de reponse pour ca. Essaie un nom de jeu ou /help.',
       'Ca depasse mes competences. Et elles sont limitees.',
       'Reformule. Ou tape /help.',
-      'Signal non reconnu.',
+      'Signal non reconnu. Tape /help pour voir ce que je sais faire.',
     ],
 
     // ── Easter eggs ──
@@ -128,11 +209,31 @@
   var FAREWELL_PATTERNS = /^(bye|au\s*revoir|a\s*plus|ciao|adieu|a\+|salut)\s*$/i
 
   var KEYWORD_INTENTS = [
+    // Product questions
+    { keywords: ['c\'est quoi', 'qu\'est-ce que', 'retrodex c\'est', 'a quoi sert', 'le but'], intent: 'what_is_retrodex' },
+    { keywords: ['comment ca marche', 'comment utiliser', 'comment faire', 'tuto', 'guide', 'mode d\'emploi'], intent: 'how_to_use' },
+    { keywords: ['quoi de neuf', 'nouveaute', 'mise a jour', 'update', 'changelog'], intent: 'whats_new' },
+    { keywords: ['tu fais quoi', 'tes fonctions', 'tu sers a quoi', 'tu peux faire', 'what can you'], intent: 'capabilities' },
+    { keywords: ['qui es-tu', 'tu es qui', 'ton nom', 'who are you', 'your name'], intent: 'identity' },
+    { keywords: ['merci', 'thanks', 'thank you', 'cool', 'genial', 'super', 'parfait', 'bien joue'], intent: 'thanks' },
+    // Market & prices
     { keywords: ['prix', 'valeur', 'cher', 'combien', 'cout', 'cote', 'price', 'worth', 'argent', 'euro'], intent: 'price_query' },
     { keywords: ['rare', 'rarete', 'introuvable', 'pepite', 'graal'], intent: 'rare_query' },
+    { keywords: ['tendance', 'evolution', 'monte', 'baisse', 'marche', 'trend', 'hausse'], intent: 'market_trend' },
+    { keywords: ['confiance', 'fiable', 'fiabilite', 'qualite', 'tier', 'donnees'], intent: 'data_quality' },
+    // Collection
     { keywords: ['collection', 'ma collection', 'mes jeux', 'inventaire', 'etagere'], intent: 'collection_query' },
-    { keywords: ['console', 'megadrive', 'snes', 'nes', 'gameboy', 'playstation', 'saturn', 'dreamcast', 'n64', 'master system', 'pc engine', 'neo geo', 'game gear', 'lynx', 'jaguar', '3do'], intent: 'console_query' },
-    { keywords: ['etat', 'condition', 'cib', 'complet', 'loose', 'mint', 'boite', 'notice'], intent: 'condition_query' },
+    { keywords: ['combien de jeux', 'nombre de jeux', 'stats', 'statistiques', 'total'], intent: 'stats_query' },
+    { keywords: ['completude', 'complet', 'manque', 'il me manque', 'progression', 'avancement'], intent: 'completeness' },
+    { keywords: ['import', 'csv', 'importer', 'exporter', 'export'], intent: 'import_info' },
+    // Buying & selling
+    { keywords: ['acheter', 'achat', 'ou acheter', 'buy', 'trouver', 'chercher a acheter', 'opportunite'], intent: 'buy_advice' },
+    { keywords: ['vendre', 'vente', 'revendre', 'sell', 'a vendre'], intent: 'sell_advice' },
+    { keywords: ['meilleur', 'top', 'recommandation', 'conseil', 'suggestion', 'incontournable', 'must have'], intent: 'recommendation' },
+    // Technical
+    { keywords: ['console', 'megadrive', 'snes', 'nes', 'gameboy', 'playstation', 'saturn', 'dreamcast', 'n64', 'master system', 'pc engine', 'neo geo', 'game gear', 'lynx'], intent: 'console_query' },
+    { keywords: ['etat', 'condition', 'cib', 'loose', 'mint', 'boite', 'notice', 'scelle'], intent: 'condition_query' },
+    { keywords: ['region', 'pal', 'ntsc', 'japonais', 'europeen', 'americain', 'import'], intent: 'region_info' },
   ]
 
   // ── Game Title Cache ──────────────────────────────────────
