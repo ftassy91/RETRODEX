@@ -88,7 +88,7 @@
   transform: translateX(-50%) translateY(100%);
   width: calc(100% - 32px);
   max-width: 600px;
-  height: 180px;
+  min-height: 180px;
   z-index: 1000;
 
   background: rgba(0, 0, 0, 0.95);
@@ -96,7 +96,7 @@
   border-radius: var(--radius, 0px);
 
   display: grid;
-  grid-template-rows: auto 1px 1fr;
+  grid-template-rows: auto 1px 1fr 1px auto;
   overflow: hidden;
 
   opacity: 0;
@@ -314,7 +314,7 @@
 
 @media (max-width: 480px) {
   #rdx-codec {
-    height: 160px;
+    min-height: 160px;
     bottom: 8px;
     width: calc(100% - 16px);
   }
@@ -333,4 +333,116 @@
     font-size: 11px;
     padding: 6px 12px 8px;
   }
+
+  .codec-input-row {
+    padding: 0 12px;
+    height: 32px;
+    min-height: 32px;
+  }
+
+  .codec-input,
+  .codec-input-prompt,
+  .codec-thinking {
+    font-size: 11px;
+  }
+}
+
+/* ----------------------------------------------------------
+   11. KEYFRAMES — Input bar
+   ---------------------------------------------------------- */
+
+/* Prompt blink when input is focused */
+@keyframes codec-prompt-pulse {
+  0%, 49.9%  { opacity: 1; }
+  50%, 100%  { opacity: 0.4; }
+}
+
+/* ----------------------------------------------------------
+   12. INPUT ROW
+   ---------------------------------------------------------- */
+
+.codec-separator-input {
+  opacity: 0.25;
+}
+
+.codec-input-row {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  height: 36px;
+  min-height: 36px;
+  gap: 6px;
+  position: relative;
+}
+
+.codec-input-prompt {
+  font-family: var(--font-ui, 'BigBlueTerminal', monospace);
+  font-size: 12px;
+  color: var(--accent, #00ff66);
+  line-height: 1;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* Prompt pulses when input is focused */
+.codec-input-row:focus-within .codec-input-prompt {
+  animation: codec-prompt-pulse 1s steps(1) infinite;
+}
+
+.codec-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-ui, 'BigBlueTerminal', monospace);
+  font-size: 12px;
+  line-height: 1;
+  color: var(--text-primary, #00ff66);
+  caret-color: var(--accent, #00ff66);
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.codec-input::placeholder {
+  color: var(--text-muted, #4a8a54);
+  opacity: 0.6;
+  font-style: normal;
+}
+
+/* Focus state — subtle glow on the entire input row */
+.codec-input-row:focus-within {
+  box-shadow: inset 0 0 12px rgba(0, 255, 102, 0.06);
+}
+
+/* ----------------------------------------------------------
+   13. THINKING INDICATOR
+   ---------------------------------------------------------- */
+
+.codec-thinking {
+  font-family: var(--font-ui, 'BigBlueTerminal', monospace);
+  font-size: 12px;
+  color: var(--accent, #00ff66);
+  opacity: 0;
+  pointer-events: none;
+  flex-shrink: 0;
+  transition: opacity 150ms ease;
+  min-width: 20px;
+  text-align: right;
+}
+
+/* When BAZ is thinking, show animated dots and disable input */
+#rdx-codec.codec-user-waiting .codec-thinking {
+  opacity: 1;
+  animation: codec-blink 1s steps(1) infinite;
+}
+
+#rdx-codec.codec-user-waiting .codec-input {
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+#rdx-codec.codec-user-waiting .codec-input-prompt {
+  opacity: 0.3;
+  animation: none;
 }

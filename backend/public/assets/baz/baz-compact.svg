@@ -18,6 +18,16 @@
       <rect x="2" y="2" width="28" height="22" rx="2" ry="2" fill="#004D1A" stroke="#00FF41" stroke-width="1"/>
       <!-- Screen -->
       <rect x="4" y="4" width="24" height="16" rx="1" ry="1" fill="#000000" stroke="#00FF41" stroke-width="1"/>
+      <!-- Screen inner glow -->
+      <rect x="5" y="5" width="22" height="14" fill="none" stroke="#004D1A" stroke-width="1"/>
+
+      <!-- Ventilation slots left -->
+      <rect x="3" y="21" width="2" height="1" fill="#00FF41"/>
+      <!-- Ventilation slots right -->
+      <rect x="27" y="21" width="2" height="1" fill="#00FF41"/>
+      <!-- Brand dot -->
+      <rect x="25" y="22" width="1" height="1" fill="#00FF41"/>
+
       <!-- Power LED -->
       <rect x="14" y="22" width="4" height="1" fill="#00FF41"/>
       <!-- Feet -->
@@ -25,15 +35,18 @@
       <rect x="24" y="24" width="4" height="1" fill="#00FF41"/>
       <!-- Keyboard -->
       <rect x="5" y="26" width="22" height="4" rx="1" ry="1" fill="#004D1A" stroke="#00FF41" stroke-width="1"/>
-      <!-- Key row -->
-      <rect x="7" y="27" width="2" height="1" fill="#00FF41"/>
-      <rect x="10" y="27" width="2" height="1" fill="#00FF41"/>
-      <rect x="13" y="27" width="2" height="1" fill="#00FF41"/>
-      <rect x="16" y="27" width="2" height="1" fill="#00FF41"/>
-      <rect x="19" y="27" width="2" height="1" fill="#00FF41"/>
-      <rect x="22" y="27" width="2" height="1" fill="#00FF41"/>
-      <!-- Spacebar -->
-      <rect x="10" y="29" width="12" height="1" fill="#00FF41"/>
+      <!-- Key row 1 (varied) -->
+      <rect x="7" y="27" width="1" height="1" fill="#00FF41"/>
+      <rect x="9" y="27" width="2" height="1" fill="#00FF41"/>
+      <rect x="12" y="27" width="2" height="1" fill="#00FF41"/>
+      <rect x="15" y="27" width="2" height="1" fill="#00FF41"/>
+      <rect x="18" y="27" width="2" height="1" fill="#00FF41"/>
+      <rect x="21" y="27" width="1" height="1" fill="#00FF41"/>
+      <rect x="23" y="27" width="2" height="1" fill="#00FF41"/>
+      <!-- Spacebar row -->
+      <rect x="7" y="29" width="2" height="1" fill="#00FF41"/>
+      <rect x="10" y="29" width="10" height="1" fill="#00FF41"/>
+      <rect x="21" y="29" width="2" height="1" fill="#00FF41"/>
     </g>
   </defs>
 
@@ -44,33 +57,40 @@
   <g class="baz-idle">
     <use href="#terminal-body-sm"/>
     <!-- Prompt lines -->
-    <rect x="6" y="6" width="6" height="1" fill="#00FF41"/>
-    <rect x="6" y="8" width="10" height="1" fill="#00FF41"/>
+    <rect x="6" y="7" width="1" height="1" fill="#00FF41"/>
+    <rect x="8" y="7" width="5" height="1" fill="#00FF41"/>
+    <rect x="6" y="9" width="1" height="1" fill="#00FF41"/>
+    <rect x="8" y="9" width="9" height="1" fill="#00FF41"/>
     <!-- Blinking cursor -->
-    <rect class="cursor" x="6" y="14" width="2" height="4" fill="#00FF41"/>
+    <rect class="cursor" x="6" y="13" width="2" height="3" fill="#00FF41"/>
   </g>
 
   <!-- STATE: TALK -->
   <g class="baz-talk">
     <use href="#terminal-body-sm"/>
-    <!-- Equalizer bars -->
-    <rect x="8" y="13" width="2" height="5" fill="#00FF41"/>
-    <rect x="12" y="9" width="2" height="9" fill="#00FF41"/>
+    <!-- Equalizer bars (varied widths) -->
+    <rect x="7" y="14" width="2" height="4" fill="#00FF41"/>
+    <rect x="11" y="9" width="3" height="9" fill="#00FF41"/>
     <rect x="16" y="11" width="2" height="7" fill="#00FF41"/>
-    <rect x="20" y="7" width="2" height="11" fill="#00FF41"/>
-    <rect x="24" y="10" width="2" height="8" fill="#00FF41"/>
+    <rect x="20" y="7" width="3" height="11" fill="#00FF41"/>
+    <rect x="25" y="10" width="2" height="8" fill="#00FF41"/>
   </g>
 
   <!-- STATE: CONTENT -->
   <g class="baz-content">
     <use href="#terminal-body-sm"/>
-    <!-- Checkmark -->
-    <rect x="8" y="14" width="2" height="2" fill="#00FF41"/>
-    <rect x="10" y="16" width="2" height="2" fill="#00FF41"/>
-    <rect x="12" y="14" width="2" height="2" fill="#00FF41"/>
-    <rect x="14" y="12" width="2" height="2" fill="#00FF41"/>
-    <rect x="16" y="10" width="2" height="2" fill="#00FF41"/>
-    <rect x="18" y="8" width="2" height="2" fill="#00FF41"/>
-    <rect x="20" y="6" width="2" height="2" fill="#00FF41"/>
+    <!-- Bold checkmark -->
+    <rect x="7" y="14" width="2" height="2" fill="#00FF41"/>
+    <rect x="8" y="15" width="2" height="2" fill="#00FF41"/>
+    <rect x="9" y="16" width="2" height="2" fill="#00FF41"/>
+    <rect x="10" y="15" width="2" height="2" fill="#00FF41"/>
+    <rect x="11" y="14" width="2" height="2" fill="#00FF41"/>
+    <rect x="12" y="13" width="2" height="2" fill="#00FF41"/>
+    <rect x="13" y="12" width="2" height="2" fill="#00FF41"/>
+    <rect x="14" y="11" width="2" height="2" fill="#00FF41"/>
+    <rect x="15" y="10" width="2" height="2" fill="#00FF41"/>
+    <rect x="16" y="9" width="2" height="2" fill="#00FF41"/>
+    <rect x="17" y="8" width="2" height="2" fill="#00FF41"/>
+    <rect x="18" y="7" width="2" height="2" fill="#00FF41"/>
   </g>
 </svg>

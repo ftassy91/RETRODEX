@@ -4,6 +4,140 @@
    ============================================================ */
 
 ;(function () {
+  /* --------------------------------------------------------
+     USER INPUT — Pattern matching + response pools
+     -------------------------------------------------------- */
+  var USER_PATTERNS = [
+    // Collection queries
+    { keywords: ['combien', 'jeux', 'collection'], response: 'collection_count', weight: 3 },
+    { keywords: ['valeur', 'vaut', 'prix', 'total'], response: 'collection_value_query', weight: 2 },
+    { keywords: ['rare', 'rares', 'rarete'], response: 'rare_query', weight: 2 },
+    { keywords: ['dernier', 'recent', 'ajout'], response: 'recent_add', weight: 2 },
+    // System queries
+    { keywords: ['aide', 'help', 'quoi', 'faire'], response: 'help', weight: 2 },
+    { keywords: ['qui', 'es-tu', 'baz', 'toi'], response: 'identity', weight: 3 },
+    { keywords: ['salut', 'bonjour', 'hey', 'yo'], response: 'greeting', weight: 1 },
+    { keywords: ['merci', 'thanks', 'cool'], response: 'thanks', weight: 1 },
+    // Market queries
+    { keywords: ['marche', 'market', 'tendance'], response: 'market_query', weight: 2 },
+    { keywords: ['console', 'systeme', 'plateforme'], response: 'console_query', weight: 2 },
+    // Easter eggs (exact = all keywords required)
+    { keywords: ['metal', 'gear'], response: 'easter_mgs', weight: 5, exact: true },
+    { keywords: ['snake'], response: 'easter_mgs', weight: 5, exact: true },
+    { keywords: ['konami', 'code'], response: 'easter_konami', weight: 5, exact: true },
+    { keywords: ['fhtagn'], response: 'easter_lovecraft', weight: 5, exact: true },
+    { keywords: ['barrel', 'roll'], response: 'easter_barrel', weight: 5, exact: true },
+  ]
+
+  var USER_REPLIES = {
+    collection_count: [
+      'Hmm. 507 references. 16 consoles. C\'est pas rien.',
+      'Dernier comptage : 507. Ca grimpe.',
+    ],
+    collection_value_query: [
+      'Ouvre RETROMARKET. Les chiffres sont la.',
+      'La valeur, c\'est pas juste un prix. C\'est un etat, une region, une boite.',
+    ],
+    rare_query: [
+      'Les raretees ne se trouvent pas en cherchant "rare". Filtre par prix, tu verras.',
+      'Hmm. Regarde les jeux sans prix marche. C\'est souvent la que se cachent les vrais.',
+    ],
+    recent_add: [
+      'Consulte ta collection. Les derniers ajouts sont en haut.',
+    ],
+    help: [
+      'Tape un mot-cle. Collection, valeur, marche, console. Je fais le reste.',
+      'Je suis BAZ. Je lis ta collection. Pose une question simple.',
+    ],
+    identity: [
+      'BAZ. Terminal companion. Je surveille tes cartouches depuis le debut.',
+      'Je suis le systeme. Tu es l\'operateur. On fait equipe.',
+    ],
+    greeting: [
+      'Hmm. Salut.',
+      'Operateur. Bienvenue.',
+      'Yo.',
+    ],
+    thanks: [
+      'Hmm.',
+      'Normal.',
+      'C\'est mon boulot.',
+    ],
+    market_query: [
+      'Le marche bouge. Ouvre RETROMARKET pour les tendances.',
+      '579 prix indexes. C\'est un debut.',
+    ],
+    console_query: [
+      '16 consoles. De 1983 a 2005. L\'age d\'or.',
+      'Quelle console ? Sois precis.',
+    ],
+    easter_mgs: [
+      'Colonel, j\'ai un visuel sur la collection...',
+      '! ... Hmm. Fausse alerte.',
+      'Snake? SNAKE? SNAAAKE! ... Ah non, c\'est toi.',
+    ],
+    easter_konami: [
+      'Haut haut bas bas gauche droite gauche droite B A. ... Non, ca marche pas ici.',
+    ],
+    easter_lovecraft: [
+      'Ph\'nglui mglw\'nafh Cthulhu R\'lyeh wgah\'nagl fhtagn. ... C\'est pas dans la base.',
+    ],
+    easter_barrel: [
+      'Hmm. Non.',
+    ],
+    fallback: [
+      'Hmm. J\'ai pas compris. Essaie : collection, valeur, aide.',
+      'Pas dans ma base. Reformule.',
+      '... Hmm.',
+      'Je suis un terminal, pas un devin. Sois plus precis.',
+    ],
+  }
+
+  function matchUserInput(raw) {
+    var input = raw.toLowerCase().trim()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    var bestMatch = null
+    var bestScore = 0
+
+    for (var i = 0; i < USER_PATTERNS.length; i++) {
+      var pattern = USER_PATTERNS[i]
+      var score = 0
+
+      if (pattern.exact) {
+        var allPresent = true
+        for (var k = 0; k < pattern.keywords.length; k++) {
+          if (input.indexOf(pattern.keywords[k]) === -1) {
+            allPresent = false
+            break
+          }
+        }
+        if (allPresent) score = pattern.weight * pattern.keywords.length
+      } else {
+        for (var k = 0; k < pattern.keywords.length; k++) {
+          if (input.indexOf(pattern.keywords[k]) !== -1) {
+            score += pattern.weight
+          }
+        }
+      }
+
+      if (score > bestScore) {
+        bestScore = score
+        bestMatch = pattern.response
+      }
+    }
+
+    if (bestScore < 1) return 'fallback'
+    return bestMatch
+  }
+
+  function pickUserReply(key) {
+    var pool = USER_REPLIES[key] || USER_REPLIES.fallback
+    return pool[Math.floor(Math.random() * pool.length)]
+  }
+
+  /* --------------------------------------------------------
+     BAZ contextual replies (existing)
+     -------------------------------------------------------- */
   var REPLIES = {
     welcome: [
       'Bon retour. Ta collection t\'attendait.',
@@ -74,10 +208,17 @@
     '</div>',
     '<hr class="codec-separator" />',
     '<div class="codec-text"><span class="codec-typewriter"></span></div>',
+    '<hr class="codec-separator codec-separator-input" />',
+    '<div class="codec-input-row">',
+    '  <span class="codec-input-prompt">&gt;</span>',
+    '  <input type="text" class="codec-input" placeholder="Parle a BAZ..." maxlength="140" autocomplete="off" spellcheck="false" />',
+    '  <span class="codec-thinking" aria-hidden="true">...</span>',
+    '</div>',
   ].join('\n')
   document.body.appendChild(codec)
 
   var typewriterEl = codec.querySelector('.codec-typewriter')
+  var codecInput = codec.querySelector('.codec-input')
   var bazImg = codec.querySelector('.codec-avatar-baz img')
   var userImg = codec.querySelector('.codec-avatar-user img')
   var isOpen = false
@@ -223,6 +364,60 @@
     return 'default'
   }
 
+  // User input handling
+  var userInputBusy = false
+
+  codecInput.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter') return
+    e.preventDefault()
+    e.stopPropagation()
+    if (userInputBusy) return
+
+    var raw = codecInput.value.trim()
+    if (!raw) return
+
+    codecInput.value = ''
+    userInputBusy = true
+    codec.classList.add('codec-user-waiting')
+
+    // Resolve response — prefer baz-engine.js if loaded, fallback to inline
+    function deliverResponse(responseText, state) {
+      codec.classList.remove('codec-user-waiting')
+      clearTimeout(autoDismissTimer)
+      clearInterval(typewriterTimer)
+      setBazState(state || 'talk')
+      typewrite(responseText, function () {
+        setBazState('idle')
+        userInputBusy = false
+        codecInput.focus()
+        autoDismissTimer = setTimeout(function () {
+          closeCodec()
+          processQueue()
+        }, 8000)
+      })
+    }
+
+    if (window.BAZ && window.BAZ._askEngine) {
+      // Use baz-engine.js (async, supports game title matching)
+      window.BAZ._askEngine(raw).then(function (result) {
+        deliverResponse(result.text, result.state || 'talk')
+      }).catch(function () {
+        deliverResponse(pickUserReply(matchUserInput(raw)))
+      })
+    } else {
+      // Fallback: inline keyword matcher
+      var thinkDelay = 800 + Math.floor(Math.random() * 700)
+      setTimeout(function () {
+        deliverResponse(pickUserReply(matchUserInput(raw)))
+      }, thinkDelay)
+    }
+  })
+
+  // Prevent click-to-dismiss when clicking the input area
+  codec.querySelector('.codec-input-row').addEventListener('click', function (e) {
+    e.stopPropagation()
+  })
+
   // Keyboard
   document.addEventListener('keydown', function (e) {
     var tag = (e.target.tagName || '').toLowerCase()
@@ -279,5 +474,5 @@
   saveSession()
   setTimeout(autoTrigger, 500)
 
-  window.BAZ = { say: say, close: closeCodec }
+  window.BAZ = { say: say, close: closeCodec, input: codecInput }
 })()
