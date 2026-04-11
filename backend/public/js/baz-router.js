@@ -38,19 +38,7 @@
     var context = getPageContext()
     var character = getActiveCharacter()
 
-    // 1. Glossary direct answer (highest priority — user clicked a term)
-    if (source === 'glossary' && options.glossaryEntry) {
-      return Promise.resolve({
-        text: options.glossaryEntry,
-        state: 'content',
-        duration: 6000,
-        intent: 'glossary',
-        character: character,
-        source: 'glossary',
-      })
-    }
-
-    // 2. Route to the appropriate engine
+    // 1. Route to the appropriate engine (glossary hints flow through pipeline)
     var engine = window.BAZ && window.BAZ._askEngine
     if (!engine) {
       // No engine loaded — use BAZ.say as last resort
@@ -64,8 +52,11 @@
       })
     }
 
-    // 3. Call the engine (baz-engine or erudit-engine depending on page)
-    return engine(text).then(function (result) {
+    // 2. Call the engine with options (baz-engine or erudit-engine depending on page)
+    var engineOptions = {}
+    if (options.glossaryEntry) engineOptions.glossaryEntry = options.glossaryEntry
+
+    return engine(text, engineOptions).then(function (result) {
       result = result || {}
       result.character = character
       result.source = source

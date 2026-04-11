@@ -599,89 +599,97 @@
     return Promise.resolve(null)
   }
 
+  // ── Unified Response Pipeline ───────────────────────────────
+  // Single ordered cascade. First non-null result wins.
+  // Order: glossaryHint → glossaryTerm → KB → BAZGen → Markov → static
+
+  function resolvePipeline(userText, parsed, contextData, options) {
+    options = options || {}
+
+    // 1. Glossary direct hint (user clicked a glossary term — text IS the definition)
+    if (options.glossaryEntry) {
+      return options.glossaryEntry
+    }
+
+    // 2. Glossary term detected in free-text input
+    if (window.RDXGlossary && window.RDXGlossary._cache) {
+      var glossaryCheck = checkGlossaryTerm(userText)
+      if (glossaryCheck) return glossaryCheck
+    }
+
+    // 3. KB factual answer (score >= 5 for all intents, >= 3 for unknown/help)
+    if (window.BAZKB && window.BAZKB.ready) {
+      var kbResult = window.BAZKB.search(userText)
+      if (kbResult && kbResult.answer) {
+        var threshold = (parsed.intent === 'unknown' || parsed.intent === 'help'
+          || parsed.intent === 'how_to_use' || parsed.intent === 'what_is_retrodex') ? 3 : 5
+        if (kbResult.score >= threshold) return kbResult.answer
+      }
+    }
+
+    // 4. BAZGen generate (corpus → templates → assembler → Markov)
+    var gen = window.BAZGen
+    if (gen) {
+      try {
+        var generated = gen.generate(parsed.intent, contextData || {})
+        if (generated) return generated
+      } catch (_) {}
+
+      // 5. Markov standalone fallback for unknown intents
+      if (parsed.intent === 'unknown') {
+        try {
+          var markovResult = gen.markov()
+          if (markovResult) return markovResult
+        } catch (_) {}
+      }
+    }
+
+    // 6. No generated text — caller falls back to static RESPONSES
+    return null
+  }
+
   // ── Public API ────────────────────────────────────────────
 
-  function ask(userText) {
+  function ask(userText, options) {
+    options = options || {}
+
     return loadGameTitles().then(function (titles) {
       var parsed = parseIntent(userText, titles)
-      var gen = window.BAZGen
 
-      // ALL intents try BAZGen first (corpus + templates + Markov)
-      // Data-driven intents also fetch live context for templates
-      if (gen) {
-        var contextPromise = isDataDriven(parsed.intent)
-          ? fetchContext(parsed)
-          : Promise.resolve(null)
+      var contextPromise = isDataDriven(parsed.intent)
+        ? fetchContext(parsed)
+        : Promise.resolve(null)
 
-        return contextPromise.then(function (contextData) {
-          var generated = null
+      return contextPromise.then(function (contextData) {
+        var generated = resolvePipeline(userText, parsed, contextData, options)
 
-          // PRIORITY 1: Check glossary if text contains a specific retrogaming term
-          if (window.RDXGlossary && window.RDXGlossary._cache) {
-            var glossaryCheck = checkGlossaryTerm(userText)
-            if (glossaryCheck) generated = glossaryCheck
-          }
+        // Substitute game name placeholders
+        if (generated && parsed.params.game) {
+          generated = generated.replace(/__TITLE__/g, parsed.params.game.title)
+          generated = generated.replace(/__GAME__/g, parsed.params.game.title)
+          generated = generated.replace(/__CONSOLE__/g, parsed.params.game.console_name || '')
+        }
 
-          // PRIORITY 2: Check KB for factual answers (FAQ)
-          if (!generated && window.BAZKB && window.BAZKB.ready) {
-            var kbResult = window.BAZKB.search(userText)
-            if (kbResult && kbResult.answer && kbResult.score >= 5) {
-              generated = kbResult.answer
-            }
-          }
+        // Add repeat-awareness prefix
+        var gameTitle = parsed.params.game ? parsed.params.game.title : null
+        var prefix = getRepeatPrefix(parsed.intent, gameTitle)
 
-          // PRIORITY 3: BAZGen generate (corpus/templates/assembler/markov)
-          if (!generated) {
-            try {
-              generated = gen.generate(parsed.intent, contextData || {})
-            } catch (e) {
-              generated = null
-            }
-          }
+        // Final fallback: static reply from RESPONSES catalog
+        var response = buildResponse(parsed, generated ? prefix + generated : null)
 
-          // Substitute game name placeholder if present
-          if (generated && parsed.params.game) {
-            generated = generated.replace(/__TITLE__/g, parsed.params.game.title)
-            generated = generated.replace(/__GAME__/g, parsed.params.game.title)
-            generated = generated.replace(/__CONSOLE__/g, parsed.params.game.console_name || '')
-          }
+        // Glossary entries are informational — always use content state
+        if (options.glossaryEntry) {
+          response.state = 'content'
+          response.intent = 'glossary'
+          response.duration = 6000
+        }
 
-          // For unknown/help intents: try KB first, then Markov
-          if (!generated && (parsed.intent === 'unknown' || parsed.intent === 'help' || parsed.intent === 'how_to_use' || parsed.intent === 'what_is_retrodex')) {
-            if (window.BAZKB && window.BAZKB.ready) {
-              var kbResult = window.BAZKB.search(userText)
-              if (kbResult && kbResult.answer) {
-                generated = kbResult.answer
-              }
-            }
-          }
+        // Save to session memory
+        saveToMemory(userText, response.text, parsed.intent)
 
-          // Still nothing? Try Markov for unknown
-          if (!generated && parsed.intent === 'unknown') {
-            try { generated = gen.markov() } catch (e) { generated = null }
-          }
-
-          // Add repeat-awareness prefix if user asks about same game again
-          var gameTitle = parsed.params.game ? parsed.params.game.title : null
-          var prefix = getRepeatPrefix(parsed.intent, gameTitle)
-
-          // Final fallback: static reply from RESPONSES catalog
-          var response = buildResponse(parsed, generated ? prefix + generated : null)
-
-          // Save to session memory
-          saveToMemory(userText, response.text, parsed.intent)
-
-          // NOTE: do NOT call BAZ.say() here — the caller (codec.js deliverResponse
-          // or search-detect.js sendToCodec) is responsible for display.
-          return response
-        })
-      }
-
-      // No BAZGen available: static pickReply only
-      var response = buildResponse(parsed, null)
-      saveToMemory(userText, response.text, parsed.intent)
-
-      return response
+        // NOTE: do NOT call BAZ.say() here — the caller is responsible for display.
+        return response
+      })
     })
   }
 
