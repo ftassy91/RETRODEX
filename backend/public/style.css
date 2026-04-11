@@ -1,3 +1,29 @@
+/* ============================================================
+   RETRODEX — style.css — Table of Contents
+   ============================================================
+   Lines 1-25      : @font-face declarations
+   Lines 26-50     : :root CSS custom properties (design tokens)
+   Lines 51-130    : Base elements (body, a, .btn, .pill, breadcrumb)
+   Lines 131-900   : Shared components (cards, grids, panels, badges)
+   Lines 901-960   : Responsive base (@media max-width: 768px)
+   Lines 961-2800  : Game detail page (.detail-*, .hero-*, .bloomberg-*)
+   Lines 2801-4100 : Hub page (.hub-*, search form, proof cards)
+   Lines 4101-5500 : Game Boy / retro-specific (.gb-*, .terminal-*)
+   Lines 5501-7900 : Shared UI (.surface-*, .cockpit-*, signals)
+   Lines 7901-8700 : Navigation (.global-product-nav, .site-nav)
+   Lines 8701-9800 : Index / catalog (.result-row, filters, pagination)
+   Lines 9801-10600: Market / stats / price components
+   Lines 10601-11900: Collection page (.collection-*, cockpit, toolbar)
+   Lines 11901-12300: Responsive overrides (1100px, 980px breakpoints)
+   Lines 12301-13200: Unified nav + archive pages
+   Lines 13201-14000: Collection preview, detail panels
+   Lines 14001-14117: Responsive final (mobile overrides)
+   ============================================================
+   OVERRIDE ORDER: style.css → zones.css → codec.css
+   zones.css overrides for zone theming + component fixes
+   codec.css overrides for BAZ/Erudit codec window
+   ============================================================ */
+
 @font-face {
   font-family: 'BigBlueTerminal';
   src: url('/fonts/BigBlueTerminal-Regular.ttf') format('truetype');
