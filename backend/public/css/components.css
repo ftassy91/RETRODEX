@@ -13769,6 +13769,192 @@ a.hub-rich-card:focus-visible {
   max-width: 44ch;
 }
 
+/* ─── Stats Dashboard ─── */
+
+.stats-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stats-counter {
+  padding: 14px 12px;
+  border: 1px solid rgba(67, 95, 60, 0.52);
+  background: var(--bg);
+  text-align: center;
+}
+
+.stats-counter-value {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.stats-counter-label {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stats-section {
+  margin-top: 18px;
+}
+
+.stats-section-label {
+  margin-bottom: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.stats-tier-bar {
+  display: flex;
+  height: 10px;
+  border-radius: 1px;
+  overflow: hidden;
+  gap: 1px;
+}
+
+.stats-tier-segment {
+  min-width: 2px;
+}
+
+.stats-tier-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.stats-tier-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-secondary);
+}
+
+.stats-tier-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+}
+
+.stats-top-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-top-row {
+  display: grid;
+  grid-template-columns: 24px 1fr 120px 80px;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(67, 95, 60, 0.25);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.stats-top-row:hover {
+  background: rgba(15, 56, 15, 0.12);
+}
+
+.stats-top-rank {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.stats-top-title {
+  font-size: 0.78rem;
+  color: var(--text-primary);
+}
+
+.stats-top-platform {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+}
+
+.stats-top-price {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-value);
+  text-align: right;
+}
+
+.stats-bar-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 50px;
+  gap: 10px;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.stats-bar-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stats-bar-track {
+  height: 8px;
+  background: rgba(67, 95, 60, 0.15);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.stats-bar-fill {
+  height: 100%;
+  border-radius: 1px;
+  transition: width 0.3s ease-out;
+}
+
+.stats-bar-value {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.stats-empty {
+  padding: 16px;
+  color: var(--text-muted);
+  text-align: center;
+  font-size: 0.72rem;
+}
+
+@media (max-width: 760px) {
+  .stats-overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .stats-top-row {
+    grid-template-columns: 24px 1fr 60px;
+  }
+  .stats-top-platform {
+    display: none;
+  }
+  .stats-bar-row {
+    grid-template-columns: 100px 1fr 40px;
+  }
+}
+
 /* ─── Hub Boot Screen ─── */
 
 .boot-overlay {

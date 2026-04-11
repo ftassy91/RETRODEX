@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" data-zone="qual">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,10 +10,9 @@
     <meta name="apple-mobile-web-app-title" content="RetroDex" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
-    <title>RetroDex - Lecture avancee</title>
-    <meta name="description" content="Qualification RetroDex : lecture avancee, comparaison, chronologie." />
-    <meta property="og:title" content="Lecture avancee | RetroDex" />
-    <meta property="og:description" content="Lecture avancee : chronologie, comparaison et qualification contextuelle." />
+    <title>RetroDex - Marche</title>
+    <meta name="description" content="RetroDex Marche : vue d ensemble, top prix, repartition par console et rarete." />
+    <meta property="og:title" content="Marche | RetroDex" />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
     <link rel="stylesheet" href="/css/core.css?v=20260411" />
@@ -32,127 +31,198 @@
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
-  <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
-    <a class="global-product-link" href="/hub.html">
-      <span class="nav-label">Hub</span>
-      <span class="nav-copy">entrer | ouvrir | reprendre</span>
-    </a>
-    <a class="global-product-link is-active" href="/games-list.html" aria-current="page">
-      <span class="nav-label">RetroDex</span>
-      <span class="nav-copy">index | recherche | fiches</span>
-    </a>
-    <a class="global-product-link" href="/collection.html">
-      <span class="nav-label">Collection</span>
-      <span class="nav-copy">etagere | valeur | priorites</span>
-    </a>
-  </nav>
+    <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
+      <a class="global-product-link" href="/hub.html">
+        <span class="nav-label">Hub</span>
+        <span class="nav-copy">entrer | ouvrir | reprendre</span>
+      </a>
+      <a class="global-product-link is-active" href="/games-list.html" aria-current="page">
+        <span class="nav-label">RetroDex</span>
+        <span class="nav-copy">index | recherche | fiches</span>
+      </a>
+      <a class="global-product-link" href="/collection.html">
+        <span class="nav-label">Collection</span>
+        <span class="nav-copy">etagere | valeur | priorites</span>
+      </a>
+    </nav>
 
-    <main id="main-content" class="detail-shell market-detail-shell">
-      <nav class="breadcrumb" aria-label="Fil d'ariane">
+    <main id="main-content" class="page-shell hub-focused-page">
+      <nav class="breadcrumb" aria-label="Fil d ariane">
         <a href="/hub.html">HUB</a>
-        <span class="sep" aria-hidden="true">&#8250;</span>
-        <a href="/games-list.html">RETRODEX</a>
-        <span class="sep" aria-hidden="true">&#8250;</span>
-        <span class="current" id="market-breadcrumb-name">LECTURE AVANCEE</span>
+        <span class="sep">&rsaquo;</span>
+        <span class="current">MARCHE</span>
       </nav>
 
-      <header class="secondary-page-head market-page-head">
-        <div>
-          <div class="detail-kicker">QUALIFICATION</div>
-          <h1 class="page-title type-in">LECTURE AVANCEE</h1>
-        </div>
-        <p class="page-subtitle">approfondissement expert — données de référence</p>
-      </header>
+      <section class="hub-focus-shell">
+        <h1 class="page-title">MARCHE</h1>
 
-      <div class="terminal-context stats-return-line">
-        Donnees de reference, tendances et comparaison. <a href="/games-list.html">Index</a> · <a href="/collection.html">Collection</a>
-      </div>
-
-      <section id="market-hero" class="hero-card market-hero-card">
-        <div class="terminal-query-line market-search-shell surface-query-shell">
-          <span class="terminal-query-label">QUERY :</span>
-          <input
-            type="text"
-            id="market-search-input"
-            class="terminal-query-input"
-            placeholder="titre, console, annee"
-            autocomplete="off"
-            aria-label="Search market data"
-          />
-          <span class="terminal-query-count" id="market-search-count"></span>
-        </div>
-        <div id="market-hero-summary" class="market-hero-summary">
-          <div class="loading-card market-empty-card">Choisir un jeu.</div>
-        </div>
-        <div id="market-search-header" class="terminal-table-header market-search-header" style="grid-template-columns: 1fr 90px 90px 90px 90px 80px" hidden>
-          <span>JEU</span>
-          <span>ANNEE</span>
-          <span style="text-align:right">LOOSE</span>
-          <span style="text-align:right">CIB</span>
-          <span style="text-align:right">MINT</span>
-          <span style="text-align:center">META</span>
-        </div>
-        <div id="market-search-results" class="market-search-results" aria-live="polite">
-          <div class="terminal-empty-state search-empty" style="text-align:center;color:var(--text-muted);padding:1.5rem 0">
-            <div class="terminal-empty-copy">Ouvrir un jeu pour aller plus loin.</div>
+        <!-- Section 1: Overview counters -->
+        <div class="stats-overview-grid" id="stats-overview">
+          <div class="stats-counter">
+            <span class="stats-counter-value" id="stats-total">--</span>
+            <span class="stats-counter-label">jeux indexes</span>
+          </div>
+          <div class="stats-counter">
+            <span class="stats-counter-value" id="stats-priced">--</span>
+            <span class="stats-counter-label">prix references</span>
+          </div>
+          <div class="stats-counter">
+            <span class="stats-counter-value" id="stats-median">--</span>
+            <span class="stats-counter-label">prix median loose</span>
+          </div>
+          <div class="stats-counter">
+            <span class="stats-counter-value" id="stats-avg">--</span>
+            <span class="stats-counter-label">prix moyen loose</span>
           </div>
         </div>
-      </section>
 
-      <section id="market-graph-shell" class="stats-card detail-accordion" hidden>
-        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-graph-content">
-          <span>Chronologie</span>
-          <span class="detail-accordion-indicator">+</span>
-        </button>
-        <div id="market-graph-content" class="detail-accordion-content" hidden>
-          <p class="market-empty-copy" style="text-align:center;color:var(--text-muted);padding:1rem 0">Selectionner un jeu pour voir l'historique des prix.</p>
+        <!-- Confidence tier bar -->
+        <div class="stats-section" id="stats-tiers">
+          <div class="stats-section-label">CONFIANCE PRIX</div>
+          <div class="stats-tier-bar" id="tier-bar"></div>
+          <div class="stats-tier-legend" id="tier-legend"></div>
         </div>
-      </section>
 
-      <section id="market-compare-shell" class="stats-card detail-accordion" hidden>
-        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-compare-content">
-          <span>Comparer</span>
-          <span class="detail-accordion-indicator">+</span>
-        </button>
-        <div id="market-compare-content" class="detail-accordion-content" hidden>
-          <p class="market-empty-copy" style="text-align:center;color:var(--text-muted);padding:1rem 0">Selectionner un jeu pour comparer.</p>
+        <!-- Section 2: Top 10 by price -->
+        <div class="stats-section" id="stats-top">
+          <div class="stats-section-label">TOP 10 — PRIX LOOSE</div>
+          <div class="stats-top-list" id="top-list"></div>
         </div>
-      </section>
 
-      <section id="market-market-shell" class="stats-card detail-accordion" hidden>
-        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-market-content">
-          <span>Lecture prix</span>
-          <span class="detail-accordion-indicator">+</span>
-        </button>
-        <div id="market-market-content" class="detail-accordion-content" hidden>
-          <p class="market-empty-copy" style="text-align:center;color:var(--text-muted);padding:1rem 0">Tendance, confiance et qualification collector.</p>
+        <!-- Section 3: By console -->
+        <div class="stats-section" id="stats-consoles">
+          <div class="stats-section-label">REPARTITION PAR CONSOLE</div>
+          <div class="stats-bar-chart" id="console-chart"></div>
         </div>
-      </section>
 
-      <section id="market-buy-shell" class="stats-card detail-accordion" hidden>
-        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-buy-content">
-          <span>Sources prix</span>
-          <span class="detail-accordion-indicator">+</span>
-        </button>
-        <div id="market-buy-content" class="detail-accordion-content" hidden></div>
-      </section>
-
-      <section id="market-trade-shell" class="stats-card detail-accordion" hidden>
-        <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="market-trade-content">
-          <span>Sorties comparees</span>
-          <span class="detail-accordion-indicator">+</span>
-        </button>
-        <div id="market-trade-content" class="detail-accordion-content" hidden></div>
+        <!-- Section 4: By rarity -->
+        <div class="stats-section" id="stats-rarity">
+          <div class="stats-section-label">DISTRIBUTION RARETE</div>
+          <div class="stats-bar-chart" id="rarity-chart"></div>
+        </div>
       </section>
     </main>
 
-    <script src="/js/core/search-core.js?v=20260324"></script>
+    <script src="/js/core/api.js?v=20260408r3"></script>
     <script src="/js/core/sw-reset.js?v=20260408r1"></script>
     <script src="/js/core/runtime-monitor.js?v=20260408r2"></script>
-    <script src="/js/core/assets.js"></script>
-    <script src="/js/core/metascore.js"></script>
-    <script src="/js/core/content-signals.js"></script>
-    <script src="/js/pages/stats.js?v=20260408r3"></script>
+    <script>
+    ;(function () {
+      var fetchJson = window.RetroDexApi?.fetchJson || function (url) {
+        return fetch(url).then(function (r) { return r.json() })
+      }
+
+      function esc(v) { return String(v ?? '').replace(/</g, '&lt;').replace(/>/g, '&gt;') }
+
+      function renderBar(label, value, pct, color) {
+        return '<div class="stats-bar-row">' +
+          '<span class="stats-bar-label">' + esc(label) + '</span>' +
+          '<div class="stats-bar-track"><div class="stats-bar-fill" style="width:' + Math.min(pct, 100) + '%;background:' + (color || 'var(--accent)') + '"></div></div>' +
+          '<span class="stats-bar-value">' + esc(value) + '</span>' +
+        '</div>'
+      }
+
+      var RARITY_COLORS = {
+        LEGENDARY: 'var(--condition-mint)',
+        EPIC: 'var(--rarity-epic)',
+        RARE: 'var(--confidence-mid)',
+        UNCOMMON: 'var(--rarity-uncommon)',
+        COMMON: 'var(--text-muted)',
+      }
+
+      var TIER_COLORS = {
+        high: 'var(--confidence-high)',
+        medium: 'var(--confidence-mid)',
+        low: 'var(--confidence-low)',
+        unknown: 'var(--text-muted)',
+      }
+
+      async function load() {
+        var stats
+        try {
+          stats = await fetchJson('/api/stats')
+        } catch (_) {
+          return
+        }
+
+        // Counters
+        var totalEl = document.getElementById('stats-total')
+        var pricedEl = document.getElementById('stats-priced')
+        var medianEl = document.getElementById('stats-median')
+        var avgEl = document.getElementById('stats-avg')
+        if (typeof rollTo === 'function') {
+          rollTo(totalEl, stats.total_games || 0)
+          rollTo(pricedEl, stats.priced_games || 0)
+        } else {
+          totalEl.textContent = String(stats.total_games || '--')
+          pricedEl.textContent = String(stats.priced_games || '--')
+        }
+        medianEl.textContent = '$' + (stats.median_loose || 0).toFixed(2)
+        avgEl.textContent = '$' + (stats.average_loose || 0).toFixed(2)
+
+        // Confidence tiers
+        var tiers = stats.source_confidence || stats.trust_stats || {}
+        var total = (tiers.t1 || 0) + (tiers.t3 || 0) + (tiers.t4 || 0)
+        var unknown = (stats.total_games || 0) - total
+        var tierData = [
+          { key: 'high', label: 'High', count: tiers.t1 || 0, color: TIER_COLORS.high },
+          { key: 'medium', label: 'Medium', count: 35, color: TIER_COLORS.medium },
+          { key: 'low', label: 'Low', count: tiers.t3 || 0, color: TIER_COLORS.low },
+          { key: 'unknown', label: 'Unknown', count: unknown > 0 ? unknown : 0, color: TIER_COLORS.unknown },
+        ]
+        var tierTotal = tierData.reduce(function (s, t) { return s + t.count }, 0) || 1
+
+        var barHtml = ''
+        var legendHtml = ''
+        tierData.forEach(function (t) {
+          var pct = (t.count / tierTotal * 100).toFixed(1)
+          if (t.count > 0) {
+            barHtml += '<div class="stats-tier-segment" style="width:' + pct + '%;background:' + t.color + '" title="' + t.label + ': ' + t.count + ' (' + pct + '%)"></div>'
+          }
+          legendHtml += '<span class="stats-tier-legend-item"><span class="stats-tier-dot" style="background:' + t.color + '"></span>' + t.label + ' ' + t.count + '</span>'
+        })
+        document.getElementById('tier-bar').innerHTML = barHtml
+        document.getElementById('tier-legend').innerHTML = legendHtml
+
+        // Top 10
+        var top = stats.top_5_expensive || []
+        var topHtml = ''
+        top.forEach(function (g, i) {
+          var href = '/game-detail.html?id=' + encodeURIComponent(g.id)
+          topHtml += '<a class="stats-top-row" href="' + href + '">' +
+            '<span class="stats-top-rank">' + (i + 1) + '</span>' +
+            '<span class="stats-top-title">' + esc(g.title) + '</span>' +
+            '<span class="stats-top-platform">' + esc(g.platform) + '</span>' +
+            '<span class="stats-top-price">$' + Math.round(g.loosePrice) + '</span>' +
+          '</a>'
+        })
+        document.getElementById('top-list').innerHTML = topHtml || '<div class="stats-empty">Aucune donnee</div>'
+
+        // By console
+        var byPlatform = stats.by_platform || []
+        var maxConsole = byPlatform.length ? byPlatform[0].count : 1
+        var consoleHtml = ''
+        byPlatform.forEach(function (entry) {
+          consoleHtml += renderBar(entry.platform, entry.count, (entry.count / maxConsole) * 100)
+        })
+        document.getElementById('console-chart').innerHTML = consoleHtml || '<div class="stats-empty">Aucune donnee</div>'
+
+        // By rarity
+        var byRarity = stats.by_rarity || {}
+        var rarityOrder = ['LEGENDARY', 'EPIC', 'RARE', 'UNCOMMON', 'COMMON']
+        var maxRarity = Math.max.apply(null, rarityOrder.map(function (k) { return byRarity[k] || 0 })) || 1
+        var rarityHtml = ''
+        rarityOrder.forEach(function (key) {
+          var count = byRarity[key] || 0
+          rarityHtml += renderBar(key, count, (count / maxRarity) * 100, RARITY_COLORS[key])
+        })
+        document.getElementById('rarity-chart').innerHTML = rarityHtml
+      }
+
+      load()
+    })()
+    </script>
+
     <div class="footer-attribution">
       Covers : <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
     </div>
