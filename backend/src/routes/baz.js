@@ -12,6 +12,35 @@ const { db, mode } = require('../../db_supabase')
 
 const router = Router()
 
+// ── GET /api/baz/titles — lightweight title list for BAZ game matching ──
+
+let _titlesCache = { data: null, ts: 0 }
+const TITLES_TTL = 10 * 60 * 1000 // 10 min
+
+router.get('/api/baz/titles', handleAsync(async (_req, res) => {
+  const now = Date.now()
+  if (_titlesCache.data && (now - _titlesCache.ts) < TITLES_TTL) {
+    setPublicEdgeCache(res, { cdnMaxAge: 300, staleWhileRevalidate: 600 })
+    return res.json(_titlesCache.data)
+  }
+
+  if (mode !== 'supabase') return res.json([])
+
+  const { data, error } = await db
+    .from('games')
+    .select('id,title,slug')
+    .eq('type', 'game')
+    .order('title')
+
+  if (error) return res.status(500).json({ error: error.message })
+
+  const titles = (data || []).map(g => ({ id: g.id, title: g.title, slug: g.slug }))
+  _titlesCache = { data: titles, ts: now }
+
+  setPublicEdgeCache(res, { cdnMaxAge: 300, staleWhileRevalidate: 600 })
+  return res.json(titles)
+}))
+
 // ── GET /api/baz/context/collection — collection stats for BAZ templates ──
 // NOTE: must be registered BEFORE the :gameId param route
 

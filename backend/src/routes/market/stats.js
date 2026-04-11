@@ -11,9 +11,21 @@ const {
 
 const router = Router()
 
+let _statsCache = { data: null, ts: 0 }
+const STATS_TTL = 5 * 60 * 1000 // 5 min
+
 router.get('/api/stats', handleAsync(async (_req, res) => {
+  const now = Date.now()
+  if (_statsCache.data && (now - _statsCache.ts) < STATS_TTL) {
+    setPublicEdgeCache(res, { cdnMaxAge: 120, staleWhileRevalidate: 300 })
+    return res.json(_statsCache.data)
+  }
+
+  const payload = await fetchStatsPayload()
+  _statsCache = { data: payload, ts: now }
+
   setPublicEdgeCache(res, { cdnMaxAge: 120, staleWhileRevalidate: 300 })
-  return res.json(await fetchStatsPayload())
+  return res.json(payload)
 }))
 
 module.exports = router

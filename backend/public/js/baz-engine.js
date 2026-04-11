@@ -262,19 +262,16 @@
     }
     if (gameCache.loading) return gameCache.loading
 
-    gameCache.loading = window.RetroDexApi.fetchJson('/api/games?limit=600')
+    gameCache.loading = window.RetroDexApi.fetchJson('/api/baz/titles')
       .then(function (payload) {
-        var items = Array.isArray(payload) ? payload
-          : Array.isArray(payload.items) ? payload.items
-          : Array.isArray(payload.games) ? payload.games
-          : []
+        var items = Array.isArray(payload) ? payload : []
         var map = new Map()
         items.forEach(function (g) {
           if (g && g.title) {
             map.set(g.title.toLowerCase(), {
               id: g.id,
               title: g.title,
-              console_name: g.console_name || g.consoleName || '',
+              console_name: '',
             })
           }
         })
