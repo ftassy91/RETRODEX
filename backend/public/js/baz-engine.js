@@ -159,11 +159,11 @@
       'Ne le cherche pas. Il te trouvera quand il estimera que tu es pret.',
     ],
     unknown: [
-      'Hmm. Pas compris. Essaie autrement.',
-      'Je n\'ai pas de reponse pour ca. Essaie un nom de jeu ou /help.',
-      'Ca depasse mes competences. Et elles sont limitees.',
-      'Reformule. Ou tape /help.',
-      'Signal non reconnu. Tape /help pour voir ce que je sais faire.',
+      'Hmm. Reformule. Je suis bon sur les prix, les secrets et les consoles.',
+      'Pas compris. Essaie un nom de jeu, un prix, ou /help.',
+      'Ca depasse mon perimetre. Jeux, prix, collection — c\'est mon terrain.',
+      'Reformule. Ou tape un titre de jeu.',
+      'Hmm. Prix, rarete, collection, anecdotes. Le reste, c\'est pas mon rayon.',
     ],
 
     // ── Easter eggs ──
@@ -479,6 +479,37 @@
     create: bazMemoryCreate
   }
 
+  // ── Conversation Buffer + State Machine ──────────────────────
+
+  function getConvBuffer() {
+    try { return JSON.parse(sessionStorage.getItem('rdx-conv-buffer') || '[]') } catch (_) { return [] }
+  }
+
+  function pushConvBuffer(role, text) {
+    try {
+      var buf = getConvBuffer()
+      buf.push({ role: role, text: text, ts: Date.now(), page: location.pathname })
+      if (buf.length > 8) buf = buf.slice(-8)
+      sessionStorage.setItem('rdx-conv-buffer', JSON.stringify(buf))
+    } catch (_) {}
+  }
+
+  function getConvState() {
+    return sessionStorage.getItem('rdx-conv-state') || 'idle'
+  }
+
+  function setConvState(state) {
+    sessionStorage.setItem('rdx-conv-state', state)
+  }
+
+  function isContinuation(text) {
+    var lower = (text || '').toLowerCase().trim()
+    return /^(en plus|autre chose|quoi d.autre|continue|encore|et\s*\?|c.est tout|next)/.test(lower)
+  }
+
+  // Active persona detection
+  window.RDX_ACTIVE_PERSONA = location.pathname.includes('collection') ? 'erudit' : 'baz'
+
   // ── Anti-repetition + Session Memory ───────────────────────
 
   var lastReplies = {}
@@ -789,8 +820,16 @@
           response.duration = 6000
         }
 
-        // Save to session memory
+        // Save to session memory + conversation buffer
         saveToMemory(userText, response.text, parsed.intent)
+        pushConvBuffer('user', userText)
+        pushConvBuffer(window.RDX_ACTIVE_PERSONA || 'baz', response.text)
+
+        // Update conversation state
+        var state = getConvState()
+        if (state === 'idle') setConvState('greet')
+        else if (parsed.intent !== 'unknown') setConvState('topic')
+        if (isContinuation(userText)) setConvState('deep')
 
         // NOTE: do NOT call BAZ.say() here — the caller is responsible for display.
         return response
