@@ -87,25 +87,30 @@ Every plan or report must include:
 - BigBlueTerminal + DepartureMono fonts
 - Quiet Phosphor design system (zones: green default, cyan collection, amber qualification, gray hub)
 
-### Key Context (updated 2026-04-11)
-- 1,509 games cataloged across 25 consoles
-- 15,579 price entries from 3 sources (PriceCharting + Yahoo Auctions JP + eBay via Playwright)
-- eBay records: 250 (185 new via batch scraping)
+### Key Context (updated 2026-04-11, audit CTRL-03 PASS)
+- 1,509 games cataloged across 25 consoles (19 platforms)
+- 15,579 price entries from 3 sources (PriceCharting + Yahoo Auctions JP + eBay)
+- eBay records: 250 (185 new via batch scraping, parallel Playwright)
 - Confidence tiers: 1 high, 35 medium, 986 low, 487 unknown
-- 161 BAZ anecdotes for ~100 games (113 new via LOT-ENRICH-02)
-- Cover URLs: 1,459/1,509 (97% coverage, 50 missing — IGDB hash not guessable)
+- 161 BAZ anecdotes for ~100 games (contextual codec on game-detail)
+- Cover URLs: 1,459/1,509 (97% coverage)
 - 33 Supabase tables, all RLS-enabled, 0 health flags
-- Design system: 45 CSS variables in :root, region tokens in zones.css
-- CSS architecture: core.css (131L) + components.css (13890L) + zones.css (260L) + codec.css (929L) + effects.css (52L)
-- Cron pipeline: /api/cron/snapshot (03:00 UTC) + /api/cron/tiers (04:00 UTC)
-- Smoke tests: 17 endpoints
-- Backfill script: catalog-aware floor, never-downgrade, date fix (LOT-FIX-12)
+- CSS architecture: core.css (131L) + components.css (14,545L) + effects.css (166L) + zones.css (643L) + codec.css (928L) = 16,413 total
+- Smoke tests: 17/17 PASS
+- Nav unified: 16/16 HTML files, canonical 3-tab (Hub/RetroDex/Collection)
+- Responsive: 480px breakpoint covers all pages (nav 3-col, cards stack, table scroll)
+- Skeleton loading: hub (3 cards) + index (5 rows)
+- Micro-animations: hover feedback, button press, smooth scroll, page fade-in
+- Boot screen: terminal sequence on hub (first visit per session)
+- BAZ contextual: anecdote > price > metascore > silence (per game, once)
+- Stats dashboard: 4 sections (overview, top 10, consoles, rarity)
+- Consoles page: aligned with Quiet Phosphor (was: amber old style)
+- Game-detail: decision panel visual hierarchy (price 1.6rem > context > collection)
+- Backfill script: catalog-aware floor, never-downgrade, date fix
 - Batch eBay: parallel scraping (--concurrency), Windows scheduled task, JSON ingestion
-- backend/.env present locally (gitignored) with Supabase pooler credentials
-- 5 collection items qualified, 0 duplicates, 1 sell signal active
-- Collection: canonical schema, CSV import, region CHECK constraint (PAL/NTSC-U/NTSC-J/NTSC-B/MULTI)
 - Pipeline: batch-ebay-fetch.js → ingest-ebay-json.js → backfill-confidence-from-history.js
-- Market connectors: Yahoo Auctions JP (live), eBay (Playwright headless), others (fixture-only)
+- backend/.env present locally (gitignored) with Supabase pooler credentials
+- 38 commits this mega-session
 
 ### Vision A (COMPLETE) + Vision A v2 (2/3)
 - Action 1: collection_snapshots + capture script + SVG evolution chart
