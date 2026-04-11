@@ -249,7 +249,7 @@ function buildGameCardMeta(consoleName, year) {
 function buildGameCardCoverHtml(game) {
   const coverImage = String(game?.coverImage || game?.cover_url || '').trim()
   if (coverImage) {
-    return `<img src="${escapeHtml(coverImage)}" alt="" class="game-card-cover" width="48" height="48" loading="lazy" />`
+    return `<img src="${escapeHtml(coverImage)}" alt="${escapeHtml(game?.title || 'Game')} cover" class="game-card-cover" width="48" height="48" loading="lazy" />`
   }
 
   const initial = String(game?.title || '?').trim().charAt(0).toUpperCase() || '?'
@@ -532,7 +532,7 @@ function renderHeroSection(game) {
           <div class="game-header-main">
             <div class="game-cover-slot">
               <div class="game-cover-container">
-                <img id="game-cover-img" src="" alt="${escapeHtml(game.title || '')}" width="220" height="290" />
+                <img id="game-cover-img" src="" alt="${escapeHtml(game.title || 'Game')} cover" width="220" height="290" />
               </div>
             </div>
 
@@ -3830,7 +3830,7 @@ async function loadPage() {
 
     const coverImgEl = document.getElementById('game-cover-img')
     if (coverImgEl) {
-      coverImgEl.alt = currentGame.title || ''
+      coverImgEl.alt = (currentGame.title || 'Game') + ' cover'
       const coverUrl = currentGame.coverImage || currentGame.cover_url || ''
       const fallbackCover = coverUrl
         || generateCoverPlaceholder(currentGame.title, currentGame.rarity, currentGame.consoleData?.name || currentGame.console)

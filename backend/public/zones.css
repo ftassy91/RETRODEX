@@ -611,3 +611,11 @@ div[hidden] {
   border-color: var(--accent);
   color: var(--text-secondary);
 }
+
+/* ============================================================
+   MOBILE FILTER SIDEBAR — Collapse filters behind toggle
+   ============================================================ */
+@media (max-width: 768px) {
+  .filters-sidebar-content { display: none; }
+  .filters-sidebar-content.is-open { display: block; }
+}
