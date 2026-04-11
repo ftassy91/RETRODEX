@@ -6,17 +6,21 @@
  *
  * Usage:
  *   node backend/scripts/market/batch-ebay-fetch.js --limit=5
- *   node backend/scripts/market/batch-ebay-fetch.js --limit=20 --output=ebay-batch.json
- *   node backend/scripts/market/batch-ebay-fetch.js --console="Super Nintendo" --limit=10
- *   node backend/scripts/market/batch-ebay-fetch.js --console="NES" --tier=unknown --limit=20
+ *   node backend/scripts/market/batch-ebay-fetch.js --console="Super Nintendo" --limit=100 --concurrency=5
+ *   node backend/scripts/market/batch-ebay-fetch.js --console="NES" --tier=unknown --limit=20 --dry-run
  *
  * Options:
- *   --console=NAME   Fetch games for this console from Supabase (unknown tier first)
- *   --tier=TIER      Filter by confidence tier (default: unknown, then low)
- *   --limit=N        Max games to fetch (default: 5, max: 20)
- *   --records=N      Max eBay records per game (default: 5)
- *   --output=FILE    Write results to JSON file
- *   --dry-run        Show targets without fetching eBay
+ *   --console=NAME     Fetch games for this console from Supabase (unknown tier first)
+ *   --tier=TIER        Filter by confidence tier (default: unknown, then low)
+ *   --limit=N          Max games to fetch (default: 5)
+ *   --records=N        Max eBay records per game (default: 5)
+ *   --concurrency=N    Parallel tabs (default: 1, max: 10)
+ *   --output=FILE      Write results to JSON file
+ *   --dry-run          Show targets without fetching eBay
+ *
+ * Stop mechanism:
+ *   Create .stop-batch file in this directory to request graceful stop.
+ *   The current chunk finishes, results are saved, then exit.
  */
 
 const path = require('path')
@@ -24,6 +28,8 @@ const fs = require('fs')
 require('dotenv').config({ path: path.join(__dirname, '..', '..', '.env') })
 const ebay = require('../../src/services/market/connectors/ebay')
 const { closeBrowser } = require('../../src/services/market/connectors/playwright-support')
+
+const STOP_FILE = path.join(__dirname, '.stop-batch')
 
 function parseArgs(argv) {
   return argv.reduce((acc, token) => {
@@ -33,6 +39,18 @@ function parseArgs(argv) {
     if (key) acc[key] = value
     return acc
   }, {})
+}
+
+function shouldStop() {
+  return fs.existsSync(STOP_FILE)
+}
+
+function clearStopFile() {
+  try { fs.unlinkSync(STOP_FILE) } catch (_) {}
+}
+
+function randomDelay(minMs, maxMs) {
+  return new Promise(resolve => setTimeout(resolve, minMs + Math.random() * (maxMs - minMs)))
 }
 
 // Fallback targets when no --console is provided
@@ -67,7 +85,6 @@ async function fetchTargetsFromSupabase(consoleName, tier, limit) {
   })
   await client.connect()
 
-  // Fetch unknown-tier games first, then low-tier
   const tiers = tier ? [tier] : ['unknown', 'low']
   const targets = []
 
@@ -89,18 +106,36 @@ async function fetchTargetsFromSupabase(consoleName, tier, limit) {
   return targets
 }
 
+async function fetchOneGame(target, recordsPerGame) {
+  const query = `${target.title} ${target.platform}`
+  try {
+    const records = await ebay.fetchSoldRecords(
+      { ...target, query },
+      { limit: recordsPerGame }
+    )
+    records.forEach(r => { r.seed_game_id = target.id })
+    return { target, records, error: null }
+  } catch (err) {
+    return { target, records: [], error: err.message }
+  }
+}
+
 async function run() {
   const args = parseArgs(process.argv.slice(2))
-  const limit = Math.min(Number(args.limit || 5), 20)
+  const limit = Number(args.limit || 5)
   const outputFile = args.output || null
   const recordsPerGame = Number(args.records || 5)
+  const concurrency = Math.min(Math.max(Number(args.concurrency || 1), 1), 10)
   const consoleName = args.console || null
   const tier = args.tier || null
   const dryRun = Boolean(args['dry-run'])
 
+  // Clear leftover stop file
+  clearStopFile()
+
   let targets
   if (consoleName) {
-    console.log(`\n  Loading ${consoleName} games from Supabase (tier: ${tier || 'unknown→low'})...`)
+    console.log(`\n  Loading ${consoleName} games from Supabase (tier: ${tier || 'unknown->low'})...`)
     targets = await fetchTargetsFromSupabase(consoleName, tier, limit)
     console.log(`  Found ${targets.length} games`)
   } else {
@@ -108,7 +143,7 @@ async function run() {
   }
 
   console.log(`\n  EBAY BATCH FETCH${dryRun ? ' (DRY-RUN)' : ''}`)
-  console.log(`  Games: ${targets.length} | Records/game: ${recordsPerGame}\n`)
+  console.log(`  Games: ${targets.length} | Records/game: ${recordsPerGame} | Concurrency: ${concurrency}\n`)
 
   if (dryRun) {
     targets.forEach((t, i) => console.log(`  [${i + 1}] ${t.title} (${t.platform}) — ${t.id}`))
@@ -116,37 +151,74 @@ async function run() {
     return
   }
 
+  const startTime = Date.now()
   const allRecords = []
   let totalFetched = 0
+  let gamesProcessed = 0
+  let stopped = false
 
-  for (let i = 0; i < targets.length; i++) {
-    const target = targets[i]
-    const query = `${target.title} ${target.platform}`
-    console.log(`  [${i + 1}/${targets.length}] ${target.title} (${target.platform})`)
-
-    try {
-      const records = await ebay.fetchSoldRecords(
-        { ...target, query },
-        { limit: recordsPerGame }
-      )
-
-      console.log(`    → ${records.length} records`)
-      records.forEach((r) => {
-        r.seed_game_id = target.id
-        allRecords.push(r)
-      })
-      totalFetched += records.length
-    } catch (err) {
-      console.log(`    → ERROR: ${err.message}`)
+  // Process in chunks of concurrency size
+  for (let chunkStart = 0; chunkStart < targets.length; chunkStart += concurrency) {
+    // Check stop file before each chunk
+    if (shouldStop()) {
+      console.log(`\n  STOP requested by operator (.stop-batch detected)`)
+      stopped = true
+      clearStopFile()
+      break
     }
 
-    // Brief pause between games to avoid rate limiting
-    if (i < targets.length - 1) {
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+    const chunk = targets.slice(chunkStart, chunkStart + concurrency)
+    const chunkLabel = `[${chunkStart + 1}-${chunkStart + chunk.length}/${targets.length}]`
+
+    if (concurrency === 1) {
+      // Sequential mode
+      for (const target of chunk) {
+        gamesProcessed++
+        console.log(`  [${gamesProcessed}/${targets.length}] ${target.title} (${target.platform})`)
+        const result = await fetchOneGame(target, recordsPerGame)
+        if (result.error) {
+          console.log(`    -> ERROR: ${result.error}`)
+        } else {
+          console.log(`    -> ${result.records.length} records`)
+          allRecords.push(...result.records)
+          totalFetched += result.records.length
+        }
+      }
+    } else {
+      // Parallel mode
+      console.log(`  ${chunkLabel} fetching ${chunk.length} games in parallel...`)
+      const results = await Promise.allSettled(
+        chunk.map(target => fetchOneGame(target, recordsPerGame))
+      )
+
+      for (const settled of results) {
+        gamesProcessed++
+        if (settled.status === 'rejected') {
+          console.log(`    -> REJECTED: ${settled.reason}`)
+          continue
+        }
+        const { target, records, error } = settled.value
+        if (error) {
+          console.log(`    ${target.title} -> ERROR: ${error}`)
+        } else {
+          console.log(`    ${target.title} -> ${records.length} records`)
+          allRecords.push(...records)
+          totalFetched += records.length
+        }
+      }
+    }
+
+    // Random delay between chunks (not after last chunk)
+    if (chunkStart + concurrency < targets.length && !stopped) {
+      await randomDelay(1000, 3000)
     }
   }
 
-  console.log(`\n  Total: ${totalFetched} records from ${targets.length} games`)
+  const elapsed = ((Date.now() - startTime) / 1000).toFixed(1)
+  const avgPerGame = gamesProcessed > 0 ? ((Date.now() - startTime) / 1000 / gamesProcessed).toFixed(1) : 0
+  console.log(`\n  Total: ${totalFetched} records from ${gamesProcessed} games`)
+  console.log(`  Time: ${elapsed}s total | ${avgPerGame}s/game avg`)
+  if (stopped) console.log(`  (Stopped early by operator)`)
 
   // Output
   const output = allRecords.map((r) => ({
@@ -164,7 +236,7 @@ async function run() {
   if (outputFile) {
     fs.writeFileSync(path.resolve(outputFile), JSON.stringify(output, null, 2))
     console.log(`  Written to: ${outputFile}`)
-  } else {
+  } else if (output.length > 0) {
     console.log('\n  Sample output (first 5):')
     output.slice(0, 5).forEach((r) => {
       console.log(`    ${r.game_id} | ${(r.title_raw || '').substring(0, 50)} | $${r.price_original} | ${(r.sold_at || '').substring(0, 10)}`)
