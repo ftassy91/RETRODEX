@@ -12702,7 +12702,11 @@ a.hub-rich-card:focus-visible {
 
 @media (max-width: 760px) {
   .global-product-nav.global-product-nav-unified {
-    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .global-product-nav.global-product-nav-unified .global-product-link {
+    min-height: 48px;
+    padding: 8px 10px;
   }
 
   .hub-search-form {
@@ -14370,5 +14374,138 @@ a.hub-rich-card:nth-child(3) { animation-delay: 0.39s; }
   .terminal-filter-btn, .tab-btn {
     padding-left: 12px;
     padding-right: 12px;
+  }
+}
+
+/* ─── Mobile 375px fixes ─── */
+
+@media (max-width: 480px) {
+  /* Nav: keep 3 tabs on 1 row, compact */
+  .global-product-nav.global-product-nav-unified {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+  .global-product-nav.global-product-nav-unified .global-product-link {
+    min-height: 40px;
+    padding: 8px 6px;
+  }
+  .global-product-nav.global-product-nav-unified .nav-label {
+    font-size: 0.68rem;
+  }
+  .global-product-nav.global-product-nav-unified .nav-copy {
+    display: none;
+  }
+
+  /* Page shell: tighter padding */
+  body {
+    padding: 10px 8px;
+  }
+  .hub-focused-page {
+    width: calc(100% - 8px);
+  }
+  .hub-focus-shell {
+    padding: 14px 12px;
+  }
+
+  /* Hub: nav cards stack */
+  .hub-nav-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .hub-nav-card {
+    padding: 12px;
+  }
+
+  /* Hub: game cards vertical */
+  .hub-intent-grid-three {
+    grid-template-columns: 1fr;
+  }
+  a.hub-rich-card {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 10px;
+  }
+  .hub-card-cover {
+    height: 80px;
+    max-width: 60px;
+  }
+
+  /* Index: result rows compact */
+  .result-row.result-row-catalog {
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 8px 10px;
+  }
+  .result-cover,
+  .result-cover-placeholder {
+    width: 36px;
+    height: 48px;
+  }
+  .result-row.result-row-catalog .result-title {
+    font-size: 0.68rem;
+  }
+  .result-rarity {
+    font-size: 0.58rem;
+  }
+
+  /* Collection: summary bar 2 columns */
+  .collection-summary-hero {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Collection: signal cards 2 columns */
+  .cockpit-signals-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Collection: table horizontal scroll */
+  .collection-cockpit-main {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Collection: toolbar wrap */
+  .collection-toolbar-group {
+    flex-wrap: wrap;
+  }
+  .collection-toolbar-input,
+  .collection-toolbar-select {
+    min-width: 0;
+    flex: 1 1 120px;
+  }
+
+  /* Stats: counters 2 columns */
+  .stats-overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .stats-bar-row {
+    grid-template-columns: 80px 1fr 40px;
+  }
+  .stats-top-row {
+    grid-template-columns: 20px 1fr 60px;
+  }
+  .stats-top-platform {
+    display: none;
+  }
+
+  /* Consoles: single column */
+  .consoles-layout {
+    grid-template-columns: 1fr;
+  }
+  .consoles-sidebar {
+    max-height: 35vh;
+  }
+
+  /* Breadcrumb: smaller */
+  .breadcrumb {
+    font-size: 0.6rem;
+  }
+
+  /* Boot screen: smaller text */
+  .boot-log {
+    font-size: 11px;
+    padding: 12px;
   }
 }
