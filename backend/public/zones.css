@@ -432,6 +432,14 @@ div[hidden] {
   --text-muted: #7a7a7a;
 }
 
+/* FIX: Collection table grid — moved from inline to CSS */
+.collection-table-header {
+  grid-template-columns: 12px 1fr 90px 60px 70px 70px 70px 70px 70px;
+}
+.collection-row-main {
+  grid-template-columns: 12px 1fr 90px 60px 70px 70px 70px 70px 70px;
+}
+
 /* FIX: Touch targets minimum 44px on mobile */
 @media (max-width: 768px) {
   .terminal-filter-btn {
@@ -453,6 +461,22 @@ div[hidden] {
   }
   /* FIX: Hide keyboard hints on mobile */
   .terminal-footer {
+    display: none;
+  }
+  /* FIX: Collection table responsive — hide secondary columns */
+  .collection-table-header,
+  .collection-row-main {
+    grid-template-columns: 12px 1fr 60px 70px 70px;
+  }
+  /* Hide CIB, MINT, SUPPORT columns on mobile */
+  .collection-table-header [role="columnheader"]:nth-child(3),
+  .collection-table-header [role="columnheader"]:nth-child(6),
+  .collection-table-header [role="columnheader"]:nth-child(7) {
+    display: none;
+  }
+  .collection-cell-console,
+  .collection-cell-price:nth-of-type(2),
+  .collection-cell-price:nth-of-type(3) {
     display: none;
   }
 }
