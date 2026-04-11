@@ -105,9 +105,9 @@ Every plan or report must include:
 - Backfill script: catalog-aware floor, never-downgrade, date fix (LOT-FIX-12)
 - backend/.env present locally (gitignored) with Supabase pooler credentials
 - 5 collection items qualified, 0 duplicates, 1 sell signal active
-- 291 anecdotes BAZ pour 230 jeux
+- 459 anecdotes BAZ pour 272 jeux (+168 cette session)
 - 1,113 jeux avec lien Archive.org (74% du catalogue)
-- Editorial enrichi : 44 cheat codes, 38 speedrun WR, 135 updates (dev_team, ost_composers, characters)
+- Editorial : 44 cheat codes, 38 speedrun WR, 135 updates (dev_team, ost_composers, characters)
 - 97% couverture covers IGDB (50 manquantes non resolvables)
 - UX score: 5.4 → 9.0
 
