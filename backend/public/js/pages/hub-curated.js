@@ -3,13 +3,9 @@
 ;(() => {
   const runtimeMonitor = window.RetroDexRuntimeMonitor?.createPageMonitor?.('hub')
   const bannerEl = document.getElementById('hub-curation-banner')
-  const publishedEl = document.getElementById('hub-stat-published')
-  const totalEl = document.getElementById('hub-stat-total')
-  const synopsisEl = document.getElementById('hub-stat-synopsis')
-  const consolesEl = document.getElementById('hub-stat-consoles')
-  const publicationSignalEl = document.getElementById('hub-system-publication')
-  const editorialSignalEl = document.getElementById('hub-system-editorial')
-  const archiveSignalEl = document.getElementById('hub-system-archive')
+  const navGamesEl = document.getElementById('hub-nav-games')
+  const navCollectionEl = document.getElementById('hub-nav-collection')
+  const navPricesEl = document.getElementById('hub-nav-prices')
   const richGridEl = document.getElementById('hub-rich-grid')
   const esc = window.RetroDexFormat?.escapeHtml || ((value) => String(value ?? ''))
   const buildRichness = window.RetroDexContentSignals?.buildRichness
@@ -126,7 +122,7 @@
   async function loadHub() {
     const slowTimer = window.setTimeout(() => {
       if (bannerEl) {
-        bannerEl.textContent = 'Chargement lent | signaux RetroDex en cours de lecture'
+        bannerEl.textContent = 'Chargement lent | signaux en cours de lecture'
       }
       runtimeMonitor?.mark('slow-load')
     }, 4500)
@@ -153,26 +149,22 @@
 
       const published = Number(publication.publishedGamesCount || 0)
       const total = Number(publication.catalogGamesCount || statsPayload.total_games || 0)
-      const consoles = Number(publication.consoleCount || 0)
-      const withSynopsis = Number(statsPayload?.with_synopsis || 0)
+      const priced = Number(statsPayload.priced_games || 0)
 
-      bannerEl.textContent = `${published || '--'} fiches pretes | ${withSynopsis || '--'} lectures visibles | ${consoles || '--'} supports`
+      // Populate nav card counters
       if (typeof rollTo === 'function') {
-        rollTo(publishedEl, published || '--')
-        rollTo(totalEl, total || '--')
-        rollTo(synopsisEl, withSynopsis || '--')
-        rollTo(consolesEl, consoles || '--')
+        rollTo(navGamesEl, total || '--')
+        rollTo(navCollectionEl, published || '--')
+        rollTo(navPricesEl, priced || '--')
       } else {
-        setText(publishedEl, String(published || '--'))
-        setText(totalEl, String(total || '--'))
-        setText(synopsisEl, String(withSynopsis || '--'))
-        setText(consolesEl, String(consoles || '--'))
+        setText(navGamesEl, String(total || '--'))
+        setText(navCollectionEl, String(published || '--'))
+        setText(navPricesEl, String(priced || '--'))
       }
-      // Mark counters as loaded (stops pulse animation)
-      ;[publishedEl, totalEl, synopsisEl, consolesEl].forEach(function (el) { if (el) el.classList.add('is-loaded') })
-      setText(publicationSignalEl, published ? `${published} fiches pretes` : 'catalogue partiel')
-      setText(editorialSignalEl, withSynopsis ? `${withSynopsis} lectures visibles` : 'lecture partielle')
-      setText(archiveSignalEl, strongPages.length ? `${strongPages.length} fiches a ouvrir` : 'selection indisponible')
+      ;[navGamesEl, navCollectionEl, navPricesEl].forEach(function (el) { if (el) el.classList.add('is-loaded') })
+
+      // Update banner
+      bannerEl.textContent = `${total || '--'} jeux | ${published || '--'} fiches pretes | ${priced || '--'} prix`
 
       if (!richGridEl) {
         return
@@ -189,10 +181,7 @@
         published,
       })
     } catch (_error) {
-      bannerEl.textContent = 'RetroDex | lecture, qualification, valeur'
-      setText(publicationSignalEl, 'indisponible')
-      setText(editorialSignalEl, 'indisponible')
-      setText(archiveSignalEl, 'indisponible')
+      bannerEl.textContent = 'RetroDex'
       renderState('Signaux indisponibles', 'Impossible de charger les fiches a ouvrir pour cette session.')
       runtimeMonitor?.fail(_error)
     } finally {

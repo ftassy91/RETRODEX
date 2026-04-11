@@ -11,22 +11,22 @@
   <link rel="apple-touch-icon" href="/icons/icon-192.png">
   <link rel="icon" type="image/png" href="/icons/icon-192.png">
   <title>RetroDex - Hub</title>
-  <meta name="description" content="RetroDex : inspecter un jeu, qualifier une entree, mesurer la valeur, decider quoi faire, faire evoluer la collection.">
+  <meta name="description" content="RetroDex : catalogue, collection et marche retro en un seul systeme.">
   <meta property="og:title" content="Hub | RetroDex">
-  <meta property="og:description" content="RetroDex : inspecter un jeu, qualifier une entree, mesurer la valeur, decider quoi faire, faire evoluer la collection.">
+  <meta property="og:description" content="RetroDex : catalogue, collection et marche retro en un seul systeme.">
   <meta property="og:type" content="website">
   <meta name="robots" content="index, follow">
   <link rel="stylesheet" href="/style.css?v=20260411">
   <link rel="stylesheet" href="/zones.css">
   <link rel="stylesheet" href="/codec.css" />
-    <script src="/js/animations.js"></script>
+  <script src="/js/animations.js"></script>
   <script src="/js/codec.js" defer></script>
-    <script src="/js/baz-router.js" defer></script>
-    <script src="/js/search-detect.js" defer></script>
-    <script src="/js/glossary.js" defer></script>
-    <script src="/js/baz-kb.js" defer></script>
-    <script src="/js/baz-gen.js" defer></script>
-    <script src="/js/baz-engine.js" defer></script>
+  <script src="/js/baz-router.js" defer></script>
+  <script src="/js/search-detect.js" defer></script>
+  <script src="/js/glossary.js" defer></script>
+  <script src="/js/baz-kb.js" defer></script>
+  <script src="/js/baz-gen.js" defer></script>
+  <script src="/js/baz-engine.js" defer></script>
 </head>
 <body class="hub-page hub-orientation-page">
   <a href="#main-content" class="skip-link">Skip to content</a>
@@ -46,6 +46,7 @@
   </nav>
 
   <main id="main-content" class="page-shell hub-page hub-orientation-page hub-focused-page">
+    <h1 class="sr-only">RetroDex — Hub</h1>
     <nav class="breadcrumb hub-breadcrumb" aria-label="Fil d ariane">
       <span class="section">HUB</span>
       <span class="sep">&rsaquo;</span>
@@ -53,30 +54,7 @@
     </nav>
 
     <section class="hub-focus-shell hub-os-shell">
-      <div class="hub-system-line loading-dots" id="hub-curation-banner">Chargement</div>
-
-      <div class="hub-focus-head hub-focus-head-os">
-        <div>
-          <div class="hub-kicker">RETRODEX</div>
-          <h1 class="hub-page-title type-in">RETRODEX</h1>
-          <p class="hub-system-tagline">INSPECTE · QUALIFIE · MESURE · DECIDE · EVOLUE</p>
-        </div>
-        <p class="hub-intro hub-intro-os">
-          Un systeme de lecture et de pilotage pour comprendre un jeu, qualifier une entree, mesurer sa valeur et decider quoi faire ensuite.
-        </p>
-      </div>
-
-      <div class="hub-system-loop" aria-label="Boucle operatoire RetroDex">
-        <span class="surface-chip is-primary">Inspecter</span>
-        <span class="surface-chip">Qualifier</span>
-        <span class="surface-chip">Mesurer</span>
-        <span class="surface-chip">Decider</span>
-        <span class="surface-chip">Faire evoluer</span>
-      </div>
-
-      <div class="hub-system-scenario terminal-context">
-        ouvrir un jeu -> voir la valeur -> qualifier l entree -> decider quoi faire
-      </div>
+      <div class="hub-system-line" id="hub-curation-banner">RetroDex</div>
 
       <form class="hub-search-form" action="/search.html" method="get">
         <input
@@ -93,108 +71,41 @@
         <button class="hub-search-button" type="submit">CHERCHER</button>
       </form>
 
-      <div class="hub-system-actions-stack">
-        <button id="hub-random-btn" class="hub-random-button" type="button" aria-label="Ouvrir une fiche au hasard">OUVRIR UNE FICHE &rarr;</button>
+      <div class="hub-nav-grid" aria-label="Navigation principale">
+        <a href="/games-list.html" class="hub-nav-card">
+          <span class="hub-nav-label">RetroDex</span>
+          <span class="hub-nav-counter" id="hub-nav-games">--</span>
+          <span class="hub-nav-unit">jeux indexes</span>
+          <span class="hub-nav-copy">Explorer le catalogue, ouvrir une fiche, situer un jeu.</span>
+        </a>
+        <a href="/collection.html" class="hub-nav-card">
+          <span class="hub-nav-label">Collection</span>
+          <span class="hub-nav-counter" id="hub-nav-collection">--</span>
+          <span class="hub-nav-unit">fiches pretes</span>
+          <span class="hub-nav-copy">Reprendre l etagere, voir les priorites, qualifier.</span>
+        </a>
+        <a href="/stats.html" class="hub-nav-card">
+          <span class="hub-nav-label">Marche</span>
+          <span class="hub-nav-counter" id="hub-nav-prices">--</span>
+          <span class="hub-nav-unit">prix references</span>
+          <span class="hub-nav-copy">Consulter les donnees marche, tendances et valeurs.</span>
+        </a>
       </div>
-
-      <section class="hub-proof-shell" aria-label="Preuves d usage">
-        <div class="hub-proof-grid">
-          <article class="hub-proof-card">
-            <span class="hub-proof-label">Lire une fiche</span>
-            <p class="hub-proof-copy">Ouvrir un jeu, situer son contexte, puis continuer vers la bonne connexion.</p>
-          </article>
-          <article class="hub-proof-card">
-            <span class="hub-proof-label">Qualifier une entree</span>
-            <p class="hub-proof-copy">Verifier edition, region, completude et confiance avant de laisser la valeur piloter la decision.</p>
-          </article>
-          <article class="hub-proof-card">
-            <span class="hub-proof-label">Decider avec la valeur</span>
-            <p class="hub-proof-copy">Comparer l etagere, voir les priorites du moment, puis arbitrer vendre, upgrader ou acheter.</p>
-          </article>
-        </div>
-
-        <div class="hub-proof-signals">
-          <div class="hub-proof-signal">
-            <span class="hub-proof-label">Publication</span>
-            <span id="hub-system-publication" class="hub-proof-value">...</span>
-          </div>
-          <div class="hub-proof-signal">
-            <span class="hub-proof-label">Lecture</span>
-            <span id="hub-system-editorial" class="hub-proof-value">...</span>
-          </div>
-          <div class="hub-proof-signal">
-            <span class="hub-proof-label">Orientation</span>
-            <span id="hub-system-archive" class="hub-proof-value">...</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="hub-intent-panel hub-intent-panel-compact">
-        <div class="hub-intent-grid hub-intent-grid-two">
-          <article class="hub-intent-card">
-            <span class="hub-intent-label">RetroDex</span>
-            <p class="hub-intent-copy">Entrer par le catalogue, situer un jeu, puis ouvrir la fiche qui merite la lecture.</p>
-            <div class="hub-intent-links"><a href="/games-list.html">Explorer RetroDex</a></div>
-          </article>
-          <article class="hub-intent-card">
-            <span class="hub-intent-label">Collection</span>
-            <p class="hub-intent-copy">Reprendre l etagere, voir la priorite du moment, puis rouvrir la bonne fiche.</p>
-            <div class="hub-intent-links"><a href="/collection.html">Ouvrir la collection</a></div>
-          </article>
-        </div>
-      </section>
 
       <section id="hub-rich-grid" class="hub-intent-grid hub-intent-grid-three" aria-label="Fiches a ouvrir">
         <div class="terminal-empty-state hub-empty-state">
-          <div class="terminal-empty-title loading-dots">Chargement des preuves</div>
+          <div class="terminal-empty-title loading-dots">Chargement des fiches</div>
           <div class="terminal-empty-copy">RetroDex selectionne des fiches qui montrent lecture, contexte et valeur.</div>
         </div>
       </section>
-
-      <div class="hub-stats hub-stats-compact" aria-label="Preuves secondaires RetroDex">
-        <div class="hub-stat is-primary">
-          <span id="hub-stat-published" class="val">--</span>
-          <span class="lbl">fiches pretes</span>
-        </div>
-        <div class="hub-stat">
-          <span id="hub-stat-total" class="val">--</span>
-          <span class="lbl">jeux indexes</span>
-        </div>
-        <div class="hub-stat">
-          <span id="hub-stat-synopsis" class="val">--</span>
-          <span class="lbl">avec lecture</span>
-        </div>
-        <div class="hub-stat">
-          <span id="hub-stat-consoles" class="val">--</span>
-          <span class="lbl">supports</span>
-        </div>
-      </div>
     </section>
   </main>
-
-  <script>
-    document.getElementById('hub-random-btn').addEventListener('click', async function() {
-      this.textContent = '...'
-      this.disabled = true
-      try {
-        const res = await fetch('/api/games/random')
-        if (!res.ok) throw new Error('no game')
-        const data = await res.json()
-        if (data && data.id) {
-          location.href = '/game-detail.html?id=' + encodeURIComponent(data.id)
-          return
-        }
-      } catch (_) {}
-      this.textContent = 'OUVRIR UNE FICHE →'
-      this.disabled = false
-    })
-  </script>
 
   <script src="/js/core/api.js?v=20260408r3"></script>
   <script src="/js/core/sw-reset.js?v=20260408r3"></script>
   <script src="/js/core/runtime-monitor.js?v=20260408r2"></script>
   <script src="/js/core/format.js"></script>
   <script src="/js/core/content-signals.js"></script>
-  <script src="/js/pages/hub-curated.js?v=20260408r3"></script>
+  <script src="/js/pages/hub-curated.js?v=20260411"></script>
 </body>
 </html>
