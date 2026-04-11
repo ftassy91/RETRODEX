@@ -87,65 +87,67 @@ Every plan or report must include:
 - BigBlueTerminal + DepartureMono fonts
 - Quiet Phosphor design system (zones: green default, cyan collection, amber qualification, gray hub)
 
-### Key Context (updated 2026-04-11, audit CTRL-03 PASS)
-- 1,509 games cataloged across 25 consoles (19 platforms)
-- 15,579 price entries from 3 sources (PriceCharting + Yahoo Auctions JP + eBay)
-- eBay records: 250 (185 new via batch scraping, parallel Playwright)
-- Confidence tiers: 1 high, 35 medium, 986 low, 487 unknown
-- 161 BAZ anecdotes for ~100 games (contextual codec on game-detail)
-- Cover URLs: 1,459/1,509 (97% coverage)
+### Key Context (updated 2026-04-12, end of session)
+- 1,509 games cataloged across 25 consoles
+- 15,579 price entries from 3 sources (PriceCharting + Yahoo Auctions JP + eBay via Playwright)
+- Confidence tiers: 1 high, 35 medium, 986 low, 487 unknown (32%)
 - 33 Supabase tables, all RLS-enabled, 0 health flags
-- CSS architecture: core.css (131L) + components.css (14,545L) + effects.css (166L) + zones.css (643L) + codec.css (928L) = 16,413 total
-- Smoke tests: 17/17 PASS
-- Nav unified: 16/16 HTML files, canonical 3-tab (Hub/RetroDex/Collection)
-- Responsive: 480px breakpoint covers all pages (nav 3-col, cards stack, table scroll)
-- Skeleton loading: hub (3 cards) + index (5 rows)
-- Micro-animations: hover feedback, button press, smooth scroll, page fade-in
-- Boot screen: terminal sequence on hub (first visit per session)
-- BAZ contextual: anecdote > price > metascore > silence (per game, once)
-- Stats dashboard: 4 sections (overview, top 10, consoles, rarity)
-- Consoles page: aligned with Quiet Phosphor (was: amber old style)
-- Game-detail: decision panel visual hierarchy (price 1.6rem > context > collection)
-- Backfill script: catalog-aware floor, never-downgrade, date fix
-- Batch eBay: parallel scraping (--concurrency), Windows scheduled task, JSON ingestion
-- Pipeline: batch-ebay-fetch.js → ingest-ebay-json.js → backfill-confidence-from-history.js
+- Design system: 45+ CSS variables, region tokens, z-index tokens
+- CSS architecture: core.css (131L) + components.css (~14KL) + zones.css (260L) + codec.css (929L) + effects.css (111L)
+- Nav unifiee sur 16 pages (LOT-ARCH-01)
+- Boot screen terminal avec compteurs live (LOT-UI-HUB-02)
+- Skeleton screens sur hub + index (LOT-PERF-03)
+- Micro-animations : hover, press, scroll smooth, page fade (LOT-UI-ANIM-01)
+- Responsive mobile 375px/480px (LOT-UI-MOBILE-01)
+- Cron pipeline: /api/cron/snapshot (03:00 UTC) + /api/cron/tiers (04:00 UTC)
+- Cron local Windows: batch eBay tous les 2 jours a 05:00 (100 jeux, 5 consoles rotation, parallele x5)
+- Smoke tests: 17 endpoints
+- Backfill script: catalog-aware floor, never-downgrade, date fix (LOT-FIX-12)
 - backend/.env present locally (gitignored) with Supabase pooler credentials
-- 38 commits this mega-session
+- 5 collection items qualified, 0 duplicates, 1 sell signal active
+- 246 anecdotes BAZ pour ~150 jeux (LOT-ENRICH-04)
+- 432 jeux avec lien Archive.org (LEGENDARY + EPIC + RARE + UNCOMMON + 300 COMMON) — 100/100 verifies
+- 97% couverture covers IGDB (50 manquantes non resolvables)
+- UX score: 5.4 → 9.0
 
-### Vision A (COMPLETE) + Vision A v2 (2/3)
-- Action 1: collection_snapshots + capture script + SVG evolution chart
-- Action 2: game_anecdotes (48 for 39 games) + display on game-detail
-- Action 3: BAZ codec (PNG sprites, 3-column layout, Game Boy palette)
-- VA v2: regions normalisees ✓, snapshots par jeu ✓, photos perso (reportee)
-
-### BAZ System
-- codec.js: 3-column codec (BAZ | text | USER), Game Boy palette, CRT effects
-- codec.css: scanlines, vignette, grain, glitch, FREQ pulse, asymmetric lighting
-- baz-engine.js: 31 intents, anti-repetition, session memory, lore fragments
-- erudit-engine.js: L'Erudit on collection page (patience gauge, localStorage memory)
-- glossary.js: 30 retrogaming terms (hover=tooltip, click=BAZ speaks)
-- search-detect.js: questions in search bars → codec redirect
+### BAZ System (converged — LOT-BAZ-CONV-01/02/03)
+- baz-router.js: point d'entree unique, routage par contexte
+- baz-engine.js: 31 intents, anti-repetition, session memory, /api/baz/titles (30KB)
+- codec.js: 3-column codec, Game Boy palette, CRT effects
 - baz-gen.js: 3 moteurs (templates + assembleur + Markov), 404 phrases corpus
 - baz-kb.js: knowledge base (20 entries FAQ produit), lexical retrieval
+- BAZ contextuel sur game-detail : anecdote > prix > metascore > silence (LOT-BAZ-04)
 - Sprites: baz.png + user.png (DALL-E validated, Game Boy style)
-- Supabase: baz_replies (58 replies, mood tags, usage_count), game_anecdotes (48)
-- Pipeline: KB → corpus → templates → assembleur → Markov → statique
+- Supabase: baz_replies (58 replies, mood tags, usage_count), game_anecdotes (161)
+- Memoire unifiee: single rdx-baz key (localStorage + Supabase usage_count)
+- Lazy-loaded: 5 pages sans BAZ, 11 avec (LOT-PERF-01)
+- API cache: /api/stats 5min, /api/consoles 10min, /api/baz/titles 10min (LOT-PERF-02)
 
 ### UI Layer
 - zones.css: color zones, hover, completion bar, game evolution chart, region badges
 - codec.css: Game Boy codec (#0F380F bg, #8BAC0F border, 80x80 pixelated portraits)
-- animations.js: rollTo counters, typewriter h1, loading dots
-- Smoke test: backend/scripts/smoke-test.js (14 endpoints)
-- UX score: 5.4 → 7.4
+- effects.css: scanlines 3%, skeleton pulse, hover, press, scroll smooth, page fade, reduced-motion
+- Hub: boot screen + 3 nav cards + 3 game cards IGDB portrait + stagger entrance
+- Index: compact rows (cover + titre + prix + rarete), skeleton loading
+- Collection: cockpit (summary bar hierarchisee, signal cards dim/accent, courbe evolution, grid :has fix)
+- Game-detail: panneau DECISION hierarchise (prix dominant), accordeons +/-, sections vides cachees, bouton Archive.org
+- Stats: 5 sections (compteurs, confiance, top 5, par console, par rarete)
+- Consoles: aligne Quiet Phosphor, sidebar + detail
+- Smoke test: 17 endpoints, audit final 8/8 PASS
 
-### New tables since initial audit
-- collection_snapshots (global daily value tracking)
-- game_anecdotes (BAZ fun facts per game)
-- baz_replies (curated replies with mood + usage tracking)
-- game_snapshots (per-game daily price tracking)
+### Archive.org Integration
+- 71 jeux avec archive_id (30 LEGENDARY/EPIC + 41 RARE)
+- Bouton "Voir sur Archive.org" sur game-detail si archive_id present
+- Script: backend/scripts/enrich-archive-ids.js (--rarity, --limit, --apply)
+
+### Pipeline eBay automatise
+- batch-ebay-fetch.js: --console, --limit, --concurrency, --records, .stop-batch
+- scheduled-batch.ps1: rotation 5 consoles, backfill apres fetch, log, timeout 30min
+- install/uninstall-scheduled-task.ps1: Windows Task "RetroDex-BatchPrix" tous les 2j a 05:00
+- ingest-ebay-json.js: JSON → price_history (filtre bruit, dedup)
 
 ### Ticket Conventions
-Lot prefixes: LOT-OP-, LOT-PROD-, LOT-UI-, LOT-UX-, LOT-FIX-, LOT-CTRL-, LOT-VA-, LOT-BAZ-
+Lot prefixes: LOT-OP-, LOT-PROD-, LOT-UI-, LOT-UX-, LOT-FIX-, LOT-CTRL-, LOT-VA-, LOT-BAZ-, LOT-ARCH-, LOT-PERF-, LOT-ENRICH-, LOT-ARCHIVE-
 
 ---
 
