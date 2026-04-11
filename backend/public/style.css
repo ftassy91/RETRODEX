@@ -67,6 +67,7 @@ html, body {
   --confidence-low:  #e05252;
   --confidence-mid:  #e0b352;
   --confidence-high: #52e052;
+  --rarity-epic:     #c48be8;
   --font-ui: 'BigBlueTerminal', 'Courier New', monospace;
   --font-display: 'DepartureMono', 'BigBlueTerminal', 'Courier New', monospace;
   --font-mono: var(--font-ui);
@@ -160,7 +161,7 @@ label {
   text-transform: uppercase;
 }
 .rarity-legendary { color: var(--text-alert); border-color: var(--text-alert); }
-.rarity-epic { color: #c48be8; border-color: #c48be8; }
+.rarity-epic { color: var(--rarity-epic); border-color: var(--rarity-epic); }
 .rarity-rare { color: var(--confidence-mid); border-color: var(--confidence-mid); }
 .rarity-uncommon { color: #44aadd; border-color: #44aadd; }
 .rarity-common { color: var(--text-secondary); border-color: var(--text-secondary); }
@@ -597,8 +598,8 @@ label {
       }
 
       .trend-badge.down {
-        border-color: #e85555;
-        color: #e85555;
+        border-color: var(--confidence-low);
+        color: var(--confidence-low);
       }
 
       .trend-badge.down::before {
@@ -657,7 +658,7 @@ label {
       .chart-btn.active {
         border-color: var(--text-primary);
         color: var(--text-primary);
-        background: #0a1a0a;
+        background: var(--bg-surface);
       }
 
       .chart-container {
@@ -751,12 +752,12 @@ label {
       }
 
       .compare-row.current {
-        background: #0a1a0a;
+        background: var(--bg-surface);
         color: var(--text-primary);
       }
 
       .compare-row.clickable:hover {
-        background: #0a1a0a;
+        background: var(--bg-surface);
       }
 
       .collection-form {
@@ -6046,12 +6047,12 @@ body {
   max-height: 260px;
   object-fit: contain;
   border: 1px solid #1d381d;
-  background: #071007;
+  background: var(--bg-card);
 }
 
 .detail-media-embed-shell {
   border: 1px solid #1d381d;
-  background: #071007;
+  background: var(--bg-card);
   margin-bottom: 0.7rem;
 }
 
@@ -6059,7 +6060,7 @@ body {
   width: 100%;
   min-height: 320px;
   border: 0;
-  background: #071007;
+  background: var(--bg-card);
 }
 
 @media (max-width: 760px) {
@@ -9581,7 +9582,7 @@ body::-webkit-scrollbar-thumb,
 }
 
 .history-variation.is-down {
-  color: #e85555;
+  color: var(--confidence-low);
 }
 
 .history-variation.is-neutral {
@@ -10896,7 +10897,7 @@ body.hub-page .product-universe-frame {
 }
 
 .archive-char-name {
-  color: #00ff66;
+  color: var(--accent);
   font-weight: bold;
   letter-spacing: 0.05em;
 }
@@ -14094,8 +14095,8 @@ body::after {
 
 /* Phosphor glow pulse on main title */
 @keyframes phosphor-pulse {
-  0%, 100% { text-shadow: 0 0 4px #00ff66, 0 0 11px rgba(0,255,102,0.25), 0 0 20px rgba(0,255,102,0.12); }
-  50%      { text-shadow: 0 0 6px #00ff66, 0 0 15px rgba(0,255,102,0.4), 0 0 30px rgba(0,255,102,0.2); }
+  0%, 100% { text-shadow: 0 0 4px var(--accent), 0 0 11px rgba(0,255,102,0.25), 0 0 20px rgba(0,255,102,0.12); }
+  50%      { text-shadow: 0 0 6px var(--accent), 0 0 15px rgba(0,255,102,0.4), 0 0 30px rgba(0,255,102,0.2); }
 }
 .hub-page-title {
   animation: phosphor-pulse 4s ease-in-out infinite;
