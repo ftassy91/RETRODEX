@@ -573,6 +573,7 @@ function renderHeroSection(game) {
               <div class="surface-action-row detail-hero-actions">
                 <a class="terminal-action-link" href="/games-list.html">Retour au catalogue &rarr;</a>
                 <a class="terminal-action-link is-primary" href="#editorial-shell">Ouvrir l'archive &rarr;</a>
+                ${game.archive_id ? `<a class="terminal-action-link detail-archive-link" href="https://archive.org/details/${escapeHtml(game.archive_id)}" target="_blank" rel="noopener noreferrer">Voir sur Archive.org &nearr;</a>` : ''}
               </div>
             </div>
           </div>

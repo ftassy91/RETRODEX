@@ -13807,6 +13807,14 @@ a.hub-rich-card:focus-visible {
   max-width: 44ch;
 }
 
+.detail-archive-link {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+}
+.detail-archive-link:hover {
+  color: var(--text-primary);
+}
+
 /* ─── Consoles Layout ─── */
 
 .consoles-layout {
