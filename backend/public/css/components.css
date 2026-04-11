@@ -6301,12 +6301,34 @@ body {
 
 .result-row.result-row-catalog {
   display: grid;
-  grid-template-columns: 12px minmax(0, 1fr) auto;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
   gap: 12px;
   align-items: center;
   min-height: 52px;
   height: auto;
   padding: 10px 14px;
+}
+
+.result-cover {
+  width: 48px;
+  height: 64px;
+  object-fit: contain;
+  image-rendering: auto;
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.result-cover-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 64px;
+  border: 1px solid rgba(67, 95, 60, 0.3);
+  background: var(--bg-surface);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--accent-dim);
 }
 
 .result-row-indicator {
@@ -6571,8 +6593,13 @@ body {
   }
 
   .result-row.result-row-catalog {
-    grid-template-columns: 10px minmax(0, 1fr);
-    gap: 10px;
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+  .result-cover,
+  .result-cover-placeholder {
+    width: 40px;
+    height: 54px;
   }
 
   .result-signal {

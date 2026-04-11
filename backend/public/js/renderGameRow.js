@@ -82,63 +82,30 @@ function renderGameRow(game, options = {}) {
   const rarity = game.rarity || ''
   const year = game.year || 'n/a'
   const consoleName = game.console || ''
-  const genre = game.genre && game.genre !== 'Other' ? game.genre : ''
-  const contentSignals = window.RetroDexContentSignals?.buildRichness
-    ? window.RetroDexContentSignals.buildRichness(game)
-    : null
   const loosePrice = showPrice ? (game.loosePrice ? `$${Math.round(game.loosePrice)}` : '-') : ''
-  const cibPrice = showPrice && game.cibPrice ? `$${Math.round(game.cibPrice)}` : null
-  const mintPrice = showPrice && game.mintPrice ? `$${Math.round(game.mintPrice)}` : null
   const confidenceTier = priceConfidenceTier(game)
-  const priceAgeChip = showPrice ? buildPriceAgeChip(game) : null
   const collectionStateNorm = String(collectionState || '').toLowerCase()
   const showOwnedBadge = collectionStateNorm === 'owned'
   const showWantedBadge = collectionStateNorm === 'wanted'
   const showSaleBadge = collectionStateNorm === 'for_sale'
-  const archiveBadge = contentSignals
-    ? `<span class="presence-badge is-richness is-${escapeHtml(contentSignals.band.key)}">${escapeHtml(contentSignals.band.shortLabel)}</span>`
-    : ''
-  const relationCue = String(game.developer || game.publisher || '').trim()
-  const relationHtml = relationCue
-    ? `<span class="result-context-row">Studio ${escapeHtml(relationCue)}</span>`
-    : ''
-  const actionCue = showSaleBadge
-    ? 'ouvrir pour confirmer la sortie'
-    : showWantedBadge
-      ? 'ouvrir pour verifier achat et qualification'
-      : showOwnedBadge
-        ? 'ouvrir pour verifier contexte, qualification et valeur'
-        : 'ouvrir pour lecture, contexte et valeur'
-  const actionHtml = `<span class="result-action-row">${escapeHtml(actionCue)}</span>`
-  function truncateText(text, max) {
-    if (!text) return '';
-    const clean = String(text).replace(/<[^>]+>/g, '').trim();
-    return clean.length > max ? clean.slice(0, max) + '\u2026' : clean;
-  }
-  const synopsisSnippet = truncateText(game.synopsis || game.summary, 90);
-  const summaryHtml = synopsisSnippet
-    ? `<span class="game-row-synopsis">${escapeHtml(synopsisSnippet)}</span>`
-    : ''
+
+  const coverUrl = game.cover_url || game.coverImage || ''
+  const coverHtml = coverUrl
+    ? `<img class="result-cover" src="${escapeHtml(coverUrl)}" alt="" loading="lazy" />`
+    : `<div class="result-cover result-cover-placeholder"><span>${escapeHtml((game.title || '?')[0].toUpperCase())}</span></div>`
 
   el.innerHTML = `
-    <span class="result-row-indicator">&rsaquo;</span>
+    ${coverHtml}
     <div class="result-info">
       <span class="result-title" title="${escapeHtml(game.title || '')}">${escapeHtml(game.title || '')}${showOwnedBadge ? '<span class="result-owned-badge">POSSEDE</span>' : ''}${showWantedBadge ? '<span class="result-collection-badge is-wanted">WISHLIST</span>' : ''}${showSaleBadge ? '<span class="result-collection-badge is-sale">EN VENTE</span>' : ''}</span>
       <span class="result-meta-row">
-        <span class="result-meta">${consoleName ? `<a class="game-row-console-link" href="/games-list.html?console=${encodeURIComponent(consoleName)}" onclick="event.stopPropagation()">${escapeHtml(consoleName)}</a>` : '—'} &middot; ${escapeHtml(year)}${genre ? ` &middot; ${escapeHtml(genre)}` : ''}</span>
+        <span class="result-meta">${consoleName ? escapeHtml(consoleName) : '—'} &middot; ${escapeHtml(year)}</span>
       </span>
-      ${archiveBadge ? `<span class="result-presence-row result-archive-row">${archiveBadge}</span>` : ''}
-      ${relationHtml}
-      ${summaryHtml}
-      ${actionHtml}
-      ${renderPresenceBadges(game)}
     </div>
     <div class="result-signal">
       ${showPrice ? `
         <span class="result-price-group">
           <span class="result-price result-price-loose"${confidenceTier ? ` title="Prix loose · ${escapeHtml(confidenceTier)}"` : ''}>${loosePrice}</span>
-          ${(cibPrice || mintPrice) ? `<span class="result-price-secondary">${cibPrice ? `<span class="result-price-cib" title="Prix CIB">${cibPrice}</span>` : ''}${mintPrice ? `<span class="result-price-mint" title="Prix Mint">${mintPrice}</span>` : ''}</span>` : ''}
-          ${priceAgeChip ? `<span class="result-price-age freshness--${escapeHtml(priceAgeChip.tier)}" title="${escapeHtml(priceAgeChip.title)}">${escapeHtml(priceAgeChip.label)}</span>` : ''}
         </span>` : ''}
       <span class="result-metascore"></span>
       ${showRarity ? `<span class="result-rarity" style="color:${rarityColors[rarity] || 'var(--text-muted)'}">${escapeHtml(rarity || 'COMMON')}</span>` : ''}
