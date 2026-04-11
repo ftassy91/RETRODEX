@@ -410,21 +410,26 @@
       })
     }
 
-    if (window.BAZ && window.BAZ._askEngine) {
-      // Use baz-engine.js (async, supports game title matching)
-      window.BAZ._askEngine(raw).then(function (result) {
+    // Route through unified BAZRouter
+    if (window.BAZRouter) {
+      window.BAZRouter.route(raw, { source: 'codec' }).then(function (result) {
         if (result && result.afterSay) {
-          // Erudit hangup: display message then execute afterSay callback
           deliverResponse(result.text || '...', result.state || 'talk')
           result.afterSay()
         } else {
-          deliverResponse(result.text, result.state || 'talk')
+          deliverResponse((result && result.text) || '...', (result && result.state) || 'talk')
         }
       }).catch(function () {
         deliverResponse(pickUserReply(matchUserInput(raw)))
       })
+    } else if (window.BAZ && window.BAZ._askEngine) {
+      // Legacy fallback if router not loaded
+      window.BAZ._askEngine(raw).then(function (result) {
+        deliverResponse((result && result.text) || '...', (result && result.state) || 'talk')
+      }).catch(function () {
+        deliverResponse(pickUserReply(matchUserInput(raw)))
+      })
     } else {
-      // Fallback: inline keyword matcher
       var thinkDelay = 800 + Math.floor(Math.random() * 700)
       setTimeout(function () {
         deliverResponse(pickUserReply(matchUserInput(raw)))

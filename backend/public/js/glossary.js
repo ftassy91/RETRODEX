@@ -102,7 +102,10 @@
       var entry = g[term]
       if (!entry || !entry.long) return
       hideTip()
-      if (window.BAZ && window.BAZ.say) {
+      // Route through unified BAZRouter
+      if (window.BAZRouter) {
+        window.BAZRouter.ask(entry.long, { source: 'glossary', glossaryEntry: entry.long })
+      } else if (window.BAZ && window.BAZ.say) {
         window.BAZ.say(entry.long, 6000, true)
       }
     })
@@ -117,8 +120,11 @@
     loadGlossary().then(function (g) {
       var entry = g[term]
       if (!entry) return
-      if (window.BAZ && window.BAZ.say) {
-        window.BAZ.say(entry.long || entry.short, 5000, true)
+      var text = entry.long || entry.short
+      if (window.BAZRouter) {
+        window.BAZRouter.ask(text, { source: 'glossary', glossaryEntry: text })
+      } else if (window.BAZ && window.BAZ.say) {
+        window.BAZ.say(text, 5000, true)
       }
     })
   }, { passive: true })

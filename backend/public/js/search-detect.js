@@ -63,12 +63,9 @@
   }
 
   function sendToCodec(text) {
-    if (window.BAZ && window.BAZ._askEngine) {
-      window.BAZ._askEngine(text).then(function (result) {
-        if (result && result.text && window.BAZ && window.BAZ.say) {
-          window.BAZ.say(result.text, result.duration || 5000, result.state === 'content')
-        }
-      })
+    // Route through unified BAZRouter
+    if (window.BAZRouter) {
+      window.BAZRouter.ask(text, { source: 'search' })
     } else if (window.BAZ && window.BAZ.say) {
       window.BAZ.say(text, 5000)
     }
