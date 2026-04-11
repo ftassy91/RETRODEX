@@ -69,8 +69,27 @@ try {
         }
     }
 
-    # Phase 2: Backfill confidence tiers
-    Write-Log "Phase 2: Backfill confidence tiers (--apply)"
+    # Phase 2: Ingest JSON into price_history
+    if (Test-Path $OutputFile) {
+        Write-Log "Phase 2: Ingesting $OutputFile into price_history"
+        $IngestScript = Join-Path $ScriptDir "ingest-ebay-json.js"
+
+        $IngestProcess = Start-Process -FilePath "node" `
+            -ArgumentList "$IngestScript `"$OutputFile`"" `
+            -WorkingDirectory $RepoRoot `
+            -NoNewWindow -PassThru -Wait
+
+        if ($IngestProcess.ExitCode -ne 0) {
+            Write-Log "ERROR: ingest exited with code $($IngestProcess.ExitCode)"
+        } else {
+            Write-Log "Ingest complete"
+        }
+    } else {
+        Write-Log "Phase 2: Skipped (no output file to ingest)"
+    }
+
+    # Phase 3: Backfill confidence tiers
+    Write-Log "Phase 3: Backfill confidence tiers (--apply)"
 
     $BackfillProcess = Start-Process -FilePath "node" `
         -ArgumentList "$BackfillScript --apply" `
