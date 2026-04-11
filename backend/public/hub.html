@@ -31,6 +31,9 @@
   <script src="/js/baz-engine.js" defer></script>
 </head>
 <body class="hub-page hub-orientation-page">
+  <div id="boot-overlay" class="boot-overlay" aria-hidden="true">
+    <pre id="boot-log" class="boot-log"></pre>
+  </div>
   <a href="#main-content" class="skip-link">Skip to content</a>
   <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
     <a class="global-product-link is-active" href="/hub.html" aria-current="page">
@@ -109,5 +112,91 @@
   <script src="/js/core/format.js"></script>
   <script src="/js/core/content-signals.js"></script>
   <script src="/js/pages/hub-curated.js?v=20260411"></script>
+  <script>
+  ;(function () {
+    var overlay = document.getElementById('boot-overlay')
+    var logEl = document.getElementById('boot-log')
+    if (!overlay || !logEl) return
+
+    // Skip if reduced motion or already seen this session
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      overlay.remove()
+      return
+    }
+    if (sessionStorage.getItem('rdx-boot-seen')) {
+      overlay.remove()
+      return
+    }
+
+    // Show overlay
+    overlay.style.display = 'flex'
+    sessionStorage.setItem('rdx-boot-seen', '1')
+
+    var lines = [
+      '',
+      'RETRODEX SYSTEM v2.0',
+      '────────────────────────────────',
+      'BIOS CHECK.......... OK',
+      'DATABASE............ __GAMES__ GAMES',
+      'PRICE ENGINE........ __PRICES__ RECORDS',
+      'COLLECTION.......... __ITEMS__ ITEMS',
+      '────────────────────────────────',
+      'ALL SYSTEMS NOMINAL',
+      '',
+      '> PRESS ANY KEY_',
+    ]
+
+    // Fetch stats to fill in counters
+    var statsUrl = '/api/stats'
+    var collUrl = '/api/collection/stats'
+    var games = '----'
+    var prices = '----'
+    var items = '----'
+
+    Promise.allSettled([
+      fetch(statsUrl).then(function (r) { return r.json() }),
+      fetch(collUrl).then(function (r) { return r.json() }),
+    ]).then(function (results) {
+      if (results[0].status === 'fulfilled') {
+        var s = results[0].value
+        games = String(s.total_games || '----')
+        prices = String(s.priced_games || '----')
+      }
+      if (results[1].status === 'fulfilled') {
+        var c = results[1].value
+        items = String(c.count || c.total_items || '----')
+      }
+      startSequence()
+    }).catch(function () {
+      startSequence()
+    })
+
+    function startSequence() {
+      var i = 0
+      var timer = setInterval(function () {
+        if (i >= lines.length) {
+          clearInterval(timer)
+          return
+        }
+        var line = lines[i]
+          .replace('__GAMES__', games)
+          .replace('__PRICES__', prices)
+          .replace('__ITEMS__', items)
+        logEl.textContent += line + '\n'
+        i++
+      }, 80)
+    }
+
+    // Dismiss on any key or click
+    function dismiss() {
+      overlay.removeEventListener('click', dismiss)
+      document.removeEventListener('keydown', dismiss)
+      overlay.classList.add('boot-fade-out')
+      setTimeout(function () { overlay.remove() }, 300)
+    }
+    overlay.addEventListener('click', dismiss)
+    document.addEventListener('keydown', dismiss)
+  })()
+  </script>
 </body>
 </html>
