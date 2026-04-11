@@ -465,14 +465,19 @@
     }
   })
 
-  // Session memory
+  // Session memory (unified bazMemory)
   function saveSession() {
-    try { localStorage.setItem('rdx-last-session', new Date().toISOString()) } catch (_) {}
+    try {
+      if (window.bazMemory) {
+        window.bazMemory.load().lastSession = new Date().toISOString()
+        window.bazMemory.save()
+      }
+    } catch (_) {}
   }
 
   function getLastSession() {
     try {
-      var d = localStorage.getItem('rdx-last-session')
+      var d = window.bazMemory ? window.bazMemory.load().lastSession : null
       if (!d) return 'premiere session'
       var diff = Date.now() - new Date(d).getTime()
       if (diff < 86400000) return "aujourd'hui"
@@ -499,18 +504,19 @@
     }, 150)
   }
 
-  // First encounter — scripted intro (once ever, localStorage)
+  // First encounter — scripted intro (once ever, unified bazMemory)
   function playFirstEncounter() {
     var path = location.pathname
     var isCollection = path.includes('collection')
-    var key = isCollection ? 'rdx-erudit-met' : 'rdx-baz-met'
+    var charKey = isCollection ? 'erudit' : 'baz'
 
     try {
-      if (localStorage.getItem(key)) return false
+      if (!window.bazMemory) return false
+      var mem = window.bazMemory.load()
+      if (mem.firstEncounter[charKey]) return false
     } catch (_) { return false }
 
     if (isCollection) {
-      // Erudit first encounter: silence 3s, then speaks
       setTimeout(function () {
         showMessage('...', 3000)
         setTimeout(function () {
@@ -518,7 +524,6 @@
         }, 4500)
       }, 1500)
     } else {
-      // BAZ first encounter
       setTimeout(function () {
         showMessage('Hmm. Tu m\'as trouve.', 3000)
         setTimeout(function () {
@@ -527,7 +532,10 @@
       }, 1500)
     }
 
-    try { localStorage.setItem(key, '1') } catch (_) {}
+    try {
+      mem.firstEncounter[charKey] = true
+      window.bazMemory.save()
+    } catch (_) {}
     return true
   }
 

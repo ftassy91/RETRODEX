@@ -3700,9 +3700,13 @@ async function loadBazAnecdotes(gameId) {
 
     render()
     shellEl.hidden = false
-    if (window.BAZ && !sessionStorage.getItem('rdx-baz-anecdote-' + gameId)) {
-      sessionStorage.setItem('rdx-baz-anecdote-' + gameId, '1')
-      setTimeout(function () { window.BAZ.say('game_enriched', 3000) }, 3000)
+    if (window.BAZ && window.bazMemory) {
+      var _bm = window.bazMemory.load()
+      if (!_bm.anecdotesSeen[gameId]) {
+        _bm.anecdotesSeen[gameId] = true
+        window.bazMemory.save()
+        setTimeout(function () { window.BAZ.say('game_enriched', 3000) }, 3000)
+      }
     }
 
     if (anecdotes.length > 1 && nextBtn) {

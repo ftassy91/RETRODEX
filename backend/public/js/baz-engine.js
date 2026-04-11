@@ -371,25 +371,133 @@
     return null
   }
 
+  // ── Unified BAZ Memory ─────────────────────────────────────
+  // Single localStorage key for all BAZ/Erudit state.
+  // Exposed as window.bazMemory for other modules.
+
+  var BAZ_MEMORY_KEY = 'rdx-baz'
+
+  var _memCache = null
+
+  function bazMemoryLoad() {
+    if (_memCache) return _memCache
+    try {
+      _memCache = JSON.parse(localStorage.getItem(BAZ_MEMORY_KEY)) || bazMemoryCreate()
+    } catch (_) {
+      _memCache = bazMemoryCreate()
+    }
+    return _memCache
+  }
+
+  function bazMemoryCreate() {
+    return {
+      session: [],
+      loreSaid: [],
+      erudit: { interactions: [], collectionSnapshot: null, firstVisit: null, visitCount: 0, lastVisit: null },
+      lastSession: null,
+      firstEncounter: { baz: false, erudit: false },
+      glossHint: false,
+      anecdotesSeen: {}
+    }
+  }
+
+  function bazMemorySave() {
+    try {
+      localStorage.setItem(BAZ_MEMORY_KEY, JSON.stringify(_memCache || bazMemoryCreate()))
+    } catch (_) {}
+  }
+
+  // One-time migration from old scattered keys
+  function bazMemoryMigrate() {
+    var mem = bazMemoryLoad()
+    var migrated = false
+    try {
+      // rdx-baz-memory (sessionStorage → session)
+      var oldSession = sessionStorage.getItem('rdx-baz-memory')
+      if (oldSession) {
+        var parsed = JSON.parse(oldSession)
+        if (Array.isArray(parsed) && parsed.length && !mem.session.length) {
+          mem.session = parsed
+          migrated = true
+        }
+        sessionStorage.removeItem('rdx-baz-memory')
+      }
+      // rdx-lore-said (sessionStorage → loreSaid)
+      var oldLore = sessionStorage.getItem('rdx-lore-said')
+      if (oldLore) {
+        var lp = JSON.parse(oldLore)
+        if (Array.isArray(lp) && lp.length && !mem.loreSaid.length) {
+          mem.loreSaid = lp
+          migrated = true
+        }
+        sessionStorage.removeItem('rdx-lore-said')
+      }
+      // rdx-erudit-memory (localStorage → erudit)
+      var oldErudit = localStorage.getItem('rdx-erudit-memory')
+      if (oldErudit) {
+        var ep = JSON.parse(oldErudit)
+        if (ep && !mem.erudit.firstVisit) {
+          mem.erudit = ep
+          migrated = true
+        }
+        localStorage.removeItem('rdx-erudit-memory')
+      }
+      // rdx-last-session (localStorage → lastSession)
+      var oldLS = localStorage.getItem('rdx-last-session')
+      if (oldLS) {
+        if (!mem.lastSession) mem.lastSession = oldLS
+        localStorage.removeItem('rdx-last-session')
+        migrated = true
+      }
+      // rdx-baz-met / rdx-erudit-met (localStorage → firstEncounter)
+      var oldBazMet = localStorage.getItem('rdx-baz-met')
+      if (oldBazMet) {
+        mem.firstEncounter.baz = true
+        localStorage.removeItem('rdx-baz-met')
+        migrated = true
+      }
+      var oldEruditMet = localStorage.getItem('rdx-erudit-met')
+      if (oldEruditMet) {
+        mem.firstEncounter.erudit = true
+        localStorage.removeItem('rdx-erudit-met')
+        migrated = true
+      }
+      // rdx-gloss-hint (sessionStorage → glossHint)
+      var oldGH = sessionStorage.getItem('rdx-gloss-hint')
+      if (oldGH) {
+        mem.glossHint = true
+        sessionStorage.removeItem('rdx-gloss-hint')
+        migrated = true
+      }
+    } catch (_) {}
+    if (migrated) bazMemorySave()
+  }
+
+  bazMemoryMigrate()
+
+  // Expose for other modules
+  window.bazMemory = {
+    load: bazMemoryLoad,
+    save: bazMemorySave,
+    create: bazMemoryCreate
+  }
+
   // ── Anti-repetition + Session Memory ───────────────────────
 
   var lastReplies = {}
   var intentCooldowns = {}  // intent → timestamp of last use
   var COOLDOWN_MS = 8000    // 8s minimum between same intent
 
-  // Session memory: last 10 exchanges stored in sessionStorage
   function getSessionMemory() {
-    try {
-      return JSON.parse(sessionStorage.getItem('rdx-baz-memory') || '[]')
-    } catch (_) { return [] }
+    return bazMemoryLoad().session
   }
 
   function saveToMemory(userText, bazReply, intent) {
     try {
-      var mem = getSessionMemory()
-      mem.push({ user: userText, baz: bazReply, intent: intent, ts: Date.now() })
-      if (mem.length > 10) mem = mem.slice(-10)
-      sessionStorage.setItem('rdx-baz-memory', JSON.stringify(mem))
+      var mem = bazMemoryLoad()
+      mem.session.push({ user: userText, baz: bazReply, intent: intent, ts: Date.now() })
+      if (mem.session.length > 10) mem.session = mem.session.slice(-10)
+      bazMemorySave()
     } catch (_) {}
   }
 
@@ -415,15 +523,15 @@
     return null
   }
 
-  // Lore anti-repetition (sessionStorage)
+  // Lore anti-repetition (unified memory)
   function getLoreSaid() {
-    try { return JSON.parse(sessionStorage.getItem('rdx-lore-said') || '[]') } catch (_) { return [] }
+    return bazMemoryLoad().loreSaid
   }
   function markLoreSaid(text) {
     try {
-      var said = getLoreSaid()
-      said.push(text)
-      sessionStorage.setItem('rdx-lore-said', JSON.stringify(said))
+      var mem = bazMemoryLoad()
+      mem.loreSaid.push(text)
+      bazMemorySave()
     } catch (_) {}
   }
   function pickLoreReply() {

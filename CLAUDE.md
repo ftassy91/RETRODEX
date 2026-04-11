@@ -87,7 +87,7 @@ Every plan or report must include:
 - BigBlueTerminal + DepartureMono fonts
 - Quiet Phosphor design system (zones: green default, cyan collection, amber qualification, gray hub)
 
-### Key Context (updated 2026-04-11, end of session)
+### Key Context (updated 2026-04-11)
 - 1,509 games cataloged across 25 consoles
 - 15,400+ price entries from 3 sources (PriceCharting + Yahoo Auctions JP + eBay via Playwright)
 - Confidence tiers: 1 high, 33 medium, 407 low, 1,068 unknown
@@ -98,6 +98,7 @@ Every plan or report must include:
 - Collection: canonical schema, CSV import, region CHECK constraint (PAL/NTSC-U/NTSC-J/NTSC-B/MULTI)
 - Pipeline: backfill-confidence-from-history.js, batch-ebay-fetch.js, capture-collection-snapshot.js
 - Market connectors: Yahoo Auctions JP (live), eBay (Playwright headless), others (fixture-only)
+- Vercel: JS cache TTL 1h (s-maxage=3600), CSS/assets 24h
 
 ### Vision A (COMPLETE) + Vision A v2 (2/3)
 - Action 1: collection_snapshots + capture script + SVG evolution chart
@@ -105,18 +106,20 @@ Every plan or report must include:
 - Action 3: BAZ codec (PNG sprites, 3-column layout, Game Boy palette)
 - VA v2: regions normalisees ✓, snapshots par jeu ✓, photos perso (reportee)
 
-### BAZ System
+### BAZ System (convergence COMPLETE)
+- **baz-router.js**: unified entry point — all interactions route through BAZRouter.ask()
+- **baz-engine.js**: resolvePipeline() — single ordered cascade: glossary → KB → BAZGen → Markov → static
+- **baz-engine.js**: unified bazMemory (single localStorage key `rdx-baz`) — replaces 7 scattered keys
 - codec.js: 3-column codec (BAZ | text | USER), Game Boy palette, CRT effects
 - codec.css: scanlines, vignette, grain, glitch, FREQ pulse, asymmetric lighting
-- baz-engine.js: 31 intents, anti-repetition, session memory, lore fragments
-- erudit-engine.js: L'Erudit on collection page (patience gauge, localStorage memory)
+- erudit-engine.js: L'Erudit on collection page (patience gauge, bazMemory.erudit)
 - glossary.js: 30 retrogaming terms (hover=tooltip, click=BAZ speaks)
 - search-detect.js: questions in search bars → codec redirect
 - baz-gen.js: 3 moteurs (templates + assembleur + Markov), 404 phrases corpus
 - baz-kb.js: knowledge base (20 entries FAQ produit), lexical retrieval
 - Sprites: baz.png + user.png (DALL-E validated, Game Boy style)
 - Supabase: baz_replies (58 replies, mood tags, usage_count), game_anecdotes (48)
-- Pipeline: KB → corpus → templates → assembleur → Markov → statique
+- Pipeline: glossary → KB → corpus → templates → assembleur → Markov → statique
 
 ### UI Layer
 - zones.css: color zones, hover, completion bar, game evolution chart, region badges

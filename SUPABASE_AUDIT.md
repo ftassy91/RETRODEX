@@ -1,7 +1,20 @@
-# SUPABASE_AUDIT.md — RetroDex
+# SUPABASE_AUDIT.md
 
-> **Generated:** 2026-04-09 | **Lot:** LOT-PROD-01 | **Status:** Point-in-time snapshot — will drift as schema evolves.
-> Re-run audit after any migration that adds, removes, or restructures tables.
+**Project:** ftassy91's Project (doipqgkhfzqvmzrdfvuq)
+**Region:** eu-west-1 | **Postgres:** 17.6.1
+**Audit date:** 2026-04-11
+**Tables:** 33 (27 original + collection_snapshots, game_anecdotes, baz_replies, game_snapshots added 2026-04-10/11)
+
+---
+
+## Table of Contents
+
+1. [Summary](#summary)
+2. [Domain Map](#domain-map)
+3. [Relationship Graph](#relationship-graph)
+4. [Table Reference](#table-reference)
+5. [Health Flags](#health-flags)
+6. [Out-of-Scope Observations](#out-of-scope-observations)
 
 ---
 
@@ -9,261 +22,900 @@
 
 | Metric | Value |
 |---|---|
-| Total tables (public schema) | 26 real + 1 internal |
-| Tables with RLS enabled | 4 |
-| Tables with 0 rows (empty scaffolds) | 4 |
-| Total rows across all tables | ~79,000 |
-| Migration tracking via Supabase CLI | Not active (list_migrations returns empty) |
-
-> **CLAUDE.md discrepancy:** Known Project State says "13 undocumented Supabase tables". Actual count is 26. CLAUDE.md needs update (deferred to LOT-OP-03).
-
----
-
-## Table Inventory by Layer
-
-### Group 1 — Core Encyclopedia
-
-| Table | Rows | RLS | PK | Role |
-|---|---|---|---|---|
-| `games` | 1,509 | YES | `id` (text) | Master game record — central hub for all FK relationships |
-| `consoles` | 25 | YES | `id` (text) | Platform reference — 25 consoles |
-| `franchise_entries` | 15 | YES | `slug` (text) | Franchise groupings linked from games.franch_id |
-
-**games** — 44 columns. Dense denormalized record combining identity, pricing, editorial status, media status, and confidence scoring. Notable fields:
-- Price denormalization: `loose_price`, `cib_price`, `mint_price`, `price_currency`, `price_confidence_tier`, `price_status` — duplicated from market layer, kept for fast reads.
-- Editorial status enum: `empty | partial | complete`
-- Price status enum: `empty | synthetic | real`
-- Confidence tier: `high | medium | low | unknown`
-- Several JSON columns also exist in `game_editorial` (see Group 4 — duplication risk flagged).
-
-**FK hub:** `games.id` is the foreign key target for 14 other tables. It is the spine of the schema.
+| Total tables | 33 |
+| Total rows (approx) | ~60,000 |
+| Tables with RLS | 31/31 (all protected — LOT-PROD-06 + new tables) |
+| Tables without RLS | 0 |
+| Empty tables (0 rows) | 3 (game_achievement_profiles, ost_releases, price_ingest_runs, price_rejections) |
+| Tables with no service reference | 12 |
+| Duplicated field groups | 1 (games <> game_editorial: 11 shared columns) |
 
 ---
 
-### Group 2 — Collector Layer
+## Domain Map
 
-| Table | Rows | RLS | PK | Role |
-|---|---|---|---|---|
-| `collection_items` | 7 | YES | `id` (bigint, serial) | Personal collection entries |
+### ENCYCLOPEDIA (core catalog)
 
-**collection_items** — 15 columns. One row per owned item. Links to `games.id`. Key fields:
-- `condition`: `loose | cib | mint | other`
-- `region`: varchar (PAL / NTSC-U / NTSC-J etc.)
-- `completeness`: varchar, default `unknown`
-- `qualification_confidence`: varchar, default `unknown`
-- `wishlist`: boolean flag (doubles as wishlist)
-- `user_session`: text, default `local` — no auth model yet, session-scoped
-
-**Health:** 7 rows = active collection is small. `user_session = 'local'` means no multi-user support. Wishlist mixed into same table as owned items — separation not yet implemented.
-
----
-
-### Group 3 — Market Layer
-
-| Table | Rows | RLS | PK | Role |
-|---|---|---|---|---|
-| `price_history` | 15,278 | YES | `id` (bigint, serial) | Historical sold prices from all sources |
-| `price_sources` | 11 | NO | `id` (int, serial) | Source registry (eBay, Yahoo JP, Catawiki, etc.) |
-| `price_ingest_runs` | 0 | NO | `id` (int, serial) | Pipeline run log (scaffolded, empty) |
-| `price_rejections` | 0 | NO | `id` (int, serial) | Rejection log (scaffolded, empty) |
-
-**price_history** — 26 columns. The heaviest table by row count. Key fields:
-- `source` / `source_id` / `source_market`: dual sourcing model (legacy text + FK to price_sources)
-- `price_original` + `currency` + `price_eur`: FX-normalized prices
-- `condition_normalized`: `Loose | CIB | Mint` (note: capitalized, differs from collection_items lowercase)
-- `normalized_region`: `PAL | NTSC-U | NTSC-J | NTSC-B | MULTI | unknown`
-- `sale_type`: `auction | fixed_price_sold | realized_price`
-- `is_real_sale`: boolean gate distinguishing actual sold records from listings
-- `payload_hash` + `raw_payload`: deduplication and raw storage
-- `match_confidence` + `source_confidence`: dual confidence scoring
-
-**price_sources** — 11 rows. Registry of active/approved data sources. Key fields:
-- `market_bucket`: grouping (EU, JP, US...)
-- `reliability_weight`: numeric weight for confidence scoring
-- `is_primary_sold_truth`: marks sources that count as real sold data
-- `publish_eligible`: controls whether source data can appear in UI
-- `compliance_status`: default `approved_with_review`
-
-**price_ingest_runs** — 0 rows. Full pipeline telemetry scaffold (fetched, normalized, inserted, deduped, matched, rejected counts). Not yet populated — pipeline is running but not logging runs.
-
-**price_rejections** — 0 rows. Rejection audit log. Not yet populated.
-
-**Health flags:**
-- Condition enum casing inconsistency: `price_history` uses `Loose/CIB/Mint` (capitalized), `collection_items` uses `loose/cib/mint` (lowercase). Will cause join/comparison bugs.
-- `price_ingest_runs` and `price_rejections` are zero — pipeline observability is blind.
-- RLS missing on `price_sources`, `price_ingest_runs`, `price_rejections`.
-
----
-
-### Group 4 — Editorial / Curation
-
-| Table | Rows | RLS | PK | Role |
-|---|---|---|---|---|
-| `game_editorial` | 1,506 | NO | `game_id` (text) | Long-form editorial content per game |
-| `game_content_profiles` | 1,483 | NO | `game_id` (text) | Content completeness profile per game |
-| `game_curation_states` | 1,483 | NO | `game_id` (text) | Curation workflow state machine per game |
-| `game_curation_events` | 2,767 | NO | `id` (bigint, serial) | Immutable curation event log |
-| `console_publication_slots` | 1,025 | NO | `id` (bigint, serial) | Ranked game slots per console pass |
-
-**game_editorial** — Long-form content: `summary`, `synopsis`, `lore`, `gameplay_description`, `characters`, `dev_anecdotes`, `cheat_codes`, `versions`, `avg_duration_main`, `avg_duration_complete`, `speedrun_wr`.
-
-> **DUPLICATION RISK:** `games` has the same fields (`summary`, `synopsis`, `lore`, `gameplay_description`, `characters`, `dev_anecdotes`, `cheat_codes`, `versions`, `avg_duration_main`, `avg_duration_complete`, `speedrun_wr`). This is a migration in progress — `game_editorial` is the target normalization but `games` still carries copies. Writers may update one and not the other. Resolution is OUT OF SCOPE for this lot.
-
-**game_content_profiles** — Per-game content completeness model. Key fields:
-- `profile_version`, `profile_mode` (default `heuristic`)
-- `content_profile_json`: expected field coverage
-- `profile_basis_json`: scoring basis
-- `relevant_expected`: count of relevant sections
-
-**game_curation_states** — State machine per game. Key fields:
-- `pass_key`, `status` (the curation pass this state belongs to)
-- `is_target`: whether this game is in scope for the current enrichment pass
-- `completion_score`, `relevant_expected`, `relevant_filled`
-- `missing_relevant_sections_json`, `critical_errors_json`, `validation_summary_json`
-- `published_at`, `locked_at`: publication gates
-- `immutable_hash`: content fingerprint at publish time
-
-**game_curation_events** — Append-only log of state transitions. Key fields:
-- `event_key` (unique): deduplication key
-- `from_status` → `to_status`
-- `reason`, `run_key`, `diff_summary_json`
-
-**console_publication_slots** — Per-console ranked list of published games. Key fields:
-- `slot_rank`: ordered position within console
-- `pass_key`: which curation pass produced this slot
-- `is_active`: soft delete / deactivation
-- `published_at`
-
----
-
-### Group 5 — People & OST
-
-| Table | Rows | RLS | PK | Role |
-|---|---|---|---|---|
-| `people` | 1,314 | NO | `id` (text) | Persons (developers, composers, directors) |
-| `game_people` | 3,919 | NO | `id` (bigint, serial) | Game ↔ person relationships with role |
-| `ost` | 978 | NO | `id` (text) | Soundtrack header per game |
-| `ost_tracks` | 186 | NO | `id` (bigint, serial) | Individual OST tracks |
-| `ost_releases` | 0 | NO | `id` (bigint, serial) | OST release/label info (empty scaffold) |
-
-**people** — `name`, `normalized_name`, `primary_role`. Source-linked. 1,314 persons.
-
-**game_people** — Junction table. `role`, `billing_order`, `confidence`, `is_inferred`. 3,919 relationships across 1,509 games = ~2.6 credits per game on average.
-
-**ost** — One header per game soundtrack. `needs_release_enrichment` flag indicates backfill queue. 978 OSTs for 1,509 games = ~65% coverage.
-
-**ost_tracks** — 186 tracks across 978 OSTs = sparse. Most OSTs have no tracks yet.
-
-**ost_releases** — 0 rows. Scaffold for label/catalog enrichment. Not populated.
-
----
-
-### Group 6 — Provenance & Quality
-
-| Table | Rows | RLS | PK | Role |
-|---|---|---|---|---|
-| `source_records` | 9,065 | NO | `id` (bigint, serial) | Source attribution records |
-| `field_provenance` | 18,009 | NO | `id` (bigint, serial) | Field-level provenance per entity |
-| `quality_records` | 1,516 | NO | `id` (bigint, serial) | Quality / completeness scores per entity |
-| `media_references` | 4,932 | NO | `id` (bigint, serial) | Media URLs with compliance tracking |
-
-**source_records** — Central provenance registry. Key fields:
-- `entity_type`, `entity_id`: polymorphic reference (games, people, ost, etc.)
-- `source_name`, `source_type`, `source_url`, `source_license`
-- `compliance_status`, `confidence_level` (default 0.5)
-- `ingested_at`, `last_verified_at`
-Referenced by FK from 11 other tables.
-
-**field_provenance** — 18,009 rows. Granular field-level tracking.
-- `entity_type`, `entity_id`, `field_name` per row
-- `source_record_id` FK
-- `value_hash`: fingerprint to detect stale provenance
-- `is_inferred`, `confidence_level`, `verified_at`
-
-**quality_records** — 1,516 rows (≈ 1 per game).
-- `completeness_score`, `confidence_score`, `source_coverage_score`, `freshness_score`, `overall_score`
-- `tier`: quality tier label
-- `missing_critical_fields`, `breakdown_json`, `priority_score`
-This table drives enrichment prioritization.
-
-**media_references** — 4,932 rows. Polymorphic (`entity_type` + `entity_id`). Key fields:
-- `media_type`, `url`, `provider`, `preview_url`, `asset_subtype`
-- `license_status` (default `reference_only`)
-- `ui_allowed` (default false) — explicit gate before displaying media
-- `compliance_status`, `healthcheck_status` (default `unchecked`)
-- `last_checked_at`: freshness of health check
-
-**Health flag:** `ui_allowed = false` default means no media renders in UI unless explicitly approved. 4,932 references but unknown how many are `ui_allowed = true`.
-
----
-
-### Group 7 — Competitive & Records
-
-| Table | Rows | RLS | PK | Role |
-|---|---|---|---|---|
-| `game_competitive_profiles` | 10 | NO | `game_id` (text) | Competitive relevance flags per game |
-| `game_record_categories` | 28 | NO | `id` (text) | Speedrun/score-attack categories |
-| `game_record_entries` | 140 | NO | `id` (text) | Individual record holders |
-| `game_achievement_profiles` | 0 | NO | `game_id` (text) | Achievement data (empty scaffold) |
-
-**game_competitive_profiles** — 10 rows. Boolean flags: `speedrun_relevant`, `score_attack_relevant`, `leaderboard_relevant`, `achievement_competitive`. Very sparse — only 10 of 1,509 games tagged.
-
-**game_record_categories** — 28 categories across those 10 games.
-
-**game_record_entries** — 140 individual entries (player handle, score, rank, achieved_at, external URL). Linked to both category and game.
-
-**game_achievement_profiles** — 0 rows. Scaffold for RetroAchievements or similar. Not populated.
-
----
-
-### Internal
-
-| Table | Rows | RLS | PK | Role |
-|---|---|---|---|---|
-| `_schema_migrations` | 1 | NO | `id` (text) | Internal migration tracker |
-
-**_schema_migrations** — 1 row only. The Supabase CLI migration list (`list_migrations`) returns empty. Migrations have been applied ad-hoc (via dashboard or direct SQL) rather than through the CLI migration system. Commits reference migrations 014+015 but they are not tracked here.
-
----
-
-## Cross-Cutting Findings
-
-### F1 — True table count is 26, not 13
-CLAUDE.md Known Project State says "13 undocumented Supabase tables discovered during audit." The real count is 26 real tables + 1 internal. CLAUDE.md needs updating (deferred to LOT-OP-03).
-
-### F2 — RLS covers only 4 of 26 tables
-Tables with RLS: `games`, `consoles`, `franchise_entries`, `collection_items`.
-Tables without RLS (22): all provenance, editorial, market pipeline, people, OST, curation, competitive, and quality tables. These are readable by any authenticated or anonymous Supabase client depending on project policy. Not necessarily a production risk if the project uses Supabase service role exclusively from the backend — but it is an architectural assumption that is nowhere documented.
-
-### F3 — Condition enum casing mismatch
-`price_history.condition`: values are `loose | cib | mint` (lowercase) with a constraint.
-`price_history.condition_normalized`: values are `Loose | CIB | Mint` (capitalized) with a separate constraint.
-`collection_items.condition`: `loose | cib | mint` (lowercase).
-Any query joining or comparing condition across these columns without normalization will silently mismatch. This is an active data integrity risk.
-
-### F4 — games / game_editorial field duplication
-`games` has: `summary`, `synopsis`, `lore`, `gameplay_description`, `characters`, `dev_anecdotes`, `cheat_codes`, `versions`, `avg_duration_main`, `avg_duration_complete`, `speedrun_wr`.
-`game_editorial` has: the same fields. Migration toward normalization is in progress but not complete. Two sources of truth exist simultaneously. A write to `games` and a write to `game_editorial` are not synchronized.
-
-### F5 — Migration tracking is not active
-`list_migrations` returns empty. Commits reference migrations 014+015, which means migrations were applied via dashboard or raw SQL — not through the Supabase CLI migration system. There is no rollback path and no migration history queryable from the CLI. This is an operational risk for any schema change.
-
-### F6 — Four empty scaffold tables
-`ost_releases` (0), `price_ingest_runs` (0), `price_rejections` (0), `game_achievement_profiles` (0). These tables are schema-ready but have never received data. `price_ingest_runs` and `price_rejections` are particularly concerning — the market pipeline is running but not logging run telemetry or rejections.
-
-### F7 — media_references: unknown ui_allowed ratio
-4,932 media references exist but `ui_allowed` defaults to false. Unknown how many have been explicitly approved for UI display. If the ratio is low, the media layer is effectively dark in production.
-
----
-
-## Next Steps (ranked by risk)
-
-| Priority | Finding | Action | Lot |
+| Table | Rows | RLS | Service refs |
 |---|---|---|---|
-| 1 | F3 — Condition casing mismatch | Audit query paths that join condition fields; normalize or add a view | LOT-FIX-01 |
-| 2 | F5 — Migration tracking gap | Establish CLI migration discipline; document current ad-hoc state | LOT-OP-03 |
-| 3 | F6 — Pipeline telemetry blind | Enable price_ingest_runs + price_rejections logging in pipeline | LOT-PROD-02 |
-| 4 | F4 — Editorial duplication | Decide: games fields are cache (read from game_editorial) or remove from games | THINK lot |
-| 5 | F2 — RLS gaps | Document intended security model; enable RLS where needed | THINK lot |
-| 6 | F7 — media ui_allowed ratio | Run a count query; understand what is actually serving in UI | LOT-PROD-02 |
-| 7 | F1 — CLAUDE.md table count | Update "13 tables" to "26 tables" in CLAUDE.md | LOT-OP-03 |
+| games | 1,509 | yes | dex.js, queries.js, catalog.js, storage.js, search |
+| consoles | 25 | yes | fetchers.js |
+| franchise_entries | 15 | yes | catalog.js, franchises.js, stats.js, fetchers.js |
+| game_editorial | 1,509 | no | media.js |
+| people | 1,314 | no | **none** |
+| game_people | 3,919 | no | credits.js |
+
+### MARKET (pricing layer)
+
+| Table | Rows | RLS | Service refs |
+|---|---|---|---|
+| price_history | 15,278 | yes | queries.js, catalog.js, games-helpers.js |
+| price_sources | 11 | no | **none** (registry in source-registry.js) |
+| price_ingest_runs | 0 | no | **none** |
+| price_rejections | 0 | no | **none** |
+
+### COLLECTION (user layer)
+
+| Table | Rows | RLS | Service refs |
+|---|---|---|---|
+| collection_items | 8 | yes | storage.js, write.js, collection-service.js |
+| collection_snapshots | ~30 | yes | cron.js (daily), collection routes |
+| game_snapshots | ~150 | yes | cron.js (daily), game-detail routes |
+
+### PROVENANCE (sourcing + quality)
+
+| Table | Rows | RLS | Service refs |
+|---|---|---|---|
+| source_records | 9,065 | no | **none** (pipeline-only) |
+| field_provenance | 18,009 | no | **none** (pipeline-only) |
+| quality_records | 1,516 | no | **none** (pipeline-only) |
+| media_references | 4,932 | no | media.js, public-publication-service.js |
+
+### CURATION (editorial pipeline)
+
+| Table | Rows | RLS | Service refs |
+|---|---|---|---|
+| game_content_profiles | 1,483 | no | media.js |
+| game_curation_states | 1,483 | no | public-publication-service.js |
+| game_curation_events | 2,767 | no | **none** (pipeline-only) |
+| console_publication_slots | 1,025 | no | **none** (pipeline-only) |
+
+### COMPETITIVE (records + achievements)
+
+| Table | Rows | RLS | Service refs |
+|---|---|---|---|
+| game_competitive_profiles | 10 | no | **none** |
+| game_record_categories | 28 | no | **none** |
+| game_record_entries | 140 | no | **none** |
+| game_achievement_profiles | 0 | no | **none** |
+
+### OST (soundtracks)
+
+| Table | Rows | RLS | Service refs |
+|---|---|---|---|
+| ost | 978 | no | credits.js |
+| ost_tracks | 186 | no | credits.js |
+| ost_releases | 0 | no | credits.js |
+
+### BAZ COMPANION
+
+| Table | Rows | RLS | Service refs |
+|---|---|---|---|
+| baz_replies | 58 | yes | baz routes (curated replies, mood tags, usage_count) |
+| game_anecdotes | 48 | yes | game-detail routes (BAZ fun facts per game) |
+
+### INFRASTRUCTURE
+
+| Table | Rows | RLS | Service refs |
+|---|---|---|---|
+| _schema_migrations | 1 | no | **none** (migration tooling) |
+
+---
+
+## Relationship Graph
+
+```
+games (1,509) ──PK: id
+  ├── game_editorial.game_id
+  ├── game_people.game_id
+  ├── price_history.game_id
+  ├── collection_items.game_id
+  ├── game_snapshots.game_id
+  ├── game_anecdotes.game_id
+  ├── game_content_profiles.game_id
+  ├── game_curation_states.game_id
+  ├── game_curation_events.game_id
+  ├── game_competitive_profiles.game_id
+  ├── game_record_categories.game_id
+  ├── game_record_entries.game_id
+  ├── game_achievement_profiles.game_id
+  ├── console_publication_slots.game_id
+  ├── ost.game_id
+  └── games.franch_id → franchise_entries.slug
+
+consoles (25) ──PK: id
+  └── console_publication_slots.console_id
+
+franchise_entries (15) ──PK: slug
+  └── games.franch_id
+
+people (1,314) ──PK: id
+  ├── game_people.person_id
+  └── ost_tracks.composer_person_id
+
+source_records (9,065) ──PK: id
+  ├── field_provenance.source_record_id
+  ├── game_editorial.source_record_id
+  ├── game_people.source_record_id
+  ├── game_competitive_profiles.source_record_id
+  ├── game_record_categories.source_record_id
+  ├── game_record_entries.source_record_id
+  ├── game_achievement_profiles.source_record_id
+  ├── ost.source_record_id
+  ├── ost_tracks.source_record_id
+  ├── ost_releases.source_record_id
+  └── people.source_record_id
+
+ost (978) ──PK: id
+  ├── ost_tracks.ost_id
+  └── ost_releases.ost_id
+
+game_record_categories (28) ──PK: id
+  └── game_record_entries.category_id
+```
+
+**Hub tables** (most FK references): `games` (16 inbound FKs), `source_records` (11 inbound FKs)
+
+---
+
+## Table Reference
+
+### games
+
+**Role:** Central encyclopedia entity. Every game in the catalog.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | text | no | PK |
+| title | text | no | |
+| console | text | yes | |
+| year | integer | yes | |
+| developer | text | yes | |
+| genre | text | yes | |
+| metascore | integer | yes | |
+| rarity | text | yes | CHECK: LEGENDARY, EPIC, RARE, UNCOMMON, COMMON |
+| type | text | yes | default 'game' |
+| slug | text | yes | UNIQUE |
+| franch_id | text | yes | FK → franchise_entries.slug |
+| loose_price | numeric | yes | |
+| cib_price | numeric | yes | |
+| mint_price | numeric | yes | |
+| source_confidence | numeric | yes | default 0.30 |
+| price_confidence_tier | text | yes | CHECK: high, medium, low, unknown |
+| price_confidence_reason | text | yes | |
+| price_last_updated | date | yes | |
+| price_currency | varchar | yes | |
+| source_names | text | yes | |
+| editorial_status | text | yes | CHECK: complete, partial, empty. Default 'empty' |
+| media_status | text | yes | CHECK: complete, partial, empty. Default 'empty' |
+| price_status | text | yes | CHECK: real, synthetic, empty. Default 'empty' |
+| summary | text | yes | **DUPLICATED in game_editorial** |
+| synopsis | text | yes | **DUPLICATED in game_editorial** |
+| tagline | text | yes | |
+| lore | text | yes | **DUPLICATED in game_editorial** |
+| gameplay_description | text | yes | **DUPLICATED in game_editorial** |
+| characters | jsonb | yes | **DUPLICATED in game_editorial** |
+| dev_anecdotes | jsonb | yes | **DUPLICATED in game_editorial** |
+| dev_team | jsonb | yes | |
+| cheat_codes | jsonb | yes | **DUPLICATED in game_editorial** |
+| similar_ids | jsonb | yes | |
+| versions | jsonb | yes | **DUPLICATED in game_editorial** |
+| avg_duration_main | numeric | yes | **DUPLICATED in game_editorial** |
+| avg_duration_complete | numeric | yes | **DUPLICATED in game_editorial** |
+| speedrun_wr | jsonb | yes | **DUPLICATED in game_editorial** |
+| cover_url | text | yes | |
+| youtube_id | text | yes | |
+| youtube_verified | boolean | yes | |
+| archive_id | text | yes | |
+| archive_verified | boolean | yes | |
+| manual_url | text | yes | |
+| ost_composers | jsonb | yes | |
+| ost_notable_tracks | jsonb | yes | |
+| created_at | timestamptz | yes | default now() |
+| updated_at | timestamptz | yes | default now() |
+
+**Notes:** 44 columns. 11 columns duplicated with game_editorial. The games table serves as both catalog index and denormalized read model.
+
+---
+
+### consoles
+
+**Role:** Platform reference data.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | text | no | PK |
+| title | text | no | |
+| platform | text | no | UNIQUE |
+| year | integer | yes | |
+| manufacturer | text | yes | |
+| media_type | text | yes | |
+| created_at | timestamptz | yes | default now() |
+
+---
+
+### franchise_entries
+
+**Role:** Game franchise groupings (e.g., Zelda, Mario, Final Fantasy).
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| slug | text | no | PK |
+| name | text | no | |
+| synopsis | text | yes | |
+| first_game_year | integer | yes | |
+| last_game_year | integer | yes | |
+| developer | text | yes | |
+| genres | jsonb | yes | |
+| platforms | jsonb | yes | |
+| game_ids | jsonb | yes | |
+| heritage | text | yes | |
+| created_at | timestamptz | yes | default now() |
+| updated_at | timestamptz | yes | default now() |
+
+---
+
+### game_editorial
+
+**Role:** Normalized editorial content per game (split from games table).
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| game_id | text | no | PK, FK → games.id |
+| summary | text | yes | |
+| synopsis | text | yes | |
+| lore | text | yes | |
+| gameplay_description | text | yes | |
+| characters | jsonb | yes | |
+| dev_anecdotes | text | yes | Note: text here vs jsonb in games |
+| cheat_codes | jsonb | yes | |
+| versions | jsonb | yes | |
+| avg_duration_main | numeric | yes | |
+| avg_duration_complete | numeric | yes | |
+| speedrun_wr | jsonb | yes | |
+| source_record_id | bigint | yes | FK → source_records.id |
+| created_at | timestamptz | no | default now() |
+| updated_at | timestamptz | no | default now() |
+
+**Notes:** `dev_anecdotes` is text here but jsonb in games table — type mismatch across the duplication.
+
+---
+
+### people
+
+**Role:** People involved in game development/production.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | text | no | PK |
+| name | text | no | |
+| normalized_name | text | no | |
+| primary_role | text | yes | |
+| source_record_id | bigint | yes | FK → source_records.id |
+| created_at | timestamptz | no | default now() |
+| updated_at | timestamptz | no | default now() |
+
+---
+
+### game_people
+
+**Role:** Junction table linking games to people with roles.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| game_id | text | no | FK → games.id |
+| person_id | text | no | FK → people.id |
+| role | text | no | |
+| billing_order | integer | yes | |
+| source_record_id | bigint | yes | FK → source_records.id |
+| confidence | numeric | no | default 0.5 |
+| is_inferred | boolean | no | default false |
+
+---
+
+### collection_items
+
+**Role:** User collection entries (owned, wanted, for_sale).
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| game_id | text | no | FK → games.id |
+| user_session | text | yes | default 'local' |
+| condition | text | yes | CHECK: loose, cib, mint, other |
+| price_paid | numeric | yes | |
+| date_acquired | date | yes | |
+| notes | text | yes | |
+| wishlist | boolean | yes | default false |
+| edition_note | text | yes | |
+| region | varchar | yes | |
+| completeness | varchar | yes | default 'unknown' |
+| qualification_confidence | varchar | yes | default 'unknown' |
+| qualification_updated_at | timestamptz | yes | |
+| created_at | timestamptz | yes | default now() |
+| updated_at | timestamptz | yes | default now() |
+
+**Notes:** Missing `user_id`, `list_type`, `purchase_date`, `personal_note`, `price_threshold` columns that the service layer expects (storage.js queries for them). The service has a legacy fallback path using `wishlist` boolean.
+
+---
+
+### price_history
+
+**Role:** Individual price observations from market sources.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| game_id | text | no | FK → games.id |
+| price | numeric | no | |
+| condition | text | yes | CHECK: loose, cib, mint |
+| sale_date | timestamptz | yes | |
+| source | text | yes | default 'ebay' |
+| listing_url | text | yes | |
+| ebay_item_id | text | yes | |
+| listing_title | text | yes | |
+| source_id | integer | yes | |
+| source_market | text | yes | |
+| is_real_sale | boolean | yes | |
+| sale_type | text | yes | CHECK: auction, fixed_price_sold, realized_price |
+| listing_reference | text | yes | |
+| sold_at | timestamptz | yes | |
+| currency | varchar | yes | |
+| price_original | float8 | yes | |
+| price_eur | float8 | yes | |
+| title_raw | text | yes | |
+| condition_normalized | text | yes | CHECK: Loose, CIB, Mint |
+| normalized_region | text | yes | CHECK: PAL, NTSC-U, NTSC-J, NTSC-B, MULTI, unknown |
+| country_code | varchar | yes | |
+| match_confidence | float8 | yes | |
+| source_confidence | float8 | yes | |
+| payload_hash | varchar | yes | |
+| raw_payload | jsonb | yes | |
+| created_at | timestamptz | yes | default now() |
+
+**Notes:** 27 columns. Dual condition fields (`condition` lowercase + `condition_normalized` capitalized). Dual price fields (`price` + `price_original` + `price_eur`). Data sources: pricecharting (15,178 rows), Yahoo Auctions Japan (100 rows).
+
+---
+
+### price_sources
+
+**Role:** Registry of market data sources with reliability weights.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | integer | no | PK (serial) |
+| slug | text | no | UNIQUE |
+| name | text | no | |
+| market_bucket | text | no | |
+| source_type | text | no | |
+| reliability_weight | float8 | no | default 0 |
+| default_currency | varchar | yes | |
+| compliance_status | text | no | default 'approved_with_review' |
+| is_active | boolean | no | default true |
+| is_primary_sold_truth | boolean | no | default false |
+| publish_eligible | boolean | no | default false |
+| notes | text | yes | |
+| created_at | timestamptz | no | default now() |
+| updated_at | timestamptz | no | default now() |
+
+**Notes:** Also hardcoded in source-registry.js — dual source of truth.
+
+---
+
+### price_ingest_runs
+
+**Role:** Pipeline run tracking for market data ingestion. **EMPTY.**
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | integer | no | PK (serial) |
+| source_id | integer | yes | |
+| source_market | text | yes | |
+| status | text | no | |
+| started_at | timestamptz | no | |
+| finished_at | timestamptz | yes | |
+| fetched_count | integer | no | default 0 |
+| normalized_count | integer | no | default 0 |
+| inserted_count | integer | no | default 0 |
+| deduped_count | integer | no | default 0 |
+| matched_count | integer | no | default 0 |
+| rejected_count | integer | no | default 0 |
+| published_games_count | integer | no | default 0 |
+| notes | text | yes | |
+| error_summary | text | yes | |
+| run_key | text | yes | |
+| pipeline_name | text | yes | |
+| source_scope | text | yes | |
+| dry_run | boolean | yes | |
+
+---
+
+### price_rejections
+
+**Role:** Rejected price observations from pipeline. **EMPTY.**
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | integer | no | PK (serial) |
+| source_id | integer | yes | |
+| source_market | text | yes | |
+| listing_reference | text | yes | |
+| title_raw | text | yes | |
+| rejection_reason | text | no | |
+| rejection_stage | text | no | |
+| raw_payload | text | yes | |
+| created_at | timestamptz | no | default now() |
+
+---
+
+### source_records
+
+**Role:** Provenance tracking — which external source provided data.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| entity_type | text | no | |
+| entity_id | text | no | |
+| field_name | text | yes | |
+| source_name | text | no | |
+| source_type | text | no | |
+| source_url | text | yes | |
+| source_license | text | yes | |
+| compliance_status | text | no | |
+| ingested_at | timestamptz | no | |
+| last_verified_at | timestamptz | yes | |
+| confidence_level | numeric | no | default 0.5 |
+| notes | text | yes | |
+
+---
+
+### field_provenance
+
+**Role:** Per-field provenance — which source provided which field value.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| entity_type | text | no | |
+| entity_id | text | no | |
+| field_name | text | no | |
+| source_record_id | bigint | yes | FK → source_records.id |
+| value_hash | text | yes | |
+| is_inferred | boolean | no | default false |
+| confidence_level | numeric | no | default 0.5 |
+| verified_at | timestamptz | yes | |
+
+---
+
+### quality_records
+
+**Role:** Computed quality scores per entity.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| entity_type | text | no | |
+| entity_id | text | no | |
+| completeness_score | integer | no | |
+| confidence_score | integer | no | |
+| source_coverage_score | integer | no | |
+| freshness_score | integer | yes | |
+| overall_score | integer | no | |
+| tier | text | no | |
+| missing_critical_fields | jsonb | yes | |
+| breakdown_json | jsonb | yes | |
+| priority_score | numeric | yes | |
+| updated_at | timestamptz | no | |
+
+---
+
+### media_references
+
+**Role:** Links to external media (covers, screenshots, videos) with compliance tracking.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| entity_type | text | no | |
+| entity_id | text | no | |
+| media_type | text | no | |
+| url | text | no | |
+| provider | text | yes | |
+| compliance_status | text | yes | |
+| storage_mode | text | yes | |
+| source_record_id | bigint | yes | |
+| title | text | yes | |
+| preview_url | text | yes | |
+| asset_subtype | text | yes | |
+| license_status | text | no | default 'reference_only' |
+| ui_allowed | boolean | no | default false |
+| healthcheck_status | text | no | default 'unchecked' |
+| notes | text | yes | |
+| last_checked_at | timestamptz | yes | |
+| source_context | jsonb | yes | |
+| created_at | timestamptz | yes | default now() |
+| updated_at | timestamptz | yes | default now() |
+
+---
+
+### game_content_profiles
+
+**Role:** Content completeness profiles per game (heuristic or computed).
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| game_id | text | no | PK, FK → games.id |
+| console_id | text | yes | |
+| profile_version | text | no | |
+| profile_mode | text | no | default 'heuristic' |
+| content_profile_json | jsonb | no | |
+| profile_basis_json | jsonb | yes | |
+| relevant_expected | integer | no | default 0 |
+| updated_at | timestamptz | no | default now() |
+
+---
+
+### game_curation_states
+
+**Role:** Curation workflow state machine per game.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| game_id | text | no | PK, FK → games.id |
+| console_id | text | yes | |
+| pass_key | text | no | |
+| status | text | no | |
+| selection_score | numeric | yes | |
+| target_rank | integer | yes | |
+| is_target | boolean | no | default false |
+| completion_score | numeric | no | default 0 |
+| relevant_expected | integer | no | default 0 |
+| relevant_filled | integer | no | default 0 |
+| missing_relevant_sections_json | jsonb | yes | |
+| critical_errors_json | jsonb | yes | |
+| validation_summary_json | jsonb | yes | |
+| last_validated_at | timestamptz | yes | |
+| locked_at | timestamptz | yes | |
+| published_at | timestamptz | yes | |
+| content_version | text | yes | |
+| immutable_hash | text | yes | |
+| updated_at | timestamptz | no | default now() |
+
+---
+
+### game_curation_events
+
+**Role:** Audit log for curation state transitions.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| event_key | text | no | UNIQUE |
+| game_id | text | no | FK → games.id |
+| from_status | text | yes | |
+| to_status | text | no | |
+| reason | text | no | |
+| run_key | text | yes | |
+| diff_summary_json | jsonb | yes | |
+| created_at | timestamptz | no | default now() |
+
+---
+
+### console_publication_slots
+
+**Role:** Which games are published (visible) per console, with ranking.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| console_id | text | no | FK → consoles.id |
+| game_id | text | no | FK → games.id |
+| pass_key | text | no | |
+| slot_rank | integer | no | |
+| is_active | boolean | no | default true |
+| published_at | timestamptz | yes | |
+| created_at | timestamptz | no | default now() |
+| updated_at | timestamptz | no | default now() |
+
+---
+
+### game_competitive_profiles
+
+**Role:** Competitive gaming relevance flags per game. 10 rows.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| game_id | text | no | PK, FK → games.id |
+| speedrun_relevant | boolean | no | default false |
+| score_attack_relevant | boolean | no | default false |
+| leaderboard_relevant | boolean | no | default false |
+| achievement_competitive | boolean | no | default false |
+| primary_source | text | yes | |
+| source_summary | jsonb | yes | |
+| source_record_id | bigint | yes | FK → source_records.id |
+| freshness_checked_at | timestamptz | yes | |
+| created_at | timestamptz | no | default now() |
+| updated_at | timestamptz | no | default now() |
+
+---
+
+### game_record_categories
+
+**Role:** Speedrun/high-score category definitions per game.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | text | no | PK |
+| game_id | text | no | FK → games.id |
+| category_key | text | yes | |
+| label | text | no | |
+| record_kind | text | yes | |
+| value_direction | text | yes | |
+| external_url | text | yes | |
+| source_name | text | no | |
+| source_type | text | no | |
+| source_url | text | yes | |
+| observed_at | timestamptz | yes | |
+| is_primary | boolean | no | default false |
+| display_order | integer | no | default 0 |
+| source_record_id | bigint | yes | FK → source_records.id |
+| created_at | timestamptz | no | default now() |
+| updated_at | timestamptz | no | default now() |
+
+---
+
+### game_record_entries
+
+**Role:** Individual records (speedrun times, high scores) per category.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | text | no | PK |
+| category_id | text | no | FK → game_record_categories.id |
+| game_id | text | no | FK → games.id |
+| rank_position | integer | yes | |
+| player_handle | text | yes | |
+| score_raw | text | yes | |
+| score_display | text | no | |
+| achieved_at | timestamptz | yes | |
+| external_url | text | yes | |
+| source_name | text | no | |
+| source_type | text | no | |
+| source_url | text | yes | |
+| observed_at | timestamptz | yes | |
+| source_record_id | bigint | yes | FK → source_records.id |
+| created_at | timestamptz | no | default now() |
+| updated_at | timestamptz | no | default now() |
+
+---
+
+### game_achievement_profiles
+
+**Role:** Achievement/trophy system metadata per game. **EMPTY.**
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| game_id | text | no | PK, FK → games.id |
+| source_name | text | no | |
+| source_type | text | no | |
+| source_url | text | yes | |
+| points_total | integer | yes | |
+| achievement_count | integer | yes | |
+| leaderboard_count | integer | yes | |
+| mastery_summary | text | yes | |
+| high_score_summary | text | yes | |
+| observed_at | timestamptz | yes | |
+| source_record_id | bigint | yes | FK → source_records.id |
+| created_at | timestamptz | no | default now() |
+| updated_at | timestamptz | no | default now() |
+
+---
+
+### ost
+
+**Role:** Original soundtrack entries per game.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | text | no | PK |
+| game_id | text | no | FK → games.id |
+| title | text | yes | |
+| source_record_id | bigint | yes | FK → source_records.id |
+| confidence | numeric | no | default 0.5 |
+| needs_release_enrichment | boolean | no | default false |
+| created_at | timestamptz | no | default now() |
+| updated_at | timestamptz | no | default now() |
+
+---
+
+### ost_tracks
+
+**Role:** Individual tracks within an OST.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| ost_id | text | no | FK → ost.id |
+| track_title | text | no | |
+| track_number | integer | yes | |
+| composer_person_id | text | yes | FK → people.id |
+| source_record_id | bigint | yes | FK → source_records.id |
+| confidence | numeric | no | default 0.5 |
+
+---
+
+### ost_releases
+
+**Role:** Physical/digital release metadata for OSTs. **EMPTY.**
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| ost_id | text | no | FK → ost.id |
+| region_code | text | yes | |
+| release_date | date | yes | |
+| catalog_number | text | yes | |
+| label | text | yes | |
+| source_record_id | bigint | yes | FK → source_records.id |
+| confidence | numeric | no | default 0.5 |
+
+---
+
+### _schema_migrations
+
+**Role:** Migration tracking.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | text | no | PK |
+| file_name | text | no | |
+| applied_at | text | no | |
+
+---
+
+### collection_snapshots
+
+**Role:** Daily snapshot of total collection value for evolution chart.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| snapshot_date | date | no | UNIQUE |
+| total_items | integer | no | |
+| total_value_loose | numeric | yes | |
+| total_value_cib | numeric | yes | |
+| created_at | timestamptz | yes | default now() |
+
+**Notes:** Populated daily by /api/cron/snapshot. Powers SVG evolution chart on collection page.
+
+---
+
+### game_snapshots
+
+**Role:** Daily per-game price snapshot for individual price evolution.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| game_id | text | no | FK → games.id |
+| snapshot_date | date | no | |
+| loose_price | numeric | yes | |
+| cib_price | numeric | yes | |
+| created_at | timestamptz | yes | default now() |
+
+**Notes:** Populated daily by /api/cron/snapshot. UNIQUE(game_id, snapshot_date).
+
+---
+
+### baz_replies
+
+**Role:** Curated BAZ replies with mood tags and usage tracking.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| intent | text | no | |
+| text | text | no | |
+| mood | text | yes | |
+| usage_count | integer | yes | default 0 |
+| created_at | timestamptz | yes | default now() |
+
+**Notes:** 58 curated replies. Used by baz-engine for personality-consistent responses.
+
+---
+
+### game_anecdotes
+
+**Role:** BAZ fun facts / anecdotes per game.
+
+| Column | Type | Nullable | Constraints |
+|---|---|---|---|
+| id | bigint | no | PK (serial) |
+| game_id | text | no | FK → games.id |
+| baz_intro | text | yes | |
+| anecdote_text | text | no | |
+| source | text | yes | |
+| created_at | timestamptz | yes | default now() |
+
+**Notes:** 48 anecdotes for 39 games. Displayed on game-detail page, BAZ speaks once per game.
+
+---
+
+## Health Flags
+
+### FLAG-01: Field duplication — games <> game_editorial — RESOLVED (LOT-PROD-05)
+
+11 columns exist in both `games` and `game_editorial`.
+`dev_anecdotes` type mismatch (jsonb vs text) remains — not synced.
+
+**Status:** Data synced bidirectionally (2026-04-10). 0 divergences on 10/11 fields.
+**Remaining:** `dev_anecdotes` type mismatch. Structural duplication persists (11 columns in two tables).
+
+### FLAG-02: RLS inconsistency — RESOLVED (LOT-PROD-06)
+
+**Status:** All 27/27 tables now have RLS enabled (2026-04-10).
+
+| Policy pattern | Tables |
+|---|---|
+| SELECT only (public read) | 25 catalog/provenance/market tables |
+| Full CRUD (public) | collection_items |
+| Locked (no policy, service-key only) | _schema_migrations |
+
+All writes via anon key are now blocked except collection_items. Backend service key bypasses RLS.
+
+### FLAG-03: Empty tables — CLOSED (non-issue)
+
+| Table | Purpose | Verdict |
+|---|---|---|
+| game_achievement_profiles | RetroAchievements data | Schema ready, pipeline infrastructure for future enrichment |
+| ost_releases | Physical OST release info | Schema ready, pipeline infrastructure for future enrichment |
+| price_ingest_runs | Pipeline run tracking | Pipeline uses ad-hoc tracking — formal logging not yet wired |
+| price_rejections | Rejected price observations | Same as above |
+
+**Status:** No action needed. These are forward-looking schema. Retaining for future pipeline use.
+
+### FLAG-04: Tables with no service reference — CLOSED (pipeline-only)
+
+All 12 tables confirmed as **pipeline-only** — referenced by 57 scripts in `backend/scripts/` (enrichment, publishing, auditing, migration). None are orphaned.
+
+`_schema_migrations`, `console_publication_slots`, `field_provenance`, `game_achievement_profiles`, `game_competitive_profiles`, `game_record_categories`, `game_record_entries`, `people`, `price_ingest_runs`, `price_rejections`, `price_sources`, `quality_records`, `source_records`
+
+**Status:** No action needed. Runtime services read denormalized data from `games`; pipeline scripts write to normalized tables.
+
+### FLAG-05: price_sources dual source of truth — CLOSED (documented)
+
+`price_sources` table (11 rows) mirrors `MARKET_SOURCE_REGISTRY` in `source-registry.js`.
+
+**Architecture:** `source-registry.js` is the **code-authoritative** source (read at import time, used by all pipeline logic). `price_sources` table is the **DB-authoritative** copy (seeded from registry, used by SQL-only queries). No runtime conflict exists — the JS registry is the primary consumer, and the table is populated by `PRICE_SOURCE_SEED_ROWS` from the same registry.
+
+**Status:** Dual source is by design. Risk of drift is low (seed is generated from registry). No action needed.
+
+### FLAG-06: collection_items schema mismatch — RESOLVED (LOT-PROD-04)
+
+**Status:** 6 missing columns added (2026-04-10). Service now runs on canonical path.
+Columns added: `user_id`, `list_type`, `added_at`, `purchase_date`, `personal_note`, `price_threshold`.
+Legacy columns retained: `wishlist`, `date_acquired`.
+
+---
+
+## Out-of-Scope Observations
+
+1. **No indexes audited** — query performance unknown (would require `pg_indexes` analysis)
+2. **No RLS policy content audited** — only checked enabled/disabled flag
+3. **Supabase auth tables** not included (auth schema)
+4. **Storage buckets** not audited
+5. **Edge functions** not audited
+6. **games table has 44 columns** — candidate for further normalization beyond the editorial split
+7. **price_history has dual condition columns** (`condition` lowercase, `condition_normalized` capitalized) — potential confusion in queries

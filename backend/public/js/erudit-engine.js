@@ -26,21 +26,18 @@
     good_action: 2,
   }
 
-  // Memory (localStorage)
-  var MEMORY_KEY = 'rdx-erudit-memory'
-
+  // Memory (unified bazMemory)
   function loadMemory() {
-    try {
-      return JSON.parse(localStorage.getItem(MEMORY_KEY)) || createMemory()
-    } catch (_) { return createMemory() }
+    if (window.bazMemory) return window.bazMemory.load().erudit
+    return createMemory()
   }
 
   function createMemory() {
     return { interactions: [], collectionSnapshot: null, firstVisit: null, visitCount: 0, lastVisit: null }
   }
 
-  function saveMemory(mem) {
-    try { localStorage.setItem(MEMORY_KEY, JSON.stringify(mem)) } catch (_) {}
+  function saveMemory() {
+    if (window.bazMemory) window.bazMemory.save()
   }
 
   function recordVisit() {
@@ -48,7 +45,7 @@
     if (!mem.firstVisit) mem.firstVisit = new Date().toISOString()
     mem.visitCount = (mem.visitCount || 0) + 1
     mem.lastVisit = new Date().toISOString()
-    saveMemory(mem)
+    saveMemory()
     return mem
   }
 
@@ -56,7 +53,7 @@
     var mem = loadMemory()
     mem.interactions.push({ user: user, erudit: erudit, intent: intent, ts: Date.now() })
     if (mem.interactions.length > 20) mem.interactions = mem.interactions.slice(-20)
-    saveMemory(mem)
+    saveMemory()
   }
 
   function wasRecentlyAsked(text) {
@@ -76,7 +73,7 @@
       qualified: (stats.total_medium || 0) + (stats.total_high || 0),
       lastChange: new Date().toISOString(),
     }
-    saveMemory(mem)
+    saveMemory()
     return prev
   }
 

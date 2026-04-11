@@ -55,11 +55,19 @@
     if (_tipEl) _tipEl.style.display = 'none'
   }
 
-  // First-time hint via BAZ
+  // First-time hint via BAZ (unified bazMemory)
   function showGlossHint() {
-    if (_hintShown || sessionStorage.getItem('rdx-gloss-hint')) return
+    if (_hintShown) return
+    try {
+      if (window.bazMemory && window.bazMemory.load().glossHint) return
+    } catch (_) { return }
     _hintShown = true
-    sessionStorage.setItem('rdx-gloss-hint', '1')
+    try {
+      if (window.bazMemory) {
+        window.bazMemory.load().glossHint = true
+        window.bazMemory.save()
+      }
+    } catch (_) {}
     if (window.BAZ && window.BAZ.say) {
       setTimeout(function () {
         window.BAZ.say('Les termes soulignes sont cliquables. Je t\'explique.', 4000)
