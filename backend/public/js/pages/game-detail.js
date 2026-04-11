@@ -3725,31 +3725,43 @@ async function loadBazAnecdotes(gameId) {
   }
 }
 
-// BAZ contextual fallback — speaks about price or metascore if no anecdote
+// BAZ contextual fallback — always speaks something on game-detail
 function bazContextualFallback(game) {
-  if (!window.BAZ || !window.bazMemory) return
-  var _bm = window.bazMemory.load()
-  // If anecdote was already shown for this game, skip
-  if (_bm.anecdotesSeen[game.id]) return
-  // Mark as seen so we don't repeat
-  _bm.anecdotesSeen[game.id] = true
-  window.bazMemory.save()
+  if (!window.BAZ) return
+  var _bm = window.bazMemory ? window.bazMemory.load() : { anecdotesSeen: {} }
+  var alreadySeen = _bm.anecdotesSeen && _bm.anecdotesSeen[game.id]
+
+  // If anecdote was already shown, give a short revisit message instead
+  if (alreadySeen) {
+    var revisitMsgs = [
+      game.title + '. Tu reviens.',
+      'Hmm. ' + game.title + '. Deja vu.',
+      game.title + '. Les prix ont peut-etre bouge.',
+      'Tiens. ' + game.title + ' de nouveau.',
+    ]
+    var pick = revisitMsgs[Math.floor(Math.random() * revisitMsgs.length)]
+    setTimeout(function () { window.BAZ.say(pick, 3000) }, 2500)
+    return
+  }
+
+  // Mark as seen
+  if (window.bazMemory) {
+    _bm.anecdotesSeen[game.id] = true
+    window.bazMemory.save()
+  }
 
   var msg = null
   var price = Number(game.loosePrice || 0)
   var meta = Number(game.metascore || 0)
   var tier = String(game.priceConfidenceTier || '').toLowerCase()
 
-  // Priority 2: price
   if (price > 0) {
     var verdict = tier === 'high' ? 'Donnees croisees, fiable.'
       : tier === 'medium' ? 'Plusieurs sources. Correct.'
       : tier === 'low' ? 'Peu de sources. A verifier.'
       : 'Prix indicatif.'
     msg = 'Loose a $' + Math.round(price) + '. ' + verdict
-  }
-  // Priority 3: metascore
-  else if (meta > 0) {
+  } else if (meta > 0) {
     var comment = meta >= 95 ? 'Un des meilleurs de tous les temps.'
       : meta >= 85 ? 'Solide. La critique valide.'
       : meta >= 70 ? 'Correct. Pas un chef-d oeuvre.'
