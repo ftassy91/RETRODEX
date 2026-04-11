@@ -3971,11 +3971,22 @@ function setAccordionState(sectionEl, expanded) {
 
   sectionEl.classList.toggle('is-open', expanded)
   toggleEl.setAttribute('aria-expanded', expanded ? 'true' : 'false')
-  const indicatorEl = toggleEl.querySelector('.detail-accordion-indicator')
-  if (indicatorEl) {
-    indicatorEl.textContent = expanded ? 'â–¾' : 'â–¸'
-  }
+  // Indicator is handled by CSS ::before on .detail-accordion-indicator
   contentEl.hidden = !expanded
+}
+
+function isAccordionContentEmpty(contentEl) {
+  if (!contentEl) return true
+  // Check if the content has any visible text or non-empty child elements
+  const text = (contentEl.textContent || '').replace(/[\s\-]+/g, '').trim()
+  if (!text) return true
+  // Check for placeholder-only content (all children are empty/hidden)
+  const visibleChildren = Array.from(contentEl.children).filter(function (el) {
+    if (el.hidden) return false
+    var t = (el.textContent || '').replace(/[\s\-]+/g, '').trim()
+    return t.length > 0
+  })
+  return visibleChildren.length === 0
 }
 
 function initDetailAccordions() {
@@ -3986,6 +3997,14 @@ function initDetailAccordions() {
     }
 
     toggleEl.dataset.bound = 'true'
+
+    // Hide sections with empty content (except collection — always shown)
+    const contentEl = sectionEl.querySelector('.detail-accordion-content')
+    if (sectionEl.id !== 'collection-shell' && isAccordionContentEmpty(contentEl)) {
+      sectionEl.hidden = true
+      return
+    }
+
     const defaultOpen = ['editorial-shell', 'related-shell'].includes(sectionEl.id)
     setAccordionState(sectionEl, defaultOpen)
     toggleEl.addEventListener('click', () => {

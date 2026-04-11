@@ -4806,13 +4806,22 @@ body {
 
 .detail-accordion-indicator {
   color: rgba(241, 196, 92, 0.92);
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-size: 0.72rem;
   flex-shrink: 0;
   min-width: 14px;
   text-align: center;
   line-height: 1;
   opacity: 0.92;
+}
+
+.detail-accordion-indicator::before {
+  content: '+';
+}
+
+.detail-accordion.is-open .detail-accordion-indicator::before,
+[aria-expanded="true"] .detail-accordion-indicator::before {
+  content: '-';
 }
 
 .detail-accordion-content {
