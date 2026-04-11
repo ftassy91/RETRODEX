@@ -579,11 +579,10 @@ function renderHeroSection(game) {
         </section>
 
         <aside class="detail-market-panel detail-hero-aside">
-          <div class="detail-kicker">DECISION</div>
-          ${priceContext}
           ${pricePanel}
+          ${priceContext}
           <div id="collection-decision-strip" class="detail-decision-strip">
-            <div class="detail-kicker">COLLECTION</div>
+            <div class="detail-kicker detail-kicker-small">COLLECTION</div>
             <div id="collection-decision-grid" class="surface-signal-grid is-five detail-decision-grid"></div>
             <p id="collection-decision-note" class="detail-reading-note"></p>
           </div>
