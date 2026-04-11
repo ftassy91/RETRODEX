@@ -105,10 +105,12 @@ Every plan or report must include:
 - Backfill script: catalog-aware floor, never-downgrade, date fix (LOT-FIX-12)
 - backend/.env present locally (gitignored) with Supabase pooler credentials
 - 5 collection items qualified, 0 duplicates, 1 sell signal active
-- 459 anecdotes BAZ pour 272 jeux (+168 cette session)
-- 1,113 jeux avec lien Archive.org (74% du catalogue)
-- Editorial : 44 cheat codes, 38 speedrun WR, 135 updates (dev_team, ost_composers, characters)
+- 624 anecdotes BAZ pour 424 jeux (sources: editorial, Wikipedia, manuelle)
+- 1,114 jeux avec lien Archive.org (74% du catalogue)
+- Editorial : 44 cheat codes, 38 speedrun WR, 1478 dev_teams, 1251 ost_composers, 1180 characters
 - 97% couverture covers IGDB (50 manquantes non resolvables)
+- Pipeline transcript : ingest-transcript.js + format JSON (Did You Know Gaming, GVMERS, etc.)
+- YouTube enrichment script pret (enrich-youtube-ids.js, necessite YOUTUBE_API_KEY)
 - UX score: 5.4 → 9.0
 
 ### BAZ System (converged — LOT-BAZ-CONV-01/02/03)
