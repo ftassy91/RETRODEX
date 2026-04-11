@@ -3700,12 +3700,15 @@ async function loadBazAnecdotes(gameId) {
 
     render()
     shellEl.hidden = false
+    // BAZ speaks the anecdote in the codec (contextual, not generic)
     if (window.BAZ && window.bazMemory) {
       var _bm = window.bazMemory.load()
       if (!_bm.anecdotesSeen[gameId]) {
         _bm.anecdotesSeen[gameId] = true
         window.bazMemory.save()
-        setTimeout(function () { window.BAZ.say('game_enriched', 3000) }, 3000)
+        var a = anecdotes[0]
+        var intro = a.baz_intro ? a.baz_intro + ' ' : ''
+        setTimeout(function () { window.BAZ.say(intro + a.anecdote_text, 8000, true) }, 2500)
       }
     }
 
@@ -3718,6 +3721,43 @@ async function loadBazAnecdotes(gameId) {
     }
   } catch (_) {
     // Silent — no anecdote is fine
+  }
+}
+
+// BAZ contextual fallback — speaks about price or metascore if no anecdote
+function bazContextualFallback(game) {
+  if (!window.BAZ || !window.bazMemory) return
+  var _bm = window.bazMemory.load()
+  // If anecdote was already shown for this game, skip
+  if (_bm.anecdotesSeen[game.id]) return
+  // Mark as seen so we don't repeat
+  _bm.anecdotesSeen[game.id] = true
+  window.bazMemory.save()
+
+  var msg = null
+  var price = Number(game.loosePrice || 0)
+  var meta = Number(game.metascore || 0)
+  var tier = String(game.priceConfidenceTier || '').toLowerCase()
+
+  // Priority 2: price
+  if (price > 0) {
+    var verdict = tier === 'high' ? 'Donnees croisees, fiable.'
+      : tier === 'medium' ? 'Plusieurs sources. Correct.'
+      : tier === 'low' ? 'Peu de sources. A verifier.'
+      : 'Prix indicatif.'
+    msg = 'Loose a $' + Math.round(price) + '. ' + verdict
+  }
+  // Priority 3: metascore
+  else if (meta > 0) {
+    var comment = meta >= 95 ? 'Un des meilleurs de tous les temps.'
+      : meta >= 85 ? 'Solide. La critique valide.'
+      : meta >= 70 ? 'Correct. Pas un chef-d oeuvre.'
+      : 'En dessous des radars critiques.'
+    msg = 'Metascore ' + meta + '. ' + comment
+  }
+
+  if (msg) {
+    setTimeout(function () { window.BAZ.say(msg, 5000) }, 3000)
   }
 }
 
@@ -3886,7 +3926,9 @@ async function loadPage() {
       ])
     }
     renderDetailContentStatus()
-    loadBazAnecdotes(currentGame.id)
+    loadBazAnecdotes(currentGame.id).then(function () {
+      bazContextualFallback(currentGame)
+    })
     loadGameEvolution(currentGame.id)
     await Promise.allSettled([
       franchisePromise,
