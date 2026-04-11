@@ -43,7 +43,7 @@
 }
 
 html, body {
-  background-color: #000000;
+  background-color: var(--bg);
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -68,6 +68,11 @@ html, body {
   --confidence-mid:  #e0b352;
   --confidence-high: #52e052;
   --rarity-epic:     #c48be8;
+  --nav-label:      #b8d658;
+  --status-negative: #e05252;
+  --status-info:     #38bdf8;
+  --rarity-uncommon: #44aadd;
+  --text-disabled:   #486648;
   --font-ui: 'BigBlueTerminal', 'Courier New', monospace;
   --font-display: 'DepartureMono', 'BigBlueTerminal', 'Courier New', monospace;
   --font-mono: var(--font-ui);
@@ -141,7 +146,7 @@ label {
   text-decoration: none;
 }
 .breadcrumb a:hover { color: var(--text-primary); }
-.breadcrumb .sep { color: #306230; }
+.breadcrumb .sep { color: var(--accent-dim); }
 .breadcrumb .current { color: var(--text-primary); }
 .btn { display: inline-block; padding: 6px 14px; border: 1px solid var(--accent-dim); border-radius: 3px; font-size: 0.7rem; font-family: inherit; background: transparent; color: var(--text-primary); cursor: pointer; text-decoration: none; }
 .btn:hover { border-color: var(--text-secondary); background: color-mix(in srgb, var(--accent) 8%, transparent); }
@@ -163,7 +168,7 @@ label {
 .rarity-legendary { color: var(--text-alert); border-color: var(--text-alert); }
 .rarity-epic { color: var(--rarity-epic); border-color: var(--rarity-epic); }
 .rarity-rare { color: var(--confidence-mid); border-color: var(--confidence-mid); }
-.rarity-uncommon { color: #44aadd; border-color: #44aadd; }
+.rarity-uncommon { color: var(--rarity-uncommon); border-color: var(--rarity-uncommon); }
 .rarity-common { color: var(--text-secondary); border-color: var(--text-secondary); }
 /* =============================================
    game-detail ? Sprint 5 additions
@@ -308,7 +313,7 @@ label {
         height: 180px;
         display: block;
         margin: 1rem 0;
-        border: 1px solid #1a3a1a;
+        border: 1px solid var(--border);
       }
 
       .price-panel {
@@ -564,7 +569,7 @@ label {
       .price-history {
         margin-top: 2rem;
         padding: 1rem;
-        border: 1px solid #306230;
+        border: 1px solid var(--accent-dim);
       }
 
       .price-history h3 {
@@ -584,7 +589,7 @@ label {
       .trend-badge {
         padding: 0.2rem 0.6rem;
         font-size: 0.65rem;
-        border: 1px solid #306230;
+        border: 1px solid var(--accent-dim);
         color: var(--text-primary);
       }
 
@@ -648,8 +653,8 @@ label {
 
       .chart-btn {
         background: none;
-        border: 1px solid #306230;
-        color: #306230;
+        border: 1px solid var(--accent-dim);
+        color: var(--accent-dim);
         padding: 0.2rem 0.75rem;
         font-size: 0.65rem;
         cursor: pointer;
@@ -663,8 +668,8 @@ label {
 
       .chart-container {
         position: relative;
-        background: #0a0a0a;
-        border: 1px solid #1a3a1a;
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
       }
 
       #price-chart {
@@ -681,7 +686,7 @@ label {
 
       .chart-label {
         font-size: 0.55rem;
-        color: #306230;
+        color: var(--accent-dim);
       }
 
       .price-stats-row {
@@ -694,13 +699,13 @@ label {
         flex: 1;
         text-align: center;
         padding: 0.5rem;
-        border: 1px solid #1a3a1a;
+        border: 1px solid var(--border);
       }
 
       .stat-label {
         display: block;
         font-size: 0.55rem;
-        color: #306230;
+        color: var(--accent-dim);
         margin-bottom: 0.25rem;
       }
 
@@ -713,7 +718,7 @@ label {
       .price-compare {
         margin-top: 2rem;
         padding: 1rem;
-        border: 1px solid #306230;
+        border: 1px solid var(--accent-dim);
         background: rgba(10, 10, 10, 0.24);
       }
 
@@ -733,7 +738,7 @@ label {
         grid-template-columns: 2fr 0.7fr 1fr 0.7fr 0.9fr;
         gap: 0.5rem;
         padding: 0.4rem 0;
-        border-bottom: 1px solid #1a3a1a;
+        border-bottom: 1px solid var(--border);
         font-size: 0.7rem;
         align-items: center;
       }
@@ -746,7 +751,7 @@ label {
       }
 
       .compare-header {
-        color: #306230;
+        color: var(--accent-dim);
         font-size: 0.6rem;
         letter-spacing: 0.05em;
       }
@@ -3006,7 +3011,7 @@ body { padding-bottom: 24px; }
 
 .legendary-card {
   border: 1px solid var(--text-alert);
-  background: #050505;
+  background: var(--bg-surface);
   padding: 0;
   overflow: hidden;
   cursor: pointer;
@@ -3054,13 +3059,13 @@ body { padding-bottom: 24px; }
   left: 0;
   right: 0;
   padding: 4px 16px;
-  background: #050505;
-  border-top: 1px solid #1a3a1a;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 0.65rem;
-  color: #306230;
+  color: var(--accent-dim);
   z-index: 100;
 }
 
@@ -3824,7 +3829,7 @@ body.experience-canon .terminal-preview-label {
 }
 
 .team-event-left {
-  color: #d97c7c;
+  color: var(--status-negative);
 }
 
 .team-event-changed {
@@ -5224,7 +5229,7 @@ body {
   margin-top: 0.25rem;
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: #486648;
+  color: var(--text-disabled);
 }
 
 .detail-studio-link {
@@ -5247,7 +5252,7 @@ body {
 }
 
 .detail-hero-reference.is-empty {
-  color: #3a5a3a;
+  color: var(--text-disabled);
   font-style: italic;
 }
 
@@ -5288,7 +5293,7 @@ body {
   margin-top: 0.35rem;
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  color: #5a7a5a;
+  color: var(--text-muted);
   font-style: italic;
 }
 
@@ -5342,7 +5347,7 @@ body {
   margin-top: 0.25rem;
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  color: #4a6a4a;
+  color: var(--text-disabled);
 }
 
 .detail-hero-price-help {
@@ -5980,8 +5985,8 @@ body {
   width: min(220px, 100%);
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border: 1px solid #244224;
-  background: #081008;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
 }
 
 .detail-overview-facts {
@@ -5995,7 +6000,7 @@ body {
 .detail-fact-row,
 .detail-record-row,
 .detail-media-card {
-  border: 1px solid #183118;
+  border: 1px solid var(--border);
   background: rgba(9, 20, 9, 0.72);
   padding: 0.7rem;
 }
@@ -6046,12 +6051,12 @@ body {
   width: 100%;
   max-height: 260px;
   object-fit: contain;
-  border: 1px solid #1d381d;
+  border: 1px solid var(--border);
   background: var(--bg-card);
 }
 
 .detail-media-embed-shell {
-  border: 1px solid #1d381d;
+  border: 1px solid var(--border);
   background: var(--bg-card);
   margin-bottom: 0.7rem;
 }
@@ -6086,13 +6091,13 @@ body {
 }
 
 .detail-compliance-badge.is-reference {
-  color: #7fb0ff;
+  color: var(--status-info);
   border-color: rgba(127, 176, 255, 0.45);
   background: rgba(127, 176, 255, 0.08);
 }
 
 .detail-compliance-badge.is-blocked {
-  color: #ff7b7b;
+  color: var(--status-negative);
   border-color: rgba(255, 123, 123, 0.45);
   background: rgba(255, 123, 123, 0.08);
 }
@@ -6572,7 +6577,7 @@ body {
 }
 
 .result-metascore-empty {
-  color: #1a1a1a;
+  color: var(--bg);
   font-family: var(--font-mono);
   font-size: 10px;
 }
@@ -8630,15 +8635,15 @@ body {
 }
 
 .completion-status-badge.is-close {
-  color: #d0d777;
+  color: var(--nav-label);
 }
 
 .completion-status-badge.is-weak {
-  color: #d79064;
+  color: var(--confidence-mid);
 }
 
 .completion-status-badge.is-blocked-by-source {
-  color: #d36b6b;
+  color: var(--status-negative);
 }
 
 .debug-shell pre {
@@ -9717,7 +9722,7 @@ body::-webkit-scrollbar-thumb,
 
 .btn-danger {
   border-color: rgba(232, 85, 85, 0.42);
-  color: #e88d8d;
+  color: var(--status-negative);
 }
 
 .btn-danger:hover {
@@ -9798,7 +9803,7 @@ body::-webkit-scrollbar-thumb,
   width: 100%;
   height: 112px;
   overflow: hidden;
-  background: #020402;
+  background: var(--bg-surface);
   border-bottom: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
@@ -9820,7 +9825,7 @@ body::-webkit-scrollbar-thumb,
   margin-bottom: 8px;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
-  background: #020402;
+  background: var(--bg-surface);
 }
 
 .hub-encyclo-card-media img {
@@ -10573,7 +10578,7 @@ body.hub-page .product-universe-frame {
 }
 
 .collection-row-cue {
-  color: #73906b;
+  color: var(--text-muted);
   font-size: 10px;
   line-height: 1.25;
 }
@@ -10978,7 +10983,7 @@ body.hub-page .product-universe-frame {
 .archive-manual-note {
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  color: #486648;
+  color: var(--text-disabled);
   margin-top: 0.5rem;
   font-style: italic;
 }
@@ -11057,7 +11062,7 @@ body.hub-page .product-universe-frame {
 .detail-section-hint {
   font-family: var(--font-mono);
   font-size: 0.7rem;
-  color: #486648;
+  color: var(--text-disabled);
   letter-spacing: 0.04em;
 }
 
@@ -11252,7 +11257,7 @@ body.hub-page .product-universe-frame {
 }
 
 .market-trend-badge.is-up {
-  color: #f16c5c;
+  color: var(--status-negative);
 }
 
 .market-trend-badge.is-down {
@@ -11539,7 +11544,7 @@ body.hub-page .product-universe-frame {
   border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
   font-family: var(--font-mono);
   font-size: 0.82rem;
-  color: #486648;
+  color: var(--text-disabled);
   flex-shrink: 0;
 }
 
@@ -11599,7 +11604,7 @@ body.hub-page .product-universe-frame {
 
 .btn-r?tromarket-cta:hover {
   background: rgba(241, 196, 92, 0.22);
-  border-color: #f5d070;
+  border-color: var(--text-alert);
 }
 
 .sc-row {
@@ -11651,7 +11656,7 @@ body.hub-page .product-universe-frame {
 
 .detail-section-hint {
   margin-left: 0.5rem;
-  color: #486648;
+  color: var(--text-disabled);
   font-family: var(--font-mono);
   font-size: 0.72rem;
 }
@@ -11681,7 +11686,7 @@ body.hub-page .product-universe-frame {
   padding: 0.3rem 0.6rem;
   border: 1px solid var(--accent-dim);
   background: transparent;
-  color: #486648;
+  color: var(--text-disabled);
   cursor: pointer;
   transition: all 0.12s;
 }
@@ -11825,12 +11830,12 @@ body.hub-page .product-universe-frame {
 }
 
 .hub-stat-label {
-  color: #486648;
+  color: var(--text-disabled);
   font-size: 0.72rem;
 }
 
 .hub-stat-sep {
-  color: #486648;
+  color: var(--text-disabled);
 }
 
 @media (max-width: 768px) {
@@ -12298,14 +12303,14 @@ body {
 .global-product-nav.global-product-nav-unified .nav-label {
   font-family: var(--font-display);
   font-size: 0.8rem;
-  color: #b8d658;
+  color: var(--nav-label);
   letter-spacing: 0.08em;
 }
 
 .global-product-nav.global-product-nav-unified .nav-copy {
   font-family: var(--font-mono);
   font-size: 0.62rem;
-  color: #7a9a72;
+  color: var(--text-muted);
   line-height: 1.45;
 }
 
@@ -12333,7 +12338,7 @@ body {
 .hub-focus-head .hub-intro {
   max-width: 34ch;
   margin: 0;
-  color: #6f8b63;
+  color: var(--text-muted);
   line-height: 1.55;
 }
 
@@ -12381,7 +12386,7 @@ body {
 .pass1-surface-banner {
   min-height: 0;
   font-size: 0.64rem;
-  color: #729b5e;
+  color: var(--text-muted);
   letter-spacing: 0.05em;
 }
 
@@ -12456,7 +12461,7 @@ body {
 
 .hub-intent-card .hub-intent-copy,
 .hub-rich-card .hub-card-copy {
-  color: #6b8b61;
+  color: var(--text-muted);
   margin-top: 10px;
 }
 
@@ -12491,7 +12496,7 @@ body {
   margin-top: 14px;
   padding-top: 14px;
   border-top: 1px solid rgba(30, 45, 30, 0.88);
-  color: #67855e;
+  color: var(--text-muted);
   font-size: 0.67rem;
 }
 
@@ -12571,13 +12576,13 @@ body {
 .sc-title {
   font-family: var(--font-display);
   font-size: 0.94rem;
-  color: #c4e26d;
+  color: var(--nav-label);
   line-height: 1.2;
 }
 
 .result-meta,
 .sc-sub {
-  color: #66825d;
+  color: var(--text-muted);
   font-size: 0.69rem;
 }
 
@@ -12603,7 +12608,7 @@ body {
 
 .sc-action {
   align-self: center;
-  color: #d5b24a;
+  color: var(--text-alert);
   font-size: 0.68rem;
   letter-spacing: 0.04em;
 }
@@ -12869,7 +12874,7 @@ body {
 
 .hub-card-copy {
   max-width: 34ch;
-  color: #75906c;
+  color: var(--text-muted);
   font-size: 0.73rem;
 }
 
@@ -12903,7 +12908,7 @@ body {
 .retrodex-search-page .pass1-surface-banner {
   margin-top: 6px;
   font-size: 0.62rem;
-  color: #5c7754;
+  color: var(--text-muted);
 }
 
 .retrodex-search-page #search-curation-banner {
@@ -12939,7 +12944,7 @@ body {
   display: block;
   margin-top: 8px;
   max-width: 58ch;
-  color: #77926e;
+  color: var(--text-muted);
   font-size: 0.74rem;
 }
 
@@ -13432,7 +13437,7 @@ body {
 
 .collection-summary-hero .terminal-summary-label {
   margin-bottom: 6px;
-  color: #7d9576;
+  color: var(--text-muted);
   letter-spacing: 0.14em;
 }
 
@@ -13472,7 +13477,7 @@ body {
 }
 
 .collection-cockpit-topline .terminal-action-link {
-  color: #98b78f;
+  color: var(--text-muted);
 }
 
 .collection-cockpit-topline .terminal-action-link:hover {
@@ -13518,7 +13523,7 @@ body {
   padding: 8px 12px;
   border-color: rgba(39, 56, 36, 0.84);
   background: rgba(8, 11, 8, 0.92);
-  color: #6f8869;
+  color: var(--text-muted);
   font-size: 10px;
   letter-spacing: 0.12em;
 }
@@ -13683,7 +13688,7 @@ body {
 }
 
 .collection-preview-shell .terminal-preview-label {
-  color: #7d9574;
+  color: var(--text-muted);
 }
 
 .collection-preview-shell .surface-signal-grid.is-four {
@@ -13758,9 +13763,9 @@ body {
   margin-top: 6px;
 }
 .possession-chip.is-owned {
-  background: #1a3a1a;
+  background: var(--border);
   color: var(--text-value);
-  border: 1px solid #4ade80;
+  border: 1px solid var(--accent);
 }
 .possession-chip.is-sale {
   background: #3a2a00;
@@ -13768,14 +13773,14 @@ body {
   border: 1px solid var(--text-alert);
 }
 .possession-chip.is-wanted {
-  background: #0f2a3a;
-  color: #38bdf8;
-  border: 1px solid #38bdf8;
+  background: var(--bg-card);
+  color: var(--status-info);
+  border: 1px solid var(--status-info);
 }
 .possession-chip.is-untracked {
-  background: #1a1a1a;
+  background: var(--bg);
   color: var(--text-muted);
-  border: 1px solid #444;
+  border: 1px solid var(--text-disabled);
 }
 
 /* Game detail — add to collection CTA */
