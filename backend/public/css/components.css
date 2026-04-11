@@ -11882,6 +11882,10 @@ body .product-universe-frame.is-dex {
   align-items: start;
 }
 
+.collection-cockpit-grid:has(> [hidden]) {
+  grid-template-columns: 1fr;
+}
+
 .collection-cockpit-main,
 .collection-cockpit-side {
   min-width: 0;
