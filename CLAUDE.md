@@ -113,7 +113,15 @@ Every plan or report must include:
 - YouTube enrichment script pret (enrich-youtube-ids.js, necessite YOUTUBE_API_KEY)
 - UX score: 5.4 → 9.0
 
-### BAZ System (converged — LOT-BAZ-CONV-01/02/03)
+### BAZ System (converged + dual persona)
+- BAZ_BIBLE.md: reference canonique (personnalite, roles, dialogues)
+- BAZ: 5 traits (curieux, joueur, laconique, pince-sans-rire, genereux), 3 roles (tooltip/secrets/conteur)
+- Erudit: 5 traits (agace, sec, sarcastique, exigeant, bienveillant), 3 roles (analyste/stratege/mentor)
+- 80 repliques Supabase (40 BAZ + 40 Erudit avec patience_level)
+- Conversation buffer (8 derniers echanges, sessionStorage)
+- State machine (idle/greet/topic/deep)
+- Persona detection (URL → baz ou erudit)
+- BAZ parle toujours sur game-detail (revisit messages si deja vu)
 - baz-router.js: point d'entree unique, routage par contexte
 - baz-engine.js: 31 intents, anti-repetition, session memory, /api/baz/titles (30KB)
 - codec.js: 3-column codec, Game Boy palette, CRT effects
