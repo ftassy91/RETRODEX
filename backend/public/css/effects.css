@@ -1,0 +1,52 @@
+/* ============================================================
+   EFFECTS — CRT scanlines, phosphor pulse, blink cursor.
+   Load LAST in cascade on all pages.
+   ============================================================ */
+
+/* ── CRT Ambiance ────────────────────────────── */
+
+/* Scanlines overlay */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to bottom, rgba(18,16,16,0) 50%, rgba(0,0,0,0.12) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Phosphor glow pulse on main title */
+@keyframes phosphor-pulse {
+  0%, 100% { text-shadow: 0 0 4px var(--accent), 0 0 11px rgba(0,255,102,0.25), 0 0 20px rgba(0,255,102,0.12); }
+  50%      { text-shadow: 0 0 6px var(--accent), 0 0 15px rgba(0,255,102,0.4), 0 0 30px rgba(0,255,102,0.2); }
+}
+.hub-page-title {
+  animation: phosphor-pulse 4s ease-in-out infinite;
+}
+
+/* RPG blinking cursor on active nav */
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+.global-product-link.is-active::before,
+.global-product-home.is-active::before {
+  content: '\25B6';
+  margin-right: 6px;
+  font-size: 10px;
+  animation: blink-cursor 1s step-end infinite;
+}
+
+/* Stagger fade-in for Hub sections */
+@keyframes section-fade-in {
+  0%   { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  body::after { display: none; }
+  .hub-page-title { animation: none; }
+  .global-product-link.is-active::before,
+  .global-product-home.is-active::before { animation: none; opacity: 1; }
+}
