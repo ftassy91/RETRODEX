@@ -541,3 +541,73 @@ div[hidden] {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
 }
+
+/* ============================================================
+   UTILITY CLASSES — Extracted from inline styles
+   ============================================================ */
+.u-ml-auto { margin-left: auto; }
+.u-text-right { text-align: right; }
+
+/* Collection import button (was inline style on #import-csv-btn) */
+.collection-import-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--accent);
+  font: inherit;
+  padding: 0;
+  margin-left: 16px;
+}
+
+/* Collection import status (was inline style on #import-csv-status) */
+.collection-import-status {
+  margin-left: 8px;
+  font-size: 11px;
+}
+
+/* Collection mode bar flush top (was style="margin-top:0") */
+.collection-mode-bar-flush {
+  margin-top: 0;
+}
+
+/* Collection table row (was style="display:contents") */
+.collection-table-row {
+  display: contents;
+}
+
+/* ============================================================
+   ACCORDION INDICATOR — CSS-only triangle (replaces &gt; character)
+   ============================================================ */
+.detail-accordion-indicator::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid var(--accent);
+  vertical-align: middle;
+}
+
+/* ============================================================
+   GLOBAL SEARCH LINK — Anchor styled as search input
+   Replaces readonly input with onclick hack in games-list.html
+   ============================================================ */
+.global-search-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: var(--font-size-base);
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1.4;
+}
+.global-search-link:hover {
+  border-color: var(--accent);
+  color: var(--text-secondary);
+}

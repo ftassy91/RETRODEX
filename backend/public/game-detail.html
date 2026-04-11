@@ -16,7 +16,7 @@
     <meta property="og:description" content="Fiche RetroDex d'un jeu retro : lecture, qualification, valeur et collection." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260408r3" />
+    <link rel="stylesheet" href="/style.css?v=20260411" />
     <link rel="stylesheet" href="/zones.css" />
     <link rel="stylesheet" href="/codec.css" />
     <script src="/js/animations.js"></script>
@@ -34,7 +34,7 @@
         <span class="nav-label">Hub</span>
         <span class="nav-copy">entrer | ouvrir | reprendre</span>
       </a>
-      <a class="global-product-link is-active" href="/games-list.html">
+      <a class="global-product-link is-active" href="/games-list.html" aria-current="page">
         <span class="nav-label">RetroDex</span>
         <span class="nav-copy">index | recherche | fiches</span>
       </a>
@@ -43,7 +43,7 @@
         <span class="nav-copy">etagere | valeur | priorites</span>
       </a>
     </nav>
-    <main class="detail-shell">
+    <main id="main-content" class="detail-shell">
       <nav class="breadcrumb">
         <a href="/hub.html">HUB</a>
         <span class="sep">&rsaquo;</span>
@@ -63,7 +63,7 @@
       <section id="editorial-shell" class="editorial-card detail-accordion" hidden>
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="editorial-content">
           <span>Lecture principale</span>
-          <span class="detail-accordion-indicator">&gt;</span>
+          <span class="detail-accordion-indicator"></span>
         </button>
         <div id="editorial-content" class="detail-accordion-content" hidden></div>
       </section>
@@ -71,7 +71,7 @@
       <section id="related-shell" class="related-card detail-accordion" hidden>
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="related-content">
           <span>Connexions</span>
-          <span class="detail-accordion-indicator">&gt;</span>
+          <span class="detail-accordion-indicator"></span>
         </button>
         <div id="related-content" class="detail-accordion-content" hidden></div>
       </section>
@@ -92,7 +92,7 @@
       <section id="collection-shell" class="collection-card detail-accordion">
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="collection-content">
           <span>Suivi personnel</span>
-          <span class="detail-accordion-indicator">&gt;</span>
+          <span class="detail-accordion-indicator"></span>
         </button>
         <div id="collection-content" class="detail-accordion-content" hidden>
           <div class="collection-row">
@@ -149,7 +149,7 @@
       <section id="stats-shell" class="stats-card detail-accordion">
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="stats-content">
           <span>Prix et marche</span>
-          <span class="detail-accordion-indicator">&gt;</span>
+          <span class="detail-accordion-indicator"></span>
         </button>
         <div id="stats-content" class="detail-accordion-content" hidden>
           <div id="stats-row" class="stats-grid" hidden></div>
@@ -167,7 +167,7 @@
       <section id="price-history-shell" class="price-history detail-accordion" hidden>
         <button type="button" class="detail-accordion-toggle" aria-expanded="false" aria-controls="price-history-content">
           <span>Evolution</span>
-          <span class="detail-accordion-indicator">&gt;</span>
+          <span class="detail-accordion-indicator"></span>
         </button>
         <div id="price-history-content" class="detail-accordion-content" hidden>
           <div class="chart-toggle"></div>
@@ -179,6 +179,11 @@
           <div class="price-stats-row"></div>
         </div>
       </section>
+
+      <footer class="footer-attribution">
+        Covers :
+        <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
+      </footer>
     </main>
 
     <script src="/js/core/config.js"></script>
@@ -193,9 +198,5 @@
     <script src="/js/core/content-signals.js"></script>
     <script src="/js/pages/game-detail.js?v=20260408r3"></script>
     <script src="/js/features/experience-layer.js"></script>
-    <div class="footer-attribution">
-      Covers :
-      <a href="https://www.igdb.com" target="_blank" rel="noopener noreferrer">IGDB.com</a>
-    </div>
   </body>
 </html>

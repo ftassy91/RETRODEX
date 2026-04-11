@@ -15,7 +15,7 @@
     <meta property="og:description" content="RetroDex : index public, filtres utiles, fiches a ouvrir." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-<link rel="stylesheet" href="/style.css?v=20260409r2" />
+<link rel="stylesheet" href="/style.css?v=20260411" />
 <link rel="stylesheet" href="/zones.css" />
 <link rel="stylesheet" href="/codec.css" />
     <script src="/js/animations.js"></script>
@@ -29,12 +29,13 @@
 <script src="/js/renderGameRow.js?v=20260409r1"></script>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
       <a class="global-product-link" href="/hub.html">
         <span class="nav-label">Hub</span>
         <span class="nav-copy">entrer | ouvrir | reprendre</span>
       </a>
-      <a class="global-product-link is-active" href="/games-list.html">
+      <a class="global-product-link is-active" href="/games-list.html" aria-current="page">
         <span class="nav-label">RetroDex</span>
         <span class="nav-copy">index | recherche | fiches</span>
       </a>
@@ -44,7 +45,7 @@
       </a>
     </nav>
 
-    <main class="catalog-shell catalog-page retrodex-index-page">
+    <main id="main-content" class="catalog-shell catalog-page retrodex-index-page">
       <!-- RETRODEX CATALOGUE -->
       <header class="catalog-header catalog-page-head retrodex-index-head">
         <div class="catalog-page-titlezone">
@@ -62,14 +63,7 @@
 
         <div class="catalog-head-tools">
           <div class="global-search-bar catalog-search-jump surface-query-shell">
-            <input
-              type="text"
-              id="global-search"
-              placeholder="/ Entree rapide"
-              readonly
-              onclick="location.href='/search.html'"
-              style="cursor:pointer"
-            />
+            <a href="/search.html" class="global-search-link" id="global-search">/ Entree rapide</a>
           </div>
         </div>
       </header>

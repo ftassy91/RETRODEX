@@ -16,7 +16,7 @@
     <meta property="og:description" content="Collection RetroDex : revue, qualification, valeur et evolution de l'etagere." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="stylesheet" href="/style.css?v=20260409r2" />
+    <link rel="stylesheet" href="/style.css?v=20260411" />
     <link rel="stylesheet" href="/zones.css" />
     <link rel="stylesheet" href="/codec.css" />
     <script src="/js/animations.js"></script>
@@ -39,7 +39,7 @@
         <span class="nav-label">RetroDex</span>
         <span class="nav-copy">index | recherche | fiches</span>
       </a>
-      <a class="global-product-link is-active" href="/collection.html">
+      <a class="global-product-link is-active" href="/collection.html" aria-current="page">
         <span class="nav-label">Collection</span>
         <span class="nav-copy">etagere | valeur | priorites</span>
       </a>
@@ -100,9 +100,9 @@
 
         <div class="collection-cockpit-topline terminal-context">
           <a href="/games-list.html" class="terminal-action-link">Parcourir RetroDex -&gt;</a>
-          <button type="button" id="import-csv-btn" class="terminal-action-link" style="background:none;border:none;cursor:pointer;color:var(--accent);font:inherit;padding:0;margin-left:16px">Importer CSV</button>
+          <button type="button" id="import-csv-btn" class="terminal-action-link collection-import-btn">Importer CSV</button>
           <input type="file" id="import-csv-file" accept=".csv,.txt" hidden />
-          <span id="import-csv-status" class="terminal-context" style="margin-left:8px;font-size:11px"></span>
+          <span id="import-csv-status" class="terminal-context collection-import-status"></span>
         </div>
 
         <div id="cockpit-signals" class="cockpit-signals-bar" aria-label="Queues d action collection" style="display:none">
@@ -155,14 +155,14 @@
           </div>
         </div>
 
-        <div class="terminal-filter-bar collection-mode-bar" style="margin-top:0">
+        <div class="terminal-filter-bar collection-mode-bar collection-mode-bar-flush">
           <div class="terminal-filter-group">
             <button class="terminal-filter-btn active" data-list="all" type="button">TOUT</button>
             <button class="terminal-filter-btn" data-list="owned" type="button">ETAGERE</button>
             <button class="terminal-filter-btn" data-list="wanted" type="button">WISHLIST</button>
             <button class="terminal-filter-btn" data-list="for_sale" type="button">A VENDRE</button>
           </div>
-          <div class="terminal-filter-group" style="margin-left:auto">
+          <div class="terminal-filter-group u-ml-auto">
             <button class="terminal-filter-btn" id="copy-sale-link-btn" type="button" style="display:none">COPIER LIEN</button>
             <button class="terminal-filter-btn" id="collection-add-btn" type="button">AJOUTER</button>
           </div>
@@ -204,7 +204,7 @@
               <option value="value_asc">Valeur loose croissante</option>
             </select>
           </div>
-          <div class="terminal-filter-group" style="margin-left:auto">
+          <div class="terminal-filter-group u-ml-auto">
             <button class="terminal-filter-btn" id="collection-export-btn" type="button">EXPORT CSV</button>
           </div>
         </div>
@@ -213,7 +213,7 @@
           <span class="loading-dots">Chargement</span>
         </div>
 
-        <section id="collection-evolution" class="collection-evolution-panel" hidden>
+        <section id="collection-evolution-panel" class="collection-evolution-panel" hidden>
           <div class="detail-kicker">EVOLUTION</div>
           <div class="collection-evolution-grid">
             <div class="evolution-cell">
@@ -255,16 +255,16 @@
           <div class="collection-cockpit-main">
             <div class="collection-inventory-label">INVENTAIRE</div>
             <div class="terminal-table-header collection-table-header" role="table" aria-label="Collection">
-              <div role="row" style="display:contents">
+              <div role="row" class="collection-table-row">
                 <span role="columnheader"></span>
                 <span role="columnheader">JEU</span>
                 <span role="columnheader">SUPPORT</span>
                 <span role="columnheader">ETAT</span>
-                <span role="columnheader" style="text-align:right">LOOSE</span>
-                <span role="columnheader" style="text-align:right">CIB</span>
-                <span role="columnheader" style="text-align:right">MINT</span>
-                <span role="columnheader" style="text-align:right">PAYE</span>
-                <span role="columnheader" style="text-align:right">DELTA</span>
+                <span role="columnheader" class="u-text-right">LOOSE</span>
+                <span role="columnheader" class="u-text-right">CIB</span>
+                <span role="columnheader" class="u-text-right">MINT</span>
+                <span role="columnheader" class="u-text-right">PAYE</span>
+                <span role="columnheader" class="u-text-right">DELTA</span>
               </div>
             </div>
             <div id="collection-list-container" role="rowgroup"></div>

@@ -1243,7 +1243,7 @@
   }
 
   function renderEvolutionPanel(ownedItems) {
-    const panelEl = byId('collection-evolution')
+    const panelEl = byId('collection-evolution-panel')
     if (!panelEl) return
 
     if (!ownedItems || !ownedItems.length) {
