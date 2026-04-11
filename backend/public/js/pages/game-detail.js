@@ -3990,6 +3990,9 @@ function isAccordionContentEmpty(contentEl) {
 }
 
 function initDetailAccordions() {
+  // Sections that get populated by async fetch — never hide at init
+  const asyncSections = ['editorial-shell', 'related-shell', 'price-history-shell']
+
   document.querySelectorAll('.detail-accordion').forEach((sectionEl) => {
     const toggleEl = sectionEl.querySelector('.detail-accordion-toggle')
     if (!toggleEl || toggleEl.dataset.bound === 'true') {
@@ -3998,14 +4001,16 @@ function initDetailAccordions() {
 
     toggleEl.dataset.bound = 'true'
 
-    // Hide sections with empty content (except collection — always shown)
+    // Hide static sections with empty content (not async, not collection)
     const contentEl = sectionEl.querySelector('.detail-accordion-content')
-    if (sectionEl.id !== 'collection-shell' && isAccordionContentEmpty(contentEl)) {
+    if (!asyncSections.includes(sectionEl.id)
+        && sectionEl.id !== 'collection-shell'
+        && isAccordionContentEmpty(contentEl)) {
       sectionEl.hidden = true
       return
     }
 
-    const defaultOpen = ['editorial-shell', 'related-shell'].includes(sectionEl.id)
+    const defaultOpen = asyncSections.slice(0, 2).includes(sectionEl.id)
     setAccordionState(sectionEl, defaultOpen)
     toggleEl.addEventListener('click', () => {
       const expanded = toggleEl.getAttribute('aria-expanded') === 'true'
