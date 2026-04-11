@@ -81,7 +81,7 @@ Every plan or report must include:
 
 ### Tech Stack
 - Node.js / Express backend
-- Supabase (production, 31 tables), SQLite/Sequelize (local dev fallback)
+- Supabase (production, 33 tables), SQLite/Sequelize (local dev fallback)
 - Vanilla JS frontend (no framework, no build step)
 - Inline SVG charts (no Chart.js dependency)
 - BigBlueTerminal + DepartureMono fonts
@@ -89,16 +89,23 @@ Every plan or report must include:
 
 ### Key Context (updated 2026-04-11)
 - 1,509 games cataloged across 25 consoles
-- 15,400+ price entries from 3 sources (PriceCharting + Yahoo Auctions JP + eBay via Playwright)
-- Confidence tiers: 1 high, 33 medium, 407 low, 1,068 unknown
-- 31 Supabase tables (+ baz_replies), all RLS-enabled, 0 health flags
-- Design system: 45 CSS variables in :root, 1 hardcoded color remaining
+- 15,579 price entries from 3 sources (PriceCharting + Yahoo Auctions JP + eBay via Playwright)
+- eBay records: 250 (185 new via batch scraping)
+- Confidence tiers: 1 high, 35 medium, 986 low, 487 unknown
+- 161 BAZ anecdotes for ~100 games (113 new via LOT-ENRICH-02)
+- Cover URLs: 1,459/1,509 (97% coverage, 50 missing — IGDB hash not guessable)
+- 33 Supabase tables, all RLS-enabled, 0 health flags
+- Design system: 45 CSS variables in :root, region tokens in zones.css
+- CSS architecture: core.css (131L) + components.css (13890L) + zones.css (260L) + codec.css (929L) + effects.css (52L)
 - Cron pipeline: /api/cron/snapshot (03:00 UTC) + /api/cron/tiers (04:00 UTC)
+- Smoke tests: 17 endpoints
+- Backfill script: catalog-aware floor, never-downgrade, date fix (LOT-FIX-12)
+- Batch eBay: parallel scraping (--concurrency), Windows scheduled task, JSON ingestion
+- backend/.env present locally (gitignored) with Supabase pooler credentials
 - 5 collection items qualified, 0 duplicates, 1 sell signal active
 - Collection: canonical schema, CSV import, region CHECK constraint (PAL/NTSC-U/NTSC-J/NTSC-B/MULTI)
-- Pipeline: backfill-confidence-from-history.js, batch-ebay-fetch.js, capture-collection-snapshot.js
+- Pipeline: batch-ebay-fetch.js → ingest-ebay-json.js → backfill-confidence-from-history.js
 - Market connectors: Yahoo Auctions JP (live), eBay (Playwright headless), others (fixture-only)
-- Vercel: JS cache TTL 1h (s-maxage=3600), CSS/assets 24h
 
 ### Vision A (COMPLETE) + Vision A v2 (2/3)
 - Action 1: collection_snapshots + capture script + SVG evolution chart
@@ -106,20 +113,18 @@ Every plan or report must include:
 - Action 3: BAZ codec (PNG sprites, 3-column layout, Game Boy palette)
 - VA v2: regions normalisees ✓, snapshots par jeu ✓, photos perso (reportee)
 
-### BAZ System (convergence COMPLETE)
-- **baz-router.js**: unified entry point — all interactions route through BAZRouter.ask()
-- **baz-engine.js**: resolvePipeline() — single ordered cascade: glossary → KB → BAZGen → Markov → static
-- **baz-engine.js**: unified bazMemory (single localStorage key `rdx-baz`) — replaces 7 scattered keys
+### BAZ System
 - codec.js: 3-column codec (BAZ | text | USER), Game Boy palette, CRT effects
 - codec.css: scanlines, vignette, grain, glitch, FREQ pulse, asymmetric lighting
-- erudit-engine.js: L'Erudit on collection page (patience gauge, bazMemory.erudit)
+- baz-engine.js: 31 intents, anti-repetition, session memory, lore fragments
+- erudit-engine.js: L'Erudit on collection page (patience gauge, localStorage memory)
 - glossary.js: 30 retrogaming terms (hover=tooltip, click=BAZ speaks)
 - search-detect.js: questions in search bars → codec redirect
 - baz-gen.js: 3 moteurs (templates + assembleur + Markov), 404 phrases corpus
 - baz-kb.js: knowledge base (20 entries FAQ produit), lexical retrieval
 - Sprites: baz.png + user.png (DALL-E validated, Game Boy style)
 - Supabase: baz_replies (58 replies, mood tags, usage_count), game_anecdotes (48)
-- Pipeline: glossary → KB → corpus → templates → assembleur → Markov → statique
+- Pipeline: KB → corpus → templates → assembleur → Markov → statique
 
 ### UI Layer
 - zones.css: color zones, hover, completion bar, game evolution chart, region badges
@@ -127,36 +132,6 @@ Every plan or report must include:
 - animations.js: rollTo counters, typewriter h1, loading dots
 - Smoke test: backend/scripts/smoke-test.js (14 endpoints)
 - UX score: 5.4 → 7.4
-- Hub simplified: search + 3 clickable nav cards + curated game cards (LOT-UI-CLEANUP-01)
-- games-list + collection headers stripped (LOT-UI-CLEANUP-02+03)
-- style.css: 14,212 lines monolith — split planned (LOT-CSS-SPLIT-01)
-
-### UI/UX Overhaul Plan (active, 2026-04-11)
-4-expert audit completed. 7 lots planned:
-
-**Phase 1 — CSS Foundation:**
-- LOT-CSS-CLEAN-01: dead CSS cleanup, dedup, token gaps, conflicting definitions
-- LOT-CSS-SPLIT-01: split monolith into 7 files (core, components, hub, index, collection, responsive, animations)
-
-**Phase 2 — Hub Identity (highest visual impact):**
-- LOT-UI-HUB-01: pixel art covers on curated cards, RetroDex logo, global scanlines (2-3% opacity)
-- LOT-UI-HUB-02: boot screen animation, card hover effects, stagger entrance
-
-**Phase 3 — Page Polish:**
-- LOT-UI-INDEX-01: game row hover, retro loading bar, row entrance stagger, Apply button accent
-- LOT-UI-COLL-01: summary bar redesign (3 key metrics), sidebar default state, signal cards always visible
-
-**Phase 4 — Global Polish:**
-- LOT-UI-ANIM-01: arcade button press, mobile menu slide, smooth scroll, filter transitions
-
-Key findings: 68 pixel art covers in /hub_pixel_art/ + 13 system icons — none displayed.
-Execution order: CSS-CLEAN → CSS-SPLIT → UI-HUB-01 → UI-HUB-02 → UI-INDEX → UI-COLL → UI-ANIM
-
-### Dormant Visual Assets (discovered 2026-04-11)
-- backend/public/hub_pixel_art/ — 68 game covers (pixel art, DALL-E)
-- backend/public/assets/system/icons/ — 13 SVG status/region/condition icons
-- backend/public/assets/system/signature/ — corner bracket frames
-- backend/public/assets/system/supports/ — console cartridge SVGs
 
 ### New tables since initial audit
 - collection_snapshots (global daily value tracking)
@@ -165,7 +140,42 @@ Execution order: CSS-CLEAN → CSS-SPLIT → UI-HUB-01 → UI-HUB-02 → UI-INDE
 - game_snapshots (per-game daily price tracking)
 
 ### Ticket Conventions
-Lot prefixes: LOT-OP-, LOT-PROD-, LOT-UI-, LOT-UX-, LOT-FIX-, LOT-CTRL-, LOT-VA-, LOT-BAZ-, LOT-CSS-
+Lot prefixes: LOT-OP-, LOT-PROD-, LOT-UI-, LOT-UX-, LOT-FIX-, LOT-CTRL-, LOT-VA-, LOT-BAZ-
+
+---
+
+## Backlog — UI Cleanup
+
+Objectif : nettoyer l'interface pour un rendu pro, lisible, sans complexite inutile. Audit live du 2026-04-11.
+
+### LOT-UI-CLEANUP-01 — Hub : simplifier drastiquement (PRIORITE)
+- **Mode :** BUILD
+- **Objectif :** Reduire le hub a l'essentiel. Supprimer le typewriter "RE", les 5 boutons redondants (INSPECTER/QUALIFIER/MESURER/DECIDER/FAIRE EVOLUER), la barre de workflow texte, le bandeau stats brut. Garder : barre de recherche, 3 cartes cliquables (RetroDex→index, Collection→collection, Marche→stats) avec compteurs integres. Supprimer le vide noir (min-height ou conteneur vide).
+- **Scope :** backend/public/hub.html (ou index.html), backend/public/js/pages/hub.js, zones.css
+- **Regle :** Chaque carte = lien cliquable sur toute sa surface (cursor:pointer, <a> wrapping)
+- **Modele :** Sonnet
+
+### LOT-UI-CLEANUP-02 — Cartes cliquables + labels utilisateur (PRIORITE)
+- **Mode :** BUILD
+- **Objectif :** (a) Toute carte avec bordure = cliquable sur toute sa surface, pas juste un lien texte dedans. (b) Remplacer les labels internes par des labels utilisateur : "PASS 1 curated"→supprimer, "LECTURE SOLIDE"→"Fiche complete", "EN PROGRESSION"→"En cours". (c) Fixer le glyphe accordeon casse (►Â−, → chevron CSS pur ou caractere ASCII safe).
+- **Scope :** backend/public/js/pages/games-list.js, game-detail.html, zones.css
+- **Modele :** Sonnet
+
+### LOT-FIX-08 — Slug routing game-detail (PRIORITE)
+- **Mode :** BUILD
+- **Objectif :** game-detail.html accepte ?slug= en plus de ?id=. Actuellement ?slug=chrono-trigger-super-nes → "Aucun identifiant de jeu fourni".
+- **Scope :** backend/public/js/pages/game-detail.js, backend/src/routes/games
+- **Modele :** Sonnet
+
+---
+
+## BAZ Convergence (COMPLETE — 2026-04-11)
+
+Resultat : 7 fichiers BAZ unifies en systeme unique — routeur central, pipeline de reponse unifie, memoire partagee.
+
+### LOT-BAZ-CONV-01 — Routeur unique — Done
+### LOT-BAZ-CONV-02 — Pipeline de reponse unique — Done
+### LOT-BAZ-CONV-03 — Memoire unifiee — Done
 
 ---
 
