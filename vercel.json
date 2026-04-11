@@ -60,6 +60,10 @@
       "headers": [{"key": "Cache-Control", "value": "private, no-store"}]
     }
   ],
+  "crons": [
+    { "path": "/api/cron/snapshot", "schedule": "0 3 * * *" },
+    { "path": "/api/cron/tiers", "schedule": "0 4 * * *" }
+  ],
   "env": {
     "NODE_ENV": "production"
   },

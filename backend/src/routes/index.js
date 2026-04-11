@@ -12,5 +12,6 @@ router.use(require('./market/index'))
 router.use(require('./franchises/index'))
 router.use(require('./prices/index'))
 router.use(require('./baz'))
+router.use(require('./cron'))
 
 module.exports = router
