@@ -11,6 +11,32 @@
   const buildRichness = window.RetroDexContentSignals?.buildRichness
   const sharedFetchJson = window.RetroDexApi?.fetchJson
 
+  // Cover manifest: maps game_id → pixel art file
+  let _coverMap = null
+
+  function loadCoverManifest() {
+    if (_coverMap) return Promise.resolve(_coverMap)
+    return fetch('/assets/hub_pixel_art/_manifest.json')
+      .then(function (r) { return r.ok ? r.json() : [] })
+      .then(function (entries) {
+        _coverMap = new Map()
+        if (Array.isArray(entries)) {
+          entries.forEach(function (e) {
+            if (e.game_id) _coverMap.set(e.game_id, e.file)
+            if (e.slug) _coverMap.set(e.slug, e.file)
+          })
+        }
+        return _coverMap
+      })
+      .catch(function () { _coverMap = new Map(); return _coverMap })
+  }
+
+  function getCoverUrl(item) {
+    if (!_coverMap) return null
+    var file = _coverMap.get(item.id) || _coverMap.get(item.slug) || null
+    return file ? '/assets/hub_pixel_art/' + file : null
+  }
+
   if (!bannerEl) {
     return
   }
@@ -85,37 +111,26 @@
   function buildCard(item) {
     const signals = item._contentSignals
     const href = `/game-detail.html?id=${encodeURIComponent(item.id)}`
-    const summary = String(item.summary || item.synopsis || '').trim()
-    const shortSummary = summary
-      ? `${summary.slice(0, 116)}${summary.length > 116 ? '...' : ''}`
-      : 'Archive, contexte, prix et collection sur une seule fiche.'
-    const meta = [item.console, item.year].filter(Boolean).map((part) => esc(part)).join(' | ')
-    const proofLabel = signals?.score >= 8
-      ? 'lecture forte'
-      : Number(item.metascore || 0) >= 90
-        ? 'repere canonique'
-        : 'contexte + valeur'
-    const actionCue = item.collection_status
-      ? 'ouvrir pour arbitrer la collection'
-      : 'ouvrir pour lire puis qualifier'
-    const relationCue = String(item.developer || item.publisher || '').trim()
+    const meta = [item.console, item.year].filter(Boolean).map((part) => esc(part)).join(' · ')
+    const coverUrl = getCoverUrl(item)
+    const initial = (item.title || '?')[0].toUpperCase()
+
+    const coverHtml = coverUrl
+      ? `<img class="hub-card-cover" src="${esc(coverUrl)}" alt="${esc(item.title)}" loading="lazy" />`
+      : `<div class="hub-card-cover hub-card-cover-placeholder"><span>${esc(initial)}</span></div>`
 
     return `
-      <article class="hub-encyclo-card hub-rich-card">
-        <div class="hub-card-proof">${esc(proofLabel)}</div>
-        <div class="hub-encyclo-card-title">${esc(item.title || 'Sans titre')}</div>
-        <div class="hub-encyclo-card-meta">${meta || 'Archive RetroDex'}</div>
-        <div class="surface-chip-row hub-rich-chip-row">
-          ${signals ? `<span class="surface-chip is-primary">${esc(signals.band.shortLabel)}</span>` : ''}
-          ${item.metascore ? `<span class="surface-chip is-hot">MS ${esc(item.metascore)}</span>` : ''}
+      <a class="hub-rich-card" href="${href}">
+        ${coverHtml}
+        <div class="hub-card-body">
+          <div class="hub-encyclo-card-title">${esc(item.title || 'Sans titre')}</div>
+          <div class="hub-encyclo-card-meta">${meta || 'RetroDex'}</div>
+          <div class="surface-chip-row hub-rich-chip-row">
+            ${signals ? `<span class="surface-chip is-primary">${esc(signals.band.shortLabel)}</span>` : ''}
+            ${item.metascore ? `<span class="surface-chip is-hot">MS ${esc(item.metascore)}</span>` : ''}
+          </div>
         </div>
-        <p class="hub-card-copy">${esc(shortSummary)}</p>
-        ${relationCue ? `<div class="hub-card-proof hub-card-proof-secondary">Studio ${esc(relationCue)}</div>` : ''}
-        <div class="hub-card-proof hub-card-proof-secondary">Action ${esc(actionCue)}</div>
-        <div class="hub-universe-actions">
-          <a class="hub-inline-link" href="${href}">voir la fiche</a>
-        </div>
-      </article>
+      </a>
     `
   }
 
@@ -131,6 +146,7 @@
       const [itemsResult, statsResult] = await Promise.allSettled([
         fetchJson('/api/items?limit=12&sort=metascore_desc'),
         fetchJson('/api/stats'),
+        loadCoverManifest(),
       ])
       runtimeMonitor?.mark('requests-settled', {
         items: itemsResult.status,

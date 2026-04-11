@@ -10540,7 +10540,7 @@ body.hub-page .product-universe-frame {
 }
 
 .hub-rich-card {
-  min-height: 210px;
+  min-height: 0;
 }
 
 .encyclo-list-row .asset-support {
@@ -12273,10 +12273,53 @@ body {
   background: rgba(6, 9, 6, 0.95);
 }
 
-.hub-intent-card,
-.hub-rich-card {
+.hub-intent-card {
   padding: 16px 16px 14px;
   border: 1px solid rgba(38, 54, 36, 0.82);
+}
+
+a.hub-rich-card {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 14px;
+  padding: 12px;
+  border: 1px solid rgba(38, 54, 36, 0.82);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+a.hub-rich-card:hover,
+a.hub-rich-card:focus-visible {
+  border-color: var(--accent);
+  background: rgba(15, 56, 15, 0.12);
+  outline: none;
+}
+
+.hub-card-cover {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  image-rendering: pixelated;
+  border: 1px solid rgba(67, 95, 60, 0.4);
+  background: var(--bg-surface);
+}
+
+.hub-card-cover-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--accent-dim);
+}
+
+.hub-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
 }
 
 .hub-intent-label,
@@ -13715,7 +13758,18 @@ body {
 }
 
 .hub-rich-card {
-  min-height: 100%;
+  min-height: 0;
+}
+
+@media (max-width: 760px) {
+  a.hub-rich-card {
+    grid-template-columns: 64px 1fr;
+    gap: 10px;
+  }
+  .hub-card-cover {
+    width: 64px;
+    height: 64px;
+  }
 }
 
 .cockpit-active-filter {
