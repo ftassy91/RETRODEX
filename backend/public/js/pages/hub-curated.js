@@ -11,32 +11,6 @@
   const buildRichness = window.RetroDexContentSignals?.buildRichness
   const sharedFetchJson = window.RetroDexApi?.fetchJson
 
-  // Cover manifest: maps game_id → pixel art file
-  let _coverMap = null
-
-  function loadCoverManifest() {
-    if (_coverMap) return Promise.resolve(_coverMap)
-    return fetch('/assets/hub_pixel_art/_manifest.json')
-      .then(function (r) { return r.ok ? r.json() : [] })
-      .then(function (entries) {
-        _coverMap = new Map()
-        if (Array.isArray(entries)) {
-          entries.forEach(function (e) {
-            if (e.game_id) _coverMap.set(e.game_id, e.file)
-            if (e.slug) _coverMap.set(e.slug, e.file)
-          })
-        }
-        return _coverMap
-      })
-      .catch(function () { _coverMap = new Map(); return _coverMap })
-  }
-
-  function getCoverUrl(item) {
-    if (!_coverMap) return null
-    var file = _coverMap.get(item.id) || _coverMap.get(item.slug) || null
-    return file ? '/assets/hub_pixel_art/' + file : null
-  }
-
   if (!bannerEl) {
     return
   }
@@ -112,7 +86,7 @@
     const signals = item._contentSignals
     const href = `/game-detail.html?id=${encodeURIComponent(item.id)}`
     const meta = [item.console, item.year].filter(Boolean).map((part) => esc(part)).join(' · ')
-    const coverUrl = getCoverUrl(item)
+    const coverUrl = item.cover_url || item.coverImage || null
     const initial = (item.title || '?')[0].toUpperCase()
 
     const coverHtml = coverUrl
@@ -146,7 +120,6 @@
       const [itemsResult, statsResult] = await Promise.allSettled([
         fetchJson('/api/items?limit=12&sort=metascore_desc'),
         fetchJson('/api/stats'),
-        loadCoverManifest(),
       ])
       runtimeMonitor?.mark('requests-settled', {
         items: itemsResult.status,
