@@ -13769,6 +13769,85 @@ a.hub-rich-card:focus-visible {
   max-width: 44ch;
 }
 
+/* ─── Consoles Layout ─── */
+
+.consoles-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.consoles-sidebar {
+  border: 1px solid rgba(67, 95, 60, 0.52);
+  background: var(--bg);
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.consoles-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.consoles-list .console-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(67, 95, 60, 0.25);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.consoles-list .console-row:hover {
+  background: rgba(15, 56, 15, 0.12);
+}
+
+.consoles-list .console-row.active {
+  border-left: 2px solid var(--accent);
+  background: rgba(15, 56, 15, 0.18);
+}
+
+.consoles-list .console-row-title {
+  font-size: 0.78rem;
+  color: var(--text-primary);
+}
+
+.consoles-list .console-row-meta {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+}
+
+.consoles-list .console-row-signal {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.consoles-detail {
+  min-width: 0;
+}
+
+.consoles-detail-panel {
+  border: 1px solid rgba(67, 95, 60, 0.52);
+  background: var(--bg);
+  padding: 18px;
+}
+
+@media (max-width: 760px) {
+  .consoles-layout {
+    grid-template-columns: 1fr;
+  }
+  .consoles-sidebar {
+    max-height: 40vh;
+  }
+}
+
 /* ─── Stats Dashboard ─── */
 
 .stats-overview-grid {

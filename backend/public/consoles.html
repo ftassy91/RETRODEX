@@ -1,13 +1,12 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <title>RetroDex - Consoles</title>
-    <meta name="description" content="Consoles rétro, repères hardware et mémoire technique." />
+    <meta name="description" content="Consoles retro RetroDex : systemes, jeux par plateforme." />
     <meta property="og:title" content="Consoles | RetroDex" />
-    <meta property="og:description" content="Consoles rétro, repères hardware et mémoire technique." />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
     <link rel="stylesheet" href="/css/core.css?v=20260411" />
@@ -26,104 +25,48 @@
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
-  <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
-    <a class="global-product-link" href="/hub.html">
-      <span class="nav-label">Hub</span>
-      <span class="nav-copy">entrer | ouvrir | reprendre</span>
-    </a>
-    <a class="global-product-link is-active" href="/games-list.html" aria-current="page">
-      <span class="nav-label">RetroDex</span>
-      <span class="nav-copy">index | recherche | fiches</span>
-    </a>
-    <a class="global-product-link" href="/collection.html">
-      <span class="nav-label">Collection</span>
-      <span class="nav-copy">etagere | valeur | priorites</span>
-    </a>
-  </nav>
-    <main id="main-content" class="console-shell">
-      <header class="console-page-head">
-        <div class="console-head-copy">
-          <nav class="breadcrumb" aria-label="Fil d'ariane">
-            <a href="/hub.html">HUB</a>
-            <span class="sep" aria-hidden="true">›</span>
-            <a href="/games-list.html">EXPLORER</a>
-            <span class="sep" aria-hidden="true">›</span>
-            <span class="current">CONSOLES</span>
-          </nav>
-          <div class="detail-kicker">RETRODEX HARDWARE</div>
-          <h1 class="page-title type-in">CONSOLES</h1>
-          <p id="console-count" class="page-subtitle loading-dots">Chargement des consoles</p>
-          <p id="consoles-curation-banner" class="pass1-surface-banner" hidden></p>
-          <p class="console-intro">Referentiel hardware RetroDex : systemes, memoire technique et liens propres vers catalogue, encyclopédie et accessoires.</p>
-        </div>
+    <nav class="global-product-nav global-product-nav-unified" aria-label="Navigation produit RetroDex">
+      <a class="global-product-link" href="/hub.html">
+        <span class="nav-label">Hub</span>
+        <span class="nav-copy">entrer | ouvrir | reprendre</span>
+      </a>
+      <a class="global-product-link is-active" href="/games-list.html" aria-current="page">
+        <span class="nav-label">RetroDex</span>
+        <span class="nav-copy">index | recherche | fiches</span>
+      </a>
+      <a class="global-product-link" href="/collection.html">
+        <span class="nav-label">Collection</span>
+        <span class="nav-copy">etagere | valeur | priorites</span>
+      </a>
+    </nav>
 
-        <div class="console-head-tools">
-          <div class="global-search-bar surface-query-shell">
-            <input
-              type="text"
-              id="global-search"
-              placeholder="/ Rechercher..."
-              readonly
-              onclick="location.href='/search.html'"
-              style="cursor:pointer"
-            />
-          </div>
-          <div class="surface-query-helper">Recherche globale RetroDex.</div>
-          <div class="page-nav-inline">
-            <a href="/games-list.html">Catalogue</a>
-            <span>&middot;</span>
-            <a href="/encyclopedia.html">Encyclopédie</a>
-            <span>&middot;</span>
-            <a href="/accessories.html">Accessoires</a>
-          </div>
-        </div>
-      </header>
+    <main id="main-content" class="page-shell hub-focused-page">
+      <nav class="breadcrumb" aria-label="Fil d ariane">
+        <a href="/hub.html">HUB</a>
+        <span class="sep">&rsaquo;</span>
+        <a href="/games-list.html">RETRODEX</a>
+        <span class="sep">&rsaquo;</span>
+        <span class="current">CONSOLES</span>
+      </nav>
 
-      <section class="product-universe-frame is-dex" aria-label="Univers parent">
-        <div class="product-universe-head">
-          <div>
-            <div class="detail-kicker">RETRODEX</div>
-            <h2 class="product-universe-title">RETRODEX</h2>
-          </div>
-          <div class="product-universe-chip">HARDWARE ARCHIVE</div>
-        </div>
-        <p class="product-universe-copy">
-          Sous-espace archive de RetroDex pour comprendre les systemes, puis rejoindre le
-          catalogue, l'encyclopédie et les accessoires lies sans quitter la logique produit.
-        </p>
-        <div class="product-universe-links">
-          <a href="/games-list.html">Catalogue</a>
-          <a href="/encyclopedia.html">Encyclopédie</a>
-          <a class="is-active" href="/consoles.html">Consoles</a>
-          <a href="/accessories.html">Accessoires</a>
-        </div>
-        <div class="product-universe-overlap" hidden></div>
-      </section>
+      <section class="hub-focus-shell">
+        <h1 class="page-title">CONSOLES</h1>
+        <p id="console-count" class="hub-system-line loading-dots">Chargement</p>
+        <p id="consoles-curation-banner" class="hub-system-line" hidden></p>
 
-      <section class="console-layout">
-        <aside class="console-index-panel">
-          <div class="console-index-head">
-            <div class="detail-kicker">ARCHIVE SYSTEMS</div>
-            <div class="console-index-copy">
-              Selectionner un systeme pour ouvrir ses reperes, ses jeux et ses extensions.
+        <section class="consoles-layout">
+          <aside class="consoles-sidebar">
+            <div id="consoles-grid" class="consoles-list"></div>
+          </aside>
+
+          <section class="consoles-detail">
+            <div id="console-detail" class="consoles-detail-panel">
+              <div class="console-detail-empty terminal-empty-state">
+                <div class="terminal-empty-title">Selectionner une console</div>
+                <div class="terminal-empty-copy">Choisir un systeme dans la liste pour voir ses details.</div>
+              </div>
             </div>
-          </div>
-
-          <div id="consoles-grid" class="console-index-list"></div>
-        </aside>
-
-        <section class="console-reading-shell surface-preview-panel">
-          <div class="console-reading-head">
-            <div>
-              <div class="detail-kicker">SYSTEM PROFILE</div>
-              <h2 class="console-reading-title">Memoire hardware</h2>
-            </div>
-            <div class="console-reading-copy">Bloc principal + accordéons.</div>
-          </div>
-
-          <div id="console-detail" class="console-detail-panel">
-            <div class="console-detail-empty">Selectionner une console dans l'index.</div>
-          </div>
+          </section>
         </section>
       </section>
     </main>
@@ -136,4 +79,3 @@
     </div>
   </body>
 </html>
-
