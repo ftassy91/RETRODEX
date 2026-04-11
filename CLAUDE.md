@@ -127,6 +127,36 @@ Every plan or report must include:
 - animations.js: rollTo counters, typewriter h1, loading dots
 - Smoke test: backend/scripts/smoke-test.js (14 endpoints)
 - UX score: 5.4 → 7.4
+- Hub simplified: search + 3 clickable nav cards + curated game cards (LOT-UI-CLEANUP-01)
+- games-list + collection headers stripped (LOT-UI-CLEANUP-02+03)
+- style.css: 14,212 lines monolith — split planned (LOT-CSS-SPLIT-01)
+
+### UI/UX Overhaul Plan (active, 2026-04-11)
+4-expert audit completed. 7 lots planned:
+
+**Phase 1 — CSS Foundation:**
+- LOT-CSS-CLEAN-01: dead CSS cleanup, dedup, token gaps, conflicting definitions
+- LOT-CSS-SPLIT-01: split monolith into 7 files (core, components, hub, index, collection, responsive, animations)
+
+**Phase 2 — Hub Identity (highest visual impact):**
+- LOT-UI-HUB-01: pixel art covers on curated cards, RetroDex logo, global scanlines (2-3% opacity)
+- LOT-UI-HUB-02: boot screen animation, card hover effects, stagger entrance
+
+**Phase 3 — Page Polish:**
+- LOT-UI-INDEX-01: game row hover, retro loading bar, row entrance stagger, Apply button accent
+- LOT-UI-COLL-01: summary bar redesign (3 key metrics), sidebar default state, signal cards always visible
+
+**Phase 4 — Global Polish:**
+- LOT-UI-ANIM-01: arcade button press, mobile menu slide, smooth scroll, filter transitions
+
+Key findings: 68 pixel art covers in /hub_pixel_art/ + 13 system icons — none displayed.
+Execution order: CSS-CLEAN → CSS-SPLIT → UI-HUB-01 → UI-HUB-02 → UI-INDEX → UI-COLL → UI-ANIM
+
+### Dormant Visual Assets (discovered 2026-04-11)
+- backend/public/hub_pixel_art/ — 68 game covers (pixel art, DALL-E)
+- backend/public/assets/system/icons/ — 13 SVG status/region/condition icons
+- backend/public/assets/system/signature/ — corner bracket frames
+- backend/public/assets/system/supports/ — console cartridge SVGs
 
 ### New tables since initial audit
 - collection_snapshots (global daily value tracking)
@@ -135,7 +165,7 @@ Every plan or report must include:
 - game_snapshots (per-game daily price tracking)
 
 ### Ticket Conventions
-Lot prefixes: LOT-OP-, LOT-PROD-, LOT-UI-, LOT-UX-, LOT-FIX-, LOT-CTRL-, LOT-VA-, LOT-BAZ-
+Lot prefixes: LOT-OP-, LOT-PROD-, LOT-UI-, LOT-UX-, LOT-FIX-, LOT-CTRL-, LOT-VA-, LOT-BAZ-, LOT-CSS-
 
 ---
 
