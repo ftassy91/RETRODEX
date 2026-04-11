@@ -12279,11 +12279,12 @@ body {
 }
 
 a.hub-rich-card {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 14px;
-  padding: 12px;
-  border: 1px solid rgba(38, 54, 36, 0.82);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid rgba(67, 95, 60, 0.52);
+  background: var(--bg);
   text-decoration: none;
   color: inherit;
   cursor: pointer;
@@ -12298,19 +12299,23 @@ a.hub-rich-card:focus-visible {
 }
 
 .hub-card-cover {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
+  flex-shrink: 0;
+  width: auto;
+  height: 140px;
+  object-fit: contain;
   image-rendering: auto;
-  border: 1px solid rgba(67, 95, 60, 0.4);
-  background: var(--bg-surface);
-  border-radius: 2px;
+  background: transparent;
 }
 
 .hub-card-cover-placeholder {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 96px;
+  height: 140px;
+  border: 1px solid rgba(67, 95, 60, 0.4);
+  background: var(--bg-surface);
   font-family: var(--font-display);
   font-size: 2.4rem;
   color: var(--accent-dim);
@@ -12321,6 +12326,7 @@ a.hub-rich-card:focus-visible {
   flex-direction: column;
   gap: 4px;
   justify-content: center;
+  min-width: 0;
 }
 
 .hub-intent-label,
@@ -13764,12 +13770,17 @@ a.hub-rich-card:focus-visible {
 
 @media (max-width: 760px) {
   a.hub-rich-card {
-    grid-template-columns: 80px 1fr;
-    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
   }
   .hub-card-cover {
+    height: 120px;
+  }
+  .hub-card-cover-placeholder {
     width: 80px;
-    height: 80px;
+    height: 120px;
   }
 }
 
