@@ -12337,6 +12337,7 @@ a.hub-rich-card:focus-visible {
 .hub-card-cover {
   flex-shrink: 0;
   width: auto;
+  max-width: 120px;
   height: 140px;
   object-fit: contain;
   image-rendering: auto;
@@ -13825,6 +13826,24 @@ a.hub-rich-card:nth-child(3) { animation-delay: 0.39s; }
     transform: none;
     animation: none;
   }
+}
+
+.hub-card-tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.hub-card-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.hub-card-tag-ms::before {
+  content: 'MS ';
+  opacity: 0.6;
 }
 
 /* ─── Hub Nav Cards ─── */

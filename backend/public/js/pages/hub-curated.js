@@ -99,9 +99,9 @@
         <div class="hub-card-body">
           <div class="hub-encyclo-card-title">${esc(item.title || 'Sans titre')}</div>
           <div class="hub-encyclo-card-meta">${meta || 'RetroDex'}</div>
-          <div class="surface-chip-row hub-rich-chip-row">
-            ${signals ? `<span class="surface-chip is-primary">${esc(signals.band.shortLabel)}</span>` : ''}
-            ${item.metascore ? `<span class="surface-chip is-hot">MS ${esc(item.metascore)}</span>` : ''}
+          <div class="hub-card-tags">
+            ${item.genre && item.genre !== 'Other' ? `<span class="hub-card-tag">${esc(item.genre)}</span>` : ''}
+            ${item.metascore ? `<span class="hub-card-tag hub-card-tag-ms">${esc(item.metascore)}</span>` : ''}
           </div>
         </div>
       </a>

@@ -980,6 +980,8 @@
     hideEditForm()
 
     collectionDetailEl.style.display = 'block'
+    var sideEl = document.getElementById('collection-side')
+    if (sideEl) sideEl.hidden = false
     setText(detailTitleEl, game.title || '?')
     const regionDisplay = item.region && item.region !== 'unknown' ? item.region : null
     const regionPart = regionDisplay

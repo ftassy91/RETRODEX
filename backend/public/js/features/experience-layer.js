@@ -484,7 +484,7 @@
     if (!titleText || titleText === '-' || /chargement/i.test(titleText)) return
 
     STATE.gameViewHandled = true
-    showStatus(pickStatusMessage('game'))
+    if (isCollectorMode()) showStatus(pickStatusMessage('game'))
   }
 
   function sweepExperienceLayer() {
@@ -554,9 +554,11 @@
       return
     }
 
-    window.setTimeout(() => {
-      showStatus(pickStatusMessage(pageKey()), { force: true })
-    }, 420)
+    if (isCollectorMode()) {
+      window.setTimeout(() => {
+        showStatus(pickStatusMessage(pageKey()), { force: true })
+      }, 420)
+    }
   }
 
   function init() {
