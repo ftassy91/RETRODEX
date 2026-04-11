@@ -105,8 +105,8 @@ Every plan or report must include:
 - Backfill script: catalog-aware floor, never-downgrade, date fix (LOT-FIX-12)
 - backend/.env present locally (gitignored) with Supabase pooler credentials
 - 5 collection items qualified, 0 duplicates, 1 sell signal active
-- 246 anecdotes BAZ pour ~150 jeux (LOT-ENRICH-04)
-- 432 jeux avec lien Archive.org (LEGENDARY + EPIC + RARE + UNCOMMON + 300 COMMON) — 100/100 verifies
+- 291 anecdotes BAZ pour 230 jeux (LOT-ENRICH-05)
+- 899 jeux avec lien Archive.org (60% du catalogue) — 100/100 verifies
 - 97% couverture covers IGDB (50 manquantes non resolvables)
 - UX score: 5.4 → 9.0
 
