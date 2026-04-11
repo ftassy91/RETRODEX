@@ -43,10 +43,65 @@ body::after {
   0%   { opacity: 0; transform: translateY(12px); }
   100% { opacity: 1; transform: translateY(0); }
 }
+/* ── Skeleton loading ────────────────────────── */
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(67, 95, 60, 0.1) 0%,
+    rgba(67, 95, 60, 0.22) 50%,
+    rgba(67, 95, 60, 0.1) 100%);
+  background-size: 400px 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  border-radius: 2px;
+}
+
+.skeleton-text {
+  height: 10px;
+  margin-bottom: 6px;
+}
+
+.skeleton-text.wide { width: 80%; }
+.skeleton-text.medium { width: 55%; }
+.skeleton-text.short { width: 30%; }
+
+.skeleton-cover {
+  width: 48px;
+  height: 64px;
+}
+
+.hub-skeleton-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid rgba(67, 95, 60, 0.3);
+}
+
+.skeleton-row {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(67, 95, 60, 0.15);
+}
+
+.skeleton-counter {
+  height: 24px;
+  width: 60px;
+  margin: 0 auto;
+}
+
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   body::after { display: none; }
   .hub-page-title { animation: none; }
   .global-product-link.is-active::before,
   .global-product-home.is-active::before { animation: none; opacity: 1; }
+  .skeleton { animation: none; }
 }
