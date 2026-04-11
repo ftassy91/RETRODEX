@@ -87,11 +87,13 @@ Every plan or report must include:
 - BigBlueTerminal + DepartureMono fonts
 - Quiet Phosphor design system (zones: green default, cyan collection, amber qualification, gray hub)
 
-### Key Context (updated 2026-04-11)
+### Key Context (updated 2026-04-11, end of session)
 - 1,509 games cataloged across 25 consoles
 - 15,400+ price entries from 3 sources (PriceCharting + Yahoo Auctions JP + eBay via Playwright)
 - Confidence tiers: 1 high, 33 medium, 407 low, 1,068 unknown
-- 31 Supabase tables, all RLS-enabled, 0 health flags
+- 31 Supabase tables (+ baz_replies), all RLS-enabled, 0 health flags
+- Design system: 45 CSS variables in :root, 1 hardcoded color remaining
+- Cron pipeline: /api/cron/snapshot (03:00 UTC) + /api/cron/tiers (04:00 UTC)
 - 5 collection items qualified, 0 duplicates, 1 sell signal active
 - Collection: canonical schema, CSV import, region CHECK constraint (PAL/NTSC-U/NTSC-J/NTSC-B/MULTI)
 - Pipeline: backfill-confidence-from-history.js, batch-ebay-fetch.js, capture-collection-snapshot.js
@@ -106,7 +108,10 @@ Every plan or report must include:
 ### BAZ System
 - codec.js: 3-column codec (BAZ | text | USER), Game Boy palette, CRT effects
 - codec.css: scanlines, vignette, grain, glitch, FREQ pulse, asymmetric lighting
-- baz-engine.js: 31 intents, anti-repetition, session memory (10 derniers echanges)
+- baz-engine.js: 31 intents, anti-repetition, session memory, lore fragments
+- erudit-engine.js: L'Erudit on collection page (patience gauge, localStorage memory)
+- glossary.js: 30 retrogaming terms (hover=tooltip, click=BAZ speaks)
+- search-detect.js: questions in search bars → codec redirect
 - baz-gen.js: 3 moteurs (templates + assembleur + Markov), 404 phrases corpus
 - baz-kb.js: knowledge base (20 entries FAQ produit), lexical retrieval
 - Sprites: baz.png + user.png (DALL-E validated, Game Boy style)
