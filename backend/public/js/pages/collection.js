@@ -1189,14 +1189,19 @@
     const confidenceHtml = `<span class="collection-row-confidence confidence--${escapeHtml(qualConf)}" title="Confiance de qualification : ${escapeHtml(qualConfLabel)}">${escapeHtml(qualConfLabel)}</span>`
     const freshnessHtml = getPriceFreshnessChip(game)
 
+    const coverUrl = game.cover_url || game.coverImage || ''
+    const coverHtml = coverUrl
+      ? `<img class="result-cover" src="${escapeHtml(coverUrl)}" alt="" loading="lazy" />`
+      : `<div class="result-cover result-cover-placeholder"><span>${escapeHtml((game.title || '?')[0].toUpperCase())}</span></div>`
+
     const row = document.createElement('div')
     row.className = 'terminal-row'
     row.setAttribute('role', 'row')
     row.dataset.itemId = String(item.id || item.gameId || '')
     row.dataset.index = String(index)
-    row.style.gridTemplateColumns = '12px 1fr 90px 60px 70px 70px 70px 70px 70px'
+    row.style.gridTemplateColumns = '48px 1fr 90px 60px 70px 70px 70px 70px 70px'
     row.innerHTML = `
-      <span role="cell" class="terminal-row-indicator">></span>
+      <span role="cell" class="collection-row-cover">${coverHtml}</span>
       <span role="cell" class="collection-row-main">
         <span class="collection-row-title">${escapeHtml(game.title || '?')}</span>
         <span class="collection-row-meta">${regionHtml}${confidenceHtml}${freshnessHtml}</span>

@@ -13281,6 +13281,24 @@ a.hub-rich-card:focus-visible {
   display: block;
 }
 
+/* Signal cards: dim when count=0, accent when count>0 */
+.cockpit-signal-card:has(.cockpit-signal-count.is-zero) {
+  opacity: 0.45;
+  border-color: rgba(67, 95, 60, 0.25);
+}
+
+.cockpit-signal-card:has(.cockpit-signal-count.is-zero):hover {
+  opacity: 0.7;
+}
+
+.cockpit-signal-card:has(.cockpit-signal-count:not(.is-zero)) {
+  border-color: var(--accent-dim);
+}
+
+.cockpit-signal-card:has(.cockpit-signal-count:not(.is-zero)) .cockpit-signal-count {
+  color: var(--text-primary);
+}
+
 /* ── Price freshness alert ───────────────────────────────────────────────── */
 .price-freshness-alert {
   margin-top: 4px;
@@ -13348,7 +13366,20 @@ a.hub-rich-card:focus-visible {
 }
 
 .collection-summary-hero .terminal-summary-value {
-  font-size: clamp(16px, 1.8vw, 21px);
+  font-size: clamp(14px, 1.5vw, 18px);
+}
+
+.collection-summary-hero .terminal-summary-cell:nth-child(2) .terminal-summary-value {
+  font-size: clamp(18px, 2.2vw, 26px);
+  color: var(--text-value);
+}
+
+.collection-summary-hero .terminal-summary-value.positive {
+  color: var(--confidence-high);
+}
+
+.collection-summary-hero .terminal-summary-value.negative {
+  color: var(--confidence-low);
 }
 
 #collection-cockpit-lead {
