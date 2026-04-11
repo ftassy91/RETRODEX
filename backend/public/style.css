@@ -4075,19 +4075,7 @@ body {
   line-height: 1.8;
 }
 
-.hub-system-line {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  min-height: 38px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(67, 95, 60, 0.42);
-  color: var(--text-secondary);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  line-height: 1.7;
-}
+/* .hub-system-line — canonical definition in unified section (below) */
 
 .hub-system-label {
   color: var(--text-muted);
@@ -4353,33 +4341,6 @@ body {
   font-size: 10px;
 }
 
-.hub-encyclo-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.hub-encyclo-card {
-  border: 1px solid rgba(67, 95, 60, 0.52);
-  padding: 10px 11px;
-  background: var(--bg);
-}
-
-.hub-encyclo-card:hover {
-  background: rgba(15, 21, 15, 0.95);
-  border-color: var(--accent-dim);
-}
-
-.hub-encyclo-card-title {
-  font-size: 10px;
-  margin-bottom: 4px;
-}
-
-.hub-encyclo-card-meta {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  line-height: 1.5;
-}
-
 .collection-preview {
   background:
     linear-gradient(180deg, var(--bg), var(--bg)),
@@ -4630,10 +4591,6 @@ body {
 
 .hub-orientation-head .hub-identity-panel {
   padding: 22px 24px;
-}
-
-.hub-system-line {
-  min-height: 0;
 }
 
 .hub-universe-grid {
@@ -12009,7 +11966,7 @@ body .product-universe-frame.is-dex {
 
 .collection-cockpit-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.9fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 1fr);
   gap: 18px;
   align-items: start;
 }
@@ -12065,8 +12022,7 @@ body .product-universe-frame.is-dex {
 
 @media (max-width: 1100px) {
   .hub-stats-compact,
-  .hub-intent-grid-three,
-  .collection-cockpit-grid {
+  .hub-intent-grid-three {
     grid-template-columns: 1fr;
   }
 }
@@ -12196,10 +12152,6 @@ body .product-universe-frame.is-dex {
 
 .collection-toolbar-group > * {
   min-width: 0;
-}
-
-.collection-cockpit-grid {
-  grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.9fr);
 }
 
 .collection-preview-summary {
@@ -12722,10 +12674,6 @@ body {
   border: 1px solid rgba(39, 56, 36, 0.84);
 }
 
-.collection-cockpit-grid {
-  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.95fr);
-  gap: 20px;
-}
 
 .collection-preview-shell {
   border: 1px solid rgba(39, 56, 36, 0.84);
@@ -13030,10 +12978,6 @@ body {
 .collection-cockpit-topline {
   justify-content: flex-start;
   gap: 12px;
-}
-
-.collection-cockpit-grid {
-  grid-template-columns: minmax(0, 1.55fr) minmax(290px, 0.85fr);
 }
 
 .collection-preview-shell {
@@ -13511,11 +13455,6 @@ body {
   color: var(--text-secondary);
 }
 
-.collection-cockpit-grid {
-  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 1fr);
-  gap: 18px;
-}
-
 .collection-cockpit-main {
   min-width: 0;
 }
@@ -13833,73 +13772,6 @@ body {
   max-width: 44ch;
 }
 
-.hub-system-loop {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.hub-system-scenario {
-  padding: 10px 12px;
-  border: 1px solid rgba(67, 95, 60, 0.52);
-  background: var(--bg);
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  line-height: 1.45;
-}
-
-.hub-proof-shell {
-  display: grid;
-  gap: 12px;
-}
-
-.hub-proof-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.hub-proof-card {
-  display: grid;
-  gap: 8px;
-  padding: 12px;
-  border: 1px solid rgba(67, 95, 60, 0.52);
-  background: var(--bg);
-}
-
-.hub-proof-label {
-  color: var(--text-muted);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.hub-proof-copy {
-  margin: 0;
-  color: var(--text-muted);
-  line-height: 1.55;
-}
-
-.hub-proof-signals {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.hub-proof-signal {
-  display: grid;
-  gap: 4px;
-  padding: 10px 12px;
-  border: 1px solid rgba(67, 95, 60, 0.52);
-  background: var(--bg);
-}
-
-.hub-proof-value {
-  color: var(--text-primary);
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-}
-
 /* ─── Hub Nav Cards ─── */
 
 .hub-nav-grid {
@@ -14010,13 +13882,6 @@ body {
   color: var(--text-alert);
 }
 
-@media (max-width: 900px) {
-  .hub-proof-grid,
-  .hub-proof-signals {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* ─── Collection row: region + confidence inline meta ─── */
 
 .collection-row-meta {
@@ -14037,11 +13902,11 @@ body {
   cursor: default;
 }
 
-.collection-row-region.region--pal   { color: rgba(120, 220, 170, 0.9); border-color: rgba(80, 200, 150, 0.4); }
-.collection-row-region.region--ntscu { color: rgba(120, 170, 255, 0.9); border-color: rgba(80, 140, 255, 0.4); }
-.collection-row-region.region--ntscj { color: rgba(255, 140, 120, 0.9); border-color: rgba(255, 80,  80,  0.4); }
-.collection-row-region.region--ntscb { color: rgba(255, 210, 100, 0.9); border-color: rgba(220, 170, 50,  0.4); }
-.collection-row-region.region--multi { color: rgba(200, 160, 255, 0.9); border-color: rgba(160, 100, 220, 0.4); }
+.collection-row-region.region--pal   { color: var(--region-pal);    border-color: var(--region-pal-dim); }
+.collection-row-region.region--ntscu { color: var(--region-ntsc-u); border-color: var(--region-ntsc-u-dim); }
+.collection-row-region.region--ntscj { color: var(--region-ntsc-j); border-color: var(--region-ntsc-j-dim); }
+.collection-row-region.region--ntscb { color: var(--region-ntsc-b); border-color: var(--region-ntsc-b-dim); }
+.collection-row-region.region--multi { color: var(--region-multi);  border-color: var(--region-multi-dim); }
 .collection-row-region.region--unknown {
   color: var(--text-muted);
   border-color: var(--border);
@@ -14189,24 +14054,10 @@ body::after {
   0%   { opacity: 0; transform: translateY(12px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-.hub-proof-shell, .hub-intent-shell, .hub-rich-shell, .hub-stats-bar {
-  animation: section-fade-in 0.5s ease-out both;
-}
-.hub-proof-shell  { animation-delay: 0.1s; }
-.hub-intent-shell { animation-delay: 0.25s; }
-.hub-rich-shell   { animation-delay: 0.4s; }
-.hub-stats-bar    { animation-delay: 0.55s; }
-
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   body::after { display: none; }
   .hub-page-title { animation: none; }
   .global-product-link.is-active::before,
   .global-product-home.is-active::before { animation: none; opacity: 1; }
-  .hub-proof-shell, .hub-intent-shell, .hub-rich-shell, .hub-stats-bar {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-  .hub-system-tagline { animation: none; }
 }

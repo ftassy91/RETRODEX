@@ -44,6 +44,28 @@
 }
 
 /* ============================================================
+   REGION COLORS — Shared tokens for PAL/NTSC badges
+   ============================================================ */
+:root {
+  --region-pal:        rgba(120, 220, 170, 0.9);
+  --region-pal-dim:    rgba(80, 200, 150, 0.4);
+  --region-ntsc-u:     rgba(120, 170, 255, 0.9);
+  --region-ntsc-u-dim: rgba(80, 140, 255, 0.4);
+  --region-ntsc-j:     rgba(255, 140, 120, 0.9);
+  --region-ntsc-j-dim: rgba(255, 80, 80, 0.4);
+  --region-ntsc-b:     rgba(255, 210, 100, 0.9);
+  --region-ntsc-b-dim: rgba(220, 170, 50, 0.4);
+  --region-multi:      rgba(200, 160, 255, 0.9);
+  --region-multi-dim:  rgba(160, 100, 220, 0.4);
+
+  --z-dropdown: 10;
+  --z-modal:    100;
+  --z-overlay:  900;
+  --z-fixed:    1000;
+  --z-top:      9999;
+}
+
+/* ============================================================
    HOVER — Quiet Phosphor micro-interactions
    Subtle border transitions. No glow, no scale, no shadow.
    ============================================================ */
