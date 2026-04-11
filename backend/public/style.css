@@ -54,8 +54,8 @@ button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible
 .terminal-filter-btn:focus-visible, .cockpit-signal-card:focus-visible,
 .tab-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-ui); font-size: var(--font-size-base); line-height: var(--line-height); background: var(--bg); color: #9bbc0f; min-height: 100vh; padding: 20px 16px; }
-a { color: #9bbc0f; }
+body { font-family: var(--font-ui); font-size: var(--font-size-base); line-height: var(--line-height); background: var(--bg); color: var(--text-primary); min-height: 100vh; padding: 20px 16px; }
+a { color: var(--text-primary); }
 .btn,
 button,
 input,
@@ -97,7 +97,7 @@ label {
   text-decoration: underline;
 }
 .page-header { max-width: 900px; margin: 0 auto 20px; padding-bottom: 12px; border-bottom: 1px solid rgba(155,188,15,0.2); }
-.page-header h1 { font-size: 18px; color: #cfe66f; letter-spacing: 0.05em; margin-bottom: 4px; }
+.page-header h1 { font-size: 18px; color: var(--text-value); letter-spacing: 0.05em; margin-bottom: 4px; }
 .page-title, h1.title, .section-title { text-align: left; }
 .nav-links { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
 .breadcrumb {
@@ -105,25 +105,25 @@ label {
   align-items: center;
   gap: 0.4rem;
   font-size: 0.65rem;
-  color: #5a9a3a;
+  color: var(--text-secondary);
   margin-bottom: 1.25rem;
   letter-spacing: 0.05em;
 }
 .breadcrumb a {
-  color: #5a9a3a;
+  color: var(--text-secondary);
   text-decoration: none;
 }
-.breadcrumb a:hover { color: #9bbc0f; }
+.breadcrumb a:hover { color: var(--text-primary); }
 .breadcrumb .sep { color: #306230; }
-.breadcrumb .current { color: #9bbc0f; }
-.btn { display: inline-block; padding: 6px 14px; border: 1px solid rgba(155,188,15,0.35); border-radius: 3px; font-size: 0.7rem; font-family: inherit; background: transparent; color: #9bbc0f; cursor: pointer; text-decoration: none; }
+.breadcrumb .current { color: var(--text-primary); }
+.btn { display: inline-block; padding: 6px 14px; border: 1px solid rgba(155,188,15,0.35); border-radius: 3px; font-size: 0.7rem; font-family: inherit; background: transparent; color: var(--text-primary); cursor: pointer; text-decoration: none; }
 .btn:hover { border-color: rgba(155,188,15,0.7); background: rgba(155,188,15,0.08); }
 .card { background: rgba(15,56,15,0.2); border: 1px solid rgba(155,188,15,0.18); border-radius: 4px; padding: 14px 16px; }
 .grid-2 { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 12px; }
 .page-shell { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
 .empty-state { max-width: 900px; margin: 40px auto; text-align: center; font-size: 12px; color: rgba(155,188,15,0.3); }
 .status-bar { max-width: 900px; margin: 0 auto 14px; font-size: 0.7rem; color: rgba(155,188,15,0.45); min-height: 16px; }
-.pill { display: inline-block; padding: 2px 8px; border: 1px solid rgba(155,188,15,0.28); border-radius: 999px; background: rgba(155,188,15,0.18); color: #9bbc0f; font-size: 0.7rem; margin-right: 8px; margin-bottom: 8px; }
+.pill { display: inline-block; padding: 2px 8px; border: 1px solid rgba(155,188,15,0.28); border-radius: 999px; background: rgba(155,188,15,0.18); color: var(--text-primary); font-size: 0.7rem; margin-right: 8px; margin-bottom: 8px; }
 .rarity-badge {
   padding: 0.15rem 0.5rem;
   font-size: 0.7rem;
@@ -137,7 +137,7 @@ label {
 .rarity-epic { color: #c48be8; border-color: #c48be8; }
 .rarity-rare { color: #e88855; border-color: #e88855; }
 .rarity-uncommon { color: #44aadd; border-color: #44aadd; }
-.rarity-common { color: #5a9a3a; border-color: #5a9a3a; }
+.rarity-common { color: var(--text-secondary); border-color: var(--text-secondary); }
 /* =============================================
    game-detail ? Sprint 5 additions
    price-history + price-compare sections
@@ -148,7 +148,7 @@ label {
         font-size: 1.6rem;
         font-weight: bold;
         letter-spacing: 0.12em;
-        color: #9bbc0f;
+        color: var(--text-primary);
         text-transform: uppercase;
         text-align: left;
         margin-bottom: 0.25rem;
@@ -156,7 +156,7 @@ label {
 
       .page-subtitle {
         font-size: 0.75rem;
-        color: #5a9a3a;
+        color: var(--text-secondary);
         letter-spacing: 0.05em;
         margin-bottom: 1.5rem;
       }
@@ -165,7 +165,7 @@ label {
         font-size: 0.75rem;
         font-weight: bold;
         letter-spacing: 0.1em;
-        color: #9bbc0f;
+        color: var(--text-primary);
         text-transform: uppercase;
         margin-bottom: 0.75rem;
       }
@@ -173,30 +173,30 @@ label {
       .card-title {
         font-size: 0.9rem;
         font-weight: bold;
-        color: #9bbc0f;
+        color: var(--text-primary);
       }
 
       .card-meta {
         font-size: 0.72rem;
-        color: #5a9a3a;
+        color: var(--text-secondary);
       }
 
       .label-key {
         font-size: 0.65rem;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: #5a9a3a;
+        color: var(--text-secondary);
       }
 
       .value-large {
         font-size: 1.4rem;
         font-weight: bold;
-        color: #9bbc0f;
+        color: var(--text-primary);
       }
 
       .value-medium {
         font-size: 1rem;
-        color: #9bbc0f;
+        color: var(--text-primary);
       }
 
       .detail-shell {
@@ -541,7 +541,7 @@ label {
       }
 
       .price-history h3 {
-        color: #9bbc0f;
+        color: var(--text-primary);
         font-size: 0.7rem;
         letter-spacing: 0.1em;
         margin-bottom: 1rem;
@@ -558,12 +558,12 @@ label {
         padding: 0.2rem 0.6rem;
         font-size: 0.65rem;
         border: 1px solid #306230;
-        color: #9bbc0f;
+        color: var(--text-primary);
       }
 
       .trend-badge.up {
-        border-color: #9bbc0f;
-        color: #9bbc0f;
+        border-color: var(--text-primary);
+        color: var(--text-primary);
       }
 
       .trend-badge.up::before {
@@ -629,8 +629,8 @@ label {
       }
 
       .chart-btn.active {
-        border-color: #9bbc0f;
-        color: #9bbc0f;
+        border-color: var(--text-primary);
+        color: var(--text-primary);
         background: #0a1a0a;
       }
 
@@ -679,7 +679,7 @@ label {
 
       .stat-value {
         font-size: 0.9rem;
-        color: #9bbc0f;
+        color: var(--text-primary);
         font-weight: bold;
       }
 
@@ -691,7 +691,7 @@ label {
       }
 
       .price-compare h3 {
-        color: #9bbc0f;
+        color: var(--text-primary);
         font-size: 0.7rem;
         letter-spacing: 0.1em;
         margin-bottom: 1rem;
@@ -726,7 +726,7 @@ label {
 
       .compare-row.current {
         background: #0a1a0a;
-        color: #9bbc0f;
+        color: var(--text-primary);
       }
 
       .compare-row.clickable:hover {
@@ -2809,7 +2809,7 @@ body { padding-bottom: 24px; }
 
 .hub-hero h1 {
   font-size: 28px;
-  color: #cfe66f;
+  color: var(--text-value);
   letter-spacing: 0.12em;
   margin-bottom: 8px;
 }
@@ -2834,7 +2834,7 @@ body { padding-bottom: 24px; }
 
 .hub-stat .val {
   font-size: 22px;
-  color: #cfe66f;
+  color: var(--text-value);
   display: block;
 }
 
@@ -2903,8 +2903,8 @@ body { padding-bottom: 24px; }
 }
 
 .hub-random-button:hover {
-  color: #9bbc0f;
-  border-color: #9bbc0f;
+  color: var(--text-primary);
+  border-color: var(--text-primary);
   background: rgba(155, 188, 15, 0.05);
 }
 
@@ -2919,7 +2919,7 @@ body { padding-bottom: 24px; }
 }
 
 .hub-quick-links a:hover {
-  color: #cfe66f;
+  color: var(--text-value);
 }
 
 .section-title {
@@ -2942,7 +2942,7 @@ body { padding-bottom: 24px; }
 
 .collection-preview h3 {
   font-size: 12px;
-  color: #cfe66f;
+  color: var(--text-value);
   margin-bottom: 12px;
 }
 
@@ -2987,7 +2987,7 @@ body { padding-bottom: 24px; }
 }
 
 .legendary-card:hover {
-  border-color: #9bbc0f;
+  border-color: var(--text-primary);
 }
 
 .legendary-card canvas {
@@ -3011,13 +3011,13 @@ body { padding-bottom: 24px; }
 
 .legendary-card-meta {
   font-size: 0.6rem;
-  color: #5a9a3a;
+  color: var(--text-secondary);
   margin-top: 0.15rem;
 }
 
 .legendary-card-price {
   font-size: 0.75rem;
-  color: #9bbc0f;
+  color: var(--text-primary);
   margin-top: 0.15rem;
 }
 
@@ -3336,7 +3336,7 @@ body.experience-canon .terminal-preview-label {
 
 .franchises-search-link:hover {
   background: rgba(17, 24, 17, 0.98);
-  color: #f1c45c;
+  color: var(--text-alert);
 }
 
 .franchises-layout {
@@ -3595,7 +3595,7 @@ body.experience-canon .terminal-preview-label {
 }
 
 .franchise-action-link:hover {
-  color: #f1c45c;
+  color: var(--text-alert);
   text-decoration: underline;
 }
 
@@ -4107,7 +4107,7 @@ body {
 }
 
 .hub-search-button:hover {
-  color: #f1c45c;
+  color: var(--text-alert);
   background: rgba(28, 36, 28, 0.98);
 }
 
@@ -4263,7 +4263,7 @@ body {
 }
 
 .hub-module-link:hover {
-  color: #f1c45c;
+  color: var(--text-alert);
   text-decoration: underline;
 }
 
@@ -4428,7 +4428,7 @@ body {
 }
 
 .hub-action-inline:hover {
-  color: #f1c45c;
+  color: var(--text-alert);
   text-decoration: underline;
 }
 
@@ -4725,7 +4725,7 @@ body {
 }
 
 .hub-inline-link:hover {
-  color: #f1c45c;
+  color: var(--text-alert);
   text-decoration: underline;
 }
 
@@ -4797,7 +4797,7 @@ body {
 }
 
 .hub-intent-links a:hover {
-  color: #f1c45c;
+  color: var(--text-alert);
   text-decoration: underline;
 }
 
@@ -5168,7 +5168,7 @@ body {
   margin: 0 0 0.5rem;
   font-family: var(--font-display);
   font-size: clamp(0.9rem, 2vw, 1.1rem);
-  color: #9bbc0f;
+  color: var(--text-primary);
   font-weight: 700;
   line-height: 1.3;
 }
@@ -5186,7 +5186,7 @@ body {
   margin-top: 0.4rem;
   font-family: var(--font-mono);
   font-size: 0.82rem;
-  color: #7a9a7a;
+  color: var(--text-muted);
 }
 
 .detail-hero-meta-value {
@@ -5214,7 +5214,7 @@ body {
 .detail-hero-reference {
   display: block;
   margin-top: 0.35rem;
-  color: #7a9a7a;
+  color: var(--text-muted);
   font-family: var(--font-mono);
   font-size: 0.8rem;
 }
@@ -5320,7 +5320,7 @@ body {
 
 .detail-hero-price-help {
   margin-top: 8px;
-  color: #6d8c65;
+  color: var(--text-secondary);
   font-family: var(--font-mono);
   font-size: 0.7rem;
   line-height: 1.45;
@@ -6047,13 +6047,13 @@ body {
 }
 
 .detail-compliance-badge.is-approved {
-  color: #9bbc0f;
+  color: var(--text-primary);
   border-color: rgba(155, 188, 15, 0.45);
   background: rgba(155, 188, 15, 0.08);
 }
 
 .detail-compliance-badge.is-review {
-  color: #f1c45c;
+  color: var(--text-alert);
   border-color: rgba(241, 196, 92, 0.45);
   background: rgba(241, 196, 92, 0.08);
 }
@@ -6379,7 +6379,7 @@ body {
 }
 
 .catalog-advanced-toggle:hover {
-  color: #f1c45c;
+  color: var(--text-alert);
   text-decoration: underline;
 }
 
@@ -9179,7 +9179,7 @@ body::-webkit-scrollbar-thumb,
 
 .hub-intent-links a:hover,
 .hub-intent-links a:focus-visible {
-  color: #f1c45c;
+  color: var(--text-alert);
 }
 
 .hub-search-form:hover {
@@ -10279,7 +10279,7 @@ body.hub-page .product-universe-frame {
 
 .surface-action-row a:hover,
 .surface-action-row button:hover {
-  color: #f1c45c;
+  color: var(--text-alert);
   text-decoration: underline;
 }
 
@@ -10627,7 +10627,7 @@ body.hub-page .product-universe-frame {
 
 .detail-reading-state {
   margin-top: 12px;
-  color: #6d8c65;
+  color: var(--text-secondary);
   font-family: var(--font-mono);
   font-size: 10px;
   line-height: 1.7;
@@ -10826,8 +10826,8 @@ body.hub-page .product-universe-frame {
   font-family: var(--font-mono);
   font-size: 0.85rem;
   line-height: 1.8;
-  color: #a8c8a8;
-  border-left: 2px solid #9bbc0f;
+  color: var(--text-muted);
+  border-left: 2px solid var(--accent);
   padding-left: 1rem;
   margin-bottom: 1rem;
   letter-spacing: 0.02em;
@@ -10836,7 +10836,7 @@ body.hub-page .product-universe-frame {
 .archive-gameplay {
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: #7a9a7a;
+  color: var(--text-muted);
   margin-top: 0.75rem;
   padding: 0.75rem;
   background: rgba(155, 188, 15, 0.05);
@@ -10846,7 +10846,7 @@ body.hub-page .product-universe-frame {
 .archive-label {
   font-family: var(--font-display);
   font-size: 0.72rem;
-  color: #9bbc0f;
+  color: var(--text-primary);
   letter-spacing: 0.1em;
   display: block;
   margin-bottom: 0.5rem;
@@ -10876,7 +10876,7 @@ body.hub-page .product-universe-frame {
 }
 
 .archive-char-role {
-  color: #9bbc0f;
+  color: var(--text-primary);
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -10884,7 +10884,7 @@ body.hub-page .product-universe-frame {
 }
 
 .archive-char-desc {
-  color: #7a9a7a;
+  color: var(--text-muted);
   line-height: 1.6;
 }
 
@@ -10893,7 +10893,7 @@ body.hub-page .product-universe-frame {
   margin-bottom: 1rem;
   font-family: var(--font-mono);
   font-size: 0.82rem;
-  color: #a8c8a8;
+  color: var(--text-muted);
 }
 
 .archive-ost-tracks ul {
@@ -10905,7 +10905,7 @@ body.hub-page .product-universe-frame {
 .archive-ost-tracks ul li {
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  color: #7a9a7a;
+  color: var(--text-muted);
   padding: 0.3rem 0;
   padding-left: 1rem;
   border-left: 1px solid rgba(155, 188, 15, 0.2);
@@ -10914,15 +10914,15 @@ body.hub-page .product-universe-frame {
 }
 
 .archive-ost-tracks ul li:hover {
-  color: #9bbc0f;
-  border-left-color: #9bbc0f;
+  color: var(--text-primary);
+  border-left-color: var(--text-primary);
 }
 
 .archive-duration {
   margin-top: 0.75rem;
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  color: #7a9a7a;
+  color: var(--text-muted);
   padding: 0.5rem 0.75rem;
   background: rgba(155, 188, 15, 0.03);
   border: 1px solid rgba(155, 188, 15, 0.1);
@@ -10933,7 +10933,7 @@ body.hub-page .product-universe-frame {
   margin-top: 0.5rem;
   font-family: var(--font-display);
   font-size: 0.72rem;
-  color: #f1c45c;
+  color: var(--text-alert);
   letter-spacing: 0.05em;
   padding: 0.4rem 0.75rem;
   border: 1px solid rgba(241, 196, 92, 0.2);
@@ -11006,7 +11006,7 @@ body.hub-page .product-universe-frame {
   justify-content: center;
   font-family: var(--font-display);
   font-size: 0.9rem;
-  color: #9bbc0f;
+  color: var(--text-primary);
   flex-shrink: 0;
 }
 
@@ -11022,7 +11022,7 @@ body.hub-page .product-universe-frame {
 .detail-section-label {
   font-family: var(--font-display);
   font-size: 0.72rem;
-  color: #9bbc0f;
+  color: var(--text-primary);
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
@@ -11053,14 +11053,14 @@ body.hub-page .product-universe-frame {
 .market-empty-title {
   font-family: var(--font-display);
   font-size: 0.72rem;
-  color: #9bbc0f;
+  color: var(--text-primary);
   letter-spacing: 0.08em;
 }
 
 .market-empty-copy {
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  color: #7a9a7a;
+  color: var(--text-muted);
 }
 
 .market-search-header {
@@ -11173,7 +11173,7 @@ body.hub-page .product-universe-frame {
   background: rgba(155, 188, 15, 0.04);
   font-family: var(--font-display);
   font-size: 1rem;
-  color: #9bbc0f;
+  color: var(--text-primary);
 }
 
 .market-hero-copy {
@@ -11229,11 +11229,11 @@ body.hub-page .product-universe-frame {
 }
 
 .market-trend-badge.is-down {
-  color: #f1c45c;
+  color: var(--text-alert);
 }
 
 .market-trend-badge.is-stable {
-  color: #9bbc0f;
+  color: var(--text-primary);
 }
 
 .market-trend-symbol {
@@ -11267,11 +11267,11 @@ body.hub-page .product-universe-frame {
 .market-graph-price {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  color: #7a9a7a;
+  color: var(--text-muted);
 }
 
 .market-graph-price {
-  color: #a8c8a8;
+  color: var(--text-muted);
   text-align: right;
 }
 
@@ -11296,11 +11296,11 @@ body.hub-page .product-universe-frame {
   border-top: 1px solid rgba(155, 188, 15, 0.08);
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  color: #a8c8a8;
+  color: var(--text-muted);
 }
 
 .market-condition-header {
-  color: #7a9a7a;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -11350,7 +11350,7 @@ body.hub-page .product-universe-frame {
 .market-compare-card-title {
   font-family: var(--font-display);
   font-size: 0.72rem;
-  color: #9bbc0f;
+  color: var(--text-primary);
   line-height: 1.6;
 }
 
@@ -11358,7 +11358,7 @@ body.hub-page .product-universe-frame {
   margin-top: 0.35rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  color: #7a9a7a;
+  color: var(--text-muted);
 }
 
 .market-compare-table {
@@ -11374,11 +11374,11 @@ body.hub-page .product-universe-frame {
   border-top: 1px solid rgba(155, 188, 15, 0.08);
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  color: #a8c8a8;
+  color: var(--text-muted);
 }
 
 .market-compare-header {
-  color: #7a9a7a;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -11391,23 +11391,23 @@ body.hub-page .product-universe-frame {
   border-top: 1px solid rgba(155, 188, 15, 0.08);
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  color: #a8c8a8;
+  color: var(--text-muted);
 }
 
 .market-buy-price {
-  color: #f1c45c;
+  color: var(--text-alert);
   text-align: right;
 }
 
 .market-buy-status {
-  color: #9bbc0f;
+  color: var(--text-primary);
   text-align: right;
 }
 
 .market-meta-fallback {
   font-family: var(--font-display);
   font-size: 0.72rem;
-  color: #9bbc0f;
+  color: var(--text-primary);
 }
 
 @media (max-width: 960px) {
@@ -11525,7 +11525,7 @@ body.hub-page .product-universe-frame {
   display: block;
   font-family: var(--font-mono);
   font-size: 0.82rem;
-  color: #9bbc0f;
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -11535,7 +11535,7 @@ body.hub-page .product-universe-frame {
   display: block;
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  color: #7a9a7a;
+  color: var(--text-muted);
   margin-top: 0.15rem;
 }
 
@@ -11558,8 +11558,8 @@ body.hub-page .product-universe-frame {
 .btn-r?tromarket-cta {
   display: inline-block;
   background: rgba(241, 196, 92, 0.12);
-  border: 2px solid #f1c45c;
-  color: #f1c45c;
+  border: 2px solid var(--text-alert);
+  color: var(--text-alert);
   font-family: var(--font-display);
   font-size: 0.72rem;
   padding: 0.75rem 1.5rem;
@@ -11618,7 +11618,7 @@ body.hub-page .product-universe-frame {
 
 .detail-section-chevron {
   margin-right: 0.5rem;
-  color: #7a9a7a;
+  color: var(--text-muted);
   font-size: 0.8rem;
 }
 
@@ -11661,8 +11661,8 @@ body.hub-page .product-universe-frame {
 
 .console-filter-btn.active,
 .console-filter-btn:hover {
-  border-color: #9bbc0f;
-  color: #9bbc0f;
+  border-color: var(--text-primary);
+  color: var(--text-primary);
   background: rgba(155,188,15,0.06);
 }
 
@@ -11675,14 +11675,14 @@ body.hub-page .product-universe-frame {
   font-size: 0.8rem;
   border: 1px solid rgba(155,188,15,0.2);
   background: transparent;
-  color: #7a9a7a;
+  color: var(--text-muted);
   cursor: pointer;
   transition: all 0.12s;
 }
 
 .console-load-more:hover {
-  border-color: #9bbc0f;
-  color: #9bbc0f;
+  border-color: var(--text-primary);
+  color: var(--text-primary);
 }
 
 /* ── Hub page ── */
@@ -11714,13 +11714,13 @@ body.hub-page .product-universe-frame {
 
 .hub-intent-icon {
   font-size: 1.5rem;
-  color: #9bbc0f;
+  color: var(--text-primary);
 }
 
 .hub-intent-label {
   font-family: var(--font-display);
   font-size: 0.72rem;
-  color: #9bbc0f;
+  color: var(--text-primary);
   text-align: center;
   letter-spacing: 0.05em;
 }
@@ -11728,14 +11728,14 @@ body.hub-page .product-universe-frame {
 .hub-intent-sub {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  color: #7a9a7a;
+  color: var(--text-muted);
   text-align: center;
 }
 
 .hub-section-label {
   font-family: var(--font-display);
   font-size: 0.72rem;
-  color: #f1c45c;
+  color: var(--text-alert);
   letter-spacing: 0.08em;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
@@ -11781,7 +11781,7 @@ body.hub-page .product-universe-frame {
   padding: 0.75rem 0;
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: #7a9a7a;
+  color: var(--text-muted);
   border-top: 1px solid rgba(155,188,15,0.08);
   margin-top: 1.5rem;
 }
@@ -11793,7 +11793,7 @@ body.hub-page .product-universe-frame {
 }
 
 .hub-stat-value {
-  color: #9bbc0f;
+  color: var(--text-primary);
   font-size: 0.9rem;
 }
 
@@ -12435,7 +12435,7 @@ body {
 
 .hub-card-proof {
   margin-bottom: 8px;
-  color: #86a07d;
+  color: var(--text-muted);
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.12em;
@@ -12570,7 +12570,7 @@ body {
 
 .sc-summary {
   margin-top: 8px;
-  color: #6f8d67;
+  color: var(--text-secondary);
   max-width: 46ch;
 }
 
@@ -12627,7 +12627,7 @@ body {
 .detail-hero-developer,
 .detail-status-copy,
 .detail-reading-note {
-  color: #6d8c65;
+  color: var(--text-secondary);
 }
 
 .detail-hero-chip-row,
@@ -12641,7 +12641,7 @@ body {
 }
 
 .detail-hero-actions .terminal-action-link.is-primary {
-  color: #f1c45c;
+  color: var(--text-alert);
   border-color: rgba(241, 196, 92, 0.42);
 }
 
@@ -12701,7 +12701,7 @@ body {
 
 .collection-preview-summary {
   max-width: 40ch;
-  color: #6f8d67;
+  color: var(--text-secondary);
 }
 
 .market-hero-card {
@@ -12890,12 +12890,12 @@ body {
 }
 
 .results-summary-line {
-  color: #97b18a;
+  color: var(--text-muted);
   font-size: 0.79rem;
 }
 
 .results-summary-main {
-  color: #97b18a;
+  color: var(--text-muted);
   letter-spacing: 0.02em;
 }
 
@@ -13089,7 +13089,7 @@ body {
   font-family: var(--font-mono);
   font-size: 26px;
   font-weight: 700;
-  color: #9bbc0f;
+  color: var(--text-primary);
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -13115,7 +13115,7 @@ body {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
-  color: #9bbc0f;
+  color: var(--text-primary);
   min-height: 16px;
   opacity: 0;
   transform: translateY(4px);
@@ -13185,7 +13185,7 @@ body {
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
-  color: #9bbc0f;
+  color: var(--text-primary);
   letter-spacing: .08em;
   align-self: center;
 }
@@ -13512,7 +13512,7 @@ body {
 }
 
 .collection-preview-shell .terminal-preview-label {
-  color: #86a07d;
+  color: var(--text-muted);
   letter-spacing: 0.16em;
 }
 
@@ -13546,7 +13546,7 @@ body {
 .collection-preview-summary {
   max-width: none;
   margin-top: 14px;
-  color: #89a582;
+  color: var(--text-muted);
   line-height: 1.72;
 }
 
@@ -13559,7 +13559,7 @@ body {
 .collection-next-step-label {
   display: block;
   margin-bottom: 6px;
-  color: #86a07d;
+  color: var(--text-muted);
   font-size: 10px;
   letter-spacing: 0.14em;
 }
@@ -13603,7 +13603,7 @@ body {
 .hub-card-proof-secondary {
   margin-top: 8px;
   margin-bottom: 0;
-  color: #6f8868;
+  color: var(--text-secondary);
 }
 
 .retrodex-index-page .catalog-operating-strip {
@@ -13633,7 +13633,7 @@ body {
 .result-context-row {
   display: block;
   margin-top: 8px;
-  color: #6f8868;
+  color: var(--text-secondary);
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.08em;
@@ -13732,7 +13732,7 @@ body {
 }
 .possession-chip.is-owned {
   background: #1a3a1a;
-  color: #4ade80;
+  color: var(--text-value);
   border: 1px solid #4ade80;
 }
 .possession-chip.is-sale {
@@ -13810,7 +13810,7 @@ body {
   padding: 10px 12px;
   border: 1px solid rgba(67, 95, 60, 0.52);
   background: rgba(7, 11, 7, 0.9);
-  color: #89a582;
+  color: var(--text-muted);
   font-size: 0.75rem;
   line-height: 1.45;
 }
@@ -13843,7 +13843,7 @@ body {
 
 .hub-proof-copy {
   margin: 0;
-  color: #89a582;
+  color: var(--text-muted);
   line-height: 1.55;
 }
 
@@ -13882,7 +13882,7 @@ body {
 }
 
 .cockpit-signal-desc {
-  color: #6f8d67;
+  color: var(--text-secondary);
   font-size: 0.68rem;
   line-height: 1.3;
 }
@@ -13900,7 +13900,7 @@ body {
 .result-action-row {
   display: block;
   margin-top: 4px;
-  color: #6f8d67;
+  color: var(--text-secondary);
   font-size: 0.71rem;
   line-height: 1.45;
 }
@@ -13911,7 +13911,7 @@ body {
 }
 
 .detail-hero-price-help.is-warning {
-  color: #f1c45c;
+  color: var(--text-alert);
 }
 
 @media (max-width: 900px) {
