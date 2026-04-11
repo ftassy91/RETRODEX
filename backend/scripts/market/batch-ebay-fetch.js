@@ -7,10 +7,21 @@
  * Usage:
  *   node backend/scripts/market/batch-ebay-fetch.js --limit=5
  *   node backend/scripts/market/batch-ebay-fetch.js --limit=20 --output=ebay-batch.json
+ *   node backend/scripts/market/batch-ebay-fetch.js --console="Super Nintendo" --limit=10
+ *   node backend/scripts/market/batch-ebay-fetch.js --console="NES" --tier=unknown --limit=20
+ *
+ * Options:
+ *   --console=NAME   Fetch games for this console from Supabase (unknown tier first)
+ *   --tier=TIER      Filter by confidence tier (default: unknown, then low)
+ *   --limit=N        Max games to fetch (default: 5, max: 20)
+ *   --records=N      Max eBay records per game (default: 5)
+ *   --output=FILE    Write results to JSON file
+ *   --dry-run        Show targets without fetching eBay
  */
 
 const path = require('path')
 const fs = require('fs')
+require('dotenv').config({ path: path.join(__dirname, '..', '..', '.env') })
 const ebay = require('../../src/services/market/connectors/ebay')
 const { closeBrowser } = require('../../src/services/market/connectors/playwright-support')
 
@@ -24,8 +35,8 @@ function parseArgs(argv) {
   }, {})
 }
 
-// Games to fetch — top value games with PriceCharting data
-const TARGETS = [
+// Fallback targets when no --console is provided
+const FALLBACK_TARGETS = [
   { id: 'earthbound-super-nintendo', title: 'EarthBound', platform: 'Super Nintendo' },
   { id: 'metal-slug-3-neo-geo', title: 'Metal Slug 3', platform: 'Neo Geo' },
   { id: 'shantae-game-boy-color', title: 'Shantae', platform: 'Game Boy Color' },
@@ -48,15 +59,62 @@ const TARGETS = [
   { id: 'the-legend-of-zelda-a-link-to-the-past-super-nintendo', title: 'Zelda Link to the Past', platform: 'Super Nintendo' },
 ]
 
+async function fetchTargetsFromSupabase(consoleName, tier, limit) {
+  const { Client } = require('pg')
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
+  })
+  await client.connect()
+
+  // Fetch unknown-tier games first, then low-tier
+  const tiers = tier ? [tier] : ['unknown', 'low']
+  const targets = []
+
+  for (const t of tiers) {
+    if (targets.length >= limit) break
+    const remaining = limit - targets.length
+    const { rows } = await client.query(
+      `SELECT id, title, console as platform
+       FROM games
+       WHERE type = 'game' AND console = $1 AND price_confidence_tier = $2
+       ORDER BY title
+       LIMIT $3`,
+      [consoleName, t, remaining]
+    )
+    targets.push(...rows)
+  }
+
+  await client.end()
+  return targets
+}
+
 async function run() {
   const args = parseArgs(process.argv.slice(2))
-  const limit = Number(args.limit || 5)
+  const limit = Math.min(Number(args.limit || 5), 20)
   const outputFile = args.output || null
   const recordsPerGame = Number(args.records || 5)
-  const targets = TARGETS.slice(0, limit)
+  const consoleName = args.console || null
+  const tier = args.tier || null
+  const dryRun = Boolean(args['dry-run'])
 
-  console.log(`\n  EBAY BATCH FETCH`)
+  let targets
+  if (consoleName) {
+    console.log(`\n  Loading ${consoleName} games from Supabase (tier: ${tier || 'unknown→low'})...`)
+    targets = await fetchTargetsFromSupabase(consoleName, tier, limit)
+    console.log(`  Found ${targets.length} games`)
+  } else {
+    targets = FALLBACK_TARGETS.slice(0, limit)
+  }
+
+  console.log(`\n  EBAY BATCH FETCH${dryRun ? ' (DRY-RUN)' : ''}`)
   console.log(`  Games: ${targets.length} | Records/game: ${recordsPerGame}\n`)
+
+  if (dryRun) {
+    targets.forEach((t, i) => console.log(`  [${i + 1}] ${t.title} (${t.platform}) — ${t.id}`))
+    console.log(`\n  Dry-run complete. Remove --dry-run to fetch.`)
+    return
+  }
 
   const allRecords = []
   let totalFetched = 0
