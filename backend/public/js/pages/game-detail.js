@@ -351,10 +351,11 @@ function getQualificationConfidenceLabel(item) {
 
 function getGameId() {
   if (typeof CoreState.getParam === 'function') {
-    return CoreState.getParam('id')
+    return CoreState.getParam('id') || CoreState.getParam('slug') || ''
   }
 
-  return new URLSearchParams(window.location.search).get('id') || ''
+  var params = new URLSearchParams(window.location.search)
+  return params.get('id') || params.get('slug') || ''
 }
 
 function truncateMetaDescription(value, maxLength = 160) {
